@@ -1,6 +1,9 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
-import { ChipContentAlignment, ChipVariant, ComponentColor, DecorationElementAppearance } from './../types/theming.types';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { SimpleOneAxisAlignment } from '../types/alignment.types';
+import { ComponentColor } from '../types/colors.types';
+import { DecorationElementAppearance } from '../types/theming-types';
 import { _DisablableComponent } from './../_internal/disablable-component';
+import { ChipVariant } from './chip.types';
 
 @Component({
     selector: 'ard-chip',
@@ -10,7 +13,7 @@ import { _DisablableComponent } from './../_internal/disablable-component';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArdiumChipComponent extends _DisablableComponent {
-    @Input() chipContentAlignment: ChipContentAlignment = ChipContentAlignment.Left;
+    @Input() contentAlignment: SimpleOneAxisAlignment = SimpleOneAxisAlignment.Left;
 
     //* appearance
     @Input() appearance: DecorationElementAppearance = DecorationElementAppearance.Outlined;
@@ -21,7 +24,7 @@ export class ArdiumChipComponent extends _DisablableComponent {
     get ngClasses(): string {
         return [
             this.wrapperClasses,
-            `ard-chip-align-${this.chipContentAlignment}`,
+            `ard-chip-align-${this.contentAlignment}`,
             `ard-chip-variant-${this.variant}`,
             `ard-appearance-${this.appearance}`,
             `ard-color-${this.color}`,

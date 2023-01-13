@@ -1,25 +1,4 @@
 
-
-
-
-export const ChipContentAlignment = {
-    Left: 'left',
-    Right: 'right',
-} as const;
-export type ChipContentAlignment = typeof ChipContentAlignment[keyof typeof ChipContentAlignment];
-
-export const ChipVariant = {
-    /**
-     * Basic, rectangular chip.
-     */
-    Basic: 'basic',
-    /**
-     * Pill-shaped chip.
-     */
-    Pill: 'pill',
-} as const;
-export type ChipVariant = typeof ChipVariant[keyof typeof ChipVariant];
-
 /**
  * General button appearance. Controls which parts of the button can be colored.
  * 

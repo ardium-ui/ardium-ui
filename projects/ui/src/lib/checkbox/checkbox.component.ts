@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output, ViewEncapsulation, ChangeDetectionStrategy, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { SimpleComponentColor } from './../types/theming.types';
-import { coerceBooleanProperty } from './../utils';
+import { coerceBooleanProperty } from '../../../../devkit/src/public-api';
+import { SimpleComponentColor } from '../types/colors.types';
 import { _BooleanComponent } from './../_internal/boolean-component';
 import { CheckboxState } from './checkbox.types';
 
