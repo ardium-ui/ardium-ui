@@ -1,0 +1,14 @@
+<button
+    class="ard-fab"
+    [ngClass]="ngClasses"
+    [tabindex]="tabIndex"
+    [class]="wrapperClasses"
+    (focus)="focusEvent.emit($event)"
+    (blur)="blurEvent.emit($event)"
+>
+    <div class="ard-focus-overlay"></div>
+    <div class="ard-button-icon" *ngIf="icon">{{icon}}</div>
+    <div class="ard-button-content">
+        <ng-content></ng-content>
+    </div>
+</button>
