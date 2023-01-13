@@ -1,5 +1,5 @@
 import { Directive, HostBinding, Input } from "@angular/core";
-import { coerceBooleanProperty } from './../utils';
+import { coerceBooleanProperty } from '../../../../devkit/src/public-api';
 
 
 @Directive()

@@ -1,6 +1,6 @@
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { Directive, ElementRef, EventEmitter, inject, Input, OnDestroy, OnInit, Output, ViewChild, HostBinding } from "@angular/core";
-import { coerceNumberProperty } from './../utils';
+import { coerceNumberProperty } from '../../../../devkit/src/public-api';
 import { _DisablableComponent } from './disablable-component';
 
 @Directive()

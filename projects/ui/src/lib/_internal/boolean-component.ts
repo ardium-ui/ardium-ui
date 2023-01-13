@@ -1,7 +1,7 @@
 
 import { EventEmitter, HostBinding, Input, Output, Directive } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { coerceBooleanProperty } from './../utils';
+import { coerceBooleanProperty } from '../../../../devkit/src/public-api';
 import { _NgModelComponent } from './ngmodel-component';
 
 
