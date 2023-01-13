@@ -1,0 +1,16 @@
+<button
+    class="ard-statebox"
+    [ngClass]="ngClasses"
+    [tabindex]="tabIndex"
+    [class]="wrapperClasses"
+    (click)="onClick($event)"
+    (focus)="onFocus($event)"
+    (blur)="onBlur($event)"
+    [style]="ngStyle"
+>
+    <div class="ard-hitbox"></div>
+    <div class="ard-focus-overlay"></div>
+    <div class="ard-statebox-frame" *ngIf="currState.keepFrame"></div>
+    <div class="ard-statebox-icon" *ngIf="currState.displayAsIcon">{{ currState.display }}</div>
+    <div class="ard-statebox-character" *ngIf="!currState.displayAsIcon">{{ currState.display }}</div>
+</button>

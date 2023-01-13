@@ -1,0 +1,110 @@
+@use './mixins'as defaultMixins;
+
+.ard-statebox {
+    font-size: 1.1em;
+    width: 1.25em;
+    height: 1.25em;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    color: var(--ard-cmpcl--bg);
+    border: none;
+    background: none;
+    padding: 0;
+
+    .ard-hitbox {
+        position: absolute;
+        left: -4px;
+        right: -4px;
+        bottom: -4px;
+        top: -4px;
+    }
+    .ard-focus-overlay {
+        @include defaultMixins.focus-overlay;
+        position: absolute;
+        left: -0.5rem;
+        right: -0.5rem;
+        bottom: -0.5rem;
+        top: -0.5rem;
+        border-radius: 999px;
+        background: currentColor;
+    }
+    .ard-statebox-icon,
+    .ard-statebox-frame::after {
+        @include defaultMixins.icon;
+        transition: opacity 0.2s $timing-fn;
+        color: currentColor;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .ard-statebox-frame::after {
+        content: '\e835';
+    }
+    &.ard-statebox-keep-frame {
+        .ard-statebox-icon {
+            font-size: 0.9em;
+        }
+    }
+    &.ard-statebox-filled {
+        .ard-statebox-icon {
+            font-variation-settings: 'FILL'1;
+        }
+        &.ard-statebox-keep-frame {
+            .ard-statebox-icon,
+            .ard-statebox-character {
+                color: var(--ard-cmpcl--on-bg)
+            }
+            .ard-statebox-frame::before {
+                content: '';
+                position: absolute;
+                left: 2px;
+                right: 2px;
+                top: 2px;
+                bottom: 2px;
+                background: currentColor;
+            }
+            &.ard-color-custom {
+                .ard-statebox-icon,
+                .ard-statebox-character {
+                    color: var(--ard-on-custom-color);
+                }
+            }
+        }
+    }
+    .ard-statebox-character {
+        font-weight: 900;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        font-family: 'Roboto', sans-serif;
+    }
+    &.ard-color-custom {
+        color: var(--ard-custom-color);
+    }
+    &:hover,
+    &:focus {
+        .ard-statebox-icon {
+            opacity: 100%;
+        }
+        .ard-focus-overlay {
+            opacity: 10%;
+        }
+    }
+    &:active {
+        .ard-focus-overlay {
+            opacity: 20%;
+        }
+    }
+    //edge case for no coloring
+    &.ard-color-none {
+        color: var(--ard-cmpcl--content);
+    }
+}
+//! disabled state
+.ard-disabled .ard-statebox {
+    pointer-events: none;
+    opacity: 60%;
+}
