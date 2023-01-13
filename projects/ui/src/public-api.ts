@@ -1,7 +1,7 @@
 /*
  * Public API Surface of ui
  */
-
+import 'first-last';
 
 //modal
 export * from './lib/modal/modal.module';
