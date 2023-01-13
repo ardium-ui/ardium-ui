@@ -1,0 +1,58 @@
+@mixin typeColors {
+    &.ard-color-none {
+        --ard-cmpcl--on-bg: #{$text};
+        --ard-cmpcl--button-border: #{$border-light};
+        --ard-cmpcl--border: #{$border-light};
+        --ard-cmpcl--bg: #{$bg};
+        --ard-cmpcl--content: #{$text};
+        --ard-cmpcl--overlay: #{$overlay};
+    }
+    &.ard-color-primary {
+        --ard-cmpcl--on-bg: #{$text-alt};
+        --ard-cmpcl--button-border: #{$border-light};
+        --ard-cmpcl--border: #{$main300};
+        --ard-cmpcl--bg: #{$main500};
+        --ard-cmpcl--content: #{$main700};
+        --ard-cmpcl--overlay: #{$overlay};
+    }
+    &.ard-color-secondary {
+        --ard-cmpcl--on-bg: #{$text-alt};
+        --ard-cmpcl--button-border: #{$border-light};
+        --ard-cmpcl--border: #{$scnd300};
+        --ard-cmpcl--bg: #{$scnd500};
+        --ard-cmpcl--content: #{$scnd700};
+        --ard-cmpcl--overlay: #{$overlay};
+    }
+    &.ard-color-warn {
+        --ard-cmpcl--on-bg: #{$text-alt};
+        --ard-cmpcl--button-border: #{$border-light};
+        --ard-cmpcl--border: #{$warn300};
+        --ard-cmpcl--bg: #{$warn500};
+        --ard-cmpcl--content: #{$warn700};
+        --ard-cmpcl--overlay: #{$overlay};
+    }
+    &.ard-color-danger {
+        --ard-cmpcl--on-bg: #{$text-alt};
+        --ard-cmpcl--button-border: #{$border-light};
+        --ard-cmpcl--border: #{$danger300};
+        --ard-cmpcl--bg: #{$danger700};
+        --ard-cmpcl--content: #{$danger900};
+        --ard-cmpcl--overlay: #{$overlay};
+    }
+    &.ard-color-success {
+        --ard-cmpcl--on-bg: #{$text-alt};
+        --ard-cmpcl--button-border: #{$border-light};
+        --ard-cmpcl--border: #{$success300};
+        --ard-cmpcl--bg: #{$success700};
+        --ard-cmpcl--content: #{$success900};
+        --ard-cmpcl--overlay: #{$overlay};
+    }
+    &.ard-color-info {
+        --ard-cmpcl--on-bg: #{$text-alt};
+        --ard-cmpcl--button-border: #{$border-light};
+        --ard-cmpcl--border: #{$info300};
+        --ard-cmpcl--bg: #{$info500};
+        --ard-cmpcl--content: #{$info700};
+        --ard-cmpcl--overlay: #{$overlay};
+    }
+}

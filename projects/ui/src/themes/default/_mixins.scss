@@ -1,0 +1,23 @@
+@mixin icon($fill: 0, $wght: 500, $grad: 0, $opsz: 48) {
+    font-family: "Material Symbols Outlined";
+    font-size: 1.5em;
+    line-height: 1;
+    font-variation-settings: 'FILL'#{$fill},
+    'wght'#{$wght},
+    'GRAD'#{$grad},
+    'opsz'#{$opsz};
+}
+
+@mixin focus-overlay($size: 0) {
+    position: absolute;
+    top: $size;
+    bottom: $size;
+    left: $size;
+    right: $size;
+    opacity: 0;
+    border-radius: inherit;
+    pointer-events: none;
+
+    transition: opacity 0.2s ease;
+
+}

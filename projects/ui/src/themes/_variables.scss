@@ -1,0 +1,115 @@
+$bg: var(--ard-bg);
+$overlay: var(--ard-overlay);
+$bg-d: var(--ard-bg-darker);
+$bg-f: var(--ard-bg-filled);
+$text: var(--ard-text);
+$text2: var(--ard-text2);
+$text3: var(--ard-text3);
+$text-alt: var(--ard-text-alt);
+$text2-alt: var(--ard-text2-alt);
+$text3-alt: var(--ard-text3-alt);
+$border-dark: var(--ard-border-dark);
+$border: var(--ard-border);
+$border-light: var(--ard-border-light);
+$detail: var(--ard-detail);
+$detail-light: var(--ard-detail-light);
+
+$lighten-overlay: var(--ard-lighten-overlay);
+$lighten-overlay-strong: var(--ard-lighten-overlay-strong);
+$lighten-overlay-medium: var(--ard-lighten-overlay-medium);
+$lighten-overlay-light: var(--ard-lighten-overlay-light);
+$darken-overlay: var(--ard-darken-overlay);
+$darken-overlay-strong: var(--ard-darken-overlay-strong);
+$darken-overlay-medium: var(--ard-darken-overlay-medium);
+$darken-overlay-light: var(--ard-darken-overlay-light);
+
+$box-shadow: var(--ard-box-shadow);
+$simple-shadow: var(--ard-simple-shadow);
+$simple-shadow2: var(--ard-simple-shadow2);
+$simple-shadow3: var(--ard-simple-shadow3);
+
+$timing-fn: cubic-bezier(0.4, 0, 0.2, 1);
+
+
+$clear-button-size: var(--ard-clear-button-size);
+$dropdown-button-size: var(--ard-dropdown-button-size);
+
+$star: var(--ard-star);
+
+$main50: rgb(var(--ard-primary-50));
+$main50-rgb: var(--ard-primary-50-rgb);
+$main100: rgb(var(--ard-primary-100));
+$main100-rgb: var(--ard-primary-100-rgb);
+$main300: rgb(var(--ard-primary-300));
+$main300-rgb: var(--ard-primary-300-rgb);
+$main500: rgb(var(--ard-primary-500));
+$main500-rgb: var(--ard-primary-500-rgb);
+$main700: rgb(var(--ard-primary-700));
+$main700-rgb: var(--ard-primary-700-rgb);
+$main900: rgb(var(--ard-primary-900));
+$main900-rgb: var(--ard-primary-900-rgb);
+
+$scnd50: rgb(var(--ard-secondary-50));
+$scnd50-rgb: var(--ard-secondary-50-rgb);
+$scnd100: rgb(var(--ard-secondary-100));
+$scnd100-rgb: var(--ard-secondary-100-rgb);
+$scnd300: rgb(var(--ard-secondary-300));
+$scnd300-rgb: var(--ard-secondary-300-rgb);
+$scnd500: rgb(var(--ard-secondary-500));
+$scnd500-rgb: var(--ard-secondary-500-rgb);
+$scnd700: rgb(var(--ard-secondary-700));
+$scnd700-rgb: var(--ard-secondary-700-rgb);
+$scnd900: rgb(var(--ard-secondary-900));
+$scnd900-rgb: var(--ard-secondary-900-rgb);
+
+$danger50: rgb(var(--ard-danger-50));
+$danger50-rgb: var(--ard-danger-50-rgb);
+$danger100: rgb(var(--ard-danger-100));
+$danger100-rgb: var(--ard-danger-100-rgb);
+$danger300: rgb(var(--ard-danger-300));
+$danger300-rgb: var(--ard-danger-300-rgb);
+$danger500: rgb(var(--ard-danger-500));
+$danger500-rgb: var(--ard-danger-500-rgb);
+$danger700: rgb(var(--ard-danger-700));
+$danger700-rgb: var(--ard-danger-700-rgb);
+$danger900: rgb(var(--ard-danger-900));
+$danger900-rgb: var(--ard-danger-900-rgb);
+
+$warn50: rgb(var(--ard-warn-50));
+$warn50-rgb: var(--ard-warn-50-rgb);
+$warn100: rgb(var(--ard-warn-100));
+$warn100-rgb: var(--ard-warn-100-rgb);
+$warn300: rgb(var(--ard-warn-300));
+$warn300-rgb: var(--ard-warn-300-rgb);
+$warn500: rgb(var(--ard-warn-500));
+$warn500-rgb: var(--ard-warn-500-rgb);
+$warn700: rgb(var(--ard-warn-700));
+$warn700-rgb: var(--ard-warn-700-rgb);
+$warn900: rgb(var(--ard-warn-900));
+$warn900-rgb: var(--ard-warn-900-rgb);
+
+$success50: rgb(var(--ard-success-50));
+$success50-rgb: var(--ard-success-50-rgb);
+$success100: rgb(var(--ard-success-100));
+$success100-rgb: var(--ard-success-100-rgb);
+$success300: rgb(var(--ard-success-300));
+$success300-rgb: var(--ard-success-300-rgb);
+$success500: rgb(var(--ard-success-500));
+$success500-rgb: var(--ard-success-500-rgb);
+$success700: rgb(var(--ard-success-700));
+$success700-rgb: var(--ard-success-700-rgb);
+$success900: rgb(var(--ard-success-900));
+$success900-rgb: var(--ard-success-900-rgb);
+
+$info50: rgb(var(--ard-info-50));
+$info50-rgb: var(--ard-info-50-rgb);
+$info100: rgb(var(--ard-info-100));
+$info100-rgb: var(--ard-info-100-rgb);
+$info300: rgb(var(--ard-info-300));
+$info300-rgb: var(--ard-info-300-rgb);
+$info500: rgb(var(--ard-info-500));
+$info500-rgb: var(--ard-info-500-rgb);
+$info700: rgb(var(--ard-info-700));
+$info700-rgb: var(--ard-info-700-rgb);
+$info900: rgb(var(--ard-info-900));
+$info900-rgb: var(--ard-info-900-rgb);
