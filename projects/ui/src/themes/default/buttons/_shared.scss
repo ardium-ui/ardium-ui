@@ -1,0 +1,125 @@
+@use '../../../../core/themes/default/default.mixins.scss' as coreMixins;
+
+.ard-button,
+.ard-fab {
+    font-family: 'Roboto', sans-serif;
+    margin: 2px;
+    border: 1px solid transparent;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    
+    //* button icon
+    .ard-button-icon {
+        @include coreMixins.icon(1);
+    }
+    //* button focus inficator
+    .ard-focus-overlay {
+        @include coreMixins.focus-overlay;
+        background-color: var(--ard-cmpcl--overlay);
+    }
+    &:hover,
+    &:focus {
+        .ard-focus-overlay {
+            opacity: 4%;
+        }
+    }
+    &:active {
+        .ard-focus-overlay {
+            opacity: 12%;
+        }
+    }
+    //* button appearances
+    &.ard-appearance-transparent,
+    &.ard-appearance-raised {
+        background: transparent;
+        color: var(--ard-cmpcl--content);
+        border: none;
+        
+        .ard-focus-overlay {
+            background: var(--ard-cmpcl--content);
+        }
+    }
+    &.ard-appearance-flat,
+    &.ard-appearance-raised-strong {
+        background: var(--ard-cmpcl--bg);
+        color: var(--ard-cmpcl--on-bg);
+        border: none;
+        
+        .ard-focus-overlay {
+            background: var(--ard-cmpcl--overlay);
+        }
+    }
+    &.ard-appearance-raised,
+    &.ard-appearance-raised-strong {
+        transition: box-shadow 0.28s $timing-fn;
+        box-shadow: $simple-shadow;
+        
+        &:hover,
+        &:focus {
+            box-shadow: $simple-shadow2;
+        }
+        &:active {
+            box-shadow: $simple-shadow3;
+        }
+    }
+    &.ard-appearance-outlined {
+        background: $bg;
+        color: var(--ard-cmpcl--content);
+        border: 1px solid var(--ard-cmpcl--button-border);
+
+        .ard-focus-overlay {
+            background: var(--ard-cmpcl--content);
+        }
+    }
+    &.ard-appearance-outlined-strong {
+        background: $bg;
+        color: var(--ard-cmpcl--content);
+        border: 1px solid var(--ard-cmpcl--button-border);
+
+        transition: background-color 0.2s ease, color 0.2s ease;
+        &:hover,
+        &:focus {
+            background: var(--ard-cmpcl--content);
+            color: var(--ard-cmpcl--on-bg);
+
+            //edge case for no coloring
+            &.ard-color-none {
+                color: var(--ard-cmpcl--bg);
+            }
+        }
+
+        //edge case for no coloring
+        &.ard-color-none {
+            .ard-focus-overlay {
+                background: var(--ard-cmpcl--bg);
+            }
+        }
+    }
+}
+
+//! disabled state
+.ard-disabled {
+    .ard-button,
+    .ard-fab {
+        pointer-events: none;
+        opacity: 60%;
+
+        .ard-focus-overlay {
+            opacity: 20%;
+        }
+
+        //edge case for no coloring
+        &.ard-color-none {
+            .ard-button-icon,
+            .ard-button-content {
+                opacity: 60%;
+            }
+            .ard-focus-overlay {
+                background: var(--ard-cmpcl--overlay);
+            }
+        }
+    }
+}

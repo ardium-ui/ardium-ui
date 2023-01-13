@@ -1,0 +1,27 @@
+@import url('./_shared.scss');
+
+.ard-button {
+    background: transparent;
+    gap: 6px;
+    font-size: 0.875rem;
+    height: 2.5em;
+    padding: 0 1.2em;
+    letter-spacing: 0.5px;
+
+    //* button variants
+    &.ard-button-vertical {
+        height: max-content;
+        padding: 0.3em 1em;
+        gap: 2px;
+        flex-direction: column;
+    }
+    &.ard-button-basic {
+        border-radius: 6px;
+    }
+    &.ard-button-pill {
+        border-radius: 9999px;
+    }
+    &.ard-button-sharp {
+        border-radius: 0;
+    }
+}

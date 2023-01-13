@@ -1,0 +1,24 @@
+@import url('./_shared.scss');
+
+.ard-fab {
+    height: var(--ard-fab-size);
+    width: var(--ard-fab-size);
+    font-weight: 900;
+    margin: 8px;
+    user-select: none;
+    border-radius: 999px;
+    justify-content: center;
+
+    .ard-button-icon {
+        font-weight: 500;
+        font-size: 1em;
+    }
+    &.ard-fab-size-standard {
+        --ard-fab-size: 3.5rem;
+        font-size: 1.5rem;
+    }
+    &.ard-fab-size-small {
+        --ard-fab-size: 2.5rem;
+        font-size: 1.3rem;
+    }
+}
