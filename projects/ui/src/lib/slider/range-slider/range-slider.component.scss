@@ -1,0 +1,34 @@
+body.ard-prevent-touch-actions {
+    touch-action: none;
+    
+    * {
+        touch-action: none;
+    }
+}
+
+.ard-slider-container-master {
+    &, * {
+        cursor: pointer !important;
+    }
+}
+.ard-slider-handle {
+    position: absolute;
+    left: 0;
+    transform: translateX(-50%);
+}
+.ard-slider-track,
+.ard-value-tick-container {
+    position: relative;
+}
+.ard-value-tick {
+    position: absolute;
+}
+.ard-slider-label-container {
+    position: relative;
+    width: 100%;
+    height: 1em;
+}
+.ard-slider-label {
+    position: absolute;
+    line-height: 1em;
+}
