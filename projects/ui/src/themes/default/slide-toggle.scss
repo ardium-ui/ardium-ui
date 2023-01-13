@@ -1,0 +1,145 @@
+@use './mixins'as defaultMixins;
+
+.ard-slide-toggle {
+    position: relative;
+    height: 1.25em;
+    cursor: pointer;
+    user-select: none;
+    border: none;
+    background: none;
+    padding: 0;
+
+    .ard-hitbox {
+        position: absolute;
+        left: -4px;
+        right: -4px;
+        bottom: -4px;
+        top: -4px;
+    }
+    .ard-slide-toggle-track {
+        position: relative;
+        width: 2.25em;
+        height: 0.75em;
+        border-radius: 999px;
+        overflow: hidden;
+        background: $bg;
+
+        .ard-slide-toggle-track-overlay {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            background: $overlay;
+            opacity: 20%;
+        }
+    }
+    .ard-slide-toggle-handle {
+        width: 1.25em;
+        height: 1.25em;
+        border-radius: 999px;
+        background: $bg-f;
+        position: absolute;
+        top: 0;
+        left: 0;
+        box-shadow: $simple-shadow;
+        overflow: hidden;
+
+        transition: 
+            box-shadow 0.28s $timing-fn,
+            left 0.1s ease,
+            background-color 0.1s ease,
+            transform 0.1s ease;
+
+        .ard-focus-overlay {
+            @include defaultMixins.focus-overlay;
+            background: var(--ard-cmpcl--overlay);
+        }
+        .ard-slide-toggle-icon {
+            @include defaultMixins.icon(0, 600);
+            font-size: 0.95em;
+            color: $text;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            transition: color 0.1s ease;
+
+            &.ard-icon-for-selected {
+                display: none;
+            }
+            &.ard-icon-for-unselected {
+                display: block;
+            }
+        }
+    }
+    &:hover,
+    &:focus {
+        .ard-slide-toggle-handle {
+            box-shadow: $simple-shadow2;
+
+            .ard-focus-overlay {
+                opacity: 4%;
+            }
+        }
+    }
+    &:active {
+        .ard-slide-toggle-handle {
+            box-shadow: $simple-shadow3;
+
+            .ard-focus-overlay {
+                opacity: 12%;
+            }
+        }
+    }
+}
+.ard-slide-toggle.ard-slide-toggle-selected {
+    .ard-slide-toggle-track-overlay {
+        background: var(--ard-cmpcl--content);
+        opacity: 40%;
+    }
+    .ard-slide-toggle-handle {
+        left: 100%;
+        transform: translateX(-100%);
+        background: var(--ard-cmpcl--bg);
+
+        .ard-slide-toggle-icon {
+            color: var(--ard-cmpcl--on-bg);
+
+            &.ard-icon-for-selected {
+                display: block;
+            }
+            &.ard-icon-for-unselected {
+                display: none;
+            }
+        }
+    }
+    //edge case for no coloring
+    &.ard-color-none {
+        .ard-slide-toggle-track-overlay {
+            opacity: 35%;
+        }
+    }
+}
+//! disabled state
+.ard-disabled .ard-slide-toggle {
+    pointer-events: none;
+    opacity: 60%;
+
+    .ard-slide-toggle-track-overlay {
+        opacity: 20%;
+    }
+    .ard-focus-overlay {
+        opacity: 20%;
+    }
+    .ard-slide-toggle-icon {
+        opacity: 60%;
+    }
+    //edge case for no coloring and for unselected state
+    &.ard-color-none,
+    &:not(.ard-slide-toggle-selected) {
+        .ard-slide-toggle-track-overlay {
+            opacity: 12.5%;
+        }
+    }
+}
