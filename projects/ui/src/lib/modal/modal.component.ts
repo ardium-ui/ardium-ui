@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, ViewChild, ViewContainerRef, AfterViewInit, Type, ChangeDetectorRef, ComponentRef, EventEmitter } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, Type, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { Subject } from 'rxjs';
 
 @Component({
