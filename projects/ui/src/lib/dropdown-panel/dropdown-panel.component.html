@@ -1,0 +1,15 @@
+<div *ngIf="headerTemplate" class="ard-dropdown-header">
+    <ng-template [ngTemplateOutlet]="headerTemplate" [ngTemplateOutletContext]="{ searchTerm: filterValue }">
+    </ng-template>
+</div>
+<div #scroll
+    class="ard-dropdown-panel-items"
+    [attr.id]="panelId"
+    (scroll)="onScroll()"
+>
+    <ng-content></ng-content>
+</div>
+<div *ngIf="footerTemplate" class="ard-dropdown-footer">
+    <ng-template [ngTemplateOutlet]="footerTemplate"  [ngTemplateOutletContext]="{ searchTerm: filterValue }">
+    </ng-template>
+</div>

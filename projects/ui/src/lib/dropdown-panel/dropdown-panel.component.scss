@@ -1,0 +1,7 @@
+.ard-dropdown-panel {
+    display: none;
+
+    &.ard-open {
+        display: block;
+    }
+}
