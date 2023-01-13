@@ -1,0 +1,171 @@
+@use '../../../core/themes/default/default.mixins.scss' as coreMixins;
+
+//! general css
+.ard-chip-wrapper {
+    font-family: "Roboto", sans-serif;
+    color: $text2;
+    background: $bg;
+    border-radius: var(--ard-current-border-radius);
+    line-height: 0.9em;
+    padding: 0;
+    margin: 6px;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    position: relative;
+    outline: none;
+    user-select: none;
+    overflow: hidden;
+
+    .ard-chip-content-wrapper {
+        padding: 6px 10px;
+    }
+    > .ard-focus-overlay {
+        @include coreMixins.focus-overlay;
+        background: $overlay;
+        border-radius: 0;
+    }
+
+    &.ard-chip-selectable {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+
+        &:hover,
+        &:focus {
+            >.ard-focus-overlay {
+                opacity: 7.5%;
+            }
+        }
+        &:active {
+            >.ard-focus-overlay {
+                opacity: 20%;
+            }
+        }
+
+        .ard-chip-selection-icon {
+            @include coreMixins.icon;
+
+            &::after {
+                content: "\e876";
+            }
+        }
+    }
+}
+//! variants
+.ard-chip-wrapper {
+    &.ard-chip-variant-basic {
+        --ard-current-border-radius: 6px;
+    }
+    &.ard-chip-variant-pill {
+        --ard-current-border-radius: 9999px;
+    }
+}
+//! alignments
+.ard-chip-align-left {
+    flex-direction: row;
+    padding-left: 2px;
+
+    .ard-chip-selection-icon {
+        padding-left: 8px;
+        margin-right: -2px;
+    }
+    &.ard-chip-variant-pill {
+        padding-left: 4px;
+    }
+}
+.ard-chip-align-right {
+    flex-direction: row-reverse;
+    padding-right: 2px;
+
+    .ard-chip-selection-icon {
+        padding-right: 8px;
+        margin-left: -2px;
+    }
+    &.ard-chip-variant-pill {
+        padding-right: 4px;
+    }
+}
+//! appearances
+.ard-chip-wrapper {
+    &.ard-appearance-filled {
+        background: var(--ard-cmpcl--bg);
+        color: var(--ard-cmpcl--on-bg);
+        border: none;
+        
+        //edge case for no coloring
+        &.ard-color-none {
+            background-color: $bg-f;
+        }
+        &.ard-chip-selectable {
+            background-color: $bg-f;
+            color: $text2;
+            transition:
+                color 0.15s ease,
+                border-color 0.15s ease;
+
+            &.ard-chip-selected {
+                color: var(--ard-cmpcl--on-bg);
+                background: var(--ard-cmpcl--bg);
+
+                //edge case for no coloring
+                &.ard-color-none {
+                    color: var(--ard-cmpcl--bg);
+                    background: var(--ard-cmpcl--content);
+                }
+            }
+        }
+    }
+    &.ard-appearance-outlined {
+        background: transparent;
+        border: 2px solid $border-light;
+        font-weight: 600;
+        --border-radius: 9px;
+
+        &.ard-chip-selectable {
+            transition:
+                color 0.15s ease,
+                border-color 0.15s ease;
+
+            &.ard-chip-selected {
+                color: var(--ard-cmpcl--content);
+                border-color: var(--ard-cmpcl--bg);
+
+                > .ard-focus-overlay {
+                    opacity: 7.5%;
+                    background: var(--ard-cmpcl--bg);
+                }
+                &:hover,
+                &:focus {
+                    >.ard-focus-overlay {
+                        opacity: 15%;
+                    }
+                }
+                &:active {
+                    >.ard-focus-overlay {
+                        opacity: 20%;
+                    }
+                }
+                //edge case for no coloring
+                &.ard-color-none {
+                    border-color: var(--ard-cmpcl--content);
+                    > .ard-focus-overlay {
+                        background: var(--ard-cmpcl--content);
+                    }
+                }
+            }
+        }
+    }
+}
+//! disabled state
+.ard-disabled {
+    .ard-chip-wrapper {
+        pointer-events: none;
+        opacity: 60%;
+
+        &.ard-chip-selected {
+            opacity: 40%;
+        }
+    }
+}
