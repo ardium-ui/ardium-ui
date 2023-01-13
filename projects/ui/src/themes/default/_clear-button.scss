@@ -32,7 +32,7 @@ ard-_clear-button {
     }
 
     .ard-focus-overlay {
-        @include coreMixins.focus-overlay(-1px);
+        @include defaultMixins.focus-overlay(-1px);
         background: currentColor;
     }
 
@@ -44,7 +44,7 @@ ard-_clear-button {
 
         &::before {
             content: 'close';
-            @include coreMixins.icon;
+            @include defaultMixins.icon;
             font-size: 70%;
         }
     }

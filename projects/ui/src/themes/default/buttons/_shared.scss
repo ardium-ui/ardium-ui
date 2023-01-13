@@ -1,4 +1,4 @@
-@use '../../../../core/themes/default/default.mixins.scss' as coreMixins;
+@use '../mixins'as defaultMixins;
 
 .ard-button,
 .ard-fab {
@@ -13,11 +13,11 @@
     
     //* button icon
     .ard-button-icon {
-        @include coreMixins.icon(1);
+        @include defaultMixins.icon(1);
     }
     //* button focus inficator
     .ard-focus-overlay {
-        @include coreMixins.focus-overlay;
+        @include defaultMixins.focus-overlay;
         background-color: var(--ard-cmpcl--overlay);
     }
     &:hover,

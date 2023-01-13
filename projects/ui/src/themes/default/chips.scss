@@ -1,4 +1,4 @@
-@use '../../../core/themes/default/default.mixins.scss' as coreMixins;
+@use './mixins'as defaultMixins;
 
 //! general css
 .ard-chip-wrapper {
@@ -22,7 +22,7 @@
         padding: 6px 10px;
     }
     > .ard-focus-overlay {
-        @include coreMixins.focus-overlay;
+        @include defaultMixins.focus-overlay;
         background: $overlay;
         border-radius: 0;
     }
@@ -45,7 +45,7 @@
         }
 
         .ard-chip-selection-icon {
-            @include coreMixins.icon;
+            @include defaultMixins.icon;
 
             &::after {
                 content: "\e876";
