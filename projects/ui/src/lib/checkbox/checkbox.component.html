@@ -1,0 +1,16 @@
+<button
+    class="ard-checkbox"
+    role="checkbox"
+    [tabindex]="tabIndex"
+    [ngClass]="ngClasses"
+    [class]="wrapperClasses"
+    (click)="toggleState()"
+    (focus)="onFocus($event)"
+    (blur)="onBlur($event)"
+>
+    <div class="ard-hitbox"></div>
+    <div class="ard-focus-overlay"></div>
+    <div class="ard-checkbox-icon ard-icon-for-selected"></div>
+    <div class="ard-checkbox-icon ard-icon-for-indeterminate"></div>
+    <div class="ard-checkbox-icon ard-icon-for-unselected"></div>
+</button>
