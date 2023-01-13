@@ -1,0 +1,28 @@
+<div class="ard-input"
+    [ngClass]="appearance ? 'ard-appearance-'+appearance : ''"
+    [class.ard-has-value]="value"
+    (click)="focus()"
+>
+    <div class="ard-input-container">
+        <div class="ard-suggestion" *ngIf="shouldDisplaySuggestion">{{ suggestion }}</div>
+        
+        <input #textInput
+            #focusableElement
+            type="text"
+            [attr.id]="inputId"
+            [attr.tabindex]="tabIndex"
+            [readonly]="readonly"
+            [disabled]="disabled"
+            (input)="onInput(textInput.value)"
+            (focus)="onFocus($event)"
+            (blur)="onBlur($event)"
+            [placeholder]="placeholder"
+        >
+    </div>
+
+    <ard-_clear-button
+        *ngIf="shouldShowClearButton"
+        [title]="clearButtonTitle"
+        (click)="onClearButtonClick($event)"
+    ></ard-_clear-button>
+</div>
