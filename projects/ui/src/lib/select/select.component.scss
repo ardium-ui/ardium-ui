@@ -1,0 +1,40 @@
+.ard-select-container {
+    display: flex;
+    cursor: pointer;
+}
+
+.ard-placeholder,
+.ard-value,
+.ard-optgroup,
+.ard-option,
+.ard-dropdown-arrow-wrapper,
+.ard-clear-btn-wrapper {
+    user-select: none;
+}
+
+.ard-clear-btn {
+    display: none;
+}
+.ard-clearable .ard-clear-btn {
+    display: block;
+}
+.ard-clear-btn,
+.ard-dropdown-arrow {
+    border: none;
+    background: transparent;
+    padding: 0;
+    box-sizing: content-box;
+}
+
+.ard-option-disabled {
+    pointer-events: none;
+}
+
+.ard-value[hidden] {
+    display: none;
+}
+.ard-searchable {
+    .ard-select-value-container {
+        cursor: text;
+    }
+}

@@ -1,0 +1,190 @@
+<div class="ard-select-master-container ard-dropdown-host">
+    <div class="ard-select-container"
+        (click)="handleAnywhereClick($event)"
+        [class.ard-has-value]="itemStorage.isAnyItemSelected"
+        [ngClass]="appearance ? 'ard-appearance-'+appearance : ''"
+    >
+        <div class="ard-select-value-container">
+            <ng-container *ngIf="!itemStorage.isAnyItemSelected">
+                <ng-template #defaultPlaceholderTemplate>
+                    <span class="ard-placeholder">{{ placeholder }}</span>
+                </ng-template>
+
+                <ng-template
+                    [ngTemplateOutlet]="placeholderTemplate || defaultPlaceholderTemplate"
+                    [ngTemplateOutletContext]="getStatsContext()"
+                ></ng-template>
+            </ng-container>
+
+            <ng-container *ngIf="itemStorage.isAnyItemSelected">
+                <div class="ard-value"
+                    *ngFor="let item of itemStorage.selectedItems; let i = index"
+                    [class.ard-value-disabled]="item.disabled"
+                    [attr.hidden]="!isValueWithinDisplayLimit(i) ? true : null"
+                >
+                    <ng-template *ngIf="isValueWithinDisplayLimit(i)"
+                        [ngTemplateOutlet]="valueTemplate || (multiselectable ? defaultMultiValueTemplate :  defaultValueTemplate)"
+                        [ngTemplateOutletContext]="getValueContext(item)"
+                    ></ng-template>
+                </div>
+
+                <ng-template #defaultValueTemplate let-item="item">
+                    <span>{{item.label}}</span>
+                </ng-template>
+                <ng-template #defaultMultiValueTemplate let-item="item" let-unselect="unselect">
+                    <ard-deletable-chip (delete)="unselect(item)">{{item.label}}</ard-deletable-chip>
+                </ng-template>
+            </ng-container>
+
+            <ng-container *ngIf="itemStorage.isAnyItemSelected && shouldShowItemDisplayLimit">
+                <div class="ard-overflow-indicator">
+                    <ng-template
+                        [ngTemplateOutlet]="itemDisplayLimitTemplate || defaultItemDisplayLimitTemplate"
+                        [ngTemplateOutletContext]="getItemDisplayLimitContext()"
+                    ></ng-template>
+
+                    <ng-template #defaultItemDisplayLimitTemplate let-count="overflowCount">
+                        <span>{{count}} more...</span>
+                    </ng-template>
+                </div>
+            </ng-container>
+            
+            <div class="ard-search-input"
+                role="combobox"
+                aria-haspopup="listbox"
+                [attr.aria-expanded]="isDropdownOpen"
+                [attr.aria-owns]="isDropdownOpen ? htmlId : null"
+            >
+                <input #searchInput
+                    #focusableElement
+                    type="text"
+                    [attr.id]="searchInputId"
+                    [attr.tabindex]="tabIndex"
+                    [readonly]="!searchable || itemStorage.isItemLimitReached"
+                    [disabled]="disabled"
+                    [value]="searchTerm"
+                    aria-autocomplete="list"
+                    [attr.aria-controls]="isDropdownOpen ? htmlId : null"
+                    (input)="filter(searchInput.value)"
+                    (change)="$event.stopPropagation()"
+                    (focus)="onSearchInputFocus($event)"
+                    (blur)="onSearchInputBlur($event)"
+                >
+            </div>
+        </div>
+
+        <ng-container *ngIf="isLoading">
+            <ng-template #defaultLoadingSpinnerTemplate>
+                <div class="ard-spinner"></div>
+            </ng-template>
+
+            <ng-template [ngTemplateOutlet]="loadingSpinnerTemplate || defaultLoadingSpinnerTemplate">
+            </ng-template>
+        </ng-container>
+
+        <div *ngIf="shouldShowClearButton"
+            class="ard-clear-btn-wrapper"
+            role="button"
+            [title]="clearButtonTitle"
+            (click)="handleClearButtonClick($event)"
+        >
+            <button class="ard-clear-btn" aria-hidden="true">×</button>
+        </div>
+
+        <div class="ard-dropdown-arrow-wrapper"
+            role="button"
+            (click)="handleDropdownArrowClick($event)"
+        >
+            <span class="ard-dropdown-arrow"></span>
+        </div>
+    </div>
+
+    <ard-dropdown-panel
+        class="ard-dropdown-panel"
+        role="listbox"
+        aria-label="Options list"
+        [position]="dropdownPosition"
+        [headerTemplate]="dropdownHeaderTemplate"
+        [footerTemplate]="dropdownFooterTemplate"
+        [isOpen]="isDropdownOpen"
+        [filterValue]="searchTerm"
+        [panelId]="htmlId"
+        (clickOutside)="handleOutsideClick($event)"
+        (mousemove)="onMouseMove()"
+        (scroll)="scrollEvent.emit($event)"
+        (scrollToEnd)="scrollToEndEvent.emit($event)"
+    >
+        <ng-container *ngIf="!shouldShowNoItemsFound">
+            <div
+                class="ard-optgroup"
+                role="group"
+                *ngFor="let group of itemStorage.groups"
+                [class.ard-group-disabled]="group.disabled"
+                [class.ard-group-selected]="group.selected"
+                [class.ard-group-highlighted]="group.highlighted"
+                (mouseover)="onGroupMouseover(group)"
+                (click)="onGroupClick(group)"
+            >
+                <ng-container *ngIf="group.label !== '' && group.label !== undefined">
+                    <ng-template #defaultOptgroupTemplate>
+                        <span class="ard-optgroup-label">{{group.label}}</span>
+                    </ng-template>
+
+                    <ng-template
+                        [ngTemplateOutlet]="optgroupTemplate || defaultOptgroupTemplate"
+                        [ngTemplateOutletContext]="getGroupContext(group)"
+                    ></ng-template>
+                </ng-container>
+
+                <div class="ard-optgroup-children">
+                    <div
+                        class="ard-option"
+                        role="option"
+                        *ngFor="let option of group.children"
+                        [class.ard-option-disabled]="option.disabled"
+                        [class.ard-option-selected]="option.selected"
+                        [class.ard-option-highlighted]="option.highlighted"
+                        [class.ard-option-highlighted-recent]="option.highlighted_recently"
+                        [attr.aria-selected]="option.selected"
+                        [attr.id]="htmlId + '-' + option.index"
+                        (click)="onItemClick(option, $event)"
+                        (mouseover)="onItemMouseOver($event)"
+                        (mouseenter)="onItemMouseEnter(option, $event)"
+                        (mouseleave)="onItemMouseLeave(option, $event)"
+                    >
+                        <span class="ard-option-label">
+                            <ng-template #defaultOptionTemplate>
+                                {{option.label}}
+                            </ng-template>
+
+                            <ng-template
+                                [ngTemplateOutlet]="optionTemplate || defaultOptionTemplate"
+                                [ngTemplateOutletContext]="getOptionContext(option)"
+                            ></ng-template>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="shouldShowNoItemsFound">
+            <ng-template #defaultNoItemsFoundTemplate>
+                <div class="ard-option ard-option-disabled">{{noItemsFoundText}}</div>
+            </ng-template>
+
+            <ng-template [ngTemplateOutlet]="noItemsFoundTemplate || defaultNoItemsFoundTemplate"
+                [ngTemplateOutletContext]="getSearchContext()">
+            </ng-template>
+        </ng-container>
+
+        <ng-container *ngIf="isLoading">
+            <ng-template #defaultLoadingPlaceholderTemplate>
+                <div class="ard-option ard-option-disabled">{{loadingPlaceholderText}}</div>
+            </ng-template>
+
+            <ng-template [ngTemplateOutlet]="loadingPlaceholderTemplate || defaultLoadingPlaceholderTemplate"
+                [ngTemplateOutletContext]="getSearchContext()">
+            </ng-template>
+        </ng-container>
+    </ard-dropdown-panel>
+</div>
