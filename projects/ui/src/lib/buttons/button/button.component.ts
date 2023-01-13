@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
-import { ButtonAppearance, ButtonVariant, ComponentColor } from '../../types/theming.types';
+import { ComponentColor } from '../../types/colors.types';
+import { ButtonAppearance, ButtonVariant } from '../general-button.types';
 import { _FocusableComponent } from './../../_internal/focusable-component';
 
 @Component({

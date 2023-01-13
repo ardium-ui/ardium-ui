@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output, ViewEncapsulation } from '@angular/core';
-import { ButtonAppearance, ComponentColor, FABSize } from '../../types/theming.types';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ComponentColor } from '../../types/colors.types';
 import { _FocusableComponent } from '../../_internal/focusable-component';
-import { coerceBooleanProperty } from './../../utils';
+import { ButtonAppearance, FABSize } from '../general-button.types';
 
 @Component({
   selector: 'ard-fab',
