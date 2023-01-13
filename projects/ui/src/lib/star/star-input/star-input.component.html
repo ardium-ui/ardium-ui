@@ -1,0 +1,19 @@
+<div class="ard-star-input"
+    [ngClass]="ngClasses"
+    [class]="wrapperClasses"
+    (mouseleave)="setDisplayToValue()"
+>
+    <ard-star-button
+        *ngFor="let object of starArray; let index = index"
+        #starButton
+        [class.ard-star-not-in-value]="!(object.isInValue)"
+        [color]="object.isInValue ? color : 'none'"
+        clickStrategy="none"
+        [selected]="object.filled"
+        (click)="onStarClick(index)"
+        (focus)="onStarButtonFocus(index)"
+        (blur)="onStarButtonBlur()"
+        (mouseenter)="onStarHighlight(index)"
+        [tabIndex]="tabIndex"
+    ></ard-star-button>
+</div>

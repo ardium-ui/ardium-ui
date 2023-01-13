@@ -1,0 +1,10 @@
+<div class="ard-star-display"
+    [ngClass]="ngClasses"
+    [class]="wrapperClasses"
+>
+    <ard-star
+        *ngFor="let fillMode of starArray"
+        [fill]="fillMode"
+        [color]="color"
+    ></ard-star>
+</div>
