@@ -20,6 +20,7 @@
     "@angular/router": "^15.1.0",
     "first-last": "^1.1.1",
     "more-rounding": "^4.0.1",
+    "resolve-object-path": "^1.1.0",
     "rxjs": "~7.5.0",
     "simple-bool": "^3.0.1",
     "tslib": "^2.3.0",
