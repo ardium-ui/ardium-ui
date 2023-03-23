@@ -4,7 +4,7 @@ import { coerceBooleanProperty } from 'projects/devkit/src/public-api';
 import { isFunction } from 'simple-bool';
 import { ArdiumDropdownPanelComponent } from '../dropdown-panel/dropdown-panel.component';
 import { searchFunctions } from '../search-functions';
-import { FormElementAppearance } from '../types/theming-types';
+import { FormElementAppearance } from '../types/theming.types';
 import { ItemStorage } from '../_internal/item-storages/dropdown-item-storage';
 import { ArdOption, ArdOptionGroup, ArdPanelPosition, CompareWithFn, GroupByFn, SearchFn } from '../_internal/item-storages/item-storage.types';
 import { _NgModelComponent } from '../_internal/ngmodel-component';

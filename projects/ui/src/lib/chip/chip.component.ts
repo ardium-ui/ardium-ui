@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { SimpleOneAxisAlignment } from '../types/alignment.types';
 import { ComponentColor } from '../types/colors.types';
-import { DecorationElementAppearance } from '../types/theming-types';
+import { DecorationElementAppearance } from '../types/theming.types';
 import { _DisablableComponent } from './../_internal/disablable-component';
 import { ChipVariant } from './chip.types';
 

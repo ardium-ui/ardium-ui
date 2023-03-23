@@ -6,12 +6,12 @@
       "outDir": "./dist/out-tsc",
       "paths": {
         "devkit": [
-          "projects/devkit/public-api",
+          "projects/devkit/src/public-api",
           "dist/devkit/devkit",
           "dist/devkit"
         ],
         "ui": [
-          "projects/ui/public-api",
+          "projects/ui/src/public-api",
           "dist/ui/ui",
           "dist/ui"
         ]

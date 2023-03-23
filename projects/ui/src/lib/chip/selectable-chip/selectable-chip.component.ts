@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, forwardRe
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { _BooleanComponent } from './../../_internal/boolean-component';
 import { SimpleOneAxisAlignment } from '../../types/alignment.types';
-import { DecorationElementAppearance } from '../../types/theming-types';
+import { DecorationElementAppearance } from '../../types/theming.types';
 import { ChipVariant } from '../chip.types';
 import { ComponentColor } from '../../types/colors.types';
 
