@@ -7,6 +7,8 @@ describe('coerceBooleanProperty', () => {
     it('should coerce null to false', () => {
         expect(coerceBooleanProperty(null)).toBe(false);
     });
+    //used for valueless usage of @Input directives
+    //such as <app-component active></app-component>
     it('should coerce the empty string to true', () => {
         expect(coerceBooleanProperty('')).toBe(true);
     });
