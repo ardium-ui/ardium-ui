@@ -1,0 +1,11 @@
+<ard-slider
+    (valueChange)="log('valueChange', $event)"
+    [value]="29"
+    showValueTicks="true"
+    step="20"
+    [labels]="[0, 20, 40, 60, 80, 100]"
+></ard-slider>
+
+<ard-range-slider
+    (valueChange)="log('valueChange', $event)"
+></ard-range-slider>

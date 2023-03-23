@@ -1,0 +1,17 @@
+<div class="flex master">
+    <div class="grid" *ngFor="let color of colors">
+        <ng-container *ngFor="let state of [false, true]">
+            <ard-slide-toggle
+                *ngFor="let disabled of [false, true]"
+                [selected]="state"
+                [color]="color"
+                [disabled]="disabled"
+                (focus)="log('focus', $event)"
+                (blur)="log('blur', $event)"
+                (select)="log('select', $event)"
+                (unselect)="log('unselect', $event)"
+                (selectedChange)="log('selectedChange', $event)"
+            ></ard-slide-toggle>
+        </ng-container>
+    </div>
+</div>

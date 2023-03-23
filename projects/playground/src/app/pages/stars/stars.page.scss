@@ -1,0 +1,17 @@
+.master {
+    color: red;
+}
+.star {
+    --grid-cols: 3;
+}
+.star-button {
+    --grid-cols: 4;
+}
+.star-display {
+    grid-auto-columns: unset;
+    grid-template-columns: 1fr 2fr;
+}
+.star-input {
+    grid-auto-columns: unset;
+    grid-template-columns: 1fr 1fr 2fr 2fr;
+}

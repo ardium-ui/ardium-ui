@@ -1,0 +1,16 @@
+<div class="flex master">
+    <div class="grid" *ngFor="let color of colors">
+        <ng-container *ngFor="let state of states">
+            <ard-checkbox
+                *ngFor="let disabled of [false, true]"
+                [state]="state"
+                [color]="color"
+                [disabled]="disabled"
+                (select)="log('select', $event)"
+                (unselect)="log('unselect', $event)"
+                (selectedChange)="log('selectedChange', $event)"
+                (stateChange)="log('stateChange', $event)"
+            ></ard-checkbox>
+        </ng-container>
+    </div>
+</div>

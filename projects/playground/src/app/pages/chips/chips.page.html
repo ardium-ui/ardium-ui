@@ -1,0 +1,56 @@
+<span class="title">Chips</span>
+<div class="grid master" *ngFor="let variant of variants">
+    <ng-container *ngFor="let appearance of appearances">
+        <ng-container *ngFor="let disabled of [false, true]">
+            <ard-chip
+                *ngFor="let color of colors"
+                [variant]="variant"
+                [appearance]="appearance"
+                [color]="color"
+                [disabled]="disabled"
+                (focus)="log('focus', $event)"
+                (blur)="log('blur', $event)"
+            >Foo</ard-chip>
+        </ng-container>
+    </ng-container>
+</div>
+<span class="title">Deletable Chips</span>
+<div class="grid master" *ngFor="let variant of variants" [title]="variant">
+    <ng-container *ngFor="let appearance of appearances">
+        <ng-container *ngFor="let align of alignments">
+            <ng-container *ngFor="let disabled of [false, true]">
+                <ard-deletable-chip
+                    *ngFor="let color of colors"
+                    [variant]="variant"
+                    [appearance]="appearance"
+                    [color]="color"
+                    [disabled]="disabled"
+                    [contentAlignment]="align"
+                    (focus)="log('focus', $event)"
+                    (blur)="log('blur', $event)"
+                    (delete)="log('delete', $event)"
+                >Foo</ard-deletable-chip>
+            </ng-container>
+        </ng-container>
+    </ng-container>
+</div>
+<span class="title">Selectable Chips</span>
+<div class="grid master" *ngFor="let variant of variants">
+    <ng-container *ngFor="let appearance of appearances">
+        <ng-container *ngFor="let selected of [false, true]">
+            <ng-container *ngFor="let disabled of [false, true]">
+                <ard-selectable-chip
+                    *ngFor="let color of colors"
+                    [variant]="variant"
+                    [appearance]="appearance"
+                    [color]="color"
+                    [disabled]="disabled"
+                    [selected]="selected"
+                    (focus)="log('focus', $event)"
+                    (blur)="log('blur', $event)"
+                    (selectedChange)="log('delete', $event)"
+                >Foo</ard-selectable-chip>
+            </ng-container>
+        </ng-container>
+    </ng-container>
+</div>
