@@ -1,6 +1,7 @@
 <div class="ard-slider-container-master"
     [ngClass]="ngClasses"
     [class.ard-slider-handle-grabbed]="isSliderHandleGrabbed"
+    [style]="{'--_ard-slider-transition': sliderTransition }"
 >
     <div class="ard-slider-container">
         <div #track

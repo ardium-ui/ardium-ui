@@ -129,6 +129,23 @@ export abstract class _AbstractSlider<T> extends _NgModelComponent {
         ].join(' ');
     }
 
+    //* determining transition
+    get sliderTransition(): string {
+        const x = this._totalSteps;
+        //this is determined using this graph: https://www.geogebra.org/calculator/nqgnhpap
+        //capped at y=80
+        const formulaResult = 20 * (x + 200) / (x + 20) - 80;
+        const formulaResultRounded = roundToPrecision(formulaResult, 3);
+        
+        if (formulaResultRounded < 0) return '0';
+
+        const transitionDuration = Math.min(80, formulaResultRounded);
+        return transitionDuration + 'ms';
+    }
+    private get _totalSteps(): number {
+        return (this.max - this.min) / this.step;
+    }
+
     //* value input & output
     //! abstract here
     protected abstract _value: T;

@@ -3,6 +3,7 @@
 
 .ard-slider-container-master {
     @include coloringMixins.typeColors();
+
     position: relative;
     width: 20em;
     max-width: 100%;
@@ -43,6 +44,7 @@
                 height: calc(100% + 0.125rem);
                 top: (-1rem / 16);
                 opacity: 100%;
+                transition: width var(--_ard-slider-transition) ease, left var(--_ard-slider-transition) ease;
             }
         }
         .ard-hitbox {
@@ -84,7 +86,7 @@
         z-index: 1;
         outline: none;
         
-        transition: box-shadow 0.15s ease;
+        transition: box-shadow 0.15s ease, left var(--_ard-slider-transition) ease;
         box-shadow: $simple-shadow;
         
         // cursor: grab;
