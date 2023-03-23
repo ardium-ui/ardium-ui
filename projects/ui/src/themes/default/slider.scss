@@ -1,6 +1,8 @@
 @use './mixins'as defaultMixins;
+@use './coloring' as coloringMixins;
 
 .ard-slider-container-master {
+    @include coloringMixins.typeColors();
     position: relative;
     width: 20em;
     max-width: 100%;

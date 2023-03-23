@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, forwardRef, HostListener, Input, OnInit, Output, ViewEncapsulation, EventEmitter } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { isString } from 'simple-bool';
 import { ArdiumSimpleInputComponent } from '../simple-input/simple-input.component';
-import { coerceBooleanProperty } from './../../utils';
 import { escapeAndCreateRegex, InputModel, InputModelHost } from './../input-utils';
 
 @Component({

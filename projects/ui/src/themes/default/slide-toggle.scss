@@ -1,6 +1,8 @@
 @use './mixins'as defaultMixins;
+@use './coloring' as coloringMixins;
 
 .ard-slide-toggle {
+    @include coloringMixins.typeColors();
     position: relative;
     height: 1.25em;
     cursor: pointer;

@@ -1,9 +1,11 @@
 @use './mixins'as defaultMixins;
+@use './coloring' as coloringMixins;
 
 .ard-star,
 .ard-star-button,
 .ard-star-display,
 .ard-star-input {
+    @include coloringMixins.typeColors();
     color: var(--ard-cmpcl--bg);
     
     &.ard-color-currentColor {

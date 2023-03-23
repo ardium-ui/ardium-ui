@@ -1,69 +1,73 @@
-//! clear button
-ard-_clear-button {
-    height: $clear-button-size;
-    width: $clear-button-size;
-    position: relative;
-}
+@use './mixins' as defaultMixins;
+@import '../variables';
 
-.ard-clear-btn-wrapper {
-    cursor: pointer;
-    font-size: medium;
-    color: $detail;
-    width: $clear-button-size;
-    height: $clear-button-size;
-    line-height: 1em;
-    border-radius: 999px;
-    border: none;
-    padding: 0;
-    background: transparent;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    outline: none;
-    color: inherit;
-
-    .ard-hitbox {
-        position: absolute;
-        left: -1px;
-        right: -1px;
-        top: -1px;
-        bottom: -1px;
+@mixin clearButton() {
+    ard-_clear-button {
+        height: $clear-button-size;
+        width: $clear-button-size;
+        position: relative;
     }
 
-    .ard-focus-overlay {
-        @include defaultMixins.focus-overlay(-1px);
-        background: currentColor;
-    }
-
-    .ard-clear-btn {
+    .ard-clear-btn-wrapper {
+        cursor: pointer;
+        font-size: medium;
+        color: $detail;
+        width: $clear-button-size;
+        height: $clear-button-size;
+        line-height: 1em;
+        border-radius: 999px;
+        border: none;
+        padding: 0;
+        background: transparent;
         position: absolute;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
+        outline: none;
+        color: inherit;
 
-        &::before {
-            content: 'close';
-            @include defaultMixins.icon;
-            font-size: 70%;
+        .ard-hitbox {
+            position: absolute;
+            left: -1px;
+            right: -1px;
+            top: -1px;
+            bottom: -1px;
         }
-    }
 
-    &:hover {
         .ard-focus-overlay {
-            opacity: 12.5%;
+            @include defaultMixins.focus-overlay(-1px);
+            background: currentColor;
         }
-    }
 
-    &:focus {
-        .ard-focus-overlay {
-            opacity: 17.5%;
+        .ard-clear-btn {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+
+            &::before {
+                content: 'close';
+                @include defaultMixins.icon;
+                font-size: 70%;
+            }
         }
-    }
 
-    &:active {
-        .ard-focus-overlay {
-            opacity: 25%;
+        &:hover {
+            .ard-focus-overlay {
+                opacity: 12.5%;
+            }
+        }
+
+        &:focus {
+            .ard-focus-overlay {
+                opacity: 17.5%;
+            }
+        }
+
+        &:active {
+            .ard-focus-overlay {
+                opacity: 25%;
+            }
         }
     }
 }

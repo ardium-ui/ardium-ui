@@ -1,6 +1,9 @@
 @use './mixins' as defaultMixins;
+@use './coloring' as coloringMixins;
+@use '../variables';
 
 .ard-checkbox {
+    @include coloringMixins.typeColors();
     position: relative;
     cursor: pointer;
     user-select: none;

@@ -1,7 +1,12 @@
 @use './mixins'as defaultMixins;
+@use './coloring' as coloringMixins;
+@use './clear-button' as clearButton;
 
 //! general css
 .ard-chip-wrapper {
+    @include coloringMixins.typeColors();
+    @include clearButton.clearButton();
+
     font-family: "Roboto", sans-serif;
     color: $text2;
     background: $bg;

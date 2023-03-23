@@ -1,6 +1,9 @@
 @use './mixins'as defaultMixins;
+@use './coloring' as coloringMixins;
+@import '../variables';
 
 .ard-statebox {
+    @include coloringMixins.typeColors();
     font-size: 1.1em;
     width: 1.25em;
     height: 1.25em;
