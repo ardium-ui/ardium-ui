@@ -1,10 +1,10 @@
 import { Component, ElementRef, EventEmitter, HostBinding, Input, OnInit, Output, ViewChild, forwardRef, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { OneAxisContentAlignment } from '../../types/general.types';
 import { FormElementAppearance } from '../../types/theming.types';
-import { coerceBooleanProperty, coerceNumberProperty } from '../../utils';
 import { _NgModelComponent } from '../../_internal/ngmodel-component';
 import { SimpleInputModel, SimpleInputModelHost } from './../input-utils';
+import { SimpleOneAxisAlignment } from './../../types/alignment.types';
+import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 
 @Component({
     selector: 'ard-simple-input',
@@ -44,7 +44,7 @@ export class ArdiumSimpleInputComponent extends _NgModelComponent implements Sim
 
     //* appearance
     @Input() appearance: FormElementAppearance = FormElementAppearance.Outlined;
-    @Input() alignText: OneAxisContentAlignment = OneAxisContentAlignment.Left;
+    @Input() alignText: SimpleOneAxisAlignment = SimpleOneAxisAlignment.Left;
 
     get ngClasses(): string {
         return [

@@ -13,6 +13,7 @@ export * from './lib/buttons/fab/fab.component';
 //checkbox
 export * from './lib/checkbox/checkbox.module';
 export * from './lib/checkbox/checkbox.component';
+export * from './lib/checkbox/checkbox.types';
 //chips
 export * from './lib/chip/chip.module';
 export * from './lib/chip/chip.component';

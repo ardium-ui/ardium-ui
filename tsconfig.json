@@ -5,12 +5,12 @@
       "baseUrl": "./",
       "outDir": "./dist/out-tsc",
       "paths": {
-        "devkit": [
+        "@ardium-ui/devkit": [
           "projects/devkit/src/public-api",
           "dist/devkit/devkit",
           "dist/devkit"
         ],
-        "ui": [
+        "@ardium-ui/ui": [
           "projects/ui/src/public-api",
           "dist/ui/ui",
           "dist/ui"

@@ -1,4 +1,6 @@
-import { ArdOption, ArdOptionGroup } from "../item-storages/item-storage.types";
+import { ArdOption } from "../_internal/item-storages/item-storage.types";
+import { ArdOptionGroup } from './../_internal/item-storages/item-storage.types';
+
 
 /**
 ```typescript
