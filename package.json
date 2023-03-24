@@ -6,7 +6,11 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "ngg-fm": "ng g m --project=ui",
+    "ngg-fc": "ng g c --project=ui --change-detection=OnPush --export --view-encapsulation=None",
+    "ngg-pm": "ng g m --project=PLAYGROUND",
+    "ngg-pc": "ng g c --type=page --project=PLAYGROUND"
   },
   "private": true,
   "dependencies": {
