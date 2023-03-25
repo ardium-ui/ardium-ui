@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ClickOutsideDirective } from './click-outside.directive';
+import { HoldDirective } from './hold.directive';
 
 @NgModule({
     declarations: [
-        ClickOutsideDirective,
+        HoldDirective,
     ],
     imports: [
         CommonModule
     ],
     exports: [
-        ClickOutsideDirective,
+        HoldDirective,
     ]
 })
-export class ArdiumClickOutsideEventModule { }
+export class ArdiumHoldEventModule { }
