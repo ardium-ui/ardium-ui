@@ -105,8 +105,8 @@
 
 //! disabled state
 .ard-disabled {
-    .ard-button,
-    .ard-fab {
+    > .ard-button,
+    > .ard-fab {
         pointer-events: none;
         opacity: 60%;
 

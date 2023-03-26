@@ -1,0 +1,69 @@
+@import '../../variables';
+
+/**
+ * Should be applied to the first element in the component's template.
+ */
+@mixin genericInput() {
+    position: relative;
+    font-family: "Roboto", sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: stretch;
+    gap: 10px;
+    cursor: text;
+
+    .ard-input-container {
+        flex-grow: 1;
+        height: 36px;
+        font-size: 16px;
+        line-height: 20px;
+        text-size-adjust: 100%;
+        display: flex;
+        align-items: center;
+
+        input {
+            border: none;
+            background: transparent;
+            outline: none;
+            font: inherit;
+            padding: 0;
+            display: block;
+            width: 100%;
+        }
+    }
+}
+
+@mixin inputAppearances() {
+    &.ard-appearance-outlined {
+        --ard-appearance-background: #{$bg};
+        --ard-appearance-border: 1px solid #{$border};
+    }
+
+    &.ard-appearance-filled {
+        --ard-appearance-background: #{$bg-f};
+        --ard-appearance-border: none;
+    }
+
+    &.ard-appearance-transparent {
+        --ard-appearance-background: transparent;
+        --ard-appearance-border: none;
+    }
+}
+
+@mixin inputVariants() {
+    &.ard-variant-rounded {
+        &.ard-appearance-outlined,
+        &.ard-appearance-filled {
+            border-radius: 8px;
+        }
+    }
+    &.ard-variant-pill {
+        &.ard-appearance-outlined,
+        &.ard-appearance-filled {
+            border-radius: 999px;
+        }
+    }
+    &.ard-variant-sharp {
+        border-radius: 0;
+    }
+}

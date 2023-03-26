@@ -1,0 +1,26 @@
+.ard-number-input {
+    width: max-content;
+    display: flex;
+}
+
+.ard-input-container > input {
+    width: calc(1ch * var(--ard-_input-width)) !important;
+
+    & > input {
+        width: 100% !important;
+    }
+}
+.ard-text-align-left input {
+    text-align: left;
+}
+.ard-text-align-middle input {
+    text-align: center;
+}
+.ard-text-align-right input {
+    text-align: right;
+}
+
+.ard-quick-change-button {
+    user-select: none;
+    height: 100%;
+}

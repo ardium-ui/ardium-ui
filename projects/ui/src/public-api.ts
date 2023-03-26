@@ -29,6 +29,8 @@ export * from './lib/inputs/input/input.module';
 export * from './lib/inputs/input/input.component';
 export * from './lib/inputs/simple-input/simple-input.module';
 export * from './lib/inputs/simple-input/simple-input.component';
+export * from './lib/inputs/number-input/number-input.module';
+export * from './lib/inputs/number-input/number-input.component';
 //select
 export * from './lib/select/select.module';
 export * from './lib/select/select.component';

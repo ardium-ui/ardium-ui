@@ -1,0 +1,199 @@
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { ButtonVariant, ButtonAppearance } from '../../buttons/general-button.types';
+import { OneAxisAlignment } from '../../types/alignment.types';
+import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
+import { _NgModelComponent } from '../../_internal/ngmodel-component';
+import { NumberInputModel, NumberInputModelHost } from '../input-utils';
+import { isDefined } from 'simple-bool';
+
+@Component({
+    selector: 'ard-number-input',
+    templateUrl: './number-input.component.html',
+    styleUrls: ['./number-input.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ArdiumNumberInputComponent),
+            multi: true
+        }
+    ]
+})
+export class ArdiumNumberInputComponent extends _NgModelComponent implements ControlValueAccessor, NumberInputModelHost, OnInit {
+
+    log(...args: any[]) {
+        console.log('clickOutisde', ...args);
+    }
+
+    //! input view
+    @ViewChild('textInput', { static: true }) textInputEl!: ElementRef<HTMLInputElement>;
+    protected inputModel!: NumberInputModel;
+    override ngOnInit(): void {
+        this.inputModel = new NumberInputModel(this.textInputEl.nativeElement, this);
+        this._setInputAttributes();
+        //set the value
+        if (this._valueBeforeInit) {
+            this.writeValue(this._valueBeforeInit);
+            delete this._valueBeforeInit;
+        }
+    }
+
+    @Input() placeholder: string = '';
+    @Input() inputId?: string;
+
+    //! appearance
+    @Input() appearance: FormElementAppearance = FormElementAppearance.Outlined;
+    @Input() variant: FormElementVariant = FormElementVariant.Rounded;
+    @Input() alignText: OneAxisAlignment = OneAxisAlignment.Middle;
+
+    get ngClasses(): string {
+        return [
+            `ard-appearance-${this.appearance}`,
+            `ard-variant-${this.variant}`,
+            `ard-text-align-${this.alignText}`,
+        ].join(' ');
+    }
+
+    get buttonVariant(): ButtonVariant {
+        if (this.variant == FormElementVariant.Rounded) return ButtonVariant.Basic;
+        if (this.variant == FormElementVariant.Pill) return ButtonVariant.Pill;
+        if (this.variant == FormElementVariant.Sharp) return ButtonVariant.Sharp;
+        return ButtonVariant.Basic;
+    }
+    get buttonAppearance(): ButtonAppearance {
+        if (this.appearance == FormElementAppearance.Outlined && this.variant != FormElementVariant.Pill) return ButtonAppearance.Outlined;
+        return ButtonAppearance.Transparent;
+    }
+
+    private _inputWidth: number = 5;
+    @Input()
+    get inputWidth(): number { return this._inputWidth; }
+    set inputWidth(v: any) { this._inputWidth = coerceNumberProperty(v); }
+    
+
+    //! other inputs
+    @Input() inputAttrs: { [key: string]: any } = {};
+
+    //! control value accessor's write value implementation
+    writeValue(v: any) {
+        this.inputModel.writeValue(v);
+    }
+
+    //! value two-way binding
+    protected _valueBeforeInit?: string | null = '0';
+    @Input()
+    set value(v: string | number | null) {
+        if (typeof v == 'number') v = v.toString();
+        if (!this.inputModel) {
+            this._valueBeforeInit = v;
+            return;
+        }
+        this.writeValue(v);
+    }
+    @Output() valueChange = new EventEmitter<number | null>();
+
+    //* event emitters
+    @Output('input') inputEvent = new EventEmitter<number | null>();
+    @Output('change') changeEvent = new EventEmitter<number | null>();
+    @Output('clear') clearEvent = new EventEmitter<MouseEvent>();
+    @Output('quickChange') quickChangeEvent = new EventEmitter<{ direction: 1 | -1, value: number }>();
+
+    //! min/max and number type
+    private _min: number = 0;
+    @Input()
+    get min(): number { return this._min; }
+    set min(v: any) { this._min = coerceNumberProperty(v); }
+    
+    private _max: number = 999;
+    @Input()
+    get max(): number { return this._max; }
+    set max(v: any) { this._max = coerceNumberProperty(v); }
+
+    private _allowFloat: boolean = false;
+    @Input()
+    get allowFloat(): boolean { return this._allowFloat; }
+    set allowFloat(v: any) { this._allowFloat = coerceBooleanProperty(v); }
+
+    //! incerement/decrement buttons
+    private _allowQuickChange: boolean = true;
+    @Input()
+    get allowQuickChange(): boolean { return this._allowQuickChange; }
+    set allowQuickChange(v: any) { this._allowQuickChange = coerceBooleanProperty(v); }
+
+    private _stepSize: number = 1;
+    @Input()
+    get stepSize(): number { return this._stepSize; }
+    set stepSize(v: any) { this._stepSize = coerceNumberProperty(v); }
+    
+    onQuickChangeButtonClick(direction: 1 | -1): void {
+        let num = this.inputModel.numberValue;
+        if (!num) num = 0;
+
+        if (direction == 1 && num >= this.max) return;
+        if (direction == -1 && num <= this.min) return;
+
+        const newValue = num + this.stepSize * direction;
+        this.writeValue(newValue);
+        this.quickChangeEvent.next({ direction, value: newValue });
+        this._emitChange();
+    }
+
+    canIncrement(): boolean {
+        const num = this.inputModel.numberValue;
+        return !isDefined(num) || num < this.max;
+    }
+    canDecrement(): boolean {
+        const num = this.inputModel.numberValue;
+        return !isDefined(num) || num > this.min;
+    }
+
+    //! event handlers
+    onInput(newVal: string): void {
+        let valueHasChanged = this.inputModel.writeValue(newVal);
+        if (!valueHasChanged) return;
+        this._emitInput();
+    }
+    protected _emitInput(): void {
+        this._onChangeRegistered?.(this.inputModel.value);
+        this.inputEvent.emit(this.inputModel.numberValue);
+        this.valueChange.emit(this.inputModel.numberValue);
+    }
+
+    //focus, blur, change
+    onFocusMaster(event: FocusEvent): void {
+        this.onFocus(event);
+    }
+    onBlurMaster(event: FocusEvent): void {
+        this.onBlur(event);
+    }
+    //change
+    onChange(event: Event): void {
+        event.stopPropagation();
+        this._emitChange();
+    }
+    protected _emitChange(): void {
+        const v = this.inputModel.numberValue;
+        this._onChangeRegistered?.(v);
+        this.changeEvent.emit(v);
+    }
+
+    //! helpers
+    protected _setInputAttributes() {
+        const input = this.textInputEl.nativeElement;
+        const attributes: { [key: string]: string } = {
+            type: 'text',
+            autocorrect: 'off',
+            autocapitalize: 'off',
+            autocomplete: 'off',
+            tabindex: String(this.tabIndex),
+            ...this.inputAttrs
+        };
+
+        for (const key of Object.keys(attributes)) {
+            input.setAttribute(key, String(attributes[key]));
+        }
+    }
+}

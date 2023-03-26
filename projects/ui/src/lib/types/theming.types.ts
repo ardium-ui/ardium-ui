@@ -14,6 +14,22 @@ export const FormElementAppearance = {
 } as const;
 export type FormElementAppearance = typeof FormElementAppearance[keyof typeof FormElementAppearance];
 
+export const FormElementVariant = {
+    /**
+     * Slightly rounded corners.
+     */
+    Rounded: 'rounded',
+    /**
+     * Fully rounded corners - pill shaped.
+     */
+    Pill: 'pill',
+    /**
+     * Sharp corners.
+     */
+    Sharp: 'sharp',
+} as const;
+export type FormElementVariant = typeof FormElementVariant[keyof typeof FormElementVariant];
+
 export const DecorationElementAppearance = {
     Outlined: 'outlined',
     Filled: 'filled',

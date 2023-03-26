@@ -1,5 +1,5 @@
-import { isAnyString, isNull } from 'simple-bool';
-import { RegExpTransformer } from './input-transformers';
+import { isAnyString, isNull, isNumber, isString } from 'simple-bool';
+import { ArdTransformer, RegExpTransformer } from './input-transformers';
 
 export interface SimpleInputModelHost {
     maxLength?: number;
@@ -109,6 +109,93 @@ export class InputModel extends SimpleInputModel {
         return text;
     }
 }
+
+export interface NumberInputModelHost {
+    max: number;
+    min: number;
+    allowFloat: boolean;
+}
+export class NumberInputModel {
+    protected _hostComp!: NumberInputModelHost;
+    constructor(
+        protected inputEl: HTMLInputElement,
+        hostComp: NumberInputModelHost
+    ) {
+        this._hostComp = hostComp;
+    }
+
+    //! value setters/getters
+    protected _value: string | null = null;
+    get value(): string | null { return this._value; }
+    set value(v: string | null) { this._value = v; }
+    //value as string
+    get stringValue(): string { return this._value ?? '' }
+    set stringValue(v: string) { this._value = v || null; }
+    //value as number
+    get numberValue(): number | null { return this._value == null && null || Number(this._value) }
+    set numberValue(v: number | null) { this._value = v == null ? null : v.toString(); }
+
+    //! write value handlers
+    writeValue(v: any): boolean {
+        if (!isNumber(v) && !isString(v) && !isNull(v)) {
+            //warn when using non-string/non-null value
+            console.warn(new Error(`Trying to set simple-input's value to ${typeof v}, expected string, number, or null.`));
+            //normalize the value
+            v = v?.toString?.() ?? String(v);
+        }
+        v = String(v);
+        return this._writeValue(v);
+    }
+    protected _writeValue(v: string | null): boolean {
+        //constraints
+        v = this._applyNumberConstraint(v);
+        v = this._applyMinMaxConstraints(v);
+        //update view
+        let oldVal = this.value;
+        this.value = v;
+        this._updateInputElement();
+        return oldVal !== v;
+    }
+    rewriteValueAfterHostUpdate(): void {
+        this._writeValue(this._value);
+    }
+
+    //! input element methods
+    _updateInputElement() {
+        this.inputEl.value = this.stringValue;
+    }
+    get caretPos(): number {
+        return this.inputEl.selectionEnd ?? this.stringValue.length;
+    }
+    set caretPos(pos: number) {
+        this.inputEl.setSelectionRange(pos, pos);
+    }
+
+    //! constraints
+    private _applyNumberConstraint(v: string | null): string {
+        if (!v) return '';
+
+        if (this._hostComp.allowFloat) {
+            const { text, caretPos } = ArdTransformer.Float(v, this.stringValue, this.caretPos);
+            this.caretPos = caretPos;
+            return text;
+        }
+        const { text, caretPos } = ArdTransformer.Integer(v, this.stringValue, this.caretPos);
+        this.caretPos = caretPos;
+        return text;
+    }
+    private _applyMinMaxConstraints(v: string | null): string {
+        if (!v) return '';
+
+        const numericValue = Number(v);
+        if (numericValue > this._hostComp.max) return this._hostComp.max.toString();
+        if (numericValue < this._hostComp.min) return this._hostComp.min.toString();
+        return v;
+    }
+}
+
+
+
 export function escapeAndCreateRegex(str: string, flags?: string, negated: boolean = true): RegExp {
     str = str.replace(/([\]]+)/g, '\\$1');
     return new RegExp(`[${negated ? '^' : ''}${str}]`, flags);
