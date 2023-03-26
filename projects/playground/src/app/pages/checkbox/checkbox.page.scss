@@ -1,4 +1,21 @@
-.master {
+.red {
     color: red;
     --grid-cols: 6;
+}
+
+.master {
+    font-size: 14px;
+}
+
+.large-gap {
+    gap: 3rem;
+}
+
+.color-flex {
+    gap: 2rem;
+
+    .title.color {
+        font-size: 14px;
+        font-weight: normal;
+    }
 }

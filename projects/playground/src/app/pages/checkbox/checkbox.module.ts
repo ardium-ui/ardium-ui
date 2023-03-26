@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CheckboxPage } from './checkbox.page';
 import { ArdiumCheckboxModule } from '@ardium-ui/ui';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -12,6 +13,7 @@ import { ArdiumCheckboxModule } from '@ardium-ui/ui';
     imports: [
         CommonModule,
         ArdiumCheckboxModule,
+        FormsModule,
     ]
 })
 export class CheckboxModule { }
