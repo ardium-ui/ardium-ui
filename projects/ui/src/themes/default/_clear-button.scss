@@ -35,7 +35,7 @@
         }
 
         .ard-focus-overlay {
-            @include defaultMixins.focus-overlay(-1px);
+            @include defaultMixins.focus-overlay(1px);
             background: currentColor;
         }
 

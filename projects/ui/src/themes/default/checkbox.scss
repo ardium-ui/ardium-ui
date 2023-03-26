@@ -25,12 +25,7 @@
         top: -4px;
     }
     .ard-focus-overlay {
-        @include defaultMixins.focus-overlay;
-        position: absolute;
-        left: -0.4rem;
-        right: -0.4rem;
-        bottom: -0.4rem;
-        top: -0.4rem;
+        @include defaultMixins.focus-overlay(0.4em);
         border-radius: 999px;
         background: currentColor;
     }
