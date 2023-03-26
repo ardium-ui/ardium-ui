@@ -12,11 +12,15 @@ import { _NgModelComponent } from './ngmodel-component';
 export abstract class _BooleanComponent extends _NgModelComponent implements ControlValueAccessor {
     //* control value accessor
     writeValue(v: any): void {
-        this._selected = Boolean(v);
+        this.selected = v;
     }
     //emitter function
     protected _emitChange() {
         this._onChangeRegistered?.(this.selected);
+
+        if (this._selected) this.selectEvent.emit(null);
+        else this.unselectEvent.emit(null);
+        
         this.selectedChange.emit(this.selected);
         this.changeEvent.emit(this.selected);
     }
@@ -38,8 +42,6 @@ export abstract class _BooleanComponent extends _NgModelComponent implements Con
 
     toggleSelected() {
         this._selected = !this._selected;
-        if (this._selected) this.selectEvent.emit(null);
-        else this.unselectEvent.emit(null);
 
         this._emitChange();
     }

@@ -37,6 +37,7 @@ export class ArdiumCheckboxComponent extends _BooleanComponent implements Contro
         this._selected = coerceBooleanProperty(v);
         this.state = this._selected ? 'selected' : 'unselected';
     }
+    override get selected(): boolean { return this._selected }
 
     @Input() state: CheckboxState = 'unselected';
     @Output() stateChange = new EventEmitter<CheckboxState>();
@@ -45,9 +46,12 @@ export class ArdiumCheckboxComponent extends _BooleanComponent implements Contro
     toggleState() {
         if (this.state == 'selected' || this.state == 'indeterminate') this.state = 'unselected';
         else this.state = 'selected';
-        this.selected = this.state == 'selected';
+        this._selected = this.state == 'selected';
 
         this._emitChange();
+    }
+    protected override _emitChange(): void {
+        super._emitChange();
         this.stateChange.emit(this.state);
     }
 }
