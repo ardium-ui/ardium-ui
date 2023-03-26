@@ -18,7 +18,7 @@ import {
     ArdItemDisplayLimitTemplateDirective,
 } from './select.directive';
 import { ArdiumDropdownPanelModule } from '../dropdown-panel/dropdown-panel.module';
-import { ClickOutsideModule } from 'projects/devkit/src/public-api';
+import { ArdiumClickOutsideEventModule } from 'projects/devkit/src/public-api';
 import { ArdiumSelectComponent } from './select.component';
 
 @NgModule({
@@ -42,7 +42,7 @@ import { ArdiumSelectComponent } from './select.component';
         CommonModule,
         ArdiumDropdownPanelModule,
         ArdiumChipModule,
-        ClickOutsideModule,
+        ArdiumClickOutsideEventModule,
     ],
     exports: [
         ArdiumSelectComponent,
