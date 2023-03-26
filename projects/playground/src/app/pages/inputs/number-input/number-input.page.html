@@ -1,0 +1,31 @@
+<div class="master">
+    <span class="title">Simplest number input</span>
+    <div class="grid master">
+        <ard-number-input
+            *ngFor="let disabled of [false, true]"
+            [disabled]="disabled"
+        ></ard-number-input>
+    </div>
+    <span class="title">Input appearances, variants, max/min, text align, ngModel, stepSize</span>
+    <div class="grid master">
+        <ng-container *ngFor="let variant of variants">
+                <ng-container *ngFor="let appearance of appearances">
+                    <ard-number-input
+                        *ngFor="let disabled of [false, true]"
+                        [disabled]="disabled"
+                        [appearance]="appearance"
+                        [variant]="variant"
+                        [(ngModel)]="value"
+                        [max]="max"
+                        [min]="min"
+                        (ngModelChange)="log('ngModelChange', $event)"
+                        (change)="log('change', $event)"
+                        (focus)="log('focus', $event)"
+                        (blur)="log('blur', $event)"
+                        (quickChange)="log('quickChange', $event)"
+                    ></ard-number-input>
+                </ng-container>
+            <span class="title variant">{{ variant }}</span>
+        </ng-container>
+    </div>
+</div>
