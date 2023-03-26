@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, HostBinding, Input, OnInit, Output, ViewChild, forwardRef, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { FormElementAppearance } from '../../types/theming.types';
+import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { _NgModelComponent } from '../../_internal/ngmodel-component';
 import { SimpleInputModel, SimpleInputModelHost } from './../input-utils';
 import { SimpleOneAxisAlignment } from './../../types/alignment.types';
@@ -44,11 +44,13 @@ export class ArdiumSimpleInputComponent extends _NgModelComponent implements Sim
 
     //* appearance
     @Input() appearance: FormElementAppearance = FormElementAppearance.Outlined;
+    @Input() variant: FormElementVariant = FormElementVariant.Rounded;
     @Input() alignText: SimpleOneAxisAlignment = SimpleOneAxisAlignment.Left;
 
     get ngClasses(): string {
         return [
             `ard-appearance-${this.appearance}`,
+            `ard-variant-${this.variant}`,
             `ard-text-align-${this.alignText}`,
         ].join(' ');
     }

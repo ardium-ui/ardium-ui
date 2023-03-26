@@ -1,58 +1,21 @@
-.ard-input,
+@use './shared' as inputMixin;
+@use '../clear-button' as CB;
+
 .ard-simple-input {
-    position: relative;
-    font-family: "Roboto", sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: stretch;
-    gap: 10px;
+    @include inputMixin.genericInput();
     padding: 0 6px;
     min-width: 10rem;
     max-width: 100%;
-    cursor: text;
-
-    .ard-input-container {
-        flex-grow: 1;
-        height: 36px;
-        font-size: 16px;
-        line-height: 20px;
-        text-size-adjust: 100%;
-        display: flex;
-        align-items: center;
-
-        input {
-            border: none;
-            background: transparent;
-            outline: none;
-            font: inherit;
-            padding: 0;
-            display: block;
-            width: 100%;
-        }
-    }
-    &.ard-appearance-outlined,
-    &.ard-appearance-filled {
-        border-radius: 8px;
-    }
-
-    &.ard-appearance-outlined {
-        background: $bg;
-        border: 1px solid $border;
-    }
-
-    &.ard-appearance-filled {
-        background: $bg-f;
-        border: none;
-    }
-
-    &.ard-appearance-transparent {
-        background: transparent;
-        border: none;
-    }
+    
+    @include inputMixin.inputAppearances();
+    @include inputMixin.inputVariants();
+    background: var(--ard-appearance-background);
+    border: var(--ard-appearance-border);
+    
+    @include CB.clearButton();
 }
 //! disabled state
 .ard-disabled {
-    .ard-input,
     .ard-simple-input {
         pointer-events: none;
         opacity: 50%;

@@ -1,7 +1,27 @@
-@import './simple-input.scss';
+@use './shared' as inputMixin;
+@use '../clear-button' as CB;
 
 .ard-input {
+    @include inputMixin.genericInput();
+    padding: 0 6px;
+    min-width: 10rem;
+    max-width: 100%;
+    
+    
+    @include inputMixin.inputAppearances();
+    @include inputMixin.inputVariants();
+    background: var(--ard-appearance-background);
+    border: var(--ard-appearance-border);
+    
+    @include CB.clearButton();
+
     .ard-suggestion {
         opacity: 37.5%;
+    }
+}
+.ard-disabled {
+    .ard-input {
+        pointer-events: none;
+        opacity: 50%;
     }
 }
