@@ -23,11 +23,8 @@ export class InputPage {
     private _fruitSuggestionSubject = new BehaviorSubject<string>('');
     public fruitSuggestion$ = this._fruitSuggestionSubject.asObservable();
     private _suggestions = this._dataService.fruitArray;
-    private _getNewSuggestion(): string {
-        return this._suggestions.find(v => this.fruitInputValue && v.startsWith(this.fruitInputValue)) ?? '';
-    }
     onFruitInput(input: string | null) {
-        if (!input || input.length <= 2) {
+        if (!input) {
             this._fruitSuggestionSubject.next('');
             return;
         }
@@ -36,6 +33,9 @@ export class InputPage {
     }
     onFruitAcceptSuggestion(): void {
         this._fruitSuggestionSubject.next('');
+    }
+    private _getNewSuggestion(): string {
+        return this._suggestions.find(v => this.fruitInputValue && v.startsWith(this.fruitInputValue)) ?? '';
     }
 
     constructor(private _logger: Logger, private _dataService: DataService) {  }
