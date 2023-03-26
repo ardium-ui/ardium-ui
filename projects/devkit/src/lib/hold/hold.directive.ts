@@ -7,18 +7,18 @@ import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/c
 export class HoldDirective {
 
     @Output('ardHold')
-    public holdEvent = new EventEmitter<MouseEvent>();
+    public holdEvent = new EventEmitter<null>();
 
-    @Input('ardHoldDelay') holdDelay: number = 500;
-    @Input('ardHoldRepeat') holdRepeat: number = 50;
+    @Input('ardHoldDelay') holdDelay: number = 800;
+    @Input('ardHoldRepeat') holdRepeat: number = 100;
 
     interval: NodeJS.Timeout | null = null;
 
-    @HostListener('document:mousedown', ['$event'])
-    @HostListener('document:touchstart', ['$event'])
-    public onMouseDown(event: MouseEvent): void {
+    @HostListener('document:mousedown')
+    @HostListener('document:touchstart')
+    public onMouseDown(): void {
         this.interval = setInterval(() => {
-            this.holdEvent.next(event);
+            this.holdEvent.next(null);
         }, this.holdRepeat);
     }
 
