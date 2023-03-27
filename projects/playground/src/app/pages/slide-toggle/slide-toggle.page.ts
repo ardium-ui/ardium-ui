@@ -10,6 +10,8 @@ import { Logger } from '../../services/logger.service';
 export class SlideTogglePage implements OnInit {
     colors: CC[] = Object.values(CC);
 
+    fontsize: number = 24;
+
     constructor(private _logger: Logger) { }
     log = this._logger.log;
 

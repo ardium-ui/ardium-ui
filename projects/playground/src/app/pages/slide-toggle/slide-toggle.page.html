@@ -1,17 +1,42 @@
+<div class="master flex">
+    <span class="title">Basic slide toggle</span>
+    <ard-slide-toggle></ard-slide-toggle>
+</div>
+<div class="master flex">
+    <span class="title">Slide toggle events</span>
+    <ard-slide-toggle
+        (focus)="log('focus', $event)"
+        (blur)="log('blur', $event)"
+        (select)="log('select', $event)"
+        (unselect)="log('unselect', $event)"
+        (selectedChange)="log('selectedChange', $event)"
+    ></ard-slide-toggle>
+</div>
+<div class="master">
+    <div class="flex horiz large-gap">
+        <span class="title">Font size</span> <input type="number" [(ngModel)]="fontsize">
+    </div>
+    <div [style]="'font-size: ' + fontsize + 'px'">
+        <ard-slide-toggle></ard-slide-toggle>
+    </div>
+</div>
+<div class="master flex">
+    <span class="title">Slide toggle icon</span>
+    <ard-slide-toggle icon="delete"></ard-slide-toggle>
+</div>
 <div class="flex master">
-    <div class="grid" *ngFor="let color of colors">
-        <ng-container *ngFor="let state of [false, true]">
-            <ard-slide-toggle
-                *ngFor="let disabled of [false, true]"
-                [selected]="state"
-                [color]="color"
-                [disabled]="disabled"
-                (focus)="log('focus', $event)"
-                (blur)="log('blur', $event)"
-                (select)="log('select', $event)"
-                (unselect)="log('unselect', $event)"
-                (selectedChange)="log('selectedChange', $event)"
-            ></ard-slide-toggle>
-        </ng-container>
+    <span class="title">Rainbow table</span>
+    <div class="flex horiz" *ngFor="let color of colors">
+        <div class="grid">
+            <ng-container *ngFor="let state of [false, true]">
+                <ard-slide-toggle
+                    *ngFor="let disabled of [false, true]"
+                    [selected]="state"
+                    [color]="color"
+                    [disabled]="disabled"
+                ></ard-slide-toggle>
+            </ng-container>
+        </div>
+        <span class="mono">{{ color }}</span>
     </div>
 </div>
