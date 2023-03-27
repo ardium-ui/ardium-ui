@@ -1,5 +1,8 @@
-.master {
+.red {
     color: red;
+}
+.black {
+    color: black;
 }
 .star {
     --grid-cols: 3;
@@ -14,4 +17,7 @@
 .star-input {
     grid-auto-columns: unset;
     grid-template-columns: 1fr 1fr 2fr 2fr;
+}
+.flex.horiz {
+    gap: 2rem;
 }
