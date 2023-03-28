@@ -3,7 +3,7 @@ import { ContentChild, Directive, ElementRef, EventEmitter, HostListener, Inject
 import { roundToMultiple, roundToPrecision } from 'more-rounding';
 import { coerceBooleanProperty, coerceNumberProperty } from 'projects/devkit/src/public-api';
 import { isDefined, isObject } from 'simple-bool';
-import { ComponentColor } from '../types/colors.types';
+import { SimpleComponentColor } from '../types/colors.types';
 import { _NgModelComponent } from '../_internal/ngmodel-component';
 import { ArdSliderLabelDirective } from './slider.directive';
 import { SliderLabelObject, SliderLabelPosition, _InternalSliderLabelObject } from './slider.types';
@@ -71,8 +71,8 @@ export abstract class _AbstractSlider<T> extends _NgModelComponent {
     get percentStepSize(): number {
         return this._stepSizeComputed * 100;
     }
-    protected _tickArray: number[] = this._updateTickArray();
-    protected _updateTickArray(): number[] {
+    protected _tickArray: string[] = this._updateTickArray();
+    protected _updateTickArray(): string[] {
         let newArr: number[] = [];
         let positionPercentCumulative: number = 0;
 
@@ -83,11 +83,13 @@ export abstract class _AbstractSlider<T> extends _NgModelComponent {
         }
         newArr.push(100);
 
-        this._tickArray = newArr;
-        return newArr;
+        let stringArr = newArr.map(v => `${v}%`);
+
+        this._tickArray = stringArr;
+        return stringArr;
     }
     get tickArray(): string[] {
-        return this._tickArray.map(v => `${v}%`);
+        return this._tickArray;
     }
 
     //* labels
@@ -119,7 +121,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponent {
     }
 
     //* appearance
-    @Input() color: ComponentColor = ComponentColor.Primary;
+    @Input() color: SimpleComponentColor = SimpleComponentColor.Primary;
 
     //* container classes
     get ngClasses(): string {
