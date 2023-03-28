@@ -1,18 +1,21 @@
 <div class="flex master" *ngFor="let size of sizes">
     <p class="title">{{ size }}</p>
-    <div class="flex" *ngFor="let appearance of appearances">
-        <div class="grid" *ngFor="let disabled of [false, true]">
-            <ard-fab
-                *ngFor="let color of colors"
-                icon="close"
-                [size]="size"
-                [appearance]="appearance"
-                [color]="color"
-                [disabled]="disabled"
-                (focus)="log('focus', $event)"
-                (blur)="log('blur', $event)"
-                (click)="log('click', $event)"
-            ></ard-fab>
+    <div class="flex horiz" *ngFor="let appearance of appearances">
+        <div class="flex">
+            <div class="grid" *ngFor="let disabled of [false, true]">
+                <ard-fab
+                    *ngFor="let color of colors"
+                    icon="close"
+                    [size]="size"
+                    [appearance]="appearance"
+                    [color]="color"
+                    [disabled]="disabled"
+                    (focus)="log('focus', $event)"
+                    (blur)="log('blur', $event)"
+                    (click)="log('click', $event)"
+                ></ard-fab>
+            </div>
         </div>
+        <span class="mono">{{ appearance }}</span>
     </div>
 </div>
