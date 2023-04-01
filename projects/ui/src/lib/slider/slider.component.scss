@@ -1,3 +1,5 @@
+@import '@angular/cdk/overlay-prebuilt.css';
+
 body.ard-prevent-touch-actions {
     touch-action: none;
     
@@ -15,6 +17,15 @@ body.ard-prevent-touch-actions {
     position: absolute;
     left: 0;
     transform: translateX(-50%);
+}
+.ard-slider-tooltip-wrapper {
+    position: absolute;
+    bottom: 100%;
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+.ard-slider-tooltip {
+    position: relative;
 }
 .ard-slider-track,
 .ard-value-tick-container {

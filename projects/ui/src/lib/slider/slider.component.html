@@ -20,6 +20,7 @@
             [tabindex]="tabIndex"
             [class.ard-grabbed]="isSliderHandleGrabbed"
             (pointerdown)="onPointerDownOnHandle($event)"
+            (touchstart)="onPointerDownOnHandle($event)"
             (focus)="onFocus($event)"
             (blur)="onBlur($event)"
             [style]="{left: getHandlePosition(1)}"
@@ -27,16 +28,15 @@
             <div class="ard-focus-overlay"></div>
             <div class="ard-hitbox"></div>
         </button>
+        <div class="ard-slider-tooltip-wrapper" [style]="{left: getHandlePosition(1)}">
+            <div class="ard-slider-tooltip">{{ _tooltipValue }}</div>
+        </div>
     </div>
-    <div class="ard-slider-label-container" *ngIf="labelsForTemplate.length">
+    <div class="ard-slider-label-container" *ngIf="labelObjects.length">
         <div
-            *ngFor="let label of labelsForTemplate"
+            *ngFor="let label of labelObjects"
             class="ard-slider-label"
             [style]="{left: label.positionPercent}"
         >{{ label.label }}</div>
     </div>
 </div>
-
-<ng-template #handleThumbBase>
-    <div class="ard-slide-thumb">Test</div>
-</ng-template>

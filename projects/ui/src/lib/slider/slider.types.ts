@@ -17,7 +17,9 @@ export type _InternalSliderLabelObject = {
     positionPercent: string;
 }
 
-export type SliderRange = {
-    low: number,
-    high: number,
+export type SliderRange<T = number> = {
+    low: T,
+    high: T,
 }
+
+export type SliderTooltipFormatFn = (value: number) => string | number;

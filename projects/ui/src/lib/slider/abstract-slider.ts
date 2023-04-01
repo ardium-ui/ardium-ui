@@ -1,12 +1,14 @@
+import { ConnectedPosition, Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
+import { TemplatePortal } from '@angular/cdk/portal';
 import { DOCUMENT } from '@angular/common';
-import { ContentChild, Directive, ElementRef, EventEmitter, HostListener, Inject, Input, Output, Renderer2, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, ContentChild, Directive, ElementRef, EventEmitter, HostListener, Inject, Input, Output, Renderer2, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { roundToMultiple, roundToPrecision } from 'more-rounding';
 import { coerceBooleanProperty, coerceNumberProperty } from 'projects/devkit/src/public-api';
 import { isDefined, isObject } from 'simple-bool';
 import { SimpleComponentColor } from '../types/colors.types';
 import { _NgModelComponent } from '../_internal/ngmodel-component';
 import { ArdSliderLabelDirective } from './slider.directive';
-import { SliderLabelObject, SliderLabelPosition, _InternalSliderLabelObject } from './slider.types';
+import { SliderLabelObject, SliderLabelPosition, SliderTooltipFormatFn, _InternalSliderLabelObject } from './slider.types';
 
 
 @Directive()
@@ -17,12 +19,48 @@ export abstract class _AbstractSlider<T> extends _NgModelComponent {
 
     constructor(
         @Inject(DOCUMENT) protected document: Document,
-        protected renderer: Renderer2
+        protected renderer: Renderer2,
+        protected overlay: Overlay,
+        protected scrollStrategyOpts: ScrollStrategyOptions,
+        protected viewContainerRef: ViewContainerRef,
     ) {
         super();
     }
 
-    //* min, max, step sizes
+    //! tooltip
+    // ngAfterViewInit(): void {
+    //     const strategy = this.overlay.position()
+    //         .flexibleConnectedTo(this.handleOrigin)
+    //         .withPositions([{
+    //             originX: 'start',
+    //             originY: 'top',
+    //             overlayX: 'start',
+    //             overlayY: 'bottom'
+    //         } as ConnectedPosition])
+    //         .withPush(false);
+        
+    //     const config = new OverlayConfig({
+    //         positionStrategy: strategy,
+    //         scrollStrategy: this.scrollStrategyOpts.close(),
+    //         hasBackdrop: false,
+    //     });
+
+    //     this.labelOverlay = this.overlay.create(config);
+
+    //     const portal = new TemplatePortal(this.handleThumbTemplate, this.viewContainerRef);
+    //     this.labelOverlay.attach(portal);
+    // }
+
+    private _noTooltip: boolean = false;
+    @Input()
+    get noTooltip(): boolean { return this._noTooltip; }
+    set noTooltip(v: any) { this._noTooltip = coerceBooleanProperty(v); }
+
+    @Input() tooltipFormat?: SliderTooltipFormatFn;
+
+    protected abstract _updateTooltipValue(): void;
+
+    //! min, max, step sizes
     protected _min: number = 0;
     @Input()
     get min(): number { return this._min; }
@@ -39,7 +77,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponent {
         this._updateComputedStepSizes();
         this._updateTickArray();
     }
-    protected _step: number = 0.5;
+    protected _step: number = 1;
     @Input()
     get step(): number { return this._step; }
     set step(v: any) {
@@ -62,7 +100,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponent {
         return this._stepSizeComputed;
     }
 
-    //* value ticks
+    //! value ticks
     protected _showValueTicks: boolean = false;
     @Input()
     get showValueTicks(): boolean { return this._showValueTicks; }
@@ -92,19 +130,16 @@ export abstract class _AbstractSlider<T> extends _NgModelComponent {
         return this._tickArray;
     }
 
-    //* labels
+    //! labels
     @Input() labelPosition: SliderLabelPosition = SliderLabelPosition.Bottom;
-    protected _labels: SliderLabelObject[] = [];
+    public labelObjects: _InternalSliderLabelObject[] = [];
     @Input()
     set labels(val: SliderLabelObject[] | number[] | null) {
         if (!isDefined(val) || val.length == 0) {
-            this._labels = [];
+            this.labelObjects = [];
             return;
         }
-        this._labels = val.map(this._numberLabelArrayMapFn);
-    }
-    get labelsForTemplate(): _InternalSliderLabelObject[] {
-        return this._labels.map(label => {
+        this.labelObjects = val.map(this._numberLabelArrayMapFn).map(label => {
             let v = this._clampValue(label.for);
             return {
                 label: String(label.label),
@@ -120,10 +155,10 @@ export abstract class _AbstractSlider<T> extends _NgModelComponent {
         };
     }
 
-    //* appearance
+    //! appearance
     @Input() color: SimpleComponentColor = SimpleComponentColor.Primary;
 
-    //* container classes
+    //! container classes
     get ngClasses(): string {
         return [
             `ard-color-${this.color}`,
@@ -131,14 +166,14 @@ export abstract class _AbstractSlider<T> extends _NgModelComponent {
         ].join(' ');
     }
 
-    //* determining transition
+    //! determining transition
     get sliderTransition(): string {
         const x = this._totalSteps;
         //this is determined using this graph: https://www.geogebra.org/calculator/nqgnhpap
         //capped at y=80
         const formulaResult = 20 * (x + 200) / (x + 20) - 80;
         const formulaResultRounded = roundToPrecision(formulaResult, 3);
-        
+
         if (formulaResultRounded < 0) return '0';
 
         const transitionDuration = Math.min(80, formulaResultRounded);
@@ -148,7 +183,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponent {
         return (this.max - this.min) / this.step;
     }
 
-    //* value input & output
+    //! value input & output
     //! abstract here
     protected abstract _value: T;
     @Input()
@@ -160,20 +195,20 @@ export abstract class _AbstractSlider<T> extends _NgModelComponent {
     }
     @Output() valueChange = new EventEmitter<T>();
 
-    //* writeValue
+    //! writeValue
     //! abstract here
-    abstract override writeValue(v: any): void;
-    //* methods for programmatic manipulation
+    abstract override writeValue(v: any): void; //* abstact
+    //! methods for programmatic manipulation
     abstract reset(): void;
 
-    protected _setToNextStep(offset: number, hasShift: boolean, handleId: number = 1): void {
+    protected _offset(offset: number, hasShift: boolean, handleId: number = 1): void {
         let stepSize = this._stepSizeComputed * (hasShift ? this._shiftMultiplier : 1);
         let newPercent = this._positionPercent[handleId - 1] + stepSize * offset;
         newPercent = this._clampPercentValue(newPercent);
         this._setValueFromPercent(newPercent);
     }
 
-    //* helper methods
+    //! helper methods
     protected _clampValue(v: number): number {
         //clamp between min and max
         v = Math.min(v, this._max);
@@ -194,10 +229,10 @@ export abstract class _AbstractSlider<T> extends _NgModelComponent {
         this.valueChange.emit(v);
     }
 
-    //* templates
+    //! templates
     @ContentChild(ArdSliderLabelDirective, { read: TemplateRef }) labelTemplate?: TemplateRef<any>;
 
-    //* event handlers
+    //! event handlers
     protected _isGrabbed: number = 0;
     protected _shouldCheckForMovement: boolean = false;
     protected _bodyHasClass: boolean = false;
@@ -205,30 +240,32 @@ export abstract class _AbstractSlider<T> extends _NgModelComponent {
     get isSliderHandleGrabbed(): boolean {
         return this._isGrabbed != 0;
     }
-    //! abstract here
-    abstract onTrackHitboxPointerDown(event: MouseEvent | TouchEvent): void;
+    abstract onTrackHitboxPointerDown(event: MouseEvent | TouchEvent): void; //* abstact
 
     onPointerDownOnHandle(event: MouseEvent | TouchEvent, handleId: number = 1): void {
         this._isGrabbed = handleId;
         this._shouldCheckForMovement = true;
+        if (!this._bodyHasClass) {
+            this._bodyHasClass = true;
+            this.renderer.addClass(this.document.body, 'ard-prevent-touch-actions');
+        }
     }
 
-    //! abstract here
-    abstract onPointerMove(event: MouseEvent | TouchEvent): void;
+    abstract onPointerMove(event: MouseEvent | TouchEvent): void; //* abstact
 
     @HostListener('document:pointerup', ['$event'])
     @HostListener('document:touchend', ['$event'])
     onPointerUp(event: MouseEvent | TouchEvent): void {
         if (!this._shouldCheckForMovement) return;
         this._isGrabbed = 0;
-        this._shouldCheckForMovement = false;
+        this._shouldCheckForMovement = false;   
         if (this._bodyHasClass) {
             this._bodyHasClass = false;
             this.renderer.removeClass(this.document.body, 'ard-prevent-touch-actions');
         }
     }
 
-    //* position calculators
+    //! position calculators
     protected _positionPercent: [number] | [number, number] = [0];
     getHandlePosition(handleId: number = 1): string {
         return this._positionPercent[handleId - 1] * 100 + '%';
@@ -237,14 +274,16 @@ export abstract class _AbstractSlider<T> extends _NgModelComponent {
         if (this._positionPercent[handleId - 1] == percent) return;
         this._positionPercent[handleId - 1] = percent;
         this._value = this._percentValueToValue(percent, handleId);
+        
+        this._updateTooltipValue();
+
         this._emitChanges();
     }
     protected _writeValueFromEvent(event: MouseEvent | TouchEvent, handleId?: number): void {
         let percent = this._getPercentValueFromEvent(event);
         this._setValueFromPercent(percent, handleId);
     }
-    //! abstract here
-    protected abstract _percentValueToValue(percent: number, handleId?: number): T;
+    protected abstract _percentValueToValue(percent: number, handleId?: number): T; //* abstact
 
     protected _getElementRect(): DOMRect {
         return this.element.nativeElement.getBoundingClientRect();
@@ -269,24 +308,24 @@ export abstract class _AbstractSlider<T> extends _NgModelComponent {
         let percent = (position - rect.left) / rect.width;
         return this._clampPercentValue(percent);
     }
-    //* key press handlers
+    //! key press handlers
     @HostListener('keydown', ['$event'])
     onKeyPress(event: KeyboardEvent): void {
         switch (event.code) {
             case 'ArrowLeft': {
-                this._onArrowLeftPress(event);
+                this._decrement(event);
                 return;
             }
             case 'ArrowRight': {
-                this._onArrowRightPress(event);
+                this._increment(event);
                 return;
             }
         }
     }
-    protected _onArrowLeftPress(event: KeyboardEvent): void {
-        this._setToNextStep(-1, event.shiftKey);
+    protected _decrement(event: KeyboardEvent, steps: number = 1): void {
+        this._offset(-steps, event.shiftKey);
     }
-    protected _onArrowRightPress(event: KeyboardEvent): void {
-        this._setToNextStep(+1, event.shiftKey);
+    protected _increment(event: KeyboardEvent, steps: number = 1): void {
+        this._offset(+steps, event.shiftKey);
     }
 }

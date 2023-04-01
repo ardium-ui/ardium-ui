@@ -19,10 +19,19 @@ import { _AbstractSlider } from './abstract-slider';
 })
 export class ArdiumSliderComponent extends _AbstractSlider<number> {
 
-    //* value input & output
+    //! value input & output
     protected _value: number = 0;
 
-    //* writeValue
+    //! tooltip updater
+    _tooltipValue: string = String(this.value);
+    
+    protected _updateTooltipValue(): void {
+        let v: string | number = this._value;
+        if (this.tooltipFormat) v = this.tooltipFormat(v);
+        this._tooltipValue = String(v);
+    }
+
+    //! writeValue
     writeValue(v: any): void {
         v = Number(v);
         if (isNaN(v)) {
@@ -32,21 +41,22 @@ export class ArdiumSliderComponent extends _AbstractSlider<number> {
         v = this._clampValue(v);
         this._value = v;
         this._positionPercent[0] = this._valueToPercent(v);
+        this._updateTooltipValue();
     }
     
-    //* methods for programmatic manipulation
+    //! methods for programmatic manipulation
     reset(): void {
         this._value = 0;
         this._positionPercent[0] = 0;
     }
     increment(steps: number = 1): void {
-        this._setToNextStep(steps, false);
+        this._offset(steps, false);
     }
     decrement(steps: number = 1): void {
-        this._setToNextStep(-steps, false);
+        this._offset(-steps, false);
     }
 
-    //* event handlers
+    //! event handlers
     onTrackHitboxPointerDown(event: MouseEvent | TouchEvent): void {
         this._writeValueFromEvent(event);
         this.onPointerDownOnHandle(event);
@@ -55,17 +65,15 @@ export class ArdiumSliderComponent extends _AbstractSlider<number> {
     @HostListener('document:touchmove', ['$event'])
     onPointerMove(event: MouseEvent | TouchEvent): void {
         if (!this._shouldCheckForMovement) return;
-        if (!this._bodyHasClass) {
-            this._bodyHasClass = true;
-            this.renderer.addClass(this.document.body, 'ard-prevent-touch-actions');
-        }
         this._writeValueFromEvent(event);
     }
 
-    //* position calculators
+    //! position calculators
     protected _percentValueToValue(percent: number): number {
         const minMaxDifference = Math.abs(this._min - this._max);
         const newVal = percent * minMaxDifference + this._min;
-        return roundToPrecision(newVal, 12); //round to 12 decimal places to avoid floating point arithmetic errors
+        //round to 12 decimal places to avoid floating point arithmetic errors
+        //12 is an arbitrary number that just works well.
+        return roundToPrecision(newVal, 12);
     }
 }
