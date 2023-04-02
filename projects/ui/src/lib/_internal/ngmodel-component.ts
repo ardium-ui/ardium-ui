@@ -21,15 +21,12 @@ export abstract class _NgModelComponent extends _FocusableComponent implements C
     setDisabledState(isDisabled: boolean): void {
         this._disabled = isDisabled;
     }
-    //! needs to be overridden in the child component!
-    abstract writeValue(obj: any): void;
+    
+    abstract writeValue(obj: any): void; //* abstract
 
-    //* event handlers
-    override onFocus(event: FocusEvent) {
-        this.focusEvent.emit(event);
-    }
+    //! event handlers
     override onBlur(event: FocusEvent) {
-        this.blurEvent.emit(event);
+        super.onBlur(event);
         this._onTouchedRegistered?.();
     }
 }
