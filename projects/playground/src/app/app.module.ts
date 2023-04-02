@@ -10,6 +10,7 @@ import { ChipsModule } from './pages/chips/chips.module';
 import { FabModule } from './pages/fab/fab.module';
 import { HomeModule } from './pages/home/home.module';
 import { InputsModule } from './pages/inputs/inputs.module';
+import { SegmentModule } from './pages/segment/segment.module';
 import { SelectModule } from './pages/select/select.module';
 import { SlideToggleModule } from './pages/slide-toggle/slide-toggle.module';
 import { SliderModule } from './pages/slider/slider.module';
@@ -34,6 +35,7 @@ import { StateboxModule } from './pages/statebox/statebox.module';
         SliderModule,
         ChipsModule,
         InputsModule,
+        SegmentModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

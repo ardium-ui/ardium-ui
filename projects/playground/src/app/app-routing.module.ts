@@ -6,6 +6,7 @@ import { ChipsPage } from './pages/chips/chips.page';
 import { FabPage } from './pages/fab/fab.page';
 import { HomePage } from './pages/home/home.page';
 import { InputsPage } from './pages/inputs/inputs.page';
+import { SegmentPage } from './pages/segment/segment.page';
 import { SelectPage } from './pages/select/select.page';
 import { SlideTogglePage } from './pages/slide-toggle/slide-toggle.page';
 import { SliderPage } from './pages/slider/slider.page';
@@ -14,6 +15,7 @@ import { StateboxPage } from './pages/statebox/statebox.page';
 
 const routes: Routes = [
     { path: '', component: HomePage },
+    { path: 'segment', component: SegmentPage },
     { path: 'select', component: SelectPage },
     { path: 'button', component: ButtonPage },
     { path: 'fab', component: FabPage },
