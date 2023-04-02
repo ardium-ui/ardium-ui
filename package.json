@@ -9,8 +9,8 @@
     "test": "ng test",
     "ngg-um": "ng g m --project=ui",
     "ngg-uc": "ng g c --project=ui --change-detection=OnPush --export --view-encapsulation=None",
-    "ngg-pm": "ng g m --project=PLAYGROUND",
-    "ngg-pc": "ng g c --type=page --project=PLAYGROUND"
+    "ngg-pm": "ng g m --project=playground",
+    "ngg-pc": "ng g c --type=page --project=playground"
   },
   "private": true,
   "dependencies": {
