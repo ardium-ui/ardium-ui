@@ -51,7 +51,7 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
         let lowClamped = this._clampValue(low);
         let highClamped = this._clampValue(high);
         let value: SliderRange = this._arrayValueToObjectValue([lowClamped, highClamped]);
-        this._value = this._normalizeSliderRange(value);
+        this._value = value;
         this._positionPercent[0] = this._valueToPercent(lowClamped);
         this._positionPercent[1] = this._valueToPercent(highClamped);
         this._updateTooltipValue();
@@ -64,10 +64,7 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
     _tooltipValue: SliderRange<string | number> = this.value;
 
     protected _updateTooltipValue(): void {
-        let v: SliderRange<string | number> = {
-            low: this.value.low,
-            high: this.value.high,
-        }
+        let v: SliderRange<string | number> = Object.create(this._value);
         if (this.tooltipFormat) {
             v.low = this.tooltipFormat(v.low as number);
             v.high = this.tooltipFormat(v.high as number);
@@ -130,7 +127,7 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
         this.currentHandle = handleId;
     }
     override onBlur(event: FocusEvent) {
-        this.currentHandle = null;
         super.onBlur(event);
+        this.currentHandle = null;
     }
 }

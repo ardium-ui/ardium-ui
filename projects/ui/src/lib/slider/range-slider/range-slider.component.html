@@ -24,7 +24,7 @@
         <button #focusableElement
             class="ard-slider-handle"
             [tabindex]="tabIndex"
-            [class.ard-grabbed]="isSliderHandleGrabbed"
+            [class.ard-grabbed]="isSliderHandleGrabbed && currentHandle == 1"
             (pointerdown)="onPointerDownOnHandle($event, 1)"
             (focus)="onHandleFocus($event, 1)"
             (blur)="onBlur($event)"
@@ -39,7 +39,7 @@
         <button
             class="ard-slider-handle"
             [tabindex]="tabIndex"
-            [class.ard-grabbed]="isSliderHandleGrabbed"
+            [class.ard-grabbed]="isSliderHandleGrabbed && currentHandle == 2"
             (pointerdown)="onPointerDownOnHandle($event, 2)"
             (focus)="onHandleFocus($event, 2)"
             (blur)="onBlur($event)"
