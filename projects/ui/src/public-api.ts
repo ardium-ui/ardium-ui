@@ -60,6 +60,9 @@ export * from './lib/star/star-input/star-input.component';
 export * from './lib/statebox/statebox.module';
 export * from './lib/statebox/statebox.component';
 export * from './lib/statebox/statebox.types';
+//segment
+export * from './lib/segment/segment.module';
+export * from './lib/segment/segment.component';
 //! types
 export * from './lib/types/alignment.types';
 export * from './lib/types/colors.types';
