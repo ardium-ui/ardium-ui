@@ -1,4 +1,5 @@
 @use './shared' as inputMixin;
+@use '../mixins' as defaultMixins;
 @use '../clear-button' as CB;
 
 .ard-input {
@@ -8,8 +9,8 @@
     max-width: 100%;
     
     
-    @include inputMixin.inputAppearances();
-    @include inputMixin.inputVariants();
+    @include defaultMixins.formAppearances();
+    @include defaultMixins.formVariants();
     background: var(--ard-appearance-background);
     border: var(--ard-appearance-border);
     

@@ -1,3 +1,5 @@
+@import '../variables';
+
 @mixin icon($fill: 0, $wght: 500, $grad: 0, $opsz: 48) {
     font-family: "Material Symbols Outlined";
     font-size: 1.5em;
@@ -19,4 +21,37 @@
 
     transition: opacity 0.2s ease;
 
+}
+
+@mixin formAppearances() {
+    &.ard-appearance-outlined {
+        --ard-appearance-background: #{$bg};
+        --ard-appearance-border: 1px solid #{$border};
+    }
+    &.ard-appearance-filled {
+        --ard-appearance-background: #{$bg-f};
+        --ard-appearance-border: none;
+    }
+    &.ard-appearance-transparent {
+        --ard-appearance-background: transparent;
+        --ard-appearance-border: none;
+    }
+}
+
+@mixin formVariants() {
+    &.ard-appearance-outlined,
+    &.ard-appearance-filled {
+        border-radius: var(--ard-variant-border-radius);
+    }
+    &.ard-variant-rounded,
+    &.ard-variant-semirounded {
+        --ard-variant-border-radius: 8px;
+    }
+    &.ard-variant-pill {
+        --ard-variant-border-radius: 9999px;
+    }
+    &.ard-variant-sharp {
+        --ard-variant-border-radius: 0;
+        border-radius: var(--ard-variant-border-radius);
+    }
 }

@@ -1,8 +1,9 @@
 @use './shared' as inputMixin;
+@use '../mixins' as defaultMixins;
 
 .ard-number-input {
     @include inputMixin.genericInput();
-    @include inputMixin.inputAppearances();
+    @include defaultMixins.formAppearances();
     width: max-content;
     max-width: 100%;
     gap: 0;
@@ -49,7 +50,7 @@
         border-radius: 0;
     }
     &.ard-variant-pill {
-        @include inputMixin.inputAppearances();
+        @include defaultMixins.formAppearances();
 
         border-radius: 999px;
 
