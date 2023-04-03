@@ -57,6 +57,10 @@
                     opacity: 16%;
                 }
             }
+            &.ard-option-disabled {
+                opacity: 60%;
+                pointer-events: none;
+            }
 
             .ard-button-content {
                 position: relative;
