@@ -4,7 +4,7 @@
     &.ard-color-none {
         --ard-cmpcl--on-bg: #{$text};
         --ard-cmpcl--button-border: #{$border-light};
-        --ard-cmpcl--border: #{$border-light};
+        --ard-cmpcl--border: #{$text};
         --ard-cmpcl--bg: #{$bg};
         --ard-cmpcl--content: #{$text};
         --ard-cmpcl--overlay: #{$overlay};
