@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { SegmentAppearance, SegmentVariant, ComponentColor } from '@ardium-ui/ui';
+import { Logger } from '../../services/logger.service';
 
 @Component({
   selector: 'app-segment',
@@ -6,5 +8,28 @@ import { Component } from '@angular/core';
   styleUrls: ['./segment.page.scss']
 })
 export class SegmentPage {
-    options = ['Bold1', 'Italic1', 'Underline1', 'Bold2', 'Italic2', 'Underline2', 'Bold3', 'Italic3', 'Underline3',];
+    options = ['Bold', 'Italic', 'Underline'];
+
+    optionsComplex = [
+        { type: 'bold', label: 'B', active: true },
+        { type: 'italic', label: 'I', active: true },
+        { type: 'underline', label: 'U', active: true },
+        { type: 'strike', label: 'S', active: false },
+    ];
+
+    optionsAnimals = ['Cat', 'Dog', 'Rat', 'Fox', 'Bee', 'Bat'];
+
+    optionsAlign = [
+        { value: 'left', icon: 'format_align_left' },
+        { value: 'center', icon: 'format_align_center' },
+        { value: 'right', icon: 'format_align_right' },
+        { value: 'justify', icon: 'format_align_justify' },
+    ];
+
+    appearances = Object.values(SegmentAppearance);
+    variants = Object.values(SegmentVariant);
+    colors = Object.values(ComponentColor);
+
+    constructor(private _logger: Logger) {}
+    log = this._logger.log;
 }
