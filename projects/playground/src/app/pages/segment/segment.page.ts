@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./segment.page.scss']
 })
 export class SegmentPage {
-
+    options = ['Bold1', 'Italic1', 'Underline1', 'Bold2', 'Italic2', 'Underline2', 'Bold3', 'Italic3', 'Underline3',];
 }
