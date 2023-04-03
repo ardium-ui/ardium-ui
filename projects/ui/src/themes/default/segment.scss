@@ -263,10 +263,10 @@
     //! disabled styling
     &.ard-disabled {
         pointer-events: none;
-        opacity: 60%;
+        opacity: 50%;
 
         .ard-focus-overlay {
-            opacity: 20%;
+            opacity: 10%;
         }
 
         //edge case for no coloring
