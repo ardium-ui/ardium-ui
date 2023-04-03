@@ -218,8 +218,17 @@ export class SimpleItemStorage {
     highlightFirstItem(): ArdOptionSimple | null {
         this.clearAllHighlights();
 
-        let itemToHighlight = this._items.first(1, item => !item.disabled);
+        let itemToHighlight = this._getHiglightableItems().first();
         return this.highlightItem(itemToHighlight);
+    }
+    highlightLastItem(): ArdOptionSimple | null {
+        this.clearAllHighlights();
+
+        let itemToHighlight = this._getHiglightableItems().last();
+        return this.highlightItem(itemToHighlight);
+    }
+    private _getHiglightableItems(): ArdOptionSimple[] {
+        return this._items.filter(item => !item.disabled);
     }
     highlightAllItems(): void {
         let itemsToHighlight = this._items.filter(item => !item.disabled);
