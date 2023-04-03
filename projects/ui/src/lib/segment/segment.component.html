@@ -1,2 +1,41 @@
-<div class="ard-segment-wrapper">
+<div class="ard-segment-container"
+    [class.ard-disabled]="disabled"
+    [ariaDisabled]="disabled"
+    [ngClass]="ngClasses"
+>
+    <div class="ard-segment-row"
+        *ngFor="let row of itemRows"
+        [class.ard-segment-row-partial]="row.isNotFull"
+        [class.ard-segment-row-uniform]="uniformWidths || itemsPerRow < items.length"
+        [style]="{'--ard-_segment-row-items': itemsInActualRow}"
+    >
+        <button #focusableElement
+            *ngFor="let option of row.options"
+            class="ard-segment-option"
+            [attr.tabindex]="tabIndex"
+            [class.ard-option-disabled]="option.disabled || isItemLimitReached && !option.selected"
+            [class.ard-option-selected]="option.selected"
+            [class.ard-option-highlighted]="option.highlighted"
+            [ariaSelected]="option.selected"
+            (mouseenter)="onItemMouseEnter(option, $event)"
+            (mouseleave)="onItemMouseLeave(option, $event)"
+            (click)="onItemClick(option, $event)"
+            (focus)="onFocus($event)"
+            (blur)="onBlur($event)"
+        >
+            <div class="ard-focus-overlay"></div>
+            <div class="ard-button-content">
+                <span class="ard-option-label">
+                    <ng-template #defaultOptionTemplate>
+                        {{option.label}}
+                    </ng-template>
+
+                    <ng-template
+                        [ngTemplateOutlet]="optionTemplate || defaultOptionTemplate"
+                        [ngTemplateOutletContext]="getOptionContext(option)"
+                    ></ng-template>
+                </span>
+            </div>
+        </button>
+    </div>
 </div>

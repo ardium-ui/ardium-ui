@@ -1,0 +1,19 @@
+.ard-segment-container {
+    display: flex;
+    flex-direction: column;
+}
+.ard-segment-row {
+    width: 100%;
+    display: flex;
+
+    &.ard-segment-row-uniform {
+        display: grid;
+        grid-template-columns: repeat(var(--ard-_segment-row-items), 1fr);
+    }
+}
+.ard-segment-option {
+    user-select: none;
+}
+.ard-option-disabled {
+    pointer-events: none;
+}

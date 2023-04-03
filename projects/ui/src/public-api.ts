@@ -63,6 +63,8 @@ export * from './lib/statebox/statebox.types';
 //segment
 export * from './lib/segment/segment.module';
 export * from './lib/segment/segment.component';
+export * from './lib/segment/segment.directives';
+export * from './lib/segment/segment.types';
 //! types
 export * from './lib/types/alignment.types';
 export * from './lib/types/colors.types';
