@@ -27,7 +27,7 @@ import { GroupContext, ItemDisplayLimitContext, ItemLimitContext, SearchContext,
 })
 export class ArdiumSelectComponent extends _NgModelComponent implements OnChanges, AfterContentInit, OnInit, ControlValueAccessor {
 
-    //* public constants
+    //! public constants
     readonly itemStorage = new ItemStorage(this);
     readonly htmlId = crypto.randomUUID();
     readonly element!: HTMLElement;
@@ -44,20 +44,20 @@ export class ArdiumSelectComponent extends _NgModelComponent implements OnChange
         loadingPlaceholderText: 'Loading...',
     }
 
-    //* privates
+    //! privates
     private _items: any[] | null = [];
     private _isMouseBeingUsed = false;
     @HostBinding('class.ard-select-focused') private _searchBarFocused = false;
 
-    //* publics
+    //! publics
     public searchTerm: string = '';
 
-    //* binding-related inputs
+    //! binding-related inputs
     //value/label/disabled/group/pre-grouped children paths
     @Input() valueFrom?: string;
     @Input() labelFrom?: string;
     @Input() disabledFrom?: string;
-    //* group-related inputs
+    //! group-related inputs
     @Input() groupLabelFrom?: string | GroupByFn;
     @Input() groupDisabledFrom?: string;
     @Input() itemsAlreadyGrouped: boolean = false;
@@ -66,7 +66,7 @@ export class ArdiumSelectComponent extends _NgModelComponent implements OnChange
     //useful when the property is e.g. "active", which is the oposite of "disabled"
     @Input() invertDisabled: boolean = false;
     @Input() groupActions: boolean = true;
-    //* settings
+    //! settings
     @Input() placeholder: string = 'Select item';
     @Input() autoHighlightFirst: boolean = true;
     @Input() autoFocus: boolean = false;
@@ -78,21 +78,21 @@ export class ArdiumSelectComponent extends _NgModelComponent implements OnChange
     @Input() sortMultipleValues: boolean = false;
     @Input() maxSelectedItems?: number;
     @Input() itemDisplayLimit: number = Infinity;
-    //* template-related settings
+    //! template-related settings
     @Input() noItemsFoundText: string = this.DEFAULTS.noItemsFoundText;
     @Input() loadingPlaceholderText: string = this.DEFAULTS.loadingPlaceholderText;
-    //* search-related options
+    //! search-related options
     @Input() searchInputId?: string;
     @Input() searchCaseSensitive: boolean = false;
     @Input() clearSearchAfterSelect: boolean = true;
-    //* appearance
+    //! appearance
     @Input()
     appearance: FormElementAppearance = FormElementAppearance.Outlined;
-    //* other inputs
+    //! other inputs
     @Input() isLoading: boolean = false;
     @Input() inputAttrs: { [key: string]: any } = {};
 
-    //* function inputs
+    //! function inputs
     private _searchFn: SearchFn = this.DEFAULTS.searchFn;
     @Input()
     get searchFn(): SearchFn { return this._searchFn; }
@@ -112,10 +112,10 @@ export class ArdiumSelectComponent extends _NgModelComponent implements OnChange
         this._compareWith = fn;
     }
 
-    //* class-based inputs
+    //! class-based inputs
     @Input() @HostBinding('class.ard-group-items') groupItems: boolean = false; //default value may be changed to "true" in ngOnChanges if this.groupBy is defined or this.itemsAlreadyGrouped is set to "true"
 
-    //* items setter/getter
+    //! items setter/getter
     @Input()
     get items() { return this._items }
     set items(value: any[] | null) {
@@ -129,7 +129,7 @@ export class ArdiumSelectComponent extends _NgModelComponent implements OnChange
     @HostBinding('class.ard-select')
     useDefaultClass: boolean = true;
 
-    //* attribute and/or class setters/getters
+    //! attribute and/or class setters/getters
     private _multiselectable: boolean = false;
     @Input()
     @HostBinding('attr.multiple')
@@ -157,11 +157,11 @@ export class ArdiumSelectComponent extends _NgModelComponent implements OnChange
     private _touched: boolean = false;
     @HostBinding('class.ard-touched')
     get touched(): boolean { return this._touched };
-    set touched(state: boolean) {
+    private set touched(state: boolean) {
         this._touched = state;
     }
 
-    //* control value accessor
+    //! control value accessor
     //override the writeValue and setDisabledState defined in _NgModelComponent
     override setDisabledState(state: boolean): void {
         this._disabled = state;
@@ -183,14 +183,14 @@ export class ArdiumSelectComponent extends _NgModelComponent implements OnChange
         this._onTouchedRegistered?.();
     }
 
-    //* value input & output
+    //! value input & output
     @Input()
     set value(newValue: any[]) {
         this.writeValue(newValue);
     }
     @Output() valueChange = new EventEmitter<any[]>();
 
-    //* output events
+    //! output events
     @Output('change') changeEvent = new EventEmitter<any[]>();
     @Output('add') addEvent = new EventEmitter<any[]>();
     @Output('failedToAdd') failedToAddEvent = new EventEmitter<any[]>();
@@ -207,11 +207,11 @@ export class ArdiumSelectComponent extends _NgModelComponent implements OnChange
     isDropdownOpen!: boolean;
     @Output('isOpenChange') isDropdownOpenChange = new EventEmitter<boolean>();
 
-    //* view children
+    //! view children
     @ViewChild('searchInput', { static: true }) searchInput!: ElementRef<HTMLInputElement>;
     @ViewChild(forwardRef(() => ArdiumDropdownPanelComponent)) dropdownPanel!: ArdiumDropdownPanelComponent;
 
-    //* templates
+    //! templates
     @ContentChild(ArdOptionTemplateDirective, { read: TemplateRef }) optionTemplate?: TemplateRef<any>;
     @ContentChild(ArdOptgroupTemplateDirective, { read: TemplateRef }) optgroupTemplate?: TemplateRef<any>;
     @ContentChild(ArdValueTemplateDirective, { read: TemplateRef }) valueTemplate?: TemplateRef<any>;
@@ -224,7 +224,7 @@ export class ArdiumSelectComponent extends _NgModelComponent implements OnChange
     @ContentChild(ArdItemLimitReachedTemplateDirective, { read: TemplateRef }) itemLimitReachedTemplate?: TemplateRef<any>;
     @ContentChild(ArdItemDisplayLimitTemplateDirective, { read: TemplateRef }) itemDisplayLimitTemplate?: TemplateRef<any>;
     
-    //* context providers
+    //! context providers
     getValueContext(item: ArdOption): ValueContext {
         const $this = this;
         return {
@@ -289,7 +289,7 @@ export class ArdiumSelectComponent extends _NgModelComponent implements OnChange
         this.element = _elementRef.nativeElement;
     }
 
-    //* hooks
+    //! hooks
     override ngOnInit(): void {
         this._setSearchInputAttributes();
     }
@@ -354,7 +354,7 @@ export class ArdiumSelectComponent extends _NgModelComponent implements OnChange
         }
     }
 
-    //* getters
+    //! getters
     get firstHighlightedItem(): ArdOption | undefined {
         return this.itemStorage.highlightedItems?.first();
     }
@@ -389,7 +389,7 @@ export class ArdiumSelectComponent extends _NgModelComponent implements OnChange
         );
     }
 
-    //* search input event handlers
+    //! search input event handlers
     filter(filterTerm: string, suppressSearchEvent: boolean = false): void {
         this.searchTerm = filterTerm;
         let matching = this.itemStorage.filter(filterTerm);
@@ -410,7 +410,7 @@ export class ArdiumSelectComponent extends _NgModelComponent implements OnChange
         this._searchBarFocused = false;
         this.blurEvent.emit(event);
     }
-    //* item selection handlers
+    //! item selection handlers
     toggleItem(item: ArdOption): void {
         if (item.selected) {
             this.unselectItem(item);
@@ -471,7 +471,7 @@ export class ArdiumSelectComponent extends _NgModelComponent implements OnChange
         this.removeEvent.emit([clearedValue]);
         this._emitChanges();
     }
-    //* highligh-related
+    //! highligh-related
     onMouseMove() {
         this._isMouseBeingUsed = true;
     }
@@ -492,7 +492,7 @@ export class ArdiumSelectComponent extends _NgModelComponent implements OnChange
         this.itemStorage.unhighlightItem(option);
         event.stopPropagation();
     }
-    //* click handlers
+    //! click handlers
     onItemClick(option: ArdOption, event: MouseEvent): void {
         event.stopPropagation();
         if (this.clearable) this.toggleItem(option);
@@ -541,7 +541,7 @@ export class ArdiumSelectComponent extends _NgModelComponent implements OnChange
             this.toggle();
         }
     }
-    //* dropdown state handlers
+    //! dropdown state handlers
     toggle(): void {
         if (this.isDropdownOpen) {
             this.close();
@@ -568,13 +568,13 @@ export class ArdiumSelectComponent extends _NgModelComponent implements OnChange
         this.isDropdownOpenChange.emit(this.isDropdownOpen);
         this._cd.markForCheck();
     }
-    //* ChangeDetectorRef
+    //! ChangeDetectorRef
     detectChanges(): void {
         if (!(<any>this._cd).destroyed) {
             this._cd.detectChanges();
         }
     }
-    //* search
+    //! search
     private _clearSearch(suppressSearchEvent: boolean = false): void {
         this._setSearch('', suppressSearchEvent);
     }
@@ -597,7 +597,7 @@ export class ArdiumSelectComponent extends _NgModelComponent implements OnChange
         }
     }
 
-    //* key press handlers
+    //! key press handlers
     @HostListener('keydown', ['$event'])
     onKeyPress(event: KeyboardEvent): void {
         switch (event.code) {
