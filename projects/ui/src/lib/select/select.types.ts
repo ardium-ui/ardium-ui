@@ -1,21 +1,6 @@
-import { ArdOption } from "../_internal/item-storages/item-storage.types";
+import { ArdOption, OptionContext } from "../_internal/item-storages/item-storage.types";
 import { ArdOptionGroup } from './../_internal/item-storages/item-storage.types';
 
-
-/**
-```typescript
-interface OptionContext {
-    $implicit: ArdOption;
-    item: ArdOption;
-    itemData: any;
-}
-```
- */
-export interface OptionContext {
-    $implicit: ArdOption;
-    item: ArdOption;
-    itemData: any;
-}
 /**
 ```typescript
 interface ValueContext {

@@ -1,5 +1,6 @@
 import { Directive, TemplateRef } from "@angular/core";
-import { GroupContext, ItemDisplayLimitContext, ItemLimitContext, OptionContext, SearchContext, StatsContext, ValueContext } from "./select.types";
+import { OptionContext } from "../_internal/item-storages/item-storage.types";
+import { GroupContext, ItemDisplayLimitContext, ItemLimitContext, SearchContext, StatsContext, ValueContext } from "./select.types";
 
 //public (exported)
 @Directive({ selector: 'ng-template[ard-value-tmp]' })

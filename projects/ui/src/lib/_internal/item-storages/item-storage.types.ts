@@ -1,6 +1,20 @@
 
 /**
 ```typescript
+interface OptionContext {
+    $implicit: ArdOption;
+    item: ArdOption;
+    itemData: any;
+}
+```
+ */
+export interface OptionContext {
+    $implicit: ArdOption;
+    item: ArdOption;
+    itemData: any;
+}
+/**
+```typescript
 interface ArdOption {
     readonly itemData: any;
     readonly index: number;
