@@ -9,7 +9,7 @@ import { _FocusableComponent } from './focusable-component';
  */
 @Directive()
 export abstract class _NgModelComponent extends _FocusableComponent implements ControlValueAccessor {
-    //* control value accessor
+    //! control value accessor
     protected _onChangeRegistered!: (_: any) => void;
     protected _onTouchedRegistered!: () => void;
     registerOnTouched(fn: () => void): void {

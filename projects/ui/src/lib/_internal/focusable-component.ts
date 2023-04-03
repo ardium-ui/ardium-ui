@@ -7,7 +7,7 @@ import { _DisablableComponent } from './disablable-component';
 export abstract class _FocusableComponent extends _DisablableComponent implements OnInit, OnDestroy {
     private readonly _focusMonitor = inject(FocusMonitor);
 
-    //* make the component focusable programmatically
+    //! make the component focusable programmatically
     @ViewChildren('focusableElement')
     private readonly _focusableElement!: QueryList<ElementRef<HTMLElement>>;
 
@@ -21,13 +21,13 @@ export abstract class _FocusableComponent extends _DisablableComponent implement
         this._focusableElement?.forEach(el => el.nativeElement.blur())
     }
 
-    //* tabindex
+    //! tabindex
     protected _tabIndex: number = 0;
     @Input()
     get tabIndex(): number { return this._disabled ? -1 : this._tabIndex; }
     set tabIndex(v: any) { this._tabIndex = coerceNumberProperty(v, 0); }
 
-    //* events
+    //! events
     @Output('focus') focusEvent = new EventEmitter<FocusEvent>();
     @Output('blur') blurEvent = new EventEmitter<FocusEvent>();
 
@@ -41,7 +41,7 @@ export abstract class _FocusableComponent extends _DisablableComponent implement
         // this._focusMonitor.stopMonitoring(this.buttonEl);
     }
 
-    //* focus event handlers
+    //! focus event handlers
     @HostBinding('class.ard-focused')
     public isFocused: boolean = false;
 

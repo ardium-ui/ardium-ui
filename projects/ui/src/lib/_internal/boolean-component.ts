@@ -10,7 +10,7 @@ import { _NgModelComponent } from './ngmodel-component';
  */
 @Directive()
 export abstract class _BooleanComponent extends _NgModelComponent implements ControlValueAccessor {
-    //* control value accessor
+    //! control value accessor
     writeValue(v: any): void {
         this.selected = v;
     }
@@ -25,12 +25,12 @@ export abstract class _BooleanComponent extends _NgModelComponent implements Con
         this.changeEvent.emit(this.selected);
     }
 
-    //* events
+    //! events
     @Output('select') selectEvent = new EventEmitter<null>();
     @Output('unselect') unselectEvent = new EventEmitter<null>();
     @Output('change') changeEvent = new EventEmitter<boolean>();
 
-    //* [(selected)] two-way binding
+    //! [(selected)] two-way binding
     // can be set using a no-value argument
     protected _selected: boolean = false;
     @Input()

@@ -4,7 +4,7 @@ import { coerceBooleanProperty } from '../../../../devkit/src/public-api';
 
 @Directive()
 export abstract class _DisablableComponent {
-    //* no value arguments
+    //! no value arguments
     protected _readonly: boolean = false;
     @Input()
     @HostBinding('attr.readonly')
