@@ -41,9 +41,6 @@ export class ArdiumSegmentComponent extends _NgModelComponent implements SimpleI
     @Input() valueFrom?: string;
     @Input() labelFrom?: string;
     @Input() disabledFrom?: string;
-    //should the value that the "disabledFrom" path lead to be inverted?
-    //useful when the property is e.g. "active", which is the oposite of "disabled"
-    @Input() invertDisabled: boolean = false;
 
     //! appearance
     @Input() appearance: SegmentAppearance = SegmentAppearance.Outlined;
@@ -73,6 +70,13 @@ export class ArdiumSegmentComponent extends _NgModelComponent implements SimpleI
     };
 
     //! coerced properties
+    //should the value that the "disabledFrom" path lead to be inverted?
+    //useful when the property is e.g. "active", which is the oposite of "disabled"
+    private _invertDisabled: boolean = false;
+    @Input()
+    get invertDisabled(): boolean { return this._invertDisabled; }
+    set invertDisabled(v: any) { this._invertDisabled = coerceBooleanProperty(v); }
+
     private _multiselectable: boolean = false;
     @Input()
     @HostBinding('attr.multiple')
@@ -319,7 +323,7 @@ export class ArdiumSegmentComponent extends _NgModelComponent implements SimpleI
                 return;
             }
             case 'Tab': {
-                this._onTabPress();
+                this._onTabPress(event.shiftKey);
                 return;
             }
             case 'KeyA': {
@@ -379,7 +383,11 @@ export class ArdiumSegmentComponent extends _NgModelComponent implements SimpleI
     private _onCtrlAPress(event: KeyboardEvent): void {
         this.itemStorage.highlightAllItems();
     }
-    private _onTabPress(): void {
+    private _onTabPress(hasShift: boolean): void {
+        if (hasShift) {
+            this.focusFirst();
+            return;
+        }
         this.focusLast();
     }
 }

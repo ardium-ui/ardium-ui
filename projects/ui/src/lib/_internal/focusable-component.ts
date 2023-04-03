@@ -14,6 +14,7 @@ export abstract class _FocusableComponent extends _DisablableComponent implement
     public focus(): void {
         this._focusableElement?.first?.nativeElement.focus();
     }
+    public focusFirst(): void { this.focus(); }
     public focusLast(): void {
         this._focusableElement?.last?.nativeElement.focus();
     }
