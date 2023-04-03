@@ -1,5 +1,5 @@
 import { FocusMonitor } from '@angular/cdk/a11y';
-import { Directive, ElementRef, EventEmitter, inject, Input, OnDestroy, OnInit, Output, ViewChild, HostBinding } from "@angular/core";
+import { Directive, ElementRef, EventEmitter, HostBinding, inject, Input, OnDestroy, OnInit, Output, QueryList, ViewChildren } from "@angular/core";
 import { coerceNumberProperty } from '../../../../devkit/src/public-api';
 import { _DisablableComponent } from './disablable-component';
 
@@ -8,14 +8,17 @@ export abstract class _FocusableComponent extends _DisablableComponent implement
     private readonly _focusMonitor = inject(FocusMonitor);
 
     //* make the component focusable programmatically
-    @ViewChild('focusableElement')
-    private readonly _focusableElement!: ElementRef<HTMLElement>;
+    @ViewChildren('focusableElement')
+    private readonly _focusableElement!: QueryList<ElementRef<HTMLElement>>;
 
     public focus(): void {
-        this._focusableElement?.nativeElement.focus();
+        this._focusableElement?.first?.nativeElement.focus();
+    }
+    public focusLast(): void {
+        this._focusableElement?.last?.nativeElement.focus();
     }
     public blur(): void {
-        this._focusableElement?.nativeElement.blur();
+        this._focusableElement?.forEach(el => el.nativeElement.blur())
     }
 
     //* tabindex
