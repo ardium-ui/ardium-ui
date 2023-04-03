@@ -44,9 +44,6 @@ export class ArdiumSegmentComponent extends _NgModelComponent implements SimpleI
     //should the value that the "disabledFrom" path lead to be inverted?
     //useful when the property is e.g. "active", which is the oposite of "disabled"
     @Input() invertDisabled: boolean = false;
-    //! other inputs
-    @Input() maxSelectedItems?: number;
-    @Input() name?: string = this.htmlId;
 
     //! appearance
     @Input() appearance: SegmentAppearance = SegmentAppearance.Outlined;
@@ -110,8 +107,13 @@ export class ArdiumSegmentComponent extends _NgModelComponent implements SimpleI
         if (newValue == 0) throw new Error("Cannot set items per row to 0.");
         this._itemsPerRow = newValue;
     }
-
     get itemsInActualRow(): number { return this._itemsPerRow ?? this.items.length }
+
+    private _maxSelectedItems: number | undefined = undefined;
+    @Input()
+    get maxSelectedItems(): number | undefined { return this._maxSelectedItems; }
+    set maxSelectedItems(v: any) { this._maxSelectedItems = coerceNumberProperty(v); }
+    
 
     //! option template
     @ContentChild(ArdSegmentOptionTemplateDirective, { read: TemplateRef }) optionTemplate?: TemplateRef<any>;
