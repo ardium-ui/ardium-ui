@@ -274,10 +274,8 @@ export class ArdiumSegmentComponent extends _NgModelComponent implements SimpleI
         this._isMouseBeingUsed = true;
     }
     onItemMouseEnter(option: ArdOption, event: MouseEvent): void {
-        console.log(option);
         if (!this._isMouseBeingUsed) return;
         this.itemStorage.highlightSingleItem(option);
-        console.log(option);
         event.stopPropagation();
     }
     onItemMouseLeave(option: ArdOption, event: MouseEvent): void {
