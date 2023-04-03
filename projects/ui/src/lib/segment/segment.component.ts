@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, EventEmitter, HostBinding, HostListener, Input, Output, TemplateRef, ViewEncapsulation } from '@angular/core';
-import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { ComponentColor } from '../types/colors.types';
 import { ArdOption, ArdOptionSimple, OptionContext } from '../_internal/item-storages/item-storage.types';
 import { _NgModelComponent } from '../_internal/ngmodel-component';
@@ -160,7 +160,8 @@ export class ArdiumSegmentComponent extends _NgModelComponent implements SimpleI
 
     //! value input & output
     @Input()
-    set value(newValue: any[]) {
+    set value(newValue: any) {
+        if (!Array.isArray(newValue)) newValue = coerceArrayProperty(newValue);
         this.writeValue(newValue);
     }
     @Output() valueChange = new EventEmitter<any[]>();
