@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { _BooleanComponent } from './../../_internal/boolean-component';
+import { _BooleanComponentBase } from './../../_internal/boolean-component';
 import { SimpleOneAxisAlignment } from '../../types/alignment.types';
 import { DecorationElementAppearance } from '../../types/theming.types';
 import { ChipVariant } from '../chip.types';
@@ -20,7 +20,7 @@ import { ComponentColor } from '../../types/colors.types';
         }
     ]
 })
-export class ArdiumSelectableChipComponent extends _BooleanComponent implements ControlValueAccessor {
+export class ArdiumSelectableChipComponent extends _BooleanComponentBase implements ControlValueAccessor {
     
     readonly DEFAULTS = {
         chipTitle: 'Select',

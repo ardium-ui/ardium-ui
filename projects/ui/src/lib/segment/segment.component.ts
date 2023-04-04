@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, ContentChild, HostBinding, Input, T
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { ComponentColor } from '../types/colors.types';
 import { ArdOptionSimple } from '../_internal/item-storages/item-storage.types';
-import { _SelectableListComponent } from '../_internal/selectable-list-component';
+import { _SelectableListComponentBase } from '../_internal/selectable-list-component';
 import { SimpleItemStorageHost } from './../_internal/item-storages/simple-item-storage';
 import { ArdSegmentOptionTemplateDirective } from './segment.directives';
 import { SegmentAppearance, SegmentVariant } from './segment.types';
@@ -19,7 +19,7 @@ type SegmentRow = {
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ArdiumSegmentComponent extends _SelectableListComponent implements SimpleItemStorageHost {
+export class ArdiumSegmentComponent extends _SelectableListComponentBase implements SimpleItemStorageHost {
 
     //! appearance
     @Input() appearance: SegmentAppearance = SegmentAppearance.Outlined;

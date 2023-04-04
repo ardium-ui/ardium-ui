@@ -7,7 +7,7 @@ import { searchFunctions } from '../search-functions';
 import { FormElementAppearance } from '../types/theming.types';
 import { ItemStorage } from '../_internal/item-storages/dropdown-item-storage';
 import { ArdOption, ArdOptionGroup, ArdPanelPosition, CompareWithFn, GroupByFn, OptionContext, SearchFn } from '../_internal/item-storages/item-storage.types';
-import { _NgModelComponent } from '../_internal/ngmodel-component';
+import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ArdDropdownFooterTemplateDirective, ArdDropdownHeaderTemplateDirective, ArdItemDisplayLimitTemplateDirective, ArdItemLimitReachedTemplateDirective, ArdLoadingPlaceholderTemplateDirective, ArdLoadingSpinnerTemplateDirective, ArdNoItemsFoundTemplateDirective, ArdOptgroupTemplateDirective, ArdOptionTemplateDirective, ArdPlaceholderTemplateDirective, ArdValueTemplateDirective } from './select.directive';
 import { GroupContext, ItemDisplayLimitContext, ItemLimitContext, SearchContext, StatsContext, ValueContext } from './select.types';
 
@@ -25,7 +25,7 @@ import { GroupContext, ItemDisplayLimitContext, ItemLimitContext, SearchContext,
         }
     ]
 })
-export class ArdiumSelectComponent extends _NgModelComponent implements OnChanges, AfterContentInit, OnInit, ControlValueAccessor {
+export class ArdiumSelectComponent extends _NgModelComponentBase implements OnChanges, AfterContentInit, OnInit, ControlValueAccessor {
 
     //! public constants
     readonly itemStorage = new ItemStorage(this);
@@ -290,7 +290,7 @@ export class ArdiumSelectComponent extends _NgModelComponent implements OnChange
     }
 
     //! hooks
-    override ngOnInit(): void {
+    ngOnInit(): void {
         this._setSearchInputAttributes();
     }
     ngAfterContentInit(): void {

@@ -1,6 +1,6 @@
 
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation, forwardRef } from '@angular/core';
-import { _FocusableComponent } from '../../_internal/focusable-component';
+import { _FocusableComponentBase } from '../../_internal/focusable-component';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SimpleOneAxisAlignment } from '../../types/alignment.types';
 import { DecorationElementAppearance } from '../../types/theming.types';
@@ -21,7 +21,7 @@ import { ComponentColor } from '../../types/colors.types';
         }
     ]
 })
-export class ArdiumDeletableChipComponent extends _FocusableComponent {
+export class ArdiumDeletableChipComponent extends _FocusableComponentBase {
 
     readonly DEFAULTS = {
         deleteButtonTitle: 'Delete',

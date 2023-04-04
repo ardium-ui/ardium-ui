@@ -4,10 +4,10 @@ import { ControlValueAccessor } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { ArdOptionSimple, OptionContext } from './item-storages/item-storage.types';
 import { SimpleItemStorage, SimpleItemStorageHost } from './item-storages/simple-item-storage';
-import { _NgModelComponent } from './ngmodel-component';
+import { _NgModelComponentBase } from './ngmodel-component';
 
 @Directive()
-export abstract class _SelectableListComponent extends _NgModelComponent implements ControlValueAccessor, SimpleItemStorageHost {
+export abstract class _SelectableListComponentBase extends _NgModelComponentBase implements ControlValueAccessor, SimpleItemStorageHost {
 
     //! public constants
     readonly itemStorage = new SimpleItemStorage(this);

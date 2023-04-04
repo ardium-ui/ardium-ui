@@ -1,11 +1,10 @@
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { Directive, ElementRef, EventEmitter, HostBinding, inject, Input, OnDestroy, OnInit, Output, QueryList, ViewChildren } from "@angular/core";
 import { coerceNumberProperty } from '../../../../devkit/src/public-api';
-import { _DisablableComponent } from './disablable-component';
+import { _DisablableComponentBase } from './disablable-component';
 
 @Directive()
-export abstract class _FocusableComponent extends _DisablableComponent implements OnInit, OnDestroy {
-    private readonly _focusMonitor = inject(FocusMonitor);
+export abstract class _FocusableComponentBase extends _DisablableComponentBase {
 
     //! make the component focusable programmatically
     @ViewChildren('focusableElement')
@@ -31,16 +30,6 @@ export abstract class _FocusableComponent extends _DisablableComponent implement
     //! events
     @Output('focus') focusEvent = new EventEmitter<FocusEvent>();
     @Output('blur') blurEvent = new EventEmitter<FocusEvent>();
-
-    //* focus origin
-    //! temporarily removed
-    // @ViewChild('buttonElement', { static: true }) buttonEl!: HTMLButtonElement;
-    ngOnInit(): void {
-        // this._focusMonitor.monitor(this.buttonEl);
-    }
-    ngOnDestroy(): void {
-        // this._focusMonitor.stopMonitoring(this.buttonEl);
-    }
 
     //! focus event handlers
     @HostBinding('class.ard-focused')

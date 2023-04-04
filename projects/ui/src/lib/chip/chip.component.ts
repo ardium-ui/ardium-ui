@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
 import { SimpleOneAxisAlignment } from '../types/alignment.types';
 import { ComponentColor } from '../types/colors.types';
 import { DecorationElementAppearance } from '../types/theming.types';
-import { _DisablableComponent } from './../_internal/disablable-component';
+import { _DisablableComponentBase } from './../_internal/disablable-component';
 import { ChipVariant } from './chip.types';
 
 @Component({
@@ -12,7 +12,7 @@ import { ChipVariant } from './chip.types';
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ArdiumChipComponent extends _DisablableComponent {
+export class ArdiumChipComponent extends _DisablableComponentBase {
     @Input() contentAlignment: SimpleOneAxisAlignment = SimpleOneAxisAlignment.Left;
 
     //* appearance

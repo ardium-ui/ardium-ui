@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewEncapsulation, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { _NgModelComponent } from './../_internal/ngmodel-component';
+import { _NgModelComponentBase } from './../_internal/ngmodel-component';
 import { StateboxState, StateboxValue, _StateboxInternalState } from './statebox.types';
 import { ArdiumStarButtonComponent } from './../star/star-button/star-button.component';
 
@@ -23,7 +23,7 @@ const defaultStateboxStates: StateboxState[] = [
         }
     ]
 })
-export class ArdiumStateboxComponent extends _NgModelComponent implements ControlValueAccessor, OnChanges {
+export class ArdiumStateboxComponent extends _NgModelComponentBase implements ControlValueAccessor, OnChanges {
 
     _states: _StateboxInternalState[] = defaultStateboxStates.map(this._stateMapFn);
     @Input() states?: StateboxState[];

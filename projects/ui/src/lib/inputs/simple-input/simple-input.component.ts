@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, HostBinding, Input, OnInit, Output, ViewChild, forwardRef, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
-import { _NgModelComponent } from '../../_internal/ngmodel-component';
+import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { SimpleInputModel, SimpleInputModelHost } from './../input-utils';
 import { SimpleOneAxisAlignment } from './../../types/alignment.types';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
@@ -20,7 +20,7 @@ import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
         }
     ]
 })
-export class ArdiumSimpleInputComponent extends _NgModelComponent implements SimpleInputModelHost, ControlValueAccessor, OnInit {
+export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements SimpleInputModelHost, ControlValueAccessor, OnInit {
 
     readonly DEFAULTS = {
         clearButtonTitle: 'Clear',
@@ -28,7 +28,7 @@ export class ArdiumSimpleInputComponent extends _NgModelComponent implements Sim
     //* input view
     @ViewChild('textInput', { static: true }) textInputEl!: ElementRef<HTMLInputElement>;
     protected inputModel!: SimpleInputModel;
-    override ngOnInit(): void {
+    ngOnInit(): void {
         this.inputModel = new SimpleInputModel(this.textInputEl.nativeElement, this);
         this._setInputAttributes();
         //set the value

@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output, ViewEncapsulation, ChangeDetect
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '../../../../devkit/src/public-api';
 import { SimpleComponentColor } from '../types/colors.types';
-import { _BooleanComponent } from './../_internal/boolean-component';
+import { _BooleanComponentBase } from './../_internal/boolean-component';
 import { CheckboxState } from './checkbox.types';
 
 @Component({
@@ -19,7 +19,7 @@ import { CheckboxState } from './checkbox.types';
         }
     ]
 })
-export class ArdiumCheckboxComponent extends _BooleanComponent implements ControlValueAccessor {
+export class ArdiumCheckboxComponent extends _BooleanComponentBase implements ControlValueAccessor {
     @Input() wrapperClasses: string = '';
 
     //* appearance

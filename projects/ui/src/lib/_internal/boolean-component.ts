@@ -2,14 +2,14 @@
 import { EventEmitter, HostBinding, Input, Output, Directive } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { coerceBooleanProperty } from '../../../../devkit/src/public-api';
-import { _NgModelComponent } from './ngmodel-component';
+import { _NgModelComponentBase } from './ngmodel-component';
 
 
 /**
  * Common code for components, which only operate on the "selected" state.
  */
 @Directive()
-export abstract class _BooleanComponent extends _NgModelComponent implements ControlValueAccessor {
+export abstract class _BooleanComponentBase extends _NgModelComponentBase implements ControlValueAccessor {
     //! control value accessor
     writeValue(v: any): void {
         this.selected = v;

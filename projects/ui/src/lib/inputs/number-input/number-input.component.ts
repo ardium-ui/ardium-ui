@@ -4,7 +4,7 @@ import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { ButtonVariant, ButtonAppearance } from '../../buttons/general-button.types';
 import { OneAxisAlignment } from '../../types/alignment.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
-import { _NgModelComponent } from '../../_internal/ngmodel-component';
+import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { NumberInputModel, NumberInputModelHost } from '../input-utils';
 import { isDefined } from 'simple-bool';
 
@@ -22,7 +22,7 @@ import { isDefined } from 'simple-bool';
         }
     ]
 })
-export class ArdiumNumberInputComponent extends _NgModelComponent implements ControlValueAccessor, NumberInputModelHost, OnInit {
+export class ArdiumNumberInputComponent extends _NgModelComponentBase implements ControlValueAccessor, NumberInputModelHost, OnInit {
 
     log(...args: any[]) {
         console.log('clickOutisde', ...args);
@@ -31,7 +31,7 @@ export class ArdiumNumberInputComponent extends _NgModelComponent implements Con
     //! input view
     @ViewChild('textInput', { static: true }) textInputEl!: ElementRef<HTMLInputElement>;
     protected inputModel!: NumberInputModel;
-    override ngOnInit(): void {
+    ngOnInit(): void {
         this.inputModel = new NumberInputModel(this.textInputEl.nativeElement, this);
         this._setInputAttributes();
         //set the value

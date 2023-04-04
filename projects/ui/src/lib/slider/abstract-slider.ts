@@ -1,18 +1,17 @@
-import { ConnectedPosition, Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
-import { TemplatePortal } from '@angular/cdk/portal';
+import { Overlay, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { DOCUMENT } from '@angular/common';
-import { AfterViewInit, ContentChild, Directive, ElementRef, EventEmitter, HostListener, Inject, Input, Output, Renderer2, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { ContentChild, Directive, ElementRef, EventEmitter, HostListener, Inject, Input, Output, Renderer2, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { roundToMultiple, roundToPrecision } from 'more-rounding';
 import { coerceBooleanProperty, coerceNumberProperty } from 'projects/devkit/src/public-api';
 import { isDefined, isObject } from 'simple-bool';
 import { SimpleComponentColor } from '../types/colors.types';
-import { _NgModelComponent } from '../_internal/ngmodel-component';
+import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ArdSliderLabelDirective } from './slider.directive';
 import { SliderLabelObject, SliderLabelPosition, SliderTooltipFormatFn, _InternalSliderLabelObject } from './slider.types';
 
 
 @Directive()
-export abstract class _AbstractSlider<T> extends _NgModelComponent {
+export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
 
     @ViewChild('track')
     public readonly element!: ElementRef<HTMLElement>;

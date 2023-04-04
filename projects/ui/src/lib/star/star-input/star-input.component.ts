@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, HostListener, ViewEncapsulation, ViewChildren, ElementRef, QueryList, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ArdiumStarButtonComponent } from '../star-button/star-button.component';
-import { _NgModelComponent } from './../../_internal/ngmodel-component';
+import { _NgModelComponentBase } from './../../_internal/ngmodel-component';
 import { StarColor } from './../star.types';
 
 type StarInputObject = {
@@ -23,7 +23,7 @@ type StarInputObject = {
         }
     ]
 })
-export class ArdiumStarInputComponent extends _NgModelComponent implements OnChanges, ControlValueAccessor {
+export class ArdiumStarInputComponent extends _NgModelComponentBase implements OnChanges, ControlValueAccessor {
     @Input() wrapperClasses: string = '';
 
     //* appearance

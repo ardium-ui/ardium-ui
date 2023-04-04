@@ -3,7 +3,7 @@ import { coerceBooleanProperty } from '../../../../devkit/src/public-api';
 
 
 @Directive()
-export abstract class _DisablableComponent {
+export abstract class _DisablableComponentBase {
     //! no value arguments
     protected _readonly: boolean = false;
     @Input()

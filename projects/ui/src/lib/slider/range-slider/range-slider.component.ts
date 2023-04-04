@@ -15,7 +15,7 @@ import { isDefined } from 'simple-bool';
 export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> implements OnInit {
     protected _value: SliderRange = { low: -Infinity, high: Infinity };
 
-    override ngOnInit(): void {
+    ngOnInit(): void {
         this.writeValue({ low: this._min, high: this._max });
     }
 

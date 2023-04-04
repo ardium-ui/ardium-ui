@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { ComponentColor } from '../../types/colors.types';
-import { _FocusableComponent } from '../../_internal/focusable-component';
+import { _FocusableComponentBase } from '../../_internal/focusable-component';
 import { ButtonAppearance, FABSize } from '../general-button.types';
 
 @Component({
@@ -10,7 +10,7 @@ import { ButtonAppearance, FABSize } from '../general-button.types';
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ArdiumFabComponent extends _FocusableComponent {
+export class ArdiumFabComponent extends _FocusableComponentBase {
 
     @Input() wrapperClasses: string = '';
 
