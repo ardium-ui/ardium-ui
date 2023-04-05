@@ -90,7 +90,7 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
         this._cd.markForCheck();
     }
     writeValue(ngModel: any[]): void {
-        this.itemStorage.handleWriteValue(ngModel);
+        this.itemStorage.writeValue(ngModel);
         this._cd.markForCheck();
     }
 
