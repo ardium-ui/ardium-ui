@@ -66,6 +66,10 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
     abstract multiselectable: any;
     get singleselectable(): boolean { return !this._multiselectable };
 
+    //! require value
+    protected _requireValue: boolean | undefined = undefined;
+    abstract requireValue: any;
+
     //! coerced properties
     //should the value that the "disabledFrom" path lead to be inverted?
     //useful when the property is e.g. "active", which is the oposite of "disabled"

@@ -41,6 +41,11 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
     get multiselectable(): boolean { return this._multiselectable };
     set multiselectable(v: any) { this._multiselectable = coerceBooleanProperty(v); }
 
+    @Input()
+    @HostBinding('class.ard-require-value')
+    get requireValue(): boolean { return this._requireValue ?? !this.multiselectable; }
+    set requireValue(v: any) { this._requireValue = coerceBooleanProperty(v); }
+
     private _autoFocus: boolean = false;
     @Input()
     get autoFocus(): boolean { return this._autoFocus; }

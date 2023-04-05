@@ -16,6 +16,7 @@ export interface SimpleItemStorageHost {
     readonly DEFAULTS: ItemStorageHostDefaults;
     compareWith?: CompareWithFn;
     multiselectable: boolean;
+    requireValue: boolean;
     maxSelectedItems?: number;
 }
 
@@ -152,6 +153,11 @@ export class SimpleItemStorage {
         }
         let ret = this._selectedItems.map(item => item.value);
 
+        if (this._ardParentComp.requireValue) {
+            this._selectedItems.first().selected = true;
+            ret = ret.splice(0, 1);
+        }
+
         return ret;
     }
     selectItem(...items: ArdOptionSimple[]): [any[], any[], any[]] {
@@ -180,7 +186,11 @@ export class SimpleItemStorage {
         return [itemsSelected.map(item => item.value), unselected, itemsFailedToSelect.map(item => item.value)];
     }
     unselectItem(...items: ArdOptionSimple[]): any[] {
+        let selectedItemsCount = this.selectedItems.length;
         for (const item of items) {
+            if (selectedItemsCount <= 1) break;
+            selectedItemsCount--;
+
             if (!item.selected) continue;
             item.selected = false;
         }
