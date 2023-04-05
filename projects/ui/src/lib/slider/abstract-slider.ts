@@ -26,30 +26,6 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
         super();
     }
 
-    //! tooltip
-    // ngAfterViewInit(): void {
-    //     const strategy = this.overlay.position()
-    //         .flexibleConnectedTo(this.handleOrigin)
-    //         .withPositions([{
-    //             originX: 'start',
-    //             originY: 'top',
-    //             overlayX: 'start',
-    //             overlayY: 'bottom'
-    //         } as ConnectedPosition])
-    //         .withPush(false);
-        
-    //     const config = new OverlayConfig({
-    //         positionStrategy: strategy,
-    //         scrollStrategy: this.scrollStrategyOpts.close(),
-    //         hasBackdrop: false,
-    //     });
-
-    //     this.labelOverlay = this.overlay.create(config);
-
-    //     const portal = new TemplatePortal(this.handleThumbTemplate, this.viewContainerRef);
-    //     this.labelOverlay.attach(portal);
-    // }
-
     private _noTooltip: boolean = false;
     @Input()
     get noTooltip(): boolean { return this._noTooltip; }
