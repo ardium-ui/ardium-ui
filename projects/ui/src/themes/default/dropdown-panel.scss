@@ -1,14 +1,10 @@
-.ard-dropdown-host {
-    position: relative;
-}
 .ard-dropdown-panel {
-    position: absolute;
-    margin-top: 6px;
+    position: relative;
+    top: 6px;
     background: $bg;
     border-radius: 8px;
     box-shadow: $box-shadow;
     z-index: 5;
-    left: 0;
     width: 100%;
     overflow: hidden;
 }

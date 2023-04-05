@@ -1,4 +1,4 @@
-<div class="ard-select-master-container ard-dropdown-host">
+<div class="ard-select-master-container ard-dropdown-host" #dropdownHost>
     <div class="ard-select-container"
         (click)="handleAnywhereClick($event)"
         [class.ard-has-value]="itemStorage.isAnyItemSelected"
@@ -98,7 +98,10 @@
             <span class="ard-dropdown-arrow"></span>
         </div>
     </div>
+</div>
 
+
+<ng-template #dropdownTemplate>
     <ard-dropdown-panel
         class="ard-dropdown-panel"
         role="listbox"
@@ -187,4 +190,4 @@
             </ng-template>
         </ng-container>
     </ard-dropdown-panel>
-</div>
+</ng-template>

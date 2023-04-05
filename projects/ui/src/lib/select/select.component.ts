@@ -1,4 +1,4 @@
-import { AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, forwardRef, HostBinding, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, forwardRef, HostBinding, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, ViewChild, ViewEncapsulation, AfterViewInit, ViewContainerRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from 'projects/devkit/src/public-api';
 import { isFunction } from 'simple-bool';
@@ -10,6 +10,8 @@ import { ArdOption, ArdOptionGroup, ArdPanelPosition, CompareWithFn, GroupByFn, 
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ArdDropdownFooterTemplateDirective, ArdDropdownHeaderTemplateDirective, ArdItemDisplayLimitTemplateDirective, ArdItemLimitReachedTemplateDirective, ArdLoadingPlaceholderTemplateDirective, ArdLoadingSpinnerTemplateDirective, ArdNoItemsFoundTemplateDirective, ArdOptgroupTemplateDirective, ArdOptionTemplateDirective, ArdPlaceholderTemplateDirective, ArdValueTemplateDirective } from './select.directive';
 import { GroupContext, ItemDisplayLimitContext, ItemLimitContext, SearchContext, StatsContext, ValueContext } from './select.types';
+import { Overlay, ConnectedPosition, OverlayConfig, ScrollStrategyOptions, OverlayRef } from '@angular/cdk/overlay';
+import { TemplatePortal } from '@angular/cdk/portal';
 
 @Component({
     selector: 'ard-select',
@@ -25,7 +27,7 @@ import { GroupContext, ItemDisplayLimitContext, ItemLimitContext, SearchContext,
         }
     ]
 })
-export class ArdiumSelectComponent extends _NgModelComponentBase implements OnChanges, AfterContentInit, OnInit, ControlValueAccessor {
+export class ArdiumSelectComponent extends _NgModelComponentBase implements OnChanges, AfterContentInit, AfterViewInit, OnInit, ControlValueAccessor {
 
     //! public constants
     readonly itemStorage = new ItemStorage(this);
@@ -284,9 +286,54 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     constructor(
         _elementRef: ElementRef<HTMLElement>,
         private _cd: ChangeDetectorRef,
+        private overlay: Overlay,
+        private viewContainerRef: ViewContainerRef,
+        private scrollStrategyOpts: ScrollStrategyOptions,
     ) {
         super();
         this.element = _elementRef.nativeElement;
+    }
+
+    //! dropdown overlay
+    @ViewChild('dropdownHost', { read: ElementRef }) dropdownHost!: ElementRef<HTMLDivElement>;
+    @ViewChild('dropdownTemplate', { read: TemplateRef }) dropdownTemplate!: TemplateRef<any>;
+
+    private dropdownOverlay!: OverlayRef;
+
+    ngAfterViewInit(): void {
+        const strategy = this.overlay.position()
+            .flexibleConnectedTo(this.dropdownHost)
+            .withPositions([{
+                originX: 'start',
+                originY: 'bottom',
+                overlayX: 'start',
+                overlayY: 'top',
+            } as ConnectedPosition])
+            .withPush(false);
+
+        const config = new OverlayConfig({
+            positionStrategy: strategy,
+            scrollStrategy: this.scrollStrategyOpts.block(),
+            hasBackdrop: false,
+        });
+
+        this.dropdownOverlay = this.overlay.create(config);
+
+        this.dropdownOverlay
+
+        const portal = new TemplatePortal(this.dropdownTemplate, this.viewContainerRef);
+        this.dropdownOverlay.attach(portal);
+        this.setOverlaySize();
+    }
+
+    setOverlaySize(): void {
+        const rect = this.dropdownHost.nativeElement.getBoundingClientRect();
+        this.dropdownOverlay.updateSize({ width: rect.width });
+    }
+
+    @HostListener('window:resize')
+    onWindowResize(): void {
+        this.setOverlaySize();
     }
 
     //! hooks
