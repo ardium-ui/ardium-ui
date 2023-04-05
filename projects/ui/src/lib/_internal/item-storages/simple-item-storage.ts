@@ -151,12 +151,26 @@ export class SimpleItemStorage {
         for (const item of this._selectedItems) {
             item.selected = false;
         }
-        let ret = this._selectedItems.map(item => item.value);
+        
+        const ret = this._selectedItems.map(item => item.value);
 
-        if (this._ardParentComp.requireValue) {
+        if (this._ardParentComp.requireValue && this._selectedItems.length > 0) {
             this._selectedItems.first().selected = true;
-            ret = ret.splice(0, 1);
+            ret.splice(0, 1);
         }
+
+        this._selectedItems = [];
+
+        return ret;
+    }
+    private _forceClearAllSelected(): any[] {
+        for (const item of this._selectedItems) {
+            item.selected = false;
+        }
+
+        const ret = this._selectedItems.map(item => item.value);
+
+        this._selectedItems = [];
 
         return ret;
     }
@@ -166,7 +180,7 @@ export class SimpleItemStorage {
         }
         let unselected = [];
         if (!this._ardParentComp.multiselectable) {
-            unselected = this.clearAllSelected();
+            unselected = this._forceClearAllSelected();
         }
 
         let itemsSelectedCount = 0;
