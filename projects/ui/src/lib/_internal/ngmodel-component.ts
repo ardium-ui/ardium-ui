@@ -12,16 +12,33 @@ export abstract class _NgModelComponentBase extends _FocusableComponentBase impl
     //! control value accessor
     protected _onChangeRegistered!: (_: any) => void;
     protected _onTouchedRegistered!: () => void;
+    /**
+     * Registers a function to handle touched state. Required by ControlValueAccessor.
+     * @param fn The function to register.
+     */
     registerOnTouched(fn: () => void): void {
         this._onTouchedRegistered = fn;
     }
+    /**
+     * Registers a function to handle value change. Required by ControlValueAccessor.
+     * @param fn The function to register.
+     */
     registerOnChange(fn: (_: any) => {}): void {
         this._onChangeRegistered = fn;
     }
+    /**
+     * Sets the component's disabled state. Required by ControlValueAccessor.
+     * @param isDisabled the new disabled state.
+     */
     setDisabledState(isDisabled: boolean): void {
         this._disabled = isDisabled;
     }
-    
+
+    /**
+     * Writes the a new value into the component. Required by ControlValueAccessor.
+     * @abstract
+     * @param obj The new value to write.
+     */
     abstract writeValue(obj: any): void; //* abstract
 
     //! event handlers
