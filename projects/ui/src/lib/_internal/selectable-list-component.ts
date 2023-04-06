@@ -2,7 +2,7 @@
 import { ChangeDetectorRef, Directive, EventEmitter, HostBinding, HostListener, Input, Output } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import { ArdOptionSimple, OptionContext } from './item-storages/item-storage.types';
+import { ArdOptionSimple, OptionContext } from '../types/item-storage.types';
 import { SimpleItemStorage, SimpleItemStorageHost } from './item-storages/simple-item-storage';
 import { _NgModelComponentBase } from './ngmodel-component';
 

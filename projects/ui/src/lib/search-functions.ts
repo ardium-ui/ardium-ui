@@ -1,4 +1,4 @@
-import { ArdOption, SearchFn } from "./_internal/item-storages/item-storage.types";
+import { ArdOption, SearchFn } from "./types/item-storage.types";
 
 
 export function searchInString(searchTerm: string, toSearch: any) {

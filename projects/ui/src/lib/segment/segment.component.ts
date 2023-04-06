@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ContentChild, HostBinding, Input, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { ComponentColor } from '../types/colors.types';
-import { ArdOptionSimple } from '../_internal/item-storages/item-storage.types';
+import { ArdOptionSimple } from '../types/item-storage.types';
 import { _SelectableListComponentBase } from '../_internal/selectable-list-component';
 import { SimpleItemStorageHost } from './../_internal/item-storages/simple-item-storage';
 import { ArdSegmentOptionTemplateDirective } from './segment.directives';

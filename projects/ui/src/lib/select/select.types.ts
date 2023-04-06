@@ -1,5 +1,5 @@
-import { ArdOption, OptionContext } from "../_internal/item-storages/item-storage.types";
-import { ArdOptionGroup } from './../_internal/item-storages/item-storage.types';
+import { ArdOption, OptionContext } from "../types/item-storage.types";
+import { ArdOptionGroup } from '../types/item-storage.types';
 
 /**
 ```typescript

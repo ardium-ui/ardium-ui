@@ -1,4 +1,4 @@
-import { ArdOptionGroup, ArdOption, GroupByFn, ArdItemGroupMap, SearchFn, CompareWithFn } from "./item-storage.types"; 
+import { ArdOptionGroup, ArdOption, GroupByFn, ArdItemGroupMap, SearchFn, CompareWithFn } from "../../types/item-storage.types"; 
 import resolvePath from 'resolve-object-path';
 import { any, evaluate, isArray, isDefined, isObject, isPrimitive } from "simple-bool";
 

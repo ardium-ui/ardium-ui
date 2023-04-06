@@ -1,5 +1,5 @@
 import { Directive, TemplateRef } from "@angular/core";
-import { OptionContext } from "../_internal/item-storages/item-storage.types";
+import { OptionContext } from "../types/item-storage.types";
 import { GroupContext, ItemDisplayLimitContext, ItemLimitContext, SearchContext, StatsContext, ValueContext } from "./select.types";
 
 //public (exported)

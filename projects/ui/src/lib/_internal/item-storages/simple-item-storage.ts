@@ -1,4 +1,4 @@
-import { ArdOptionSimple, CompareWithFn } from "./item-storage.types";
+import { ArdOptionSimple, CompareWithFn } from "../../types/item-storage.types";
 import resolvePath from 'resolve-object-path';
 import { any, evaluate, isDefined, isObject, isPrimitive } from "simple-bool";
 

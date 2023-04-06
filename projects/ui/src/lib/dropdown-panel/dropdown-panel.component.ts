@@ -1,5 +1,5 @@
 import { Component, EventEmitter, HostBinding, Input, Output, TemplateRef, ViewEncapsulation, ChangeDetectionStrategy, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { ArdPanelPosition } from '../_internal/item-storages/item-storage.types';
+import { ArdPanelPosition } from '../types/item-storage.types';
 import { ScrollAlignment } from './dropdown-panel.types';
 
 @Component({
