@@ -75,16 +75,17 @@
         </ng-template>
     </ard-select>
 </div>
-<span class="title">Object options, customized with templates</span>
+<span class="title">Object options, customized with templates, custom search function (search by name or HEX)</span>
 <div class="grid master">
     <ard-select
         *ngFor="let disabled of [false, true]"
         [disabled]="disabled"
         [items]="colors"
-        searchable
         clearable="false"
         labelFrom="name"
         valueFrom="hex"
+        searchable
+        [searchFn]="colorSearchFn"
         (focus)="log('focus', $event)"
         (blur)="log('blur', $event)"
         (add)="log('add', $event)"
