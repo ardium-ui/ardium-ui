@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostBinding, Input, Output, TemplateRef, ViewEncapsulation, ChangeDetectionStrategy, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, EventEmitter, AfterViewChecked, HostBinding, Input, Output, TemplateRef, ViewEncapsulation, ChangeDetectionStrategy, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { ArdPanelPosition } from '../types/item-storage.types';
 import { ScrollAlignment } from './dropdown-panel.types';
 
@@ -9,28 +9,27 @@ import { ScrollAlignment } from './dropdown-panel.types';
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumDropdownPanelComponent implements AfterViewInit {
+export class ArdiumDropdownPanelComponent implements AfterViewInit, AfterViewChecked {
     
     constructor() { }
 
     @ViewChild('scroll', { static: true }) private _scrollRef!: ElementRef;
     private _scrollElement!: HTMLElement;
 
-    //* options
+    //! options
     @Input() panelId!: string;
-    @Input() position!: ArdPanelPosition; //TODO: implement
     @Input() headerTemplate?: TemplateRef<any>;
     @Input() footerTemplate?: TemplateRef<any>;
     @Input() filterValue?: string;
 
-    //* states
+    //! states
     @Input() @HostBinding('class.ard-open') isOpen!: boolean;
 
-    //* output events
+    //! output events
     @Output('scroll') scrollEvent = new EventEmitter<{ start: number, end: number }>();
     @Output('scrollToEnd') scrollToEndEvent = new EventEmitter();
 
-    //* event handlers
+    //! event handlers
     onScroll() {
         const start = this._scrollTop;
         const end = this._scrollBottom;
@@ -41,12 +40,25 @@ export class ArdiumDropdownPanelComponent implements AfterViewInit {
         }
     }
 
-    //* hooks
+    //! hooks
     ngAfterViewInit(): void {
         this._scrollElement = this._scrollRef.nativeElement as HTMLElement;
     }
+    ngAfterViewChecked(): void {
+        if (!this._currentScrollToDirection) return;
 
-    //* scroll position
+        const recent = this._scrollElement.querySelector<HTMLElement>('.ard-option-highlighted-recent');
+        if (!recent) return;
+
+        const isInView = this._isElementInView(recent);
+        if (!isInView) {
+            this._scrollToElement(recent, this._currentScrollToDirection);
+        }
+
+        this._currentScrollToDirection = null;
+    }
+
+    //! scroll position
     private get _scrollTop(): number {
         return this._scrollElement.scrollTop;
     }
@@ -57,7 +69,7 @@ export class ArdiumDropdownPanelComponent implements AfterViewInit {
         return this._scrollTop + this._scrollElement.getBoundingClientRect().height;
     }
 
-    //* scroll to element methods
+    //! scroll to element methods
     private _scrollToElement(el: HTMLElement, alignTo: ScrollAlignment = 'middle'): void {
         const parentContentRect = this._getContentRect(this._scrollElement);
         const elementRect = el.getBoundingClientRect();
@@ -74,17 +86,10 @@ export class ArdiumDropdownPanelComponent implements AfterViewInit {
                 break;
         }
     }
-    scrollToRecentlyHighlighted(direction: ScrollAlignment): void {
-        //timeout is to schedule this to run after all the view updates
-        setTimeout(() => {
-            const recent = this._scrollElement.querySelector<HTMLElement>('.ard-option-highlighted-recent');
-            if (!recent) return;
 
-            const isInView = this._isElementInView(recent);
-            if (!isInView) {
-                this._scrollToElement(recent, direction);
-            }
-        }, 0);
+    private _currentScrollToDirection: ScrollAlignment | null = null;
+    scrollToRecentlyHighlighted(direction: ScrollAlignment): void {
+        this._currentScrollToDirection = direction;
     }
     private _isElementInView(el: HTMLElement): boolean {
         const parentContentRect = this._getContentRect(this._scrollElement);
