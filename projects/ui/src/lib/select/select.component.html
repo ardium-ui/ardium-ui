@@ -82,20 +82,17 @@
             </ng-template>
         </ng-container>
 
-        <div *ngIf="shouldShowClearButton"
-            class="ard-clear-btn-wrapper"
-            role="button"
+        <ard-_clear-button *ngIf="shouldShowClearButton"
             [title]="clearButtonTitle"
             (click)="handleClearButtonClick($event)"
-        >
-            <button class="ard-clear-btn" aria-hidden="true">×</button>
-        </div>
+        ></ard-_clear-button>
 
         <div class="ard-dropdown-arrow-wrapper"
             role="button"
             (click)="handleDropdownArrowClick($event)"
         >
             <span class="ard-dropdown-arrow"></span>
+            <div class="ard-hitbox"></div>
         </div>
     </div>
 </div>

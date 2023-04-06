@@ -54,19 +54,19 @@
 
         &:hover {
             .ard-focus-overlay {
-                opacity: 12.5%;
+                opacity: 5%;
             }
         }
 
         &:focus {
             .ard-focus-overlay {
-                opacity: 17.5%;
+                opacity: 8%;
             }
         }
 
         &:active {
             .ard-focus-overlay {
-                opacity: 25%;
+                opacity: 15%;
             }
         }
     }

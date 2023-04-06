@@ -21,6 +21,8 @@ import { ArdiumDropdownPanelModule } from '../dropdown-panel/dropdown-panel.modu
 import { ArdiumClickOutsideEventModule } from 'projects/devkit/src/public-api';
 import { ArdiumSelectComponent } from './select.component';
 
+import { _ClearButtonModule } from './../_internal/clear-button/clear-button.module';
+
 @NgModule({
     declarations: [
         ArdiumSelectComponent,
@@ -43,6 +45,7 @@ import { ArdiumSelectComponent } from './select.component';
         ArdiumDropdownPanelModule,
         ArdiumChipModule,
         ArdiumClickOutsideEventModule,
+        _ClearButtonModule,
     ],
     exports: [
         ArdiumSelectComponent,

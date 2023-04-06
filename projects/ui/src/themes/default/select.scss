@@ -1,6 +1,10 @@
+@use './clear-button' as CB;
+
 .ard-select-master-container {
     min-width: 4.5rem;
     max-width: 100%;
+
+    @include CB.clearButton();
 }
 
 .ard-select-container {

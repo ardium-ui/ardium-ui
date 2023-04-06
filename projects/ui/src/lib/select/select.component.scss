@@ -40,3 +40,14 @@
         cursor: text;
     }
 }
+
+.ard-dropdown-arrow-wrapper {
+    position: relative;
+
+    .ard-hitbox {
+        position: absolute;
+        left: -4px;
+        right: -4px;
+        aspect-ratio: 1;
+    }
+}
