@@ -70,3 +70,6 @@ export * from './lib/types/alignment.types';
 export * from './lib/types/colors.types';
 export * from './lib/types/theming.types';
 export * from './lib/types/utility.types';
+export * from './lib/types/item-storage.types';
+//! miscellaneous
+export { searchInString, searchFunctions as ArdSearchFunction } from './lib/search-functions';
