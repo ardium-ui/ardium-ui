@@ -12,6 +12,7 @@ import { ArdDropdownFooterTemplateDirective, ArdDropdownHeaderTemplateDirective,
 import { GroupContext, ItemDisplayLimitContext, ItemLimitContext, SearchContext, StatsContext, ValueContext } from './select.types';
 import { Overlay, ConnectedPosition, OverlayConfig, ScrollStrategyOptions, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
+import { FormElementVariant } from './../types/theming.types';
 
 @Component({
     selector: 'ard-select',
@@ -87,9 +88,6 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     @Input() searchInputId?: string;
     @Input() searchCaseSensitive: boolean = false;
     @Input() clearSearchAfterSelect: boolean = true;
-    //! appearance
-    @Input()
-    appearance: FormElementAppearance = FormElementAppearance.Outlined;
     //! other inputs
     @Input() isLoading: boolean = false;
     @Input() inputAttrs: { [key: string]: any } = {};
@@ -112,6 +110,17 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
             throw Error('`compareWith` must be a function.');
         }
         this._compareWith = fn;
+    }
+
+    //! appearance
+    @Input() appearance: FormElementAppearance = FormElementAppearance.Outlined;
+    @Input() variant: FormElementVariant = FormElementVariant.Rounded;
+
+    get ngClasses(): string {
+        return [
+            `ard-appearance-${this.appearance}`,
+            `ard-variant-${this.variant}`,
+        ].join(' ');
     }
 
     //! class-based inputs

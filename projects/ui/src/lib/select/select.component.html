@@ -2,7 +2,7 @@
     <div class="ard-select-container"
         (click)="handleAnywhereClick($event)"
         [class.ard-has-value]="itemStorage.isAnyItemSelected"
-        [ngClass]="appearance ? 'ard-appearance-'+appearance : ''"
+        [ngClass]="ngClasses"
     >
         <div class="ard-select-value-container">
             <ng-container *ngIf="!itemStorage.isAnyItemSelected">
