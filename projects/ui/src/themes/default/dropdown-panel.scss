@@ -1,12 +1,37 @@
-.ard-dropdown-panel {
+@import '../variables';
+
+ard-dropdown-panel {
+    width: 100%;
+}
+.ard-dropdown-panel-container {
     position: relative;
     top: 6px;
     background: $bg;
-    border-radius: 8px;
-    box-shadow: $box-shadow;
     z-index: 5;
     width: 100%;
     overflow: hidden;
+
+    //! variants
+    &.ard-variant-rounded {
+        border-radius: 8px;
+    }
+    &.ard-variant-sharp {
+        border-radius: 0;
+    }
+
+    //! appearances
+    &.ard-appearance-outlined {
+        border: 1px solid $border;
+    }
+    &.ard-appearance-raised {
+        box-shadow: $box-shadow;
+    }
+
+    //! connected 
+    &.ard-connected {
+        top: 0;
+        border-top: none;
+    }
 }
 .ard-dropdown-panel-items {
     padding: 6px 0;

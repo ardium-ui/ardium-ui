@@ -1,6 +1,6 @@
 import { Component, EventEmitter, AfterViewChecked, HostBinding, Input, Output, TemplateRef, ViewEncapsulation, ChangeDetectionStrategy, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { ArdPanelPosition } from '../types/item-storage.types';
-import { ScrollAlignment } from './dropdown-panel.types';
+import { DropdownPanelAppearance, DropdownPanelVariant, ScrollAlignment } from './dropdown-panel.types';
 
 @Component({
     selector: 'ard-dropdown-panel',
@@ -21,6 +21,17 @@ export class ArdiumDropdownPanelComponent implements AfterViewInit, AfterViewChe
     @Input() headerTemplate?: TemplateRef<any>;
     @Input() footerTemplate?: TemplateRef<any>;
     @Input() filterValue?: string;
+
+    //! appearance
+    @Input() appearance: DropdownPanelAppearance = DropdownPanelAppearance.Raised;
+    @Input() variant: DropdownPanelVariant = DropdownPanelVariant.Rounded;
+
+    get ngClasses(): string {
+        return [
+            `ard-appearance-${this.appearance}`,
+            `ard-variant-${this.variant}`,
+        ].join(' ');
+    }
 
     //! states
     @Input() @HostBinding('class.ard-open') isOpen!: boolean;

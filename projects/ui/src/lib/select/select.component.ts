@@ -1,18 +1,19 @@
-import { AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, forwardRef, HostBinding, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, ViewChild, ViewEncapsulation, AfterViewInit, ViewContainerRef } from '@angular/core';
+import { ConnectedPosition, Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
+import { TemplatePortal } from '@angular/cdk/portal';
+import { AfterContentInit, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, forwardRef, HostBinding, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from 'projects/devkit/src/public-api';
 import { isFunction } from 'simple-bool';
 import { ArdiumDropdownPanelComponent } from '../dropdown-panel/dropdown-panel.component';
+import { DropdownPanelAppearance, DropdownPanelVariant } from '../dropdown-panel/dropdown-panel.types';
 import { searchFunctions } from '../search-functions';
+import { ArdOption, ArdOptionGroup, ArdPanelPosition, CompareWithFn, GroupByFn, OptionContext, SearchFn } from '../types/item-storage.types';
 import { FormElementAppearance } from '../types/theming.types';
 import { ItemStorage } from '../_internal/item-storages/dropdown-item-storage';
-import { ArdOption, ArdOptionGroup, ArdPanelPosition, CompareWithFn, GroupByFn, OptionContext, SearchFn } from '../types/item-storage.types';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
+import { FormElementVariant } from './../types/theming.types';
 import { ArdDropdownFooterTemplateDirective, ArdDropdownHeaderTemplateDirective, ArdItemDisplayLimitTemplateDirective, ArdItemLimitReachedTemplateDirective, ArdLoadingPlaceholderTemplateDirective, ArdLoadingSpinnerTemplateDirective, ArdNoItemsFoundTemplateDirective, ArdOptgroupTemplateDirective, ArdOptionTemplateDirective, ArdPlaceholderTemplateDirective, ArdValueTemplateDirective } from './select.directive';
 import { GroupContext, ItemDisplayLimitContext, ItemLimitContext, SearchContext, StatsContext, ValueContext } from './select.types';
-import { Overlay, ConnectedPosition, OverlayConfig, ScrollStrategyOptions, OverlayRef } from '@angular/cdk/overlay';
-import { TemplatePortal } from '@angular/cdk/portal';
-import { FormElementVariant } from './../types/theming.types';
 
 @Component({
     selector: 'ard-select',
@@ -121,6 +122,27 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
             `ard-appearance-${this.appearance}`,
             `ard-variant-${this.variant}`,
         ].join(' ');
+    }
+
+    private _dropdownAppearance?: DropdownPanelAppearance = undefined;
+    @Input()
+    set dropdowonAppearance(v: DropdownPanelAppearance) {
+        this._dropdownAppearance = v;
+    }
+    get dropdownAppearance(): DropdownPanelAppearance {
+        if (this._dropdownAppearance) return this._dropdownAppearance;
+        if (this.appearance == FormElementAppearance.Outlined) return DropdownPanelAppearance.Outlined;
+        return DropdownPanelAppearance.Raised;
+    }
+    private _dropdownVariant?: DropdownPanelVariant = undefined;
+    @Input()
+    set dropdowonVariant(v: DropdownPanelVariant) {
+        this._dropdownVariant = v;
+    }
+    get dropdownVariant(): DropdownPanelVariant {
+        if (this._dropdownVariant) return this._dropdownVariant;
+        if (this.variant == FormElementVariant.Pill) return DropdownPanelVariant.Rounded;
+        return this.variant;
     }
 
     //! class-based inputs
