@@ -13,6 +13,29 @@ export interface OptionContext {
     item: ArdOption;
     itemData: any;
 }
+
+/**
+```typescript
+interface ArdOption {
+    readonly itemData: any;
+    readonly index: number;
+    readonly label: string;
+    readonly value: any;
+    highlighted?: boolean;
+    selected?: boolean;
+}
+```
+ */
+export interface ArdSuggestionItem {
+    readonly itemData: any;
+    readonly index: number;
+    readonly label: string;
+    readonly value: any;
+    disabled?: boolean;
+    selected?: boolean;
+    highlighted?: boolean;
+}
+
 /**
 ```typescript
 interface ArdOption {
@@ -26,14 +49,8 @@ interface ArdOption {
 }
 ```
  */
-export interface ArdOptionSimple {
-    readonly itemData: any;
-    readonly index: number;
-    readonly label: string;
-    readonly value: any;
+export interface ArdOptionSimple extends ArdSuggestionItem {
     disabled?: boolean;
-    selected?: boolean;
-    highlighted?: boolean;
 }
 /**
 ```typescript

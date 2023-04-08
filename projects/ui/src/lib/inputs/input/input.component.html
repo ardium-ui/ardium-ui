@@ -1,10 +1,11 @@
 <div class="ard-input"
+    #suggestionsHost
     [ngClass]="ngClasses"
     [class.ard-has-value]="value"
     (click)="focus()"
 >
     <div class="ard-input-container">
-        <div class="ard-suggestion" *ngIf="shouldDisplaySuggestion">{{ suggestion }}</div>
+        <div class="ard-autocomplete" *ngIf="shouldDisplayAutocomplete">{{ autocomplete }}</div>
         
         <input #textInput
             #focusableElement
@@ -26,3 +27,41 @@
         (click)="onClearButtonClick($event)"
     ></ard-_clear-button>
 </div>
+
+<ng-template #suggestionsTemplate>
+    <ard-dropdown-panel
+        class="ard-dropdown-panel"
+        role="listbox"
+        aria-label="Suggestions"
+        [appearance]="dropdownAppearance"
+        [variant]="dropdownVariant"
+        [isOpen]="shouldDisplaySuggestions"
+        (ardClickOutside)="handleSuggestionClickOutside($event)"
+        (mousemove)="onMouseMove()"
+    >
+        <div
+            class="ard-option"
+            role="option"
+            *ngFor="let item of suggestionItems"
+            [class.ard-option-disabled]="item.disabled"
+            [class.ard-option-selected]="item.selected"
+            [class.ard-option-highlighted]="item.highlighted"
+            [class.ard-option-highlighted-recent]="item.highlighted_recently"
+            [attr.aria-selected]="item.selected"
+            (click)="selectSuggestion(item, $event)"
+            (mouseenter)="onSuggestionMouseEnter(item, $event)"
+            (mouseleave)="onSuggestionMouseLeave(item, $event)"
+        >
+            <span class="ard-option-label">
+                <ng-template #defaultOptionTemplate>
+                    {{item.label}}
+                </ng-template>
+
+                <ng-template
+                    [ngTemplateOutlet]="suggestionTemplate || defaultOptionTemplate"
+                    [ngTemplateOutletContext]="getOptionContext(item)"
+                ></ng-template>
+            </span>
+        </div>
+    </ard-dropdown-panel>
+</ng-template>

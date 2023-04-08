@@ -1,3 +1,5 @@
+@import '@angular/cdk/overlay-prebuilt.css';
+
 .ard-text-align-left {
     input {
         text-align: left;
@@ -13,6 +15,6 @@
         text-align: right;
     }
 }
-.ard-suggestion {
+.ard-autocomplete {
     position: absolute;
 }

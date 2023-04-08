@@ -1,9 +1,17 @@
-import { ChangeDetectionStrategy, Component, forwardRef, HostListener, Input, OnInit, Output, ViewEncapsulation, EventEmitter } from '@angular/core';
+import { ConnectedPosition, Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
+import { TemplatePortal } from '@angular/cdk/portal';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ContentChild, ElementRef, EventEmitter, forwardRef, HostListener, Input, OnInit, Output, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { coerceArrayProperty, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { isString } from 'simple-bool';
+import { DropdownPanelAppearance, DropdownPanelVariant } from '../../dropdown-panel/dropdown-panel.types';
+import { ArdSuggestionItem } from '../../types/item-storage.types';
+import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
+import { SuggestionStorage, SuggestionStorageHost } from '../../_internal/item-storages/suggestion-storage';
 import { ArdiumSimpleInputComponent } from '../simple-input/simple-input.component';
+import { OptionContext } from './../../types/item-storage.types';
 import { escapeAndCreateRegex, InputModel, InputModelHost } from './../input-utils';
+import { ArdSuggestionTemplateDirective } from './input.directives';
 
 @Component({
     selector: 'ard-input',
@@ -19,12 +27,26 @@ import { escapeAndCreateRegex, InputModel, InputModelHost } from './../input-uti
         }
     ]
 })
-export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements InputModelHost, OnInit {
+export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements InputModelHost, OnInit, SuggestionStorageHost, AfterViewInit {
+
+    private readonly element!: HTMLElement;
+
+    constructor(
+        private viewContainerRef: ViewContainerRef,
+        private overlay: Overlay,
+        private scrollStrategyOpts: ScrollStrategyOptions,
+    ) {
+        super();
+        
+        this.element = viewContainerRef.element.nativeElement;
+    }
 
     override readonly DEFAULTS = {
         clearButtonTitle: 'Clear',
+        suggValueFrom: 'value',
+        suggLabelFrom: 'label',
     }
-    //* input view
+    //! input view
     protected override inputModel!: InputModel;
     override ngOnInit(): void {
         this.inputModel = new InputModel(this.textInputEl.nativeElement, this);
@@ -36,7 +58,7 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
         }
     }
 
-    //* allowlist/denylist of characters
+    //! allowlist/denylist of characters
     //use standard string for denylist, prepend with ^ for allowlist
     private _charlistRegExp?: RegExp;
     @Input()
@@ -51,6 +73,7 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
     }
     protected _charlistCaseInsensitive: boolean = false;
     @Input()
+    get charlistCaseInsensitive(): boolean { return this._charlistCaseInsensitive; }
     set charlistCaseInsensitive(v: any) {
         this._charlistCaseInsensitive = coerceBooleanProperty(v);
         if (this._charlistRegExp) {
@@ -59,37 +82,242 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
         }
     }
 
-    //* suggestions
-    protected _suggestion?: string | null;
+    //! autocomplete
+    protected _autocomplete?: string | null;
     @Input()
-    set suggestion(v: string | null | undefined) {
-        this._suggestion = v;
+    set autocomplete(v: string | null | undefined) {
+        this._autocomplete = v;
     }
-    get suggestion(): string | null | undefined {
-        return this._suggestion ?? '';
+    get autocomplete(): string | null | undefined {
+        return this._autocomplete ?? '';
     }
-    //should show suggestion
-    get shouldDisplaySuggestion(): boolean {
-        return !this.disabled && Boolean(this.suggestion);
+    //should show autocomplete
+    get shouldDisplayAutocomplete(): boolean {
+        return !this.disabled && Boolean(this.autocomplete);
     }
-    //suggestion event
-    @Output('acceptSuggestion') acceptSuggestionEvent = new EventEmitter();
+    //autocomplete event
+    @Output('acceptAutocomplete') acceptAutocompleteEvent = new EventEmitter();
 
-    //* key press handlers
+    //! suggestions
+    suggestionStorage = new SuggestionStorage(this);
+
+    @Input() suggValueFrom?: string;
+    @Input() suggLabelFrom?: string;
+
+    @Output('acceptSuggestion') acceptSuggestionEvent = new EventEmitter<any>();
+
+    get suggestionItems(): any[] { return this.suggestionStorage.items }
+    @Input()
+    set suggestions(value: any) {
+        if (!Array.isArray(value)) value = coerceArrayProperty(value);
+
+        let shouldPrintErrors = this.suggestionStorage.setItems(value);
+
+        this._suggestionDropdowOpen = true;
+        this.suggestionStorage.highlightFirstItem();
+
+        if (shouldPrintErrors) {
+            this._printPrimitiveWarnings();
+        }
+    }
+    private _printPrimitiveWarnings() {
+        function makeWarning(str: string): void {
+            console.warn(`Skipped using [${str}] property bound to <ard-input>, as some provided suggestion items are of primitive type`);
+        }
+        if (this.suggValueFrom) {
+            makeWarning('suggValueFrom');
+        }
+        if (this.suggLabelFrom) {
+            makeWarning('suggLabelFrom');
+        }
+    }
+
+    private _suggestionDropdowOpen: boolean = false;
+
+    get shouldDisplaySuggestions(): boolean {
+        return !this.disabled && this.suggestionItems.length > 0 && this._suggestionDropdowOpen;
+    }
+
+    @ContentChild(ArdSuggestionTemplateDirective, { read: TemplateRef }) suggestionTemplate?: TemplateRef<any>;
+
+    //! suggestions overlay
+    @ViewChild('suggestionsHost', { read: ElementRef }) dropdownHost!: ElementRef<HTMLDivElement>;
+    @ViewChild('suggestionsTemplate', { read: TemplateRef }) dropdownTemplate!: TemplateRef<any>;
+
+    private dropdownOverlay!: OverlayRef;
+
+    ngAfterViewInit(): void {
+        console.log(this.suggestionTemplate);
+
+        const strategy = this.overlay.position()
+            .flexibleConnectedTo(this.dropdownHost)
+            .withPositions([{
+                originX: 'start',
+                originY: 'bottom',
+                overlayX: 'start',
+                overlayY: 'top',
+            } as ConnectedPosition])
+            .withPush(false);
+
+        const config = new OverlayConfig({
+            positionStrategy: strategy,
+            scrollStrategy: this.scrollStrategyOpts.block(),
+            hasBackdrop: false,
+        });
+
+        this.dropdownOverlay = this.overlay.create(config);
+
+        this.dropdownOverlay
+
+        const portal = new TemplatePortal(this.dropdownTemplate, this.viewContainerRef);
+        this.dropdownOverlay.attach(portal);
+
+        this.setOverlaySize();
+    }
+
+    setOverlaySize(): void {
+        const rect = this.dropdownHost.nativeElement.getBoundingClientRect();
+        this.dropdownOverlay.updateSize({ width: rect.width });
+    }
+
+    @HostListener('window:resize')
+    onWindowResize(): void {
+        this.setOverlaySize();
+    }
+
+    getOptionContext(item: ArdSuggestionItem): OptionContext {
+        return {
+            $implicit: item,
+            item,
+            itemData: item.itemData,
+        }
+    }
+
+    //! suggestion-highligh-related
+    private _isMouseBeingUsed: boolean = false;
+    @HostListener('mousemove')
+    onMouseMove() {
+        this._isMouseBeingUsed = true;
+    }
+    onSuggestionMouseEnter(item: ArdSuggestionItem, event: MouseEvent): void {
+        if (!this._isMouseBeingUsed) return;
+        this.suggestionStorage.highlightItem(item);
+
+        event.stopPropagation();
+    }
+    onSuggestionMouseLeave(item: ArdSuggestionItem, event: MouseEvent): void {
+        if (!this._isMouseBeingUsed) return;
+        this.suggestionStorage.unhighlightItem(item);
+
+        event.stopPropagation();
+    }
+
+    //! suggestion selection
+    selectSuggestion(item: ArdSuggestionItem, event: MouseEvent): void {
+        event.stopPropagation();
+
+        this._selectSuggestion(item);
+    }
+    private _selectSuggestion(item: ArdSuggestionItem): void {
+        const selected = this.suggestionStorage.selectItem(item);
+        this.writeValue(selected ?? '');
+
+        this.acceptSuggestionEvent.next(selected);
+
+        //important to do those two things in this exact order
+        this.focus();
+        this._suggestionDropdowOpen = false;
+    }
+    handleSuggestionClickOutside(event: MouseEvent): void {
+        if (!this.shouldDisplaySuggestions) return;
+
+        const target = event.target as HTMLElement;
+        if (this.element.contains(target)) return;
+
+        this._suggestionDropdowOpen = false;
+    }
+    //! suggestion appearance
+    private _dropdownAppearance?: DropdownPanelAppearance = undefined;
+    @Input()
+    set dropdowonAppearance(v: DropdownPanelAppearance) {
+        this._dropdownAppearance = v;
+    }
+    get dropdownAppearance(): DropdownPanelAppearance {
+        if (this._dropdownAppearance) return this._dropdownAppearance;
+        if (this.appearance == FormElementAppearance.Outlined) return DropdownPanelAppearance.Outlined;
+        return DropdownPanelAppearance.Raised;
+    }
+    private _dropdownVariant?: DropdownPanelVariant = undefined;
+    @Input()
+    set dropdowonVariant(v: DropdownPanelVariant) {
+        this._dropdownVariant = v;
+    }
+    get dropdownVariant(): DropdownPanelVariant {
+        if (this._dropdownVariant) return this._dropdownVariant;
+        if (this.variant == FormElementVariant.Pill) return DropdownPanelVariant.Rounded;
+        return this.variant;
+    }
+
+    //! focus override
+
+    override onFocus(event: FocusEvent): void {
+        this._suggestionDropdowOpen = true;
+        if (!this.suggestionStorage.highlightedItem) this.suggestionStorage.highlightFirstItem();
+
+        super.onFocus(event);
+    }
+
+    //! key press handlers
     @HostListener('keydown', ['$event'])
     onKeyPress(event: KeyboardEvent): void {
         switch (event.code) {
-            case 'Tab':
             case 'Enter': {
                 this._onTabOrEnterPress(event);
+                this._onEnterPress(event);
+                return;
+            }
+            case 'Space': {
+                this._onTabOrEnterPress(event);
+                return;
+            }
+            case 'ArrowDown': {
+                this._onArrowDownPress(event);
+                return;
+            }
+            case 'ArrowUp': {
+                this._onArrowUpPress(event);
                 return;
             }
         }
     }
     protected _onTabOrEnterPress(event: KeyboardEvent): void {
-        if (!this.shouldDisplaySuggestion) return;
+        if (!this.shouldDisplayAutocomplete) return;
         event.preventDefault();
-        this.onInput(this.suggestion ?? '');
-        this.acceptSuggestionEvent.emit();
+
+        this.onInput(this.autocomplete ?? '');
+        this.acceptAutocompleteEvent.emit();
+    }
+    private _onEnterPress(event: KeyboardEvent): void {
+        if (!this.shouldDisplaySuggestions) return;
+        if (!this.suggestionStorage.highlightedItem) return;
+
+        event.preventDefault();
+        this._selectSuggestion(this.suggestionStorage.highlightedItem);
+    }
+    private _onArrowDownPress(event: KeyboardEvent): void {
+        if (!this.shouldDisplaySuggestions) return;
+        event.preventDefault();
+
+        this._isMouseBeingUsed = false;
+
+        this.suggestionStorage.highlightNextItem(+1);
+    }
+    private _onArrowUpPress(event: KeyboardEvent): void {
+        if (!this.shouldDisplaySuggestions) return;
+        event.preventDefault();
+
+        this._isMouseBeingUsed = false;
+
+        this.suggestionStorage.highlightNextItem(-1);
     }
 }
