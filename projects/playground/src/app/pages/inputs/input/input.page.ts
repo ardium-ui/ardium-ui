@@ -20,22 +20,42 @@ export class InputPage {
 
     fruitInputValue: string | null = 'Apple';
 
-    private _fruitSuggestionSubject = new BehaviorSubject<string>('');
-    public fruitSuggestion$ = this._fruitSuggestionSubject.asObservable();
-    private _suggestions = this._dataService.fruitArray;
+    private _fruitAutocompleteSubject = new BehaviorSubject<string>('');
+    public fruitAutocomplete$ = this._fruitAutocompleteSubject.asObservable();
+    private _autocompletes = this._dataService.fruitArray;
     onFruitInput(input: string | null) {
         if (!input) {
-            this._fruitSuggestionSubject.next('');
+            this._fruitAutocompleteSubject.next('');
             return;
         }
-        let newSuggestion = this._getNewSuggestion();
-        this._fruitSuggestionSubject.next(newSuggestion);
+        let newSuggestion = this._getNewAutocomplete();
+        this._fruitAutocompleteSubject.next(newSuggestion);
     }
-    onFruitAcceptSuggestion(): void {
-        this._fruitSuggestionSubject.next('');
+    onFruitAcceptAutocomplete(): void {
+        this._fruitAutocompleteSubject.next('');
     }
-    private _getNewSuggestion(): string {
-        return this._suggestions.find(v => this.fruitInputValue && v.startsWith(this.fruitInputValue)) ?? '';
+    private _getNewAutocomplete(): string {
+        return this._autocompletes.find(v => this.fruitInputValue && v.startsWith(this.fruitInputValue)) ?? '';
+    }
+
+    colorInputValue: string | null = 'Red';
+
+    private _colorSuggestionsSubject = new BehaviorSubject<any[]>([]);
+    public colorSuggestions$ = this._colorSuggestionsSubject.asObservable();
+    private _suggestions = this._dataService.colorsArray;
+    onColorInput(input: string | null) {
+        if (!input) {
+            this._colorSuggestionsSubject.next([]);
+            return;
+        }
+        let newSuggestion = this._getNewSuggestions();
+        this._colorSuggestionsSubject.next(newSuggestion);
+    }
+    onColorAcceptSuggestion(): void {
+        this._colorSuggestionsSubject.next([]);
+    }
+    private _getNewSuggestions(): any[] {
+        return this._suggestions.filter(v => this.colorInputValue && v.name.startsWith(this.colorInputValue)).slice(0, 5);
     }
 
     constructor(private _logger: Logger, private _dataService: DataService) {  }

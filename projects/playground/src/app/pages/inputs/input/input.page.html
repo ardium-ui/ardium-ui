@@ -34,13 +34,34 @@
         (change)="log('change', $event)"
     ></ard-input>
 </div>
-<span class="title">Input with suggestions</span>
+<span class="title">Input with autocomplete</span>
 <div class="grid master">
     <ard-input
         *ngFor="let disabled of [false, true]"
         [disabled]="disabled"
         [(value)]="fruitInputValue"
-        [suggestion]="fruitSuggestion$ | async"
+        [autocomplete]="fruitAutocomplete$ | async"
         (valueChange)="onFruitInput($event)"
+        (acceptAutocomplete)="onFruitAcceptAutocomplete()"
     ></ard-input>
+</div>
+<span class="title">Input with suggestions</span>
+<div class="grid master">
+    <!-- *ngFor="let disabled of [false, true]" -->
+    <!-- [disabled]="disabled" -->
+    <ard-input
+        [(value)]="colorInputValue"
+        [suggestions]="colorSuggestions$ | async"
+        (valueChange)="onColorInput($event)"
+        suggValueFrom="name"
+        suggLabelFrom="name"
+        (acceptSuggestion)="onColorAcceptSuggestion()"
+    >
+        <ng-template ard-suggestion-tmp let-item let-itemData="itemData">
+            <div class="option-wrapper">
+                <div class="color-display" [style]="'background: ' + itemData.hex"></div>
+                <span>{{ item.label }}</span>
+            </div>
+        </ng-template>
+    </ard-input>
 </div>
