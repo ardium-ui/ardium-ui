@@ -57,22 +57,24 @@ export class SuggestionStorage {
     private _primitiveItemsMapFn<T>(item: T): { value: T } {
         return { value: item };
     }
-    private _setItemsMapFn(itemData: any, index: number, areItemsPrimitive: boolean): ArdSuggestionItem {
+    private _setItemsMapFn(rawItemData: any, index: number, areItemsPrimitive: boolean): ArdSuggestionItem {
         if (areItemsPrimitive) {
             return {
-                itemData,
+                itemData: rawItemData,
                 index,
-                value: itemData.value,
-                label: itemData.value?.toString?.() ?? String(itemData.value),
+                value: rawItemData.value,
+                label: rawItemData.value?.toString?.() ?? String(rawItemData.value),
             }
         }
         //get value
         const valuePath = this._ardParentComp.suggValueFrom ?? this._ardParentComp.suggLabelFrom ?? this._ardParentComp.DEFAULTS.suggValueFrom;
-        const value = resolvePath(itemData, valuePath);
+        const value = resolvePath(rawItemData, valuePath);
 
         //get label
         const labelPath = this._ardParentComp.suggLabelFrom ?? this._ardParentComp.suggValueFrom ?? this._ardParentComp.DEFAULTS.suggLabelFrom;
-        const label = resolvePath(itemData, labelPath) ?? value;
+        const label = resolvePath(rawItemData, labelPath) ?? value;
+
+        const itemData = areItemsPrimitive ? rawItemData.value : rawItemData;
 
         //return
         return {

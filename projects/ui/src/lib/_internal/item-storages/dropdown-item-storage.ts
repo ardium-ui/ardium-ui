@@ -161,26 +161,26 @@ export class ItemStorage {
 
         return [groupItems, areItemsPrimitive];
     }
-    private _setItemsMapFn(itemData: any, index: number, areItemsPrimitive: boolean): ArdOption {
+    private _setItemsMapFn(rawItemData: any, index: number, areItemsPrimitive: boolean): ArdOption {
         if (areItemsPrimitive) {
             return {
-                itemData,
+                itemData: rawItemData,
                 index,
-                value: itemData.value,
-                label: itemData.value?.toString?.() ?? String(itemData.value),
+                value: rawItemData.value,
+                label: rawItemData.value?.toString?.() ?? String(rawItemData.value),
             }
         }
         //get value
         const valuePath = this._ardParentComp.valueFrom ?? this._ardParentComp.labelFrom ?? this._ardParentComp.DEFAULTS.valueFrom;
-        const value = resolvePath(itemData, valuePath);
+        const value = resolvePath(rawItemData, valuePath);
 
         //get label
         const labelPath = this._ardParentComp.labelFrom ?? this._ardParentComp.valueFrom ?? this._ardParentComp.DEFAULTS.labelFrom;
-        const label = resolvePath(itemData, labelPath) ?? value;
+        const label = resolvePath(rawItemData, labelPath) ?? value;
 
         //get disabled
         const disabledPath = this._ardParentComp.disabledFrom ?? this._ardParentComp.DEFAULTS.disabledFrom;
-        let disabled = evaluate(resolvePath(itemData, disabledPath));
+        let disabled = evaluate(resolvePath(rawItemData, disabledPath));
         if (this._ardParentComp.invertDisabled) {
             disabled = !disabled;
         }
@@ -188,19 +188,21 @@ export class ItemStorage {
         //get groups
         let group: any = undefined;
         if (this._ardParentComp.groupItems) {
-            if (itemData.$ardgroup) {
-                group = itemData.$ardgroup;
+            if (rawItemData.$ardgroup) {
+                group = rawItemData.$ardgroup;
             }
             else {
                 let groupBy = this._ardParentComp.groupLabelFrom ?? this._ardParentComp.DEFAULTS.groupLabelFrom;
                 if (typeof groupBy == 'string') {
-                    group = resolvePath(itemData, groupBy);
+                    group = resolvePath(rawItemData, groupBy);
                 }
                 else {
-                    group = (groupBy as GroupByFn)(itemData);
+                    group = (groupBy as GroupByFn)(rawItemData);
                 }
             }
         }
+
+        const itemData = areItemsPrimitive ? rawItemData.value : rawItemData;
 
         //return
         return {
