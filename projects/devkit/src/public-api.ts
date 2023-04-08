@@ -11,3 +11,5 @@ export * from "./lib/hold/hold.directive";
 export * from "./lib/coercion/boolean";
 export * from "./lib/coercion/number";
 export * from "./lib/coercion/array";
+
+export * from './lib/find-functions/find-suggestion';
