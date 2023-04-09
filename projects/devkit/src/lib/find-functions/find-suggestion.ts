@@ -31,7 +31,8 @@ export function findBestSuggestions<T>(toMatch: string, suggestions: Readonly<T[
 
             //calculate conditional similarity
             const similarity = compareTwoStrings(toMatch, v);
-            const foundIndex = v.indexOf(toMatch);
+            const foundTerm = v.match(new RegExp(toMatch, 'ig'))?.[0];
+            const foundIndex = foundTerm ? v.indexOf(foundTerm) : -1;
             const canBeFound = foundIndex != -1;
             const foundIndexModifier = canBeFound ? (Math.cos(foundIndex / 90 * Math.PI) + 1) ** 2 / 1.5 : 1;
             const rating = similarity * foundIndexModifier;
