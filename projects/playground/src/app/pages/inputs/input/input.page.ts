@@ -3,6 +3,7 @@ import { FormElementAppearance } from '@ardium-ui/ui';
 import { Logger } from './../../../services/logger.service';
 import { DataService } from './../../../services/data.service';
 import { BehaviorSubject } from 'rxjs';
+import { findBestSuggestions } from '@ardium-ui/devkit';
 
 @Component({
   selector: 'app-input',
@@ -48,14 +49,16 @@ export class InputPage {
             this._colorSuggestionsSubject.next([]);
             return;
         }
-        let newSuggestion = this._getNewSuggestions();
-        this._colorSuggestionsSubject.next(newSuggestion);
+        let newSuggestions = this._getNewSuggestions();
+        this._colorSuggestionsSubject.next(newSuggestions);
     }
     onColorAcceptSuggestion(): void {
         this._colorSuggestionsSubject.next([]);
     }
     private _getNewSuggestions(): any[] {
-        return this._suggestions.filter(v => this.colorInputValue && v.name.startsWith(this.colorInputValue)).slice(0, 5);
+        if (!this.colorInputValue) return [];
+        console.log(this.colorInputValue);
+        return findBestSuggestions(this.colorInputValue, this._suggestions, 7, v => v.name);
     }
 
     constructor(private _logger: Logger, private _dataService: DataService) {  }
