@@ -1,8 +1,8 @@
 import { compareTwoStrings, findBestMatch } from "string-similarity";
 
-export function findBestSuggestions<T extends string>(toMatch: string, suggestions: Readonly<T[]>, limit: number): T[];
-export function findBestSuggestions<T extends Exclude<any, string>>(toMatch: string, suggestions: Readonly<T[]>, limit: number, mapFn: (v: T) => string): T[];
-export function findBestSuggestions<T>(toMatch: string, suggestions: Readonly<T[]>, limit: number = 7, mapFn?: (v: T) => string): T[] {
+export function findBestSuggestions<T extends string>(toMatch: string, suggestions: Readonly<T[]>): T[];
+export function findBestSuggestions<T extends Exclude<any, string>>(toMatch: string, suggestions: Readonly<T[]>, mapFn: (v: T) => string): T[];
+export function findBestSuggestions<T>(toMatch: string, suggestions: Readonly<T[]>, mapFn?: (v: T) => string): T[] {
     //map non-string values to strings, if needed
     const suggestionStrings = suggestions.map(v => typeof v == 'string' ? v : mapFn!(v));
     
@@ -19,22 +19,8 @@ export function findBestSuggestions<T>(toMatch: string, suggestions: Readonly<T[
             //sort by length, ascending
             .sort((a, b) => a.rating - b.rating)
             //map to original values
-            .map((v) => suggestions[v.index])
-            //set the limit
-            .slice(0, limit);
+            .map((v) => suggestions[v.index]);
     }
-
-    console.log(suggestionStrings
-        //map to ratings of similarity between the string and toMatch
-        .map((v, index) => ({ rating: compareTwoStrings(toMatch, v), index }))
-        //sort descending
-        .sort((a, b) => b.rating - a.rating)
-        //keep only ratings    above zero  &&  within 60% of max rating
-        .filter((v, _, arr) => v.rating > 0 && v.rating > arr[0].rating * 0.6)
-        //map to original values
-        .map((v) => ({...v, str: (suggestions[v.index] as any).name}))
-        //set the limit
-        .slice(0, limit));
 
     //* standard method
     return suggestionStrings
@@ -60,9 +46,7 @@ export function findBestSuggestions<T>(toMatch: string, suggestions: Readonly<T[
         //sort descending
         .sort((a, b) => b.rating - a.rating)
         //map to original values
-        .map((v) => suggestions[v.index])
-        //set the limit
-        .slice(0, limit);
+        .map((v) => suggestions[v.index]);
 }
 
 export function findBestAutocomplate(toMatch: string, autocompletes: string[]): string {

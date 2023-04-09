@@ -58,7 +58,7 @@ export class InputPage {
     private _getNewSuggestions(): any[] {
         if (!this.colorInputValue) return [];
         console.log(this.colorInputValue);
-        return findBestSuggestions(this.colorInputValue, this._suggestions, 7, v => v.name);
+        return findBestSuggestions(this.colorInputValue, this._suggestions, v => v.name).slice(0, 7);
     }
 
     constructor(private _logger: Logger, private _dataService: DataService) {  }
