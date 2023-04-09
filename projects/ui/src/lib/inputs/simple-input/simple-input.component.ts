@@ -127,6 +127,7 @@ export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements
         this._emitChange();
         this._emitInput();
         this.clearEvent.emit(event);
+        this.focus();
     }
     //* helpers
     protected _setInputAttributes() {
