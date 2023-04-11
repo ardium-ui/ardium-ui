@@ -31,15 +31,6 @@
     &:not(:last-of-type) {
         border-bottom: 1px solid #000;
     }
-
-    .title,
-    .mono {
-        font-family: monospace;
-    }
-    .title {
-        font-size: 16px;
-        font-weight: 900;
-    }
     &.flex,
     .flex {
         display: flex;
@@ -58,4 +49,12 @@
         grid-template-columns: repeat(var(--grid-cols), 1fr);
         gap: 4px 16px;
     }
+}
+.title,
+.mono {
+    font-family: monospace;
+}
+.title {
+    font-size: 16px;
+    font-weight: 900;
 }
