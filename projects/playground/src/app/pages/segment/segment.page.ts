@@ -8,7 +8,7 @@ import { Logger } from '../../services/logger.service';
   styleUrls: ['./segment.page.scss']
 })
 export class SegmentPage {
-    options = ['Bold', 'Italic', 'Underline'];
+    options = ['Apple', 'Orange', 'Watermelon'];
 
     optionsComplex = [
         { type: 'bold', label: 'B', active: true },

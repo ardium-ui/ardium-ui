@@ -8,7 +8,7 @@
     <ard-segment [items]="options"></ard-segment>
 </div>
 <div class="master">
-    <span class="title">Multiselectable segment (with limit, one option selected)</span>
+    <span class="title">Multiselectable segment (max 3 items, one option pre-selected)</span>
     <ard-segment
         [items]="optionsAnimals"
         [value]="optionsAnimals[1]"
@@ -47,7 +47,7 @@
         [items]="optionsAlign"
         labelFrom="icon"
         valueFrom="value"
-        requireValue
+        [value]="['left']"
     >
         <ng-template ard-segm-option-tmp let-option>
             <span class="material-symbols-outlined">
