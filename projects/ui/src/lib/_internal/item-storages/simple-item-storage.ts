@@ -268,10 +268,12 @@ export class SimpleItemStorage {
      * @returns An array of items unselected, mapped to only their values.
      */
     unselectItem(...items: ArdOptionSimple[]): any[] {
-        let selectedItemsCount = this.selectedItems.length;
+        let skippedItem = false;
         for (const item of items) {
-            if (selectedItemsCount <= 1) break;
-            selectedItemsCount--;
+            if (this._ardParentComp.requireValue && !skippedItem) {
+                skippedItem = true;
+                continue;
+            }
 
             if (!item.selected) continue;
             item.selected = false;
@@ -365,7 +367,7 @@ export class SimpleItemStorage {
             return this.highlightFirstItem();
         }
         const currentItem = this.highlightedItems.last();
-        const itemsWithoutDisabled = this._items.filter(item => !item.disabled);
+        const itemsWithoutDisabled = this._items.filter(item => !item.disabled && (!this.isItemLimitReached || item.selected));
         const currentIndexInItems = itemsWithoutDisabled.findIndex(item => item.index == currentItem.index);
 
         let nextItemIndex = currentIndexInItems + offset;
