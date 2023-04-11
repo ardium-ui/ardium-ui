@@ -23,11 +23,6 @@
         background-color: var(--ard-cmpcl--content);
     }
 
-    //! focus outline
-    &.ard-focus-visible {
-        outline: solid;
-    }
-
     //! row & option styling
     .ard-segment-row {
         gap: var(--ard-_segment-padding);
@@ -83,17 +78,12 @@
         .ard-segment-option {
             &.ard-option-highlighted {
                 .ard-focus-overlay {
-                    opacity: 12%;
+                    opacity: 28%;
                 }
             }
             &:active {
                 .ard-focus-overlay {
-                    opacity: 18%;
-                }
-            }
-            &.ard-option-selected {
-                .ard-focus-overlay {
-                    opacity: 24%;
+                    opacity: 34%;
                 }
             }
         }

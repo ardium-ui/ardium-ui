@@ -238,10 +238,6 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
                 this._highlightLast(event);
                 return;
             }
-            case 'Tab': {
-                this._skipToNextElement(event.shiftKey);
-                return;
-            }
             case 'KeyA': {
                 if (event.ctrlKey) {
                     this._highlightAll(event);
@@ -298,12 +294,5 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
     }
     private _highlightAll(event: KeyboardEvent): void {
         this.itemStorage.highlightAllItems();
-    }
-    private _skipToNextElement(hasShift: boolean): void {
-        if (hasShift) {
-            this.focusFirst();
-            return;
-        }
-        this.focusLast();
     }
 }

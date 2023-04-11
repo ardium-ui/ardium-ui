@@ -4,6 +4,10 @@
     [ngClass]="ngClasses"
     [class.ard-focus-visible]="isFocused && !isMouseBeingUsed"
     [class.ard-using-keyboard]="!isMouseBeingUsed"
+    [attr.tabindex]="tabIndex"
+    #focusableElement
+    (focus)="onFocus($event)"
+    (blur)="onBlur($event)"
 >
     <div class="ard-segment-row"
         *ngFor="let row of itemRows"
@@ -11,10 +15,9 @@
         [class.ard-segment-row-uniform]="uniformWidths || itemsPerRow < items.length"
         [style]="{'--ard-_segment-row-items': itemsInActualRow}"
     >
-        <button #focusableElement
-            *ngFor="let option of row.options"
+        <button *ngFor="let option of row.options"
             class="ard-segment-option"
-            [attr.tabindex]="tabIndex"
+            tabindex="-1"
             [class.ard-option-disabled]="option.disabled || isItemLimitReached && !option.selected"
             [class.ard-option-selected]="option.selected"
             [class.ard-option-highlighted]="option.highlighted"
@@ -22,8 +25,6 @@
             (mouseenter)="onItemMouseEnter(option, $event)"
             (mouseleave)="onItemMouseLeave(option, $event)"
             (click)="onItemClick(option, $event)"
-            (focus)="onFocus($event)"
-            (blur)="onBlur($event)"
         >
             <div class="ard-focus-overlay"></div>
             <div class="ard-button-content">

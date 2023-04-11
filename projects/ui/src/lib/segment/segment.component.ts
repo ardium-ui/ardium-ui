@@ -111,6 +111,8 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
     override onFocus(event: FocusEvent): void {
         super.onFocus(event);
         
+        if (this.itemStorage.isAnyItemHighlighted) return;
+        
         this.itemStorage.highlightFirstItem();
     }
 
