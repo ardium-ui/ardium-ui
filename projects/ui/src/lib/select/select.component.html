@@ -32,7 +32,11 @@
                     <span>{{item.label}}</span>
                 </ng-template>
                 <ng-template #defaultMultiValueTemplate let-item="item" let-unselect="unselect">
-                    <ard-deletable-chip (delete)="unselect(item)">{{item.label}}</ard-deletable-chip>
+                    <ard-deletable-chip
+                        (delete)="unselect(item)"
+                        [variant]="variant"
+                        appearance="outlined-strong"
+                    >{{item.label}}</ard-deletable-chip>
                 </ng-template>
             </ng-container>
 
