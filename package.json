@@ -24,6 +24,7 @@
     "@angular/router": "^15.2.5",
     "@types/string-similarity": "^4.0.0",
     "first-last": "^1.1.1",
+    "key-display-names": "^1.1.0",
     "more-rounding": "^4.0.1",
     "resolve-object-path": "^1.1.0",
     "rxjs": "~7.5.0",

@@ -13,3 +13,6 @@ export * from "./lib/coercion/number";
 export * from "./lib/coercion/array";
 
 export * from './lib/find-functions/find-suggestion';
+
+export * from './lib/keyboard-shortcut/keyboard-shortcut.service';
+export * from './lib/keyboard-shortcut/keyboard-shortcut.types';
