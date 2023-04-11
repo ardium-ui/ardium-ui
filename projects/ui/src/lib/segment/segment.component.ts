@@ -106,4 +106,17 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
         this._itemRowsCache = itemRows;
         return itemRows;
     }
+
+    //! focus handler override
+    override onFocus(event: FocusEvent): void {
+        super.onFocus(event);
+        
+        this.itemStorage.highlightFirstItem();
+    }
+
+    override onBlur(event: FocusEvent): void {
+        super.onBlur(event);
+
+        this.itemStorage.unhighlightAll();
+    }
 }

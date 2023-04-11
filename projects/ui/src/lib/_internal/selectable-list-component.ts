@@ -191,18 +191,18 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
     }
 
     //! highligh-related
-    private _isMouseBeingUsed: boolean = false;
+    public isMouseBeingUsed: boolean = false;
     @HostListener('mousemove')
     onMouseMove() {
-        this._isMouseBeingUsed = true;
+        this.isMouseBeingUsed = true;
     }
     onItemMouseEnter(option: ArdOptionSimple, event: MouseEvent): void {
-        if (!this._isMouseBeingUsed) return;
+        if (!this.isMouseBeingUsed) return;
         this.itemStorage.highlightSingleItem(option);
         event.stopPropagation();
     }
     onItemMouseLeave(option: ArdOptionSimple, event: MouseEvent): void {
-        if (!this._isMouseBeingUsed) return;
+        if (!this.isMouseBeingUsed) return;
         this.itemStorage.unhighlightItem(option);
         event.stopPropagation();
     }
@@ -268,7 +268,7 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
         if (!this.isFocused) return;
 
         event.preventDefault();
-        this._isMouseBeingUsed = false;
+        this.isMouseBeingUsed = false;
 
         this.itemStorage.highlightNextItem(-1, event.shiftKey);
     }
@@ -276,7 +276,7 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
         if (!this.isFocused) return;
 
         event.preventDefault();
-        this._isMouseBeingUsed = false;
+        this.isMouseBeingUsed = false;
 
         this.itemStorage.highlightNextItem(+1, event.shiftKey);
     }
@@ -284,7 +284,7 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
         if (!this.isFocused) return;
 
         event.preventDefault();
-        this._isMouseBeingUsed = false;
+        this.isMouseBeingUsed = false;
 
         this.itemStorage.highlightFirstItem();
     }
@@ -292,7 +292,7 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
         if (!this.isFocused) return;
 
         event.preventDefault();
-        this._isMouseBeingUsed = false;
+        this.isMouseBeingUsed = false;
 
         this.itemStorage.highlightLastItem();
     }

@@ -23,6 +23,11 @@
         background-color: var(--ard-cmpcl--content);
     }
 
+    //! focus outline
+    &.ard-focus-visible {
+        outline: solid;
+    }
+
     //! row & option styling
     .ard-segment-row {
         gap: var(--ard-_segment-padding);
@@ -38,25 +43,13 @@
             position: relative;
             cursor: pointer;
             transition: color 0.1s $timing-fn, border-color 0.1s $timing-fn, background-color 0.1s $timing-fn;
+            outline: none;
 
-            &.ard-option-highlighted {
-                .ard-focus-overlay {
-                    opacity: 4%;
-                }
-            }
-            &:active {
-                .ard-focus-overlay {
-                    opacity: 12%;
-                }
-            }
             &.ard-option-selected {
                 position: relative;
                 z-index: 2;
-
-                .ard-focus-overlay {
-                    opacity: 16%;
-                }
             }
+
             &.ard-option-disabled {
                 opacity: 60%;
                 pointer-events: none;
@@ -65,6 +58,43 @@
             .ard-button-content {
                 position: relative;
                 z-index: 1;
+            }
+        }
+    }
+    //! highlighted/selected styling
+    .ard-segment-option {
+        &.ard-option-highlighted {
+            .ard-focus-overlay {
+                opacity: 4%;
+            }
+        }
+        &:active {
+            .ard-focus-overlay {
+                opacity: 12%;
+            }
+        }
+        &.ard-option-selected {
+            .ard-focus-overlay {
+                opacity: 16%;
+            }
+        }
+    }
+    &.ard-using-keyboard {
+        .ard-segment-option {
+            &.ard-option-highlighted {
+                .ard-focus-overlay {
+                    opacity: 12%;
+                }
+            }
+            &:active {
+                .ard-focus-overlay {
+                    opacity: 18%;
+                }
+            }
+            &.ard-option-selected {
+                .ard-focus-overlay {
+                    opacity: 24%;
+                }
             }
         }
     }

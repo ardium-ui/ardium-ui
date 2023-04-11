@@ -2,6 +2,8 @@
     [class.ard-disabled]="disabled"
     [ariaDisabled]="disabled"
     [ngClass]="ngClasses"
+    [class.ard-focus-visible]="isFocused && !isMouseBeingUsed"
+    [class.ard-using-keyboard]="!isMouseBeingUsed"
 >
     <div class="ard-segment-row"
         *ngFor="let row of itemRows"
