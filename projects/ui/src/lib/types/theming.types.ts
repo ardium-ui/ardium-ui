@@ -32,6 +32,7 @@ export type FormElementVariant = typeof FormElementVariant[keyof typeof FormElem
 
 export const DecorationElementAppearance = {
     Outlined: 'outlined',
+    OutlinedStrong: 'outlined-strong',
     Filled: 'filled',
 } as const;
 export type DecorationElementAppearance = typeof DecorationElementAppearance[keyof typeof DecorationElementAppearance];
