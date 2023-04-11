@@ -113,6 +113,7 @@
 
             >.ard-focus-overlay {
                 opacity: 0;
+                background: var(--ard-cmpcl--bg);
             }
             &:hover,
             &:focus {
