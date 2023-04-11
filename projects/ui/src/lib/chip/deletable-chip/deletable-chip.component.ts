@@ -1,11 +1,10 @@
 
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation, forwardRef } from '@angular/core';
-import { _FocusableComponentBase } from '../../_internal/focusable-component';
+import { ChangeDetectionStrategy, Component, EventEmitter, forwardRef, Input, Output, ViewEncapsulation } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SimpleOneAxisAlignment } from '../../types/alignment.types';
-import { DecorationElementAppearance } from '../../types/theming.types';
-import { ChipVariant } from '../chip.types';
 import { ComponentColor } from '../../types/colors.types';
+import { DecorationElementAppearance, FormElementVariant } from '../../types/theming.types';
+import { _FocusableComponentBase } from '../../_internal/focusable-component';
 
 @Component({
     selector: 'ard-deletable-chip',
@@ -32,7 +31,7 @@ export class ArdiumDeletableChipComponent extends _FocusableComponentBase {
 
     //* appearance
     @Input() appearance: DecorationElementAppearance = DecorationElementAppearance.Outlined;
-    @Input() variant: ChipVariant = ChipVariant.Basic;
+    @Input() variant: FormElementVariant = FormElementVariant.Rounded;
     @Input() color: ComponentColor = ComponentColor.Primary;
 
     @Input() wrapperClasses: string = '';
@@ -40,7 +39,7 @@ export class ArdiumDeletableChipComponent extends _FocusableComponentBase {
         return [
             this.wrapperClasses,
             `ard-chip-align-${this.contentAlignment}`,
-            `ard-chip-variant-${this.variant}`,
+            `ard-variant-${this.variant}`,
             `ard-appearance-${this.appearance}`,
             `ard-color-${this.color}`,
         ].join(' ');

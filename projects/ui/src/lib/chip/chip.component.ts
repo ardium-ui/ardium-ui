@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { SimpleOneAxisAlignment } from '../types/alignment.types';
 import { ComponentColor } from '../types/colors.types';
-import { DecorationElementAppearance } from '../types/theming.types';
+import { DecorationElementAppearance, FormElementVariant } from '../types/theming.types';
 import { _DisablableComponentBase } from './../_internal/disablable-component';
-import { ChipVariant } from './chip.types';
 
 @Component({
     selector: 'ard-chip',
@@ -17,7 +16,7 @@ export class ArdiumChipComponent extends _DisablableComponentBase {
 
     //* appearance
     @Input() appearance: DecorationElementAppearance = DecorationElementAppearance.Outlined;
-    @Input() variant: ChipVariant = ChipVariant.Basic;
+    @Input() variant: FormElementVariant = FormElementVariant.Rounded;
     @Input() color: ComponentColor = ComponentColor.Primary;
 
     @Input() wrapperClasses: string = '';
@@ -25,7 +24,7 @@ export class ArdiumChipComponent extends _DisablableComponentBase {
         return [
             this.wrapperClasses,
             `ard-chip-align-${this.contentAlignment}`,
-            `ard-chip-variant-${this.variant}`,
+            `ard-variant-${this.variant}`,
             `ard-appearance-${this.appearance}`,
             `ard-color-${this.color}`,
         ].join(' ');

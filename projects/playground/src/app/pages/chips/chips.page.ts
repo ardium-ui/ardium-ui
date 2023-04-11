@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SimpleOneAxisAlignment, ChipVariant, ComponentColor, DecorationElementAppearance } from '@ardium-ui/ui';
+import { ComponentColor, DecorationElementAppearance, FormElementVariant, SimpleOneAxisAlignment } from '@ardium-ui/ui';
 import { Logger } from '../../services/logger.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { Logger } from '../../services/logger.service';
   styleUrls: ['./chips.page.scss']
 })
 export class ChipsPage {
-    variants: ChipVariant[] = [ChipVariant.Basic, ChipVariant.Pill];
+    variants: FormElementVariant[] = Object.values(FormElementVariant);
     appearances: DecorationElementAppearance[] = Object.values(DecorationElementAppearance);
     colors: ComponentColor[] = Object.values(ComponentColor);
     alignments: SimpleOneAxisAlignment[] = Object.values(SimpleOneAxisAlignment);

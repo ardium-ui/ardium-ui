@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, forwardRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef, Input, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { _BooleanComponentBase } from './../../_internal/boolean-component';
 import { SimpleOneAxisAlignment } from '../../types/alignment.types';
-import { DecorationElementAppearance } from '../../types/theming.types';
-import { ChipVariant } from '../chip.types';
 import { ComponentColor } from '../../types/colors.types';
+import { DecorationElementAppearance, FormElementVariant } from '../../types/theming.types';
+import { _BooleanComponentBase } from './../../_internal/boolean-component';
 
 @Component({
     selector: 'ard-selectable-chip',
@@ -32,7 +31,7 @@ export class ArdiumSelectableChipComponent extends _BooleanComponentBase impleme
 
     //* appearance
     @Input() appearance: DecorationElementAppearance = DecorationElementAppearance.Outlined;
-    @Input() variant: ChipVariant = ChipVariant.Basic;
+    @Input() variant: FormElementVariant = FormElementVariant.Rounded;
     @Input() color: ComponentColor = ComponentColor.Primary;
 
     @Input() wrapperClasses: string = '';
@@ -40,7 +39,7 @@ export class ArdiumSelectableChipComponent extends _BooleanComponentBase impleme
         return [
             this.wrapperClasses,
             `ard-chip-align-${this.contentAlignment}`,
-            `ard-chip-variant-${this.variant}`,
+            `ard-variant-${this.variant}`,
             `ard-appearance-${this.appearance}`,
             `ard-color-${this.color}`,
         ].join(' ');

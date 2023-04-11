@@ -6,6 +6,7 @@
 .ard-chip-wrapper {
     @include coloringMixins.typeColors();
     @include clearButton.clearButton();
+    @include defaultMixins.formVariants();
 
     font-family: "Roboto", sans-serif;
     color: $text2;
@@ -57,48 +58,19 @@
             }
         }
     }
-}
-//! variants
-.ard-chip-wrapper {
-    &.ard-chip-variant-basic {
+    //! variants
+    &.ard-variant-rounded {
         --ard-current-border-radius: 6px;
     }
     &.ard-chip-variant-pill {
         --ard-current-border-radius: 9999px;
     }
-}
-//! alignments
-.ard-chip-align-left {
-    flex-direction: row;
-    padding-left: 2px;
-
-    .ard-chip-selection-icon {
-        padding-left: 8px;
-        margin-right: -2px;
-    }
-    &.ard-chip-variant-pill {
-        padding-left: 4px;
-    }
-}
-.ard-chip-align-right {
-    flex-direction: row-reverse;
-    padding-right: 2px;
-
-    .ard-chip-selection-icon {
-        padding-right: 8px;
-        margin-left: -2px;
-    }
-    &.ard-chip-variant-pill {
-        padding-right: 4px;
-    }
-}
-//! appearances
-.ard-chip-wrapper {
+    //! appearances
     &.ard-appearance-filled {
         background: var(--ard-cmpcl--bg);
         color: var(--ard-cmpcl--on-bg);
         border: none;
-        
+
         //edge case for no coloring
         &.ard-color-none {
             background-color: $bg-f;
@@ -124,22 +96,49 @@
     }
     &.ard-appearance-outlined {
         background: transparent;
-        border: 2px solid $border-light;
+        color: var(--ard-cmpcl--content);
+        border: 1px solid var(--ard-cmpcl--bg);
         font-weight: 600;
         --border-radius: 9px;
+
+        >.ard-focus-overlay {
+            opacity: 7.5%;
+            background: var(--ard-cmpcl--bg);
+        }
+        //edge case for no coloring
+        &.ard-color-none {
+            border-color: var(--ard-cmpcl--content);
+            >.ard-focus-overlay {
+                background: var(--ard-cmpcl--content);
+            }
+        }
 
         &.ard-chip-selectable {
             transition:
                 color 0.15s ease,
                 border-color 0.15s ease;
 
+            >.ard-focus-overlay {
+                opacity: 0;
+            }
+            &:hover,
+            &:focus {
+                >.ard-focus-overlay {
+                    opacity: 4%;
+                }
+            }
+            &:active {
+                >.ard-focus-overlay {
+                    opacity: 10%;
+                }
+            }
+
             &.ard-chip-selected {
                 color: var(--ard-cmpcl--content);
                 border-color: var(--ard-cmpcl--bg);
 
-                > .ard-focus-overlay {
+                >.ard-focus-overlay {
                     opacity: 7.5%;
-                    background: var(--ard-cmpcl--bg);
                 }
                 &:hover,
                 &:focus {
@@ -155,12 +154,37 @@
                 //edge case for no coloring
                 &.ard-color-none {
                     border-color: var(--ard-cmpcl--content);
-                    > .ard-focus-overlay {
+                    >.ard-focus-overlay {
                         background: var(--ard-cmpcl--content);
                     }
                 }
             }
         }
+    }
+}
+//! alignments
+.ard-chip-align-left {
+    flex-direction: row;
+    padding-left: 2px;
+
+    .ard-chip-selection-icon {
+        padding-left: 8px;
+        margin-right: -2px;
+    }
+    &.ard-chip-variant-pill {
+        padding-left: 4px;
+    }
+}
+.ard-chip-align-right {
+    flex-direction: row-reverse;
+    padding-right: 2px;
+
+    .ard-chip-selection-icon {
+        padding-right: 8px;
+        margin-left: -2px;
+    }
+    &.ard-chip-variant-pill {
+        padding-right: 4px;
     }
 }
 //! disabled state

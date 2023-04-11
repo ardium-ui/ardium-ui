@@ -17,7 +17,6 @@ export * from './lib/checkbox/checkbox.types';
 //chips
 export * from './lib/chip/chip.module';
 export * from './lib/chip/chip.component';
-export * from './lib/chip/chip.types';
 export * from './lib/chip/deletable-chip/deletable-chip.component';
 export * from './lib/chip/selectable-chip/selectable-chip.component';
 //dropdown-panel
