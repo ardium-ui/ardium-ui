@@ -11,3 +11,8 @@ export class ArdSuggestionTemplateDirective {
 export class ArdInputPlaceholderTemplateDirective {
     constructor(public template: TemplateRef<undefined>) { }
 }
+
+@Directive({ selector: 'ard-input > ng-template[ard-loading-tmp]' })
+export class ArdInputLoadingTemplateDirective {
+    constructor(public template: TemplateRef<undefined>) { }
+}

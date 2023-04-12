@@ -11,7 +11,7 @@ import { SuggestionStorage, SuggestionStorageHost } from '../../_internal/item-s
 import { ArdiumSimpleInputComponent } from '../simple-input/simple-input.component';
 import { OptionContext } from './../../types/item-storage.types';
 import { escapeAndCreateRegex, InputModel, InputModelHost } from './../input-utils';
-import { ArdInputPlaceholderTemplateDirective, ArdSuggestionTemplateDirective } from './input.directives';
+import { ArdInputLoadingTemplateDirective, ArdInputPlaceholderTemplateDirective, ArdSuggestionTemplateDirective } from './input.directives';
 
 @Component({
     selector: 'ard-input',
@@ -45,6 +45,7 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
         clearButtonTitle: 'Clear',
         suggValueFrom: 'value',
         suggLabelFrom: 'label',
+        suggestionsLoadingText: 'Loading...',
     }
     //! input view
     protected override inputModel!: InputModel;
@@ -139,10 +140,21 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
     private _suggestionDropdowOpen: boolean = false;
 
     get shouldDisplaySuggestions(): boolean {
-        return !this.disabled && this.suggestionItems.length > 0 && this._suggestionDropdowOpen;
+        return (
+            !this.disabled &&
+            (
+                this.suggestionItems.length > 0 ||
+                this.areSuggestionsLoading
+            ) &&
+            this._suggestionDropdowOpen
+        )
     }
 
+    @Input() areSuggestionsLoading: boolean = false;
+    @Input() suggestionsLoadingText: string = this.DEFAULTS.suggestionsLoadingText;
+
     @ContentChild(ArdSuggestionTemplateDirective, { read: TemplateRef }) suggestionTemplate?: TemplateRef<any>;
+    @ContentChild(ArdInputLoadingTemplateDirective, { read: TemplateRef }) suggestionLoadingTemplate?: TemplateRef<any>;
 
     //! suggestions overlay
     @ViewChild('suggestionsHost', { read: ElementRef }) dropdownHost!: ElementRef<HTMLDivElement>;

@@ -70,5 +70,13 @@
                 ></ng-template>
             </span>
         </div>
+
+        <ng-container *ngIf="areSuggestionsLoading">
+            <ng-template #defaultLoadingPlaceholderTemplate>
+                <div class="ard-option ard-option-disabled">{{suggestionsLoadingText}}</div>
+            </ng-template>
+        
+            <ng-template [ngTemplateOutlet]="suggestionLoadingTemplate || defaultLoadingPlaceholderTemplate"></ng-template>
+        </ng-container>
     </ard-dropdown-panel>
 </ng-template>
