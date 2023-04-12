@@ -7,7 +7,10 @@ import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/c
 export class HoldDirective {
 
     @Output('ardHold')
-    public holdEvent = new EventEmitter<number>();
+    public holdEvent = new EventEmitter<undefined>();
+
+    @Input() set disabled(v: any) { this._clear(); }
+    @Input() set readonly(v: any) { this._clear(); }
 
     @Input('ardHoldDelay') holdDelay: number = 500;
     @Input('ardHoldRepeat') holdRepeat: number = 1000/15;
@@ -21,7 +24,7 @@ export class HoldDirective {
         this.timeout = setTimeout(() => {
             this.timeout = null;
             this.interval = setInterval(() => {
-                this.holdEvent.next(Math.random());
+                this.holdEvent.next(undefined);
             }, this.holdRepeat);
         }, this.holdDelay);
     }
@@ -29,6 +32,9 @@ export class HoldDirective {
     @HostListener('mouseup')
     @HostListener('touchend')
     public onMouseUp(): void {
+        this._clear();
+    }
+    private _clear(): void {
         if (this.timeout) {
             clearTimeout(this.timeout);
             this.timeout = null;
