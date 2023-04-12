@@ -12,7 +12,7 @@ import { FormElementAppearance } from '../types/theming.types';
 import { ItemStorage } from '../_internal/item-storages/dropdown-item-storage';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { FormElementVariant } from './../types/theming.types';
-import { ArdDropdownFooterTemplateDirective, ArdDropdownHeaderTemplateDirective, ArdItemDisplayLimitTemplateDirective, ArdItemLimitReachedTemplateDirective, ArdLoadingPlaceholderTemplateDirective, ArdLoadingSpinnerTemplateDirective, ArdNoItemsFoundTemplateDirective, ArdOptgroupTemplateDirective, ArdOptionTemplateDirective, ArdPlaceholderTemplateDirective, ArdValueTemplateDirective } from './select.directive';
+import { ArdDropdownFooterTemplateDirective, ArdDropdownHeaderTemplateDirective, ArdItemDisplayLimitTemplateDirective, ArdItemLimitReachedTemplateDirective, ArdLoadingPlaceholderTemplateDirective, ArdLoadingSpinnerTemplateDirective, ArdNoItemsFoundTemplateDirective, ArdOptgroupTemplateDirective, ArdOptionTemplateDirective, ArdSelectPlaceholderTemplateDirective, ArdValueTemplateDirective } from './select.directive';
 import { GroupContext, ItemDisplayLimitContext, ItemLimitContext, SearchContext, StatsContext, ValueContext } from './select.types';
 
 @Component({
@@ -248,7 +248,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     @ContentChild(ArdOptionTemplateDirective, { read: TemplateRef }) optionTemplate?: TemplateRef<any>;
     @ContentChild(ArdOptgroupTemplateDirective, { read: TemplateRef }) optgroupTemplate?: TemplateRef<any>;
     @ContentChild(ArdValueTemplateDirective, { read: TemplateRef }) valueTemplate?: TemplateRef<any>;
-    @ContentChild(ArdPlaceholderTemplateDirective, { read: TemplateRef }) placeholderTemplate?: TemplateRef<any>;
+    @ContentChild(ArdSelectPlaceholderTemplateDirective, { read: TemplateRef }) placeholderTemplate?: TemplateRef<any>;
     @ContentChild(ArdLoadingSpinnerTemplateDirective, { read: TemplateRef }) loadingSpinnerTemplate?: TemplateRef<any>;
     @ContentChild(ArdLoadingPlaceholderTemplateDirective, { read: TemplateRef }) loadingPlaceholderTemplate?: TemplateRef<any>;
     @ContentChild(ArdDropdownHeaderTemplateDirective, { read: TemplateRef }) dropdownHeaderTemplate?: TemplateRef<any>;

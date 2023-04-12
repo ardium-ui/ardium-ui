@@ -11,7 +11,7 @@ import { SuggestionStorage, SuggestionStorageHost } from '../../_internal/item-s
 import { ArdiumSimpleInputComponent } from '../simple-input/simple-input.component';
 import { OptionContext } from './../../types/item-storage.types';
 import { escapeAndCreateRegex, InputModel, InputModelHost } from './../input-utils';
-import { ArdSuggestionTemplateDirective } from './input.directives';
+import { ArdInputPlaceholderTemplateDirective, ArdSuggestionTemplateDirective } from './input.directives';
 
 @Component({
     selector: 'ard-input',
@@ -97,6 +97,10 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
     }
     //autocomplete event
     @Output('acceptAutocomplete') acceptAutocompleteEvent = new EventEmitter();
+
+    //! placeholder
+    @ContentChild(ArdInputPlaceholderTemplateDirective, { read: TemplateRef })
+    override placeholderTemplate?: TemplateRef<any>;
 
     //! suggestions
     suggestionStorage = new SuggestionStorage(this);

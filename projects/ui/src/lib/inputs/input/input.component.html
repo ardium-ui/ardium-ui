@@ -6,6 +6,14 @@
 >
     <div class="ard-input-container">
         <div class="ard-autocomplete" *ngIf="shouldDisplayAutocomplete">{{ autocomplete }}</div>
+
+        <ng-container *ngIf="shouldDisplayPlaceholder">
+            <ng-template #defaultPlaceholderTemplate>
+                <div class="ard-placeholder">{{ placeholder }}</div>
+            </ng-template>
+
+            <ng-template [ngTemplateOutlet]="placeholderTemplate || defaultPlaceholderTemplate"></ng-template>
+        </ng-container>
         
         <input #textInput
             #focusableElement
@@ -17,7 +25,6 @@
             (input)="onInput(textInput.value)"
             (focus)="onFocus($event)"
             (blur)="onBlur($event)"
-            [placeholder]="placeholder"
         >
     </div>
 

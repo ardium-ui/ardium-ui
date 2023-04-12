@@ -21,6 +21,11 @@
         display: flex;
         align-items: center;
 
+        .ard-placeholder {
+            font: inherit;
+            opacity: 60%;
+        }
+
         input {
             border: none;
             background: transparent;

@@ -4,7 +4,7 @@ import { ArdiumClickOutsideEventModule } from '@ardium-ui/devkit';
 import { ArdiumDropdownPanelModule } from '../../dropdown-panel/dropdown-panel.module';
 import { _ClearButtonModule } from '../../_internal/clear-button/clear-button.module';
 import { ArdiumInputComponent } from './input.component';
-import { ArdSuggestionTemplateDirective } from './input.directives';
+import { ArdInputPlaceholderTemplateDirective, ArdSuggestionTemplateDirective } from './input.directives';
 
 
 
@@ -12,6 +12,7 @@ import { ArdSuggestionTemplateDirective } from './input.directives';
     declarations: [
         ArdiumInputComponent,
         ArdSuggestionTemplateDirective,
+        ArdInputPlaceholderTemplateDirective,
     ],
     imports: [
         CommonModule,
@@ -22,6 +23,7 @@ import { ArdSuggestionTemplateDirective } from './input.directives';
     exports: [
         ArdiumInputComponent,
         ArdSuggestionTemplateDirective,
+        ArdInputPlaceholderTemplateDirective,
     ]
 })
 export class ArdiumInputModule { }

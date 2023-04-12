@@ -1,17 +1,29 @@
 @import '@angular/cdk/overlay-prebuilt.css';
+.ard-input-container {
+    position: relative;
+}
+
+.ard-placeholder {
+    position: absolute;
+    left: 0;
+    right: 0;
+}
 
 .ard-text-align-left {
-    input {
+    input,
+    .ard-placeholder {
         text-align: left;
     }
 }
 .ard-text-align-center {
-    input {
+    input,
+    .ard-placeholder {
         text-align: center;
     }
 }
 .ard-text-align-right {
-    input {
+    input,
+    .ard-placeholder {
         text-align: right;
     }
 }

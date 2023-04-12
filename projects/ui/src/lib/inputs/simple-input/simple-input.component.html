@@ -4,6 +4,14 @@
     (click)="focus()"
 >
     <div class="ard-input-container">
+        <ng-container *ngIf="shouldDisplayPlaceholder">
+            <ng-template #defaultPlaceholderTemplate>
+                <div class="ard-placeholder">{{ placeholder }}</div>
+            </ng-template>
+
+            <ng-template [ngTemplateOutlet]="placeholderTemplate || defaultPlaceholderTemplate"></ng-template>
+        </ng-container>
+        
         <input #textInput
             #focusableElement
             type="text"
@@ -15,7 +23,6 @@
             (focus)="onFocusMaster($event)"
             (blur)="onBlurMaster($event)"
             (change)="onChange($event)"
-            [placeholder]="placeholder"
         >
     </div>
 

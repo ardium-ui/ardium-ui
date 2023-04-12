@@ -1,6 +1,18 @@
+
+
 .ard-number-input {
     width: max-content;
     display: flex;
+
+    .ard-input-container {
+        position: relative;
+    }
+
+    .ard-placeholder {
+        position: absolute;
+        left: 0;
+        right: 0;
+    }
 }
 
 .ard-input-container > input {
@@ -10,14 +22,23 @@
         width: 100% !important;
     }
 }
-.ard-text-align-left input {
-    text-align: left;
+.ard-text-align-left {
+    input,
+    .ard-placeholder {
+        text-align: left;
+    }
 }
-.ard-text-align-middle input {
-    text-align: center;
+.ard-text-align-middle {
+    input,
+    .ard-placeholder {
+        text-align: center;
+    }
 }
-.ard-text-align-right input {
-    text-align: right;
+.ard-text-align-right {
+    input,
+    .ard-placeholder {
+        text-align: right;
+    }
 }
 
 .ard-quick-change-button {

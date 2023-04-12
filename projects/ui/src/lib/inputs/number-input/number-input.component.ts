@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output, ViewChild, ViewEncapsulation, ContentChild, TemplateRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { ButtonVariant, ButtonAppearance } from '../../buttons/general-button.types';
@@ -7,6 +7,7 @@ import { FormElementAppearance, FormElementVariant } from '../../types/theming.t
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { NumberInputModel, NumberInputModelHost } from '../input-utils';
 import { isDefined } from 'simple-bool';
+import { ArdNumberInputPlaceholderTemplateDirective } from './number-input.directives';
 
 @Component({
     selector: 'ard-number-input',
@@ -41,8 +42,15 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
         }
     }
 
-    @Input() placeholder: string = '';
     @Input() inputId?: string;
+    
+    //! placeholder
+    @Input() placeholder: string = '';
+    
+    @ContentChild(ArdNumberInputPlaceholderTemplateDirective, { read: TemplateRef })
+    placeholderTemplate?: TemplateRef<any>;
+
+    get shouldDisplayPlaceholder(): boolean { return Boolean(this.placeholder) && !this.inputModel.stringValue };
 
     //! appearance
     @Input() appearance: FormElementAppearance = FormElementAppearance.Outlined;

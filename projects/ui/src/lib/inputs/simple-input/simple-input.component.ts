@@ -1,10 +1,11 @@
-import { Component, ElementRef, EventEmitter, HostBinding, Input, OnInit, Output, ViewChild, forwardRef, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ContentChild, ElementRef, EventEmitter, forwardRef, HostBinding, Input, OnInit, Output, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
-import { SimpleInputModel, SimpleInputModelHost } from './../input-utils';
 import { SimpleOneAxisAlignment } from './../../types/alignment.types';
-import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { SimpleInputModel, SimpleInputModelHost } from './../input-utils';
+import { ArdSimpleInputPlaceholderTemplateDirective } from './simple-input.directives';
 
 @Component({
     selector: 'ard-simple-input',
@@ -25,7 +26,7 @@ export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements
     readonly DEFAULTS = {
         clearButtonTitle: 'Clear',
     }
-    //* input view
+    //! input view
     @ViewChild('textInput', { static: true }) textInputEl!: ElementRef<HTMLInputElement>;
     protected inputModel!: SimpleInputModel;
     ngOnInit(): void {
@@ -42,7 +43,13 @@ export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements
     @Input() inputId?: string;
     @Input() clearButtonTitle: string = this.DEFAULTS.clearButtonTitle;
 
-    //* appearance
+    //! placeholder
+    @ContentChild(ArdSimpleInputPlaceholderTemplateDirective, { read: TemplateRef })
+    placeholderTemplate?: TemplateRef<any>;
+
+    get shouldDisplayPlaceholder(): boolean { return Boolean(this.placeholder) && !this.value };
+
+    //! appearance
     @Input() appearance: FormElementAppearance = FormElementAppearance.Outlined;
     @Input() variant: FormElementVariant = FormElementVariant.Rounded;
     @Input() alignText: SimpleOneAxisAlignment = SimpleOneAxisAlignment.Left;
@@ -55,27 +62,27 @@ export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements
         ].join(' ');
     }
 
-    //* other inputs
+    //! other inputs
     @Input() inputAttrs: { [key: string]: any } = {};
 
-    //* number attribute setters/getters
+    //! number attribute setters/getters
     protected _maxLength?: number;
     @Input()
     get maxLength(): number | undefined { return this._maxLength; }
     set maxLength(v: any) { this._maxLength = coerceNumberProperty(v); }
     
-    //* no-value attribute setters/getters
+    //! no-value attribute setters/getters
     protected _clearable: boolean = true;
     @Input()
     @HostBinding('class.ard-clearable')
     get clearable(): boolean { return this._clearable; };
     set clearable(v: any) { this._clearable = coerceBooleanProperty(v); }
 
-    //* control value accessor's write value implementation
+    //! control value accessor's write value implementation
     writeValue(v: any) {
         this.inputModel.writeValue(v);
     }
-    //* value two-way binding
+    //! value two-way binding
     protected _valueBeforeInit?: string | null = null;
     @Input()
     set value(v: string | null) {
@@ -85,23 +92,24 @@ export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements
         }
         this.writeValue(v);
     }
+    get value(): string | null { return this.inputModel.value; }
     @Output() valueChange = new EventEmitter<string | null>();
 
-    //* event emitters
+    //! event emitters
     @Output('input') inputEvent = new EventEmitter<string | null>();
     @Output('change') changeEvent = new EventEmitter<string | null>();
     @Output('clear') clearEvent = new EventEmitter<MouseEvent>();
 
-    //* event handlers
+    //! event handlers
     onInput(newVal: string): void {
         let valueHasChanged = this.inputModel.writeValue(newVal);
         if (!valueHasChanged) return;
         this._emitInput();
     }
     protected _emitInput(): void {
-        this._onChangeRegistered?.(this.inputModel.value);
-        this.inputEvent.emit(this.inputModel.value);
-        this.valueChange.emit(this.inputModel.value);
+        this._onChangeRegistered?.(this.value);
+        this.inputEvent.emit(this.value);
+        this.valueChange.emit(this.value);
     }
     //focus, blur, change
     onFocusMaster(event: FocusEvent): void {
@@ -129,7 +137,7 @@ export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements
         this.clearEvent.emit(event);
         this.focus();
     }
-    //* helpers
+    //! helpers
     protected _setInputAttributes() {
         const input = this.textInputEl.nativeElement;
         const attributes: { [key: string]: string } = {

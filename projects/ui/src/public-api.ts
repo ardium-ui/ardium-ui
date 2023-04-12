@@ -23,13 +23,18 @@ export * from './lib/chip/selectable-chip/selectable-chip.component';
 export * from './lib/dropdown-panel/dropdown-panel.module';
 export * from './lib/dropdown-panel/dropdown-panel.component';
 export * from './lib/dropdown-panel/dropdown-panel.types';
-//inputs
+//input
 export * from './lib/inputs/input/input.module';
 export * from './lib/inputs/input/input.component';
+export * from './lib/inputs/input/input.directives';
+//simple-input
 export * from './lib/inputs/simple-input/simple-input.module';
 export * from './lib/inputs/simple-input/simple-input.component';
+export * from './lib/inputs/simple-input/simple-input.directives';
+//number-input
 export * from './lib/inputs/number-input/number-input.module';
 export * from './lib/inputs/number-input/number-input.component';
+export * from './lib/inputs/number-input/number-input.directives';
 //select
 export * from './lib/select/select.module';
 export * from './lib/select/select.component';

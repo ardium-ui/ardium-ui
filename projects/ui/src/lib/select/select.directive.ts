@@ -24,7 +24,7 @@ export class ArdOptgroupTemplateDirective {
 }
 
 @Directive({ selector: 'ng-template[ard-placeholder-tmp]' })
-export class ArdPlaceholderTemplateDirective {
+export class ArdSelectPlaceholderTemplateDirective {
     constructor(public template: TemplateRef<StatsContext>) {}
 }
 
