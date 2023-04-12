@@ -10,9 +10,9 @@
         [appearance]="buttonAppearance"
         color="none"
         [disabled]="!canDecrement()"
+        [attr.tabindex]="!canDecrement() ? -1 : tabIndex"
         (click)="onQuickChangeButtonClick(-1)"
         (ardHold)="onQuickChangeButtonClick(-1)"
-        [attr.tabindex]="tabIndex"
     >-</ard-button>
     <div class="ard-input-container">
         <ng-container *ngIf="shouldDisplayPlaceholder">
@@ -42,8 +42,8 @@
         [appearance]="buttonAppearance"
         color="none"
         [disabled]="!canIncrement()"
+        [attr.tabindex]="!canIncrement() ? -1 : tabIndex"
         (click)="onQuickChangeButtonClick(1)"
         (ardHold)="onQuickChangeButtonClick(1)"
-        [attr.tabindex]="tabIndex"
     >+</ard-button>
 </div>

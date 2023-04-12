@@ -148,6 +148,9 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
         this.quickChangeEvent.next({ direction, value: newValue });
         this._emitChange();
     }
+    private _checkButtonAvailability(): void {
+        if (!this.canDecrement() || !this.canIncrement()) this.focus();
+    }
 
     canIncrement(): boolean {
         const num = this.inputModel.numberValue;
