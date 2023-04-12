@@ -47,12 +47,10 @@
 </div>
 <span class="title">Input with suggestions</span>
 <div class="grid master">
-    <!-- *ngFor="let disabled of [false, true]" -->
-    <!-- [disabled]="disabled" -->
     <ard-input
         [(value)]="colorInputValue"
-        [suggestions]="colorSuggestions$ | async"
         (valueChange)="onColorInput($event)"
+        [suggestions]="colorSuggestions$ | async"
         suggValueFrom="name"
         suggLabelFrom="name"
         (acceptSuggestion)="onColorAcceptSuggestion()"
