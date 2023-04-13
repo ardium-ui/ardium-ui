@@ -188,16 +188,27 @@
             }
         }
     }
-    //! showing and hiding tooltip on hover/focus
+    //! showing and hiding tooltip
+    //show tooltip when handle is hovered or focused
     .ard-slider-handle:hover,
     .ard-slider-handle:focus {
         + .ard-slider-tooltip-wrapper .ard-slider-tooltip {
             transform: scale(1);
         }
     }
+    //hide other tooltips when a handle is focused
+    .ard-slider-container:focus-within {
+        .ard-slider-handle:not(:focus) {
+            + .ard-slider-tooltip-wrapper .ard-slider-tooltip {
+                transform: scale(0);
+            }
+        }
+    }
+    //make a way to force-show a tooltip
+    .ard-slider-handle
     .ard-slider-tooltip-wrapper.ard-tooltip-always {
         .ard-slider-tooltip {
-            transform: scale(1);
+            transform: scale(1) !important;
         }
     }
 }
