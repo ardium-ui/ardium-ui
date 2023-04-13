@@ -16,6 +16,8 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
     protected _value: SliderRange = { low: -Infinity, high: Infinity };
 
     ngOnInit(): void {
+        if (this._value.low != -Infinity && this._value.high != Infinity) return;
+        
         this.writeValue({ low: this._min, high: this._max });
     }
 
@@ -58,6 +60,9 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
     }
     override get value(): SliderRange {
         return this._normalizeSliderRange(this._value);
+    }
+    override set value(v: any) {
+        this.writeValue(v);
     }
 
     //! tooltip updater
