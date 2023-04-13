@@ -1,11 +1,79 @@
-<div class="master">
+<div class="master flex">
     <span class="title">Simplest number input</span>
-    <div class="grid master">
-        <ard-number-input
-            *ngFor="let disabled of [false, true]"
-            [disabled]="disabled"
-        ></ard-number-input>
+    <ard-number-input></ard-number-input>
+</div>
+<div class="master flex">
+    <span class="title">Number input with min, max, value, placeholder</span>
+    <ard-number-input
+        min="-10"
+        max="10"
+        value="5"
+        placeholder="Foo"
+    ></ard-number-input>
+</div>
+<div class="master flex">
+    <span class="title">Number input with custom step size</span>
+    <ard-number-input
+        min="0"
+        max="100"
+        value="40"
+        stepSize="5"
+    ></ard-number-input>
+</div>
+<div class="master flex">
+    <span class="title">Number input events</span>
+    <ard-number-input
+        min="-10"
+        max="10"
+        [(value)]="value"
+        (ngModelChange)="log('ngModelChange', $event)"
+        (valueChange)="log('valueChange', $event)"
+        (change)="log('change', $event)"
+        (focus)="log('focus', $event)"
+        (blur)="log('blur', $event)"
+        (quickChange)="log('quickChange', $event)"
+    ></ard-number-input>
+</div>
+<div class="master flex">
+    <span class="title">Number input that allows floats</span>
+    <ard-number-input
+        max="5"
+        stepSize="0.25"
+        allowFloat
+    ></ard-number-input>
+</div>
+<div class="master flex">
+    <span class="title">Number input with custom width</span>
+    <ard-number-input
+        inputWidth="20"
+    ></ard-number-input>
+</div>
+<div class="master flex">
+    <span class="title">Number input with no buttons</span>
+    <ard-number-input
+        allowQuickChange="false"
+    ></ard-number-input>
+</div>
+<div class="master">
+    <span class="title">Rainbow table</span>
+    <div class="flex" *ngFor="let variant of variants">
+        <span class="monospace">{{ variant }}</span>
+        <div class="grid master">
+            <ng-container *ngFor="let appearance of appearances">
+                <ard-number-input
+                    *ngFor="let disabled of [false, true]"
+                    [disabled]="disabled"
+                    [appearance]="appearance"
+                    [variant]="variant"
+                ></ard-number-input>
+                <span class="monospace">{{ appearance }}</span>
+            </ng-container>
+        </div>
     </div>
+</div>
+
+
+<div class="master">
     <span class="title">Input appearances, variants, max/min, text align, ngModel, stepSize</span>
     <div class="grid master">
         <ng-container *ngFor="let variant of variants">
@@ -15,14 +83,6 @@
                         [disabled]="disabled"
                         [appearance]="appearance"
                         [variant]="variant"
-                        [(ngModel)]="value"
-                        [max]="max"
-                        [min]="min"
-                        (ngModelChange)="log('ngModelChange', $event)"
-                        (change)="log('change', $event)"
-                        (focus)="log('focus', $event)"
-                        (blur)="log('blur', $event)"
-                        (quickChange)="log('quickChange', $event)"
                     ></ard-number-input>
                 </ng-container>
             <span class="title variant">{{ variant }}</span>

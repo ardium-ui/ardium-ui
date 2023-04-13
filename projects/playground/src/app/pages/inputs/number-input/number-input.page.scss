@@ -1,7 +1,8 @@
 
 
-.grid.master {
+.grid {
     column-gap: 0.5rem;
     row-gap: 1rem;
     align-items: center;
+    --grid-cols: 3;
 }

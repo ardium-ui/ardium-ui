@@ -9,7 +9,7 @@ import { Logger } from '../../../services/logger.service';
 export class NumberInputPage {
     appearances: FA[] = Object.values(FA);
     variants: FV[] = Object.values(FV);
-    value: number = 0;
+    value: number | null = 0;
     min: number = -10;
     max: number = 100;
     stepSize: number = 5;
