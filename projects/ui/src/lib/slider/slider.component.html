@@ -29,7 +29,13 @@
             <div class="ard-hitbox"></div>
         </button>
         <div class="ard-slider-tooltip-wrapper" [style]="{left: getHandlePosition(1)}">
-            <div class="ard-slider-tooltip">{{ _tooltipValue }}</div>
+            <ng-template #defaultTooltipTemplate let-value>
+                <div class="ard-slider-tooltip">{{ value }}</div>
+            </ng-template>
+        
+            <ng-template [ngTemplateOutlet]="tooltipTemplate || defaultTooltipTemplate"
+                [ngTemplateOutletContext]="getTooltipContext()">
+            </ng-template>
         </div>
     </div>
     <div class="ard-slider-label-container" *ngIf="labelObjects.length">

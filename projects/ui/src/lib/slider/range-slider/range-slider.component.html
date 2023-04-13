@@ -1,4 +1,4 @@
-<div class="ard-slider-container-master"
+<div class="ard-range-slider-container-master"
     [ngClass]="ngClasses"
     [class.ard-slider-handle-grabbed]="isSliderHandleGrabbed"
     [style]="{'--_ard-slider-transition': sliderTransition }"
@@ -34,7 +34,13 @@
             <div class="ard-hitbox"></div>
         </button>
         <div class="ard-slider-tooltip-wrapper" [style]="{left: getHandlePosition(1)}">
-            <div class="ard-slider-tooltip">{{ _tooltipValue.low }}</div>
+            <ng-template #defaultTooltipTemplate let-value>
+                <div class="ard-slider-tooltip">{{ value }}</div>
+            </ng-template>
+        
+            <ng-template [ngTemplateOutlet]="tooltipTemplate || defaultTooltipTemplate"
+                [ngTemplateOutletContext]="getTooltipContext('low')">
+            </ng-template>
         </div>
         <button
             class="ard-slider-handle"
@@ -49,7 +55,13 @@
             <div class="ard-hitbox"></div>
         </button>
         <div class="ard-slider-tooltip-wrapper" [style]="{left: getHandlePosition(2)}">
-            <div class="ard-slider-tooltip">{{ _tooltipValue.high }}</div>
+            <ng-template #defaultTooltipTemplate let-value>
+                <div class="ard-slider-tooltip">{{ value }}</div>
+            </ng-template>
+        
+            <ng-template [ngTemplateOutlet]="tooltipTemplate || defaultTooltipTemplate"
+                [ngTemplateOutletContext]="getTooltipContext('high')">
+            </ng-template>
         </div>
     </div>
     <div class="ard-slider-label-container" *ngIf="labelObjects.length">

@@ -6,8 +6,8 @@ import { coerceBooleanProperty, coerceNumberProperty } from 'projects/devkit/src
 import { isDefined, isObject } from 'simple-bool';
 import { SimpleComponentColor } from '../types/colors.types';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
-import { ArdSliderLabelDirective } from './slider.directive';
-import { SliderLabelObject, SliderLabelPosition, SliderTooltipFormatFn, _InternalSliderLabelObject } from './slider.types';
+import { ArdSliderTooltipDirective } from './slider.directive';
+import { SliderLabelObject, SliderDecorationPosition, SliderTooltipContext, SliderTooltipFormatFn, _InternalSliderLabelObject } from './slider.types';
 
 
 @Directive()
@@ -106,7 +106,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     }
 
     //! labels
-    @Input() labelPosition: SliderLabelPosition = SliderLabelPosition.Bottom;
+    @Input() labelPosition: SliderDecorationPosition = SliderDecorationPosition.Bottom;
     public labelObjects: _InternalSliderLabelObject[] = [];
     @Input()
     set labels(val: SliderLabelObject[] | number[] | null) {
@@ -138,6 +138,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
         return [
             `ard-color-${this.color}`,
             `ard-labels-${this.labelPosition}`,
+            `ard-tooltip-${this.tooltipPosition}`,
         ].join(' ');
     }
 
@@ -204,8 +205,10 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
         this.valueChange.emit(v);
     }
 
-    //! templates
-    @ContentChild(ArdSliderLabelDirective, { read: TemplateRef }) labelTemplate?: TemplateRef<any>;
+    //! tooltip
+    @ContentChild(ArdSliderTooltipDirective, { read: TemplateRef }) tooltipTemplate?: TemplateRef<any>;
+
+    @Input() tooltipPosition: SliderDecorationPosition = SliderDecorationPosition.Top; //TODO
 
     //! event handlers
     protected _isGrabbed: number = 0;

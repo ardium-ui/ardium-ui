@@ -1,12 +1,13 @@
-export type SliderLabelContext = {
-    $implicit: number;
+export type SliderTooltipContext = {
+    value: string | number;
+    $implicit: string | number;
 }
 
-export const SliderLabelPosition = {
+export const SliderDecorationPosition = {
     Top: 'top',
     Bottom: 'bottom',
 } as const;
-export type SliderLabelPosition = typeof SliderLabelPosition[keyof typeof SliderLabelPosition]; 
+export type SliderDecorationPosition = typeof SliderDecorationPosition[keyof typeof SliderDecorationPosition]; 
 
 export type SliderLabelObject = {
     label: string | number;

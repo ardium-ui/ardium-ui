@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, HostListener, OnInit, ViewEncapsula
 import { roundToPrecision } from 'more-rounding';
 import { isNumber, isObject } from 'simple-bool';
 import { _AbstractSlider } from '../abstract-slider';
-import { SliderRange } from '../slider.types';
+import { SliderRange, SliderTooltipContext } from '../slider.types';
 import { isDefined } from 'simple-bool';
 
 @Component({
@@ -70,6 +70,13 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
             v.high = this.tooltipFormat(v.high as number);
         }
         this._tooltipValue = v;
+    }
+
+    getTooltipContext(type: 'low' | 'high'): SliderTooltipContext {
+        return {
+            value: this._tooltipValue[type],
+            $implicit: this._tooltipValue[type],
+        };
     }
 
     //! methods for programmatic manipulation

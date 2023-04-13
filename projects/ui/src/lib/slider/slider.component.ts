@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, forwardRef, HostListener, ViewEncap
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { roundToPrecision } from 'more-rounding';
 import { _AbstractSlider } from './abstract-slider';
+import { SliderTooltipContext } from './slider.types';
 
 @Component({
     selector: 'ard-slider',
@@ -29,6 +30,13 @@ export class ArdiumSliderComponent extends _AbstractSlider<number> {
         let v: string | number = this._value;
         if (this.tooltipFormat) v = this.tooltipFormat(v);
         this._tooltipValue = String(v);
+    }
+
+    getTooltipContext(): SliderTooltipContext {
+        return {
+            value: this._tooltipValue,
+            $implicit: this._tooltipValue,
+        };
     }
 
     //! writeValue
