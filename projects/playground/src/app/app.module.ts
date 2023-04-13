@@ -13,7 +13,7 @@ import { InputsModule } from './pages/inputs/inputs.module';
 import { SegmentModule } from './pages/segment/segment.module';
 import { SelectModule } from './pages/select/select.module';
 import { SlideToggleModule } from './pages/slide-toggle/slide-toggle.module';
-import { SliderModule } from './pages/slider/slider.module';
+import { SlidersModule } from './pages/sliders/sliders.module';
 import { StarsModule } from './pages/stars/stars.module';
 import { StateboxModule } from './pages/statebox/statebox.module';
 
@@ -32,10 +32,10 @@ import { StateboxModule } from './pages/statebox/statebox.module';
         SlideToggleModule,
         StarsModule,
         StateboxModule,
-        SliderModule,
         ChipsModule,
         InputsModule,
         SegmentModule,
+        SlidersModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

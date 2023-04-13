@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ArdiumSliderModule } from '@ardium-ui/ui';
 import { SliderPage } from './slider.page';
-import { ArdiumRangeSliderModule, ArdiumSliderModule } from '@ardium-ui/ui';
 
 
 
@@ -12,7 +12,6 @@ import { ArdiumRangeSliderModule, ArdiumSliderModule } from '@ardium-ui/ui';
     imports: [
         CommonModule,
         ArdiumSliderModule,
-        ArdiumRangeSliderModule,
     ],
     exports: [
         SliderPage

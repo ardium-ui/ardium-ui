@@ -9,7 +9,7 @@ import { InputsPage } from './pages/inputs/inputs.page';
 import { SegmentPage } from './pages/segment/segment.page';
 import { SelectPage } from './pages/select/select.page';
 import { SlideTogglePage } from './pages/slide-toggle/slide-toggle.page';
-import { SliderPage } from './pages/slider/slider.page';
+import { SlidersPage } from './pages/sliders/sliders.page';
 import { StarsPage } from './pages/stars/stars.page';
 import { StateboxPage } from './pages/statebox/statebox.page';
 
@@ -23,8 +23,8 @@ const routes: Routes = [
     { path: 'statebox', component: StateboxPage },
     { path: 'slide-toggle', component: SlideTogglePage },
     { path: 'stars', component: StarsPage },
-    { path: 'slider', component: SliderPage },
     { path: 'chips', component: ChipsPage },
+    { path: 'sliders', component: SlidersPage, loadChildren: () => import('./pages/sliders/sliders.module').then(m => m.SlidersModule) },
     { path: 'inputs', component: InputsPage, loadChildren: () => import('./pages/inputs/inputs.module').then(m => m.InputsModule) },
     //redirects
     { path: '**', redirectTo: '/' },

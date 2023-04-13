@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SliderTooltipFormatFn } from '@ardium-ui/ui';
-import { Logger } from './../../services/logger.service';
+import { Logger } from '../../../services/logger.service';
 
 @Component({
     selector: 'app-slider',
