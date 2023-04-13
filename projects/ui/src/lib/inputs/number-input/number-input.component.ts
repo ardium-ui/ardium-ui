@@ -147,6 +147,8 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
         this.writeValue(newValue);
         this.quickChangeEvent.next({ direction, value: newValue });
         this._emitChange();
+
+        this._checkButtonAvailability();
     }
     private _checkButtonAvailability(): void {
         if (!this.canDecrement() || !this.canIncrement()) this.focus();
@@ -168,9 +170,8 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
         this._emitInput();
     }
     protected _emitInput(): void {
-        this._onChangeRegistered?.(this.inputModel.value);
         this.inputEvent.emit(this.inputModel.numberValue);
-        this.valueChange.emit(this.inputModel.numberValue);
+        this._emitChange();
     }
 
     //focus, blur, change
@@ -189,6 +190,7 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
         const v = this.inputModel.numberValue;
         this._onChangeRegistered?.(v);
         this.changeEvent.emit(v);
+        this.valueChange.emit(this.inputModel.numberValue);
     }
 
     //! helpers

@@ -1,4 +1,4 @@
-import { isAnyString, isNull, isNumber, isString } from 'simple-bool';
+import { isAnyString, isNull, isNumber } from 'simple-bool';
 import { ArdTransformer, RegExpTransformer } from './input-transformers';
 
 export interface SimpleInputModelHost {
@@ -137,7 +137,7 @@ export class NumberInputModel {
 
     //! write value handlers
     writeValue(v: any): boolean {
-        if (!isNumber(v) && !isString(v) && !isNull(v)) {
+        if (!isNumber(v) && !isAnyString(v) && !isNull(v)) {
             //warn when using non-string/non-null value
             console.warn(new Error(`Trying to set simple-input's value to ${typeof v}, expected string, number, or null.`));
             //normalize the value
