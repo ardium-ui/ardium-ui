@@ -119,7 +119,9 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
     protected _percentValueToValue(percent: number, handleId: number): SliderRange {
         const minMaxDifference = Math.abs(this._min - this._max);
         let newVal = percent * minMaxDifference + this._min;
-        newVal = roundToPrecision(newVal, 12);
+        //round to 9 decimal places to avoid floating point arithmetic errors
+        //9 is an arbitrary number that just works well. ¯\_(ツ)_/¯
+        newVal = roundToPrecision(newVal, 9);
 
         const newValObj = { low: this._value.low, high: this._value.high };
         if (handleId == 1) {
@@ -128,7 +130,7 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
         else {
             newValObj.high = newVal;
         }
-        return newValObj; //round to 12 decimal places to avoid floating point arithmetic errors
+        return newValObj;
     }
 
     //! handle focus monitors

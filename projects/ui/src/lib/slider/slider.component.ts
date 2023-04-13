@@ -80,8 +80,9 @@ export class ArdiumSliderComponent extends _AbstractSlider<number> {
     protected _percentValueToValue(percent: number): number {
         const minMaxDifference = Math.abs(this._min - this._max);
         const newVal = percent * minMaxDifference + this._min;
-        //round to 12 decimal places to avoid floating point arithmetic errors
-        //12 is an arbitrary number that just works well.
-        return roundToPrecision(newVal, 12);
+        console.log(minMaxDifference, newVal);
+        //round to 9 decimal places to avoid floating point arithmetic errors
+        //9 is an arbitrary number that just works well. ¯\_(ツ)_/¯
+        return roundToPrecision(newVal, 9);
     }
 }
