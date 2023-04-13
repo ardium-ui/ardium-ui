@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SliderTooltipFormatFn } from '@ardium-ui/ui';
 import { Logger } from './../../services/logger.service';
 
 @Component({
@@ -13,5 +14,7 @@ export class SliderPage implements OnInit {
 
     ngOnInit(): void {
     }
+
+    readonly tooltipFormatFn: SliderTooltipFormatFn = (v: number): string => String(v / 1000) + 'k';
 
 }
