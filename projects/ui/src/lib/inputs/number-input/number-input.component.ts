@@ -6,8 +6,9 @@ import { OneAxisAlignment } from '../../types/alignment.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { NumberInputModel, NumberInputModelHost } from '../input-utils';
-import { isDefined } from 'simple-bool';
+import { isDefined, isFloat } from 'simple-bool';
 import { ArdNumberInputPlaceholderTemplateDirective } from './number-input.directives';
+import { roundToPrecision } from 'more-rounding';
 
 @Component({
     selector: 'ard-number-input',
@@ -62,6 +63,7 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
             `ard-appearance-${this.appearance}`,
             `ard-variant-${this.variant}`,
             `ard-text-align-${this.alignText}`,
+            `ard-quick-change-${this.allowQuickChange}`,
         ].join(' ');
     }
 
@@ -120,9 +122,9 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
     get max(): number { return this._max; }
     set max(v: any) { this._max = coerceNumberProperty(v); }
 
-    private _allowFloat: boolean = false;
+    private _allowFloat?: boolean = undefined;
     @Input()
-    get allowFloat(): boolean { return this._allowFloat; }
+    get allowFloat(): boolean { return this._allowFloat ?? isFloat(this._stepSize); }
     set allowFloat(v: any) { this._allowFloat = coerceBooleanProperty(v); }
 
     //! incerement/decrement buttons
@@ -144,8 +146,12 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
         if (direction == -1 && num <= this.min) return;
 
         const newValue = num + this.stepSize * direction;
-        this.writeValue(newValue);
-        this.quickChangeEvent.next({ direction, value: newValue });
+        //round to 9 decimal places to avoid floating point arithmetic errors
+        //9 is an arbitrary number that just works well. ¯\_(ツ)_/¯
+        const newValuePrecise = roundToPrecision(newValue, 9);
+        
+        this.writeValue(newValuePrecise);
+        this.quickChangeEvent.next({ direction, value: newValuePrecise });
         this._emitChange();
 
         this._checkButtonAvailability();

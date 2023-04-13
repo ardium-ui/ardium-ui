@@ -4,7 +4,7 @@
     (click)="focus()"
     [style]="{'--ard-_input-width': inputWidth + 2}"
 >
-    <ard-button
+    <ard-button *ngIf="allowQuickChange"
         class="ard-quick-change-button decrement"
         [variant]="buttonVariant"
         [appearance]="buttonAppearance"
@@ -36,7 +36,7 @@
             (change)="onChange($event)"
         >
     </div>
-    <ard-button
+    <ard-button *ngIf="allowQuickChange"
         class="ard-quick-change-button increment"
         [variant]="buttonVariant"
         [appearance]="buttonAppearance"

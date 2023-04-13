@@ -45,6 +45,12 @@
     //! variants
     &.ard-variant-rounded {
         border-radius: 8px;
+
+        &.ard-quick-change-false {
+            .ard-input-container {
+                border-radius: 8px;
+            }
+        }
     }
     &.ard-variant-sharp {
         border-radius: 0;
@@ -59,6 +65,12 @@
             height: 30px;
             width: 30px;
             margin: 0 2px;
+        }
+
+        &.ard-quick-change-false {
+            .ard-input-container {
+                border-radius: 999px;
+            }
         }
     }
 
