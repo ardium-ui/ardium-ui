@@ -71,21 +71,3 @@
         </div>
     </div>
 </div>
-
-
-<div class="master">
-    <span class="title">Input appearances, variants, max/min, text align, ngModel, stepSize</span>
-    <div class="grid master">
-        <ng-container *ngFor="let variant of variants">
-                <ng-container *ngFor="let appearance of appearances">
-                    <ard-number-input
-                        *ngFor="let disabled of [false, true]"
-                        [disabled]="disabled"
-                        [appearance]="appearance"
-                        [variant]="variant"
-                    ></ard-number-input>
-                </ng-container>
-            <span class="title variant">{{ variant }}</span>
-        </ng-container>
-    </div>
-</div>
