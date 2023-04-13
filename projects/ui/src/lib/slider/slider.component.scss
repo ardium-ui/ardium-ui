@@ -64,3 +64,10 @@ body.ard-prevent-touch-actions {
         line-height: 1em;
     }
 }
+.ard-disabled {
+    .ard-slider-container-master,
+    .ard-range-slider-container-master {
+        pointer-events: none;
+        opacity: 60%;
+    }
+}
