@@ -7,7 +7,7 @@ import { isDefined, isObject } from 'simple-bool';
 import { SimpleComponentColor } from '../types/colors.types';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ArdSliderTooltipDirective } from './slider.directive';
-import { SliderLabelObject, SliderDecorationPosition, SliderTooltipContext, SliderTooltipFormatFn, _InternalSliderLabelObject } from './slider.types';
+import { SliderLabelObject, SliderDecorationPosition, SliderTooltipContext, SliderTooltipFormatFn, _InternalSliderLabelObject, SliderTooltipBehavior } from './slider.types';
 
 
 @Directive()
@@ -208,7 +208,12 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     //! tooltip
     @ContentChild(ArdSliderTooltipDirective, { read: TemplateRef }) tooltipTemplate?: TemplateRef<any>;
 
-    @Input() tooltipPosition: SliderDecorationPosition = SliderDecorationPosition.Top; //TODO
+    @Input() tooltipPosition: SliderDecorationPosition = SliderDecorationPosition.Top;
+
+    private _tooltipBehavior: SliderTooltipBehavior = SliderTooltipBehavior.Auto;
+    @Input()
+    set tooltipBehavior(v: SliderTooltipBehavior) { this._tooltipBehavior = v; }
+    get tooltipBehavior(): SliderTooltipBehavior { return this._tooltipBehavior; }
 
     //! event handlers
     protected _isGrabbed: number = 0;

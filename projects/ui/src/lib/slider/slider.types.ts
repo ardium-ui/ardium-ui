@@ -3,6 +3,13 @@ export type SliderTooltipContext = {
     $implicit: string | number;
 }
 
+export const SliderTooltipBehavior = {
+    Always: 'always',
+    Auto: 'auto',
+    Never: 'never',
+} as const;
+export type SliderTooltipBehavior = typeof SliderTooltipBehavior[keyof typeof SliderTooltipBehavior];
+
 export const SliderDecorationPosition = {
     Top: 'top',
     Bottom: 'bottom',

@@ -28,7 +28,11 @@
             <div class="ard-focus-overlay"></div>
             <div class="ard-hitbox"></div>
         </button>
-        <div class="ard-slider-tooltip-wrapper" [style]="{left: getHandlePosition(1)}">
+        <div class="ard-slider-tooltip-wrapper"
+            *ngIf="tooltipBehavior != 'never'"
+            [class.ard-tooltip-always]="tooltipBehavior == 'always'"
+            [style]="{left: getHandlePosition(1)}"
+        >
             <ng-template #defaultTooltipTemplate let-value>
                 <div class="ard-slider-tooltip">{{ value }}</div>
             </ng-template>
