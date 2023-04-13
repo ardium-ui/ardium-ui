@@ -1,1 +1,45 @@
-<p>range-slider works!</p>
+<div class="master flex">
+    <span class="title">Most basic slider</span>
+    <ard-range-slider></ard-range-slider>
+</div>
+<div class="master flex">
+    <span class="title">Slider with set value, custom min, max, and step</span>
+    <ard-range-slider
+        min="-100"
+        max="100"
+        step="50"
+        [value]="[-70, 70]"
+    ></ard-range-slider>
+</div>
+<div class="master flex">
+    <span class="title">Slider with value ticks and label</span>
+    <ard-range-slider
+        step="10"
+        showValueTicks
+        [labels]="[0, 20, 40, 60, 80, 100]"
+    ></ard-range-slider>
+</div>
+<div class="master flex">
+    <span class="title">Slider events</span>
+    <ard-range-slider
+        (valueChange)="log('valueChange', $event)"
+        (focus)="log('focus', $event)"
+        (blur)="log('blur', $event)"
+    ></ard-range-slider>
+</div>
+<div class="master flex">
+    <span class="title">Slider with custom tooltip format function</span>
+    <ard-range-slider
+        max="1e5"
+        step="1e3"
+        [tooltipFormat]="tooltipFormatFn"    
+    ></ard-range-slider>
+</div>
+<div class="master flex">
+    <span class="title">Slider with custom tooltip template</span>
+    <ard-range-slider>
+        <ng-template ard-range-slider-tooltip-tmp let-value>
+            <span class="ard-range-slider-tooltip" [style]="'--ard-background: salmon'">{{ value }}</span>
+        </ng-template>
+    </ard-range-slider>
+</div>
