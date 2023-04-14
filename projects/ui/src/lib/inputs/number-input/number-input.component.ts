@@ -138,12 +138,14 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
     get stepSize(): number { return this._stepSize; }
     set stepSize(v: any) { this._stepSize = coerceNumberProperty(v); }
     
-    onQuickChangeButtonClick(direction: 1 | -1): void {
+    onQuickChangeButtonClick(direction: 1 | -1, event?: MouseEvent): void {
         let num = this.inputModel.numberValue;
         if (!num) num = 0;
 
         if (direction == 1 && num >= this.max) return;
         if (direction == -1 && num <= this.min) return;
+
+        if (event) event.stopPropagation();
 
         const newValue = num + this.stepSize * direction;
         //round to 9 decimal places to avoid floating point arithmetic errors
