@@ -64,12 +64,10 @@ export class HoldDirective {
     public onKeyDown(event: KeyboardEvent): void {
         if (this.allowEnterKey && event.code == 'Enter') event.preventDefault();
         if (this.isKeyDown) return;
-        console.log('onKeyDown', this.allowEnterKey, event.code);
         if (
             this.allowSpaceKey && event.code == 'Space' ||
             this.allowEnterKey && event.code == 'Enter'
         ) {
-            console.log('triggering');
             this.onMouseDown();
             this.isKeyDown = true;
         }
