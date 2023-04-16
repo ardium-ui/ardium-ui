@@ -350,8 +350,6 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
 
         this.dropdownOverlay = this.overlay.create(config);
 
-        this.dropdownOverlay
-
         const portal = new TemplatePortal(this.dropdownTemplate, this.viewContainerRef);
         this.dropdownOverlay.attach(portal);
         this.setOverlaySize();
