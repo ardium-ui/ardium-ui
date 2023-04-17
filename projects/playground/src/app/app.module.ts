@@ -9,6 +9,7 @@ import { CheckboxModule } from './pages/checkbox/checkbox.module';
 import { ChipsModule } from './pages/chips/chips.module';
 import { FabModule } from './pages/fab/fab.module';
 import { HomeModule } from './pages/home/home.module';
+import { IconModule } from './pages/icon/icon.module';
 import { InputsModule } from './pages/inputs/inputs.module';
 import { SegmentModule } from './pages/segment/segment.module';
 import { SelectModule } from './pages/select/select.module';
@@ -36,6 +37,7 @@ import { StateboxModule } from './pages/statebox/statebox.module';
         InputsModule,
         SegmentModule,
         SlidersModule,
+        IconModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

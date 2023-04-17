@@ -5,6 +5,7 @@ import { CheckboxPage } from './pages/checkbox/checkbox.page';
 import { ChipsPage } from './pages/chips/chips.page';
 import { FabPage } from './pages/fab/fab.page';
 import { HomePage } from './pages/home/home.page';
+import { IconPage } from './pages/icon/icon.page';
 import { InputsPage } from './pages/inputs/inputs.page';
 import { SegmentPage } from './pages/segment/segment.page';
 import { SelectPage } from './pages/select/select.page';
@@ -24,6 +25,7 @@ const routes: Routes = [
     { path: 'slide-toggle', component: SlideTogglePage },
     { path: 'stars', component: StarsPage },
     { path: 'chips', component: ChipsPage },
+    { path: 'icon', component: IconPage },
     { path: 'sliders', component: SlidersPage, loadChildren: () => import('./pages/sliders/sliders.module').then(m => m.SlidersModule) },
     { path: 'inputs', component: InputsPage, loadChildren: () => import('./pages/inputs/inputs.module').then(m => m.InputsModule) },
     //redirects
