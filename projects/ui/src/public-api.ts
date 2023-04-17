@@ -69,6 +69,10 @@ export * from './lib/segment/segment.module';
 export * from './lib/segment/segment.component';
 export * from './lib/segment/segment.directives';
 export * from './lib/segment/segment.types';
+//icon
+export * from './lib/icon/icon.module';
+export * from './lib/icon/icon.component';
+export * from './lib/icon/icon.pipe';
 //! types
 export * from './lib/types/alignment.types';
 export * from './lib/types/colors.types';

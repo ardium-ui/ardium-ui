@@ -1,0 +1,22 @@
+@import "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200";
+
+ard-icon {
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 48;
+    font-size: 24px;
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+
+    
+    .ard-icon {
+        font-variation-settings: inherit;
+    }
+
+    .ard-icon-content-wrapper {
+        display: none;
+    }
+}

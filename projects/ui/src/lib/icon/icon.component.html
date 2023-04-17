@@ -1,0 +1,11 @@
+<span class="ard-icon material-symbols-outlined"
+    [attr.aria-hidden]="ariaLabel != undefined"
+    [attr.aria-label]="ariaLabel"
+>
+    {{ contentWrapper.innerText | icon }}
+</span>
+
+
+<div #contentWrapper class="ard-icon-content-wrapper">
+    <ng-content></ng-content>
+</div>
