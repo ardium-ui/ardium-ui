@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { homedir } from 'os';
 
 @Component({
   selector: 'app-icon',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./icon.page.scss']
 })
 export class IconPage {
-
+    iconValue: string = 'home';
 }

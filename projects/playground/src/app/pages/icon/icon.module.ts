@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ArdiumIconModule } from '@ardium-ui/ui';
 import { IconPage } from './icon.page';
 
@@ -11,6 +12,7 @@ import { IconPage } from './icon.page';
     ],
     imports: [
         CommonModule,
+        FormsModule,
         ArdiumIconModule,
     ],
     exports: [

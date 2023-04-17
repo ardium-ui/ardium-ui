@@ -18,3 +18,10 @@
         <ard-icon>Create New Folder</ard-icon>
     </div>
 </div>
+<div class="master flex">
+    <span class="title">Icon with variable input (uses [icon] input)</span>
+    <input type="text" [(ngModel)]="iconValue">
+    <div>
+        <ard-icon [icon]="iconValue"></ard-icon>
+    </div>
+</div>
