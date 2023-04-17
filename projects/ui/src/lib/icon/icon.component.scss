@@ -10,7 +10,10 @@ ard-icon {
     width: 1em;
     height: 1em;
     display: inline-block;
-
+    user-select: none;
+    background-repeat: no-repeat;
+    fill: currentColor;
+    overflow: hidden;
     
     .ard-icon {
         font-variation-settings: inherit;

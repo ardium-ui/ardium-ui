@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
     selector: 'ard-icon',
@@ -7,6 +7,13 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ArdiumIconComponent {
+export class ArdiumIconComponent implements AfterViewInit {
     @Input() ariaLabel?: string;
+    @Input() icon?: string;
+
+    @ViewChild('contentWrapper') contentWrapper!: ElementRef<HTMLElement>;
+
+    ngAfterViewInit(): void {
+        if (!this.icon && !this.contentWrapper.nativeElement.innerText) console.warn(`Using <ard-icon> without specifying the [icon] field.`);
+    }
 }
