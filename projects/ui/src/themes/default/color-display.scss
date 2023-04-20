@@ -1,0 +1,21 @@
+
+
+.ard-color-display {
+    width: 1em * 19 / 16;
+    height: 1em * 19 / 16;
+    font-size: inherit;
+    cursor: help;
+
+    &.ard-appearance-rounded {
+        border-radius: 20%;
+    }
+    &.ard-appearance-circle {
+        border-radius: 100%;
+    }
+    &.ard-appearance-sharp {
+        border-radius: 0;
+    }
+    &.ard-with-border {
+        border: (1em / 16) solid $text;
+    }
+}

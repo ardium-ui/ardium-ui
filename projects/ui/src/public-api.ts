@@ -73,6 +73,10 @@ export * from './lib/segment/segment.types';
 export * from './lib/icon/icon.module';
 export * from './lib/icon/icon.component';
 export * from './lib/icon/icon.pipe';
+//color-display
+export * from './lib/color/color-display/color-display.module';
+export * from './lib/color/color-display/color-display.component';
+export * from './lib/color/color-display/color-display.types';
 //! types
 export * from './lib/types/alignment.types';
 export * from './lib/types/colors.types';
