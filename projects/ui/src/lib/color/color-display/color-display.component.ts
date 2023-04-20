@@ -1,4 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import * as Color from 'color';
 import { ColorDisplayAppearance } from './color-display.types';
 
@@ -11,6 +12,12 @@ import { ColorDisplayAppearance } from './color-display.types';
 })
 export class ArdiumColorDisplayComponent implements AfterViewInit {
     @Input() ariaLabel?: string;
+
+    private _withLabel: boolean = false;
+    @Input()
+    get withLabel(): boolean { return this._withLabel; }
+    set withLabel(v: any) { this._withLabel = coerceBooleanProperty(v); }
+    
 
     //! appearance
     @Input() appearance: ColorDisplayAppearance = ColorDisplayAppearance.Rounded;

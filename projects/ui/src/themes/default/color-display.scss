@@ -1,21 +1,40 @@
 
 
-.ard-color-display {
-    width: 1em * 19 / 16;
-    height: 1em * 19 / 16;
-    font-size: inherit;
-    cursor: help;
+.ard-color-display-wrapper {
+    gap: 0.3ch;
+    align-items: center;
 
+    .ard-color-display {
+        width: 1em * 19 / 16;
+        height: 1em * 19 / 16;
+        font-size: inherit;
+        cursor: help;
+        border: (1em / 16) solid transparent;
+    }
+
+    .ard-color-display-label {
+        font-family: monospace;
+        font-size: 1.15em;
+    }
+    
     &.ard-appearance-rounded {
-        border-radius: 20%;
+        .ard-color-display {
+            border-radius: 20%;
+        }
     }
     &.ard-appearance-circle {
-        border-radius: 100%;
+        .ard-color-display {
+            border-radius: 100%;
+        }
     }
     &.ard-appearance-sharp {
-        border-radius: 0;
+        .ard-color-display {
+            border-radius: 0;
+        }
     }
     &.ard-with-border {
-        border: (1em / 16) solid $text;
+        .ard-color-display {
+            border-color: $text;
+        }
     }
 }
