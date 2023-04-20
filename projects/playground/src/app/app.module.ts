@@ -17,13 +17,14 @@ import { SlideToggleModule } from './pages/slide-toggle/slide-toggle.module';
 import { SlidersModule } from './pages/sliders/sliders.module';
 import { StarsModule } from './pages/stars/stars.module';
 import { StateboxModule } from './pages/statebox/statebox.module';
+import { ColorDisplayModule } from './pages/color-display/color-display.module';
 
 @NgModule({
     declarations: [
         AppComponent,
     ],
     imports: [
-        BrowserModule,
+    BrowserModule,
         AppRoutingModule,
         HomeModule,
         SelectModule,
@@ -38,6 +39,7 @@ import { StateboxModule } from './pages/statebox/statebox.module';
         SegmentModule,
         SlidersModule,
         IconModule,
+        ColorDisplayModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
