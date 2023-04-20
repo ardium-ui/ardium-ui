@@ -5,6 +5,12 @@
     </div>
 </div>
 <div class="master">
+    <span class="title">Color display with visual label</span>
+    <div>
+        <ard-color-display color="#80a906" withLabel></ard-color-display>
+    </div>
+</div>
+<div class="master">
     <span class="title">Color display with aria-label</span>
     <div>
         <ard-color-display color="#80a906" ariaLabel="Green-ish color"></ard-color-display>
@@ -12,15 +18,14 @@
 </div>
 <div class="master">
     <span class="title">Color display appearance</span>
-    <div class="flex horiz">
+    <div>
         <ard-color-display color="#80a906" appearance="circle with-border"></ard-color-display>
-        <span>#80a906</span>
     </div>
 </div>
 <div class="master">
     <span class="title">Animated color display</span>
     <div>
-        <ard-color-display [color]="color$ | async" ariaLabel="Animated rainbow color display"></ard-color-display>
+        <ard-color-display [color]="color$ | async" ariaLabel="Animated rainbow color display" noLabel></ard-color-display>
     </div>
 </div>
 <div class="master">
