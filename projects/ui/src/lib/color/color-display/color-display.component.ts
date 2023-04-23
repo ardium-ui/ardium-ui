@@ -34,7 +34,6 @@ export class ArdiumColorDisplayComponent implements AfterViewInit {
     }
     @Input()
     set color(v: any) {
-        console.log(v);
         this._color = Color(v).hex();
     }
 
