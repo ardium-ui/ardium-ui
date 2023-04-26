@@ -3,6 +3,7 @@ import { ElementRef } from '@angular/core';
 
 export function getDomContentRect(el: HTMLElement): DOMRect;
 export function getDomContentRect(el: ElementRef<HTMLElement>): DOMRect;
+export function getDomContentRect(el: HTMLElement | ElementRef<HTMLElement>): DOMRect;
 export function getDomContentRect(el: HTMLElement | ElementRef<HTMLElement>): DOMRect {
     if (el instanceof ElementRef) el = el.nativeElement;
 
@@ -20,12 +21,13 @@ export function getDomContentRect(el: HTMLElement | ElementRef<HTMLElement>): DO
 
 export function getDomPaddingRect(el: HTMLElement): DOMRect;
 export function getDomPaddingRect(el: ElementRef<HTMLElement>): DOMRect;
+export function getDomPaddingRect(el: HTMLElement | ElementRef<HTMLElement>): DOMRect;
 export function getDomPaddingRect(el: HTMLElement | ElementRef<HTMLElement>): DOMRect {
     if (el instanceof ElementRef) el = el.nativeElement;
 
     const elRect = el.getBoundingClientRect();
     const [topBorder, rightBorder, bottomBorder, leftBorder] = getFourWayValue(el, 'border-width');
-    
+
     return new DOMRect(
         elRect.x + leftBorder,
         elRect.y + topBorder,
