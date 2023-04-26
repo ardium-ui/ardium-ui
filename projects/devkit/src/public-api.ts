@@ -16,3 +16,5 @@ export * from './lib/find-functions/find-suggestion';
 
 export * from './lib/keyboard-shortcut/keyboard-shortcut.service';
 export * from './lib/keyboard-shortcut/keyboard-shortcut.types';
+
+export * from './lib/position/dom-boxes';
