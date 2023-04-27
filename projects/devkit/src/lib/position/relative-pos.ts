@@ -30,18 +30,18 @@ export class EventRelativePos {
         });
     }
 
-    static fromEvent(event: PointerEvent, el: HTMLElement): EventRelativePos;
-    static fromEvent(event: PointerEvent, el: ElementRef<HTMLElement>): EventRelativePos;
-    static fromEvent(event: PointerEvent, el: HTMLElement | ElementRef<HTMLElement>): EventRelativePos;
-    static fromEvent(event: PointerEvent, el: HTMLElement | ElementRef<HTMLElement>): EventRelativePos {
+    static fromEvent(event: MouseEvent, el: HTMLElement): EventRelativePos;
+    static fromEvent(event: MouseEvent, el: ElementRef<HTMLElement>): EventRelativePos;
+    static fromEvent(event: MouseEvent, el: HTMLElement | ElementRef<HTMLElement>): EventRelativePos;
+    static fromEvent(event: MouseEvent, el: HTMLElement | ElementRef<HTMLElement>): EventRelativePos {
         return getEventRelativePos(event, el);
     }
 }
 
-export function getEventRelativePos(event: PointerEvent, el: HTMLElement): EventRelativePos;
-export function getEventRelativePos(event: PointerEvent, el: ElementRef<HTMLElement>): EventRelativePos;
-export function getEventRelativePos(event: PointerEvent, el: HTMLElement | ElementRef<HTMLElement>): EventRelativePos;
-export function getEventRelativePos(event: PointerEvent, el: HTMLElement | ElementRef<HTMLElement>): EventRelativePos {
+export function getEventRelativePos(event: MouseEvent, el: HTMLElement): EventRelativePos;
+export function getEventRelativePos(event: MouseEvent, el: ElementRef<HTMLElement>): EventRelativePos;
+export function getEventRelativePos(event: MouseEvent, el: HTMLElement | ElementRef<HTMLElement>): EventRelativePos;
+export function getEventRelativePos(event: MouseEvent, el: HTMLElement | ElementRef<HTMLElement>): EventRelativePos {
     if (el instanceof ElementRef) el = el.nativeElement;
     const elRect = el.getBoundingClientRect();
 
