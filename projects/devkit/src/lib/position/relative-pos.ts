@@ -1,6 +1,5 @@
 
 import { ElementRef } from '@angular/core';
-import { getDomPaddingRect } from './dom-boxes';
 
 export class EventRelativePos {
     readonly overflowsTop!: boolean;
@@ -8,6 +7,7 @@ export class EventRelativePos {
     readonly overflowsBottom!: boolean;
     readonly overflowsLeft!: boolean;
     readonly overflows!: boolean;
+    
     constructor(
         public readonly top: number,
         public readonly right: number,
