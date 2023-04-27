@@ -18,6 +18,7 @@ import { SlidersModule } from './pages/sliders/sliders.module';
 import { StarsModule } from './pages/stars/stars.module';
 import { StateboxModule } from './pages/statebox/statebox.module';
 import { ColorDisplayModule } from './pages/color-display/color-display.module';
+import { ColorPickerModule } from './pages/color-picker/color-picker.module';
 
 @NgModule({
     declarations: [
@@ -40,6 +41,7 @@ import { ColorDisplayModule } from './pages/color-display/color-display.module';
         SlidersModule,
         IconModule,
         ColorDisplayModule,
+        ColorPickerModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
