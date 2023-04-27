@@ -30,19 +30,33 @@ export class EventRelativePos {
         });
     }
 
-    static fromEvent(event: MouseEvent, el: HTMLElement): EventRelativePos;
-    static fromEvent(event: MouseEvent, el: ElementRef<HTMLElement>): EventRelativePos;
-    static fromEvent(event: MouseEvent, el: HTMLElement | ElementRef<HTMLElement>): EventRelativePos;
-    static fromEvent(event: MouseEvent, el: HTMLElement | ElementRef<HTMLElement>): EventRelativePos {
+    static fromEvent(event: MouseEvent | TouchEvent | Touch, el: HTMLElement): EventRelativePos;
+    static fromEvent(event: MouseEvent | TouchEvent | Touch, el: ElementRef<HTMLElement>): EventRelativePos;
+    static fromEvent(event: MouseEvent | TouchEvent | Touch, el: HTMLElement | ElementRef<HTMLElement>): EventRelativePos;
+    static fromEvent(event: MouseEvent | TouchEvent | Touch, el: HTMLElement | ElementRef<HTMLElement>): EventRelativePos {
         return getEventRelativePos(event, el);
     }
 }
 
-export function getEventRelativePos(event: MouseEvent, el: HTMLElement): EventRelativePos;
-export function getEventRelativePos(event: MouseEvent, el: ElementRef<HTMLElement>): EventRelativePos;
-export function getEventRelativePos(event: MouseEvent, el: HTMLElement | ElementRef<HTMLElement>): EventRelativePos;
-export function getEventRelativePos(event: MouseEvent, el: HTMLElement | ElementRef<HTMLElement>): EventRelativePos {
+function isTouchEvent(v: any): v is TouchEvent {
+    return v?.touches;
+}
+
+export function getEventRelativePos(event: MouseEvent | TouchEvent | Touch, el: HTMLElement): EventRelativePos;
+export function getEventRelativePos(event: MouseEvent | TouchEvent | Touch, el: ElementRef<HTMLElement>): EventRelativePos;
+export function getEventRelativePos(event: MouseEvent | TouchEvent | Touch, el: HTMLElement | ElementRef<HTMLElement>): EventRelativePos;
+export function getEventRelativePos(event: MouseEvent | TouchEvent | Touch, el: HTMLElement | ElementRef<HTMLElement>): EventRelativePos {
+    //convert ElementRef
     if (el instanceof ElementRef) el = el.nativeElement;
+
+    //convert TouchEvent
+    if (isTouchEvent(event)) {
+        const firstTouch = event.touches.item(0);
+        if (!firstTouch) throw new Error("Cannot read event position. The TouchEvent has no Touch instances.");
+        event = firstTouch;
+    }
+
+    //calculate
     const elRect = el.getBoundingClientRect();
 
     const eventX = event.clientX;
