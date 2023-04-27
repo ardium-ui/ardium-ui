@@ -1,19 +1,25 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { ArdiumColorPickerComponent } from './color-picker.component';
-import {  } from './color-picker.directives';
+import { ArdColorPickerColorWindowTemplateDirective, ArdColorPickerHueIndicatorTemplateDirective, ArdColorPickerShadeIndicatorTemplateDirective } from './color-picker.directives';
 
 
 
 @NgModule({
     declarations: [
         ArdiumColorPickerComponent,
+        ArdColorPickerHueIndicatorTemplateDirective,
+        ArdColorPickerShadeIndicatorTemplateDirective,
+        ArdColorPickerColorWindowTemplateDirective,
     ],
     imports: [
         CommonModule
     ],
     exports: [
-        ArdiumColorPickerComponent
+        ArdiumColorPickerComponent,
+        ArdColorPickerHueIndicatorTemplateDirective,
+        ArdColorPickerShadeIndicatorTemplateDirective,
+        ArdColorPickerColorWindowTemplateDirective,
     ]
 })
 export class ArdiumColorPickerModule { }

@@ -5,8 +5,14 @@ export type ColorPickerIndicatorContext = {
     $implicit: Color;
 }
 
-export type ColorPickerDisplayContext = {
+export type ColorPickerColorWindowContext = {
     color: Color;
     $implicit: Color;
     referenceColor: Color;
 }
+
+export const ColorPickerVariant = {
+    Rounded: 'rounded',
+    Sharp: 'sharp',
+} as const;
+export type ColorPickerVariant = typeof ColorPickerVariant[keyof typeof ColorPickerVariant];

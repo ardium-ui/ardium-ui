@@ -1,7 +1,52 @@
-<div class="ard-color-picker">
-    <div class="ard-color-picker-controls">
-        <div class="ard-color-picker-shade">
-            
+<div class="ard-color-picker" [ngClass]="ngClasses">
+    <div class="ard-color-picker-click-areas">
+        <div #shadeMap
+            class="ard-color-picker-shade-map"
+            [style]="{'--ard-color-picker-current': currentShadeMapColor}"
+            (mousedown)="onShadeAreaMouseDown($event)"
+            (pointerdown)="onShadeAreaMouseDown($event)"
+        >
+            <div class="ard-color-picker-shade-indicator-container" [style]="getShadeIndicatorPosition()">
+                <ng-template #defaultShadeIndicatorTemplate>
+                    <div class="ard-color-picker-shade-indicator"></div>
+                </ng-template>
+                
+                <ng-template [ngTemplateOutlet]="shadeIndicatorTemplate || defaultShadeIndicatorTemplate"
+                    [ngTemplateOutletContext]="getIndicatorContext()"
+                ></ng-template>
+            </div>
+        </div>
+        <div #hueMap
+            class="ard-color-picker-hue-map"
+            (mousedown)="onHueAreaMouseDown($event)"
+            (pointerdown)="onHueAreaMouseDown($event)"
+        >
+            <div class="ard-color-picker-hue-indicator-container" [style]="getHueIndicatorPosition()">
+                <ng-template #defaultHueIndicatorTemplate>
+                    <div class="ard-color-picker-hue-indicator"></div>
+                </ng-template>
+                
+                <ng-template [ngTemplateOutlet]="hueIndicatorTemplate || defaultHueIndicatorTemplate"
+                    [ngTemplateOutletContext]="getIndicatorContext()"
+                ></ng-template>
+            </div>
+        </div>
+    </div>
+    <div class="ard-color-picker-input-panel">
+        <div class="ard-color-picker-inputs">
+
+        </div>
+        <div class="ard-color-picker-window-container">
+            <ng-template #defaultColorWindowTemplate let-col let-refcol="referenceColor">
+                <div class="ard-color-picker-window">
+                    <div class="ard-color-picker-window-current" [style]="{ background: col.hex() }"></div>
+                    <div class="ard-color-picker-window-reference" [style]="{ background: refcol.hex() }"></div>
+                </div>
+            </ng-template>
+        
+            <ng-template [ngTemplateOutlet]="colorWindowTemplate || defaultColorWindowTemplate"
+                [ngTemplateOutletContext]="getColorWindowContext()"
+            ></ng-template>
         </div>
     </div>
 </div>

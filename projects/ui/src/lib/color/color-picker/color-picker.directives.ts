@@ -10,3 +10,8 @@ export class ArdColorPickerHueIndicatorTemplateDirective {
 export class ArdColorPickerShadeIndicatorTemplateDirective {
     constructor(public template: TemplateRef<ColorPickerIndicatorContext>) {  }
 }
+
+@Directive({ selector: 'ard-color-picker > ng-template[ard-color-window-tmp]' })
+export class ArdColorPickerColorWindowTemplateDirective {
+    constructor(public template: TemplateRef<ColorPickerIndicatorContext>) {  }
+}

@@ -1,0 +1,47 @@
+.ard-color-picker {
+    display: flex;
+    flex-direction: column;
+
+    .ard-color-picker-click-areas {
+        display: flex;
+        flex-direction: row;
+
+        .ard-color-picker-shade-map,
+        .ard-color-picker-hue-map {
+            position: relative;
+        }
+        .ard-color-picker-shade-map {
+            background: 
+                linear-gradient(to bottom, transparent, rgb(0, 0, 0)),
+                linear-gradient(to right, transparent, var(--ard-color-picker-current)),
+                white;
+        }
+        .ard-color-picker-hue-map {
+            background: linear-gradient(to bottom,
+                hsl(0, 100%, 50%),
+                hsl(30, 100%, 50%),
+                hsl(60, 100%, 50%),
+                hsl(90, 100%, 50%),
+                hsl(120, 100%, 50%),
+                hsl(150, 100%, 50%),
+                hsl(180, 100%, 50%),
+                hsl(210, 100%, 50%),
+                hsl(240, 100%, 50%),
+                hsl(270, 100%, 50%),
+                hsl(300, 100%, 50%),
+                hsl(330, 100%, 50%),
+                hsl(360, 100%, 50%)
+            );
+        }
+        .ard-color-picker-shade-indicator-container,
+        .ard-color-picker-hue-indicator-container {
+            position: absolute;
+            transform: translate(-50%, -50%);
+        }
+    }
+    &.ard-vertical {
+        .ard-color-picker-click-areas {
+            flex-direction: column;
+        }
+    }
+}
