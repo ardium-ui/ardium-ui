@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Logger } from '../../services/logger.service';
 
 @Component({
   selector: 'app-color-picker',
@@ -7,4 +8,6 @@ import { Component } from '@angular/core';
 })
 export class ColorPickerPage {
 
+    constructor(private _logger: Logger) { }
+    readonly log = this._logger.log;
 }
