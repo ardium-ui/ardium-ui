@@ -1,8 +1,12 @@
 <div class="ard-color-picker" [ngClass]="ngClasses">
-    <div class="ard-color-picker-click-areas">
+    <div class="ard-color-picker-click-areas"
+        [style]="{
+            '--ard-color-picker-current-hue': currentShadeMapColor,
+            '--ard-color-picker-current-color': currentOpacityMapColor
+        }"
+    >
         <div #shadeMap
             class="ard-color-picker-shade-map"
-            [style]="{'--ard-color-picker-current': currentShadeMapColor}"
             (mousedown)="onShadeAreaMouseDown($event)"
             (pointerdown)="onShadeAreaMouseDown($event)"
         >
@@ -27,6 +31,22 @@
                 </ng-template>
                 
                 <ng-template [ngTemplateOutlet]="hueIndicatorTemplate || defaultHueIndicatorTemplate"
+                    [ngTemplateOutletContext]="getIndicatorContext()"
+                ></ng-template>
+            </div>
+        </div>
+        <div #opacityMap
+            *ngIf="withOpacity"
+            class="ard-color-picker-opacity-map"
+            (mousedown)="onOpacityAreaMouseDown($event)"
+            (pointerdown)="onOpacityAreaMouseDown($event)"
+        >
+            <div class="ard-color-picker-opacity-indicator-container" [style]="getOpacityIndicatorPosition()">
+                <ng-template #defaultOpacityIndicatorTemplate>
+                    <div class="ard-color-picker-opacity-indicator"></div>
+                </ng-template>
+                
+                <ng-template [ngTemplateOutlet]="opacityIndicatorTemplate || defaultOpacityIndicatorTemplate"
                     [ngTemplateOutletContext]="getIndicatorContext()"
                 ></ng-template>
             </div>
