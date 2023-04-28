@@ -58,9 +58,6 @@
             }
         }
     }
-    &.ard-chip-deletable {
-
-    }
     //! variants
     &.ard-variant-rounded {
         --ard-current-border-radius: 6px;
@@ -172,6 +169,13 @@
             padding-left: 8px;
             margin-right: -2px;
         }
+        &.ard-chip-deletable {
+            padding-left: 4px;
+
+            .ard-chip-content-wrapper {
+                padding-left: 8px;
+            }
+        }
     }
     &.ard-chip-align-right {
         flex-direction: row-reverse;
@@ -180,6 +184,13 @@
         .ard-chip-selection-icon {
             padding-right: 8px;
             margin-left: -2px;
+        }
+        &.ard-chip-deletable {
+            padding-right: 4px;
+
+            .ard-chip-content-wrapper {
+                padding-right: 8px;
+            }
         }
     }
     //! compact
