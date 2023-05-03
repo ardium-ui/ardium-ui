@@ -11,12 +11,13 @@
     justify-content: stretch;
     gap: 10px;
     cursor: text;
+    box-sizing: border-box;
+    height: 2.1875rem;
+    font-size: 1rem;
+    line-height: 1.25rem;
 
     .ard-input-container {
         flex-grow: 1;
-        height: 36px;
-        font-size: 16px;
-        line-height: 20px;
         text-size-adjust: 100%;
         display: flex;
         align-items: center;
@@ -35,5 +36,11 @@
             display: block;
             width: 100%;
         }
+    }
+    //! compact
+    &.ard-compact {
+        height: 1.6875rem;
+        font-size: 0.85rem;
+        line-height: 1;
     }
 }
