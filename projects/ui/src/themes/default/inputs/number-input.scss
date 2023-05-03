@@ -93,6 +93,11 @@
         background: var(--ard-appearance-background);
         border: var(--ard-appearance-border);
     }
+
+    //! compact
+    &.ard-compact {
+        font-size: 0.925rem;
+    }
 }
 
 .ard-disabled {
