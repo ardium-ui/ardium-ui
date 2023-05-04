@@ -1,5 +1,5 @@
-import { Component, EventEmitter, AfterViewChecked, HostBinding, Input, Output, TemplateRef, ViewEncapsulation, ChangeDetectionStrategy, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { ArdPanelPosition } from '../types/item-storage.types';
+import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, Input, Output, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { DropdownPanelAppearance, DropdownPanelVariant, ScrollAlignment } from './dropdown-panel.types';
 
 @Component({
@@ -26,10 +26,16 @@ export class ArdiumDropdownPanelComponent implements AfterViewInit, AfterViewChe
     @Input() appearance: DropdownPanelAppearance = DropdownPanelAppearance.Raised;
     @Input() variant: DropdownPanelVariant = DropdownPanelVariant.Rounded;
 
+    private _compact: boolean = false;
+    @Input()
+    get compact(): boolean { return this._compact; }
+    set compact(v: any) { this._compact = coerceBooleanProperty(v); }
+
     get ngClasses(): string {
         return [
             `ard-appearance-${this.appearance}`,
             `ard-variant-${this.variant}`,
+            this.compact ? 'ard-compact' : '',
         ].join(' ');
     }
 

@@ -8,7 +8,7 @@
     padding: 0 1.2em;
     letter-spacing: 0.5px;
 
-    //* button variants
+    //! button variants
     &.ard-button-vertical {
         height: max-content;
         padding: 0.3em 1em;
@@ -23,5 +23,18 @@
     }
     &.ard-button-sharp {
         border-radius: 0;
+    }
+
+    //! compact
+    &.ard-compact {
+        font-size: 0.75rem;
+        height: 2.25em;
+        padding: 0 0.9em;
+
+        &.ard-button-vertical {
+            height: max-content;
+            padding: 0.2em 0.8em;
+            gap: 0;
+        }
     }
 }

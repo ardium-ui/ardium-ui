@@ -1,21 +1,24 @@
-<div class="flex master" *ngFor="let variant of variants">
-    <p class="title">{{ variant }}</p>
-    <div class="flex horiz" *ngFor="let appearance of appearances">
-        <div class="flex">
-            <div class="grid" *ngFor="let disabled of [false, true]">
-                <ard-button
-                    *ngFor="let color of colors"
-                    icon="close"
-                    [variant]="variant"
-                    [appearance]="appearance"
-                    [color]="color"
-                    [disabled]="disabled"
-                    (focus)="log('focus', $event)"
-                    (blur)="log('blur', $event)"
-                    (click)="log('click', $event)"
-                >Foo</ard-button>
+<div class="flex" *ngFor="let compact of [false, true]">
+    <div class="flex master" *ngFor="let variant of variants">
+        <p class="title">{{ compact ? 'compact' : 'standard' }} {{ variant }}</p>
+        <div class="flex horiz" *ngFor="let appearance of appearances">
+            <div class="flex">
+                <div class="grid" *ngFor="let disabled of [false, true]">
+                    <ard-button
+                        *ngFor="let color of colors"
+                        icon="close"
+                        [variant]="variant"
+                        [appearance]="appearance"
+                        [color]="color"
+                        [disabled]="disabled"
+                        [compact]="compact"
+                        (focus)="log('focus', $event)"
+                        (blur)="log('blur', $event)"
+                        (click)="log('click', $event)"
+                    >Foo</ard-button>
+                </div>
             </div>
+            <span class="title appearance">{{ appearance }}</span>
         </div>
-        <span class="title appearance">{{ appearance }}</span>
     </div>
 </div>

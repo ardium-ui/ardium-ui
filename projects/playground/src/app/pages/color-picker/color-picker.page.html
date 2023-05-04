@@ -1,0 +1,11 @@
+<div class="master">
+    <span class="title">Simplest color picker</span>
+    <ard-color-picker
+        withOpacity
+        (valueChange)="log('valueChange', $event.string())"
+        (colorHueChange)="log('colorHueChange', $event)"
+        (colorSaturationChange)="log('colorSaturationChange', $event)"
+        (colorValueChange)="log('colorValueChange', $event)"
+        (colorOpacityChange)="log('colorOpacityChange', $event)"
+    ></ard-color-picker>
+</div>

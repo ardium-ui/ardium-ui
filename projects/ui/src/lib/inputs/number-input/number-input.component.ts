@@ -58,12 +58,18 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
     @Input() variant: FormElementVariant = FormElementVariant.Rounded;
     @Input() alignText: OneAxisAlignment = OneAxisAlignment.Middle;
 
+    private _compact: boolean = false;
+    @Input()
+    get compact(): boolean { return this._compact; }
+    set compact(v: any) { this._compact = coerceBooleanProperty(v); }
+
     get ngClasses(): string {
         return [
             `ard-appearance-${this.appearance}`,
             `ard-variant-${this.variant}`,
             `ard-text-align-${this.alignText}`,
             `ard-quick-change-${this.allowQuickChange}`,
+            this.compact ? 'ard-compact' : '',
         ].join(' ');
     }
 

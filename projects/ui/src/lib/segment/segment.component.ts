@@ -25,12 +25,25 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
     @Input() appearance: SegmentAppearance = SegmentAppearance.Outlined;
     @Input() variant: SegmentVariant = SegmentVariant.RoundedConnected;
     @Input() color: ComponentColor = ComponentColor.Primary;
+    
+    private _iconBased: boolean = false;
+    @Input()
+    get iconBased(): boolean { return this._iconBased; }
+    set iconBased(v: any) { this._iconBased = coerceBooleanProperty(v); }
+    
+
+    private _compact: boolean = false;
+    @Input()
+    get compact(): boolean { return this._compact; }
+    set compact(v: any) { this._compact = coerceBooleanProperty(v); }
 
     get ngClasses(): string {
         return [
             `ard-appearance-${this.appearance}`,
             `ard-variant-${this.variant}`,
             `ard-color-${this.color}`,
+            this.iconBased ? 'ard-icon-based' : '',
+            this.compact ? 'ard-compact' : '',
         ].join(' ');
     }
 
