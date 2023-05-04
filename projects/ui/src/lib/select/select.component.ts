@@ -51,7 +51,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     //! privates
     private _items: any[] | null = [];
     private _isMouseBeingUsed = false;
-    @HostBinding('class.ard-select-focused') private _searchBarFocused = false;
+    private _searchBarFocused = false;
 
     //! publics
     public searchTerm: string = '';
@@ -127,6 +127,13 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
             `ard-appearance-${this.appearance}`,
             `ard-variant-${this.variant}`,
             this.compact ? 'ard-compact' : '',
+            this.multiselectable ? 'ard-multiselect' : 'ard-singleselect',
+            this.clearable ? 'ard-clearable' : '',
+            this.searchable ? 'ard-searchable' : '',
+            this.filtered ? 'ard-filtered' : '',
+            this.touched ? 'ard-touched' : '',
+            this.isDropdownOpen ? 'ard-dropdown-open' : '',
+            this._searchBarFocused ? 'ard-select-focused' : '',
         ].join(' ');
     }
 
@@ -164,37 +171,27 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         this._items = value;
     };
 
-    @Input()
-    @HostBinding('class.ard-select')
-    useDefaultClass: boolean = true;
-
     //! attribute and/or class setters/getters
     private _multiselectable: boolean = false;
     @Input()
     @HostBinding('attr.multiple')
-    @HostBinding('class.ard-multiselect')
     get multiselectable(): boolean { return this._multiselectable };
     set multiselectable(v: any) { this._multiselectable = coerceBooleanProperty(v); }
-    @HostBinding('class.ard-singleselect')
     get singleselectable(): boolean { return !this._multiselectable };
 
     private _clearable: boolean = true;
     @Input()
-    @HostBinding('class.ard-clearable')
     get clearable(): boolean { return this._clearable };
     set clearable(v: any) { this._clearable = coerceBooleanProperty(v); }
 
     private _searchable: boolean = false;
     @Input()
-    @HostBinding('class.ard-searchable')
     get searchable(): boolean { return this._searchable };
     set searchable(v: any) { this._searchable = coerceBooleanProperty(v); }
 
-    @HostBinding('class.ard-filtered')
     get filtered(): boolean { return this._searchable && this.searchTerm != '' };
 
     private _touched: boolean = false;
-    @HostBinding('class.ard-touched')
     get touched(): boolean { return this._touched };
     private set touched(state: boolean) {
         this._touched = state;
@@ -242,7 +239,6 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     @Output('search') searchEvent = new EventEmitter<{ search: string, matching: any[] }>();
 
     @Input('isOpen')
-    @HostBinding('class.ard-dropdown-open')
     isDropdownOpen!: boolean;
     @Output('isOpenChange') isDropdownOpenChange = new EventEmitter<boolean>();
 
