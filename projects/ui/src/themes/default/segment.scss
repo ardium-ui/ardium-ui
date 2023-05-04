@@ -13,6 +13,7 @@
     width: max-content;
     height: max-content;
     gap: var(--ard-_segment-padding);
+    overflow: hidden; //hide click indicator overflowing rounded corners on touchscreens
 
     @include defaultMixins.formAppearances();
     @include defaultMixins.formVariants();
