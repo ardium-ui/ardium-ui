@@ -117,10 +117,16 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     @Input() appearance: FormElementAppearance = FormElementAppearance.Outlined;
     @Input() variant: FormElementVariant = FormElementVariant.Rounded;
 
+    private _compact: boolean = false;
+    @Input()
+    get compact(): boolean { return this._compact; }
+    set compact(v: any) { this._compact = coerceBooleanProperty(v); }
+
     get ngClasses(): string {
         return [
             `ard-appearance-${this.appearance}`,
             `ard-variant-${this.variant}`,
+            this.compact ? 'ard-compact' : '',
         ].join(' ');
     }
 
