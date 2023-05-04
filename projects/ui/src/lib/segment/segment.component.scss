@@ -5,6 +5,7 @@
 .ard-segment-row {
     width: 100%;
     display: flex;
+    align-items: center;
 
     &.ard-segment-row-uniform {
         display: grid;
