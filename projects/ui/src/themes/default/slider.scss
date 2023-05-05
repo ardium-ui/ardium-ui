@@ -19,6 +19,16 @@
     &.ard-color-none {
         color: var(--ard-cmpcl--content);
     }
+
+    //! compact
+    &.ard-compact {
+        font-size: 0.85rem;
+
+        .ard-slider-container > .ard-slider-handle {
+            font-size: 0.95em;
+        }
+    }
+
     //! container
     .ard-slider-container {
         display: flex;
