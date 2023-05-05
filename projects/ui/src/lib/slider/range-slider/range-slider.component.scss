@@ -9,10 +9,6 @@ body.ard-prevent-touch-actions {
     display: flex;
     flex-direction: column;
 
-    &, * {
-        cursor: pointer !important;
-    }
-
     //labels
     &.ard-labels-top {
         flex-direction: column-reverse;
