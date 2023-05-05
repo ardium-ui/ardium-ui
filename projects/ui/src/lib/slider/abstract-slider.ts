@@ -133,12 +133,17 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     //! appearance
     @Input() color: SimpleComponentColor = SimpleComponentColor.Primary;
 
-    //! container classes
+    private _compact: boolean = false;
+    @Input()
+    get compact(): boolean { return this._compact; }
+    set compact(v: any) { this._compact = coerceBooleanProperty(v); }
+    
     get ngClasses(): string {
         return [
             `ard-color-${this.color}`,
             `ard-labels-${this.labelPosition}`,
             `ard-tooltip-${this.tooltipPosition}`,
+            this.compact ? 'ard-compact' : '',
         ].join(' ');
     }
 
