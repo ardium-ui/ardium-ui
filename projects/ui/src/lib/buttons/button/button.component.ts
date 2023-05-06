@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ComponentColor } from '../../types/colors.types';
 import { ButtonAppearance, ButtonVariant } from '../general-button.types';
 import { _FocusableComponentBase } from './../../_internal/focusable-component';
@@ -19,6 +20,11 @@ export class ArdiumButtonComponent extends _FocusableComponentBase {
     @Input() variant: ButtonVariant = ButtonVariant.Basic;
     @Input() color: ComponentColor = ComponentColor.Primary;
 
+    private _compact: boolean = false;
+    @Input()
+    get compact(): boolean { return this._compact; }
+    set compact(v: any) { this._compact = coerceBooleanProperty(v); }
+
     @Input() icon?: string;
 
     //* for adding classes to the button
@@ -29,7 +35,8 @@ export class ArdiumButtonComponent extends _FocusableComponentBase {
         return [
             `ard-appearance-${this.appearance}`,
             `ard-color-${this.color}`,
-            ...buttonVariant
+            ...buttonVariant,
+            this.compact ? 'ard-compact' : '',
         ].join(' ');
     }
 }

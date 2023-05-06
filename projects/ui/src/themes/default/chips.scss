@@ -12,7 +12,6 @@
     color: $text2;
     background: $bg;
     border-radius: var(--ard-current-border-radius);
-    line-height: 0.9em;
     padding: 0;
     margin: 6px;
     vertical-align: middle;
@@ -23,9 +22,10 @@
     outline: none;
     user-select: none;
     overflow: hidden;
+    height: 32px;
 
-    .ard-chip-content-wrapper {
-        padding: 6px 10px;
+    > .ard-chip-content-wrapper {
+        padding: 0 12px;
     }
     > .ard-focus-overlay {
         @include defaultMixins.focus-overlay;
@@ -80,7 +80,8 @@
             color: $text2;
             transition:
                 color 0.15s ease,
-                border-color 0.15s ease;
+                border-color 0.15s ease,
+                background-color 0.15s ease;
 
             &.ard-chip-selected {
                 color: var(--ard-cmpcl--on-bg);
@@ -158,30 +159,57 @@
             background: var(--ard-cmpcl--content);
         }
     }
-}
-//! alignments
-.ard-chip-align-left {
-    flex-direction: row;
-    padding-left: 2px;
+    
+    //! alignments
+    &.ard-chip-align-left {
+        flex-direction: row;
+        padding-left: 2px;
 
-    .ard-chip-selection-icon {
-        padding-left: 8px;
-        margin-right: -2px;
-    }
-    &.ard-chip-variant-pill {
-        padding-left: 4px;
-    }
-}
-.ard-chip-align-right {
-    flex-direction: row-reverse;
-    padding-right: 2px;
+        .ard-chip-selection-icon {
+            padding-left: 8px;
+            margin-right: -2px;
+        }
+        &.ard-chip-deletable {
+            padding-left: 4px;
 
-    .ard-chip-selection-icon {
-        padding-right: 8px;
-        margin-left: -2px;
+            .ard-chip-content-wrapper {
+                padding-left: 8px;
+            }
+        }
     }
-    &.ard-chip-variant-pill {
-        padding-right: 4px;
+    &.ard-chip-align-right {
+        flex-direction: row-reverse;
+        padding-right: 2px;
+
+        .ard-chip-selection-icon {
+            padding-right: 8px;
+            margin-left: -2px;
+        }
+        &.ard-chip-deletable {
+            padding-right: 4px;
+
+            .ard-chip-content-wrapper {
+                padding-right: 8px;
+            }
+        }
+    }
+    //! compact
+    &.ard-compact {
+        height: 23px;
+        font-size: 13px;
+        
+        > .ard-chip-content-wrapper {
+            padding: 0 9px;
+        }
+        
+        &.ard-chip-align-left .ard-chip-selection-icon {
+            padding-left: 4px;
+            margin-right: -4px;
+        }
+        &.ard-chip-align-right .ard-chip-selection-icon {
+            padding-right: 4px;
+            margin-left: -4px;
+        }
     }
 }
 //! disabled state

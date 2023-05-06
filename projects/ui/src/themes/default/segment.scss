@@ -13,6 +13,7 @@
     width: max-content;
     height: max-content;
     gap: var(--ard-_segment-padding);
+    overflow: hidden; //hide click indicator overflowing rounded corners on touchscreens
 
     @include defaultMixins.formAppearances();
     @include defaultMixins.formVariants();
@@ -26,19 +27,22 @@
     //! row & option styling
     .ard-segment-row {
         gap: var(--ard-_segment-padding);
+        height: 2.0625em;
 
         .ard-segment-option {
+            --ard-_font-size: 0.85em;
             margin: 0;
-            font-size: 0.875em;
-            padding: 0.4em 0.8em;
-            line-height: 1em;
-            letter-spacing: 0.5px;
+            font-size: var(--ard-_font-size);
+            padding: 0 1em;
+            height: 100%;
             border: 1px solid transparent;
             background: transparent;
             position: relative;
             cursor: pointer;
             transition: color 0.1s $timing-fn, border-color 0.1s $timing-fn, background-color 0.1s $timing-fn;
             outline: none;
+            display: flex;
+            align-items: center;
 
             &.ard-option-selected {
                 position: relative;
@@ -53,6 +57,12 @@
             .ard-button-content {
                 position: relative;
                 z-index: 1;
+                width: max-content;
+
+                .ard-option-label {
+                    display: flex;
+                    align-items: center;
+                }
             }
         }
     }
@@ -277,6 +287,28 @@
             .ard-segment-option {
                 border-radius: calc(var(--ard-variant-border-radius));
             }
+        }
+    }
+
+    //! compact
+    &.ard-compact {
+        .ard-segment-row {
+            height: 1.5625em;
+
+            .ard-segment-option {
+                --ard-_font-size: 0.85em;
+                padding: 0 0.5em;
+                min-width: 1.6875em;
+            }
+        }
+    }
+
+    &.ard-icon-based {
+        .ard-segment-row .ard-segment-option {
+            padding: 0;
+            min-width: unset;
+            aspect-ratio: 1;
+            justify-content: center;
         }
     }
 

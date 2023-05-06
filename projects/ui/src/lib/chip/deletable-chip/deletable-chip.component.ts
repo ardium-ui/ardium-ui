@@ -5,6 +5,7 @@ import { SimpleOneAxisAlignment } from '../../types/alignment.types';
 import { ComponentColor } from '../../types/colors.types';
 import { DecorationElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { _FocusableComponentBase } from '../../_internal/focusable-component';
+import { coerceBooleanProperty } from '@ardium-ui/devkit';
 
 @Component({
     selector: 'ard-deletable-chip',
@@ -34,6 +35,11 @@ export class ArdiumDeletableChipComponent extends _FocusableComponentBase {
     @Input() variant: FormElementVariant = FormElementVariant.Rounded;
     @Input() color: ComponentColor = ComponentColor.Primary;
 
+    private _compact: boolean = false;
+    @Input()
+    get compact(): boolean { return this._compact; }
+    set compact(v: any) { this._compact = coerceBooleanProperty(v); }
+
     @Input() wrapperClasses: string = '';
     get ngClasses(): string {
         return [
@@ -42,6 +48,7 @@ export class ArdiumDeletableChipComponent extends _FocusableComponentBase {
             `ard-variant-${this.variant}`,
             `ard-appearance-${this.appearance}`,
             `ard-color-${this.color}`,
+            this.compact ? 'ard-compact' : '',
         ].join(' ');
     }
     //* events

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { SimpleOneAxisAlignment } from '../types/alignment.types';
 import { ComponentColor } from '../types/colors.types';
 import { DecorationElementAppearance, FormElementVariant } from '../types/theming.types';
@@ -19,6 +20,11 @@ export class ArdiumChipComponent extends _DisablableComponentBase {
     @Input() variant: FormElementVariant = FormElementVariant.Rounded;
     @Input() color: ComponentColor = ComponentColor.Primary;
 
+    private _compact: boolean = false;
+    @Input()
+    get compact(): boolean { return this._compact; }
+    set compact(v: any) { this._compact = coerceBooleanProperty(v); }
+
     @Input() wrapperClasses: string = '';
     get ngClasses(): string {
         return [
@@ -27,6 +33,7 @@ export class ArdiumChipComponent extends _DisablableComponentBase {
             `ard-variant-${this.variant}`,
             `ard-appearance-${this.appearance}`,
             `ard-color-${this.color}`,
+            this.compact ? 'ard-compact' : '',
         ].join(' ');
     }
 }
