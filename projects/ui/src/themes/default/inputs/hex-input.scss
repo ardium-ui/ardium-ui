@@ -16,17 +16,16 @@
     @include CB.clearButton();
 
     .ard-input-container {
-        margin-left: -0.25rem;
-
         input {
             font-family: monospace;
         }
     }
 
     .ard-hash-container {
+        margin-right: -0.25rem;
         color: $text3;
         opacity: 70%;
-        // user-select: none;
+        user-select: none;
         font-family: monospace;
     }
 }
