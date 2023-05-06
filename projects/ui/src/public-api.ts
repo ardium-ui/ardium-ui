@@ -35,6 +35,10 @@ export * from './lib/inputs/simple-input/simple-input.directives';
 export * from './lib/inputs/number-input/number-input.module';
 export * from './lib/inputs/number-input/number-input.component';
 export * from './lib/inputs/number-input/number-input.directives';
+//hex input
+export * from './lib/inputs/hex-input/hex-input.module';
+export * from './lib/inputs/hex-input/hex-input.component';
+export * from './lib/inputs/hex-input/hex-input.directives';
 //select
 export * from './lib/select/select.module';
 export * from './lib/select/select.component';
