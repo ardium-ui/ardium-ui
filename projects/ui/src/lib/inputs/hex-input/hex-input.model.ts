@@ -7,13 +7,10 @@ export interface HexInputModelHost {
     maxDigits: number | undefined,
 }
 export class HexInputModel {
-    protected _hostComp!: HexInputModelHost;
     constructor(
         protected inputEl: HTMLInputElement,
-        hostComp: HexInputModelHost
-    ) {
-        this._hostComp = hostComp;
-    }
+        protected _hostComp: HexInputModelHost,
+    ) {  }
 
     //! value setters/getters
     protected _value: string | null = null;
@@ -27,11 +24,10 @@ export class HexInputModel {
     writeValue(v: any): boolean {
         if (!isAnyString(v) && !isNull(v)) {
             //warn when using non-string/non-null value
-            console.warn(new Error(`Trying to set hex-input's value to type ${typeof v}, expected string, or null.`));
-            //normalize the value
-            v = v?.toString?.() ?? String(v);
+            console.warn(new Error(`Trying to set ard-hex-input's value to type ${typeof v}, expected string, or null.`));
         }
-        v = String(v);
+        //normalize the value
+        v = v ?? '';
         return this._writeValue(v);
     }
     protected _writeValue(v: string | null): boolean {
@@ -56,7 +52,9 @@ export class HexInputModel {
 
     //! input element methods
     _updateInputElement() {
+        const caretPos = this.caretPos;
         this.inputEl.value = this.stringValue;
+        this.caretPos = caretPos;
     }
     get caretPos(): number {
         return this.inputEl.selectionEnd ?? this.stringValue.length;
@@ -81,7 +79,7 @@ export class HexInputModel {
         let firstChangeIndex = 0;
         while (
             firstChangeIndex < v.length
-            && v.charAt(firstChangeIndex) == prev.charAt(firstChangeIndex)
+            && (!prev.charAt(firstChangeIndex) || v.charAt(firstChangeIndex) == prev.charAt(firstChangeIndex))
             && firstChangeIndex <= maxLength
         ) {
             firstChangeIndex++;
