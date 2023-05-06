@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ContentChild, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ContentChild, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output, TemplateRef, ViewChild, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { OneAxisAlignment } from '../../types/alignment.types';
@@ -22,12 +22,12 @@ import { HexInputModel, HexInputModelHost } from './hex-input.model';
         }
     ]
 })
-export class ArdiumHexInputComponent extends _NgModelComponentBase implements ControlValueAccessor, HexInputModelHost, OnInit {
+export class ArdiumHexInputComponent extends _NgModelComponentBase implements ControlValueAccessor, HexInputModelHost, AfterViewInit {
 
     //! input view
     @ViewChild('textInput', { static: true }) textInputEl!: ElementRef<HTMLInputElement>;
     protected inputModel!: HexInputModel;
-    ngOnInit(): void {
+    ngAfterViewInit(): void {
         this.inputModel = new HexInputModel(this.textInputEl.nativeElement, this);
         this._setInputAttributes();
         //set the value
@@ -54,7 +54,6 @@ export class ArdiumHexInputComponent extends _NgModelComponentBase implements Co
     //! appearance
     @Input() appearance: FormElementAppearance = FormElementAppearance.Outlined;
     @Input() variant: FormElementVariant = FormElementVariant.Rounded;
-    @Input() alignText: OneAxisAlignment = OneAxisAlignment.Middle;
 
     private _compact: boolean = false;
     @Input()
@@ -65,7 +64,6 @@ export class ArdiumHexInputComponent extends _NgModelComponentBase implements Co
         return [
             `ard-appearance-${this.appearance}`,
             `ard-variant-${this.variant}`,
-            `ard-text-align-${this.alignText}`,
             this.compact ? 'ard-compact' : '',
         ].join(' ');
     }
@@ -94,7 +92,7 @@ export class ArdiumHexInputComponent extends _NgModelComponentBase implements Co
     @Input() clearButtonTitle: string = this.DEFAULTS.clearButtonTitle;
     
     get shouldShowClearButton(): boolean {
-        return this._clearable && !this.disabled && Boolean(this.inputModel.value);
+        return this._clearable && !this.disabled && Boolean(this.inputModel?.value);
     }
     onClearButtonClick(event: MouseEvent): void {
         event.stopPropagation();
@@ -110,11 +108,15 @@ export class ArdiumHexInputComponent extends _NgModelComponentBase implements Co
 
     //! control value accessor's write value implementation
     writeValue(v: any) {
+        if (!this.inputModel) {
+            this._valueBeforeInit = v;
+            return;
+        }
         this.inputModel.writeValue(v);
     }
 
     //! value two-way binding
-    protected _valueBeforeInit?: string | null = '0';
+    protected _valueBeforeInit?: string | null = null;
     @Input()
     set value(v: string | null) {
         if (!this.inputModel) {
@@ -156,7 +158,6 @@ export class ArdiumHexInputComponent extends _NgModelComponentBase implements Co
     //smart focus
     onMouseup(event: MouseEvent): void {
         const selection = window.getSelection();
-        console.log(selection);
         if (selection && selection.type === 'Range') return;
 
         this.focus();
