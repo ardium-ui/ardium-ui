@@ -44,6 +44,9 @@ export * from './lib/select/select.module';
 export * from './lib/select/select.component';
 export * from './lib/select/select.directive';
 export * from './lib/select/select.types';
+//option
+export * from './lib/option/option.module';
+export * from './lib/option/option.component';
 //slide-toggle
 export * from './lib/slide-toggle/slide-toggle.module';
 export * from './lib/slide-toggle/slide-toggle.component';
