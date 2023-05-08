@@ -1,4 +1,4 @@
-<span class="title">Empty element</span>
+<!-- <span class="title">Empty element</span>
 <div class="grid master">
     <ard-select *ngFor="let disabled of [false, true]" [disabled]="disabled"></ard-select>
 </div>
@@ -104,5 +104,11 @@
                 <span>{{ option.label }}</span>
             </div>
         </ng-template>
+    </ard-select>
+</div> -->
+<div class="master flex">
+    <span class="title">Using ard-option components</span>
+    <ard-select (valueChange)="log('valueChange', $event)" clearable="false">
+        <ard-option>Test</ard-option>
     </ard-select>
 </div>
