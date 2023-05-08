@@ -1,11 +1,13 @@
 import { ConnectedPosition, Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { AfterContentInit, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, forwardRef, HostBinding, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ContentChildren, ElementRef, EventEmitter, forwardRef, HostBinding, HostListener, Input, OnChanges, OnInit, Output, QueryList, SimpleChanges, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation, OnDestroy, AfterContentInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from 'projects/devkit/src/public-api';
+import { merge, Subject, takeUntil, startWith } from 'rxjs';
 import { isFunction } from 'simple-bool';
 import { ArdiumDropdownPanelComponent } from '../dropdown-panel/dropdown-panel.component';
 import { DropdownPanelAppearance, DropdownPanelVariant } from '../dropdown-panel/dropdown-panel.types';
+import { ArdiumOptionComponent } from '../option/option.component';
 import { searchFunctions } from '../search-functions';
 import { ArdOption, ArdOptionGroup, ArdPanelPosition, CompareWithFn, GroupByFn, OptionContext, SearchFn } from '../types/item-storage.types';
 import { FormElementAppearance } from '../types/theming.types';
@@ -29,7 +31,7 @@ import { GroupContext, ItemDisplayLimitContext, ItemLimitContext, SearchContext,
         }
     ]
 })
-export class ArdiumSelectComponent extends _NgModelComponentBase implements OnChanges, AfterContentInit, AfterViewInit, OnInit, ControlValueAccessor {
+export class ArdiumSelectComponent extends _NgModelComponentBase implements OnChanges, AfterViewInit, AfterContentInit, OnInit, OnDestroy, ControlValueAccessor {
 
     //! public constants
     readonly itemStorage = new ItemStorage(this);
@@ -52,9 +54,11 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     private _items: any[] | null = [];
     private _isMouseBeingUsed = false;
     private _searchBarFocused = false;
-
+    private readonly _destroy$ = new Subject<void>();
+    
     //! publics
     public searchTerm: string = '';
+    isItemsInputUsed: boolean = false;
 
     //! binding-related inputs
     //value/label/disabled/group/pre-grouped children paths
@@ -165,11 +169,55 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     @Input()
     get items() { return this._items }
     set items(value: any[] | null) {
+        this.isItemsInputUsed = true;
         if (value === null) {
             value = [];
+            this.isItemsInputUsed = false;
         }
-        this._items = value;
+        let printErrors = this.itemStorage.setItems(value);
+        if (printErrors) {
+            this._printPrimitiveWarnings();
+        }
     };
+
+    @ContentChildren(ArdiumOptionComponent) optionComponents!: QueryList<ArdiumOptionComponent>;
+
+    private _setItemsFromComponents() {
+        const handleOptionChange = () => {
+            const changedOrDestroyed = merge(
+                this.optionComponents.changes,
+                this._destroy$
+            );
+            merge(...this.optionComponents.map(option => option.stateChange$))
+                .pipe(
+                    takeUntil(changedOrDestroyed)
+                )
+                .subscribe(option => {
+                    const item = this.itemStorage.findItemByValue(option.value);
+                    if (item) {
+                        item.disabled = option.disabled;
+                        item.label = option.label || item.label;
+                    }
+                    this._cd.detectChanges();
+                });
+        };
+        this.optionComponents
+            .changes
+            .pipe(
+                startWith(this.optionComponents),
+                takeUntil(this._destroy$)
+            )
+            .subscribe((options: QueryList<ArdiumOptionComponent>) => {
+                if (options.length == 0) return;
+                this.items = options.map(option => ({
+                    value: option.value,
+                    label: option.label,
+                    disabled: option.disabled
+                }));
+                this.detectChanges();
+                handleOptionChange();
+            });
+    }
 
     //! attribute and/or class setters/getters
     private _multiselectable: boolean = false;
@@ -333,7 +381,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
 
     private dropdownOverlay!: OverlayRef;
 
-    ngAfterViewInit(): void {
+    private _createOverlay(): void {
         const strategy = this.overlay.position()
             .flexibleConnectedTo(this.dropdownHost)
             .withPositions([{
@@ -371,20 +419,30 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     ngOnInit(): void {
         this._setSearchInputAttributes();
     }
-    ngAfterContentInit(): void {
+    ngOnDestroy() {
+        this._destroy$.next();
+        this._destroy$.complete();
+    }
+    ngAfterViewInit(): void {
+        this._createOverlay();
+
         if (this.autoFocus) {
             this.focus();
         }
     }
+    ngAfterContentInit(): void {
+        if (!this.isItemsInputUsed) {
+            this._setItemsFromComponents();
+        }
+    }
     ngOnChanges(changes: SimpleChanges): void {
+        //fire items load handler when loading is set to false
         if (changes['loading']) {
-            if (
-                changes['loading'].currentValue == false &&
-                !changes['loading'].firstChange
-            ) {
+            if (changes['loading'].currentValue == false) {
                 this._onItemsLoad();
             }
         }
+        //set groupItems to true by default if groupLabelFrom or itemsAlreadyGrouped is set to true as the first change
         if (
             (
                 changes['groupLabelFrom']?.firstChange ||
@@ -393,12 +451,6 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
             !changes['groupItems']
         ) {
             this.groupItems = true;
-        }
-        if (changes['items']) {
-            let printErrors = this.itemStorage.setItems(changes['items'].currentValue);
-            if (printErrors) {
-                this._printPrimitiveWarnings();
-            }
         }
     }
     private _onItemsLoad() {

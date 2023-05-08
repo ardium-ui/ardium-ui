@@ -29,7 +29,7 @@
             </div>
 
             <ng-template #defaultValueTemplate let-item="item">
-                <span>{{ item.label | escapeHTML }}</span>
+                <span [ardInnerHTML]="item.label" [ardEscapeInnerHTML]="isItemsInputUsed"></span>
             </ng-template>
             <ng-template #defaultMultiValueTemplate let-item="item" let-unselect="unselect">
                 <ard-deletable-chip
@@ -37,7 +37,9 @@
                     [variant]="variant"
                     compact
                     appearance="outlined-strong"
-                >{{ item.label | escapeHTML }}</ard-deletable-chip>
+                >
+                    <span [ardInnerHTML]="item.label" [ardEscapeInnerHTML]="isItemsInputUsed"></span>
+                </ard-deletable-chip>
             </ng-template>
         </ng-container>
 
@@ -133,7 +135,7 @@
             >
                 <ng-container *ngIf="group.label !== '' && group.label !== undefined">
                     <ng-template #defaultOptgroupTemplate>
-                        <span class="ard-optgroup-label">{{ group.label | escapeHTML }}</span>
+                        <span class="ard-optgroup-label" [ardInnerHTML]="group.label" [ardEscapeInnerHTML]="isItemsInputUsed"></span>
                     </ng-template>
 
                     <ng-template
@@ -160,7 +162,7 @@
                     >
                         <span class="ard-option-label">
                             <ng-template #defaultOptionTemplate>
-                                {{ option.label | escapeHTML }}
+                                <span [ardInnerHTML]="option.label" [ardEscapeInnerHTML]="isItemsInputUsed"></span>
                             </ng-template>
 
                             <ng-template
