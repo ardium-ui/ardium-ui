@@ -19,8 +19,8 @@ export interface OptionContext {
 interface ArdOption {
     readonly itemData: any;
     readonly index: number;
-    readonly label: string;
-    readonly value: any;
+    label: string;
+    value: any;
     highlighted?: boolean;
     selected?: boolean;
 }
@@ -29,8 +29,8 @@ interface ArdOption {
 export interface ArdSuggestionItem {
     readonly itemData: any;
     readonly index: number;
-    readonly label: string;
-    readonly value: any;
+    value: any;
+    label: string;
     disabled?: boolean;
     selected?: boolean;
     highlighted?: boolean;
