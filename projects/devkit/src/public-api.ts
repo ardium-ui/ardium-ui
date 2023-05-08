@@ -7,6 +7,7 @@ export * from "./lib/click-outside/click-outside.directive";
 
 export * from "./lib/escape-html/escape-html.module";
 export * from "./lib/escape-html/escape-html.pipe";
+export * from "./lib/escape-html/escape-html";
 
 export * from "./lib/hold/hold.module";
 export * from "./lib/hold/hold.directive";
