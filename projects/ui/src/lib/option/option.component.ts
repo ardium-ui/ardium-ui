@@ -15,9 +15,10 @@ export class ArdiumOptionComponent implements OnChanges, AfterViewChecked, OnDes
     private _value: any;
     @Input()
     set value(v: any) { this._value = v; }
-    get value(): string {
+    get value(): any {
         return this._value ?? this.label;
     }
+    get hasImplicitValue(): boolean { return this._value === undefined; }
 
     private _label: string | undefined = undefined;
     @Input()
@@ -32,7 +33,7 @@ export class ArdiumOptionComponent implements OnChanges, AfterViewChecked, OnDes
     set disabled(v: any) { this._disabled = coerceBooleanProperty(v); }
     
     //! state change listener
-    readonly stateChange$ = new Subject<{ value: any, disabled: boolean, label?: string }>();
+    readonly stateChange$ = new Subject<{ value: any, oldValue?: string, disabled: boolean, label?: string }>();
 
     private _previousLabel?: string;
 
@@ -45,18 +46,23 @@ export class ArdiumOptionComponent implements OnChanges, AfterViewChecked, OnDes
         }
     }
 
-    ngAfterViewChecked() {
+    ngAfterViewChecked(): void {
         if (this.label !== this._previousLabel) {
+            let oldValue = this.value;
+            if (this.hasImplicitValue) oldValue = this._previousLabel;
+
             this._previousLabel = this.label;
+
             this.stateChange$.next({
                 value: this.value,
+                oldValue,
                 disabled: this.disabled,
                 label: this.label,
             });
         }
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         this.stateChange$.complete();
     }
 }

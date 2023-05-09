@@ -193,12 +193,13 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
                     takeUntil(changedOrDestroyed)
                 )
                 .subscribe(option => {
-                    const item = this.itemStorage.findItemByValue(option.value);
-                    if (item) {
-                        item.disabled = option.disabled;
-                        item.label = option.label || item.label;
-                    }
-                    this._cd.detectChanges();
+                    setTimeout(() => {
+                        const item = this.itemStorage.findItemByValue(option.oldValue ?? option.value);
+                        if (item) {
+                            item.disabled = option.disabled;
+                            item.label = option.label || item.label;
+                        }
+                    }, 0);
                 });
         };
         this.optionComponents
