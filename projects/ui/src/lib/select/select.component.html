@@ -28,10 +28,10 @@
                 ></ng-template>
             </div>
 
-            <ng-template #defaultValueTemplate let-item="item">
+            <ng-template #defaultValueTemplate let-item>
                 <span [ardInnerHTML]="item.label" [ardEscapeInnerHTML]="isItemsInputUsed"></span>
             </ng-template>
-            <ng-template #defaultMultiValueTemplate let-item="item" let-unselect="unselect">
+            <ng-template #defaultMultiValueTemplate let-item let-unselect="unselect">
                 <ard-deletable-chip
                     (delete)="unselect(item)"
                     [variant]="variant"

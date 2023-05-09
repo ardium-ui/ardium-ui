@@ -3,7 +3,7 @@ import { TemplatePortal } from '@angular/cdk/portal';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ContentChildren, ElementRef, EventEmitter, forwardRef, HostBinding, HostListener, Input, OnChanges, OnInit, Output, QueryList, SimpleChanges, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation, OnDestroy, AfterContentInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from 'projects/devkit/src/public-api';
-import { merge, Subject, takeUntil, startWith } from 'rxjs';
+import { merge, Subject, takeUntil, startWith, tap } from 'rxjs';
 import { isFunction } from 'simple-bool';
 import { ArdiumDropdownPanelComponent } from '../dropdown-panel/dropdown-panel.component';
 import { DropdownPanelAppearance, DropdownPanelVariant } from '../dropdown-panel/dropdown-panel.types';
@@ -210,13 +210,16 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
             )
             .subscribe((options: QueryList<ArdiumOptionComponent>) => {
                 if (options.length == 0) return;
-                this.items = options.map(option => ({
-                    value: option.value,
-                    label: option.label,
-                    disabled: option.disabled
-                }));
-                this.detectChanges();
-                handleOptionChange();
+                setTimeout(() => {
+                    this.items = options.map(option => ({
+                        value: option.value,
+                        label: option.label,
+                        disabled: option.disabled
+                    }));
+                    handleOptionChange();
+                    this._cd.markForCheck();
+                    this._cd.detectChanges();
+                }, 0);
             });
     }
 
