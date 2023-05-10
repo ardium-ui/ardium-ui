@@ -14,21 +14,8 @@ export class SelectPage implements OnInit {
     readonly log = this._logger.log;
 
 
-    currentFruit: string = 'Apple';
-    currentFruitDisabled: boolean = false;
     ngOnInit(): void {
-        setTimeout(() => {
-            this.currentFruit = 'Watermelon';
-            console.log('changing name');
-        }, 3000);
-        setTimeout(() => {
-            this.currentFruitDisabled = true;
-            console.log('changing disabled true');
-        }, 6000);
-        setTimeout(() => {
-            this.currentFruitDisabled = false;
-            console.log('changing disabled false');
-        }, 9000);
+        
     }
 
     //* item lists
