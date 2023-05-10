@@ -163,8 +163,6 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
     private dropdownOverlay!: OverlayRef;
 
     ngAfterViewInit(): void {
-        console.log(this.suggestionTemplate);
-
         const strategy = this.overlay.position()
             .flexibleConnectedTo(this.dropdownHost)
             .withPositions([{

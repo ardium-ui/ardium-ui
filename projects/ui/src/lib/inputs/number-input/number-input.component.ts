@@ -26,10 +26,6 @@ import { roundToPrecision } from 'more-rounding';
 })
 export class ArdiumNumberInputComponent extends _NgModelComponentBase implements ControlValueAccessor, NumberInputModelHost, OnInit {
 
-    log(...args: any[]) {
-        console.log('clickOutisde', ...args);
-    }
-
     //! input view
     @ViewChild('textInput', { static: true }) textInputEl!: ElementRef<HTMLInputElement>;
     protected inputModel!: NumberInputModel;
