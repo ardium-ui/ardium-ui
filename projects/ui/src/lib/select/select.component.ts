@@ -198,7 +198,12 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
                         if (item) {
                             item.disabled = option.disabled;
                             item.label = option.label || item.label;
+                            item.value = option.value;
+                            item.itemData.disabled = option.disabled;
+                            item.itemData.label = option.label || item.label;
+                            item.itemData.value = option.value;
                         }
+                        this.detectChanges();
                     }, 0);
                 });
         };
@@ -217,8 +222,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
                         disabled: option.disabled
                     }));
                     handleOptionChange();
-                    this._cd.markForCheck();
-                    this._cd.detectChanges();
+                    this.detectChanges();
                 }, 0);
             });
     }
