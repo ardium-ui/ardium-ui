@@ -31,6 +31,7 @@ export interface StatsContext {
 /**
 ```typescript
 interface SearchContext {
+    $implicit: string;
     totalItems: number;
     foundItems?: number;
     searchTerm: string;
@@ -38,6 +39,19 @@ interface SearchContext {
 ```
  */
 export interface SearchContext extends StatsContext {
+    $implicit: string;
+    searchTerm: string;
+}
+/**
+```typescript
+interface SearchContext {
+    $implicit: string;
+    searchTerm: string;
+}
+```
+ */
+export interface CustomOptionContext {
+    $implicit: string;
     searchTerm: string;
 }
 /**

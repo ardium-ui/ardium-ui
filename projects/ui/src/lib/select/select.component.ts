@@ -14,8 +14,8 @@ import { FormElementAppearance } from '../types/theming.types';
 import { ItemStorage } from '../_internal/item-storages/dropdown-item-storage';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { FormElementVariant } from './../types/theming.types';
-import { ArdDropdownFooterTemplateDirective, ArdDropdownHeaderTemplateDirective, ArdItemDisplayLimitTemplateDirective, ArdItemLimitReachedTemplateDirective, ArdLoadingPlaceholderTemplateDirective, ArdLoadingSpinnerTemplateDirective, ArdNoItemsFoundTemplateDirective, ArdOptgroupTemplateDirective, ArdOptionTemplateDirective, ArdSelectPlaceholderTemplateDirective, ArdValueTemplateDirective } from './select.directive';
-import { AddCustomFn, GroupContext, ItemDisplayLimitContext, ItemLimitContext, SearchContext, StatsContext, ValueContext } from './select.types';
+import { ArdAddCustomTemplateDirective, ArdDropdownFooterTemplateDirective, ArdDropdownHeaderTemplateDirective, ArdItemDisplayLimitTemplateDirective, ArdItemLimitReachedTemplateDirective, ArdLoadingPlaceholderTemplateDirective, ArdLoadingSpinnerTemplateDirective, ArdNoItemsFoundTemplateDirective, ArdOptgroupTemplateDirective, ArdOptionTemplateDirective, ArdSelectPlaceholderTemplateDirective, ArdValueTemplateDirective } from './select.directive';
+import { AddCustomFn, CustomOptionContext, GroupContext, ItemDisplayLimitContext, ItemLimitContext, SearchContext, StatsContext, ValueContext } from './select.types';
 
 @Component({
     selector: 'ard-select',
@@ -271,13 +271,17 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     }
 
     get shouldShowAddCustom(): boolean {
-        return this.addCustom != false && this.shouldShowNoItemsFound && Boolean(this.searchTerm);
+        return this.addCustom != false && this.searchTerm.length > 0;
     }
     
-    private _addCustomOption(value: string): void {
+    addCustomOption(value: string): void {
+        console.log('addCustomOption', value);
         if (!this.addCustom) return;
 
         this.itemStorage.addCustomOption(value, this.addCustom);
+
+        this._clearSearch();
+        this.close();
     }
 
     //! control value accessor
@@ -339,6 +343,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     @ContentChild(ArdDropdownHeaderTemplateDirective, { read: TemplateRef }) dropdownHeaderTemplate?: TemplateRef<any>;
     @ContentChild(ArdDropdownFooterTemplateDirective, { read: TemplateRef }) dropdownFooterTemplate?: TemplateRef<any>;
     @ContentChild(ArdNoItemsFoundTemplateDirective, { read: TemplateRef }) noItemsFoundTemplate?: TemplateRef<any>;
+    @ContentChild(ArdAddCustomTemplateDirective, { read: TemplateRef }) addCustomTemplate?: TemplateRef<any>;
     @ContentChild(ArdItemLimitReachedTemplateDirective, { read: TemplateRef }) itemLimitReachedTemplate?: TemplateRef<any>;
     @ContentChild(ArdItemDisplayLimitTemplateDirective, { read: TemplateRef }) itemDisplayLimitTemplate?: TemplateRef<any>;
     
@@ -362,9 +367,16 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     }
     getSearchContext(): SearchContext {
         return {
+            $implicit: this.searchTerm,
             searchTerm: this.searchTerm,
             totalItems: this.totalItems,
             foundItems: this.foundItems,
+        };
+    }
+    getCustomOptionContext(): CustomOptionContext {
+        return {
+            $implicit: this.searchTerm,
+            searchTerm: this.searchTerm,
         };
     }
     getGroupContext(group: ArdOptionGroup): GroupContext {
@@ -523,6 +535,12 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     get firstHighlightedItem(): ArdOption | undefined {
         return this.itemStorage.highlightedItems?.first();
     }
+    get shouldDisplayPlaceholder(): boolean {
+        return !this.itemStorage.isAnyItemSelected && !this.searchTerm;
+    }
+    get shouldDisplayValue(): boolean {
+        return this.itemStorage.isAnyItemSelected && (!this.searchTerm || this.multiselectable);
+    }
     get shouldShowClearButton(): boolean {
         return this._clearable && !this._disabled && (this.itemStorage.isAnyItemSelected || this.searchTerm != '');
     }
@@ -530,7 +548,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         return this.itemStorage.groups.values();
     }
     get shouldShowNoItemsFound(): boolean {
-        return this.itemStorage.isNoItemsFound && !this.isLoading;
+        return this.itemStorage.isNoItemsFound && !this.isLoading && !this.shouldShowAddCustom;
     }
     get totalItems(): number {
         return this.itemStorage.items.length;
@@ -545,6 +563,9 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
             this.itemDisplayLimit != Infinity &&
             this.itemStorage.selectedItems.length > this.itemDisplayLimit
         );
+    }
+    get isInputElementReadonly(): boolean {
+        return !this.addCustom && (!this.searchable || this.itemStorage.isItemLimitReached)
     }
     isValueWithinDisplayLimit(i: number): boolean {
         return (
@@ -805,11 +826,10 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     }
     private _onEnterPress(event: KeyboardEvent): void {
         event.preventDefault();
-        let shouldClose = false;
+        let shouldClose = true;
         
+        //select the currently highlighted option
         if (this.isDropdownOpen && this.firstHighlightedItem) {
-            shouldClose = true;
-
             if (this.itemStorage
                 .highlightedItems
                 .every(item => item.selected)
@@ -820,6 +840,13 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
                 this.selectItem(...this.itemStorage.highlightedItems);
             }
         }
+        //add a custom option
+        else if (this.isDropdownOpen && this.addCustom && this.searchTerm.length > 0) {
+            this.addCustomOption(this.searchTerm);
+        }
+        //in case of no action, open the dropdown (or keep it open)
+        else shouldClose = false;
+
         if (this.closeOnSelect && shouldClose) {
             this.itemStorage.clearAllHighlights();
             this.close();

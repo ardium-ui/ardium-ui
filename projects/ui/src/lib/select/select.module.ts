@@ -7,6 +7,7 @@ import { ArdiumClickOutsideEventModule, ArdiumInnerHTMLModule } from '@ardium-ui
 import { ArdiumDropdownPanelModule } from '../dropdown-panel/dropdown-panel.module';
 import { ArdiumSelectComponent } from './select.component';
 import {
+    ArdAddCustomTemplateDirective,
     ArdDropdownFooterTemplateDirective,
     ArdDropdownHeaderTemplateDirective,
     ArdItemDisplayLimitTemplateDirective,
@@ -39,6 +40,7 @@ import { _ClearButtonModule } from './../_internal/clear-button/clear-button.mod
         ArdValueChipTemplateDirective,
         ArdItemLimitReachedTemplateDirective,
         ArdItemDisplayLimitTemplateDirective,
+        ArdAddCustomTemplateDirective,
     ],
     imports: [
     CommonModule,
@@ -63,6 +65,7 @@ import { _ClearButtonModule } from './../_internal/clear-button/clear-button.mod
         ArdValueChipTemplateDirective,
         ArdItemLimitReachedTemplateDirective,
         ArdItemDisplayLimitTemplateDirective,
+        ArdAddCustomTemplateDirective,
     ],
 })
 export class ArdiumSelectModule { }

@@ -1,6 +1,6 @@
 import { Directive, TemplateRef } from "@angular/core";
 import { OptionContext } from "../types/item-storage.types";
-import { GroupContext, ItemDisplayLimitContext, ItemLimitContext, SearchContext, StatsContext, ValueContext } from "./select.types";
+import { CustomOptionContext, GroupContext, ItemDisplayLimitContext, ItemLimitContext, SearchContext, StatsContext, ValueContext } from "./select.types";
 
 //public (exported)
 @Directive({ selector: 'ng-template[ard-value-tmp]' })
@@ -51,6 +51,11 @@ export class ArdDropdownFooterTemplateDirective {
 @Directive({ selector: 'ng-template[ard-no-items-found-tmp]' })
 export class ArdNoItemsFoundTemplateDirective {
     constructor(public template: TemplateRef<SearchContext>) {}
+}
+
+@Directive({ selector: 'ng-template[ard-add-custom-tmp]' })
+export class ArdAddCustomTemplateDirective {
+    constructor(public template: TemplateRef<CustomOptionContext>) {}
 }
 
 @Directive({ selector: 'ng-template[ard-item-limit-reached-tmp]' })

@@ -87,12 +87,6 @@
             width: max-content;
             white-space: nowrap;
         }
-        &.ard-filtered .ard-select-value-container {
-            >.ard-value,
-            >.ard-placeholder {
-                display: none;
-            }
-        }
     }
     &:not(.ard-searchable),
     &.ard-singleselect {
@@ -132,9 +126,6 @@
             input {
                 width: 10ch !important;
             }
-        }
-        &.ard-filtered .ard-select-value-container>.ard-placeholder {
-            display: none;
         }
         .ard-chip-wrapper {
             margin: 0;
