@@ -221,6 +221,19 @@
     .ard-optgroup:first-child>hr.ard-divider {
         display: none;
     }
+    //! custom option
+    .ard-add-custom {
+        display: flex;
+        align-items: flex-end;
+        gap: 0.375rem;
+
+        .ard-add-custom-label {
+            font-size: 85%;
+        }
+        .ard-add-custom-value {
+            
+        }
+    }
 
     //! compact
     > .ard-compact {
