@@ -91,10 +91,11 @@ export class ItemStorage {
         return this._highlightedItems.length > 0;
     }
     get isItemLimitReached(): boolean {
-        if (!this._ardParentComp.multiselectable || !isDefined(this._ardParentComp.maxSelectedItems)) {
-            return false;
-        }
-        return this._ardParentComp.maxSelectedItems <= this.selectedItems.length;
+        return (
+            this._ardParentComp.multiselectable
+            && isDefined(this._ardParentComp.maxSelectedItems)
+            && this._ardParentComp.maxSelectedItems! <= this.selectedItems.length
+        );
     }
 
     setItems(items: any[]): boolean {
