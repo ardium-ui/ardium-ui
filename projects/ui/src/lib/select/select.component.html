@@ -187,7 +187,7 @@
 
         <ng-container *ngIf="shouldShowAddCustom">
             <ng-template #defaultAddCustomTemplate let-searchTerm>
-                <div class="ard-option ard-add-custom" (click)="addCustomOption(searchTerm)">
+                <div class="ard-option ard-option-highlighted ard-add-custom" (click)="addCustomOption(searchTerm)">
                     <span class="ard-add-custom-label">Add option</span>
                     <span class="ard-add-custom-value">"{{searchTerm}}"</span>
                 </div>

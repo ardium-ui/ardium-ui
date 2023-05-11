@@ -271,7 +271,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     }
 
     get shouldShowAddCustom(): boolean {
-        return this.addCustom != false && this.searchTerm.length > 0;
+        return this.addCustom != false && this.searchTerm.length > 0 && this.itemStorage.isNoItemsFound;
     }
     
     addCustomOption(value: string): void {
@@ -841,7 +841,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
             }
         }
         //add a custom option
-        else if (this.isDropdownOpen && this.addCustom && this.searchTerm.length > 0) {
+        else if (this.isDropdownOpen && this.shouldShowAddCustom) {
             this.addCustomOption(this.searchTerm);
         }
         //in case of no action, open the dropdown (or keep it open)
