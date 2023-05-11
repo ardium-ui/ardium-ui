@@ -483,6 +483,7 @@ export class ItemStorage {
         this._populateGroups();
 
         if (!this.isNoItemsFound) this.highlightFirstItem();
+        else this.clearAllHighlights();
 
         return this._itemsToValue(this._filteredItems);
     }
