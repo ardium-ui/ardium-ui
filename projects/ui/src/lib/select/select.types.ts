@@ -1,6 +1,8 @@
 import { ArdOption, OptionContext } from "../types/item-storage.types";
 import { ArdOptionGroup } from '../types/item-storage.types';
 
+export type AddCustomFn<T> = (value: string) => T;
+
 /**
 ```typescript
 interface ValueContext {
