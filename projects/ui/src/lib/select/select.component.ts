@@ -1,9 +1,9 @@
 import { ConnectedPosition, Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ContentChildren, ElementRef, EventEmitter, forwardRef, HostBinding, HostListener, Input, OnChanges, OnInit, Output, QueryList, SimpleChanges, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation, OnDestroy, AfterContentInit } from '@angular/core';
+import { AfterContentInit, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ContentChildren, ElementRef, EventEmitter, forwardRef, HostBinding, HostListener, Input, OnChanges, OnDestroy, OnInit, Output, QueryList, SimpleChanges, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from 'projects/devkit/src/public-api';
-import { merge, Subject, takeUntil, startWith, tap } from 'rxjs';
+import { merge, startWith, Subject, takeUntil } from 'rxjs';
 import { isFunction } from 'simple-bool';
 import { ArdiumDropdownPanelComponent } from '../dropdown-panel/dropdown-panel.component';
 import { DropdownPanelAppearance, DropdownPanelVariant } from '../dropdown-panel/dropdown-panel.types';
@@ -15,7 +15,7 @@ import { ItemStorage } from '../_internal/item-storages/dropdown-item-storage';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { FormElementVariant } from './../types/theming.types';
 import { ArdDropdownFooterTemplateDirective, ArdDropdownHeaderTemplateDirective, ArdItemDisplayLimitTemplateDirective, ArdItemLimitReachedTemplateDirective, ArdLoadingPlaceholderTemplateDirective, ArdLoadingSpinnerTemplateDirective, ArdNoItemsFoundTemplateDirective, ArdOptgroupTemplateDirective, ArdOptionTemplateDirective, ArdSelectPlaceholderTemplateDirective, ArdValueTemplateDirective } from './select.directive';
-import { GroupContext, ItemDisplayLimitContext, ItemLimitContext, SearchContext, StatsContext, ValueContext } from './select.types';
+import { AddCustomFn, GroupContext, ItemDisplayLimitContext, ItemLimitContext, SearchContext, StatsContext, ValueContext } from './select.types';
 
 @Component({
     selector: 'ard-select',
@@ -251,6 +251,33 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     get touched(): boolean { return this._touched };
     private set touched(state: boolean) {
         this._touched = state;
+    }
+
+    //! custom options
+    private _defaultAddCustomFn: AddCustomFn<any> = (value: string) => value;
+    private _addCustom: false | AddCustomFn<any> | AddCustomFn<Promise<any>> = false;
+    @Input()
+    get addCustom(): false | AddCustomFn<any> | AddCustomFn<Promise<any>> {
+        return this._addCustom;
+    }
+    set addCustom(v: string | boolean | AddCustomFn<any> | AddCustomFn<Promise<any>>) {
+        if (isFunction(v)) {
+            this._addCustom = v;
+            return;
+        }
+        //coerce the value into a boolean
+        //if "true", use the default function. Otherwise, just set to "false".
+        this._addCustom = coerceBooleanProperty(v) && this._defaultAddCustomFn;
+    }
+
+    get shouldShowAddCustom(): boolean {
+        return this.addCustom != false && this.shouldShowNoItemsFound && Boolean(this.searchTerm);
+    }
+    
+    private _addCustomOption(value: string): void {
+        if (!this.addCustom) return;
+
+        this.itemStorage.addCustomOption(value, this.addCustom);
     }
 
     //! control value accessor

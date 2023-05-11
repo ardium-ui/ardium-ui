@@ -281,6 +281,10 @@ export class ItemStorage {
         }
         return this._items.find(item => findBy(item));
     }
+    async addCustomOption(value: string, fn: AddCustomFn<any> | AddCustomFn<Promise<any>>): Promise<void> {
+    }
+
+
 
     clearAllSelected(repopulateGroups: boolean = false): any[] {
         for (const item of this._selectedItems) {
