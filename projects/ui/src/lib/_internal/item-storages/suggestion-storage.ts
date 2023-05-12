@@ -1,31 +1,31 @@
 import resolvePath from "resolve-object-path";
 import { any, isPrimitive } from "simple-bool";
-import { ArdSuggestionItem } from "../../types/item-storage.types";
+import { ArdSimplestStorageItem } from "../../types/item-storage.types";
 
-export interface SuggestionStorageHostDefaults {
-    suggValueFrom: string;
-    suggLabelFrom: string;
+export interface SimplestItemStorageHostDefaults {
+    valueFrom: string;
+    labelFrom: string;
 }
-export interface SuggestionStorageHost {
-    suggValueFrom?: string;
-    suggLabelFrom?: string;
-    readonly DEFAULTS: SuggestionStorageHostDefaults;
+export interface SimplestItemStorageHost {
+    valueFrom?: string;
+    labelFrom?: string;
+    readonly DEFAULTS: SimplestItemStorageHostDefaults;
 }
 
-export class SuggestionStorage {
-    private _items: ArdSuggestionItem[] = [];
-    private _highlightedItem: ArdSuggestionItem | null = null;
+export class SimplestItemStorage {
+    private _items: ArdSimplestStorageItem[] = [];
+    private _highlightedItem: ArdSimplestStorageItem | null = null;
 
-    get highlightedItem(): ArdSuggestionItem | null { return this._highlightedItem };
+    get highlightedItem(): ArdSimplestStorageItem | null { return this._highlightedItem };
 
     constructor(
-        private _ardParentComp: SuggestionStorageHost,
+        private _ardParentComp: SimplestItemStorageHost,
     ) {  }
 
     /**
      * Gets all items.
      */
-    get items(): ArdSuggestionItem[] {
+    get items(): ArdSimplestStorageItem[] {
         return this._items;
     }
 
@@ -57,7 +57,7 @@ export class SuggestionStorage {
     private _primitiveItemsMapFn<T>(item: T): { value: T } {
         return { value: item };
     }
-    private _setItemsMapFn(rawItemData: any, index: number, areItemsPrimitive: boolean): ArdSuggestionItem {
+    private _setItemsMapFn(rawItemData: any, index: number, areItemsPrimitive: boolean): ArdSimplestStorageItem {
         if (areItemsPrimitive) {
             return {
                 itemData: rawItemData,
@@ -67,11 +67,11 @@ export class SuggestionStorage {
             }
         }
         //get value
-        const valuePath = this._ardParentComp.suggValueFrom ?? this._ardParentComp.suggLabelFrom ?? this._ardParentComp.DEFAULTS.suggValueFrom;
+        const valuePath = this._ardParentComp.valueFrom ?? this._ardParentComp.labelFrom ?? this._ardParentComp.DEFAULTS.valueFrom;
         const value = resolvePath(rawItemData, valuePath);
 
         //get label
-        const labelPath = this._ardParentComp.suggLabelFrom ?? this._ardParentComp.suggValueFrom ?? this._ardParentComp.DEFAULTS.suggLabelFrom;
+        const labelPath = this._ardParentComp.labelFrom ?? this._ardParentComp.valueFrom ?? this._ardParentComp.DEFAULTS.labelFrom;
         const label = resolvePath(rawItemData, labelPath) ?? value;
 
         const itemData = areItemsPrimitive ? rawItemData.value : rawItemData;
@@ -90,7 +90,7 @@ export class SuggestionStorage {
      * @param items The item to select.
      * @returns The value of the selected item.
      */
-    selectItem(item: ArdSuggestionItem): any {
+    selectItem(item: ArdSimplestStorageItem): any {
         return item.value;
     }
     selectCurrent(): any {
@@ -111,7 +111,7 @@ export class SuggestionStorage {
      * Highlights a given item.
      * @param item The item to be highlighted.
      */
-    highlightItem(item: ArdSuggestionItem): void {
+    highlightItem(item: ArdSimplestStorageItem): void {
         this.unhighlightCurrent();
 
         item.highlighted = true; 
@@ -122,7 +122,7 @@ export class SuggestionStorage {
      * Unhighlights a given item.
      * @param item The item to be unhighlighted.
      */
-    unhighlightItem(item: ArdSuggestionItem): void {
+    unhighlightItem(item: ArdSimplestStorageItem): void {
         item.highlighted = false; 
 
         if (this._highlightedItem?.index == item.index) this._highlightedItem = null;
@@ -131,7 +131,7 @@ export class SuggestionStorage {
      * Highlights the first item out of all items.
      * @returns The highlighted item.
      */
-    highlightFirstItem(): ArdSuggestionItem | null {
+    highlightFirstItem(): ArdSimplestStorageItem | null {
         if (!this.items.length) return null;
 
         this.unhighlightCurrent();
@@ -145,7 +145,7 @@ export class SuggestionStorage {
      * Highlights the last item out of all items.
      * @returns The highlighted item.
      */
-    highlightLastItem(): ArdSuggestionItem | null {
+    highlightLastItem(): ArdSimplestStorageItem | null {
         if (!this.items.length) return null;
 
         this.unhighlightCurrent();
@@ -160,7 +160,7 @@ export class SuggestionStorage {
      * @param offset The amount of items to offset the highlight by.
      * @returns The item highlighted.
      */
-    highlightNextItem(offset: number): ArdSuggestionItem | null {
+    highlightNextItem(offset: number): ArdSimplestStorageItem | null {
         const currentItem = this._highlightedItem;
         if (!currentItem) {
             return this.highlightFirstItem();

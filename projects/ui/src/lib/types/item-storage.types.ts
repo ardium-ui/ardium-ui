@@ -26,7 +26,7 @@ interface ArdOption {
 }
 ```
  */
-export interface ArdSuggestionItem {
+export interface ArdSimplestStorageItem {
     readonly itemData: any;
     readonly index: number;
     value: any;
@@ -49,7 +49,7 @@ interface ArdOption {
 }
 ```
  */
-export interface ArdOptionSimple extends ArdSuggestionItem {
+export interface ArdOptionSimple extends ArdSimplestStorageItem {
     disabled?: boolean;
 }
 /**
