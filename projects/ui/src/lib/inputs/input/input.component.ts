@@ -7,7 +7,7 @@ import { isString } from 'simple-bool';
 import { DropdownPanelAppearance, DropdownPanelVariant } from '../../dropdown-panel/dropdown-panel.types';
 import { ArdSimplestStorageItem } from '../../types/item-storage.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
-import { SimplestItemStorage, SimplestItemStorageHost } from '../../_internal/item-storages/suggestion-storage';
+import { SimplestItemStorage, SimplestItemStorageHost } from '../../_internal/item-storages/simplest-item-storage';
 import { ArdiumSimpleInputComponent } from '../simple-input/simple-input.component';
 import { OptionContext } from './../../types/item-storage.types';
 import { escapeAndCreateRegex, InputModel, InputModelHost } from './../input-utils';
