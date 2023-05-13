@@ -169,11 +169,14 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     //! items setter/getter
     @Input()
     get items() { return this._items }
-    set items(value: any[] | null) {
+    set items(value: string | any[] | null) {
         this.isItemsInputUsed = true;
         if (value === null) {
             value = [];
             this.isItemsInputUsed = false;
+        }
+        else if (isAnyString(value)) {
+            value = coerceArrayProperty(value);
         }
         let printErrors = this.itemStorage.setItems(value);
         if (printErrors) {
