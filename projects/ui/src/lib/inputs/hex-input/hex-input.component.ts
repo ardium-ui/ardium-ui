@@ -125,7 +125,7 @@ export class ArdiumHexInputComponent extends _NgModelComponentBase implements Co
         }
         this.writeValue(v);
     }
-    get value(): string | null { return this.inputModel.value; }
+    get value(): string | null { return this.inputModel?.hashSignValue ?? ''; }
     @Output() valueChange = new EventEmitter<string>();
 
     //* event emitters
