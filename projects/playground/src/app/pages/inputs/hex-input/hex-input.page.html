@@ -1,0 +1,46 @@
+<div class="master">
+    <span class="title">Simplest hex input</span>
+    <ard-hex-input></ard-hex-input>
+</div>
+<div class="master">
+    <span class="title">6-char hex input with default value</span>
+    <ard-hex-input maxDigits="6" value="000000"></ard-hex-input>
+</div>
+<div class="master">
+    <span class="title">Compact 6-char hex input</span>
+    <ard-hex-input maxDigits="6" value="000000" compact></ard-hex-input>
+</div>
+<div class="master">
+    <span class="title">Hex input events + ngModel</span>
+    <ard-hex-input
+        [(ngModel)]="value"
+        (valueChange)="log('valueChange', $event)"
+        (ngModelChange)="log('ngModelChange', $event)"
+        (change)="log('change', $event)"
+        (input)="log('input', $event)"
+        (clear)="log('clear', $event)"
+        (focus)="log('focus', $event)"
+        (blur)="log('blur', $event)"
+    ></ard-hex-input>
+    <span class="mono">Current value: #{{ value }}</span>
+</div>
+<div class="master">
+    <span class="title">Hex input with fixed case</span>
+    <ard-hex-input maxDigits="6" value="000000" case="uppercase"></ard-hex-input>
+</div>
+<div class="master">
+    <span class="title">Rainbow table</span>
+    <div class="flex" *ngFor="let variant of variants">
+        <span class="title">{{ variant }}</span>
+        <div class="grid" >
+            <ng-container *ngFor="let appearance of appearances">
+                <ard-hex-input
+                    *ngFor="let disabled of [false, true]"
+                    [disabled]="disabled"
+                    [appearance]="appearance"
+                    [variant]="variant"
+                ></ard-hex-input>
+            </ng-container>
+        </div>
+    </div>
+</div>

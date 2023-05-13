@@ -5,9 +5,9 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { isString } from 'simple-bool';
 import { DropdownPanelAppearance, DropdownPanelVariant } from '../../dropdown-panel/dropdown-panel.types';
-import { ArdSuggestionItem } from '../../types/item-storage.types';
+import { ArdSimplestStorageItem } from '../../types/item-storage.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
-import { SuggestionStorage, SuggestionStorageHost } from '../../_internal/item-storages/suggestion-storage';
+import { SimplestItemStorage, SimplestItemStorageHost } from '../../_internal/item-storages/simplest-item-storage';
 import { ArdiumSimpleInputComponent } from '../simple-input/simple-input.component';
 import { OptionContext } from './../../types/item-storage.types';
 import { escapeAndCreateRegex, InputModel, InputModelHost } from './../input-utils';
@@ -27,7 +27,7 @@ import { ArdInputLoadingTemplateDirective, ArdInputPlaceholderTemplateDirective,
         }
     ]
 })
-export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements InputModelHost, OnInit, SuggestionStorageHost, AfterViewInit {
+export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements InputModelHost, OnInit, SimplestItemStorageHost, AfterViewInit {
 
     private readonly element!: HTMLElement;
 
@@ -43,8 +43,8 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
 
     override readonly DEFAULTS = {
         clearButtonTitle: 'Clear',
-        suggValueFrom: 'value',
-        suggLabelFrom: 'label',
+        valueFrom: 'value',
+        labelFrom: 'label',
         suggestionsLoadingText: 'Loading...',
     }
     //! input view
@@ -104,10 +104,10 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
     override placeholderTemplate?: TemplateRef<any>;
 
     //! suggestions
-    suggestionStorage = new SuggestionStorage(this);
+    suggestionStorage = new SimplestItemStorage(this);
 
-    @Input() suggValueFrom?: string;
-    @Input() suggLabelFrom?: string;
+    @Input() valueFrom?: string;
+    @Input() labelFrom?: string;
 
     @Output('acceptSuggestion') acceptSuggestionEvent = new EventEmitter<any>();
 
@@ -129,11 +129,11 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
         function makeWarning(str: string): void {
             console.warn(`Skipped using [${str}] property bound to <ard-input>, as some provided suggestion items are of primitive type`);
         }
-        if (this.suggValueFrom) {
-            makeWarning('suggValueFrom');
+        if (this.valueFrom) {
+            makeWarning('valueFrom');
         }
-        if (this.suggLabelFrom) {
-            makeWarning('suggLabelFrom');
+        if (this.labelFrom) {
+            makeWarning('labelFrom');
         }
     }
 
@@ -163,8 +163,6 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
     private dropdownOverlay!: OverlayRef;
 
     ngAfterViewInit(): void {
-        console.log(this.suggestionTemplate);
-
         const strategy = this.overlay.position()
             .flexibleConnectedTo(this.dropdownHost)
             .withPositions([{
@@ -201,7 +199,7 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
         this.setOverlaySize();
     }
 
-    getOptionContext(item: ArdSuggestionItem): OptionContext {
+    getOptionContext(item: ArdSimplestStorageItem): OptionContext {
         return {
             $implicit: item,
             item,
@@ -215,13 +213,13 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
     onMouseMove() {
         this._isMouseBeingUsed = true;
     }
-    onSuggestionMouseEnter(item: ArdSuggestionItem, event: MouseEvent): void {
+    onSuggestionMouseEnter(item: ArdSimplestStorageItem, event: MouseEvent): void {
         if (!this._isMouseBeingUsed) return;
         this.suggestionStorage.highlightItem(item);
 
         event.stopPropagation();
     }
-    onSuggestionMouseLeave(item: ArdSuggestionItem, event: MouseEvent): void {
+    onSuggestionMouseLeave(item: ArdSimplestStorageItem, event: MouseEvent): void {
         if (!this._isMouseBeingUsed) return;
         this.suggestionStorage.unhighlightItem(item);
 
@@ -229,12 +227,12 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
     }
 
     //! suggestion selection
-    selectSuggestion(item: ArdSuggestionItem, event: MouseEvent): void {
+    selectSuggestion(item: ArdSimplestStorageItem, event: MouseEvent): void {
         event.stopPropagation();
 
         this._selectSuggestion(item);
     }
-    private _selectSuggestion(item: ArdSuggestionItem): void {
+    private _selectSuggestion(item: ArdSimplestStorageItem): void {
         const selected = this.suggestionStorage.selectItem(item);
         this.writeValue(selected ?? '');
 
@@ -275,7 +273,6 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
     }
 
     //! focus override
-
     override onFocus(event: FocusEvent): void {
         this._suggestionDropdowOpen = true;
         if (!this.suggestionStorage.highlightedItem) this.suggestionStorage.highlightFirstItem();

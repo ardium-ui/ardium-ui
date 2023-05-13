@@ -19,18 +19,18 @@ export interface OptionContext {
 interface ArdOption {
     readonly itemData: any;
     readonly index: number;
-    readonly label: string;
-    readonly value: any;
+    label: string;
+    value: any;
     highlighted?: boolean;
     selected?: boolean;
 }
 ```
  */
-export interface ArdSuggestionItem {
+export interface ArdSimplestStorageItem {
     readonly itemData: any;
     readonly index: number;
-    readonly label: string;
-    readonly value: any;
+    value: any;
+    label: string;
     disabled?: boolean;
     selected?: boolean;
     highlighted?: boolean;
@@ -49,7 +49,7 @@ interface ArdOption {
 }
 ```
  */
-export interface ArdOptionSimple extends ArdSuggestionItem {
+export interface ArdOptionSimple extends ArdSimplestStorageItem {
     disabled?: boolean;
 }
 /**

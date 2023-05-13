@@ -87,12 +87,6 @@
             width: max-content;
             white-space: nowrap;
         }
-        &.ard-filtered .ard-select-value-container {
-            >.ard-value,
-            >.ard-placeholder {
-                display: none;
-            }
-        }
     }
     &:not(.ard-searchable),
     &.ard-singleselect {
@@ -132,9 +126,6 @@
             input {
                 width: 10ch !important;
             }
-        }
-        &.ard-filtered .ard-select-value-container>.ard-placeholder {
-            display: none;
         }
         .ard-chip-wrapper {
             margin: 0;
@@ -230,6 +221,16 @@
     .ard-optgroup:first-child>hr.ard-divider {
         display: none;
     }
+    //! custom option
+    .ard-add-custom {
+        display: flex;
+        align-items: flex-end;
+        gap: 0.375rem;
+
+        .ard-add-custom-label {
+            font-size: 85%;
+        }
+    }
 
     //! compact
     > .ard-compact {
@@ -239,7 +240,7 @@
 
 //! disabled state
 .ard-disabled {
-    .ard-select-container {
+    .ard-select {
         pointer-events: none;
         opacity: 50%;
     }

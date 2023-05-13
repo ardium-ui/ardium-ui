@@ -3,9 +3,15 @@ import { NgModule } from '@angular/core';
 
 import { ArdiumChipModule } from './../chip/chip.module';
 
+import { ArdiumClickOutsideEventModule, ArdiumInnerHTMLModule } from '@ardium-ui/devkit';
+import { ArdiumDropdownPanelModule } from '../dropdown-panel/dropdown-panel.module';
+import { ArdiumSelectComponent } from './select.component';
 import {
+    ArdAddCustomTemplateDirective,
     ArdDropdownFooterTemplateDirective,
     ArdDropdownHeaderTemplateDirective,
+    ArdItemDisplayLimitTemplateDirective,
+    ArdItemLimitReachedTemplateDirective,
     ArdLoadingPlaceholderTemplateDirective,
     ArdLoadingSpinnerTemplateDirective,
     ArdNoItemsFoundTemplateDirective,
@@ -13,13 +19,8 @@ import {
     ArdOptionTemplateDirective,
     ArdSelectPlaceholderTemplateDirective,
     ArdValueChipTemplateDirective,
-    ArdValueTemplateDirective,
-    ArdItemLimitReachedTemplateDirective,
-    ArdItemDisplayLimitTemplateDirective,
+    ArdValueTemplateDirective
 } from './select.directive';
-import { ArdiumDropdownPanelModule } from '../dropdown-panel/dropdown-panel.module';
-import { ArdiumClickOutsideEventModule } from 'projects/devkit/src/public-api';
-import { ArdiumSelectComponent } from './select.component';
 
 import { _ClearButtonModule } from './../_internal/clear-button/clear-button.module';
 
@@ -39,13 +40,15 @@ import { _ClearButtonModule } from './../_internal/clear-button/clear-button.mod
         ArdValueChipTemplateDirective,
         ArdItemLimitReachedTemplateDirective,
         ArdItemDisplayLimitTemplateDirective,
+        ArdAddCustomTemplateDirective,
     ],
     imports: [
-        CommonModule,
+    CommonModule,
         ArdiumDropdownPanelModule,
         ArdiumChipModule,
         ArdiumClickOutsideEventModule,
         _ClearButtonModule,
+        ArdiumInnerHTMLModule,
     ],
     exports: [
         ArdiumSelectComponent,
@@ -62,6 +65,7 @@ import { _ClearButtonModule } from './../_internal/clear-button/clear-button.mod
         ArdValueChipTemplateDirective,
         ArdItemLimitReachedTemplateDirective,
         ArdItemDisplayLimitTemplateDirective,
+        ArdAddCustomTemplateDirective,
     ],
 })
 export class ArdiumSelectModule { }

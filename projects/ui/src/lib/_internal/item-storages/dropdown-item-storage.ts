@@ -1,6 +1,7 @@
 import { ArdOptionGroup, ArdOption, GroupByFn, ArdItemGroupMap, SearchFn, CompareWithFn } from "../../types/item-storage.types"; 
 import resolvePath from 'resolve-object-path';
-import { any, evaluate, isArray, isDefined, isObject, isPrimitive } from "simple-bool";
+import { any, evaluate, isArray, isDefined, isObject, isPrimitive, isPromise } from "simple-bool";
+import { AddCustomFn } from "../../select/select.types";
 
 export interface ItemStorageHostDefaults {
     valueFrom: string;
@@ -29,6 +30,7 @@ export interface ItemStorageHost {
     multiselectable: boolean;
     sortMultipleValues: boolean;
     maxSelectedItems?: number;
+    addCustom: boolean | AddCustomFn<any> | AddCustomFn<Promise<any>>;
 }
 
 export class ItemStorage {
@@ -89,13 +91,14 @@ export class ItemStorage {
         return this._highlightedItems.length > 0;
     }
     get isItemLimitReached(): boolean {
-        if (!this._ardParentComp.multiselectable || !isDefined(this._ardParentComp.maxSelectedItems)) {
-            return false;
-        }
-        return this._ardParentComp.maxSelectedItems <= this.selectedItems.length;
+        return (
+            this._ardParentComp.multiselectable
+            && isDefined(this._ardParentComp.maxSelectedItems)
+            && this._ardParentComp.maxSelectedItems! <= this.selectedItems.length
+        );
     }
 
-    setItems(items: any[]) {
+    setItems(items: any[]): boolean {
         let areItemsPrimitive = false;
         if (this._ardParentComp.groupItems && this._ardParentComp.itemsAlreadyGrouped) {
             let newItems = [];
@@ -106,7 +109,7 @@ export class ItemStorage {
             }
             items = newItems;
         }
-        else if (any(items, isPrimitive)) {
+        if (any(items, isPrimitive)) {
             items = items.map(this._primitiveItemsMapFn);
             areItemsPrimitive = true;
         }
@@ -122,6 +125,23 @@ export class ItemStorage {
         this._populateGroups();
 
         return areItemsPrimitive;
+    }
+    private _addSingleItem(item: any): ArdOption {
+        let isItemPrimitive = isPrimitive(item);
+        //map a primitive item to a usable object
+        if (isItemPrimitive) {
+            item = this._primitiveItemsMapFn(item);
+        }
+        //map the item to create data bindings
+        const ardOption = this._setItemsMapFn(item, this.items.last()?.index, isItemPrimitive);
+
+        //push the item into all items
+        this._items.push(ardOption);
+
+        //add item to groups
+        this._populateGroups();
+
+        return ardOption;
     }
     private _primitiveItemsMapFn<T>(item: T): { value: T } {
         return { value: item };
@@ -281,6 +301,18 @@ export class ItemStorage {
         }
         return this._items.find(item => findBy(item));
     }
+    async addCustomOption(value: string, fn: AddCustomFn<any> | AddCustomFn<Promise<any>>): Promise<void> {
+        const fnResult = fn(value);
+
+        let optionValue = fnResult;
+        if (isPromise(optionValue)) optionValue = await optionValue;
+
+        const newOptionObj = this._addSingleItem(optionValue);
+
+        this.selectItem(newOptionObj);
+    }
+
+
 
     clearAllSelected(repopulateGroups: boolean = false): any[] {
         for (const item of this._selectedItems) {
@@ -451,6 +483,7 @@ export class ItemStorage {
         this._populateGroups();
 
         if (!this.isNoItemsFound) this.highlightFirstItem();
+        else this.clearAllHighlights();
 
         return this._itemsToValue(this._filteredItems);
     }

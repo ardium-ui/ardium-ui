@@ -1,19 +1,21 @@
 import { ConnectedPosition, Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { AfterContentInit, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, forwardRef, HostBinding, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
+import { AfterContentInit, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ContentChildren, ElementRef, EventEmitter, forwardRef, HostBinding, HostListener, Input, OnChanges, OnDestroy, OnInit, Output, QueryList, SimpleChanges, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from 'projects/devkit/src/public-api';
+import { merge, startWith, Subject, takeUntil } from 'rxjs';
 import { isFunction } from 'simple-bool';
 import { ArdiumDropdownPanelComponent } from '../dropdown-panel/dropdown-panel.component';
 import { DropdownPanelAppearance, DropdownPanelVariant } from '../dropdown-panel/dropdown-panel.types';
+import { ArdiumOptionComponent } from '../option/option.component';
 import { searchFunctions } from '../search-functions';
 import { ArdOption, ArdOptionGroup, ArdPanelPosition, CompareWithFn, GroupByFn, OptionContext, SearchFn } from '../types/item-storage.types';
 import { FormElementAppearance } from '../types/theming.types';
 import { ItemStorage } from '../_internal/item-storages/dropdown-item-storage';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { FormElementVariant } from './../types/theming.types';
-import { ArdDropdownFooterTemplateDirective, ArdDropdownHeaderTemplateDirective, ArdItemDisplayLimitTemplateDirective, ArdItemLimitReachedTemplateDirective, ArdLoadingPlaceholderTemplateDirective, ArdLoadingSpinnerTemplateDirective, ArdNoItemsFoundTemplateDirective, ArdOptgroupTemplateDirective, ArdOptionTemplateDirective, ArdSelectPlaceholderTemplateDirective, ArdValueTemplateDirective } from './select.directive';
-import { GroupContext, ItemDisplayLimitContext, ItemLimitContext, SearchContext, StatsContext, ValueContext } from './select.types';
+import { ArdAddCustomTemplateDirective, ArdDropdownFooterTemplateDirective, ArdDropdownHeaderTemplateDirective, ArdItemDisplayLimitTemplateDirective, ArdItemLimitReachedTemplateDirective, ArdLoadingPlaceholderTemplateDirective, ArdLoadingSpinnerTemplateDirective, ArdNoItemsFoundTemplateDirective, ArdOptgroupTemplateDirective, ArdOptionTemplateDirective, ArdSelectPlaceholderTemplateDirective, ArdValueTemplateDirective } from './select.directive';
+import { AddCustomFn, CustomOptionContext, GroupContext, ItemDisplayLimitContext, ItemLimitContext, SearchContext, StatsContext, ValueContext } from './select.types';
 
 @Component({
     selector: 'ard-select',
@@ -29,7 +31,7 @@ import { GroupContext, ItemDisplayLimitContext, ItemLimitContext, SearchContext,
         }
     ]
 })
-export class ArdiumSelectComponent extends _NgModelComponentBase implements OnChanges, AfterContentInit, AfterViewInit, OnInit, ControlValueAccessor {
+export class ArdiumSelectComponent extends _NgModelComponentBase implements OnChanges, AfterViewInit, AfterContentInit, OnInit, OnDestroy, ControlValueAccessor {
 
     //! public constants
     readonly itemStorage = new ItemStorage(this);
@@ -52,9 +54,11 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     private _items: any[] | null = [];
     private _isMouseBeingUsed = false;
     private _searchBarFocused = false;
-
+    private readonly _destroy$ = new Subject<void>();
+    
     //! publics
     public searchTerm: string = '';
+    isItemsInputUsed: boolean = false;
 
     //! binding-related inputs
     //value/label/disabled/group/pre-grouped children paths
@@ -165,11 +169,63 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     @Input()
     get items() { return this._items }
     set items(value: any[] | null) {
+        this.isItemsInputUsed = true;
         if (value === null) {
             value = [];
+            this.isItemsInputUsed = false;
         }
-        this._items = value;
+        let printErrors = this.itemStorage.setItems(value);
+        if (printErrors) {
+            this._printPrimitiveWarnings();
+        }
     };
+
+    @ContentChildren(ArdiumOptionComponent) optionComponents!: QueryList<ArdiumOptionComponent>;
+
+    private _setItemsFromComponents() {
+        const handleOptionChange = () => {
+            const changedOrDestroyed = merge(
+                this.optionComponents.changes,
+                this._destroy$
+            );
+            merge(...this.optionComponents.map(option => option.stateChange$))
+                .pipe(
+                    takeUntil(changedOrDestroyed)
+                )
+                .subscribe(option => {
+                    setTimeout(() => {
+                        const item = this.itemStorage.findItemByValue(option.oldValue ?? option.value);
+                        if (item) {
+                            item.disabled = option.disabled;
+                            item.label = option.label || item.label;
+                            item.value = option.value;
+                            item.itemData.disabled = option.disabled;
+                            item.itemData.label = option.label || item.label;
+                            item.itemData.value = option.value;
+                        }
+                        this.detectChanges();
+                    }, 0);
+                });
+        };
+        this.optionComponents
+            .changes
+            .pipe(
+                startWith(this.optionComponents),
+                takeUntil(this._destroy$)
+            )
+            .subscribe((options: QueryList<ArdiumOptionComponent>) => {
+                if (options.length == 0) return;
+                setTimeout(() => {
+                    this.items = options.map(option => ({
+                        value: option.value,
+                        label: option.label,
+                        disabled: option.disabled
+                    }));
+                    handleOptionChange();
+                    this.detectChanges();
+                }, 0);
+            });
+    }
 
     //! attribute and/or class setters/getters
     private _multiselectable: boolean = false;
@@ -195,6 +251,37 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     get touched(): boolean { return this._touched };
     private set touched(state: boolean) {
         this._touched = state;
+    }
+
+    //! custom options
+    private _defaultAddCustomFn: AddCustomFn<any> = (value: string) => value;
+    private _addCustom: false | AddCustomFn<any> | AddCustomFn<Promise<any>> = false;
+    @Input()
+    get addCustom(): false | AddCustomFn<any> | AddCustomFn<Promise<any>> {
+        return this._addCustom;
+    }
+    set addCustom(v: string | boolean | AddCustomFn<any> | AddCustomFn<Promise<any>>) {
+        if (isFunction(v)) {
+            this._addCustom = v;
+            return;
+        }
+        //coerce the value into a boolean
+        //if "true", use the default function. Otherwise, just set to "false".
+        this._addCustom = coerceBooleanProperty(v) && this._defaultAddCustomFn;
+    }
+
+    get shouldShowAddCustom(): boolean {
+        return this.addCustom != false && this.searchTerm.length > 0 && this.itemStorage.isNoItemsFound;
+    }
+    
+    addCustomOption(value: string): void {
+        console.log('addCustomOption', value);
+        if (!this.addCustom) return;
+
+        this.itemStorage.addCustomOption(value, this.addCustom);
+
+        this._clearSearch();
+        this.close();
     }
 
     //! control value accessor
@@ -256,6 +343,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     @ContentChild(ArdDropdownHeaderTemplateDirective, { read: TemplateRef }) dropdownHeaderTemplate?: TemplateRef<any>;
     @ContentChild(ArdDropdownFooterTemplateDirective, { read: TemplateRef }) dropdownFooterTemplate?: TemplateRef<any>;
     @ContentChild(ArdNoItemsFoundTemplateDirective, { read: TemplateRef }) noItemsFoundTemplate?: TemplateRef<any>;
+    @ContentChild(ArdAddCustomTemplateDirective, { read: TemplateRef }) addCustomTemplate?: TemplateRef<any>;
     @ContentChild(ArdItemLimitReachedTemplateDirective, { read: TemplateRef }) itemLimitReachedTemplate?: TemplateRef<any>;
     @ContentChild(ArdItemDisplayLimitTemplateDirective, { read: TemplateRef }) itemDisplayLimitTemplate?: TemplateRef<any>;
     
@@ -279,9 +367,16 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     }
     getSearchContext(): SearchContext {
         return {
+            $implicit: this.searchTerm,
             searchTerm: this.searchTerm,
             totalItems: this.totalItems,
             foundItems: this.foundItems,
+        };
+    }
+    getCustomOptionContext(): CustomOptionContext {
+        return {
+            $implicit: this.searchTerm,
+            searchTerm: this.searchTerm,
         };
     }
     getGroupContext(group: ArdOptionGroup): GroupContext {
@@ -333,7 +428,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
 
     private dropdownOverlay!: OverlayRef;
 
-    ngAfterViewInit(): void {
+    private _createOverlay(): void {
         const strategy = this.overlay.position()
             .flexibleConnectedTo(this.dropdownHost)
             .withPositions([{
@@ -371,20 +466,30 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     ngOnInit(): void {
         this._setSearchInputAttributes();
     }
-    ngAfterContentInit(): void {
+    ngOnDestroy() {
+        this._destroy$.next();
+        this._destroy$.complete();
+    }
+    ngAfterViewInit(): void {
+        this._createOverlay();
+
         if (this.autoFocus) {
             this.focus();
         }
     }
+    ngAfterContentInit(): void {
+        if (!this.isItemsInputUsed) {
+            this._setItemsFromComponents();
+        }
+    }
     ngOnChanges(changes: SimpleChanges): void {
+        //fire items load handler when loading is set to false
         if (changes['loading']) {
-            if (
-                changes['loading'].currentValue == false &&
-                !changes['loading'].firstChange
-            ) {
+            if (changes['loading'].currentValue == false) {
                 this._onItemsLoad();
             }
         }
+        //set groupItems to true by default if groupLabelFrom or itemsAlreadyGrouped is set to true as the first change
         if (
             (
                 changes['groupLabelFrom']?.firstChange ||
@@ -393,12 +498,6 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
             !changes['groupItems']
         ) {
             this.groupItems = true;
-        }
-        if (changes['items']) {
-            let printErrors = this.itemStorage.setItems(changes['items'].currentValue);
-            if (printErrors) {
-                this._printPrimitiveWarnings();
-            }
         }
     }
     private _onItemsLoad() {
@@ -436,6 +535,12 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     get firstHighlightedItem(): ArdOption | undefined {
         return this.itemStorage.highlightedItems?.first();
     }
+    get shouldDisplayPlaceholder(): boolean {
+        return !this.itemStorage.isAnyItemSelected && !this.searchTerm;
+    }
+    get shouldDisplayValue(): boolean {
+        return this.itemStorage.isAnyItemSelected && (!this.searchTerm || this.multiselectable);
+    }
     get shouldShowClearButton(): boolean {
         return this._clearable && !this._disabled && (this.itemStorage.isAnyItemSelected || this.searchTerm != '');
     }
@@ -443,7 +548,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         return this.itemStorage.groups.values();
     }
     get shouldShowNoItemsFound(): boolean {
-        return this.itemStorage.isNoItemsFound && !this.isLoading;
+        return this.itemStorage.isNoItemsFound && !this.isLoading && !this.shouldShowAddCustom;
     }
     get totalItems(): number {
         return this.itemStorage.items.length;
@@ -458,6 +563,9 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
             this.itemDisplayLimit != Infinity &&
             this.itemStorage.selectedItems.length > this.itemDisplayLimit
         );
+    }
+    get isInputElementReadonly(): boolean {
+        return !this.addCustom && (!this.searchable || this.itemStorage.isItemLimitReached)
     }
     isValueWithinDisplayLimit(i: number): boolean {
         return (
@@ -718,11 +826,10 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     }
     private _onEnterPress(event: KeyboardEvent): void {
         event.preventDefault();
-        let shouldClose = false;
+        let shouldClose = true;
         
+        //select the currently highlighted option
         if (this.isDropdownOpen && this.firstHighlightedItem) {
-            shouldClose = true;
-
             if (this.itemStorage
                 .highlightedItems
                 .every(item => item.selected)
@@ -733,6 +840,13 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
                 this.selectItem(...this.itemStorage.highlightedItems);
             }
         }
+        //add a custom option
+        else if (this.isDropdownOpen && this.shouldShowAddCustom) {
+            this.addCustomOption(this.searchTerm);
+        }
+        //in case of no action, open the dropdown (or keep it open)
+        else shouldClose = false;
+
         if (this.closeOnSelect && shouldClose) {
             this.itemStorage.clearAllHighlights();
             this.close();
