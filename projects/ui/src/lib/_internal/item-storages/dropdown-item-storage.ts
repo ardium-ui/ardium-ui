@@ -124,6 +124,11 @@ export class ItemStorage {
         //add items to groups
         this._populateGroups();
 
+        //write value if it was
+        if (this._valueToWriteAfterItemsLoad !== undefined) {
+            this.handleWriteValue(this._valueToWriteAfterItemsLoad);
+        }
+
         return areItemsPrimitive;
     }
     private _addSingleItem(item: any): ArdOption {
@@ -270,7 +275,15 @@ export class ItemStorage {
             return true;
         });
     }
+    private _valueToWriteAfterItemsLoad: any;
+    private _wasValueWriteDeferred: boolean = false;
     handleWriteValue(ngModel: any[]): void {
+        //defer writing the value if no options are yet loaded
+        if (!this._wasValueWriteDeferred && this._items.length == 0) {
+            this._valueToWriteAfterItemsLoad = ngModel;
+            return;
+        }
+
         this.clearAllSelected();
 
         if (!this._isWriteValueValid(ngModel)) {
