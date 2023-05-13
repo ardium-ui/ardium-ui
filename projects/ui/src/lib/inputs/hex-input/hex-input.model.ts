@@ -19,6 +19,8 @@ export class HexInputModel {
     //value as string
     get stringValue(): string { return this._value ?? '' }
     set stringValue(v: string) { this._value = v || null; }
+    //value with the hash sign
+    get hashSignValue(): string { return '#' + this._value; }
 
     //! write value handlers
     writeValue(v: any): boolean {
