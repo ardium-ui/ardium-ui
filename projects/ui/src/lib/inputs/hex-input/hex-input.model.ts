@@ -68,7 +68,8 @@ export class HexInputModel {
     //! constraints
     private _charactersRegexTransformer = new RegExpTransformer(/[^0-9a-f]/i, '');
     private _applyCharactersConstraint(v: string): string {
-        const { text, caretPos } = this._charactersRegexTransformer.apply(v, '', this.caretPos);
+        const lengthDifference = v.length - this.stringValue.length;
+        const { text, caretPos } = this._charactersRegexTransformer.apply(v, '', this.caretPos + lengthDifference);
         this.caretPos = caretPos;
         return text;
     }
