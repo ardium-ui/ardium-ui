@@ -69,6 +69,7 @@
 
         .ard-search-input {
             width: 100%;
+            max-width: 100%;
 
             input {
                 border: none;
@@ -78,6 +79,7 @@
                 padding: 0;
                 display: block;
                 width: 100%;
+                max-width: 100%;
             }
         }
     }
