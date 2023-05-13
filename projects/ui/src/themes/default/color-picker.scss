@@ -1,6 +1,9 @@
 .ard-color-picker {
     width: 15rem;
     padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 
     //TODO remove
     border: 1px solid black;
@@ -52,6 +55,11 @@
             border: 2px solid white;
             outline: 1px solid black;
             border-radius: 3px;
+        }
+    }
+    .ard-color-picker-inputs {
+        .ard-color-picker-input-type {
+            font-weight: 700;
         }
     }
     &.ard-vertical {
