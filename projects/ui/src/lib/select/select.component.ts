@@ -2,9 +2,10 @@ import { ConnectedPosition, Overlay, OverlayConfig, OverlayRef, ScrollStrategyOp
 import { TemplatePortal } from '@angular/cdk/portal';
 import { AfterContentInit, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ContentChildren, ElementRef, EventEmitter, forwardRef, HostBinding, HostListener, Input, OnChanges, OnDestroy, OnInit, Output, QueryList, SimpleChanges, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { coerceArrayProperty } from '@ardium-ui/devkit';
 import { coerceBooleanProperty } from 'projects/devkit/src/public-api';
 import { merge, startWith, Subject, takeUntil } from 'rxjs';
-import { isFunction } from 'simple-bool';
+import { isAnyString, isArray, isFunction } from 'simple-bool';
 import { ArdiumDropdownPanelComponent } from '../dropdown-panel/dropdown-panel.component';
 import { DropdownPanelAppearance, DropdownPanelVariant } from '../dropdown-panel/dropdown-panel.types';
 import { ArdiumOptionComponent } from '../option/option.component';
@@ -308,8 +309,16 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
 
     //! value input & output
     @Input()
-    set value(newValue: any[]) {
+    set value(newValue: any) {
+        //if is a string, coerce it into array of strings
+        if (isAnyString(newValue)) newValue = coerceArrayProperty(newValue);
+        //if it is not a string and not an array, just put it in an array
+        else if (!isArray(newValue)) newValue = [newValue];
+
         this.writeValue(newValue);
+    }
+    get value(): any[] {
+        return this.itemStorage.value;
     }
     @Output() valueChange = new EventEmitter<any[]>();
 
