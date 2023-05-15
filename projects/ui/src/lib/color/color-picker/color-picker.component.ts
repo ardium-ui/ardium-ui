@@ -1,11 +1,13 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, Input, Output, EventEmitter, ContentChild, TemplateRef, HostListener, ViewChild, AfterViewInit } from '@angular/core';
-import { coerceBooleanProperty, coerceNumberProperty, getDomPaddingRect, getEventRelativePos } from '@ardium-ui/devkit';
+import { ChangeDetectionStrategy, Component, ContentChild, ElementRef, EventEmitter, HostListener, Input, Output, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { coerceBooleanProperty, coerceNumberProperty, getEventRelativePos } from '@ardium-ui/devkit';
 import * as Color from 'color';
-import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
-import { ArdColorPickerShadeIndicatorTemplateDirective, ArdColorPickerHueIndicatorTemplateDirective, ArdColorPickerColorWindowTemplateDirective, ArdColorPickerOpacityIndicatorTemplateDirective } from './color-picker.directives';
-import { ColorPickerColorWindowContext, ColorPickerIndicatorContext, ColorPickerVariant } from './color-picker.types';
-import { ElementRef } from '@angular/core';
 import { round, roundToPrecision } from 'more-rounding';
+import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
+import { ArdColorPickerColorWindowTemplateDirective, ArdColorPickerHueIndicatorTemplateDirective, ArdColorPickerOpacityIndicatorTemplateDirective, ArdColorPickerShadeIndicatorTemplateDirective } from './color-picker.directives';
+import { ColorPickerColorWindowContext, ColorPickerIndicatorContext, ColorPickerVariant, _ColorPickerInputsSectionType } from './color-picker.types';
+
+const validHexColorRegex = /^#[0-9a-f]{3}(?:[0-9a-f]{3})?$/i;
+const validHexAlphaColorRegex = /^#[0-9a-f]{4}(?:[0-9a-f]{4})?$/i;
 
 @Component({
     selector: 'ard-color-picker',
@@ -94,6 +96,9 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase {
 
     writeValue(v: any) {
         this._value = Color(v);
+        this.hexInputValue = this.value.hex().replace('#', '');
+        this._updateCurrentShadeMapColor();
+        this._updateCurrentOpacityMapColor();
     }
 
     //! creating new value from interactions
@@ -202,6 +207,7 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase {
     }
     currentOpacityMapColor: Color = this.value;
     private _updateCurrentOpacityMapColor(): void {
+        if (!this.withOpacity) return;
         this.currentOpacityMapColor = Color.hsv(this.value.hue(), this.value.saturationv(), this.value.value());
     }
 
@@ -221,6 +227,22 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase {
             '--top': 100 - this.value.alpha() * 100 + '%',
         };
     }
+
+    //! inputs section
+    inputTypes: _ColorPickerInputsSectionType[] = Object.values(_ColorPickerInputsSectionType);
+    currentInputType: _ColorPickerInputsSectionType = _ColorPickerInputsSectionType.HEX;
+
+    hexInputValue: string = this.value.hex();
+
+    onHexInputChange(value: string): void {
+        if (this.withOpacity) {
+            if (!value.match(validHexAlphaColorRegex)) return;
+        } else
+            if (!value.match(validHexColorRegex)) return;
+        
+        this.value = value;
+    }
+    
 
     //! events
     private _emitChange() {

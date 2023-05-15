@@ -11,6 +11,14 @@ export type ColorPickerColorWindowContext = {
     referenceColor: Color;
 }
 
+export const _ColorPickerInputsSectionType = {
+    HEX: 'HEX',
+    RGB: 'RGB',
+    HSL: 'HSL',
+    HSV: 'HSV',
+} as const;
+export type _ColorPickerInputsSectionType = typeof _ColorPickerInputsSectionType[keyof typeof _ColorPickerInputsSectionType];
+
 export const ColorPickerVariant = {
     Rounded: 'rounded',
     Sharp: 'sharp',

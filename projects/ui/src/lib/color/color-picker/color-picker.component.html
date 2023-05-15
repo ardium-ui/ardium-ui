@@ -55,12 +55,19 @@
     <div class="ard-color-picker-input-panel">
         <div class="ard-color-picker-inputs">
             <div class="ard-color-picker-input-type">
-                <ard-select compact appearance="transparent" value="['HEX']">
-                    <ard-option>HEX</ard-option>
-                    <ard-option>RGB</ard-option>
-                    <ard-option>HSL</ard-option>
-                    <ard-option>HSV</ard-option>
-                </ard-select>
+                <ard-select
+                    compact
+                    clearable="false"
+                    appearance="transparent"
+                    [items]="inputTypes"
+                    [value]="currentInputType"
+                    (valueChange)="currentInputType = $event[0]"
+                ></ard-select>
+            </div>
+            <div class="ard-color-picker-inputs-container">
+                <ng-template
+                    [ngTemplateOutlet]="currentInputType == 'HEX' ? hexInput : tripleInput"
+                ></ng-template>
             </div>
         </div>
         <div class="ard-color-picker-window-container">
@@ -79,5 +86,13 @@
 </div>
 
 <ng-template #hexInput>
+    <ard-hex-input
+        maxDigits="6"
+        [value]="hexInputValue"
+        (valueChange)="onHexInputChange($event)"
+    ></ard-hex-input>
+</ng-template>
+
+<ng-template #tripleInput>
 
 </ng-template>
