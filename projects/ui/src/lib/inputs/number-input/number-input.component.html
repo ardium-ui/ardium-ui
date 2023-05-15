@@ -3,7 +3,6 @@
     [class.ard-has-value]="value"
     (click)="focus()"
     (mousedown)="$event.preventDefault()"
-    [style]="{'--ard-_input-width': inputWidth + 2}"
 >
     <ard-button *ngIf="allowQuickChange"
         class="ard-quick-change-button decrement"

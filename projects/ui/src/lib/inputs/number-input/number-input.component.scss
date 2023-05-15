@@ -14,13 +14,6 @@
         left: 0;
         right: 0;
     }
-    .ard-input-container > input {
-        width: calc(1ch * var(--ard-_input-width)) !important;
-
-        & > input {
-            width: 100% !important;
-        }
-    }
 }
 
 .ard-text-align-left {

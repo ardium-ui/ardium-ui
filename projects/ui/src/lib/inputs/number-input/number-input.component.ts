@@ -80,12 +80,6 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
         return ButtonAppearance.Transparent;
     }
 
-    private _inputWidth: number = 5;
-    @Input()
-    get inputWidth(): number { return this._inputWidth; }
-    set inputWidth(v: any) { this._inputWidth = coerceNumberProperty(v); }
-    
-
     //! other inputs
     @Input() inputAttrs: { [key: string]: any } = {};
 
