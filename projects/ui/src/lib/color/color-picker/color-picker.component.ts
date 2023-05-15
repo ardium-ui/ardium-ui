@@ -59,6 +59,7 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase {
 
     //! value-related
     private _value: Color = Color("red");
+    private _exactHue: number = 0;
     @Input()
     set value(v: any) {
         this.writeValue(v);
@@ -120,9 +121,11 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase {
     }
     onHueAreaMouseDown(event: MouseEvent): void {
         this._focusedArea = 'hue';
+        this._updateHueFromEvent(event);
     }
     onOpacityAreaMouseDown(event: MouseEvent): void {
         this._focusedArea = 'opacity';
+        this._updateOpacityFromEvent(event);
     }
 
     @HostListener('document:pointerup')
@@ -178,11 +181,12 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase {
 
         const hueMapHeight = top + bottom;
         const newHueRaw = top / hueMapHeight * 360;
-        const newHue = round(Math.max(0, Math.min(359, newHueRaw)));
+        const newHue = round(Math.max(0, Math.min(360, newHueRaw)));
+        const newHueExact = newHue == 360 ? 359.99 : newHue;
 
-        if (this.value.hue() == newHue) return;
+        if (this.value.hue() == newHueExact) return;
 
-        this.value = Color(this.value).hue(newHue);
+        this.value = Color(this.value).hue(newHueExact);
 
         this._emitChange();
         this.colorHueChange.next(this.value.hue());
@@ -291,6 +295,7 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase {
                         max: 100,
                     },
                 ];
+                console.log(this.tripleInputData);
                 break;
             case _ColorPickerInputsSectionType.HSV:
                 const HSV = this.value.hsv();
