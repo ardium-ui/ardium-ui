@@ -61,10 +61,12 @@
                     appearance="transparent"
                     [items]="inputTypes"
                     [value]="currentInputType"
-                    (valueChange)="currentInputType = $event[0]"
+                    (valueChange)="onCurrentInputTypeChange($event)"
                 ></ard-select>
             </div>
-            <div class="ard-color-picker-inputs-container">
+            <div class="ard-color-picker-inputs-container"
+                [ngClass]="{'ard-mode-hex': currentInputType == 'HEX', 'ard-mode-triple': currentInputType != 'HEX'}"
+            >
                 <ng-template
                     [ngTemplateOutlet]="currentInputType == 'HEX' ? hexInput : tripleInput"
                 ></ng-template>
@@ -94,5 +96,11 @@
 </ng-template>
 
 <ng-template #tripleInput>
-
+    <ard-number-input
+        *ngFor="let i of [0, 1, 2]"
+        allowQuickChange="false"
+        [max]="tripleInputData[i].max"
+        [value]="tripleInputData[i].value"
+        (valueChange)="onTripleInputChange($event, i)"
+    ></ard-number-input>
 </ng-template>

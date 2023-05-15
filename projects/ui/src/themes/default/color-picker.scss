@@ -58,9 +58,25 @@
         }
     }
     .ard-color-picker-inputs {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
         .ard-color-picker-input-type {
             font-weight: 700;
-            width: max-content;
+            width: 5ch;
+        }
+        .ard-color-picker-inputs-container {
+            display: grid;
+            gap: 0.5rem;
+            width: 100%;
+
+            &.ard-mode-hex {
+                grid-template-columns: 1fr;
+            }
+            &.ard-mode-triple {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
         }
     }
     &.ard-vertical {

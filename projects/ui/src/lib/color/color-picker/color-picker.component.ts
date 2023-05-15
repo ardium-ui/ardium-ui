@@ -9,6 +9,11 @@ import { ColorPickerColorWindowContext, ColorPickerIndicatorContext, ColorPicker
 const validHexColorRegex = /^#[0-9a-f]{3}(?:[0-9a-f]{3})?$/i;
 const validHexAlphaColorRegex = /^#[0-9a-f]{4}(?:[0-9a-f]{4})?$/i;
 
+type TripleInputObject = {
+    value: number;
+    max: number;
+}
+
 @Component({
     selector: 'ard-color-picker',
     templateUrl: './color-picker.component.html',
@@ -96,9 +101,10 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase {
 
     writeValue(v: any) {
         this._value = Color(v);
-        this.hexInputValue = this.value.hex().replace('#', '');
         this._updateCurrentShadeMapColor();
         this._updateCurrentOpacityMapColor();
+        this._updateHexInputValue();
+        this._updateTripleInputValues();
     }
 
     //! creating new value from interactions
@@ -232,7 +238,82 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase {
     inputTypes: _ColorPickerInputsSectionType[] = Object.values(_ColorPickerInputsSectionType);
     currentInputType: _ColorPickerInputsSectionType = _ColorPickerInputsSectionType.HEX;
 
+    onCurrentInputTypeChange(value: _ColorPickerInputsSectionType[]): void {
+        this.currentInputType = value[0];
+
+        if (this.currentInputType != _ColorPickerInputsSectionType.HEX) {
+            this._updateTripleInputValues();
+        }
+    }
+
     hexInputValue: string = this.value.hex();
+    private _updateHexInputValue(): void {
+        if (this.currentInputType != _ColorPickerInputsSectionType.HEX) return;
+
+        this.hexInputValue = this.value.hex().replace('#', '');
+    }
+
+    tripleInputData!: [TripleInputObject, TripleInputObject, TripleInputObject];
+    private _updateTripleInputValues(): void {
+        if (this.currentInputType == _ColorPickerInputsSectionType.HEX) return;
+
+        switch (this.currentInputType) {
+            case _ColorPickerInputsSectionType.RGB:
+                const RGB = this.value.rgb();
+                this.tripleInputData = [
+                    {
+                        value: RGB.red(),
+                        max: 255,
+                    },
+                    {
+                        value: RGB.green(),
+                        max: 255,
+                    },
+                    {
+                        value: RGB.blue(),
+                        max: 255,
+                    },
+                ];
+                break;
+            case _ColorPickerInputsSectionType.HSL:
+                const HSL = this.value.hsl();
+                this.tripleInputData = [
+                    {
+                        value: HSL.hue(),
+                        max: 360,
+                    },
+                    {
+                        value: HSL.saturationl(),
+                        max: 100,
+                    },
+                    {
+                        value: HSL.lightness(),
+                        max: 100,
+                    },
+                ];
+                break;
+            case _ColorPickerInputsSectionType.HSV:
+                const HSV = this.value.hsv();
+                this.tripleInputData = [
+                    {
+                        value: HSV.hue(),
+                        max: 360,
+                    },
+                    {
+                        value: HSV.saturationv(),
+                        max: 100,
+                    },
+                    {
+                        value: HSV.value(),
+                        max: 100,
+                    },
+                ];
+                break;
+
+            default:
+                break;
+        }
+    }
 
     onHexInputChange(value: string): void {
         if (this.withOpacity) {
@@ -243,6 +324,9 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase {
         this.value = value;
     }
     
+    onTripleInputChange(value: number | null, index: number): void {
+
+    }
 
     //! events
     private _emitChange() {

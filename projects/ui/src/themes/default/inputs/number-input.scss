@@ -5,9 +5,15 @@
     @include inputMixin.genericInput();
     @include defaultMixins.formAppearances();
     gap: 0;
+    width: 100%;
 
     .ard-input-container {
         height: 100%;
+        max-width: 100%;
+
+        & > input {
+            width: 100%;
+        }
     }
 
     .ard-quick-change-button {
