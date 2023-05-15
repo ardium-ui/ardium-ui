@@ -5,7 +5,7 @@ export type ColorPickerIndicatorContext = {
     $implicit: Color;
 }
 
-export type ColorPickerColorWindowContext = {
+export type ColorPickerColorReferenceContext = {
     color: Color;
     $implicit: Color;
     referenceColor: Color;

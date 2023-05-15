@@ -5,7 +5,7 @@ import { ArdiumNumberInputModule } from '../../inputs/number-input/number-input.
 import { ArdiumOptionModule } from '../../option/option.module';
 import { ArdiumSelectModule } from '../../select/select.module';
 import { ArdiumColorPickerComponent } from './color-picker.component';
-import { ArdColorPickerColorWindowTemplateDirective, ArdColorPickerHueIndicatorTemplateDirective, ArdColorPickerOpacityIndicatorTemplateDirective, ArdColorPickerShadeIndicatorTemplateDirective } from './color-picker.directives';
+import { ArdColorPickerColorReferenceTemplateDirective, ArdColorPickerHueIndicatorTemplateDirective, ArdColorPickerOpacityIndicatorTemplateDirective, ArdColorPickerShadeIndicatorTemplateDirective } from './color-picker.directives';
 
 
 
@@ -14,7 +14,7 @@ import { ArdColorPickerColorWindowTemplateDirective, ArdColorPickerHueIndicatorT
         ArdiumColorPickerComponent,
         ArdColorPickerHueIndicatorTemplateDirective,
         ArdColorPickerShadeIndicatorTemplateDirective,
-        ArdColorPickerColorWindowTemplateDirective,
+        ArdColorPickerColorReferenceTemplateDirective,
         ArdColorPickerOpacityIndicatorTemplateDirective,
     ],
     imports: [
@@ -28,7 +28,7 @@ import { ArdColorPickerColorWindowTemplateDirective, ArdColorPickerHueIndicatorT
         ArdiumColorPickerComponent,
         ArdColorPickerHueIndicatorTemplateDirective,
         ArdColorPickerShadeIndicatorTemplateDirective,
-        ArdColorPickerColorWindowTemplateDirective,
+        ArdColorPickerColorReferenceTemplateDirective,
         ArdColorPickerOpacityIndicatorTemplateDirective,
     ]
 })

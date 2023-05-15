@@ -3,8 +3,8 @@ import { coerceBooleanProperty, coerceNumberProperty, getEventRelativePos } from
 import * as Color from 'color';
 import { round, roundToPrecision } from 'more-rounding';
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
-import { ArdColorPickerColorWindowTemplateDirective, ArdColorPickerHueIndicatorTemplateDirective, ArdColorPickerOpacityIndicatorTemplateDirective, ArdColorPickerShadeIndicatorTemplateDirective } from './color-picker.directives';
-import { ColorPickerColorWindowContext, ColorPickerIndicatorContext, ColorPickerVariant, _ColorPickerInputsSectionType } from './color-picker.types';
+import { ArdColorPickerColorReferenceTemplateDirective, ArdColorPickerHueIndicatorTemplateDirective, ArdColorPickerOpacityIndicatorTemplateDirective, ArdColorPickerShadeIndicatorTemplateDirective } from './color-picker.directives';
+import { ColorPickerColorReferenceContext, ColorPickerIndicatorContext, ColorPickerVariant, _ColorPickerInputsSectionType } from './color-picker.types';
 
 const validHexColorRegex = /^#[0-9a-f]{3}(?:[0-9a-f]{3})?$/i;
 const validHexAlphaColorRegex = /^#[0-9a-f]{4}(?:[0-9a-f]{4})?$/i;
@@ -339,14 +339,14 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase {
     @ContentChild(ArdColorPickerShadeIndicatorTemplateDirective, { read: TemplateRef }) shadeIndicatorTemplate?: TemplateRef<any>;
     @ContentChild(ArdColorPickerHueIndicatorTemplateDirective, { read: TemplateRef }) hueIndicatorTemplate?: TemplateRef<any>;
     @ContentChild(ArdColorPickerOpacityIndicatorTemplateDirective, { read: TemplateRef }) opacityIndicatorTemplate?: TemplateRef<any>;
-    @ContentChild(ArdColorPickerColorWindowTemplateDirective, { read: TemplateRef }) colorWindowTemplate?: TemplateRef<any>;
+    @ContentChild(ArdColorPickerColorReferenceTemplateDirective, { read: TemplateRef }) colorReferenceTemplate?: TemplateRef<any>;
 
     getIndicatorContext(): ColorPickerIndicatorContext {
         return {
             $implicit: this.value,
         };
     }
-    getColorWindowContext(): ColorPickerColorWindowContext {
+    getColorReferenceContext(): ColorPickerColorReferenceContext {
         return {
             color: this.value,
             $implicit: this.value,
