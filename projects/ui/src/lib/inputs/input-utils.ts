@@ -148,8 +148,11 @@ export class NumberInputModel {
     }
     protected _writeValue(v: string | null): boolean {
         //constraints
-        v = this._applyNumberConstraint(v);
-        v = this._applyMinMaxConstraints(v);
+        if (v) {
+            v = this._removeDecimalPlaces(v);
+            v = this._applyNumberConstraint(v);
+            v = this._applyMinMaxConstraints(v);
+        }
         //update view
         let oldVal = this.value;
         this.value = v;
@@ -172,7 +175,16 @@ export class NumberInputModel {
     }
 
     //! constraints
-    private _applyNumberConstraint(v: string | null): string {
+    private _removeDecimalPlacesTransformer = new RegExpTransformer(/[.,].+/, '');
+    private _removeDecimalPlaces(v: string): string {
+        if (!v) return '';
+        if (this._hostComp.allowFloat) return v;
+
+        const { text, caretPos } = this._removeDecimalPlacesTransformer.apply(v, this.stringValue, this.caretPos);
+        this.caretPos = caretPos;
+        return text;
+    }
+    private _applyNumberConstraint(v: string): string {
         if (!v) return '';
 
         if (this._hostComp.allowFloat) {
@@ -184,7 +196,7 @@ export class NumberInputModel {
         this.caretPos = caretPos;
         return text;
     }
-    private _applyMinMaxConstraints(v: string | null): string {
+    private _applyMinMaxConstraints(v: string): string {
         if (!v) return '';
 
         const numericValue = Number(v);
