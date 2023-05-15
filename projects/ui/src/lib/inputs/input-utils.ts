@@ -175,14 +175,16 @@ export class NumberInputModel {
     }
 
     //! constraints
-    private _removeDecimalPlacesTransformer = new RegExpTransformer(/[.,].+/, '');
     private _removeDecimalPlaces(v: string): string {
         if (!v) return '';
         if (this._hostComp.allowFloat) return v;
 
-        const { text, caretPos } = this._removeDecimalPlacesTransformer.apply(v, this.stringValue, this.caretPos);
-        this.caretPos = caretPos;
-        return text;
+        if (v.match(/[.,].+/)) {
+            const num = Number(v);
+            if (!isNaN(num))
+                v = Math.round(num).toString();
+        }
+        return v;
     }
     private _applyNumberConstraint(v: string): string {
         if (!v) return '';
