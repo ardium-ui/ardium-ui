@@ -103,7 +103,7 @@
             }
         }
     }
-    &:not(.ard-searchable) .ard-search-input {
+    &:not(.ard-searchable) .ard-select-value-container {
         pointer-events: none;
     }
     &.ard-multiselect {
