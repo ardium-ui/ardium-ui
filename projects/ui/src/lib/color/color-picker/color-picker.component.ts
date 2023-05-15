@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, ContentChild, ElementRef, EventEmitter, HostListener, Input, Output, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ContentChild, ElementRef, EventEmitter, HostListener, Input, Output, TemplateRef, ViewChild, ViewEncapsulation, OnInit } from '@angular/core';
+import { withHashLocation } from '@angular/router';
 import { coerceBooleanProperty, coerceNumberProperty, getEventRelativePos } from '@ardium-ui/devkit';
 import * as Color from 'color';
 import { round, roundToPrecision } from 'more-rounding';
@@ -21,7 +22,7 @@ type TripleInputObject = {
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ArdiumColorPickerComponent extends _NgModelComponentBase {
+export class ArdiumColorPickerComponent extends _NgModelComponentBase implements OnInit {
 
     private _withOpacity: boolean = false;
     @Input()
@@ -33,9 +34,11 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase {
     }
 
     private _referenceColor: Color = Color("transparent");
+    private _wasReferenceColorSet: boolean = false;
     @Input()
     set referenceColor(v: any) {
         this._referenceColor = Color(v);
+        this._wasReferenceColorSet = true;
     }
     get referenceColor(): Color { return this._referenceColor; }
 
@@ -102,10 +105,18 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase {
 
     writeValue(v: any) {
         this._value = Color(v);
+
         this._updateCurrentShadeMapColor();
         this._updateCurrentOpacityMapColor();
         this._updateHexInputValue();
         this._updateTripleInputValues();
+    }
+
+    ngOnInit(): void {
+        if (this._wasReferenceColorSet) return;
+
+        this._wasReferenceColorSet = true;
+        this.referenceColor = Color(this.value);
     }
 
     //! creating new value from interactions

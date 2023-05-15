@@ -58,18 +58,20 @@
         }
     }
     .ard-color-picker-inputs {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: 1fr max-content;
+        grid-template-rows: max-content max-content;
         gap: 0.5rem;
 
         .ard-color-picker-input-type {
             font-weight: 700;
-            width: 5ch;
+            width: max-content;
         }
         .ard-color-picker-inputs-container {
             display: grid;
             gap: 0.5rem;
             width: 100%;
+            grid-column: 1 / 3;
 
             &.ard-mode-hex {
                 grid-template-columns: 1fr;
@@ -77,6 +79,13 @@
             &.ard-mode-triple {
                 grid-template-columns: 1fr 1fr 1fr;
             }
+        }
+        .ard-color-picker-reference {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 4rem;
+            height: 100%;
+            border: 1px solid $detail-light-solid;
         }
     }
     &.ard-vertical {
