@@ -77,7 +77,11 @@
                 ></ng-template>
             </div>
             <div class="ard-color-picker-inputs-container"
-                [ngClass]="{'ard-mode-hex': currentInputType == 'HEX', 'ard-mode-triple': currentInputType != 'HEX'}"
+                [ngClass]="{
+                    'ard-mode-hex': currentInputType == 'HEX',
+                    'ard-mode-triple': currentInputType != 'HEX',
+                    'ard-mode-opacity': withOpacity
+                }"
             >
                 <ng-template
                     [ngTemplateOutlet]="currentInputType == 'HEX' ? hexInput : tripleInput"
@@ -89,18 +93,44 @@
 
 <ng-template #hexInput>
     <ard-hex-input
+        class="ard-color-picker-hex-input"
         maxDigits="6"
         [value]="hexInputValue"
         (valueChange)="onHexInputChange($event)"
     ></ard-hex-input>
+    <ard-number-input
+        *ngIf="withOpacity"
+        allowQuickChange="false"
+        [max]="tripleInputData4.max"
+        [value]="tripleInputData4.value"
+        (valueChange)="onTripleInputChange($event, 4)"
+    ></ard-number-input>
 </ng-template>
 
-<ng-template #tripleInput>
+<ng-template #tripleInput>    
     <ard-number-input
-        *ngFor="let i of [0, 1, 2]"
         allowQuickChange="false"
-        [max]="tripleInputData[i].max"
-        [value]="tripleInputData[i].value"
-        (valueChange)="onTripleInputChange($event, i)"
+        [max]="tripleInputData1.max"
+        [value]="tripleInputData1.value"
+        (valueChange)="onTripleInputChange($event, 1)"
+    ></ard-number-input>
+    <ard-number-input
+        allowQuickChange="false"
+        [max]="tripleInputData2.max"
+        [value]="tripleInputData2.value"
+        (valueChange)="onTripleInputChange($event, 2)"
+    ></ard-number-input>
+    <ard-number-input
+        allowQuickChange="false"
+        [max]="tripleInputData3.max"
+        [value]="tripleInputData3.value"
+        (valueChange)="onTripleInputChange($event, 3)"
+    ></ard-number-input>
+    <ard-number-input
+        *ngIf="withOpacity"
+        allowQuickChange="false"
+        [max]="tripleInputData4.max"
+        [value]="tripleInputData4.value"
+        (valueChange)="onTripleInputChange($event, 4)"
     ></ard-number-input>
 </ng-template>

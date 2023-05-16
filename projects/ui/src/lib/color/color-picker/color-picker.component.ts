@@ -117,6 +117,8 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
 
         this._wasReferenceColorSet = true;
         this.referenceColor = Color(this.value);
+
+        this._updateHexInputValue();
     }
 
     //! creating new value from interactions
@@ -265,65 +267,48 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
     private _updateHexInputValue(): void {
         if (this.currentInputType != _ColorPickerInputsSectionType.HEX) return;
 
-        this.hexInputValue = this.value.hex().replace('#', '');
+        const HEX = this.value;
+        this.hexInputValue = HEX.hex().replace('#', '');
+        this.tripleInputData4.value = HEX.alpha() * 100;
     }
 
-    tripleInputData!: [TripleInputObject, TripleInputObject, TripleInputObject];
+    tripleInputData1: TripleInputObject = { value: 0, max: 0 /* temporary value */ };
+    tripleInputData2: TripleInputObject = { value: 0, max: 0 /* temporary value */ };
+    tripleInputData3: TripleInputObject = { value: 0, max: 0 /* temporary value */ };
+    tripleInputData4: TripleInputObject = { value: 0, max: 100 };
     private _updateTripleInputValues(): void {
         if (this.currentInputType == _ColorPickerInputsSectionType.HEX) return;
 
         switch (this.currentInputType) {
             case _ColorPickerInputsSectionType.RGB:
                 const RGB = this.value.rgb();
-                this.tripleInputData = [
-                    {
-                        value: RGB.red(),
-                        max: 255,
-                    },
-                    {
-                        value: RGB.green(),
-                        max: 255,
-                    },
-                    {
-                        value: RGB.blue(),
-                        max: 255,
-                    },
-                ];
+                this.tripleInputData1.value = RGB.red();
+                this.tripleInputData1.max = 255;
+                this.tripleInputData2.value = RGB.green();
+                this.tripleInputData2.max = 255;
+                this.tripleInputData3.value = RGB.blue();
+                this.tripleInputData3.max = 255;
+                this.tripleInputData4.value = RGB.alpha() * 100;
                 break;
             case _ColorPickerInputsSectionType.HSL:
                 const HSL = this.value.hsl();
-                this.tripleInputData = [
-                    {
-                        value: HSL.hue(),
-                        max: 360,
-                    },
-                    {
-                        value: HSL.saturationl(),
-                        max: 100,
-                    },
-                    {
-                        value: HSL.lightness(),
-                        max: 100,
-                    },
-                ];
-                console.log(this.tripleInputData);
+                this.tripleInputData1.value = HSL.hue();
+                this.tripleInputData1.max = 360;
+                this.tripleInputData2.value = HSL.saturationl();
+                this.tripleInputData2.max = 100;
+                this.tripleInputData3.value = HSL.lightness();
+                this.tripleInputData3.max = 100;
+                this.tripleInputData4.value = HSL.alpha() * 100;
                 break;
             case _ColorPickerInputsSectionType.HSV:
                 const HSV = this.value.hsv();
-                this.tripleInputData = [
-                    {
-                        value: HSV.hue(),
-                        max: 360,
-                    },
-                    {
-                        value: HSV.saturationv(),
-                        max: 100,
-                    },
-                    {
-                        value: HSV.value(),
-                        max: 100,
-                    },
-                ];
+                this.tripleInputData1.value = HSV.hue();
+                this.tripleInputData1.max = 360;
+                this.tripleInputData2.value = HSV.saturationv();
+                this.tripleInputData2.max = 100;
+                this.tripleInputData3.value = HSV.value();
+                this.tripleInputData3.max = 100;
+                this.tripleInputData4.value = HSV.alpha() * 100;
                 break;
 
             default:
