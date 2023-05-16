@@ -68,3 +68,16 @@
     position: absolute;
     transform: translate(-50%, -50%);
 }
+
+.ard-color-picker-reference {
+    --ard-color-picker-opacity-checkerboard-color: #ccc;
+    --ard-color-picker-opacity-checkerboard-size: 10px;
+
+    background-image: linear-gradient(45deg, var(--ard-color-picker-opacity-checkerboard-color) 25%, transparent 25%), linear-gradient(-45deg, var(--ard-color-picker-opacity-checkerboard-color) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, var(--ard-color-picker-opacity-checkerboard-color) 75%), linear-gradient(-45deg, transparent 75%, var(--ard-color-picker-opacity-checkerboard-color) 75%);
+    background-size: var(--ard-color-picker-opacity-checkerboard-size) var(--ard-color-picker-opacity-checkerboard-size);
+    background-position: 
+        /*  zero  zero */ 0 0,
+        /*  zero  half */ 0 calc(var(--ard-color-picker-opacity-checkerboard-size) / 2),
+        /*  half -half */ calc(var(--ard-color-picker-opacity-checkerboard-size) / 2) calc(var(--ard-color-picker-opacity-checkerboard-size) / 2 * (-1)),
+        /* -half  zero */ calc(var(--ard-color-picker-opacity-checkerboard-size) / 2 * (-1)) 0;
+}

@@ -67,8 +67,8 @@
             <div class="ard-color-picker-reference-container">
                 <ng-template #defaultColorReferenceTemplate let-col let-refcol="referenceColor">
                     <div class="ard-color-picker-reference">
-                        <div class="ard-color-picker-reference-reference" [style]="{ background: refcol.hex() }"></div>
-                        <div class="ard-color-picker-reference-current" [style]="{ background: col.hex() }"></div>
+                        <div class="ard-color-picker-reference-reference" [style]="{ background: refcol.rgb().toString() }"></div>
+                        <div class="ard-color-picker-reference-current" [style]="{ background: col.rgb().toString() }"></div>
                     </div>
                 </ng-template>
             
