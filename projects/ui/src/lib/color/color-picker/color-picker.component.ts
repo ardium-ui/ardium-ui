@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, ContentChild, ElementRef, EventEmit
 import { withHashLocation } from '@angular/router';
 import { coerceBooleanProperty, coerceNumberProperty, getEventRelativePos } from '@ardium-ui/devkit';
 import * as Color from 'color';
-import { round, roundToPrecision } from 'more-rounding';
+import { round, roundToPrecision, roundToMultiple } from 'more-rounding';
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { ArdColorPickerColorReferenceTemplateDirective, ArdColorPickerHueIndicatorTemplateDirective, ArdColorPickerOpacityIndicatorTemplateDirective, ArdColorPickerShadeIndicatorTemplateDirective } from './color-picker.directives';
 import { ColorPickerColorReferenceContext, ColorPickerIndicatorContext, ColorPickerVariant, _ColorPickerInputsSectionType } from './color-picker.types';
@@ -30,7 +30,7 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
     set withOpacity(v: any) {
         this._withOpacity = coerceBooleanProperty(v);
 
-        if (this._focusedArea == 'opacity') this._focusedArea = null;
+        if (this.focusedArea == 'opacity') this.focusedArea = null;
     }
 
     private _referenceColor: Color = Color("transparent");
@@ -119,6 +119,10 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
         this.referenceColor = Color(this.value);
 
         this._updateHexInputValue();
+
+        setInterval(() => {
+            console.log(this.focusedArea);
+        }, 1000)
     }
 
     //! creating new value from interactions
@@ -126,39 +130,40 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
     @ViewChild('hueMap', { read: ElementRef }) hueMapEl!: ElementRef<HTMLDivElement>;
     @ViewChild('opacityMap', { read: ElementRef }) opacityMapEl!: ElementRef<HTMLDivElement>;
 
-    private _focusedArea: 'shade' | 'hue' | 'opacity' | null = null;
+    focusedArea: 'shade' | 'hue' | 'opacity' | null = null;
 
     onShadeAreaMouseDown(event: MouseEvent): void {
-        this._focusedArea = 'shade';
+        this._isMouseDown = true;
         this._updateShadeFromEvent(event);
     }
     onHueAreaMouseDown(event: MouseEvent): void {
-        this._focusedArea = 'hue';
+        this._isMouseDown = true;
         this._updateHueFromEvent(event);
     }
     onOpacityAreaMouseDown(event: MouseEvent): void {
-        this._focusedArea = 'opacity';
+        this._isMouseDown = true;
         this._updateOpacityFromEvent(event);
     }
 
+    private _isMouseDown: boolean = false;
     @HostListener('document:pointerup')
     @HostListener('document:touchend')
     onDocumentMouseUp(): void {
-        this._focusedArea = null;
+        this._isMouseDown = false;
     }
 
     @HostListener('document:pointermove', ['$event'])
     @HostListener('document:touchmove', ['$event'])
     onDocumentMousemove(event: MouseEvent | TouchEvent): void {
-        if (!this._focusedArea) return;
+        if (!this.focusedArea || !this._isMouseDown) return;
 
         if (!(event instanceof TouchEvent)) event.preventDefault();
 
-        if (this._focusedArea == 'shade') {
+        if (this.focusedArea == 'shade') {
             this._updateShadeFromEvent(event);
             return;
         }
-        if (this._focusedArea == 'hue') {
+        if (this.focusedArea == 'hue') {
             this._updateHueFromEvent(event);
             return;
         }
@@ -357,6 +362,92 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
 
     //! keyboard controls
     onKeydown(event: KeyboardEvent): void {
-        console.log(event);
+        const hasShift = event.shiftKey;
+        switch (event.key) {
+            case 'ArrowRight':
+            case 'ArrowLeft':
+                if (this.focusedArea != 'shade') return;
+                this.nudgeColorSaturation(event.key == 'ArrowRight' ? 1 : -1, hasShift);
+                break;
+            
+            case 'ArrowUp':
+            case 'ArrowDown':
+                switch (this.focusedArea) {
+                    case 'shade':
+                        this.nudgeColorValue(event.key == 'ArrowUp' ? 1 : -1, hasShift);
+                        break;
+                    case 'hue':
+                        this.nudgeColorHue(event.key == 'ArrowDown' ? 1 : -1, hasShift);
+                        break;
+                    case 'opacity':
+                        this.nudgeColorOpacity(event.key == 'ArrowUp' ? 1 : -1, hasShift);
+                        break;
+                
+                    default:
+                        console.error(new Error(`Unexpected ard-color-picker._focusedArea state "${this.focusedArea}"`));
+                        break;
+                }
+                break;
+        }
+    }
+    nudgeColorSaturation(direction: 1 | -1, hasShift?: boolean): void {
+        const v = this.value;
+        let diff = direction * 100 / 255;
+        let newVal: number;
+        if (hasShift) {
+            diff = diff * 255 / 10;
+            newVal = v.saturationv() + diff;
+            newVal = roundToMultiple(newVal, Math.abs(diff)); //round to tens
+        }
+        else {
+            newVal = v.saturationv() + diff;
+        }
+        const newValClamped = Math.max(0, Math.min(100, newVal));
+        this.value = Color(v).saturationv(newValClamped);
+    }
+    nudgeColorValue(direction: 1 | -1, hasShift?: boolean): void {
+        const v = this.value;
+        let diff = direction * 100 / 255;
+        let newVal: number;
+        if (hasShift) {
+            diff = diff * 255 / 10; 
+            newVal = v.value() + diff;
+            newVal = roundToMultiple(newVal, Math.abs(diff)); //round to tens
+        }
+        else {
+            newVal = v.value() + diff;
+        }
+        const newValClamped = Math.max(0, Math.min(100, newVal));
+        this.value = Color(v).value(newValClamped);
+    }
+    nudgeColorHue(direction: 1 | -1, hasShift?: boolean): void {
+        const v = this.value;
+        let diff = direction as number, newVal: number;
+        if (hasShift) {
+            diff = direction * 30;
+            newVal = v.hue() + diff;
+            newVal = roundToMultiple(newVal, Math.abs(diff)); //round to tens
+        }
+        else {
+            newVal = v.hue() + diff;
+        }
+        const newValClamped = Math.max(0, Math.min(359.99, newVal));
+        console.log(newValClamped);
+        this.value = Color(v).hue(newValClamped);
+    }
+    nudgeColorOpacity(direction: 1 | -1, hasShift?: boolean): void {
+        const v = this.value;
+        let diff = direction * 0.01;
+        let newVal: number;
+        if (hasShift) {
+            diff = diff * 10;
+            newVal = v.alpha() + diff;
+            newVal = roundToPrecision(newVal, 1); //round to one place
+        }
+        else {
+            newVal = v.alpha() + diff;
+        }
+        const newValClamped = Math.max(0, Math.min(1, newVal));
+        this.value = Color(v).alpha(newValClamped);
     }
 }

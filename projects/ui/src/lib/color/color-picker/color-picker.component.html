@@ -8,6 +8,10 @@
         <div #shadeMap
             [tabIndex]="tabIndex"
             class="ard-color-picker-shade-map"
+            (focus)="onFocus($event)"
+            (focus)="focusedArea = 'shade'"
+            (blur)="onBlur($event)"
+            (blur)="focusedArea = null"
             (mousedown)="onShadeAreaMouseDown($event)"
             (pointerdown)="onShadeAreaMouseDown($event)"
         >
@@ -24,6 +28,10 @@
         <div #hueMap
             [tabIndex]="tabIndex"
             class="ard-color-picker-hue-map"
+            (focus)="onFocus($event)"
+            (focus)="focusedArea = 'hue'"
+            (blur)="onBlur($event)"
+            (blur)="focusedArea = null"
             (mousedown)="onHueAreaMouseDown($event)"
             (pointerdown)="onHueAreaMouseDown($event)"
         >
@@ -41,6 +49,10 @@
             *ngIf="withOpacity"
             [tabIndex]="tabIndex"
             class="ard-color-picker-opacity-map"
+            (focus)="onFocus($event)"
+            (focus)="focusedArea = 'opacity'"
+            (blur)="onBlur($event)"
+            (blur)="focusedArea = null"
             (mousedown)="onOpacityAreaMouseDown($event)"
             (pointerdown)="onOpacityAreaMouseDown($event)"
         >
