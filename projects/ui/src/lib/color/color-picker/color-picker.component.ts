@@ -354,4 +354,9 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
             referenceColor: this.referenceColor,
         };
     }
+
+    //! keyboard controls
+    onKeydown(event: KeyboardEvent): void {
+        console.log(event);
+    }
 }

@@ -1,4 +1,4 @@
-<div class="ard-color-picker" [ngClass]="ngClasses">
+<div class="ard-color-picker" [ngClass]="ngClasses" (keydown)="onKeydown($event)">
     <div class="ard-color-picker-click-areas"
         [style]="{
             '--ard-color-picker-current-hue': currentShadeMapColor,
@@ -6,6 +6,7 @@
         }"
     >
         <div #shadeMap
+            [tabIndex]="tabIndex"
             class="ard-color-picker-shade-map"
             (mousedown)="onShadeAreaMouseDown($event)"
             (pointerdown)="onShadeAreaMouseDown($event)"
@@ -21,6 +22,7 @@
             </div>
         </div>
         <div #hueMap
+            [tabIndex]="tabIndex"
             class="ard-color-picker-hue-map"
             (mousedown)="onHueAreaMouseDown($event)"
             (pointerdown)="onHueAreaMouseDown($event)"
@@ -37,6 +39,7 @@
         </div>
         <div #opacityMap
             *ngIf="withOpacity"
+            [tabIndex]="tabIndex"
             class="ard-color-picker-opacity-map"
             (mousedown)="onOpacityAreaMouseDown($event)"
             (pointerdown)="onOpacityAreaMouseDown($event)"
