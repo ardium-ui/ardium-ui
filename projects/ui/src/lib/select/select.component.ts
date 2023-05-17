@@ -2,7 +2,7 @@ import { ConnectedPosition, Overlay, OverlayConfig, OverlayRef, ScrollStrategyOp
 import { TemplatePortal } from '@angular/cdk/portal';
 import { AfterContentInit, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ContentChildren, ElementRef, EventEmitter, forwardRef, HostBinding, HostListener, Input, OnChanges, OnDestroy, OnInit, Output, QueryList, SimpleChanges, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { coerceArrayProperty } from '@ardium-ui/devkit';
+import { coerceArrayProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { coerceBooleanProperty } from 'projects/devkit/src/public-api';
 import { merge, startWith, Subject, takeUntil } from 'rxjs';
 import { isAnyString, isArray, isFunction } from 'simple-bool';
@@ -69,34 +69,88 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     //! group-related inputs
     @Input() groupLabelFrom?: string | GroupByFn;
     @Input() groupDisabledFrom?: string;
-    @Input() itemsAlreadyGrouped: boolean = false;
     @Input() childrenFrom?: string;
-    //should the value that the "disabledFrom" path lead to be inverted?
-    //useful when the property is e.g. "active", which is the oposite of "disabled"
-    @Input() invertDisabled: boolean = false;
-    @Input() groupActions: boolean = true;
     //! settings
     @Input() placeholder: string = 'Select item';
-    @Input() autoHighlightFirst: boolean = true;
-    @Input() autoFocus: boolean = false;
-    @Input() closeOnSelect: boolean = true;
-    @Input() hideSelected: boolean = false;
-    @Input() clearOnBackspace: boolean = true;
     @Input() dropdownPosition: ArdPanelPosition = ArdPanelPosition.Auto;
     @Input() clearButtonTitle: string = this.DEFAULTS.clearButtonTitle;
-    @Input() sortMultipleValues: boolean = false;
-    @Input() maxSelectedItems?: number;
-    @Input() itemDisplayLimit: number = Infinity;
     //! template-related settings
     @Input() noItemsFoundText: string = this.DEFAULTS.noItemsFoundText;
     @Input() loadingPlaceholderText: string = this.DEFAULTS.loadingPlaceholderText;
     //! search-related options
     @Input() searchInputId?: string;
-    @Input() searchCaseSensitive: boolean = false;
-    @Input() clearSearchAfterSelect: boolean = true;
     //! other inputs
     @Input() isLoading: boolean = false;
     @Input() inputAttrs: { [key: string]: any } = {};
+
+    //! boolean settings
+    private _itemsAlreadyGrouped: boolean = false;
+    @Input()
+    get itemsAlreadyGrouped(): boolean { return this._itemsAlreadyGrouped; }
+    set itemsAlreadyGrouped(v: any) { this._itemsAlreadyGrouped = coerceBooleanProperty(v); }
+
+    //should the value that the "disabledFrom" path lead to be inverted?
+    //useful when the property is e.g. "active", which is the oposite of "disabled"
+    private _invertDisabled: boolean = false;
+    @Input()
+    get invertDisabled(): boolean { return this._invertDisabled; }
+    set invertDisabled(v: any) { this._invertDisabled = coerceBooleanProperty(v); }
+
+    private _noGroupActions: boolean = false;
+    @Input()
+    get noGroupActions(): boolean { return this._noGroupActions; }
+    set noGroupActions(v: any) { this._noGroupActions = coerceBooleanProperty(v); }
+
+    private _autoHighlightFirst: boolean = true;
+    @Input()
+    get autoHighlightFirst(): boolean { return this._autoHighlightFirst; }
+    set autoHighlightFirst(v: any) { this._autoHighlightFirst = coerceBooleanProperty(v); }
+
+    private _autoFocus: boolean = false;
+    @Input()
+    get autoFocus(): boolean { return this._autoFocus; }
+    set autoFocus(v: any) { this._autoFocus = coerceBooleanProperty(v); }
+
+    private _keepOpen: boolean = false;
+    @Input()
+    get keepOpen(): boolean { return this._keepOpen; }
+    set keepOpen(v: any) { this._keepOpen = coerceBooleanProperty(v); }
+
+    private _hideSelected: boolean = false;
+    @Input()
+    get hideSelected(): boolean { return this._hideSelected; }
+    set hideSelected(v: any) { this._hideSelected = coerceBooleanProperty(v); }
+    
+    private _clearOnBackspace: boolean = false;
+    @Input()
+    get noBackspaceClear(): boolean { return this._clearOnBackspace; }
+    set noBackspaceClear(v: any) { this._clearOnBackspace = coerceBooleanProperty(v); }
+
+    private _sortMultipleValues: boolean = false;
+    @Input()
+    get sortMultipleValues(): boolean { return this._sortMultipleValues; }
+    set sortMultipleValues(v: any) { this._sortMultipleValues = coerceBooleanProperty(v); }
+
+    private _searchCaseSensitive: boolean = false;
+    @Input()
+    get searchCaseSensitive(): boolean { return this._searchCaseSensitive; }
+    set searchCaseSensitive(v: any) { this._searchCaseSensitive = coerceBooleanProperty(v); }
+
+    private _keepSearchAfterSelect: boolean = false;
+    @Input()
+    get keepSearchAfterSelect(): boolean { return this._keepSearchAfterSelect; }
+    set keepSearchAfterSelect(v: any) { this._keepSearchAfterSelect = coerceBooleanProperty(v); }
+
+    //! number inputs
+    private _maxSelectedItems: number | undefined = undefined;
+    @Input()
+    get maxSelectedItems(): number | undefined { return this._maxSelectedItems; }
+    set maxSelectedItems(v: any) { this._maxSelectedItems = coerceNumberProperty(v, undefined); }
+
+    private _itemDisplayLimit: number = Infinity;
+    @Input()
+    get itemDisplayLimit(): number { return this._itemDisplayLimit; }
+    set itemDisplayLimit(v: any) { this._itemDisplayLimit = coerceNumberProperty(v, Infinity); }
 
     //! function inputs
     private _searchFn: SearchFn = this.DEFAULTS.searchFn;
@@ -630,9 +684,9 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
             this._emitChanges();
 
             this.focus();
-            if (this.clearSearchAfterSelect) this._clearSearch(true);
+            if (!this.keepSearchAfterSelect) this._clearSearch(true);
 
-            if (this.closeOnSelect || this.itemStorage.isNoItemsToSelect) {
+            if (!this.keepOpen || this.itemStorage.isNoItemsToSelect) {
                 this.close();
             }
         }
@@ -642,11 +696,11 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
 
         this.removeEvent.emit(unselected);
         this._emitChanges();
-        if (this.clearSearchAfterSelect) this._clearSearch();
+        if (!this.keepSearchAfterSelect) this._clearSearch();
 
         this.focus();
 
-        if (this.closeOnSelect || this.itemStorage.isNoItemsToSelect) {
+        if (!this.keepOpen || this.itemStorage.isNoItemsToSelect) {
             this.close();
         }
     }
@@ -674,7 +728,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         this._isMouseBeingUsed = true;
     }
     onGroupMouseover(group: ArdOptionGroup): void {
-        if (!this.multiselectable || !this.groupActions) return;
+        if (!this.multiselectable || this.noGroupActions) return;
         this.itemStorage.highlightGroup(group);
     }
     onItemMouseOver(event: MouseEvent): void {
@@ -697,7 +751,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         else this.selectItem(option);
     }
     onGroupClick(group: ArdOptionGroup): void {
-        if (!this.multiselectable || !this.groupActions) return;
+        if (!this.multiselectable || this.noGroupActions) return;
         if (group.children.every(o => o.selected)) {
             this.unselectItem(...group.children);
             return;
@@ -859,7 +913,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         //in case of no action, open the dropdown (or keep it open)
         else shouldClose = false;
 
-        if (this.closeOnSelect && shouldClose) {
+        if (!this.keepOpen && shouldClose) {
             this.itemStorage.clearAllHighlights();
             this.close();
         }
@@ -935,7 +989,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         if (
             this.searchTerm ||
             !this._clearable ||
-            !this.clearOnBackspace ||
+            this.noBackspaceClear ||
             !this.itemStorage.isAnyItemSelected
         ) return;
 
