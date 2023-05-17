@@ -164,6 +164,22 @@ export class ArdiumHexInputComponent extends _NgModelComponentBase implements Co
         this.focus();
     }
 
+    onCopy(event: ClipboardEvent): void {
+        if (
+            this.value &&
+            (
+                //does the selection cover the entire input
+                this.textInputEl.nativeElement.selectionStart == 0
+                && this.textInputEl.nativeElement.selectionEnd == this.textInputEl.nativeElement.value.length
+                //or is zero-wide
+                || this.textInputEl.nativeElement.selectionStart == this.textInputEl.nativeElement.selectionEnd
+            )
+        ) {
+            event.clipboardData?.setData("text/plain", this.value);
+            event.preventDefault();
+        }
+    }
+
     //! helpers
     protected _setInputAttributes() {
         const input = this.textInputEl.nativeElement;
