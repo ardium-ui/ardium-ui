@@ -119,10 +119,6 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
         this.referenceColor = Color(this.value);
 
         this._updateHexInputValue();
-
-        setInterval(() => {
-            console.log(this.focusedArea);
-        }, 1000)
     }
 
     //! creating new value from interactions
