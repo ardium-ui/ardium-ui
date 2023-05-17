@@ -896,9 +896,12 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         
         //select the currently highlighted option
         if (this.isDropdownOpen && this.firstHighlightedItem) {
-            if (this.itemStorage
-                .highlightedItems
-                .every(item => item.selected)
+            if (
+                this.clearable
+                &&
+                this.itemStorage
+                    .highlightedItems
+                    .every(item => item.selected)
             ) {
                 this.unselectItem(...this.itemStorage.highlightedItems);
             }
