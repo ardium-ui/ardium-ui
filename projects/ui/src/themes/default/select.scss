@@ -34,11 +34,19 @@
     &.ard-appearance-transparent {
         background: transparent;
         border: none;
+
+        transition: background-color 0.15s $timing-fn;
+    }
+    &:hover {
+        background: $darken-overlay-light;
     }
     &.ard-select-focused {
         &.ard-appearance-outlined {
             background: $bg-d;
             border-color: $border-dark;
+        }
+        &.ard-appearance-transparent {
+            background: $darken-overlay;
         }
     }
 
@@ -156,6 +164,7 @@
     &.ard-compact {
         font-size: 0.85rem;
         height: 1.5625rem;
+        padding-right: 0.625em;
 
         .ard-dropdown-arrow-wrapper .ard-dropdown-arrow {
             border-width: calc($dropdown-button-size / 2.4);
