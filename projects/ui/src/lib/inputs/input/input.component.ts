@@ -280,23 +280,6 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
         super.onFocus(event);
     }
 
-    //! copy handler
-    onCopy(event: ClipboardEvent): void {
-        if (
-            this.value &&
-            (
-                //does the selection cover the entire input
-                this.textInputEl.nativeElement.selectionStart == 0
-                && this.textInputEl.nativeElement.selectionEnd == this.textInputEl.nativeElement.value.length
-                //or is zero-wide
-                || this.textInputEl.nativeElement.selectionStart == this.textInputEl.nativeElement.selectionEnd
-            )
-        ) {
-            event.clipboardData?.setData("text/plain", this.value);
-            event.preventDefault();
-        }
-    }
-
     //! key press handlers
     @HostListener('keydown', ['$event'])
     onKeyPress(event: KeyboardEvent): void {
