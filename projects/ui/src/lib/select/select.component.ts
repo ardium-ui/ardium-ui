@@ -901,7 +901,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
             }
         }
     }
-    private _onEnterPress(event: KeyboardEvent): void {
+    private async _onEnterPress(event: KeyboardEvent) {
         event.preventDefault();
         let shouldClose = true;
         
@@ -922,7 +922,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         }
         //add a custom option
         else if (this.isDropdownOpen && this.shouldShowAddCustom) {
-            this.addCustomOption(this.searchTerm);
+            await this.addCustomOption(this.searchTerm);
         }
         //in case of no action, open the dropdown (or keep it open)
         else shouldClose = false;
