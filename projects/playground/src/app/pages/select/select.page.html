@@ -11,6 +11,26 @@
         searchable
     ></ard-select>
 </div>
+<span class="title">Select events</span>
+<div class="grid master">
+    <ard-select
+        *ngFor="let disabled of [false, true]"
+        [disabled]="disabled"
+        [items]="fruits"
+        searchable
+        (focus)="log('focus', $event)"
+        (blur)="log('blur', $event)"
+        (add)="log('add', $event)"
+        (remove)="log('remove', $event)"
+        (valueChange)="log('valueChange', $event)"
+        (clear)="log('clear', $event)"
+        (open)="log('open', $event)"
+        (close)="log('close', $event)"
+        (scroll)="log('scroll', $event)"
+        (scrollToEnd)="log('scrollToEnd', $event)"
+        (search)="log('search', $event)"
+    ></ard-select>
+</div>
 <span class="title">Object options, property binding, groups, searchable</span>
 <div class="grid master">
     <ard-select
