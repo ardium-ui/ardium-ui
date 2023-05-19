@@ -197,6 +197,14 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
         this.valueChange.emit(this.inputModel.numberValue);
     }
 
+    //smart focus
+    onMouseup(event: MouseEvent): void {
+        const selection = window.getSelection();
+        if (selection && selection.type === 'Range') return;
+
+        this.focus();
+    }
+
     // copy
     onCopy(event: ClipboardEvent): void {
         if (

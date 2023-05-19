@@ -1,8 +1,8 @@
 <div class="ard-number-input"
     [ngClass]="ngClasses"
     [class.ard-has-value]="value"
-    (click)="focus()"
     (mousedown)="$event.preventDefault()"
+    (mouseup)="onMouseup($event)"
 >
     <ard-button *ngIf="allowQuickChange"
         class="ard-quick-change-button decrement"
@@ -35,6 +35,8 @@
             (focus)="onFocusMaster($event)"
             (blur)="onBlurMaster($event)"
             (change)="onChange($event)"
+            (mousedown)="$event.stopPropagation()"
+            (mouseup)="$event.stopPropagation()"
             (copy)="onCopy($event)"
         >
     </div>
