@@ -16,7 +16,7 @@ import { ItemStorage } from '../_internal/item-storages/dropdown-item-storage';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { FormElementVariant } from './../types/theming.types';
 import { ArdAddCustomTemplateDirective, ArdDropdownFooterTemplateDirective, ArdDropdownHeaderTemplateDirective, ArdItemDisplayLimitTemplateDirective, ArdItemLimitReachedTemplateDirective, ArdLoadingPlaceholderTemplateDirective, ArdLoadingSpinnerTemplateDirective, ArdNoItemsFoundTemplateDirective, ArdOptgroupTemplateDirective, ArdOptionTemplateDirective, ArdSelectPlaceholderTemplateDirective, ArdValueTemplateDirective } from './select.directive';
-import { AddCustomFn, CustomOptionContext, GroupContext, ItemDisplayLimitContext, ItemLimitContext, SearchContext, StatsContext, ValueContext } from './select.types';
+import { AddCustomFn, CustomOptionContext, GroupContext, ItemDisplayLimitContext, ItemLimitContext, PlaceholderContext, SearchContext, StatsContext, ValueContext } from './select.types';
 
 @Component({
     selector: 'ard-select',
@@ -72,6 +72,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     @Input() childrenFrom?: string;
     //! settings
     @Input() placeholder: string = 'Select item';
+    @Input() searchPlaceholder: string = 'Search...';
     @Input() dropdownPosition: ArdPanelPosition = ArdPanelPosition.Auto;
     @Input() clearButtonTitle: string = this.DEFAULTS.clearButtonTitle;
     //! template-related settings
@@ -439,6 +440,13 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
             foundItems: this.foundItems,
         };
     }
+    getPlaceholderContext(): PlaceholderContext {
+        const placeholder = this.placeholderForCurrentContext;
+        return {
+            placeholder,
+            $implicit: placeholder,
+        };
+    }
     getCustomOptionContext(): CustomOptionContext {
         return {
             $implicit: this.searchTerm,
@@ -639,6 +647,11 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
             this.itemDisplayLimit == Infinity ||
             i < this.itemDisplayLimit
         );
+    }
+    get placeholderForCurrentContext(): string {
+        if (this.searchPlaceholder && this._searchBarFocused)
+            return this.searchPlaceholder;
+        return this.placeholder;
     }
 
     //! search input event handlers

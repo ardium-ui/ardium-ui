@@ -18,6 +18,18 @@ export interface ValueContext extends OptionContext {
 }
 /**
 ```typescript
+interface PlaceholderContext {
+    placeholder: string;
+    $implicit: string;
+}
+```
+ */
+export interface PlaceholderContext {
+    placeholder: string;
+    $implicit: string;
+}
+/**
+```typescript
 interface StatsContext {
     totalItems: number;
     foundItems?: number;
