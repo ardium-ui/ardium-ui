@@ -314,7 +314,7 @@ export class ItemStorage {
         }
         return this._items.find(item => findBy(item));
     }
-    async addCustomOption(value: string, fn: AddCustomFn<any> | AddCustomFn<Promise<any>>): Promise<void> {
+    async addCustomOption(value: string, fn: AddCustomFn<any> | AddCustomFn<Promise<any>>): Promise<ArdOption> {
         const fnResult = fn(value);
 
         let optionValue = fnResult;
@@ -322,7 +322,7 @@ export class ItemStorage {
 
         const newOptionObj = this._addSingleItem(optionValue);
 
-        this.selectItem(newOptionObj);
+        return newOptionObj;
     }
 
 

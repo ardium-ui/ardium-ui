@@ -333,13 +333,12 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         return this.addCustom != false && this.searchTerm.length > 0 && this.itemStorage.isNoItemsFound;
     }
     
-    addCustomOption(value: string): void {
+    async addCustomOption(value: string) {
         if (!this.addCustom) return;
 
-        this.itemStorage.addCustomOption(value, this.addCustom);
+        const newOptionObj = await this.itemStorage.addCustomOption(value, this.addCustom);
 
-        this._clearSearch();
-        this.close();
+        this.selectItem(newOptionObj);
     }
 
     //! control value accessor
