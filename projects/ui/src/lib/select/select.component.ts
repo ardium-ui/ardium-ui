@@ -334,7 +334,6 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     }
     
     addCustomOption(value: string): void {
-        console.log('addCustomOption', value);
         if (!this.addCustom) return;
 
         this.itemStorage.addCustomOption(value, this.addCustom);

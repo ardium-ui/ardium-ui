@@ -138,7 +138,7 @@ export class ItemStorage {
             item = this._primitiveItemsMapFn(item);
         }
         //map the item to create data bindings
-        const ardOption = this._setItemsMapFn(item, this.items.last()?.index, isItemPrimitive);
+        const ardOption = this._setItemsMapFn(item, this._items.last()?.index + 1, isItemPrimitive);
 
         //push the item into all items
         this._items.push(ardOption);
