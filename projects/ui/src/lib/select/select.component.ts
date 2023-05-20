@@ -498,7 +498,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     @ViewChild('dropdownHost', { read: ElementRef }) dropdownHost!: ElementRef<HTMLDivElement>;
     @ViewChild('dropdownTemplate', { read: TemplateRef }) dropdownTemplate!: TemplateRef<any>;
 
-    private dropdownOverlay!: OverlayRef;
+    private dropdownOverlay?: OverlayRef;
 
     private _createOverlay(): void {
         const strategy = this.overlay.position()
@@ -508,8 +508,12 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
                 originY: 'bottom',
                 overlayX: 'start',
                 overlayY: 'top',
-            } as ConnectedPosition])
-            .withPush(false);
+            }, {
+                originX: 'start',
+                originY: 'top',
+                overlayX: 'start',
+                overlayY: 'bottom',
+            }]);
 
         const config = new OverlayConfig({
             positionStrategy: strategy,
@@ -523,8 +527,16 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         this.dropdownOverlay.attach(portal);
         this.setOverlaySize();
     }
+    private _destroyOverlay(): void {
+        if (!this.dropdownOverlay) return;
+
+        this.dropdownOverlay.dispose();
+        // delete this.dropdownOverlay;
+    }
 
     setOverlaySize(): void {
+        if (!this.dropdownOverlay) return;
+
         const rect = this.dropdownHost.nativeElement.getBoundingClientRect();
         this.dropdownOverlay.updateSize({ width: rect.width });
     }
@@ -543,8 +555,6 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         this._destroy$.complete();
     }
     ngAfterViewInit(): void {
-        this._createOverlay();
-
         if (this.autoFocus) {
             this.focus();
         }
@@ -818,6 +828,8 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         this.isDropdownOpen = true;
         if (this.autoHighlightFirst) this.itemStorage.highlightFirstItem();
 
+        this._createOverlay();
+
         this.openEvent.emit();
         this.isDropdownOpenChange.emit(this.isDropdownOpen);
         this.detectChanges();
@@ -826,6 +838,9 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         if (!this.isDropdownOpen) return;
 
         this.isDropdownOpen = false;
+
+        this._destroyOverlay();
+
         this._onTouched();
         this.closeEvent.emit();
         this.isDropdownOpenChange.emit(this.isDropdownOpen);
