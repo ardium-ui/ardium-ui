@@ -657,7 +657,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         );
     }
     get placeholderForCurrentContext(): string {
-        if (this.searchPlaceholder && this._searchBarFocused)
+        if (this.searchPlaceholder && (this._searchBarFocused || this._isClickedWithin))
             return this.searchPlaceholder;
         return this.placeholder;
     }
@@ -766,10 +766,13 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         event.stopPropagation();
     }
     //! click handlers
+    private _isClickedWithin: boolean = false;
     onItemClick(option: ArdOption, event: MouseEvent): void {
         event.stopPropagation();
         if (this.clearable) this.toggleItem(option);
         else this.selectItem(option);
+
+        this._isClickedWithin = true;
     }
     onGroupClick(group: ArdOptionGroup): void {
         if (!this.multiselectable || this.noGroupActions) return;
@@ -778,6 +781,8 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
             return;
         }
         this.selectItem(...group.children);
+
+        this._isClickedWithin = true;
     }
     handleClearButtonClick(event: MouseEvent): void {
         event.stopPropagation();
@@ -789,6 +794,9 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     }
     handleDropdownArrowClick(event: MouseEvent): void {
         event.stopPropagation();
+
+        this._isClickedWithin = true;
+
         this.toggle();
     }
     handleOutsideClick(event: MouseEvent): void {
@@ -804,6 +812,8 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
             event.preventDefault();
         }
 
+        this._isClickedWithin = true;
+
         if (!this._searchBarFocused) {
             this.focus();
         }
@@ -813,6 +823,10 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         } else {
             this.toggle();
         }
+    }
+    @HostListener('mouseup')
+    onMouseup(): void {
+        this._isClickedWithin = false;
     }
     //! dropdown state handlers
     toggle(): void {
@@ -829,6 +843,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         if (this.autoHighlightFirst) this.itemStorage.highlightFirstItem();
 
         this._createOverlay();
+        this.focus();
 
         this.openEvent.emit();
         this.isDropdownOpenChange.emit(this.isDropdownOpen);
