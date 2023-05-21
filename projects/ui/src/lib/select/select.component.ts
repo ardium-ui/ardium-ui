@@ -531,7 +531,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         if (!this.dropdownOverlay) return;
 
         this.dropdownOverlay.dispose();
-        // delete this.dropdownOverlay;
+        delete this.dropdownOverlay;
     }
 
     setOverlaySize(): void {
