@@ -54,11 +54,17 @@ export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements
     @Input() variant: FormElementVariant = FormElementVariant.Rounded;
     @Input() alignText: SimpleOneAxisAlignment = SimpleOneAxisAlignment.Left;
 
+    private _compact: boolean = false;
+    @Input()
+    get compact(): boolean { return this._compact; }
+    set compact(v: any) { this._compact = coerceBooleanProperty(v); }
+
     get ngClasses(): string {
         return [
             `ard-appearance-${this.appearance}`,
             `ard-variant-${this.variant}`,
             `ard-text-align-${this.alignText}`,
+            this.compact ? 'ard-compact' : '',
         ].join(' ');
     }
 
@@ -136,6 +142,23 @@ export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements
         this._emitInput();
         this.clearEvent.emit(event);
         this.focus();
+    }
+
+    // copy
+    onCopy(event: ClipboardEvent): void {
+        if (
+            this.value &&
+            (
+                //does the selection cover the entire input
+                this.textInputEl.nativeElement.selectionStart == 0
+                && this.textInputEl.nativeElement.selectionEnd == this.textInputEl.nativeElement.value.length
+                //or is zero-wide
+                || this.textInputEl.nativeElement.selectionStart == this.textInputEl.nativeElement.selectionEnd
+            )
+        ) {
+            event.clipboardData?.setData("text/plain", this.value);
+            event.preventDefault();
+        }
     }
     //! helpers
     protected _setInputAttributes() {

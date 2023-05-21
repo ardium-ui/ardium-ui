@@ -35,11 +35,18 @@ export * from './lib/inputs/simple-input/simple-input.directives';
 export * from './lib/inputs/number-input/number-input.module';
 export * from './lib/inputs/number-input/number-input.component';
 export * from './lib/inputs/number-input/number-input.directives';
+//hex input
+export * from './lib/inputs/hex-input/hex-input.module';
+export * from './lib/inputs/hex-input/hex-input.component';
+export * from './lib/inputs/hex-input/hex-input.directives';
 //select
 export * from './lib/select/select.module';
 export * from './lib/select/select.component';
 export * from './lib/select/select.directive';
 export * from './lib/select/select.types';
+//option
+export * from './lib/option/option.module';
+export * from './lib/option/option.component';
 //slide-toggle
 export * from './lib/slide-toggle/slide-toggle.module';
 export * from './lib/slide-toggle/slide-toggle.component';
@@ -73,6 +80,15 @@ export * from './lib/segment/segment.types';
 export * from './lib/icon/icon.module';
 export * from './lib/icon/icon.component';
 export * from './lib/icon/icon.pipe';
+//color-display
+export * from './lib/color/color-display/color-display.module';
+export * from './lib/color/color-display/color-display.component';
+export * from './lib/color/color-display/color-display.types';
+//color-picker
+export * from './lib/color/color-picker/color-picker.module';
+export * from './lib/color/color-picker/color-picker.component';
+export * from './lib/color/color-picker/color-picker.directives';
+export * from './lib/color/color-picker/color-picker.types';
 //! types
 export * from './lib/types/alignment.types';
 export * from './lib/types/colors.types';

@@ -1,8 +1,8 @@
 
 
 .ard-number-input {
-    width: max-content;
     display: flex;
+    max-width: 100%;
 
     .ard-input-container {
         position: relative;
@@ -12,16 +12,10 @@
         position: absolute;
         left: 0;
         right: 0;
+        pointer-events: none;
     }
 }
 
-.ard-input-container > input {
-    width: calc(1ch * var(--ard-_input-width)) !important;
-
-    & > input {
-        width: 100% !important;
-    }
-}
 .ard-text-align-left {
     input,
     .ard-placeholder {

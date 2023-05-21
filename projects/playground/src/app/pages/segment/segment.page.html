@@ -42,12 +42,15 @@
     ></ard-segment>
 </div>
 <div class="master">
-    <span class="title">Custom option template</span>
+    <span class="title">Custom option template (using iconBased)</span>
     <ard-segment
         [items]="optionsAlign"
         labelFrom="icon"
         valueFrom="value"
         [value]="['left']"
+        variant="rounded"
+        appearance="transparent"
+        iconBased
     >
         <ng-template ard-segm-option-tmp let-option>
             <span class="material-symbols-outlined">

@@ -13,7 +13,9 @@ export class SelectPage implements OnInit {
     constructor(private _logger: Logger, private _dataService: DataService) { }
     readonly log = this._logger.log;
 
+
     ngOnInit(): void {
+        
     }
 
     //* item lists

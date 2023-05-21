@@ -25,6 +25,7 @@
             (input)="onInput(textInput.value)"
             (focus)="onFocus($event)"
             (blur)="onBlur($event)"
+            (copy)="onCopy($event)"
         >
     </div>
 
@@ -37,8 +38,9 @@
 
 <ng-template #suggestionsTemplate>
     <ard-dropdown-panel
-        class="ard-dropdown-panel"
+        class="ard-dropdown-panel ard-input-suggestions-panel"
         role="listbox"
+        [compact]="compact"
         aria-label="Suggestions"
         [appearance]="dropdownAppearance"
         [variant]="dropdownVariant"

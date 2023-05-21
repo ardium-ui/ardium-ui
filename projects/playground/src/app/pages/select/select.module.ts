@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SelectPage } from './select.page';
-import { ArdiumSelectModule } from '@ardium-ui/ui';
+import { ArdiumOptionModule, ArdiumSelectModule } from '@ardium-ui/ui';
 
 
 
@@ -12,6 +12,7 @@ import { ArdiumSelectModule } from '@ardium-ui/ui';
     imports: [
         CommonModule,
         ArdiumSelectModule,
+        ArdiumOptionModule,
     ]
 })
 export class SelectModule { }

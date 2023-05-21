@@ -4,16 +4,24 @@
 .ard-number-input {
     @include inputMixin.genericInput();
     @include defaultMixins.formAppearances();
-    width: max-content;
-    max-width: 100%;
     gap: 0;
+    width: 100%;
+
+    .ard-input-container {
+        height: 100%;
+        max-width: 100%;
+
+        & > input {
+            width: 100%;
+        }
+    }
 
     .ard-quick-change-button {
         position: relative;
 
         .ard-button {
-            height: 36px;
-            width: 36px;
+            height: 100%;
+            aspect-ratio: 1;
             padding: 0;
             border-color: $border;
             display: flex;
@@ -90,6 +98,11 @@
     &.ard-variant-pill {
         background: var(--ard-appearance-background);
         border: var(--ard-appearance-border);
+    }
+
+    //! compact
+    &.ard-compact {
+        font-size: 0.925rem;
     }
 }
 

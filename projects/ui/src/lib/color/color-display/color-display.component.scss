@@ -1,0 +1,12 @@
+
+.ard-color-display-wrapper {
+    display: flex;
+    
+    .ard-color-content-wrapper {
+        display: none;
+    }
+}
+
+ard-color-display {
+    display: inline-block;
+}

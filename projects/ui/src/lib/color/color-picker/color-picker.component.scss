@@ -1,0 +1,83 @@
+.ard-color-picker {
+    display: flex;
+    flex-direction: column;
+}
+.ard-color-picker-click-areas {
+    display: flex;
+    flex-direction: row;
+    
+    &.ard-vertical {
+        .ard-color-picker-click-areas {
+            flex-direction: column;
+        }
+    }
+}
+.ard-color-picker-shade-map,
+.ard-color-picker-hue-map,
+.ard-color-picker-opacity-map {
+    position: relative;
+}
+.ard-color-picker-shade-map {
+    background: 
+        linear-gradient(to bottom, transparent, rgb(0, 0, 0)),
+        linear-gradient(to right, transparent, var(--ard-color-picker-current-hue)),
+        white;
+}
+.ard-color-picker-hue-map {
+    background: linear-gradient(to bottom,
+        hsl(0, 100%, 50%),
+        hsl(30, 100%, 50%),
+        hsl(60, 100%, 50%),
+        hsl(90, 100%, 50%),
+        hsl(120, 100%, 50%),
+        hsl(150, 100%, 50%),
+        hsl(180, 100%, 50%),
+        hsl(210, 100%, 50%),
+        hsl(240, 100%, 50%),
+        hsl(270, 100%, 50%),
+        hsl(300, 100%, 50%),
+        hsl(330, 100%, 50%),
+        hsl(360, 100%, 50%)
+    );
+}
+.ard-color-picker-opacity-map {
+    --ard-color-picker-opacity-checkerboard-color: #ccc;
+    --ard-color-picker-opacity-checkerboard-size: 10px;
+
+    background-image: linear-gradient(45deg, var(--ard-color-picker-opacity-checkerboard-color) 25%, transparent 25%), linear-gradient(-45deg, var(--ard-color-picker-opacity-checkerboard-color) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, var(--ard-color-picker-opacity-checkerboard-color) 75%), linear-gradient(-45deg, transparent 75%, var(--ard-color-picker-opacity-checkerboard-color) 75%);
+    background-size: var(--ard-color-picker-opacity-checkerboard-size) var(--ard-color-picker-opacity-checkerboard-size);
+    background-position: 
+        /*  zero  zero */ 0 0,
+        /*  zero  half */ 0 calc(var(--ard-color-picker-opacity-checkerboard-size) / 2),
+        /*  half -half */ calc(var(--ard-color-picker-opacity-checkerboard-size) / 2) calc(var(--ard-color-picker-opacity-checkerboard-size) / 2 * (-1)),
+        /* -half  zero */ calc(var(--ard-color-picker-opacity-checkerboard-size) / 2 * (-1)) 0;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to bottom, var(--ard-color-picker-current-color), transparent);
+    }
+}
+.ard-color-picker-shade-indicator-container,
+.ard-color-picker-hue-indicator-container,
+.ard-color-picker-opacity-indicator-container {
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
+.ard-color-picker-reference {
+    --ard-color-picker-opacity-checkerboard-color: #ccc;
+    --ard-color-picker-opacity-checkerboard-size: 10px;
+
+    background-image: linear-gradient(45deg, var(--ard-color-picker-opacity-checkerboard-color) 25%, transparent 25%), linear-gradient(-45deg, var(--ard-color-picker-opacity-checkerboard-color) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, var(--ard-color-picker-opacity-checkerboard-color) 75%), linear-gradient(-45deg, transparent 75%, var(--ard-color-picker-opacity-checkerboard-color) 75%);
+    background-size: var(--ard-color-picker-opacity-checkerboard-size) var(--ard-color-picker-opacity-checkerboard-size);
+    background-position: 
+        /*  zero  zero */ 0 0,
+        /*  zero  half */ 0 calc(var(--ard-color-picker-opacity-checkerboard-size) / 2),
+        /*  half -half */ calc(var(--ard-color-picker-opacity-checkerboard-size) / 2) calc(var(--ard-color-picker-opacity-checkerboard-size) / 2 * (-1)),
+        /* -half  zero */ calc(var(--ard-color-picker-opacity-checkerboard-size) / 2 * (-1)) 0;
+}

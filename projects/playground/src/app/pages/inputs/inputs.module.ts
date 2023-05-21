@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { HexInputModule } from './hex-input/hex-input.module';
 import { InputModule } from './input/input.module';
 
 import { InputsHomeModule } from './inputs-home/inputs-home.module';
@@ -20,6 +21,7 @@ import { SimpleInputModule } from './simple-input/simple-input.module';
         SimpleInputModule,
         InputModule,
         NumberInputModule,
+        HexInputModule,
     ],
     exports: [
         InputsPage,
