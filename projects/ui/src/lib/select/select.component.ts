@@ -657,7 +657,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         );
     }
     get placeholderForCurrentContext(): string {
-        if (this.searchPlaceholder && (this._searchBarFocused || this._isClickedWithin))
+        if (this.searchPlaceholder && this.searchable && (this._searchBarFocused || this._isClickedWithin))
             return this.searchPlaceholder;
         return this.placeholder;
     }
