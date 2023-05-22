@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ButtonPage } from './pages/button/button.page';
+import { CalendarPage } from './pages/calendar/calendar.page';
 import { CheckboxPage } from './pages/checkbox/checkbox.page';
 import { ChipsPage } from './pages/chips/chips.page';
 import { ColorDisplayPage } from './pages/color-display/color-display.page';
@@ -30,6 +31,7 @@ const routes: Routes = [
     { path: 'icon', component: IconPage },
     { path: 'color-display', component: ColorDisplayPage },
     { path: 'color-picker', component: ColorPickerPage },
+    { path: 'calendar', component: CalendarPage },
     { path: 'sliders', component: SlidersPage, loadChildren: () => import('./pages/sliders/sliders.module').then(m => m.SlidersModule) },
     { path: 'inputs', component: InputsPage, loadChildren: () => import('./pages/inputs/inputs.module').then(m => m.InputsModule) },
     //redirects

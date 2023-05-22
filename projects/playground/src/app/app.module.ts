@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { ButtonModule } from './pages/button/button.module';
+import { CalendarModule } from './pages/calendar/calendar.module';
 import { CheckboxModule } from './pages/checkbox/checkbox.module';
 import { ChipsModule } from './pages/chips/chips.module';
 import { FabModule } from './pages/fab/fab.module';
@@ -42,6 +43,7 @@ import { ColorPickerModule } from './pages/color-picker/color-picker.module';
         IconModule,
         ColorDisplayModule,
         ColorPickerModule,
+        CalendarModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
