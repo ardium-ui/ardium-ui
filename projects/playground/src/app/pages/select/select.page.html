@@ -9,6 +9,15 @@
         [disabled]="disabled"
         [items]="fruits"
         searchable
+    ></ard-select>
+</div>
+<span class="title">Select events</span>
+<div class="grid master">
+    <ard-select
+        *ngFor="let disabled of [false, true]"
+        [disabled]="disabled"
+        [items]="fruits"
+        searchable
         (focus)="log('focus', $event)"
         (blur)="log('blur', $event)"
         (add)="log('add', $event)"
@@ -31,17 +40,6 @@
         valueFrom="name"
         labelFrom="name"
         groupLabelFrom="classification"
-        (focus)="log('focus', $event)"
-        (blur)="log('blur', $event)"
-        (add)="log('add', $event)"
-        (remove)="log('remove', $event)"
-        (valueChange)="log('valueChange', $event)"
-        (clear)="log('clear', $event)"
-        (open)="log('open', $event)"
-        (close)="log('close', $event)"
-        (scroll)="log('scroll', $event)"
-        (scrollToEnd)="log('scrollToEnd', $event)"
-        (search)="log('search', $event)"
     ></ard-select>
 </div>
 <span class="title">Object options, property binding, groups, customized with templates</span>
@@ -55,17 +53,6 @@
         multiselectable
         keepOpen
         groupLabelFrom="classification"
-        (focus)="log('focus', $event)"
-        (blur)="log('blur', $event)"
-        (add)="log('add', $event)"
-        (remove)="log('remove', $event)"
-        (valueChange)="log('valueChange', $event)"
-        (clear)="log('clear', $event)"
-        (open)="log('open', $event)"
-        (close)="log('close', $event)"
-        (scroll)="log('scroll', $event)"
-        (scrollToEnd)="log('scrollToEnd', $event)"
-        (search)="log('search', $event)"
     >
         <ng-template ard-optgroup-tmp let-group let-total="totalChildren" let-selected="selectedChildren">
             <span class="ard-optgroup-label">
@@ -86,17 +73,6 @@
         valueFrom="hex"
         searchable
         [searchFn]="colorSearchFn"
-        (focus)="log('focus', $event)"
-        (blur)="log('blur', $event)"
-        (add)="log('add', $event)"
-        (remove)="log('remove', $event)"
-        (valueChange)="log('valueChange', $event)"
-        (clear)="log('clear', $event)"
-        (open)="log('open', $event)"
-        (close)="log('close', $event)"
-        (scroll)="log('scroll', $event)"
-        (scrollToEnd)="log('scrollToEnd', $event)"
-        (search)="log('search', $event)"
     >
         <ng-template ard-option-tmp ard-value-tmp let-option>
             <div class="option-wrapper">
@@ -116,6 +92,29 @@
     </ard-select>
 </div>
 <div class="master flex">
-    <span class="title">Using ard-option components</span>
+    <span class="title">Adding custom options</span>
     <ard-select addCustom></ard-select>
+</div>
+<div class="master flex">
+    <span class="title">Adding custom options, with some predefined</span>
+    <ard-select addCustom>
+        <ard-option>Uber</ard-option>
+        <ard-option>KFC</ard-option>
+        <ard-option>Google</ard-option>
+    </ard-select>
+</div>
+<div class="master flex">
+    <span class="title">Adding custom options, with custom function</span>
+    <ard-select
+        [addCustom]="addCustomFn"
+        (valueChange)="log('valueChange', $event)"
+    ></ard-select>
+</div>
+<div class="master flex">
+    <span class="title">Adding custom options, with backend validation</span>
+    <ard-select
+        [addCustom]="addCustomBackendFn"
+        [isLoading]="isFetchingFromBackend"
+        (valueChange)="log('valueChange', $event)"
+    ></ard-select>
 </div>
