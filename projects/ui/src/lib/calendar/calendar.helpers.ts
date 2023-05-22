@@ -1,3 +1,29 @@
+
+
+export function addDays(date: Date, amount: number = 1): Date {
+    const newDays = date.getDate() + amount;
+    date.setDate(newDays);
+    return date;
+}
+
+export function addMonths(date: Date, amount: number = 1): Date {
+    const newMonth = date.getMonth() + amount;
+    date.setMonth(newMonth);
+    return date;
+}
+export function addYears(date: Date, amount: number = 1): Date {
+    const newYear = date.getFullYear() + amount;
+    date.setFullYear(newYear);
+    return date;
+}
+
+export type CalendarArray = {
+    array: (number | null)[][];
+    leadingSpaces: number;
+    trailingSpaces: number;
+    weeks: number;
+}
+
 export function toCalendarArray(date: Date, firstWeekday: number = 1): CalendarArray {
     firstWeekday %= 7;
 

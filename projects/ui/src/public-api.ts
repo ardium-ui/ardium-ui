@@ -89,6 +89,10 @@ export * from './lib/color/color-picker/color-picker.module';
 export * from './lib/color/color-picker/color-picker.component';
 export * from './lib/color/color-picker/color-picker.directives';
 export * from './lib/color/color-picker/color-picker.types';
+//calendar
+export * from './lib/calendar/calendar.module';
+export * from './lib/calendar/calendar.component';
+export * from './lib/calendar/calendar.types';
 //! types
 export * from './lib/types/alignment.types';
 export * from './lib/types/colors.types';

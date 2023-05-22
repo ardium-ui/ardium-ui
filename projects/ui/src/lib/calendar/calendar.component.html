@@ -1,0 +1,101 @@
+<div class="ard-calendar" [ngClass]="ngClasses">
+    <div class="ard-calendar-header-container">
+        <ng-template #defaultDaysViewHeaderTemplate let-currDate let-nextMonth="nextMonth" let-prevMonth="prevMonth">
+            <div class="ard-calendar-days-view-header">
+                <ard-button class="ard-calendar-header-button" appearance="transparent" [color]="color">
+                    {{ currDate | date: 'MMM YYYY' | uppercase }}
+                    <div class="ard-dropdown-arrow"></div>
+                </ard-button>
+                <div class="ard-calendar-arrows">
+                    <ard-fab size="small" appearance="transparent" [color]="color" (click)="prevMonth()">
+                        <ard-icon>chevron_left</ard-icon>
+                    </ard-fab>
+                    <ard-fab size="small" appearance="transparent" [color]="color" (click)="nextMonth()">
+                        <ard-icon>chevron_right</ard-icon>
+                    </ard-fab>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template
+            [ngTemplateOutlet]="daysViewHeaderTemplate || defaultDaysViewHeaderTemplate"
+            [ngTemplateOutletContext]="getDaysViewHeaderContext()"
+        ></ng-template>
+    </div>
+    <div class="ard-calendar-main-container">
+        <div class="ard-calendar-day-labels ard-calendar-grid">
+            <ng-template #defaultWeekdayTemplate let-date>
+                <div class="ard-calendar-weekday">{{ date | date: 'EEEEE' }}</div>
+            </ng-template>
+            <ng-container *ngFor="let weekdayIndex of weekdayArray">
+                <ng-template
+                    [ngTemplateOutlet]="weekdayTemplate || defaultWeekdayTemplate"
+                    [ngTemplateOutletContext]="getWeekdayContext(weekdayIndex)"
+                ></ng-template>
+            </ng-container>
+        </div>
+        <div class="ard-calendar-main-grid ard-calendar-grid" [class.ard-reserve-top-row]="reserveTopRow">
+            <div class="ard-calendar-floating-month">
+                <ng-template #defaultFloatingMonthTemplate let-date>
+                    {{ date | date: 'LLL' | uppercase }}
+                </ng-template>
+
+                <ng-template
+                    [ngTemplateOutlet]="floatingMonthTemplate || defaultFloatingMonthTemplate"
+                    [ngTemplateOutletContext]="getFloatingMonthContext()"
+                ></ng-template>
+            </div>
+            <ng-container *ngFor="let week of calendarArray">
+                <ng-container *ngFor="let day of week">
+                    <div class="ard-calendar-entry"
+                        [class.ard-calendar-entry-empty]="day == null"
+                        [class.ard-calendar-entry-highlighted]="highlightedDay == day"
+                        [class.ard-calendar-entry-selected]="isDaySelected(day)"
+                        [ngClass]="getDateRangeClasses(day)"
+                        [class.ard-calendar-today]="isDayToday(day)"
+                        (click)="onCalendarDayClick(day)"
+                        (mousemove)="$event.stopPropagation()"
+                        (mouseover)="onCalendarDayMouseover(day)"
+                    >
+                        <button class="ard-calendar-entry-button"
+                            *ngIf="day != null"
+                        >
+                            <div class="ard-focus-overlay"></div>
+                            <div class="ard-button-content">
+                                <ng-template #defaultDayTemplate let-day>
+                                    {{ day }}
+                                </ng-template>
+                                <ng-template
+                                    [ngTemplateOutlet]="dayTemplate || defaultDayTemplate"
+                                    [ngTemplateOutletContext]="getDayContext(day)"
+                                ></ng-template>
+                            </div>
+                        </button>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+<ng-template #yearsView>
+    
+</ng-template>
+
+<ng-template #monthsView>
+
+</ng-template>
+
+<ng-template #daysView>
+
+</ng-template>
+
+
+<!-- <ng-container *ngIf="isLoading">
+    <ng-template #defaultLoadingSpinnerTemplate>
+        <div class="ard-spinner"></div>
+    </ng-template>
+
+    <ng-template [ngTemplateOutlet]="loadingSpinnerTemplate || defaultLoadingSpinnerTemplate">
+    </ng-template>
+</ng-container> -->
