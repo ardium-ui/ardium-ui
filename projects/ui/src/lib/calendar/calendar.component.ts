@@ -15,19 +15,9 @@ import { ActiveCalendarView, CalendarActionButtonsContext, CalendarDayContext, C
 })
 export class ArdiumCalendarComponent extends _NgModelComponentBase implements OnInit {
 
-    constructor(
-        private _cd: ChangeDetectorRef,
-    ) {
-        super();
-    }
-
     ngOnInit(): void {
         this._updateCalendarArray();
         this._updateWeekdayArray();
-
-        setInterval(() => {
-            console.log(this._activeDate);
-        }, 1000);
     }
 
     //! determining today state
