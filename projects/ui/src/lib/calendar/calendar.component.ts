@@ -5,6 +5,7 @@ import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ArdActionButtonsTemplateDirective, ArdDaysViewHeaderTemplateDirective, ArdDayTemplateDirective, ArdFloatingMonthTemplateDirective, ArdMonthsViewHeaderTemplateDirective, ArdMonthTemplateDirective, ArdWeekdayTemplateDirective, ArdYearsViewHeaderTemplateDirective, ArdYearTemplateDirective } from './calendar.directives';
 import { toCalendarArray } from './calendar.helpers';
 import { ActiveCalendarView, CalendarActionButtonsContext, CalendarDayContext, CalendarDaysViewHeaderContext, CalendarFloatingMonthContext, CalendarMonthContext, CalendarMonthsViewHeaderContext, CalendarWeekdayContext, CalendarYearContext, CalendarYearsViewHeaderContext, DateRange } from './calendar.types';
+import { isDefined } from 'simple-bool';
 
 @Component({
   selector: 'ard-calendar',
@@ -187,6 +188,18 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
         this.yearSelected.emit(year);
     }
 
+    //! controls
+    changeMonth(offset: number): void {
+        this.activeMonth += offset;
+
+        this.activeMonthChange.emit(this.activeMonth);
+    }
+    changeYear(offset: number): void {
+        this.activeYear += offset;
+
+        this.activeYearChange.emit(this.activeYear);
+    }
+
     //! range support
     getDateRangeClasses(day: number | null): string { //TODO
         if (day == null) return '';
@@ -281,14 +294,41 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
         this.activeView = v;
     }
 
+    private _oldActiveYear: number | undefined = undefined;
     openYearsView(): void {
         this.activeView = ActiveCalendarView.Years;
+
+        this._oldActiveYear = this.activeYear;
+        this.activeYear = undefined;
+        this.activeYearChange.emit(undefined);
     }
+    private _oldActiveMonth: number | undefined = undefined;
     openMonthsView(): void {
         this.activeView = ActiveCalendarView.Months;
+        //bring back old value
+        const oldYear = this.activeYear;
+        this.activeYear = this.activeYear ?? this._oldActiveYear ?? this.todayDate.getFullYear();
+        //reset
+        this._oldActiveYear = undefined;
+
+        this._oldActiveMonth = this.activeMonth;
+        this.activeMonth = undefined;
+        //emit events
+        if (oldYear != this.activeYear && this.activeYear == this.todayDate.getFullYear()) this.activeYearChange.emit(this.activeYear);
+        this.activeMonthChange.emit(undefined);
     }
     openDaysView(): void {
         this.activeView = ActiveCalendarView.Days;
+        //bring back old values
+        const oldYear = this.activeYear;
+        this.activeYear = this.activeYear ?? this._oldActiveYear ?? this.todayDate.getFullYear();
+        const oldMonth = this.activeMonth;
+        this.activeMonth = this.activeMonth ?? this._oldActiveMonth ?? this.todayDate.getMonth();
+        //reset both
+        this._oldActiveYear = this._oldActiveMonth = undefined;
+        //emit events
+        if (oldYear != this.activeYear && this.activeYear == this.todayDate.getFullYear()) this.activeYearChange.emit(this.activeYear);
+        if (oldMonth != this.activeMonth && this.activeMonth == this.todayDate.getMonth()) this.activeMonthChange.emit(this.activeMonth);
     }
 
     //! template customization
@@ -317,8 +357,8 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
             high: new Date(yearRangeEnd, 0, 1),
         };
         return {
-            nextPage: () => { this.activeYear += 24; },
-            prevPage: () => { this.activeYear -= 24; },
+            nextPage: () => { this.changeYear(+24); },
+            prevPage: () => { this.changeYear(-24); },
             openDaysView: () => { this.openDaysView(); },
             yearRange: {
                 low: yearRangeStart,
@@ -339,10 +379,10 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     }
     getDaysViewHeaderContext(): CalendarDaysViewHeaderContext {
         return {
-            nextMonth: () => { this.activeMonth += 1; },
-            prevMonth: () => { this.activeMonth -= 1; },
-            nextYear: () => { this.activeYear += 1; },
-            prevYear: () => { this.activeYear -= 1; },
+            nextMonth: () => { this.changeMonth(+1); },
+            prevMonth: () => { this.changeMonth(-1); },
+            nextYear: () => { this.changeYear(+1); },
+            prevYear: () => { this.changeYear(-1); },
             openYearsView: () => { this.openYearsView() },
             openMonthsView: () => { this.openMonthsView() },
             year: this.activeYear,
