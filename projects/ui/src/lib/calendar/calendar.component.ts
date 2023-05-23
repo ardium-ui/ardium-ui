@@ -41,7 +41,8 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     }
 
     //! determining if an entry is selected
-    isDaySelected(day: number | null): boolean {
+    isDaySelected(day: number | Date | null): boolean {
+        if (day instanceof Date) day = day.getDate();
         return (
             this.selected != null
             && this.activeYear == this.selected.getFullYear()
@@ -49,14 +50,16 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
             && day == this.selected.getDate()
         );
     }
-    isMonthSelected(month: number): boolean { //TODO
+    isMonthSelected(month: number | Date): boolean {
+        if (month instanceof Date) month = month.getMonth();
         return (
             this.selected != null
             && this.activeYear == this.selected.getFullYear()
             && month == this.selected.getMonth()
         );
     }
-    isYearSelected(year: number): boolean { //TODO
+    isYearSelected(year: number | Date): boolean {
+        if (year instanceof Date) year = year.getFullYear();
         return (
             this.selected != null
             && year == this.selected.getFullYear()
@@ -162,17 +165,30 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     }
 
     selectDay(day: number | Date): void {
-        
+        if (this.isDaySelected(day)) return;
+
+        if (day instanceof Date) day = day.getDate();
+
+        this.selected = new Date(this.activeYear, this.activeMonth, day);
+        this._emitChange();
     }
     selectMonth(month: number | Date): void {
-        
+        if (month instanceof Date) month = month.getMonth();
+
+        this.activeMonth = month;
+
+        this.activeMonthChange.emit(month);
+        this.monthSelected.emit(month);
     }
     selectYear(year: number): void {
-        
+        this.activeYear = year;
+
+        this.activeYearChange.emit(year);
+        this.yearSelected.emit(year);
     }
 
     //! range support
-    getDateRangeClasses(day: number | null): string {
+    getDateRangeClasses(day: number | null): string { //TODO
         if (day == null) return '';
 
         return [
@@ -183,9 +199,19 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     //! output events
     @Output() yearSelected = new EventEmitter<number>();
     @Output() monthSelected = new EventEmitter<number>();
+
     @Output() selectedChange = new EventEmitter<Date | null>();
     @Output() activeYearChange = new EventEmitter<number>();
     @Output() activeMonthChange = new EventEmitter<number>();
+
+    @Output('change') changeEvent = new EventEmitter<Date | null>();
+
+    private _emitChange(): void {
+        const v = this.selected;
+        this._onChangeRegistered?.(v);
+        this.selectedChange.emit(v);
+        this.changeEvent.emit(v);
+    }
 
     //! calendar entry hover & click
     highlightedDay: number | null = null;
@@ -203,9 +229,8 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     
     onCalendarDayClick(day: number | null): void {
         if (day == null) return;
-        if (this.isDaySelected(day)) return;
 
-        this.selected = new Date(this.activeYear, this.activeMonth, day);
+        this.selectDay(day);
     }
 
     //! settings
