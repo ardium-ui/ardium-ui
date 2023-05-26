@@ -281,6 +281,9 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     //! main grid keyboard controls
     onMainGridKeydown(event: KeyboardEvent): void {
         switch (event.code) {
+            case 'Tab':
+                this._onTabPress(event);
+                break;
             case 'Space':
             case 'Enter':
                 this._onEnterPress(event);
@@ -313,6 +316,12 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
             default:
                 return;
         }
+    }
+    //unhighlight
+    private _onTabPress(event: KeyboardEvent): void {
+        this.highlightedDay = null;
+        this.highlightedMonth = null;
+        this.highlightedYear = null;
     }
     //select currently selected entry
     private _onEnterPress(event: KeyboardEvent): void {
