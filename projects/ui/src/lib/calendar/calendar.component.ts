@@ -6,13 +6,18 @@ import { ArdActionButtonsTemplateDirective, ArdDaysViewHeaderTemplateDirective, 
 import { toCalendarArray } from './calendar.helpers';
 import { ActiveCalendarView, CalendarActionButtonsContext, CalendarDayContext, CalendarDaysViewHeaderContext, CalendarFloatingMonthContext, CalendarMonthContext, CalendarMonthsViewHeaderContext, CalendarWeekdayContext, CalendarYearContext, CalendarYearsViewHeaderContext, DateRange } from './calendar.types';
 import { isDefined } from 'simple-bool';
+import { isNull } from 'simple-bool';
+
+function isLeapYear(year: number): boolean {
+    return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+}
 
 @Component({
-  selector: 'ard-calendar',
-  templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ard-calendar',
+    templateUrl: './calendar.component.html',
+    styleUrls: ['./calendar.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArdiumCalendarComponent extends _NgModelComponentBase implements OnInit {
 
@@ -142,7 +147,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
                 v = new Date(vAsArray1[0], vAsArray1[1] ?? 0, vAsArray1[2] ?? 1);
             }
             else {
-            //try to see if it is an array of numbers separated by some whitespace
+                //try to see if it is an array of numbers separated by some whitespace
                 const vAsArray2 = v.split(/\s/).map(v => Number(v));
                 if (vAsArray2.length >= 1 && vAsArray2.length <= 3 && vAsArray2.every(v => !isNaN(v))) {
                     v = new Date(vAsArray2[0], vAsArray2[1] ?? 0, vAsArray2[2] ?? 1);
@@ -165,41 +170,6 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
         this._selected = null;
     }
 
-    selectDay(day: number | Date): void {
-        if (this.isDaySelected(day)) return;
-
-        if (day instanceof Date) day = day.getDate();
-
-        this.selected = new Date(this.activeYear, this.activeMonth, day);
-        this._emitChange();
-    }
-    selectMonth(month: number | Date): void {
-        if (month instanceof Date) month = month.getMonth();
-
-        this.activeMonth = month;
-
-        this.activeMonthChange.emit(month);
-        this.monthSelected.emit(month);
-    }
-    selectYear(year: number): void {
-        this.activeYear = year;
-
-        this.activeYearChange.emit(year);
-        this.yearSelected.emit(year);
-    }
-
-    //! controls
-    changeMonth(offset: number): void {
-        this.activeMonth += offset;
-
-        this.activeMonthChange.emit(this.activeMonth);
-    }
-    changeYear(offset: number): void {
-        this.activeYear += offset;
-
-        this.activeYearChange.emit(this.activeYear);
-    }
-
     //! range support
     getDateRangeClasses(day: number | null): string { //TODO
         if (day == null) return '';
@@ -219,6 +189,10 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
 
     @Output('change') changeEvent = new EventEmitter<Date | null>();
 
+    @Output('reset') resetEvent = new EventEmitter<any>();
+    @Output('cancel') cancelEvent = new EventEmitter<any>();
+    @Output('apply') applyEvent = new EventEmitter<Date | null>();
+
     private _emitChange(): void {
         const v = this.selected;
         this._onChangeRegistered?.(v);
@@ -227,24 +201,480 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     }
 
     //! calendar entry hover & click
-    highlightedDay: number | null = null;
+    private _highlightedDay: number | null = null;
+    get highlightedDay(): number | null { return this._highlightedDay; }
+    set highlightedDay(v: number | null) {
+        if (isNull(v)) {
+            this._highlightedDay = v;
+            return;
+        }
+        const date = new Date(this.activeYear, this.activeMonth, v);
+        this.activeDate = date;
+        this._highlightedDay = date.getDate();
+    }
+
+    private _highlightedMonth: number | null = null;
+    get highlightedMonth(): number | null { return this._highlightedMonth; }
+    set highlightedMonth(v: number | null) {
+        if (isNull(v)) {
+            this._highlightedMonth = v;
+            return;
+        }
+        const date = new Date(this.activeYear, v, 1);
+        this.activeYear = date.getFullYear();
+        this._highlightedMonth = date.getMonth();
+    }
+
+    private _highlightedYear: number | null = null;
+    get highlightedYear(): number | null { return this._highlightedYear; }
+    set highlightedYear(v: number | null) {
+        if (isNull(v)) {
+            this._highlightedYear = v;
+            return;
+        }
+        this._highlightedYear = v;
+    }
+
+    get currentAriaLabel(): string {
+        return new Date(this.activeYear, this.activeMonth, this.highlightedDay ?? 1)
+            .toLocaleDateString(undefined, {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+            });
+    }
 
     onCalendarDayMouseover(day: number | null): void {
         if (day == null) return;
+        if (this._isUsingKeyboard) return;
 
         this.highlightedDay = day;
     }
 
+    private _isUsingKeyboard: boolean = false;
     @HostListener('document:mousemove')
-    onMousemove(): void {
-        this.highlightedDay = null;
+    onDocumentMousemove(): void {
+        if (!this._isUsingKeyboard)
+            this.highlightedDay = null;
+        
+        this._isUsingKeyboard = false;
     }
-    
+    @HostListener('document:keydown')
+    onDocumentKeydown(): void {
+        this._isUsingKeyboard = true;
+    }
+
     onCalendarDayClick(day: number | null): void {
         if (day == null) return;
 
         this.selectDay(day);
     }
+
+    onDayGridFocus(): void {
+        this.highlightedDay = 1;
+    }
+    onDayGridClick(): void {
+        this.highlightedDay ??= 1;
+    }
+
+    //! main grid keyboard controls
+    onMainGridKeydown(event: KeyboardEvent): void {
+        switch (event.code) {
+            case 'Space':
+            case 'Enter':
+                this._onEnterPress(event);
+                break;
+            case 'ArrowUp':
+                this._onArrowUpPress(event);
+                break;
+            case 'ArrowDown':
+                this._onArrowDownPress(event);
+                break;
+            case 'ArrowLeft':
+                this._onArrowLeftPress(event);
+                break;
+            case 'ArrowRight':
+                this._onArrowRightPress(event);
+                break;
+            case 'Home':
+                this._onHomePress(event);
+                break;
+            case 'End':
+                this._onEndPress(event);
+                break;
+            case 'PageUp':
+                this._onPageUpPress(event);
+                break;
+            case 'PageDown':
+                this._onPageDownPress(event);
+                break;
+
+            default:
+                return;
+        }
+    }
+    //select currently selected entry
+    private _onEnterPress(event: KeyboardEvent): void {
+        event.preventDefault();
+
+        this.selectCurrentlyHighlighted();
+    }
+    //highlight the entry one line above
+    private _onArrowUpPress(event: KeyboardEvent): void {
+        event.preventDefault();
+        console.log(event.code);
+        switch (this.activeView) {
+            case ActiveCalendarView.Days:
+                this.highlightPreviousDay(7);
+                break;
+            case ActiveCalendarView.Months:
+                this.highlightPreviousMonth(3); //3 months per line
+                break;
+            case ActiveCalendarView.Years:
+                this.highlightPreviousYear(4); //4 years per line
+                break;
+        }
+    }
+    //highlight the entry one line below
+    private _onArrowDownPress(event: KeyboardEvent): void {
+        event.preventDefault();
+        console.log(event.code);
+        switch (this.activeView) {
+            case ActiveCalendarView.Days:
+                this.highlightNextDay(7);
+                break;
+            case ActiveCalendarView.Months:
+                this.highlightNextMonth(3); //3 months per line
+                break;
+            case ActiveCalendarView.Years:
+                this.highlightNextYear(4); //4 years per line
+                break;
+        }
+    }
+    //highlight previous entry
+    private _onArrowLeftPress(event: KeyboardEvent): void {
+        event.preventDefault();
+        console.log(event.code);
+        switch (this.activeView) {
+            case ActiveCalendarView.Days:
+                this.highlightPreviousDay();
+                break;
+            case ActiveCalendarView.Months:
+                this.highlightPreviousMonth();
+                break;
+            case ActiveCalendarView.Years:
+                this.highlightPreviousYear();
+                break;
+        }
+    }
+    //highlight next entry
+    private _onArrowRightPress(event: KeyboardEvent): void {
+        event.preventDefault();
+        console.log(event.code);
+        switch (this.activeView) {
+            case ActiveCalendarView.Days:
+                this.highlightNextDay();
+                break;
+            case ActiveCalendarView.Months:
+                this.highlightNextMonth();
+                break;
+            case ActiveCalendarView.Years:
+                this.highlightNextYear();
+                break;
+        }
+    }
+    //highlight first entry on the page
+    private _onHomePress(event: KeyboardEvent): void {
+        event.preventDefault();
+        console.log(event.code);
+        switch (this.activeView) {
+            case ActiveCalendarView.Days:
+                this.highlightFirstDay();
+                break;
+            case ActiveCalendarView.Months:
+                this.highlightFirstMonth();
+                break;
+            case ActiveCalendarView.Years:
+                this.highlightFirstYear();
+                break;
+        }
+    }
+    //highlight last entry on the page
+    private _onEndPress(event: KeyboardEvent): void {
+        event.preventDefault();
+        console.log(event.code);
+        switch (this.activeView) {
+            case ActiveCalendarView.Days:
+                this.highlightLastDay();
+                break;
+            case ActiveCalendarView.Months:
+                this.highlightLastMonth();
+                break;
+            case ActiveCalendarView.Years:
+                this.highlightLastYear();
+                break;
+        }
+    }
+    //alone: highlight same entry on the previous page
+    //with alt: highlight same entry multiple pages before (days view: 12 pages, months view: 10 pages, years view: 5 pages)
+    private _onPageUpPress(event: KeyboardEvent): void {
+        event.preventDefault();
+        console.log(event.code);
+        switch (this.activeView) {
+            case ActiveCalendarView.Days:
+                if (event.altKey) this.highlightSameDayPreviousYear();
+                else this.highlightSameDayPreviousMonth();
+                break;
+            case ActiveCalendarView.Months:
+                this.highlightSameMonthPreviousYear(event.altKey);
+                break;
+            case ActiveCalendarView.Years:
+                this.highlightSameYearPreviousPage(event.altKey);
+                break;
+        }
+    }
+    //alone: highlight same entry on the next page
+    //with alt: highlight same entry multiple pages after (days view: 12 pages, months view: 10 pages, years view: 5 pages)
+    private _onPageDownPress(event: KeyboardEvent): void {
+        event.preventDefault();
+        console.log(event.code);
+        switch (this.activeView) {
+            case ActiveCalendarView.Days:
+                if (event.altKey) this.highlightSameDayNextYear();
+                else this.highlightSameDayNextMonth();
+                break;
+            case ActiveCalendarView.Months:
+                this.highlightSameMonthNextYear(event.altKey);
+                break;
+            case ActiveCalendarView.Years:
+                this.highlightSameYearNextPage(event.altKey);
+                break;
+        }
+    }
+    //! manipulation methods
+    cancel(): void {
+        this.selectYear(null);
+        this.selectMonth(null);
+        this.selectDay(null);
+
+        this.cancelEvent.emit();
+    }
+    apply(): void {
+        this.selectDay(this.highlightedDay);
+
+        this.applyEvent.emit();
+    }
+    reset(): void {
+        this.selectYear(this.todayDate);
+        this.selectMonth(this.todayDate);
+        this.selectDay(null);
+        this.highlightedDay = this.todayDate.getDate();
+    }
+    //selecting
+    selectDay(day: number | Date | null): void {
+        if (this.isDaySelected(day)) return;
+        if (isNull(day)) {
+            if (!isDefined(this.selected)) return;
+
+            this.selected = null;
+            this._emitChange();
+            return;
+        }
+
+        if (day instanceof Date) day = day.getDate();
+
+        this.selected = new Date(this.activeYear, this.activeMonth, day);
+        this._emitChange();
+    }
+    selectMonth(month: number | Date | null): void {
+        if (isNull(month)) {
+            this.activeMonth = null;
+            return;
+        }
+        if (month instanceof Date) month = month.getMonth();
+
+        this.activeMonth = month;
+
+        this.activeMonthChange.emit(month);
+        this.monthSelected.emit(month);
+    }
+    selectYear(year: number | Date | null): void {
+        if (isNull(year)) {
+            this.activeYear = null;
+            return;
+        }
+        if (year instanceof Date) year = year.getFullYear();
+
+        this.activeYear = year;
+
+        this.activeYearChange.emit(year);
+        this.yearSelected.emit(year);
+    }
+    selectCurrentlyHighlighted(): void {
+        if (!isDefined(this.highlightedDay)) return;
+
+        switch (this.activeView) {
+            case ActiveCalendarView.Days:
+                this.selectDay(this.highlightedDay);
+                return;
+            case ActiveCalendarView.Months:
+                this.selectMonth(this.highlightedMonth);
+                return;
+            case ActiveCalendarView.Years:
+                this.selectYear(this.highlightedYear);
+                return;
+
+            default:
+                return;
+        }
+    }
+    //active months/years
+    changeMonth(offset: number): void {
+        this.activeMonth += offset;
+
+        this.activeMonthChange.emit(this.activeMonth);
+    }
+    changeYear(offset: number): void {
+        this.activeYear += offset;
+
+        this.activeYearChange.emit(this.activeYear);
+    }
+    //next/prev highlighting
+    highlightNextDay(offset: number = 1): void {
+        if (this.highlightedDay) this.highlightedDay += offset;
+        else this.highlightedDay = 1;
+    }
+    highlightPreviousDay(offset: number = 1): void {
+        if (this.highlightedDay) this.highlightedDay -= offset;
+        else this.highlightedDay = 1;
+    }
+    highlightNextMonth(offset: number = 1): void {
+        if (this.highlightedMonth) this.highlightedMonth += offset;
+        else this.highlightedMonth = 0;
+    }
+    highlightPreviousMonth(offset: number = 1): void {
+        if (this.highlightedMonth) this.highlightedMonth -= offset;
+        else this.highlightedMonth = 0;
+    }
+    highlightNextYear(offset: number = 1): void {
+        if (this.highlightedYear) this.highlightedYear += offset;
+        else this.highlightedYear = this.activeYearRangeStart;
+    }
+    highlightPreviousYear(offset: number = 1): void {
+        if (this.highlightedYear) this.highlightedYear -= offset;
+        else this.highlightedYear = this.activeYearRangeStart;
+    }
+    //first/last highlighting
+    highlightFirstDay(): void {
+        this.highlightedDay = 1;
+    }
+    highlightLastDay(): void {
+        switch (this.activeMonth + 1) {
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
+                this.highlightedDay = 31;
+                break;
+            case 4:
+            case 6:
+            case 9:
+            case 11:
+                this.highlightedDay = 30;
+                break;
+            case 2:
+                if (isLeapYear(this.activeYear)) this.highlightedDay = 29;
+                else this.highlightedDay = 28;
+        }
+    }
+    highlightFirstMonth(): void {
+        this.highlightedMonth = 0;
+    }
+    highlightLastMonth(): void {
+        this.highlightedMonth = 11;
+    }
+    highlightFirstYear(): void {
+        this.highlightedYear = this.activeYearRangeStart;
+    }
+    highlightLastYear(): void {
+        this.highlightedYear = this.activeYearRangeStart + 23; //24 years per page
+    }
+    //same day nextprev month/year
+    highlightSameDayNextMonth(): void {
+        this.activeMonth++;
+
+        this._fixDateAfterMonthChange();
+    }
+    highlightSameDayPreviousMonth(): void {
+        this.activeMonth--;
+
+        this._fixDateAfterMonthChange();
+    }
+    private _fixDateAfterMonthChange(): void {
+        switch (this.activeMonth + 1) {
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
+                //do nothing
+                break;
+            case 4:
+            case 6:
+            case 9:
+            case 11:
+                //only do if day is 31
+                if (this.highlightedDay == 31) this.highlightedDay = 30;
+                break;
+            case 2: {
+                //skip if below 29 or null
+                if (!this.highlightedDay || this.highlightedDay < 29) break;
+
+                if (isLeapYear(this.activeYear)) this.highlightedDay = 29;
+                else this.highlightedDay = 28;
+            }
+        }
+    }
+    highlightSameDayNextYear(): void {
+        this.activeYear++;
+
+        this._fixDateAfterYearChange();
+    }
+    highlightSameDayPreviousYear(): void {
+        this.activeYear--;
+
+        this._fixDateAfterYearChange();
+    }
+    private _fixDateAfterYearChange(): void {
+        if (this.highlightedDay != 29) return; //skip if not 29th day is selected
+        if (isLeapYear(this.activeYear)) return; //skip if nea year is a leap year
+        if (this.activeMonth != 1) return; //skip if not february
+
+        this.highlightedDay = 28;
+    }
+    //same month next/prev year
+    highlightSameMonthNextYear(multiple: boolean): void {
+        this.activeYear += multiple ? 10 : 1;
+    }
+    highlightSameMonthPreviousYear(multiple: boolean): void {
+        this.activeYear -= multiple ? 10 : 1;
+    }
+    //same year next/prev page(s)
+    highlightSameYearNextPage(multiple: boolean): void {
+        if (this.highlightedYear) this.highlightedYear += multiple ? 60 : 24;
+        else this.highlightedYear = this.activeYearRangeStart;
+    }
+    highlightSameYearPreviousPage(multiple: boolean): void {
+        if (this.highlightedYear) this.highlightedYear -= multiple ? 60 : 24;
+        else this.highlightedYear = this.activeYearRangeStart;
+    }
+
 
     //! settings
     protected _firstWeekday: number = 0;
@@ -434,11 +864,12 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
             select: (day: number | Date) => { this.selectDay(day); },
         }
     }
+    //action buttons
     getActionButtonsContext(): CalendarActionButtonsContext {
         return {
             cancel: () => { }, //TODO
             apply: () => { }, //TODO
-            reset: () => { this.activeDate = new Date(); this.selected = null; },
+            reset: () => { this.reset(); },
         }
     }
 }

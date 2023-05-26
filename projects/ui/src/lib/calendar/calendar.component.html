@@ -2,15 +2,15 @@
     <div class="ard-calendar-header-container">
         <ng-template #defaultDaysViewHeaderTemplate let-currDate let-nextMonth="nextMonth" let-prevMonth="prevMonth">
             <div class="ard-calendar-days-view-header">
-                <ard-button class="ard-calendar-header-button" appearance="transparent" [color]="color">
+                <ard-button class="ard-calendar-header-button" appearance="transparent" [color]="color" [tabIndex]="tabIndex">
                     {{ currDate | date: 'MMM YYYY' | uppercase }}
                     <div class="ard-dropdown-arrow"></div>
                 </ard-button>
                 <div class="ard-calendar-arrows">
-                    <ard-fab size="small" appearance="transparent" [color]="color" (click)="prevMonth()">
+                    <ard-fab size="small" appearance="transparent" [color]="color" (click)="prevMonth()" [tabIndex]="tabIndex">
                         <ard-icon>chevron_left</ard-icon>
                     </ard-fab>
-                    <ard-fab size="small" appearance="transparent" [color]="color" (click)="nextMonth()">
+                    <ard-fab size="small" appearance="transparent" [color]="color" (click)="nextMonth()" [tabIndex]="tabIndex">
                         <ard-icon>chevron_right</ard-icon>
                     </ard-fab>
                 </div>
@@ -34,7 +34,16 @@
                 ></ng-template>
             </ng-container>
         </div>
-        <div class="ard-calendar-main-grid ard-calendar-grid" [class.ard-reserve-top-row]="reserveTopRow">
+        <div
+            class="ard-calendar-main-grid ard-calendar-grid"
+            [class.ard-reserve-top-row]="reserveTopRow"
+            [tabindex]="tabIndex"
+            [ariaLabel]="currentAriaLabel"
+            (focus)="onFocus($event)"
+            (focus)="onDayGridFocus()"
+            (click)="onDayGridClick()"
+            (keydown)="onMainGridKeydown($event)"
+        >
             <div class="ard-calendar-floating-month">
                 <ng-template #defaultFloatingMonthTemplate let-date>
                     {{ date | date: 'LLL' | uppercase }}
@@ -59,6 +68,7 @@
                     >
                         <button class="ard-calendar-entry-button"
                             *ngIf="day != null"
+                            tabindex="-1"
                         >
                             <div class="ard-focus-overlay"></div>
                             <div class="ard-button-content">

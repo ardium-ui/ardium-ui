@@ -96,6 +96,7 @@
         .ard-calendar-entry {
             z-index: 1;
             cursor: pointer;
+            outline: none;
 
             .ard-calendar-entry-button {
                 $_margin: 0.125rem;
