@@ -41,6 +41,8 @@
             [ariaLabel]="currentAriaLabel"
             (focus)="onFocus($event)"
             (focus)="onDayGridFocus()"
+            (blur)="onBlur($event)"
+            (blur)="onDayGridBlur()"
             (click)="onDayGridClick()"
             (keydown)="onMainGridKeydown($event)"
         >
