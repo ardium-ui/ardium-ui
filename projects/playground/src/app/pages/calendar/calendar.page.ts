@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Logger } from '../../services/logger.service';
 
 @Component({
   selector: 'app-calendar',
@@ -7,4 +8,7 @@ import { Component } from '@angular/core';
 })
 export class CalendarPage {
 
+
+    constructor(private LoggerService: Logger) {}
+    log = this.LoggerService.log;
 }

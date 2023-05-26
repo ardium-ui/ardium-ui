@@ -1,3 +1,5 @@
 <div class="master">
-    <ard-calendar></ard-calendar>
+    <ard-calendar
+        (selectedChange)="log('selectedChange', $event?.toDateString())"
+    ></ard-calendar>
 </div>
