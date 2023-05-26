@@ -326,7 +326,6 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     //highlight the entry one line above
     private _onArrowUpPress(event: KeyboardEvent): void {
         event.preventDefault();
-        console.log(event.code);
         switch (this.activeView) {
             case ActiveCalendarView.Days:
                 this.highlightPreviousDay(7);
@@ -342,7 +341,6 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     //highlight the entry one line below
     private _onArrowDownPress(event: KeyboardEvent): void {
         event.preventDefault();
-        console.log(event.code);
         switch (this.activeView) {
             case ActiveCalendarView.Days:
                 this.highlightNextDay(7);
@@ -358,7 +356,6 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     //highlight previous entry
     private _onArrowLeftPress(event: KeyboardEvent): void {
         event.preventDefault();
-        console.log(event.code);
         switch (this.activeView) {
             case ActiveCalendarView.Days:
                 this.highlightPreviousDay();
@@ -374,7 +371,6 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     //highlight next entry
     private _onArrowRightPress(event: KeyboardEvent): void {
         event.preventDefault();
-        console.log(event.code);
         switch (this.activeView) {
             case ActiveCalendarView.Days:
                 this.highlightNextDay();
@@ -390,7 +386,6 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     //highlight first entry on the page
     private _onHomePress(event: KeyboardEvent): void {
         event.preventDefault();
-        console.log(event.code);
         switch (this.activeView) {
             case ActiveCalendarView.Days:
                 this.highlightFirstDay();
@@ -406,7 +401,6 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     //highlight last entry on the page
     private _onEndPress(event: KeyboardEvent): void {
         event.preventDefault();
-        console.log(event.code);
         switch (this.activeView) {
             case ActiveCalendarView.Days:
                 this.highlightLastDay();
@@ -423,7 +417,6 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     //with alt: highlight same entry multiple pages before (days view: 12 pages, months view: 10 pages, years view: 5 pages)
     private _onPageUpPress(event: KeyboardEvent): void {
         event.preventDefault();
-        console.log(event.code);
         switch (this.activeView) {
             case ActiveCalendarView.Days:
                 if (event.altKey) this.highlightSameDayPreviousYear();
@@ -441,7 +434,6 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     //with alt: highlight same entry multiple pages after (days view: 12 pages, months view: 10 pages, years view: 5 pages)
     private _onPageDownPress(event: KeyboardEvent): void {
         event.preventDefault();
-        console.log(event.code);
         switch (this.activeView) {
             case ActiveCalendarView.Days:
                 if (event.altKey) this.highlightSameDayNextYear();
