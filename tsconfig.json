@@ -14,7 +14,12 @@
           "projects/ui/src/public-api",
           "dist/ui/ui",
           "dist/ui"
-        ]
+        ],
+        "@ardium-ui/rounded-selection": [
+            "projects/rounded-selection/src/public-api",
+            "dist/rounded-selection/rounded-selection",
+            "dist/rounded-selection"
+        ],
       },
       "forceConsistentCasingInFileNames": true,
       "strict": true,
