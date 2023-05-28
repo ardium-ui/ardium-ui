@@ -4,3 +4,4 @@
 
 export * from './lib/create';
 export * from './lib/types';
+export * from './lib/html';

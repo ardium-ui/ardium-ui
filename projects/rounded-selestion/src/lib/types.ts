@@ -18,7 +18,6 @@ export const RoundedSelectionState = {
     None: 'none',
     HorizontalStraight: 'horiz-straight',
     VerticalStraight: 'vert-straight',
-    BothStraight: 'both-straight',
     Rounded: 'rounded',
     Negative: 'negative',
 } as const;
