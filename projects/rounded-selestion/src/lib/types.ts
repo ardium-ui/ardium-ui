@@ -16,18 +16,13 @@ export type SelectionData = SelectionLineData[];
 //! output data types
 export const RoundedSelectionState = {
     None: 'none',
-    HorizontalStraight: 'horiz-straight',
-    VerticalStraight: 'vert-straight',
     Rounded: 'rounded',
     Negative: 'negative',
 } as const;
 export type RoundedSelectionState = typeof RoundedSelectionState[keyof typeof RoundedSelectionState];
 
 export type RoundedSelectionCell = {
-    top?: boolean;
-    bottom?: boolean;
-    left?: boolean;
-    right?: boolean;
+    filled: boolean;
     topLeft?: RoundedSelectionState;
     topRight?: RoundedSelectionState;
     bottomLeft?: RoundedSelectionState;
