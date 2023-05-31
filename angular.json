@@ -189,23 +189,23 @@
                 }
             }
         },
-        "rounded-selestion": {
+        "rounded-selection": {
           "projectType": "library",
-          "root": "projects/rounded-selestion",
-          "sourceRoot": "projects/rounded-selestion/src",
-          "prefix": "lib",
+          "root": "projects/rounded-selection",
+          "sourceRoot": "projects/rounded-selection/src",
+          "prefix": "ard",
           "architect": {
             "build": {
               "builder": "@angular-devkit/build-angular:ng-packagr",
               "options": {
-                "project": "projects/rounded-selestion/ng-package.json"
+                "project": "projects/rounded-selection/ng-package.json"
               },
               "configurations": {
                 "production": {
-                  "tsConfig": "projects/rounded-selestion/tsconfig.lib.prod.json"
+                  "tsConfig": "projects/rounded-selection/tsconfig.lib.prod.json"
                 },
                 "development": {
-                  "tsConfig": "projects/rounded-selestion/tsconfig.lib.json"
+                  "tsConfig": "projects/rounded-selection/tsconfig.lib.json"
                 }
               },
               "defaultConfiguration": "production"
@@ -213,7 +213,7 @@
             "test": {
               "builder": "@angular-devkit/build-angular:karma",
               "options": {
-                "tsConfig": "projects/rounded-selestion/tsconfig.spec.json",
+                "tsConfig": "projects/rounded-selection/tsconfig.spec.json",
                 "polyfills": [
                   "zone.js",
                   "zone.js/testing"
