@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { RoundedSelectionDirective } from './rounded-selection.directive';
+import { ArdiumRoundedSelectionDirective } from './rounded-selection.directive';
 
 
 @NgModule({
     declarations: [
-        RoundedSelectionDirective
+        ArdiumRoundedSelectionDirective
     ],
     imports: [
         CommonModule
     ],
     exports: [
-        RoundedSelectionDirective
+        ArdiumRoundedSelectionDirective
     ]
 })
-export class RoundedSelectionModule { }
+export class ArdiumRoundedSelectionModule { }

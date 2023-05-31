@@ -6,7 +6,7 @@ import { getRoundedSelectionHTMLData } from '../html';
 @Directive({
     selector: '[ardRoundedSelection]'
 })
-export class RoundedSelectionDirective implements OnInit, OnChanges, OnDestroy {
+export class ArdiumRoundedSelectionDirective implements OnInit, OnChanges, OnDestroy {
 
     constructor(
         private elementRef: ElementRef<HTMLElement>,
