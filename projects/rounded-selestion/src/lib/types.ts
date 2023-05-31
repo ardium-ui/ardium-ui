@@ -22,6 +22,7 @@ export const RoundedSelectionState = {
 export type RoundedSelectionState = typeof RoundedSelectionState[keyof typeof RoundedSelectionState];
 
 export type RoundedSelectionCell = {
+    span: number;
     filled: boolean;
     topLeft?: RoundedSelectionState;
     topRight?: RoundedSelectionState;

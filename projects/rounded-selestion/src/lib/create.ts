@@ -62,21 +62,19 @@ function getBeforeStartSelection(line: { length: number; start: number; end: num
     const isBeforeStartNext = nextLine && isSelectionAt(start - 1, nextLine);
     const isAtStartPrev = prevLine && isSelectionAt(start, prevLine);
     const isAtStartNext = nextLine && isSelectionAt(start, nextLine);
-    //* add before
-    const beforeStart = start - 1;
-    for (let i = 0; i < beforeStart; i++) {
-        lineData.push({ filled: false });
-    }
-    //* add immediately before
-    if (isBeforeStartPrev && isAtStartPrev || isBeforeStartNext && isAtStartNext) {
+
+    if (start != 0 && (isBeforeStartPrev && isAtStartPrev || isBeforeStartNext && isAtStartNext)) {
+        if (start != 1) lineData.push({ span: start - 1, filled: false });
+
         lineData.push({
+            span: 1,
             filled: false,
             topRight: isBeforeStartPrev && isAtStartPrev ? RSS.Negative : RSS.None,
             bottomRight: isBeforeStartNext && isAtStartNext ? RSS.Negative : RSS.None,
         });
     }
     else if (start != 0) {
-        lineData.push({ filled: false });
+        lineData.push({ span: start, filled: false });
     }
 
     return lineData;
@@ -84,27 +82,24 @@ function getBeforeStartSelection(line: { length: number; start: number; end: num
 function getAfterEndSelection(line: { length: number; start: number; end: number; }, prevLine?: SelectionLineData, nextLine?: SelectionLineData): RoundedSelectionLine {
     const lineData: RoundedSelectionCell[] = [];
 
-    const { length, start } = line;
+    const { length, end } = line;
 
-    const isAtStartPrev = prevLine && isSelectionAt(start, prevLine);
-    const isAtStartNext = nextLine && isSelectionAt(start, nextLine);
-    const isAfterStartPrev = prevLine && isSelectionAt(start + 1, prevLine);
-    const isAfterStartNext = nextLine && isSelectionAt(start + 1, nextLine);
+    const isAtEndPrev = prevLine && isSelectionAt(end, prevLine);
+    const isAtEndNext = nextLine && isSelectionAt(end, nextLine);
+    const isAfterEndPrev = prevLine && isSelectionAt(end + 1, prevLine);
+    const isAfterEndNext = nextLine && isSelectionAt(end + 1, nextLine);
 
-    //* add immediately after
-    if (isAfterStartPrev && isAtStartPrev || isAfterStartNext && isAtStartNext) {
+    if (end <= length - 1 && (isAfterEndPrev && isAtEndPrev || isAfterEndNext && isAtEndNext)) {
         lineData.push({
+            span: 1,
             filled: false,
-            topLeft: isAfterStartPrev && isAtStartPrev ? RSS.Negative : RSS.None,
-            bottomLeft: isAfterStartNext && isAtStartNext ? RSS.Negative : RSS.None,
+            topLeft: isAfterEndPrev && isAtEndPrev ? RSS.Negative : RSS.None,
+            bottomLeft: isAfterEndNext && isAtEndNext ? RSS.Negative : RSS.None,
         });
+        if (end != length - 1) lineData.push({ span: length - end - 1, filled: false });
     }
-    else if (start != length - 1) {
-        lineData.push({ filled: false });
-    }
-    //* add after
-    for (let i = start + 1; i < length; i++) {
-        lineData.push({ filled: false });
+    else if (end < length - 1) {
+        lineData.push({ span: length - end, filled: false });
     }
 
     return lineData;
@@ -133,6 +128,7 @@ function getOneWideSelection(line: { length: number; start: number; end: number;
     let bottomRight: RSS = isAfterStartNext && isAtStartNext ? RSS.None : RSS.Rounded;
 
     lineData.push({
+        span: 1,
         filled: true,
         topLeft,
         topRight,
@@ -160,6 +156,7 @@ function getStandardSelectionBody(line: { length: number; start: number; end: nu
         let bottomLeft: RSS = isBeforeStartNext || isAtStartNext ? RSS.None : RSS.Rounded;
 
         lineData.push({
+            span: 1,
             filled: true,
             topLeft,
             bottomLeft,
@@ -169,11 +166,10 @@ function getStandardSelectionBody(line: { length: number; start: number; end: nu
     }
 
     //* add middle
-    for (let i = start + 1; i < end - 1; i++) {
-        lineData.push({
-            filled: true,
-        });
-    }
+    lineData.push({
+        span: end - start - 1,
+        filled: true,
+    });
 
     //* add end
     {
@@ -188,6 +184,7 @@ function getStandardSelectionBody(line: { length: number; start: number; end: nu
         let bottomRight: RSS = isAfterEndNext || isAtEndNext ? RSS.None : RSS.Rounded;
 
         lineData.push({
+            span: 1,
             filled: true,
             topRight,
             bottomRight,
