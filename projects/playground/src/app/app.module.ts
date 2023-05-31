@@ -19,7 +19,6 @@ import { StarsModule } from './pages/stars/stars.module';
 import { StateboxModule } from './pages/statebox/statebox.module';
 import { ColorDisplayModule } from './pages/color-display/color-display.module';
 import { ColorPickerModule } from './pages/color-picker/color-picker.module';
-import { ArdiumRoundedSelectionModule } from '@ardium-ui/rounded-selection';
 
 @NgModule({
     declarations: [
@@ -43,7 +42,6 @@ import { ArdiumRoundedSelectionModule } from '@ardium-ui/rounded-selection';
         IconModule,
         ColorDisplayModule,
         ColorPickerModule,
-        ArdiumRoundedSelectionModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
