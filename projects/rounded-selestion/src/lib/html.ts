@@ -5,7 +5,7 @@ export function getRoundedSelectionHTMLData(cellData: RoundedSelectionCell): { c
     return {
         span: cellData.span,
         classes: [
-            'ard-rounded-selection',
+            'ard-rounded-selection-cell',
             getCornerClass(cellData.topLeft, 'top-left'),
             getCornerClass(cellData.topRight, 'top-right'),
             getCornerClass(cellData.bottomLeft, 'bottom-left'),
