@@ -3,3 +3,18 @@ header {
     padding-bottom: 8px;
     margin-bottom: 8px;
 }
+
+
+
+.test {
+    height: 200px;
+    --ard-rounded-selection-fill: red;
+    --ard-rounded-selection-border-radius: 6px;
+}
+.test-line {
+    display: flex;
+}
+.test-cell {
+    width: calc(16px * var(--ard-_span));
+    height: 32px;
+}

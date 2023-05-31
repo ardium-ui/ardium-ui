@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { createRoundedLines } from '@ardium-ui/rounded-selection';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -13,6 +14,11 @@ export class AppComponent implements OnInit, OnDestroy {
     ) { }
 
     currentPath: PathObj[] = [];
+
+    test = createRoundedLines([
+        { length: 10, start: 0, end: 8 },
+        { length: 10, start: 4, end: 4 },
+    ]);
 
     private _routerSub!: Subscription;
     ngOnInit(): void {
