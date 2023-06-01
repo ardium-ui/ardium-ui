@@ -37,10 +37,66 @@
             }
         }
     }
+    //! main container
     .ard-calendar-main-container {
         padding: 0.375rem;
         padding-top: 0;
     }
+    //! calendar entries
+    .ard-calendar-entry {
+        z-index: 1;
+        cursor: pointer;
+        outline: none;
+
+        .ard-calendar-entry-button {
+            $_margin: 0.125rem;
+            background: transparent;
+            border: 1px solid transparent;
+            width: calc(100% - #{$_margin * 2});
+            height: calc(100% - #{$_margin * 2});
+            padding: 0;
+            position: relative;
+            border-radius: 9999px;
+            cursor: pointer;
+            margin: $_margin;
+
+            .ard-focus-overlay {
+                @include DM.focus-overlay();
+                z-index: -1;
+                background: var(--ard-cmpcl--bg);
+                border: 2px solid transparent;
+                transition: border-color 0.2s ease, opacity 0.2s ease;
+            }
+        }
+        &.ard-calendar-entry-empty {
+            cursor: default;
+        }
+        &.ard-calendar-today {
+            .ard-calendar-entry-button {
+                border-color: $detail;
+            }
+        }
+        &.ard-calendar-entry-highlighted {
+            .ard-focus-overlay {
+                opacity: 20%;
+            }
+        }
+        &.ard-calendar-entry-selected {
+            .ard-calendar-entry-button {
+                color: var(--ard-cmpcl--on-bg);
+            }
+            .ard-focus-overlay {
+                opacity: 100%;
+            }
+
+            &.ard-calendar-today {
+                .ard-focus-overlay {
+                    border-color: $bg;
+                }
+            }
+        }
+    }
+    //! days view
     .ard-calendar-grid {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
@@ -93,72 +149,31 @@
             color: $text3;
             letter-spacing: 0.5px;
         }
-        .ard-calendar-entry {
-            z-index: 1;
-            cursor: pointer;
-            outline: none;
-
-            .ard-calendar-entry-button {
-                $_margin: 0.125rem;
-                background: transparent;
-                border: 1px solid transparent;
-                width: calc(100% - #{$_margin * 2});
-                height: calc(100% - #{$_margin * 2});
-                padding: 0;
-                position: relative;
-                border-radius: 9999px;
-                cursor: pointer;
-                margin: $_margin;
-
-                .ard-focus-overlay {
-                    @include DM.focus-overlay();
-                    z-index: -1;
-                    background: var(--ard-cmpcl--bg);
-                    border: 2px solid transparent;
-                    transition: border-color 0.2s ease, opacity 0.2s ease;
-                }
-            }
-            &.ard-calendar-entry-empty {
-                cursor: default;
-            }
-            &.ard-calendar-today {
-                .ard-calendar-entry-button {
-                    border-color: $detail;
-                }
-            }
-            &.ard-calendar-entry-highlighted {
-                .ard-focus-overlay {
-                    opacity: 20%;
-                }
-            }
-            &.ard-calendar-entry-selected {
-                .ard-calendar-entry-button {
-                    color: var(--ard-cmpcl--on-bg);
-                }
-                .ard-focus-overlay {
-                    opacity: 100%;
-                }
-
-                &.ard-calendar-today {
-                    .ard-focus-overlay {
-                        border-color: $bg;
-                    }
-                }
-            }
+    }
+    //! years & months view
+    .ard-calendar-simple-grid {
+        border-top: 1px solid $detail-light;
+        margin-top: 0.25rem;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(6, 1fr);
+        
+        > * {
+            max-width: 100%;
+            box-sizing: border-box;
+            aspect-ratio: 7/4;  //it has to be the same height as in the days view
+                                //before it was 7/7 (1) because there are 7 entries in a single row
+                                //now there are 4 entries, and thus 7/4
         }
     }
+    //! interactions
     &.ard-calendar-nointeract {
         .ard-calendar-main-container {
             pointer-events: none;
         }
     }
+    //! static height
     &.ard-calendar-static-height {
-        .ard-calendar-main-grid {
-            grid-template-rows: repeat(6, 1fr);
-
-            &.ard-reserve-top-row {
-                grid-template-rows: repeat(5, 1fr);
-            }
-        }
+        height: 20.5rem;
     }
 }
