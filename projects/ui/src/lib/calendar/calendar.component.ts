@@ -7,6 +7,7 @@ import { toCalendarArray } from './calendar.helpers';
 import { ActiveCalendarView, CalendarActionButtonsContext, CalendarDayContext, CalendarDaysViewHeaderContext, CalendarFloatingMonthContext, CalendarMonthContext, CalendarMonthsViewHeaderContext, CalendarWeekdayContext, CalendarYearContext, CalendarYearsViewHeaderContext, DateRange } from './calendar.types';
 import { isDefined } from 'simple-bool';
 import { isNull } from 'simple-bool';
+import { roundToMultiple } from 'more-rounding';
 
 function isLeapYear(year: number): boolean {
     return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
@@ -24,6 +25,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     ngOnInit(): void {
         this._updateCalendarArray();
         this._updateWeekdayArray();
+        this._updateDisplayedYearRangeStart();
     }
 
     //! determining today state
@@ -84,17 +86,21 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     }
 
     //! open year & month setters
-    get activeYearRangeStart(): number {
+    displayedYearRangeStart!: number;
+
+    _updateDisplayedYearRangeStart(forcedYear?: number): void {
+        if (isDefined(forcedYear)) this.displayedYearRangeStart = forcedYear;
+
         const year = this.activeYear;
         const yearModulo = year % 4;
         //this keeps the active year always in the third line
-        return year - yearModulo - 8;
+        this.displayedYearRangeStart = year - yearModulo - 8;
     }
 
     yearRangeArrayCache: number[] | null = null;
     get yearRangeArray(): number[] {
         if (!this.yearRangeArrayCache) {
-            let yearRangeStart = this.activeYearRangeStart;
+            let yearRangeStart = this.displayedYearRangeStart;
             const newArray = new Array(24).map(() => yearRangeStart++);
             this.yearRangeArrayCache = newArray;
         }
@@ -212,6 +218,18 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
         this._highlightedDay = date.getDate();
     }
 
+    setHighlightedDayAdjustDate(day: number): void {
+        this.highlightedDay = day;
+        
+        const date = new Date(this.activeYear, this.activeMonth, day);
+
+        if (this.activeYear != date.getFullYear())
+            this.activeYear = date.getFullYear();
+        
+        if (this.activeMonth != date.getMonth())
+            this.activeMonth = date.getMonth();
+    }
+
     private _highlightedMonth: number | null = null;
     get highlightedMonth(): number | null { return this._highlightedMonth; }
     set highlightedMonth(v: number | null) {
@@ -223,10 +241,30 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
         this._highlightedMonth = date.getMonth();
     }
 
+    setHighlightedMonthAdjustDate(month: number): void {
+        this.highlightedMonth = month;
+
+        const date = new Date(this.activeYear, month, 1);
+
+        if (this.activeYear != date.getFullYear())
+            this.activeYear = date.getFullYear();
+    }
+
     private _highlightedYear: number | null = null;
     get highlightedYear(): number | null { return this._highlightedYear; }
     set highlightedYear(v: number | null) {
         this._highlightedYear = v;
+    }
+
+    setHighlightedYearAdjustPage(year: number): void {
+        this.highlightedYear = year;
+
+        if (year < this.displayedYearRangeStart || year >= this.displayedYearRangeStart + 24) {
+            //add the difference between the highlighted year and the displayed range start year
+            //rounded to a multiple of 24, away from the number zero
+            //the difference may be negative, if the first if condition is met
+            this.displayedYearRangeStart += roundToMultiple(year - this.displayedYearRangeStart, 24, 'from_zero');
+        }
     }
 
     get currentAriaLabel(): string {
@@ -302,13 +340,13 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     }
 
     onYearGridFocus(): void {
-        this.highlightedYear = this.activeYearRangeStart;
+        this.highlightedYear = this.displayedYearRangeStart;
     }
     onYearGridBlur(): void {
         this.highlightedYear = null;
     }
     onYearGridClick(): void {
-        this.highlightedYear ??= this.activeYearRangeStart;
+        this.highlightedYear ??= this.displayedYearRangeStart;
     }
 
     //! main grid keyboard controls
@@ -571,28 +609,37 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     }
     //next/prev highlighting
     highlightNextDay(offset: number = 1): void {
-        if (this.highlightedDay) this.highlightedDay += offset;
-        else this.highlightedDay = 1;
+        const currentDay = this.highlightedDay;
+        if (!isDefined(currentDay)) {
+            this.highlightedDay = 1;
+            return;
+        }
+        this.setHighlightedDayAdjustDate(currentDay + offset);
     }
     highlightPreviousDay(offset: number = 1): void {
-        if (this.highlightedDay) this.highlightedDay -= offset;
-        else this.highlightedDay = 1;
+        this.highlightNextDay(offset * -1);
     }
     highlightNextMonth(offset: number = 1): void {
-        if (this.highlightedMonth) this.highlightedMonth += offset;
-        else this.highlightedMonth = 0;
+        const currentMonth = this.highlightedMonth;
+        if (!isDefined(currentMonth)) {
+            this.highlightedMonth = 0;
+            return;
+        }
+        this.setHighlightedMonthAdjustDate(currentMonth + offset);
     }
     highlightPreviousMonth(offset: number = 1): void {
-        if (this.highlightedMonth) this.highlightedMonth -= offset;
-        else this.highlightedMonth = 0;
+        this.highlightNextMonth(offset * -1);
     }
     highlightNextYear(offset: number = 1): void {
-        if (this.highlightedYear) this.highlightedYear += offset;
-        else this.highlightedYear = this.activeYearRangeStart;
+        const currentYear = this.highlightedYear;
+        if (!isDefined(currentYear)) {
+            this.highlightedYear = 0;
+            return;
+        }
+        this.setHighlightedYearAdjustPage(currentYear + offset);
     }
     highlightPreviousYear(offset: number = 1): void {
-        if (this.highlightedYear) this.highlightedYear -= offset;
-        else this.highlightedYear = this.activeYearRangeStart;
+        this.highlightNextYear(offset * -1);
     }
     //first/last highlighting
     highlightFirstDay(): void {
@@ -627,12 +674,12 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
         this.highlightedMonth = 11;
     }
     highlightFirstYear(): void {
-        this.highlightedYear = this.activeYearRangeStart;
+        this.highlightedYear = this.displayedYearRangeStart;
     }
     highlightLastYear(): void {
-        this.highlightedYear = this.activeYearRangeStart + 23; //24 years per page
+        this.highlightedYear = this.displayedYearRangeStart + 23; //24 years per page
     }
-    //same day nextprev month/year
+    //same day next/prev month/year
     highlightSameDayNextMonth(): void {
         this.activeMonth++;
 
@@ -696,12 +743,20 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     }
     //same year next/prev page(s)
     highlightSameYearNextPage(multiple: boolean): void {
-        if (this.highlightedYear) this.highlightedYear += multiple ? 60 : 24;
-        else this.highlightedYear = this.activeYearRangeStart;
+        if (!isDefined(this.highlightedYear)) {
+            this.highlightedYear = this.displayedYearRangeStart;
+            return;
+        }
+
+        this.setHighlightedYearAdjustPage(this.highlightedYear + (multiple ? 60 : 24))
     }
     highlightSameYearPreviousPage(multiple: boolean): void {
-        if (this.highlightedYear) this.highlightedYear -= multiple ? 60 : 24;
-        else this.highlightedYear = this.activeYearRangeStart;
+        if (!isDefined(this.highlightedYear)) {
+            this.highlightedYear = this.displayedYearRangeStart;
+            return;
+        }
+
+        this.setHighlightedYearAdjustPage(this.highlightedYear - (multiple ? 60 : 24))
     }
 
 
@@ -745,8 +800,8 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     //years view array
     private _yearsArrayCache: number[] | null = null;
     private _yearsArrayCacheStartYear: number | null = null;
-    getYearsArray(start: number | Date): number[] {
-        const year = start instanceof Date ? start.getFullYear() : start;
+    getYearsArray(): number[] {
+        const year = this.displayedYearRangeStart;
 
         if (
             this._yearsArrayCacheStartYear == year
@@ -781,6 +836,8 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
 
     openYearsView(): void {
         this.activeView = ActiveCalendarView.Years;
+
+        this._updateDisplayedYearRangeStart();
 
         this.activeYearChange.emit(undefined);
     }
@@ -826,7 +883,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     //! context getters
     //headers
     getYearsViewHeaderContext(): CalendarYearsViewHeaderContext {
-        const yearRangeStart = this.activeYearRangeStart;
+        const yearRangeStart = this.displayedYearRangeStart;
         const yearRangeEnd = yearRangeStart + 23;
         const dateRange: DateRange = {
             low: new Date(yearRangeStart, 0, 1),

@@ -35,7 +35,7 @@
         />
     </div>
     <div class="ard-calendar-main-container">
-        <div
+        <div #focusableElement
             class="ard-calendar-simple-grid"
             [tabindex]="tabIndex"
             [ariaLabel]="currentAriaLabel"
@@ -47,7 +47,7 @@
             (keydown)="onMainGridKeydown($event)"
             role="grid"
         >
-            <ng-container *ngFor="let year of getYearsArray(activeYearRangeStart)">
+            <ng-container *ngFor="let year of getYearsArray()">
                 <div class="ard-calendar-entry"
                     [class.ard-calendar-entry-highlighted]="highlightedYear == year || activeYear == year"
                     [class.ard-calendar-entry-selected]="isYearSelected(year)"
@@ -57,10 +57,7 @@
                     (mouseover)="onCalendarYearMouseover(year)"
                     role="gridcell"
                 >
-                    <button class="ard-calendar-entry-button"
-                        *ngIf="year != null"
-                        tabindex="-1"
-                    >
+                    <button class="ard-calendar-entry-button" tabindex="-1">
                         <div class="ard-focus-overlay"></div>
                         <div class="ard-button-content">
                             <ng-template #defaultYearTemplate let-year>
@@ -101,7 +98,7 @@
         />
     </div>
     <div class="ard-calendar-main-container">
-        <div
+        <div #focusableElement
             class="ard-calendar-simple-grid"
             [tabindex]="tabIndex"
             [ariaLabel]="currentAriaLabel"
@@ -123,10 +120,7 @@
                     (mouseover)="onCalendarMonthMouseover(month)"
                     role="gridcell"
                 >
-                    <button class="ard-calendar-entry-button"
-                        *ngIf="month != null"
-                        tabindex="-1"
-                    >
+                    <button class="ard-calendar-entry-button" tabindex="-1">
                         <div class="ard-focus-overlay"></div>
                         <div class="ard-button-content">
                             <ng-template #defaultMonthTemplate let-month>
@@ -186,7 +180,7 @@
                 ></ng-template>
             </ng-container>
         </div>
-        <div
+        <div #focusableElement
             class="ard-calendar-main-grid ard-calendar-grid"
             [class.ard-reserve-top-row]="reserveTopRow"
             [tabindex]="tabIndex"

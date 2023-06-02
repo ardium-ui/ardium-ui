@@ -7,6 +7,7 @@
     @include CM.typeColors();
     width: 18.5rem;
     background: $bg;
+    user-select: none;
 
     .ard-calendar-header-container {
         display: flex;
