@@ -1,13 +1,12 @@
-import { ChangeDetectionStrategy, Component, ContentChild, Input, OnInit, Output, TemplateRef, ViewEncapsulation, EventEmitter, HostListener, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ContentChild, EventEmitter, HostListener, Input, OnInit, Output, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { roundToMultiple } from 'more-rounding';
+import { isDefined, isNull } from 'simple-bool';
 import { ComponentColor } from '../types/colors.types';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
-import { ArdActionButtonsTemplateDirective, ArdDaysViewHeaderTemplateDirective, ArdDayTemplateDirective, ArdFloatingMonthTemplateDirective, ArdMonthsViewHeaderTemplateDirective, ArdMonthTemplateDirective, ArdWeekdayTemplateDirective, ArdYearsViewHeaderTemplateDirective, ArdYearTemplateDirective } from './calendar.directives';
+import { ArdDaysViewHeaderTemplateDirective, ArdDayTemplateDirective, ArdFloatingMonthTemplateDirective, ArdMonthsViewHeaderTemplateDirective, ArdMonthTemplateDirective, ArdWeekdayTemplateDirective, ArdYearsViewHeaderTemplateDirective, ArdYearTemplateDirective } from './calendar.directives';
 import { toCalendarArray } from './calendar.helpers';
-import { ActiveCalendarView, CalendarActionButtonsContext, CalendarDayContext, CalendarDaysViewHeaderContext, CalendarFloatingMonthContext, CalendarMonthContext, CalendarMonthsViewHeaderContext, CalendarWeekdayContext, CalendarYearContext, CalendarYearsViewHeaderContext, DateRange } from './calendar.types';
-import { isDefined } from 'simple-bool';
-import { isNull } from 'simple-bool';
-import { roundToMultiple } from 'more-rounding';
+import { ActiveCalendarView, CalendarDayContext, CalendarDaysViewHeaderContext, CalendarFloatingMonthContext, CalendarMonthContext, CalendarMonthsViewHeaderContext, CalendarWeekdayContext, CalendarYearContext, CalendarYearsViewHeaderContext, DateRange } from './calendar.types';
 
 function isLeapYear(year: number): boolean {
     return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
@@ -883,8 +882,6 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     @ContentChild(ArdYearTemplateDirective) yearTemplate?: TemplateRef<CalendarYearContext>;
     @ContentChild(ArdMonthTemplateDirective) monthTemplate?: TemplateRef<CalendarMonthContext>;
     @ContentChild(ArdDayTemplateDirective) dayTemplate?: TemplateRef<CalendarDayContext>;
-    //action buttons
-    @ContentChild(ArdActionButtonsTemplateDirective) actionButtonsTemplate?: TemplateRef<CalendarActionButtonsContext>;
 
     //! context getters
     //headers
@@ -971,14 +968,6 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
             date: new Date(this.activeYear, this.activeMonth, day),
             $implicit: day,
             select: (day: number | Date) => { this.selectDay(day); },
-        }
-    }
-    //action buttons
-    getActionButtonsContext(): CalendarActionButtonsContext {
-        return {
-            cancel: () => { }, //TODO
-            apply: () => { }, //TODO
-            reset: () => { this.reset(); },
         }
     }
 }

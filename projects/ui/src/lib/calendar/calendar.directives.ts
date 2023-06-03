@@ -40,8 +40,3 @@ export class ArdMonthTemplateDirective {
 export class ArdDayTemplateDirective {
     constructor(public template: TemplateRef<CalendarDayContext>) { }
 }
-
-@Directive({ selector: 'ard-calendar > ng-template[ard-action-buttons-tmp], ard-datepicker > ng-template[ard-action-buttons-tmp]' })
-export class ArdActionButtonsTemplateDirective {
-    constructor(public template: TemplateRef<CalendarActionButtonsContext>) { }
-}
