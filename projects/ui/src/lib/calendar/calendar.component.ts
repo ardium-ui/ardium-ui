@@ -196,10 +196,6 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
 
     @Output('change') changeEvent = new EventEmitter<Date | null>();
 
-    @Output('reset') resetEvent = new EventEmitter<any>();
-    @Output('cancel') cancelEvent = new EventEmitter<any>();
-    @Output('apply') applyEvent = new EventEmitter<Date | null>();
-
     private _emitChange(): void {
         const v = this.selected;
         this._onChangeRegistered?.(v);
@@ -517,24 +513,6 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
         }
     }
     //! manipulation methods
-    cancel(): void {
-        this.selectYear(null);
-        this.selectMonth(null);
-        this.selectDay(null);
-
-        this.cancelEvent.emit();
-    }
-    apply(): void {
-        this.selectDay(this.highlightedDay);
-
-        this.applyEvent.emit();
-    }
-    reset(): void {
-        this.selectYear(this.todayDate);
-        this.selectMonth(this.todayDate);
-        this.selectDay(null);
-        this.highlightedDay = this.todayDate.getDate();
-    }
     //selecting
     selectDay(day: number | Date | null): void {
         if (this.isDaySelected(day)) return;
