@@ -86,15 +86,17 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     }
 
     //! open year & month setters
-    displayedYearRangeStart!: number;
+    private readonly todayYearRangeStart: number = this.todayDate.getFullYear() - (this.todayDate.getFullYear() % 4) - 8;
+    
+    displayedYearRangeStart: number = this.todayYearRangeStart;
 
-    _updateDisplayedYearRangeStart(forcedYear?: number): void {
+    private _updateDisplayedYearRangeStart(forcedYear?: number): void {
         if (isDefined(forcedYear)) this.displayedYearRangeStart = forcedYear;
 
-        const year = this.activeYear;
-        const yearModulo = year % 4;
-        //this keeps the active year always in the third line
-        this.displayedYearRangeStart = year - yearModulo - 8;
+        //add the difference between the active year and the start of the range for the current year
+        //rounded to a multiple of 24, towards the number zero
+        //the difference may be negative, if the active year is before todayYearRangeStart
+        this.displayedYearRangeStart = this.todayYearRangeStart + roundToMultiple(this.activeYear - this.todayYearRangeStart, 24, 'to_zero');
     }
 
     yearRangeArrayCache: number[] | null = null;
@@ -107,7 +109,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
         return this.yearRangeArrayCache;
     }
 
-    protected _activeDate: Date = new Date();
+    protected _activeDate: Date = new Date(this.todayDate.getFullYear(), this.todayDate.getMonth(), this.todayDate.getDate());
     set activeDate(v: Date | string | number) {
         const newDate = new Date(v);
         if (this.activeYear != newDate.getFullYear()) this.yearRangeArrayCache = null;
@@ -607,6 +609,10 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
 
         this.activeYearChange.emit(this.activeYear);
     }
+    //changing year page
+    changeYearsViewPage(pages: number): void {
+        this.displayedYearRangeStart += 24 * pages;
+    }
     //next/prev highlighting
     highlightNextDay(offset: number = 1): void {
         const currentDay = this.highlightedDay;
@@ -890,8 +896,8 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
             high: new Date(yearRangeEnd, 0, 1),
         };
         return {
-            nextPage: () => { this.changeYear(+24); },
-            prevPage: () => { this.changeYear(-24); },
+            nextPage: () => { this.changeYearsViewPage(+1); },
+            prevPage: () => { this.changeYearsViewPage(-1); },
             openDaysView: () => { this.openDaysView(); },
             yearRange: {
                 low: yearRangeStart,
