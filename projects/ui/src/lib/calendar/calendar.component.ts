@@ -5,7 +5,7 @@ import { isDefined, isNull } from 'simple-bool';
 import { ComponentColor } from '../types/colors.types';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ArdDaysViewHeaderTemplateDirective, ArdDayTemplateDirective, ArdFloatingMonthTemplateDirective, ArdMonthsViewHeaderTemplateDirective, ArdMonthTemplateDirective, ArdWeekdayTemplateDirective, ArdYearsViewHeaderTemplateDirective, ArdYearTemplateDirective } from './calendar.directives';
-import { toCalendarArray } from './calendar.helpers';
+import { getMonthLayout } from './calendar.helpers';
 import { ActiveCalendarView, CalendarDayContext, CalendarDaysViewHeaderContext, CalendarFloatingMonthContext, CalendarMonthContext, CalendarMonthsViewHeaderContext, CalendarWeekdayContext, CalendarYearContext, CalendarYearsViewHeaderContext, DateRange } from './calendar.types';
 
 function isLeapYear(year: number): boolean {
@@ -793,7 +793,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     reserveTopRow!: boolean;
 
     protected _updateCalendarArray(): void {
-        const resultObj = toCalendarArray(this._activeDate, this.firstWeekday);
+        const resultObj = getMonthLayout(this._activeDate, this.firstWeekday);
 
         this.reserveTopRow = resultObj.leadingSpaces <= 3;
         this.calendarArray = resultObj.array;
