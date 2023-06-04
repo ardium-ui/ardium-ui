@@ -1,3 +1,4 @@
+import { ThisReceiver } from '@angular/compiler';
 import { ChangeDetectionStrategy, Component, ContentChild, EventEmitter, HostListener, Input, OnInit, Output, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { roundToMultiple } from 'more-rounding';
@@ -299,6 +300,9 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
         if (day == null) return;
 
         this.selectDay(day);
+
+        this.focus();
+        this.highlightedDay = day;
     }
     onCalendarMonthClick(month: number): void {
         this.selectMonth(month);
