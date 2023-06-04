@@ -1,4 +1,5 @@
 import { ThisReceiver } from '@angular/compiler';
+import { OnChanges, SimpleChanges } from '@angular/core';
 import { ChangeDetectionStrategy, Component, ContentChild, EventEmitter, HostListener, Input, OnInit, Output, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { roundToMultiple } from 'more-rounding';
@@ -20,12 +21,25 @@ function isLeapYear(year: number): boolean {
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ArdiumCalendarComponent extends _NgModelComponentBase implements OnInit {
+export class ArdiumCalendarComponent extends _NgModelComponentBase implements OnInit, OnChanges {
 
     ngOnInit(): void {
         this._updateCalendarArray();
         this._updateWeekdayArray();
         this._updateDisplayedYearRangeStart();
+    }
+    private _wasSelectedChecked: boolean = false;
+    ngOnChanges(changes: SimpleChanges): void {
+        if (this._wasSelectedChecked) return;
+        this._wasSelectedChecked = true;
+
+        if (changes['selected']) {
+
+            const v = this.selected;
+            if (isNull(v)) return;
+
+            this.activeDate = new Date(v.getFullYear(), v.getMonth(), 1);
+        }
     }
 
     //! determining today state
@@ -142,6 +156,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     }
     //! selection functions
     protected _selected: Date | null = null;
+    @Input()
     set selected(v: any) {
         this.writeValue(v);
     }
