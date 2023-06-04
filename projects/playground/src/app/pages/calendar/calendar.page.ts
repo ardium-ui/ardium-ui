@@ -8,6 +8,7 @@ import { Logger } from '../../services/logger.service';
 })
 export class CalendarPage {
 
+    selectedDate: Date = new Date(2024, 0, 1);
 
     constructor(private LoggerService: Logger) {}
     log = this.LoggerService.log;

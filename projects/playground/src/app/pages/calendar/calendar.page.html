@@ -1,5 +1,18 @@
-<div class="master">
-    <ard-calendar
-        (selectedChange)="log('selectedChange', $event?.toDateString())"
-    ></ard-calendar>
+<div class="flex horiz page-grid">
+    <div class="master">
+        <span class="title">Most basic calendar</span>
+        <ard-calendar></ard-calendar>
+    </div>
+    <div class="master">
+        <span class="title">Calendar color</span>
+        <ard-calendar color="danger"></ard-calendar>
+    </div>
+    <div class="master">
+        <span class="title">Calendar active date</span>
+        <ard-calendar activeYear="2025" activeMonth="11"></ard-calendar>
+    </div>
+    <div class="master">
+        <span class="title">Calendar with preselected value</span>
+        <ard-calendar [selected]="selectedDate"></ard-calendar>
+    </div>
 </div>
