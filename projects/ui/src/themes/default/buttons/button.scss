@@ -1,6 +1,7 @@
-@import './shared';
+@use './button-mixins' as shared;
 
 .ard-button {
+    @include shared.button;
     background: transparent;
     gap: 6px;
     font-size: 0.875rem;
@@ -36,5 +37,11 @@
             padding: 0.2em 0.8em;
             gap: 0;
         }
+    }
+}
+
+ard-button.ard-disabled {
+    > .ard-button {
+        @include shared.button-disabled;
     }
 }
