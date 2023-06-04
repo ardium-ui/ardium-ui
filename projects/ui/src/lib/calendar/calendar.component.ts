@@ -177,15 +177,6 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
         this._selected = null;
     }
 
-    //! range support
-    getDateRangeClasses(day: number | null): string { //TODO
-        if (day == null) return '';
-
-        return [
-
-        ].join(' ');
-    }
-
     //! output events
     @Output() yearSelected = new EventEmitter<number>();
     @Output() monthSelected = new EventEmitter<number>();

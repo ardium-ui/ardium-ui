@@ -209,7 +209,6 @@
                         [class.ard-calendar-entry-empty]="day == null"
                         [class.ard-calendar-entry-highlighted]="highlightedDay == day"
                         [class.ard-calendar-entry-selected]="isDaySelected(day)"
-                        [ngClass]="getDateRangeClasses(day)"
                         [class.ard-calendar-today]="isDayToday(day)"
                         (click)="onCalendarDayClick(day)"
                         (mousemove)="$event.stopPropagation()"
