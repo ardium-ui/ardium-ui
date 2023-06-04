@@ -16,7 +16,7 @@ import { ItemStorage } from '../_internal/item-storages/dropdown-item-storage';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { FormElementVariant } from './../types/theming.types';
 import { ArdAddCustomTemplateDirective, ArdDropdownFooterTemplateDirective, ArdDropdownHeaderTemplateDirective, ArdItemDisplayLimitTemplateDirective, ArdItemLimitReachedTemplateDirective, ArdLoadingPlaceholderTemplateDirective, ArdLoadingSpinnerTemplateDirective, ArdNoItemsFoundTemplateDirective, ArdOptgroupTemplateDirective, ArdOptionTemplateDirective, ArdSelectPlaceholderTemplateDirective, ArdValueTemplateDirective } from './select.directive';
-import { AddCustomFn, CustomOptionContext, GroupContext, ItemDisplayLimitContext, ItemLimitContext, SearchContext, StatsContext, ValueContext } from './select.types';
+import { AddCustomFn, CustomOptionContext, GroupContext, ItemDisplayLimitContext, ItemLimitContext, PlaceholderContext, SearchContext, StatsContext, ValueContext } from './select.types';
 
 @Component({
     selector: 'ard-select',
@@ -72,6 +72,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     @Input() childrenFrom?: string;
     //! settings
     @Input() placeholder: string = 'Select item';
+    @Input() searchPlaceholder: string = 'Search...';
     @Input() dropdownPosition: ArdPanelPosition = ArdPanelPosition.Auto;
     @Input() clearButtonTitle: string = this.DEFAULTS.clearButtonTitle;
     //! template-related settings
@@ -332,14 +333,12 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         return this.addCustom != false && this.searchTerm.length > 0 && this.itemStorage.isNoItemsFound;
     }
     
-    addCustomOption(value: string): void {
-        console.log('addCustomOption', value);
+    async addCustomOption(value: string) {
         if (!this.addCustom) return;
 
-        this.itemStorage.addCustomOption(value, this.addCustom);
+        const newOptionObj = await this.itemStorage.addCustomOption(value, this.addCustom);
 
-        this._clearSearch();
-        this.close();
+        this.selectItem(newOptionObj);
     }
 
     //! control value accessor
@@ -439,6 +438,13 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
             foundItems: this.foundItems,
         };
     }
+    getPlaceholderContext(): PlaceholderContext {
+        const placeholder = this.placeholderForCurrentContext;
+        return {
+            placeholder,
+            $implicit: placeholder,
+        };
+    }
     getCustomOptionContext(): CustomOptionContext {
         return {
             $implicit: this.searchTerm,
@@ -492,7 +498,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     @ViewChild('dropdownHost', { read: ElementRef }) dropdownHost!: ElementRef<HTMLDivElement>;
     @ViewChild('dropdownTemplate', { read: TemplateRef }) dropdownTemplate!: TemplateRef<any>;
 
-    private dropdownOverlay!: OverlayRef;
+    private dropdownOverlay?: OverlayRef;
 
     private _createOverlay(): void {
         const strategy = this.overlay.position()
@@ -502,8 +508,12 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
                 originY: 'bottom',
                 overlayX: 'start',
                 overlayY: 'top',
-            } as ConnectedPosition])
-            .withPush(false);
+            }, {
+                originX: 'start',
+                originY: 'top',
+                overlayX: 'start',
+                overlayY: 'bottom',
+            }]);
 
         const config = new OverlayConfig({
             positionStrategy: strategy,
@@ -517,8 +527,16 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         this.dropdownOverlay.attach(portal);
         this.setOverlaySize();
     }
+    private _destroyOverlay(): void {
+        if (!this.dropdownOverlay) return;
+
+        this.dropdownOverlay.dispose();
+        delete this.dropdownOverlay;
+    }
 
     setOverlaySize(): void {
+        if (!this.dropdownOverlay) return;
+
         const rect = this.dropdownHost.nativeElement.getBoundingClientRect();
         this.dropdownOverlay.updateSize({ width: rect.width });
     }
@@ -537,8 +555,6 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         this._destroy$.complete();
     }
     ngAfterViewInit(): void {
-        this._createOverlay();
-
         if (this.autoFocus) {
             this.focus();
         }
@@ -639,6 +655,11 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
             this.itemDisplayLimit == Infinity ||
             i < this.itemDisplayLimit
         );
+    }
+    get placeholderForCurrentContext(): string {
+        if (this.searchPlaceholder && this.searchable && (this._searchBarFocused || this._isClickedWithin))
+            return this.searchPlaceholder;
+        return this.placeholder;
     }
 
     //! search input event handlers
@@ -745,10 +766,13 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         event.stopPropagation();
     }
     //! click handlers
+    private _isClickedWithin: boolean = false;
     onItemClick(option: ArdOption, event: MouseEvent): void {
         event.stopPropagation();
         if (this.clearable) this.toggleItem(option);
         else this.selectItem(option);
+
+        this._isClickedWithin = true;
     }
     onGroupClick(group: ArdOptionGroup): void {
         if (!this.multiselectable || this.noGroupActions) return;
@@ -757,6 +781,8 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
             return;
         }
         this.selectItem(...group.children);
+
+        this._isClickedWithin = true;
     }
     handleClearButtonClick(event: MouseEvent): void {
         event.stopPropagation();
@@ -768,6 +794,9 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     }
     handleDropdownArrowClick(event: MouseEvent): void {
         event.stopPropagation();
+
+        this._isClickedWithin = true;
+
         this.toggle();
     }
     handleOutsideClick(event: MouseEvent): void {
@@ -783,6 +812,8 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
             event.preventDefault();
         }
 
+        this._isClickedWithin = true;
+
         if (!this._searchBarFocused) {
             this.focus();
         }
@@ -792,6 +823,10 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         } else {
             this.toggle();
         }
+    }
+    @HostListener('mouseup')
+    onMouseup(): void {
+        this._isClickedWithin = false;
     }
     //! dropdown state handlers
     toggle(): void {
@@ -807,6 +842,9 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         this.isDropdownOpen = true;
         if (this.autoHighlightFirst) this.itemStorage.highlightFirstItem();
 
+        this._createOverlay();
+        this.focus();
+
         this.openEvent.emit();
         this.isDropdownOpenChange.emit(this.isDropdownOpen);
         this.detectChanges();
@@ -815,6 +853,9 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         if (!this.isDropdownOpen) return;
 
         this.isDropdownOpen = false;
+
+        this._destroyOverlay();
+
         this._onTouched();
         this.closeEvent.emit();
         this.isDropdownOpenChange.emit(this.isDropdownOpen);
@@ -890,7 +931,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
             }
         }
     }
-    private _onEnterPress(event: KeyboardEvent): void {
+    private async _onEnterPress(event: KeyboardEvent) {
         event.preventDefault();
         let shouldClose = true;
         
@@ -911,7 +952,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         }
         //add a custom option
         else if (this.isDropdownOpen && this.shouldShowAddCustom) {
-            this.addCustomOption(this.searchTerm);
+            await this.addCustomOption(this.searchTerm);
         }
         //in case of no action, open the dropdown (or keep it open)
         else shouldClose = false;

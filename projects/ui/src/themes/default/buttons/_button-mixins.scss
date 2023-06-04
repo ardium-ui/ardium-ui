@@ -2,8 +2,7 @@
 @use '../coloring' as coloringMixins;
 @import '../../variables';
 
-.ard-button,
-.ard-fab {
+@mixin button {
     @include coloringMixins.typeColors();
     font-family: 'Roboto', sans-serif;
     margin: 2px;
@@ -13,6 +12,7 @@
     align-items: center;
     position: relative;
     cursor: pointer;
+    outline: none;
     
     //* button icon
     .ard-button-icon {
@@ -33,6 +33,11 @@
     &:active {
         .ard-focus-overlay {
             opacity: 12%;
+        }
+    }
+    &:focus-visible {
+        .ard-focus-overlay {
+            opacity: 18%;
         }
     }
     //* button appearances
@@ -85,9 +90,14 @@
 
         transition: background-color 0.2s ease, color 0.2s ease;
         &:hover,
-        &:focus {
+        &:focus,
+        &:focus-visible {
             background: var(--ard-cmpcl--content);
             color: var(--ard-cmpcl--on-bg);
+
+            .ard-focus-overlay {
+                display: none;
+            }
 
             //edge case for no coloring
             &.ard-color-none {
@@ -102,28 +112,36 @@
             }
         }
     }
+    &.ard-appearance-raised-strong,
+    &.ard-appearance-flat {
+        &:focus-visible {
+            outline: solid black;
+        }
+        &:not(.ard-color-none) {
+            .ard-focus-overlay {
+                background: var(--ard-cmpcl--on-bg);
+            }
+        }
+    }
 }
 
 //! disabled state
-.ard-disabled {
-    > .ard-button,
-    > .ard-fab {
-        pointer-events: none;
-        opacity: 60%;
+@mixin button-disabled {
+    pointer-events: none;
+    opacity: 60%;
 
-        .ard-focus-overlay {
-            opacity: 20%;
+    .ard-focus-overlay {
+        opacity: 20%;
+    }
+
+    //edge case for no coloring
+    &.ard-color-none {
+        .ard-button-icon,
+        .ard-button-content {
+            opacity: 60%;
         }
-
-        //edge case for no coloring
-        &.ard-color-none {
-            .ard-button-icon,
-            .ard-button-content {
-                opacity: 60%;
-            }
-            .ard-focus-overlay {
-                background: var(--ard-cmpcl--overlay);
-            }
+        .ard-focus-overlay {
+            background: var(--ard-cmpcl--overlay);
         }
     }
 }

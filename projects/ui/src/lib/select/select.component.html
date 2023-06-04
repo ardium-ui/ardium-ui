@@ -6,13 +6,13 @@
 >
     <div class="ard-select-value-container">
         <ng-container *ngIf="shouldDisplayPlaceholder">
-            <ng-template #defaultPlaceholderTemplate>
-                <span class="ard-placeholder">{{ placeholder }}</span>
+            <ng-template #defaultPlaceholderTemplate let-plhldr>
+                <span class="ard-placeholder">{{ plhldr }}</span>
             </ng-template>
 
             <ng-template
                 [ngTemplateOutlet]="placeholderTemplate || defaultPlaceholderTemplate"
-                [ngTemplateOutletContext]="getStatsContext()"
+                [ngTemplateOutletContext]="getPlaceholderContext()"
             ></ng-template>
         </ng-container>
 
@@ -113,7 +113,7 @@
         [footerTemplate]="dropdownFooterTemplate"
         [appearance]="dropdownAppearance"
         [variant]="dropdownVariant"
-        [isOpen]="isDropdownOpen"
+        [isOpen]="true"
         [filterValue]="searchTerm"
         [panelId]="htmlId"
         [compact]="compact"

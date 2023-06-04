@@ -1,10 +1,11 @@
-@import './shared';
+@use './button-mixins' as shared;
 
 ard-fab {
     margin: 8px;
 }
 
 .ard-fab {
+    @include shared.button;
     height: var(--ard-fab-size);
     width: var(--ard-fab-size);
     font-weight: 900;
@@ -24,5 +25,11 @@ ard-fab {
     &.ard-fab-size-small {
         --ard-fab-size: 2.5rem;
         font-size: 1.3rem;
+    }
+}
+
+ard-button.ard-disabled {
+    > .ard-button {
+        @include shared.button-disabled;
     }
 }

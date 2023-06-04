@@ -25,4 +25,21 @@ export class SelectPage implements OnInit {
 
     //* color search fn
     readonly colorSearchFn = ArdSearchFunction.byLabelAndGroup;
+
+    //* add custom fn
+    readonly addCustomFn = (search: string) => {
+        return { value: { value: search, custom: true }, label: search };
+    }
+
+    isFetchingFromBackend: boolean = false;
+    readonly addCustomBackendFn = (search: string) => {
+        return new Promise<any>(resolve => {
+            this.isFetchingFromBackend = true;
+
+            setTimeout(() => {
+                this.isFetchingFromBackend = false;
+                resolve(search);
+            }, 1000);
+        })
+    }
 }

@@ -1,6 +1,6 @@
 import { Directive, TemplateRef } from "@angular/core";
 import { OptionContext } from "../types/item-storage.types";
-import { CustomOptionContext, GroupContext, ItemDisplayLimitContext, ItemLimitContext, SearchContext, StatsContext, ValueContext } from "./select.types";
+import { CustomOptionContext, GroupContext, ItemDisplayLimitContext, ItemLimitContext, PlaceholderContext, SearchContext, StatsContext, ValueContext } from "./select.types";
 
 //public (exported)
 @Directive({ selector: 'ng-template[ard-value-tmp]' })
@@ -25,7 +25,7 @@ export class ArdOptgroupTemplateDirective {
 
 @Directive({ selector: 'ng-template[ard-placeholder-tmp]' })
 export class ArdSelectPlaceholderTemplateDirective {
-    constructor(public template: TemplateRef<StatsContext>) {}
+    constructor(public template: TemplateRef<PlaceholderContext>) {}
 }
 
 @Directive({ selector: 'ng-template[ard-loading-spinner-tmp]' })
