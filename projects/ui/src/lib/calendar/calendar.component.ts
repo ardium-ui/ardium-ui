@@ -754,11 +754,11 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
 
 
     //! settings
-    protected _firstWeekday: number = 0;
+    protected _firstWeekday: number = 1;
     @Input()
     get firstWeekday(): number { return this._firstWeekday; }
     set firstWeekday(v: any) {
-        this._firstWeekday = coerceNumberProperty(v, 0) % 7;
+        this._firstWeekday = coerceNumberProperty(v, 1) % 7;
 
         this._updateCalendarArray();
         this._updateWeekdayArray();
@@ -783,7 +783,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     protected _updateCalendarArray(): void {
         const resultObj = getMonthLayout(this._activeDate, this.firstWeekday);
 
-        this.reserveTopRow = resultObj.leadingSpaces <= 3;
+        this.reserveTopRow = resultObj.leadingSpaces < 3;
         this.calendarArray = resultObj.array;
     }
 
