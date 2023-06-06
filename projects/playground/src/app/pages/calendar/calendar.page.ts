@@ -10,6 +10,8 @@ export class CalendarPage {
 
     selectedDate: Date = new Date(2024, 0, 1);
 
+    eventsCalendarDate: Date | null = null;
+
     constructor(private LoggerService: Logger) {}
     log = this.LoggerService.log;
 }

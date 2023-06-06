@@ -15,4 +15,26 @@
         <span class="title">Calendar with preselected value</span>
         <ard-calendar [selected]="selectedDate"></ard-calendar>
     </div>
+    <div class="master">
+        <span class="title">Nointeract calendar</span>
+        <ard-calendar nointeract></ard-calendar>
+    </div>
+    <div class="master">
+        <span class="title">Static height calendar</span>
+        <ard-calendar staticHeight></ard-calendar>
+    </div>
+    <div class="master">
+        <span class="title">Calendar events</span>
+        <ard-calendar
+            [(ngModel)]="eventsCalendarDate"
+            (selectedChange)="log('selectedChange', $event)"
+            (ngModelChange)="log('ngModelChange', $event)"
+            (change)="log('change', $event)"
+            (viewChange)="log('viewChange', $event)"
+            (activeMonthChange)="log('activeMonthChange', $event)"
+            (activeYearChange)="log('activeYearChange', $event)"
+            (yearSelected)="log('yearSelected', $event)"
+            (monthSelected)="log('monthSelected', $event)"
+        ></ard-calendar>
+    </div>
 </div>
