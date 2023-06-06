@@ -17,12 +17,12 @@ export type YearRange = {
     high: number,
 }
 
-export const ActiveCalendarView = {
+export const CalendarView = {
     Years: 'years',
     Months: 'months',
     Days: 'days',
 } as const;
-export type ActiveCalendarView = typeof ActiveCalendarView[keyof typeof ActiveCalendarView];
+export type CalendarView = typeof CalendarView[keyof typeof CalendarView];
 
 
 //! template contexts
