@@ -847,7 +847,6 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
         this._updateDisplayedYearRangeStart();
 
         this.viewChange.emit(this.activeView);
-        this.activeYearChange.emit(undefined);
     }
     openMonthsView(): void {
         this.activeView = CalendarView.Months;
@@ -859,7 +858,6 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
         this.viewChange.emit(this.activeView);
         if (oldYear != this.activeYear && this.activeYear == this.todayDate.getFullYear())
             this.activeYearChange.emit(this.activeYear);
-        this.activeMonthChange.emit(undefined);
     }
     openDaysView(): void {
         this.activeView = CalendarView.Days;
