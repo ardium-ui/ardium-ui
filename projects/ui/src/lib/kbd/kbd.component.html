@@ -1,4 +1,4 @@
-<kbd class="ard-kbd">{{ key ?? contentWrapper.innerText | kbd: !full }}</kbd>
+<kbd class="ard-kbd" [ngClass]="ngClasses">{{ key ?? contentWrapper.innerText | kbd: !full }}</kbd>
 
 <div #contentWrapper class="ard-kbd-content-wrapper">
     <ng-content></ng-content>

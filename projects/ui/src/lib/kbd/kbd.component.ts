@@ -1,5 +1,6 @@
-import { AfterContentChecked, AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { FormElementAppearance } from './../types/theming.types';
 
 @Component({
   selector: 'ard-kbd',
@@ -22,4 +23,13 @@ export class ArdiumKbdComponent implements AfterViewInit {
     @Input()
     get full(): boolean { return this._full; }
     set full(v: any) { this._full = coerceBooleanProperty(v); }
+
+    //! appearance
+    @Input() appearance: FormElementAppearance = FormElementAppearance.Filled;
+
+    get ngClasses(): string {
+        return [
+            `ard-appearance-${this.appearance}`,
+        ].join(' ');
+    }
 }
