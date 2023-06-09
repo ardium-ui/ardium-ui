@@ -23,3 +23,18 @@
         <ard-kbd full>mute</ard-kbd>
     </div>
 </div>
+<div class="master">
+    <span class="title">Kbd font size</span>
+    <div>
+        <ard-kbd class="large-kbd">Ctrl</ard-kbd>
+    </div>
+</div>
+<div class="master">
+    <span class="title">Kbd appearances</span>
+    <div class="flex">
+        <div class="flex horiz" *ngFor="let appearance of appearances">
+            <ard-kbd [appearance]="appearance">Ctrl</ard-kbd>
+            <span class="mono">{{ appearance }}</span>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormElementAppearance } from '@ardium-ui/ui';
 
 @Component({
   selector: 'app-kbd',
@@ -6,6 +7,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   styleUrls: ['./kbd.page.scss']
 })
 export class KbdPage implements OnInit, OnDestroy {
+
+    appearances: FormElementAppearance[] = Object.values(FormElementAppearance);
 
     readonly keys: string[] = [
         'A',
