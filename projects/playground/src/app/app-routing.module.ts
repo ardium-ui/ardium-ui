@@ -10,6 +10,7 @@ import { FabPage } from './pages/fab/fab.page';
 import { HomePage } from './pages/home/home.page';
 import { IconPage } from './pages/icon/icon.page';
 import { InputsPage } from './pages/inputs/inputs.page';
+import { KbdPage } from './pages/kbd/kbd.page';
 import { SegmentPage } from './pages/segment/segment.page';
 import { SelectPage } from './pages/select/select.page';
 import { SlideTogglePage } from './pages/slide-toggle/slide-toggle.page';
@@ -32,6 +33,7 @@ const routes: Routes = [
     { path: 'color-display', component: ColorDisplayPage },
     { path: 'color-picker', component: ColorPickerPage },
     { path: 'calendar', component: CalendarPage },
+    { path: 'kbd', component: KbdPage },
     { path: 'sliders', component: SlidersPage, loadChildren: () => import('./pages/sliders/sliders.module').then(m => m.SlidersModule) },
     { path: 'inputs', component: InputsPage, loadChildren: () => import('./pages/inputs/inputs.module').then(m => m.InputsModule) },
     //redirects
