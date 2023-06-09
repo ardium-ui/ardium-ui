@@ -93,6 +93,10 @@ export * from './lib/color/color-picker/color-picker.types';
 export * from './lib/calendar/calendar.module';
 export * from './lib/calendar/calendar.component';
 export * from './lib/calendar/calendar.types';
+//kbd
+export * from './lib/kbd/kbd.module';
+export * from './lib/kbd/kbd.component';
+export * from './lib/kbd/kbd.pipe';
 //! types
 export * from './lib/types/alignment.types';
 export * from './lib/types/colors.types';

@@ -1,0 +1,13 @@
+@import '../variables';
+
+.ard-kbd {
+    border: 1px solid $detail-light;
+    box-shadow: inset 0 -1px 0 $darken-overlay;
+    border-radius: 0.2em;
+    font-family: monospace;
+    font-size: 0.7rem;
+    padding: 0.15em 0.35em;
+    margin: 0 0.125em;
+    background: $bg-d;
+    color: $text2;
+}
