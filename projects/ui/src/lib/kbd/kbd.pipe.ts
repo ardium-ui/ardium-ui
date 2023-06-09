@@ -6,7 +6,7 @@ import { keyToString } from 'key-display-names';
 })
 export class ArdiumKbdPipe implements PipeTransform {
 
-    transform(value: string, useShort: boolean): string {
+    transform(value: string, useShort?: boolean): string {
         return keyToString(value, useShort);
     }
 
