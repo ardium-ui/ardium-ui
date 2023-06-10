@@ -97,6 +97,9 @@ export * from './lib/calendar/calendar.types';
 export * from './lib/kbd/kbd.module';
 export * from './lib/kbd/kbd.component';
 export * from './lib/kbd/kbd.pipe';
+//kbd-shortcut
+export * from './lib/kbd-shortcut/kbd-shortcut.module';
+export * from './lib/kbd-shortcut/kbd-shortcut.component';
 //! types
 export * from './lib/types/alignment.types';
 export * from './lib/types/colors.types';

@@ -1,0 +1,13 @@
+
+
+.ard-kbd-shortcut {
+    font-family: monospace;
+    color: $text2;
+
+    > span {
+        font-size: 0.9em;
+    }
+    &.ard-appearance-transparent > span {
+        font-size: 0.75em;
+    }
+}
