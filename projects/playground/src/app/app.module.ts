@@ -21,6 +21,7 @@ import { StateboxModule } from './pages/statebox/statebox.module';
 import { ColorDisplayModule } from './pages/color-display/color-display.module';
 import { ColorPickerModule } from './pages/color-picker/color-picker.module';
 import { KbdModule } from './pages/kbd/kbd.module';
+import { KbdShortcutModule } from './pages/kbd-shortcut/kbd-shortcut.module';
 
 @NgModule({
     declarations: [
@@ -46,6 +47,7 @@ import { KbdModule } from './pages/kbd/kbd.module';
         ColorPickerModule,
         CalendarModule,
         KbdModule,
+        KbdShortcutModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
