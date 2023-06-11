@@ -57,4 +57,12 @@
         --ard-cmpcl--content: #{$info700};
         --ard-cmpcl--overlay: #{$overlay};
     }
+    &.ard-color-currentColor {
+        --ard-cmpcl--on-bg: #{$bg};
+        --ard-cmpcl--button-border: currentColor;
+        --ard-cmpcl--border: currentColor;
+        --ard-cmpcl--bg: currentColor;
+        --ard-cmpcl--content: currentColor;
+        --ard-cmpcl--overlay: #{$overlay};
+    }
 }

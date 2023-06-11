@@ -1,0 +1,32 @@
+
+
+.ard-progress-circle {
+    position: relative;
+    aspect-ratio: 1;
+
+    .ard-progress-circle-background,
+    .ard-progress-circle-overlay {
+        position: absolute;
+        border-radius: 9999px;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+    .ard-progress-circle-overlay {
+        background-size: 100% 100%;
+        background-position: 0px 0px;
+        background-image: conic-gradient(
+            from 0deg at 50% 50%,
+            var(--ard-_progress-circle-fill-color) 0%,
+            var(--ard-_progress-circle-fill-color) var(--ard-_progress-circle-fill-amount),
+            transparent var(--ard-_progress-circle-fill-amount),
+            transparent 100%
+        );
+    }//! value
+    &.ard-progress-circle-hide-value {
+        .ard-progress-circle-value {
+            display: none;
+        }
+    }
+}

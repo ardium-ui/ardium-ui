@@ -93,6 +93,11 @@ export * from './lib/color/color-picker/color-picker.types';
 export * from './lib/calendar/calendar.module';
 export * from './lib/calendar/calendar.component';
 export * from './lib/calendar/calendar.types';
+//progress-circle
+export * from './lib/progress-circle/progress-circle.module';
+export * from './lib/progress-circle/progress-circle.component';
+export * from './lib/progress-circle/progress-circle.types';
+export * from './lib/progress-circle/progress-circle.directive';
 //! types
 export * from './lib/types/alignment.types';
 export * from './lib/types/colors.types';
