@@ -20,6 +20,7 @@ import { StarsModule } from './pages/stars/stars.module';
 import { StateboxModule } from './pages/statebox/statebox.module';
 import { ColorDisplayModule } from './pages/color-display/color-display.module';
 import { ColorPickerModule } from './pages/color-picker/color-picker.module';
+import { ProgressCircleModule } from './pages/progress-circle/progress-circle.module';
 
 @NgModule({
     declarations: [
@@ -44,6 +45,7 @@ import { ColorPickerModule } from './pages/color-picker/color-picker.module';
         ColorDisplayModule,
         ColorPickerModule,
         CalendarModule,
+        ProgressCircleModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

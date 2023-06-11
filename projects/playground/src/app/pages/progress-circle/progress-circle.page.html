@@ -1,0 +1,52 @@
+<div class="master">
+    <span class="title">Basic progress circle</span>
+    <ard-progress-circle></ard-progress-circle>
+</div>
+<div class="master">
+    <span class="title">Progress circle with value</span>
+    <ard-progress-circle value="40"></ard-progress-circle>
+</div>
+<div class="master">
+    <span class="title">Progress circle with value and custom appearance</span>
+    <ard-progress-circle value="40" appearance="colored"></ard-progress-circle>
+</div>
+<div class="master">
+    <span class="title">Progress circle with value and custom appearance and color</span>
+    <ard-progress-circle value="40" appearance="colored" color="danger"></ard-progress-circle>
+</div>
+<div class="master">
+    <span class="title">Progress circle with changing value</span>
+    <ard-progress-circle [value]="currentTimerValue / 0.3"></ard-progress-circle>
+</div>
+<div class="master">
+    <span class="title">Basic progress circle ring variant</span>
+    <ard-progress-circle variant="ring"></ard-progress-circle>
+</div>
+<div class="master">
+    <span class="title">Progress circle with value ring variant</span>
+    <ard-progress-circle variant="ring" value="40"></ard-progress-circle>
+</div>
+<div class="master">
+    <span class="title">Progress circle with hidden value ring variant</span>
+    <ard-progress-circle variant="ring" value="40" hideValue></ard-progress-circle>
+</div>
+<div class="master">
+    <span class="title">Progress circle with value and custom appearance ring variant</span>
+    <ard-progress-circle variant="ring" value="40" appearance="colored"></ard-progress-circle>
+</div>
+<div class="master">
+    <span class="title">Progress circle with changing value ring variant</span>
+    <ard-progress-circle variant="ring" [value]="currentTimerValue / 0.3"></ard-progress-circle>
+</div>
+<div class="master">
+    <span class="title">Progress circle acting as a timer</span>
+    <ard-progress-circle
+        variant="ring"
+        [value]="currentTimerValue"
+        max="30"
+    >
+        <ng-template ard-value-tmp let-value="value">
+            0:{{ value | number : '2.0-0' }}
+        </ng-template>
+    </ard-progress-circle>
+</div>
