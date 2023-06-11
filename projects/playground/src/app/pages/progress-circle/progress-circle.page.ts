@@ -8,6 +8,10 @@ import { FormElementAppearance, ProgressCircleAppearance, ProgressCircleVariant,
 })
 export class ProgressCirclePage implements OnInit, OnDestroy {
 
+    appearances: ProgressCircleAppearance[] = Object.values(ProgressCircleAppearance);
+    variants: ProgressCircleVariant[] = Object.values(ProgressCircleVariant);
+    colors: SimpleComponentColor[] = Object.values(SimpleComponentColor);
+
     currentTimerValue: number = 0;
 
     private _interval?: NodeJS.Timeout;

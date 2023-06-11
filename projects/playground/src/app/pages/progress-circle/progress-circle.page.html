@@ -50,3 +50,22 @@
         </ng-template>
     </ard-progress-circle>
 </div>
+<div class="master">
+    <span class="title">Rainbow table</span>
+    <div class="flex" *ngFor="let variant of variants">
+        <span class="title">Variant: {{ variant }}</span>
+        <div class="grid rainbow">
+            <ng-container *ngFor="let appearance of appearances">
+                <ard-progress-circle
+                    *ngFor="let color of colors"
+                    value="65"
+                    [variant]="variant"
+                    [appearance]="appearance"
+                    [color]="color"
+                ></ard-progress-circle>
+                <span class="mono">{{ appearance }}</span>
+            </ng-container>
+        </div>
+    </div>
+    <ard-progress-circle></ard-progress-circle>
+</div>
