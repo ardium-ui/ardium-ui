@@ -56,7 +56,6 @@ export abstract class _FocusableComponentBase extends _DisablableComponentBase {
     /**
      * Whether the component is currently focused.
     */
-    @HostBinding('class.ard-focused')
     public isFocused: boolean = false;
 
     /**

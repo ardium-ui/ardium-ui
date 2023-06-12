@@ -1,0 +1,53 @@
+@use './mixins' as defaultMixins;
+@import '../variables';
+
+.ard-form-field-frame {
+    box-sizing: border-box;
+    min-height: 2.1875rem;
+    height: max-content;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: stretch;
+    position: relative;
+    font-size: 1rem;
+    line-height: 1.25rem;
+    font-family: "Roboto", sans-serif;
+
+    .ard-form-field-content-container {
+        flex-grow: 1;
+        min-height: 100%;
+    }
+    
+    //! compact
+    &.ard-compact {
+        min-height: 1.6875rem;
+        font-size: 0.85rem;
+        line-height: 1;
+    }
+    
+    //! appearance & variant
+    @include defaultMixins.formAppearances();
+    @include defaultMixins.formVariants();
+    background: var(--ard-appearance-background);
+    border: var(--ard-appearance-border);
+    transition: border-color 0.2s $timing-fn;
+
+    .ard-form-field-overlay {
+        background: $overlay;
+        opacity: 0;
+        transition: opacity 0.2s $timing-fn, background-color 0.2s $timing-fn;
+    }
+
+    &:hover {
+        .ard-form-field-overlay {
+            opacity: 4%;
+        }
+    }
+    &.ard-focused {
+        .ard-form-field-overlay {
+            opacity: 8%;
+        }
+        border-color: $border-dark;
+    }
+}

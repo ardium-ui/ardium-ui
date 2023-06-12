@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, ContentChild, Te
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { FormElementAppearance, FormElementVariant } from '../types/theming.types';
 import { _DisablableComponentBase } from '../_internal/disablable-component';
+import { _FocusableComponentBase } from '../_internal/focusable-component';
 import { ArdFormFieldPrefixTemplateDirective, ArdFormFieldSuffixTemplateDirective } from './form-field-frame.directives';
 
 @Component({
@@ -11,12 +12,9 @@ import { ArdFormFieldPrefixTemplateDirective, ArdFormFieldSuffixTemplateDirectiv
     encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FormFieldFrameComponent extends _DisablableComponentBase {
+export class ArdiumFormFieldFrameComponent extends _FocusableComponentBase {
     //! focused state
-    /**
-     * Whether the component is currently focused.
-    */
-    @Input() isFocused: boolean = false;
+    @Input() override isFocused: boolean = false;
     
     //! appearance
     /**
