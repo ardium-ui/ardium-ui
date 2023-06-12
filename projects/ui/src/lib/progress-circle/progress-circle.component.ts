@@ -35,17 +35,24 @@ export class ArdiumProgressCircleComponent {
     get hideValue(): boolean { return this._hideValue; }
     set hideValue(v: any) { this._hideValue = coerceBooleanProperty(v); }
 
+    private _reverse: boolean = false;
+    @Input()
+    get reverse(): boolean { return this._reverse; }
+    set reverse(v: any) { this._reverse = coerceBooleanProperty(v); }
+
     get ngClasses(): string {
         return [
             `ard-appearance-${this.appearance}`,
             `ard-progress-circle-variant-${this.variant}`,
             `ard-color-${this.color}`,
             this.hideValue ? 'ard-progress-circle-hide-value' : '',
+            this.reverse ? 'ard-progress-circle-reversed' : '',
         ].join(' ');
     }
 
     get fillPercentVariable(): string {
-        return `--ard-_progress-circle-fill-amount: ${this.percentValue}%`;
+        const fillAmount = this.reverse ? 100 - this.percentValue : this.percentValue;
+        return `--ard-_progress-circle-fill-amount: ${fillAmount}%`;
     }
 
     //! templates
@@ -58,6 +65,6 @@ export class ArdiumProgressCircleComponent {
             percentValue,
             max: this.max,
             $implicit: percentValue,
-        }
+        };
     }
 }

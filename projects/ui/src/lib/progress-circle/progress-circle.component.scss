@@ -21,9 +21,21 @@
             var(--ard-_progress-circle-fill-color) 0%,
             var(--ard-_progress-circle-fill-color) var(--ard-_progress-circle-fill-amount),
             transparent var(--ard-_progress-circle-fill-amount),
-            transparent 100%
+            transparent 100%,
         );
-    }//! value
+    }
+    &.ard-progress-circle-reversed {
+        .ard-progress-circle-overlay {
+            background-image: conic-gradient(
+                from 0deg at 50% 50%,
+                transparent 0%,
+                transparent var(--ard-_progress-circle-fill-amount),
+                var(--ard-_progress-circle-fill-color) var(--ard-_progress-circle-fill-amount),
+                var(--ard-_progress-circle-fill-color) 100%,
+            );
+        }
+    }
+    //! value
     &.ard-progress-circle-hide-value {
         .ard-progress-circle-value {
             display: none;
