@@ -19,6 +19,10 @@
     <ard-progress-circle [value]="currentTimerValue / 0.3"></ard-progress-circle>
 </div>
 <div class="master">
+    <span class="title">Progress circle with changing value (reverse mode)</span>
+    <ard-progress-circle [value]="100 - currentTimerValue / 0.3" reverse></ard-progress-circle>
+</div>
+<div class="master">
     <span class="title">Basic progress circle ring variant</span>
     <ard-progress-circle variant="ring"></ard-progress-circle>
 </div>
@@ -39,11 +43,16 @@
     <ard-progress-circle variant="ring" [value]="currentTimerValue / 0.3"></ard-progress-circle>
 </div>
 <div class="master">
+    <span class="title">Progress circle with changing value ring variant (reverse mode)</span>
+    <ard-progress-circle variant="ring" [value]="100 - currentTimerValue / 0.3" reverse></ard-progress-circle>
+</div>
+<div class="master">
     <span class="title">Progress circle acting as a timer</span>
     <ard-progress-circle
         variant="ring"
-        [value]="currentTimerValue"
+        [value]="30 - currentTimerValue"
         max="30"
+        reverse
     >
         <ng-template ard-value-tmp let-value="value">
             0:{{ value | number : '2.0-0' }}
