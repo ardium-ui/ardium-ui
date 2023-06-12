@@ -23,6 +23,10 @@ export * from './lib/chip/selectable-chip/selectable-chip.component';
 export * from './lib/dropdown-panel/dropdown-panel.module';
 export * from './lib/dropdown-panel/dropdown-panel.component';
 export * from './lib/dropdown-panel/dropdown-panel.types';
+//form-field-frame
+export * from './lib/form-field-frame/form-field-frame.module';
+export * from './lib/form-field-frame/form-field-frame.component';
+export * from './lib/form-field-frame/form-field-frame.directives';
 //input
 export * from './lib/inputs/input/input.module';
 export * from './lib/inputs/input/input.component';
