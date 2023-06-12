@@ -56,14 +56,17 @@
         <span class="title">Variant: {{ variant }}</span>
         <div class="grid rainbow">
             <ng-container *ngFor="let appearance of appearances">
-                <ard-progress-circle
-                    *ngFor="let color of colors"
-                    value="65"
-                    [variant]="variant"
-                    [appearance]="appearance"
-                    [color]="color"
-                ></ard-progress-circle>
-                <span class="mono">{{ appearance }}</span>
+                <ng-container *ngFor="let hideValue of [false, true]">
+                    <ard-progress-circle
+                        *ngFor="let color of colors"
+                        value="65"
+                        [variant]="variant"
+                        [appearance]="appearance"
+                        [color]="color"
+                        [hideValue]="hideValue"
+                    ></ard-progress-circle>
+                    <span class="mono">{{ appearance }}{{ hideValue ? ' + hidden value' : '' }}</span>
+                </ng-container>
             </ng-container>
         </div>
     </div>
