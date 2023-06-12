@@ -1,4 +1,4 @@
-import { ConnectedPosition, Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
+import { Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { AfterContentInit, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ContentChildren, ElementRef, EventEmitter, forwardRef, HostBinding, HostListener, Input, OnChanges, OnDestroy, OnInit, Output, QueryList, SimpleChanges, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -184,9 +184,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
 
     get ngClasses(): string {
         return [
-            `ard-appearance-${this.appearance}`,
-            `ard-variant-${this.variant}`,
-            this.compact ? 'ard-compact' : '',
+            //appearance, variant, and compact handled in ard-form-field-frame component
             this.multiselectable ? 'ard-multiselect' : 'ard-singleselect',
             this.clearable ? 'ard-clearable' : '',
             this.searchable ? 'ard-searchable' : '',
@@ -670,10 +668,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         this.open();
     }
     onSearchInputFocus(event: FocusEvent): void {
-        if (this._searchBarFocused) return;
-
         this._searchBarFocused = true;
-        this.focusEvent.emit(event);
     }
     onSearchInputBlur(event: FocusEvent): void {
         if (!this._searchBarFocused) return;
@@ -681,7 +676,6 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         this._onTouched();
 
         this._searchBarFocused = false;
-        this.blurEvent.emit(event);
     }
     //! item selection handlers
     toggleItem(item: ArdOption): void {

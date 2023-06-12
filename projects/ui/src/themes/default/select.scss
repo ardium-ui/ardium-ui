@@ -2,53 +2,18 @@
 @use './mixins' as defaultMixins;
 
 .ard-select {
-    min-width: max-content;
-    max-width: 100%;
-    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 100%;
+    display: grid;
     align-items: center;
-    justify-content: stretch;
+    grid-template-columns: 1fr max-content;
     gap: 0.625em;
     padding: 0 1em 0 0.375em;
-    height: 2.0625rem;
     font-family: "Roboto", sans-serif;
     font-size: 1rem;
     
     @include CB.clearButton();
-    @include defaultMixins.formAppearances();
-    @include defaultMixins.formVariants();
-    
-    //! appearances
-    &.ard-appearance-outlined,
-    &.ard-appearance-filled {
-        border-radius: var(--ard-variant-border-radius);
-    }
-    &.ard-appearance-outlined {
-        background: $bg;
-        border: 1px solid $border;
-        transition: border-color 0.2s ease, background-color 0.2s ease;
-    }
-    &.ard-appearance-filled {
-        background: $bg-f;
-        border: none;
-    }
-    &.ard-appearance-transparent {
-        background: transparent;
-        border: none;
-
-        transition: background-color 0.15s $timing-fn;
-    }
-    &:hover {
-        background: $darken-overlay-light;
-    }
-    &.ard-select-focused {
-        &.ard-appearance-outlined {
-            background: $bg-d;
-            border-color: $border-dark;
-        }
-        &.ard-appearance-transparent {
-            background: $darken-overlay;
-        }
-    }
 
     //! variants
     &.ard-variant-pill {
@@ -61,7 +26,6 @@
         height: 2em;
         display: flex;
         align-items: center;
-        gap: 0.375em;
         font-size: 1em;
         text-size-adjust: 100%;
         flex-grow: 1;
@@ -72,6 +36,7 @@
             position: absolute;
             color: $text3;
             width: max-content;
+            pointer-events: none;
         }
 
         .ard-search-input {
@@ -89,6 +54,12 @@
                 max-width: 100%;
             }
         }
+    }
+    .ard-select-controls {
+        display: flex;
+        align-items: center;
+        gap: 0.625em;
+        width: max-content;
     }
     //! single/multiselect
     &.ard-singleselect {
@@ -111,16 +82,19 @@
             }
         }
     }
-    &:not(.ard-searchable) .ard-select-value-container {
+    &:not(.ard-searchable) .ard-search-input {
         pointer-events: none;
     }
     &.ard-multiselect {
+        height: max-content;
+
         .ard-select-value-container {
             height: max-content;
-            min-height: 2.125em;
+            min-height: 1.5625em;
+            padding: 0.25em 0;
             box-sizing: border-box;
-            padding: 0.375em 0;
             flex-wrap: wrap;
+            gap: 0.375em;
             justify-content: stretch;
 
             .ard-chip-wrapper {
@@ -245,13 +219,5 @@
     //! compact
     > .ard-compact {
         font-size: 0.85rem;
-    }
-}
-
-//! disabled state
-.ard-disabled {
-    .ard-select {
-        pointer-events: none;
-        opacity: 50%;
     }
 }

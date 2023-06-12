@@ -23,6 +23,7 @@ import {
 } from './select.directive';
 
 import { _ClearButtonModule } from './../_internal/clear-button/clear-button.module';
+import { ArdiumFormFieldFrameModule } from '../form-field-frame/form-field-frame.module';
 
 @NgModule({
     declarations: [
@@ -43,7 +44,8 @@ import { _ClearButtonModule } from './../_internal/clear-button/clear-button.mod
         ArdAddCustomTemplateDirective,
     ],
     imports: [
-    CommonModule,
+        CommonModule,
+        ArdiumFormFieldFrameModule,
         ArdiumDropdownPanelModule,
         ArdiumChipModule,
         ArdiumClickOutsideEventModule,
