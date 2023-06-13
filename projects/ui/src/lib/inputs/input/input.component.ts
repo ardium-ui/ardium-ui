@@ -106,8 +106,8 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
     //! suggestions
     suggestionStorage = new SimplestItemStorage(this);
 
-    @Input() valueFrom?: string;
-    @Input() labelFrom?: string;
+    @Input('suggValueFrom') valueFrom?: string;
+    @Input('suggLabelFrom') labelFrom?: string;
 
     @Output('acceptSuggestion') acceptSuggestionEvent = new EventEmitter<any>();
 

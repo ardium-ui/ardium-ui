@@ -36,7 +36,6 @@ export function findBestSuggestions<T>(toMatch: string, suggestions: Readonly<T[
             const canBeFound = foundIndex != -1;
             const foundIndexModifier = canBeFound ? (Math.cos(foundIndex / 90 * Math.PI) + 1) ** 2 / 1.5 : 1;
             const rating = similarity * foundIndexModifier;
-            rating && console.log(rating, foundIndexModifier, String(v));
             return {
                 rating,
                 index,
