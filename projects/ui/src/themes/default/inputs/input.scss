@@ -8,18 +8,13 @@
     min-width: 10rem;
     max-width: 100%;
     
-    @include defaultMixins.formAppearances();
-    @include defaultMixins.formVariants();
-    background: var(--ard-appearance-background);
-    border: var(--ard-appearance-border);
-    
     @include CB.clearButton();
 
     .ard-autocomplete {
         opacity: 37.5%;
     }
-    //suggestions
 }
+//! suggestions
 .ard-input-suggestions-panel {
     .ard-option {
         padding: 0.375rem 0.625rem;
