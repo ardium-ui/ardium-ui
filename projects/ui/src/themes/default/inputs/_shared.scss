@@ -12,9 +12,9 @@
     gap: 10px;
     cursor: text;
     box-sizing: border-box;
-    height: 2.1875rem;
+    height: 2.0625em;
     font-size: 1rem;
-    line-height: 1.25rem;
+    line-height: 1.25em;
 
     .ard-input-container {
         flex-grow: 1;
@@ -39,8 +39,8 @@
     }
     //! compact
     &.ard-compact {
-        height: 1.6875rem;
-        font-size: 0.85rem;
+        height: 1.5625em;
+        font-size: 0.85em;
         line-height: 1;
     }
 }

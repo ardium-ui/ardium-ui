@@ -39,10 +39,8 @@
 }
 
 @mixin formVariants() {
-    &.ard-appearance-outlined,
-    &.ard-appearance-filled {
-        border-radius: var(--ard-variant-border-radius);
-    }
+    border-radius: var(--ard-variant-border-radius);
+    
     &.ard-variant-rounded,
     &.ard-variant-semirounded {
         --ard-variant-border-radius: 8px;
@@ -52,6 +50,5 @@
     }
     &.ard-variant-sharp {
         --ard-variant-border-radius: 0;
-        border-radius: var(--ard-variant-border-radius);
     }
 }
