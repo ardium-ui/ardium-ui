@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ArdiumHexInputComponent } from './hex-input.component';
 import { ArdHexInputPlaceholderTemplateDirective } from './hex-input.directives';
 import { _ClearButtonModule } from '../../_internal/clear-button/clear-button.module';
+import { ArdiumFormFieldFrameModule } from '../../form-field-frame/form-field-frame.module';
 
 
 
@@ -13,6 +14,7 @@ import { _ClearButtonModule } from '../../_internal/clear-button/clear-button.mo
     ],
     imports: [
         CommonModule,
+        ArdiumFormFieldFrameModule,
         _ClearButtonModule
     ],
     exports: [

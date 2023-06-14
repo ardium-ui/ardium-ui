@@ -8,11 +8,6 @@
     min-width: 10rem;
     max-width: 100%;
 
-    @include defaultMixins.formAppearances();
-    @include defaultMixins.formVariants();
-    background: var(--ard-appearance-background);
-    border: var(--ard-appearance-border);
-
     @include CB.clearButton();
 
     .ard-input-container {
@@ -27,12 +22,5 @@
         opacity: 70%;
         user-select: none;
         font-family: monospace;
-    }
-}
-//! disabled state
-.ard-disabled {
-    .ard-hex-input {
-        pointer-events: none;
-        opacity: 50%;
     }
 }

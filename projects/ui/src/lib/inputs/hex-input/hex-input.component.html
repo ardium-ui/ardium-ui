@@ -1,37 +1,43 @@
-<div class="ard-hex-input"
-    [ngClass]="ngClasses"
-    [class.ard-has-value]="value"
-    (mouseup)="onMouseup($event)"
+<ard-form-field-frame
+    [appearance]="appearance"
+    [variant]="variant"
+    [compact]="compact"
+    [isFocused]="isFocused"
 >
-    <div class="ard-hash-container" *ngIf="showHash">#</div>
-    <div class="ard-input-container">
-        <ng-container *ngIf="shouldDisplayPlaceholder">
-            <ng-template #defaultPlaceholderTemplate>
-                <div class="ard-placeholder">{{ placeholder }}</div>
-            </ng-template>
+    <div class="ard-hex-input"
+        [class.ard-has-value]="value"
+        (mouseup)="onMouseup($event)"
+    >
+        <div class="ard-hash-container" *ngIf="showHash">#</div>
+        <div class="ard-input-container">
+            <ng-container *ngIf="shouldDisplayPlaceholder">
+                <ng-template #defaultPlaceholderTemplate>
+                    <div class="ard-placeholder">{{ placeholder }}</div>
+                </ng-template>
 
-            <ng-template [ngTemplateOutlet]="placeholderTemplate || defaultPlaceholderTemplate"></ng-template>
-        </ng-container>
+                <ng-template [ngTemplateOutlet]="placeholderTemplate || defaultPlaceholderTemplate"></ng-template>
+            </ng-container>
 
-        <input #textInput
-            #focusableElement
-            type="text"
-            [attr.id]="inputId"
-            [attr.tabindex]="tabIndex"
-            [readonly]="readonly"
-            [disabled]="disabled"
-            (input)="onInput(textInput.value)"
-            (focus)="onFocus($event)"
-            (blur)="onBlur($event)"
-            (change)="onChange($event)"
-            (mouseup)="$event.stopPropagation()"
-            (copy)="onCopy($event)"
-        >
+            <input #textInput
+                #focusableElement
+                type="text"
+                [attr.id]="inputId"
+                [attr.tabindex]="tabIndex"
+                [readonly]="readonly"
+                [disabled]="disabled"
+                (input)="onInput(textInput.value)"
+                (focus)="onFocus($event)"
+                (blur)="onBlur($event)"
+                (change)="onChange($event)"
+                (mouseup)="$event.stopPropagation()"
+                (copy)="onCopy($event)"
+            >
+        </div>
+
+        <ard-_clear-button
+            *ngIf="shouldShowClearButton"
+            [title]="clearButtonTitle"
+            (click)="onClearButtonClick($event)"
+        ></ard-_clear-button>
     </div>
-
-    <ard-_clear-button
-        *ngIf="shouldShowClearButton"
-        [title]="clearButtonTitle"
-        (click)="onClearButtonClick($event)"
-    ></ard-_clear-button>
-</div>
+</ard-form-field-frame>

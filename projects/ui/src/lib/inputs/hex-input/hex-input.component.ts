@@ -52,6 +52,7 @@ export class ArdiumHexInputComponent extends _NgModelComponentBase implements Co
     get shouldDisplayPlaceholder(): boolean { return Boolean(this.placeholder) && !this.inputModel.stringValue };
 
     //! appearance
+    //all handled in ard-form-field-frame component
     @Input() appearance: FormElementAppearance = FormElementAppearance.Outlined;
     @Input() variant: FormElementVariant = FormElementVariant.Rounded;
 
@@ -59,14 +60,6 @@ export class ArdiumHexInputComponent extends _NgModelComponentBase implements Co
     @Input()
     get compact(): boolean { return this._compact; }
     set compact(v: any) { this._compact = coerceBooleanProperty(v); }
-
-    get ngClasses(): string {
-        return [
-            `ard-appearance-${this.appearance}`,
-            `ard-variant-${this.variant}`,
-            this.compact ? 'ard-compact' : '',
-        ].join(' ');
-    }
 
     //! settings
     @Input() case: CaseTransformerType = CaseTransformerType.NoChange;
