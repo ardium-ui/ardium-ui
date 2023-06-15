@@ -29,6 +29,14 @@
     <ard-hex-input maxDigits="6" value="000000" case="uppercase"></ard-hex-input>
 </div>
 <div class="master">
+    <span class="title">Hex input prefix</span>
+    <ard-hex-input maxDigits="6" value="000000" case="uppercase">
+        <ng-template ard-prefix-tmp>
+            <ard-icon>palette</ard-icon>
+        </ng-template>
+    </ard-hex-input>
+</div>
+<div class="master">
     <span class="title">Rainbow table</span>
     <div class="flex" *ngFor="let variant of variants">
         <span class="title">{{ variant }}</span>
