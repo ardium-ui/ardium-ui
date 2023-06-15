@@ -1,21 +1,27 @@
 <span class="title">Empty element</span>
 <div class="grid master">
-    <ard-select *ngFor="let disabled of [false, true]" [disabled]="disabled"></ard-select>
+    <ard-select></ard-select>
 </div>
 <span class="title">Primitive options, searchable</span>
 <div class="grid master">
     <ard-select
-        *ngFor="let disabled of [false, true]"
-        [disabled]="disabled"
         [items]="fruits"
         searchable
     ></ard-select>
 </div>
+<span class="title">Prefix template, primitive options</span>
+<div class="grid master">
+    <ard-select
+        [items]="fruits"
+    >
+        <ng-template ard-prefix-tmp>
+            <ard-icon>restaurant</ard-icon>
+        </ng-template>
+    </ard-select>
+</div>
 <span class="title">Select events</span>
 <div class="grid master">
     <ard-select
-        *ngFor="let disabled of [false, true]"
-        [disabled]="disabled"
         [items]="fruits"
         searchable
         (focus)="log('focus', $event)"
@@ -34,8 +40,6 @@
 <span class="title">Object options, property binding, groups, searchable</span>
 <div class="grid master">
     <ard-select
-        *ngFor="let disabled of [false, true]"
-        [disabled]="disabled"
         [items]="animals"
         valueFrom="name"
         labelFrom="name"
@@ -45,8 +49,6 @@
 <span class="title">Object options, property binding, groups, customized with templates</span>
 <div class="grid master">
     <ard-select
-        *ngFor="let disabled of [false, true]"
-        [disabled]="disabled"
         [items]="animals"
         valueFrom="name"
         labelFrom="name"
@@ -65,8 +67,6 @@
 <span class="title">Object options, customized with templates, custom search function (search by name or HEX)</span>
 <div class="grid master">
     <ard-select
-        *ngFor="let disabled of [false, true]"
-        [disabled]="disabled"
         [items]="colors"
         clearable="false"
         labelFrom="name"
