@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SimpleInputPage } from './simple-input.page';
-import { ArdiumSimpleInputModule } from '@ardium-ui/ui';
+import { ArdiumFormFieldFrameModule, ArdiumIconModule, ArdiumSimpleInputModule } from '@ardium-ui/ui';
 import { FormsModule } from '@angular/forms';
 
 
@@ -14,6 +14,8 @@ import { FormsModule } from '@angular/forms';
         CommonModule,
         ArdiumSimpleInputModule,
         FormsModule,
+        ArdiumFormFieldFrameModule,
+        ArdiumIconModule
     ]
 })
 export class SimpleInputModule { }

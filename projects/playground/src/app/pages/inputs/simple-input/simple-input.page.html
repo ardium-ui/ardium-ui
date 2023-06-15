@@ -1,10 +1,8 @@
 <span class="title">Simplest input</span>
 <div class="grid master">
-    <ard-simple-input
-        *ngFor="let disabled of [false, true]"
-        [disabled]="disabled"
-    ></ard-simple-input>
+    <ard-simple-input></ard-simple-input>
 </div>
+
 <span class="title">Input appearances, max length, text align, ngModel</span>
 <div class="grid master">
     <ng-container *ngFor="let appearance of appearances">
@@ -21,4 +19,12 @@
             (blur)="log('blur', $event)"
         ></ard-simple-input>
     </ng-container>
+</div>
+<span class="title">Input prefix</span>
+<div class="grid master">
+    <ard-simple-input>
+        <ng-template ard-prefix-tmp>
+            <ard-icon>person</ard-icon>
+        </ng-template>
+    </ard-simple-input>
 </div>
