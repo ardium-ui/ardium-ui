@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, ContentChild, ElementRef, EventEmitter, forwardRef, HostBinding, Input, OnInit, Output, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { ArdFormFieldPrefixTemplateDirective, ArdFormFieldSuffixTemplateDirective } from '../../form-field-frame/form-field-frame.directives';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { SimpleOneAxisAlignment } from './../../types/alignment.types';
@@ -42,6 +43,10 @@ export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements
     @Input() placeholder: string = '';
     @Input() inputId?: string;
     @Input() clearButtonTitle: string = this.DEFAULTS.clearButtonTitle;
+
+    //! prefix & suffix
+    @ContentChild(ArdFormFieldPrefixTemplateDirective, { read: TemplateRef }) prefixTemplate?: TemplateRef<any>;
+    @ContentChild(ArdFormFieldSuffixTemplateDirective, { read: TemplateRef }) suffixTemplate?: TemplateRef<any>;
 
     //! placeholder
     @ContentChild(ArdSimpleInputPlaceholderTemplateDirective, { read: TemplateRef })
