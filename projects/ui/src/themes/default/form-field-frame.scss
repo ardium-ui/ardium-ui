@@ -11,12 +11,25 @@
     justify-content: stretch;
     position: relative;
     font-size: 1rem;
-    line-height: 1.25rem;
+    line-height: 1.25em;
     font-family: "Roboto", sans-serif;
 
     .ard-form-field-content-container {
         flex-grow: 1;
         min-height: 100%;
+    }
+    .ard-form-field-prefix-container,
+    .ard-form-field-suffix-container {
+        height: max-content;
+        max-height: 100%;
+        display: flex;
+        align-items: center;
+    }
+    .ard-form-field-prefix-container {
+        padding-left: 0.375em;
+    }
+    .ard-form-field-suffix-container {
+        padding-right: 0.375em;
     }
     
     //! compact
@@ -49,5 +62,15 @@
             opacity: 8%;
         }
         border-color: $border-dark;
+    }
+}
+.ard-disabled .ard-form-field-frame {
+    pointer-events: none;
+    opacity: 50%;
+
+    &.ard-appearance-transparent {
+        .ard-form-field-overlay {
+            opacity: 6%;
+        }
     }
 }

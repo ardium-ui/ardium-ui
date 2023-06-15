@@ -51,6 +51,8 @@ export class ArdiumFormFieldFrameComponent extends _FocusableComponentBase {
     }
 
     //! prefix & suffix
+    @Input('prefixTemplate') prefixTemplateInput?: TemplateRef<any>;
+    @Input('suffixTemplate') suffixTemplateInput?: TemplateRef<any>;
     @ContentChild(ArdFormFieldPrefixTemplateDirective) prefixTemplate: TemplateRef<any> | null = null;
     @ContentChild(ArdFormFieldSuffixTemplateDirective) suffixTemplate: TemplateRef<any> | null = null;
 }
