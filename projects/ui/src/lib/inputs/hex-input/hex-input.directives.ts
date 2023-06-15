@@ -5,12 +5,12 @@ export class ArdHexInputPlaceholderTemplateDirective {
     constructor(public template: TemplateRef<undefined>) { }
 }
 
-@Directive({ selector: 'ng-template[ard-prefix-tmp]' })
+@Directive({ selector: 'ard-hex-input ng-template[ard-prefix-tmp]' })
 export class ArdHexInputPrefixTemplateDirective {
     constructor(public template: TemplateRef<undefined>) { }
 }
 
-@Directive({ selector: 'ng-template[ard-suffix-tmp]' })
+@Directive({ selector: 'ard-hex-input ng-template[ard-suffix-tmp]' })
 export class ArdHexInputSuffixTemplateDirective {
     constructor(public template: TemplateRef<undefined>) { }
 }

@@ -5,12 +5,12 @@ export class ArdSimpleInputPlaceholderTemplateDirective {
     constructor(public template: TemplateRef<undefined>) { }
 }
 
-@Directive({ selector: 'ng-template[ard-prefix-tmp]' })
+@Directive({ selector: 'ard-simple-input > ng-template[ard-prefix-tmp]' })
 export class ArdSimpleInputPrefixTemplateDirective {
     constructor(public template: TemplateRef<undefined>) { }
 }
 
-@Directive({ selector: 'ng-template[ard-suffix-tmp]' })
+@Directive({ selector: 'ard-simple-input > ng-template[ard-suffix-tmp]' })
 export class ArdSimpleInputSuffixTemplateDirective {
     constructor(public template: TemplateRef<undefined>) { }
 }
