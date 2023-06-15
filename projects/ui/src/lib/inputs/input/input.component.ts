@@ -11,7 +11,7 @@ import { SimplestItemStorage, SimplestItemStorageHost } from '../../_internal/it
 import { ArdiumSimpleInputComponent } from '../simple-input/simple-input.component';
 import { OptionContext } from './../../types/item-storage.types';
 import { escapeAndCreateRegex, InputModel, InputModelHost } from './../input-utils';
-import { ArdInputLoadingTemplateDirective, ArdInputPlaceholderTemplateDirective, ArdSuggestionTemplateDirective } from './input.directives';
+import { ArdInputLoadingTemplateDirective, ArdInputPlaceholderTemplateDirective, ArdInputPrefixTemplateDirective, ArdInputSuffixTemplateDirective, ArdSuggestionTemplateDirective } from './input.directives';
 
 @Component({
     selector: 'ard-input',
@@ -98,6 +98,10 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
     }
     //autocomplete event
     @Output('acceptAutocomplete') acceptAutocompleteEvent = new EventEmitter();
+
+    //! prefix & suffix
+    @ContentChild(ArdInputPrefixTemplateDirective, { read: TemplateRef }) override prefixTemplate?: TemplateRef<any>;
+    @ContentChild(ArdInputSuffixTemplateDirective, { read: TemplateRef }) override suffixTemplate?: TemplateRef<any>;
 
     //! placeholder
     @ContentChild(ArdInputPlaceholderTemplateDirective, { read: TemplateRef })

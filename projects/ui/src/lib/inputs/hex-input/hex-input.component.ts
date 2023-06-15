@@ -6,7 +6,7 @@ import { OneAxisAlignment } from '../../types/alignment.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { CaseTransformerType } from '../input-types';
-import { ArdHexInputPlaceholderTemplateDirective } from './hex-input.directives';
+import { ArdHexInputPlaceholderTemplateDirective, ArdHexInputPrefixTemplateDirective, ArdHexInputSuffixTemplateDirective } from './hex-input.directives';
 import { HexInputModel, HexInputModelHost } from './hex-input.model';
 
 @Component({
@@ -45,8 +45,8 @@ export class ArdiumHexInputComponent extends _NgModelComponentBase implements Co
     @Input() inputId?: string;
 
     //! prefix & suffix
-    @ContentChild(ArdFormFieldPrefixTemplateDirective, { read: TemplateRef }) prefixTemplate?: TemplateRef<any>;
-    @ContentChild(ArdFormFieldSuffixTemplateDirective, { read: TemplateRef }) suffixTemplate?: TemplateRef<any>;
+    @ContentChild(ArdHexInputPrefixTemplateDirective, { read: TemplateRef }) prefixTemplate?: TemplateRef<any>;
+    @ContentChild(ArdHexInputSuffixTemplateDirective, { read: TemplateRef }) suffixTemplate?: TemplateRef<any>;
 
     //! placeholder
     @Input() placeholder: string = '';

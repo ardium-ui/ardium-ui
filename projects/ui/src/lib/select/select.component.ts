@@ -16,7 +16,7 @@ import { FormElementAppearance } from '../types/theming.types';
 import { ItemStorage } from '../_internal/item-storages/dropdown-item-storage';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { FormElementVariant } from './../types/theming.types';
-import { ArdAddCustomTemplateDirective, ArdDropdownFooterTemplateDirective, ArdDropdownHeaderTemplateDirective, ArdItemDisplayLimitTemplateDirective, ArdItemLimitReachedTemplateDirective, ArdLoadingPlaceholderTemplateDirective, ArdLoadingSpinnerTemplateDirective, ArdNoItemsFoundTemplateDirective, ArdOptgroupTemplateDirective, ArdOptionTemplateDirective, ArdSelectPlaceholderTemplateDirective, ArdValueTemplateDirective } from './select.directive';
+import { ArdAddCustomTemplateDirective, ArdDropdownFooterTemplateDirective, ArdDropdownHeaderTemplateDirective, ArdItemDisplayLimitTemplateDirective, ArdItemLimitReachedTemplateDirective, ArdLoadingPlaceholderTemplateDirective, ArdLoadingSpinnerTemplateDirective, ArdNoItemsFoundTemplateDirective, ArdOptgroupTemplateDirective, ArdOptionTemplateDirective, ArdSelectPlaceholderTemplateDirective, ArdSelectPrefixTemplateDirective, ArdSelectSuffixTemplateDirective, ArdValueTemplateDirective } from './select.directive';
 import { AddCustomFn, CustomOptionContext, GroupContext, ItemDisplayLimitContext, ItemLimitContext, PlaceholderContext, SearchContext, StatsContext, ValueContext } from './select.types';
 
 @Component({
@@ -411,8 +411,8 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     @ContentChild(ArdItemLimitReachedTemplateDirective, { read: TemplateRef }) itemLimitReachedTemplate?: TemplateRef<any>;
     @ContentChild(ArdItemDisplayLimitTemplateDirective, { read: TemplateRef }) itemDisplayLimitTemplate?: TemplateRef<any>;
 
-    @ContentChild(ArdFormFieldPrefixTemplateDirective, { read: TemplateRef }) prefixTemplate?: TemplateRef<any>;
-    @ContentChild(ArdFormFieldSuffixTemplateDirective, { read: TemplateRef }) suffixTemplate?: TemplateRef<any>;
+    @ContentChild(ArdSelectPrefixTemplateDirective, { read: TemplateRef }) prefixTemplate?: TemplateRef<any>;
+    @ContentChild(ArdSelectSuffixTemplateDirective, { read: TemplateRef }) suffixTemplate?: TemplateRef<any>;
     
     //! context providers
     getValueContext(item: ArdOption): ValueContext {

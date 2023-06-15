@@ -4,3 +4,13 @@ import { Directive, TemplateRef } from '@angular/core';
 export class ArdHexInputPlaceholderTemplateDirective {
     constructor(public template: TemplateRef<undefined>) { }
 }
+
+@Directive({ selector: 'ng-template[ard-prefix-tmp]' })
+export class ArdHexInputPrefixTemplateDirective {
+    constructor(public template: TemplateRef<undefined>) { }
+}
+
+@Directive({ selector: 'ng-template[ard-suffix-tmp]' })
+export class ArdHexInputSuffixTemplateDirective {
+    constructor(public template: TemplateRef<undefined>) { }
+}

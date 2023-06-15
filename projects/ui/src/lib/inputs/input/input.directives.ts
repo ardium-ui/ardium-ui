@@ -16,3 +16,13 @@ export class ArdInputPlaceholderTemplateDirective {
 export class ArdInputLoadingTemplateDirective {
     constructor(public template: TemplateRef<undefined>) { }
 }
+
+@Directive({ selector: 'ng-template[ard-prefix-tmp]' })
+export class ArdInputPrefixTemplateDirective {
+    constructor(public template: TemplateRef<undefined>) { }
+}
+
+@Directive({ selector: 'ng-template[ard-suffix-tmp]' })
+export class ArdInputSuffixTemplateDirective {
+    constructor(public template: TemplateRef<undefined>) { }
+}

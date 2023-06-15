@@ -3,6 +3,17 @@ import { OptionContext } from "../types/item-storage.types";
 import { CustomOptionContext, GroupContext, ItemDisplayLimitContext, ItemLimitContext, PlaceholderContext, SearchContext, StatsContext, ValueContext } from "./select.types";
 
 //public (exported)
+
+@Directive({ selector: 'ng-template[ard-prefix-tmp]' })
+export class ArdSelectPrefixTemplateDirective {
+    constructor(public template: TemplateRef<undefined>) { }
+}
+
+@Directive({ selector: 'ng-template[ard-suffix-tmp]' })
+export class ArdSelectSuffixTemplateDirective {
+    constructor(public template: TemplateRef<undefined>) { }
+}
+
 @Directive({ selector: 'ng-template[ard-value-tmp]' })
 export class ArdValueTemplateDirective {
     constructor(public template: TemplateRef<ValueContext>) {}

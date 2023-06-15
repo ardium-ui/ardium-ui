@@ -5,7 +5,7 @@ import { ArdiumDropdownPanelModule } from '../../dropdown-panel/dropdown-panel.m
 import { ArdiumFormFieldFrameModule } from '../../form-field-frame/form-field-frame.module';
 import { _ClearButtonModule } from '../../_internal/clear-button/clear-button.module';
 import { ArdiumInputComponent } from './input.component';
-import { ArdInputLoadingTemplateDirective, ArdInputPlaceholderTemplateDirective, ArdSuggestionTemplateDirective } from './input.directives';
+import { ArdInputLoadingTemplateDirective, ArdInputPlaceholderTemplateDirective, ArdInputPrefixTemplateDirective, ArdInputSuffixTemplateDirective, ArdSuggestionTemplateDirective } from './input.directives';
 
 
 
@@ -15,6 +15,8 @@ import { ArdInputLoadingTemplateDirective, ArdInputPlaceholderTemplateDirective,
         ArdSuggestionTemplateDirective,
         ArdInputPlaceholderTemplateDirective,
         ArdInputLoadingTemplateDirective,
+        ArdInputPrefixTemplateDirective,
+        ArdInputSuffixTemplateDirective,
     ],
     imports: [
         CommonModule,
@@ -28,6 +30,8 @@ import { ArdInputLoadingTemplateDirective, ArdInputPlaceholderTemplateDirective,
         ArdSuggestionTemplateDirective,
         ArdInputPlaceholderTemplateDirective,
         ArdInputLoadingTemplateDirective,
+        ArdInputPrefixTemplateDirective,
+        ArdInputSuffixTemplateDirective,
     ]
 })
 export class ArdiumInputModule { }

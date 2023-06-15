@@ -18,6 +18,8 @@ import {
     ArdOptgroupTemplateDirective,
     ArdOptionTemplateDirective,
     ArdSelectPlaceholderTemplateDirective,
+    ArdSelectPrefixTemplateDirective,
+    ArdSelectSuffixTemplateDirective,
     ArdValueChipTemplateDirective,
     ArdValueTemplateDirective
 } from './select.directive';
@@ -42,6 +44,8 @@ import { ArdiumFormFieldFrameModule } from '../form-field-frame/form-field-frame
         ArdItemLimitReachedTemplateDirective,
         ArdItemDisplayLimitTemplateDirective,
         ArdAddCustomTemplateDirective,
+        ArdSelectPrefixTemplateDirective,
+        ArdSelectSuffixTemplateDirective,
     ],
     imports: [
         CommonModule,
@@ -68,6 +72,8 @@ import { ArdiumFormFieldFrameModule } from '../form-field-frame/form-field-frame
         ArdItemLimitReachedTemplateDirective,
         ArdItemDisplayLimitTemplateDirective,
         ArdAddCustomTemplateDirective,
+        ArdSelectPrefixTemplateDirective,
+        ArdSelectSuffixTemplateDirective,
     ],
 })
 export class ArdiumSelectModule { }

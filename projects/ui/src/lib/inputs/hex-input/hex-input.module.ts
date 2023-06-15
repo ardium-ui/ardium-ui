@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ArdiumHexInputComponent } from './hex-input.component';
-import { ArdHexInputPlaceholderTemplateDirective } from './hex-input.directives';
+import { ArdHexInputPlaceholderTemplateDirective, ArdHexInputPrefixTemplateDirective, ArdHexInputSuffixTemplateDirective } from './hex-input.directives';
 import { _ClearButtonModule } from '../../_internal/clear-button/clear-button.module';
 import { ArdiumFormFieldFrameModule } from '../../form-field-frame/form-field-frame.module';
 
@@ -11,6 +11,8 @@ import { ArdiumFormFieldFrameModule } from '../../form-field-frame/form-field-fr
     declarations: [
         ArdiumHexInputComponent,
         ArdHexInputPlaceholderTemplateDirective,
+        ArdHexInputPrefixTemplateDirective,
+        ArdHexInputSuffixTemplateDirective,
     ],
     imports: [
         CommonModule,
@@ -20,6 +22,8 @@ import { ArdiumFormFieldFrameModule } from '../../form-field-frame/form-field-fr
     exports: [
         ArdiumHexInputComponent,
         ArdHexInputPlaceholderTemplateDirective,
+        ArdHexInputPrefixTemplateDirective,
+        ArdHexInputSuffixTemplateDirective,
     ]
 })
 export class ArdiumHexInputModule { }
