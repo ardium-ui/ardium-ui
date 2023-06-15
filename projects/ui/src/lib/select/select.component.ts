@@ -8,6 +8,7 @@ import { merge, startWith, Subject, takeUntil } from 'rxjs';
 import { isAnyString, isArray, isFunction } from 'simple-bool';
 import { ArdiumDropdownPanelComponent } from '../dropdown-panel/dropdown-panel.component';
 import { DropdownPanelAppearance, DropdownPanelVariant } from '../dropdown-panel/dropdown-panel.types';
+import { ArdFormFieldPrefixTemplateDirective, ArdFormFieldSuffixTemplateDirective } from '../form-field-frame/form-field-frame.directives';
 import { ArdiumOptionComponent } from '../option/option.component';
 import { searchFunctions } from '../search-functions';
 import { ArdOption, ArdOptionGroup, ArdPanelPosition, CompareWithFn, GroupByFn, OptionContext, SearchFn } from '../types/item-storage.types';
@@ -409,6 +410,9 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     @ContentChild(ArdAddCustomTemplateDirective, { read: TemplateRef }) addCustomTemplate?: TemplateRef<any>;
     @ContentChild(ArdItemLimitReachedTemplateDirective, { read: TemplateRef }) itemLimitReachedTemplate?: TemplateRef<any>;
     @ContentChild(ArdItemDisplayLimitTemplateDirective, { read: TemplateRef }) itemDisplayLimitTemplate?: TemplateRef<any>;
+
+    @ContentChild(ArdFormFieldPrefixTemplateDirective, { read: TemplateRef }) prefixTemplate?: TemplateRef<any>;
+    @ContentChild(ArdFormFieldSuffixTemplateDirective, { read: TemplateRef }) suffixTemplate?: TemplateRef<any>;
     
     //! context providers
     getValueContext(item: ArdOption): ValueContext {
