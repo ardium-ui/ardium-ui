@@ -13,7 +13,6 @@ import { ArdiumFormFieldFrameModule, ArdiumOptionModule, ArdiumSelectModule, Ard
         CommonModule,
         ArdiumSelectModule,
         ArdiumOptionModule,
-        ArdiumFormFieldFrameModule,
         ArdiumIconModule,
     ]
 })

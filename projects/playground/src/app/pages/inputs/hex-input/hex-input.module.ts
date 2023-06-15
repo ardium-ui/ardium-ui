@@ -14,7 +14,6 @@ import { FormsModule } from '@angular/forms';
         CommonModule,
         FormsModule,
         ArdiumHexInputModule,
-        ArdiumFormFieldFrameModule,
         ArdiumIconModule,
     ]
 })
