@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, ContentChild, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output, TemplateRef, ViewChild, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { ArdFormFieldPrefixTemplateDirective, ArdFormFieldSuffixTemplateDirective } from '../../form-field-frame/form-field-frame.directives';
 import { OneAxisAlignment } from '../../types/alignment.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
@@ -42,6 +43,10 @@ export class ArdiumHexInputComponent extends _NgModelComponentBase implements Co
     }
 
     @Input() inputId?: string;
+
+    //! prefix & suffix
+    @ContentChild(ArdFormFieldPrefixTemplateDirective, { read: TemplateRef }) prefixTemplate?: TemplateRef<any>;
+    @ContentChild(ArdFormFieldSuffixTemplateDirective, { read: TemplateRef }) suffixTemplate?: TemplateRef<any>;
 
     //! placeholder
     @Input() placeholder: string = '';
