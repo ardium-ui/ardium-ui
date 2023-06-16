@@ -1,0 +1,46 @@
+<div class="master">
+    <span class="title">Basic kbd shortcut</span>
+    <div>
+        <ard-kbd-shortcut>Ctrl+C</ard-kbd-shortcut>
+    </div>
+</div>
+<div class="master">
+    <span class="title">Kbd shortcut alternative input method</span>
+    <div>
+        <ard-kbd-shortcut>Ctrl A</ard-kbd-shortcut>
+    </div>
+</div>
+<div class="master">
+    <span class="title">Kbd shortcut using the [keys] property</span>
+    <div>
+        <ard-kbd-shortcut keys="Ctrl+F"></ard-kbd-shortcut>
+    </div>
+</div>
+<div class="master">
+    <span class="title">Kbd shortcut changing dynamically</span>
+    <div>
+        <ard-kbd-shortcut [keys]="['Ctrl', currentKey]"></ard-kbd-shortcut>
+    </div>
+</div>
+<div class="master">
+    <span class="title">Short vs full kbd shortcut key names</span>
+    <div class="flex">
+        <ard-kbd-shortcut>Ctrl+mute</ard-kbd-shortcut>
+        <ard-kbd-shortcut full>Ctrl+mute</ard-kbd-shortcut>
+    </div>
+</div>
+<div class="master">
+    <span class="title">Kbd shortcut font size</span>
+    <div>
+        <ard-kbd-shortcut class="large-kbd">Ctrl+X</ard-kbd-shortcut>
+    </div>
+</div>
+<div class="master">
+    <span class="title">Kbd shortcut appearances</span>
+    <div class="flex">
+        <div class="flex horiz" *ngFor="let appearance of appearances">
+            <ard-kbd-shortcut [appearance]="appearance">Ctrl+A</ard-kbd-shortcut>
+            <span class="mono">{{ appearance }}</span>
+        </div>
+    </div>
+</div>

@@ -97,6 +97,13 @@ export * from './lib/color/color-picker/color-picker.types';
 export * from './lib/calendar/calendar.module';
 export * from './lib/calendar/calendar.component';
 export * from './lib/calendar/calendar.types';
+//kbd
+export * from './lib/kbd/kbd.module';
+export * from './lib/kbd/kbd.component';
+export * from './lib/kbd/kbd.pipe';
+//kbd-shortcut
+export * from './lib/kbd-shortcut/kbd-shortcut.module';
+export * from './lib/kbd-shortcut/kbd-shortcut.component';
 //progress-circle
 export * from './lib/progress-circle/progress-circle.module';
 export * from './lib/progress-circle/progress-circle.component';

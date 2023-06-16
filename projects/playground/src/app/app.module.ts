@@ -21,6 +21,8 @@ import { StateboxModule } from './pages/statebox/statebox.module';
 import { ColorDisplayModule } from './pages/color-display/color-display.module';
 import { ColorPickerModule } from './pages/color-picker/color-picker.module';
 import { ProgressCircleModule } from './pages/progress-circle/progress-circle.module';
+import { KbdModule } from './pages/kbd/kbd.module';
+import { KbdShortcutModule } from './pages/kbd-shortcut/kbd-shortcut.module';
 
 @NgModule({
     declarations: [
@@ -46,6 +48,8 @@ import { ProgressCircleModule } from './pages/progress-circle/progress-circle.mo
         ColorPickerModule,
         CalendarModule,
         ProgressCircleModule,
+        KbdModule,
+        KbdShortcutModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
