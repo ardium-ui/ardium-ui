@@ -1,6 +1,6 @@
 import { isAnyString, isDefined, isNull } from "simple-bool";
-import { RegExpTransformer } from '../input-transformers';
-import { CaseTransformerType } from "../input-types";
+import { RegExpTransformer } from './input-transformers';
+import { CaseTransformerType } from "./input-types";
 
 export interface HexInputModelHost {
     case: CaseTransformerType,
