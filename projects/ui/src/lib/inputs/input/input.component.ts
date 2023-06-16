@@ -293,7 +293,7 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
                 this._onEnterPress(event);
                 return;
             }
-            case 'Space': {
+            case 'Tab': {
                 this._onTabOrEnterPress(event);
                 return;
             }
