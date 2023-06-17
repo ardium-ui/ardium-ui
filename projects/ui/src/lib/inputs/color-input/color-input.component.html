@@ -1,0 +1,49 @@
+<ard-form-field-frame
+    [appearance]="appearance"
+    [variant]="variant"
+    [compact]="compact"
+    [isFocused]="isFocused"
+    [prefixTemplate]="prefixTemplate"
+    [suffixTemplate]="suffixTemplate"
+>
+    <div class="ard-color-input"
+        [class.ard-has-value]="value"
+        (mouseup)="onMouseup($event)"
+    >
+        <div class="ard-input-container">
+            <ng-container *ngIf="shouldDisplayPlaceholder">
+                <ng-template #defaultPlaceholderTemplate>
+                    <div class="ard-placeholder">{{ placeholder }}</div>
+                </ng-template>
+
+                <ng-template [ngTemplateOutlet]="placeholderTemplate || defaultPlaceholderTemplate"></ng-template>
+            </ng-container>
+
+            <input #textInput
+                [attr.id]="inputId"
+                tabindex="-1"
+                readonly
+                (input)="onInput(textInput.value)"
+                (change)="onChange($event)"
+                (mouseup)="$event.stopPropagation()"
+                (copy)="onCopy($event)"
+            >
+        </div>
+
+        <ard-_clear-button
+            *ngIf="shouldShowClearButton"
+            [title]="clearButtonTitle"
+            (click)="onClearButtonClick($event)"
+        ></ard-_clear-button>
+
+        <button
+            class="ard-color-display-button"
+            #focusableElement
+            (focus)="onFocus($event)"
+            (blur)="onBlur($event)"
+            (copy)="onCopy($event)"
+        >
+            <ard-color-display [color]="value"></ard-color-display>
+        </button>
+    </div>
+</ard-form-field-frame>
