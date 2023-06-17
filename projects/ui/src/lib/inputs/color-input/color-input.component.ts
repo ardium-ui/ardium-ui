@@ -89,12 +89,26 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
     writeValue(v: any) {
         if (!isAnyString(v) && !isNull(v)) {
             //warn when using non-string/non-null value
-            console.warn(new Error(`Trying to set ard-hex-input's value to type ${typeof v}, expected string, or null.`));
+            console.warn(new Error(`Trying to set ard-color-input's value to type ${typeof v}, expected string or null.`));
+            this._value = null;
+            return;
+        }
+        if (!v) {
+            this._value = null;
+            return;
         }
         //normalize the value
         v = v ?? '';
         if (typeof v == 'string')
             v = v.replace('#', '');
+        
+        if (!v.match(/^([0-9a-f]{3}){1,2}$/i) && !v.match(/^([0-9a-f]{4}){1,2}$/i)) {
+            //warn when using invalid value string
+            console.warn(new Error(`Invalid ard-color-input value "${v}". Expected a valid hex color code.`));
+            this._value = null;
+            return;
+        }
+        this._value = v;
     }
 
     //! value two-way binding
