@@ -30,6 +30,9 @@ export class HexInputModel {
         }
         //normalize the value
         v = v ?? '';
+        if (typeof v == 'string')
+            v = v.replace('#', '');
+
         return this._writeValue(v);
     }
     protected _writeValue(v: string | null): boolean {
