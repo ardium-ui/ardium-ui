@@ -19,12 +19,12 @@
     
     &.ard-appearance-rounded {
         .ard-color-display {
-            border-radius: 20%;
+            border-radius: 0.25em;
         }
     }
     &.ard-appearance-circle {
         .ard-color-display {
-            border-radius: 100%;
+            border-radius: 9999px;
         }
     }
     &.ard-appearance-sharp {
