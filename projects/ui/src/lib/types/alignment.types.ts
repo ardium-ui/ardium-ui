@@ -6,7 +6,8 @@ export const SimpleOneAxisAlignment = {
 export type SimpleOneAxisAlignment = typeof SimpleOneAxisAlignment[keyof typeof SimpleOneAxisAlignment];
 
 export const OneAxisAlignment = {
-    ...SimpleOneAxisAlignment,
-    Middle: 'middle'
+    Left: 'left',
+    Middle: 'middle',
+    Right: 'right',
 } as const;
 export type OneAxisAlignment = typeof OneAxisAlignment[keyof typeof OneAxisAlignment];

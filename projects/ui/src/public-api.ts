@@ -113,6 +113,11 @@ export * from './lib/progress-circle/progress-circle.module';
 export * from './lib/progress-circle/progress-circle.component';
 export * from './lib/progress-circle/progress-circle.types';
 export * from './lib/progress-circle/progress-circle.directive';
+//card
+export * from './lib/card/card.module';
+export * from './lib/card/card.component';
+export * from './lib/card/card.types';
+export * from './lib/card/card.children';
 //! types
 export * from './lib/types/alignment.types';
 export * from './lib/types/colors.types';
