@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ButtonModule } from './pages/button/button.module';
 import { CalendarModule } from './pages/calendar/calendar.module';
+import { CardModule } from './pages/card/card.module';
 import { CheckboxModule } from './pages/checkbox/checkbox.module';
 import { ChipsModule } from './pages/chips/chips.module';
 import { FabModule } from './pages/fab/fab.module';
@@ -29,7 +30,7 @@ import { KbdShortcutModule } from './pages/kbd-shortcut/kbd-shortcut.module';
         AppComponent,
     ],
     imports: [
-    BrowserModule,
+        BrowserModule,
         AppRoutingModule,
         HomeModule,
         SelectModule,
@@ -50,6 +51,7 @@ import { KbdShortcutModule } from './pages/kbd-shortcut/kbd-shortcut.module';
         ProgressCircleModule,
         KbdModule,
         KbdShortcutModule,
+        CardModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

@@ -19,6 +19,7 @@ import { SlideTogglePage } from './pages/slide-toggle/slide-toggle.page';
 import { SlidersPage } from './pages/sliders/sliders.page';
 import { StarsPage } from './pages/stars/stars.page';
 import { StateboxPage } from './pages/statebox/statebox.page';
+import { CardPage } from './pages/card/card.page';
 
 const routes: Routes = [
     { path: '', component: HomePage },
@@ -38,6 +39,7 @@ const routes: Routes = [
     { path: 'progress-circle', component: ProgressCirclePage },
     { path: 'kbd', component: KbdPage },
     { path: 'kbd-shortcut', component: KbdShortcutPage },
+    { path: 'card', component: CardPage },
     { path: 'sliders', component: SlidersPage, loadChildren: () => import('./pages/sliders/sliders.module').then(m => m.SlidersModule) },
     { path: 'inputs', component: InputsPage, loadChildren: () => import('./pages/inputs/inputs.module').then(m => m.InputsModule) },
     //redirects
