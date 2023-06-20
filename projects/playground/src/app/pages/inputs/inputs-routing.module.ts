@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ColorInputPage } from './color-input/color-input.page';
 import { HexInputPage } from './hex-input/hex-input.page';
 import { InputPage } from './input/input.page';
 import { InputsHomePage } from './inputs-home/inputs-home.page';
@@ -12,6 +13,7 @@ const routes: Routes = [
     { path: 'input', component: InputPage },
     { path: 'number-input', component: NumberInputPage },
     { path: 'hex-input', component: HexInputPage },
+    { path: 'color-input', component: ColorInputPage },
     //redirects
     { path: '**' , redirectTo: '' },
 ];
