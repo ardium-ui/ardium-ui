@@ -1,0 +1,10 @@
+@import '../variables';
+
+.ard-divider {
+    border-top: $border;
+
+    &.ard-divider-vertical {
+        border-top: none;
+        border-left: $border;
+    }
+}

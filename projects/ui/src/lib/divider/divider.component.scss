@@ -1,0 +1,11 @@
+
+
+.ard-divider {
+    width: 100%;
+    height: 0;
+
+    &.ard-divider-vertical {
+        height: 100%;
+        width: 0;
+    }
+}

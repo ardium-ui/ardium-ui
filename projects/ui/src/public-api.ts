@@ -119,6 +119,9 @@ export * from './lib/card/card.module';
 export * from './lib/card/card.component';
 export * from './lib/card/card.types';
 export * from './lib/card/card.children';
+//divider
+export * from './lib/divider/divider.module';
+export * from './lib/divider/divider.component';
 //! types
 export * from './lib/types/alignment.types';
 export * from './lib/types/colors.types';
