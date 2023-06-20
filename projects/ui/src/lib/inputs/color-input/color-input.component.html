@@ -5,10 +5,11 @@
     [isFocused]="isFocused"
     [prefixTemplate]="prefixTemplate"
     [suffixTemplate]="suffixTemplate"
+    #overlayHost
 >
     <div class="ard-color-input"
         [class.ard-has-value]="value"
-        (mouseup)="onMouseup($event)"
+        (mouseup)="onMouseup()"
     >
         <div class="ard-input-container">
             <ng-container *ngIf="shouldDisplayPlaceholder">
@@ -23,17 +24,13 @@
                 [attr.id]="inputId"
                 tabindex="-1"
                 readonly
-                (input)="onInput(textInput.value)"
-                (change)="onChange($event)"
-                (mouseup)="$event.stopPropagation()"
-                (copy)="onCopy($event)"
             >
         </div>
 
         <ard-_clear-button
             *ngIf="shouldShowClearButton"
             [title]="clearButtonTitle"
-            (click)="onClearButtonClick($event)"
+            (mouseup)="onClearButtonClick($event)"
         ></ard-_clear-button>
 
         <button
@@ -47,3 +44,32 @@
         </button>
     </div>
 </ard-form-field-frame>
+
+<ng-template #overlayTemplate>
+    <ard-card
+        class="ard-overlay-card ard-color-input-overlay-card"
+        [appearance]="overlayAppearance"
+        [variant]="overlayVariant"
+        (ardClickOutside)="handleOutsideClick($event)"
+    >
+        <ard-color-picker
+            [value]="value"
+            (valueChange)="onColorPickerChange($event)"
+            [hueIndicatorTemplate]="hueIndicatorTemplate"
+            [shadeIndicatorTemplate]="shadeIndicatorTemplate"
+            [opacityIndicatorTemplate]="opacityIndicatorTemplate"
+            [colorReferenceTemplate]="colorReferenceTemplate"
+        ></ard-color-picker>
+        <ard-card-action-buttons *ngIf="withActionButtons">
+            <ng-template #defaultActionButtonsTemplate let-applyFn="apply" let-cancelFn="cancel">
+                <ard-button appearance="transparent" [variant]="actionButtonVariant" (click)="cancelFn()">Cancel</ard-button>
+                <ard-button appearance="raised-strong" [variant]="actionButtonVariant" (click)="applyFn()">Apply</ard-button>
+            </ng-template>
+
+            <ng-template
+                [ngTemplateOutlet]="actionButtonsTemplate ?? defaultActionButtonsTemplate"
+                [ngTemplateOutletContext]="getActionButtonsContext()"
+            />
+        </ard-card-action-buttons>
+    </ard-card>
+</ng-template>

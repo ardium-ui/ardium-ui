@@ -97,6 +97,7 @@ export * from './lib/color/color-picker/color-picker.types';
 export * from './lib/inputs/color-input/color-input.module';
 export * from './lib/inputs/color-input/color-input.component';
 export * from './lib/inputs/color-input/color-input.directives';
+export * from './lib/inputs/color-input/color-input.types';
 //calendar
 export * from './lib/calendar/calendar.module';
 export * from './lib/calendar/calendar.component';

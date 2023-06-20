@@ -7,28 +7,40 @@
     padding: 0 0.375rem;
     min-width: 10rem;
     max-width: 100%;
+    cursor: pointer;
 
     @include CB.clearButton();
 
     .ard-input-container {
+        pointer-events: none;
+        
         input {
             font-family: monospace;
+            user-select: none;
         }
     }
 
-    .ard-hash-container {
-        margin-right: -0.25rem;
-        color: $text3;
-        opacity: 70%;
-        user-select: none;
-        font-family: monospace;
-    }
-
     .ard-color-display-button {
+        padding: 0;
+        margin: 0;
+        border: none;
+        background: transparent;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        width: 3em;
+        outline: none;
 
+        * {
+            width: 100% !important;
+        }
 
-        // ard-color-display {
-        //     pointer-events: none;
-        // }
+        ard-color-display {
+            pointer-events: none;
+            font-size: 1.1rem;
+        }
     }
+}
+.ard-color-input-overlay-card {
+    margin: 0.4rem;
 }
