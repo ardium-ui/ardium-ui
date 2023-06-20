@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component, ContentChild, ElementRef, EventEmitter, HostListener, Input, Output, TemplateRef, ViewChild, ViewEncapsulation, OnInit } from '@angular/core';
-import { withHashLocation } from '@angular/router';
+import { ChangeDetectionStrategy, Component, ContentChild, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty, getEventRelativePos } from '@ardium-ui/devkit';
 import * as Color from 'color';
-import { round, roundToPrecision, roundToMultiple } from 'more-rounding';
+import { round, roundToMultiple, roundToPrecision } from 'more-rounding';
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { ArdColorPickerColorReferenceTemplateDirective, ArdColorPickerHueIndicatorTemplateDirective, ArdColorPickerOpacityIndicatorTemplateDirective, ArdColorPickerShadeIndicatorTemplateDirective } from './color-picker.directives';
 import { ColorPickerColorReferenceContext, ColorPickerIndicatorContext, ColorPickerVariant, _ColorPickerInputsSectionType } from './color-picker.types';
@@ -338,10 +337,14 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
     }
 
     //! template customization
-    @ContentChild(ArdColorPickerShadeIndicatorTemplateDirective, { read: TemplateRef }) shadeIndicatorTemplate?: TemplateRef<any>;
-    @ContentChild(ArdColorPickerHueIndicatorTemplateDirective, { read: TemplateRef }) hueIndicatorTemplate?: TemplateRef<any>;
-    @ContentChild(ArdColorPickerOpacityIndicatorTemplateDirective, { read: TemplateRef }) opacityIndicatorTemplate?: TemplateRef<any>;
-    @ContentChild(ArdColorPickerColorReferenceTemplateDirective, { read: TemplateRef }) colorReferenceTemplate?: TemplateRef<any>;
+    @Input() shadeIndicatorTemplate?: TemplateRef<any>;
+    @Input() hueIndicatorTemplate?: TemplateRef<any>;
+    @Input() opacityIndicatorTemplate?: TemplateRef<any>;
+    @Input() colorReferenceTemplate?: TemplateRef<any>;
+    @ContentChild(ArdColorPickerShadeIndicatorTemplateDirective, { read: TemplateRef }) shadeIndicatorTemplateChild?: TemplateRef<any>;
+    @ContentChild(ArdColorPickerHueIndicatorTemplateDirective, { read: TemplateRef }) hueIndicatorTemplateChild?: TemplateRef<any>;
+    @ContentChild(ArdColorPickerOpacityIndicatorTemplateDirective, { read: TemplateRef }) opacityIndicatorTemplateChild?: TemplateRef<any>;
+    @ContentChild(ArdColorPickerColorReferenceTemplateDirective, { read: TemplateRef }) colorReferenceTemplateChild?: TemplateRef<any>;
 
     getIndicatorContext(): ColorPickerIndicatorContext {
         return {

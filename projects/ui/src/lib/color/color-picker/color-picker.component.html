@@ -20,7 +20,7 @@
                     <div class="ard-color-picker-shade-indicator"></div>
                 </ng-template>
                 
-                <ng-template [ngTemplateOutlet]="shadeIndicatorTemplate || defaultShadeIndicatorTemplate"
+                <ng-template [ngTemplateOutlet]="shadeIndicatorTemplate || shadeIndicatorTemplateChild || defaultShadeIndicatorTemplate"
                     [ngTemplateOutletContext]="getIndicatorContext()"
                 ></ng-template>
             </div>
@@ -40,7 +40,7 @@
                     <div class="ard-color-picker-hue-indicator"></div>
                 </ng-template>
                 
-                <ng-template [ngTemplateOutlet]="hueIndicatorTemplate || defaultHueIndicatorTemplate"
+                <ng-template [ngTemplateOutlet]="hueIndicatorTemplate || hueIndicatorTemplateChild || defaultHueIndicatorTemplate"
                     [ngTemplateOutletContext]="getIndicatorContext()"
                 ></ng-template>
             </div>
@@ -61,7 +61,7 @@
                     <div class="ard-color-picker-opacity-indicator"></div>
                 </ng-template>
                 
-                <ng-template [ngTemplateOutlet]="opacityIndicatorTemplate || defaultOpacityIndicatorTemplate"
+                <ng-template [ngTemplateOutlet]="opacityIndicatorTemplate || opacityIndicatorTemplateChild || defaultOpacityIndicatorTemplate"
                     [ngTemplateOutletContext]="getIndicatorContext()"
                 ></ng-template>
             </div>
@@ -87,7 +87,7 @@
                     </div>
                 </ng-template>
             
-                <ng-template [ngTemplateOutlet]="colorReferenceTemplate || defaultColorReferenceTemplate"
+                <ng-template [ngTemplateOutlet]="colorReferenceTemplate || colorReferenceTemplateChild || defaultColorReferenceTemplate"
                     [ngTemplateOutletContext]="getColorReferenceContext()"
                 ></ng-template>
             </div>
