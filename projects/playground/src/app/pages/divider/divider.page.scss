@@ -9,3 +9,12 @@
         margin: 0.4rem 0;
     }
 }
+
+.flex-item {
+    width: 100px;
+    height: 100px;
+    text-align: center;
+}
+.vertical-list {
+    align-items: unset !important;
+}
