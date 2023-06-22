@@ -122,6 +122,11 @@ export * from './lib/card/card.children';
 //divider
 export * from './lib/divider/divider.module';
 export * from './lib/divider/divider.component';
+//password-input
+export * from './lib/inputs/password-input/password-input.module';
+export * from './lib/inputs/password-input/password-input.component';
+export * from './lib/inputs/password-input/password-input.directives';
+export * from './lib/inputs/password-input/password-input.types';
 //! types
 export * from './lib/types/alignment.types';
 export * from './lib/types/colors.types';

@@ -86,6 +86,7 @@ export class ArdiumPasswordInputComponent extends _NgModelComponentBase implemen
             `ard-appearance-${this.appearance}`,
             `ard-variant-${this.variant}`,
             this.compact ? 'ard-compact' : '',
+            this.revealable ? 'ard-revealable' : '',
         ].join(' ');
     }
 
