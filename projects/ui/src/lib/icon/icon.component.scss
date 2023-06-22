@@ -6,7 +6,7 @@ ard-icon {
         'wght' 400,
         'GRAD' 0,
         'opsz' 48;
-    font-size: 24px;
+    font-size: 1.5em;
     width: 1em;
     height: 1em;
     display: inline-block;
@@ -17,6 +17,7 @@ ard-icon {
     
     .ard-icon {
         font-variation-settings: inherit;
+        font-size: inherit;
     }
 
     .ard-icon-content-wrapper {
