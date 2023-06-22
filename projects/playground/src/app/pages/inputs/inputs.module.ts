@@ -8,6 +8,7 @@ import { InputsHomeModule } from './inputs-home/inputs-home.module';
 import { InputsRoutingModule } from './inputs-routing.module';
 import { InputsPage } from './inputs.page';
 import { NumberInputModule } from './number-input/number-input.module';
+import { PasswordInputModule } from './password-input/password-input.module';
 import { SimpleInputModule } from './simple-input/simple-input.module';
 
 
@@ -24,6 +25,7 @@ import { SimpleInputModule } from './simple-input/simple-input.module';
         NumberInputModule,
         HexInputModule,
         ColorInputModule,
+        PasswordInputModule,
     ],
     exports: [
         InputsPage,

@@ -2,25 +2,25 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ButtonPage } from './pages/button/button.page';
 import { CalendarPage } from './pages/calendar/calendar.page';
+import { CardPage } from './pages/card/card.page';
 import { CheckboxPage } from './pages/checkbox/checkbox.page';
 import { ChipsPage } from './pages/chips/chips.page';
 import { ColorDisplayPage } from './pages/color-display/color-display.page';
 import { ColorPickerPage } from './pages/color-picker/color-picker.page';
+import { DividerPage } from './pages/divider/divider.page';
 import { FabPage } from './pages/fab/fab.page';
 import { HomePage } from './pages/home/home.page';
 import { IconPage } from './pages/icon/icon.page';
 import { InputsPage } from './pages/inputs/inputs.page';
-import { ProgressCirclePage } from './pages/progress-circle/progress-circle.page';
 import { KbdShortcutPage } from './pages/kbd-shortcut/kbd-shortcut.page';
 import { KbdPage } from './pages/kbd/kbd.page';
+import { ProgressCirclePage } from './pages/progress-circle/progress-circle.page';
 import { SegmentPage } from './pages/segment/segment.page';
 import { SelectPage } from './pages/select/select.page';
 import { SlideTogglePage } from './pages/slide-toggle/slide-toggle.page';
 import { SlidersPage } from './pages/sliders/sliders.page';
 import { StarsPage } from './pages/stars/stars.page';
 import { StateboxPage } from './pages/statebox/statebox.page';
-import { CardPage } from './pages/card/card.page';
-import { DividerPage } from './pages/divider/divider.page';
 
 const routes: Routes = [
     { path: '', component: HomePage },
@@ -49,7 +49,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
 })
 export class AppRoutingModule { }
