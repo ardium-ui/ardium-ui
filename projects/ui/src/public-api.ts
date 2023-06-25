@@ -127,6 +127,10 @@ export * from './lib/inputs/password-input/password-input.module';
 export * from './lib/inputs/password-input/password-input.component';
 export * from './lib/inputs/password-input/password-input.directives';
 export * from './lib/inputs/password-input/password-input.types';
+//radio-group and radio
+export * from './lib/radio/radio/radio.component';
+export * from './lib/radio/radio.module';
+export * from './lib/radio/radio-group.component';
 //! types
 export * from './lib/types/alignment.types';
 export * from './lib/types/colors.types';

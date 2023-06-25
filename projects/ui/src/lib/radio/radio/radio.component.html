@@ -1,0 +1,13 @@
+<div class="ard-radio-wrapper">
+    <div class="ard-radio">
+        <div class="ard-radio-circles">
+            <div class="ard-radio-outer-circle"></div>
+            <div class="ard-radio-inner-circle"></div>
+        </div>
+        <div class="ard-focus-overlay"></div>
+        <input type="radio" [name]="name" [id]="htmlId">
+    </div>
+    <label [for]="htmlId">
+        <ng-content></ng-content>
+    </label>
+</div>
