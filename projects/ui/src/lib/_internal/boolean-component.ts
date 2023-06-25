@@ -66,4 +66,23 @@ export abstract class _BooleanComponentBase extends _NgModelComponentBase implem
 
         this._emitChange();
     }
+
+    /**
+     * Sets the state to "selected". Emits all appropriate events only if the state changes.
+     */
+    select() {
+        const oldState = this._selected;
+        this._selected = true;
+
+        if (oldState != true) this._emitChange();
+    }
+    /**
+     * Sets the state to "unselected". Emits all appropriate events only if the state changes.
+     */
+    unselect() {
+        const oldState = this._selected;
+        this._selected = false;
+
+        if (oldState != false) this._emitChange();
+    }
 }
