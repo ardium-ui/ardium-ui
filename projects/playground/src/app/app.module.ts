@@ -19,6 +19,7 @@ import { InputsModule } from './pages/inputs/inputs.module';
 import { KbdShortcutModule } from './pages/kbd-shortcut/kbd-shortcut.module';
 import { KbdModule } from './pages/kbd/kbd.module';
 import { ProgressCircleModule } from './pages/progress-circle/progress-circle.module';
+import { RadioModule } from './pages/radio/radio.module';
 import { SegmentModule } from './pages/segment/segment.module';
 import { SelectModule } from './pages/select/select.module';
 import { SlideToggleModule } from './pages/slide-toggle/slide-toggle.module';
@@ -54,6 +55,7 @@ import { StateboxModule } from './pages/statebox/statebox.module';
         KbdShortcutModule,
         CardModule,
         DividerModule,
+        RadioModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
