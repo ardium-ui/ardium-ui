@@ -1,13 +1,27 @@
-<div class="ard-radio-wrapper">
-    <div class="ard-radio">
-        <div class="ard-radio-circles">
-            <div class="ard-radio-outer-circle"></div>
-            <div class="ard-radio-inner-circle"></div>
-        </div>
+<button class="ard-radio"
+    [ngClass]="ngClasses"
+    #focusableElement
+    (focus)="onFocus($event)"
+    (blur)="onBlur($event)"
+    (mousedown)="onMousedown()"
+    (mouseup)="onMouseup()"
+>
+    <div class="ard-radio-circles">
+        <div class="ard-radio-outer-circle"></div>
+        <div class="ard-radio-inner-circle"></div>
         <div class="ard-focus-overlay"></div>
-        <input type="radio" [name]="name" [id]="htmlId">
+        <div class="ard-hitbox"></div>
     </div>
     <label [for]="htmlId">
         <ng-content></ng-content>
     </label>
-</div>
+</button>
+
+<input
+    class="ard-radio-input-element"
+    type="radio"
+    [name]="name"
+    [id]="htmlId"
+    [checked]="selected"
+    #radio
+>

@@ -1,0 +1,107 @@
+@use './coloring' as CM;
+@use './mixins' as GM;
+@import '../variables';
+
+ard-radio {
+    display: inline-block;
+    width: max-content;
+    max-width: 100%;
+}
+
+ard-radio ~ ard-radio {
+    margin-left: 1rem;
+}
+
+.ard-radio {
+    @include CM.typeColors();
+
+    outline: none;
+    font-size: 1em;
+    display: flex;
+    gap: 0.375em;
+    padding: 0;
+    width: 100%;
+
+    > .ard-radio-circles {
+        position: relative;
+        width: 1.25em;
+        height: 1.25em;
+
+        > .ard-radio-outer-circle {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            border: 2px solid $detail;
+            border-radius: 9999px;
+            transition: border-color 0.2s $timing-fn;
+        }
+        > .ard-radio-inner-circle {
+            position: absolute;
+            left: 25%;
+            right: 25%;
+            top: 25%;
+            bottom: 25%;
+            background: var(--ard-cmpcl--border);
+            border-radius: 9999px;
+            transform: scale(0);
+            transition: transform 0.2s $timing-fn;
+        }
+        > .ard-focus-overlay {
+            @include GM.focus-overlay(0.375em);
+            border-radius: 9999px;
+            background-color: $overlay;
+
+            transition:
+                opacity 0.2s ease,
+                background-color 0.2s ease;
+        }
+        > .ard-hitbox {
+            position: absolute;
+            top: -0.375em;
+            bottom: -0.375em;
+            left: -0.375em;
+            right: -0.375em;
+            cursor: pointer;
+        }
+
+        &:hover {
+            > .ard-focus-overlay {
+                opacity: 7.5%;
+            }
+        }
+    }
+
+    &.ard-radio-selected {
+        > .ard-radio-circles {
+            > .ard-radio-outer-circle {
+                border-color: var(--ard-cmpcl--border);
+            }
+            > .ard-radio-inner-circle {
+                transform: scale(1);
+            }
+            > .ard-focus-overlay {
+                background-color: var(--ard-cmpcl--border);
+            }
+        }
+    }
+    &:focus {
+        > .ard-radio-circles {
+            > .ard-focus-overlay {
+                opacity: 15%;
+            }
+        }
+    }
+    &:active {
+        > .ard-radio-circles {
+            > .ard-focus-overlay {
+                opacity: 25%;
+            }
+        }
+    }
+}
+
+ard-radio-group {
+    display: block;
+}

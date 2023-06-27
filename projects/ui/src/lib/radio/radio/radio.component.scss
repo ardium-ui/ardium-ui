@@ -1,7 +1,12 @@
 .ard-radio {
-    display: inline-block;
-    
-    > input {
-        display: none;
+    border: none;
+    background: none;
+
+    > label {
+        pointer-events: none;
     }
+}
+
+ard-radio > .ard-radio-input-element {
+    display: none;
 }
