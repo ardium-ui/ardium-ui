@@ -2,14 +2,15 @@
 @use './mixins' as GM;
 @import '../variables';
 
+ard-radio-group {
+    display: flex;
+    gap: 0.5rem 1rem;
+}
+
 ard-radio {
     display: inline-block;
     width: max-content;
     max-width: 100%;
-}
-
-ard-radio ~ ard-radio {
-    margin-left: 1rem;
 }
 
 .ard-radio {
@@ -100,8 +101,4 @@ ard-radio ~ ard-radio {
             }
         }
     }
-}
-
-ard-radio-group {
-    display: block;
 }
