@@ -43,8 +43,13 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
     @Output() valueChange = new EventEmitter<any>();
     @Output('change') changeEvent = new EventEmitter<any>();
 
+    private _valueBeforeInit: any;
     writeValue(v: any): void {
         if (this.value !== v) {
+            if (!this._isContentInit) {
+                this._valueBeforeInit = v;
+                return;
+            }
 
             this._findRadioByValue(v);
         }
@@ -54,12 +59,12 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
     private _findRadioByValue(v: any): void {
         if (!this._radios) return;
 
-        this._selected = this._radios.find(radio => this.value === radio.value) ?? null;
+        this._selected = this._radios.find(radio => v === radio.value) ?? null;
     }
 
     /** Updates all child radios depending on the currently selected radio. */
     private _updateRadiosByValue(): void {
-        if (!this._radios) return;
+        if (!this._isContentInit) return;
         
         this._radios.forEach(radio => {
             radio.selected = this.value === radio.value;
@@ -133,7 +138,14 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
     //! hooks
     private readonly _subscriptions: Subscription[] = [];
     private _childEventSubs: Subscription[] = [];
+    private _isContentInit: boolean = false;
     ngAfterContentInit(): void {
+        this._isContentInit = true;
+
+        if (this._valueBeforeInit !== undefined) {
+            this.writeValue(this._valueBeforeInit);
+        }
+
         this._updateRadioButtonNames();
 
         this._radios.forEach(radio => {
