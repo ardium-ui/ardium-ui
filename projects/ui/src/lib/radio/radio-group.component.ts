@@ -128,7 +128,7 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
         this._emitChange();
     }
 
-    private _emitChange(): void {
+    protected _emitChange(): void {
         const v = this.value;
         this._onChangeRegistered?.(v);
         this.changeEvent.emit(v);

@@ -87,7 +87,7 @@ export class ArdiumStarInputComponent extends _NgModelComponentBase implements O
     onStarClick(index: number): void {
         this.value = index + 1;
         this.setStarArrayFromNumber(this.value);
-        this._emitChanges();
+        this._emitChange();
     }
     private _currentHoverIndex: number | null = null;
     onStarHighlight(index: number): void {
@@ -100,7 +100,7 @@ export class ArdiumStarInputComponent extends _NgModelComponentBase implements O
         this._currentHoverIndex = null;
         this.setStarArrayFromNumber(this.value);
     }
-    private _emitChanges(): void {
+    protected _emitChange(): void {
         this._onChangeRegistered?.(this.value);
         this.changeEvent.emit(this.value);
         this.valueChange.emit(this.value);

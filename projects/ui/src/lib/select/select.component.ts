@@ -351,7 +351,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         this._cd.markForCheck();
     }
     //* change & touch event emitters
-    private _emitChanges(): void {
+    protected _emitChange(): void {
         let value = this.itemStorage.value;
         this._onChangeRegistered?.(value);
         this.changeEvent.emit(value);
@@ -700,7 +700,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
 
         if (selected.length > 0) {
             this.addEvent.emit(selected);
-            this._emitChanges();
+            this._emitChange();
 
             this.focus();
             if (!this.keepSearchAfterSelect) this._clearSearch(true);
@@ -714,7 +714,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         let unselected = this.itemStorage.unselectItem(...items);
 
         this.removeEvent.emit(unselected);
-        this._emitChanges();
+        this._emitChange();
         if (!this.keepSearchAfterSelect) this._clearSearch();
 
         this.focus();
@@ -730,7 +730,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
 
         this.clearEvent.emit();
         this.removeEvent.emit(cleared);
-        this._emitChanges();
+        this._emitChange();
     }
     private _clearLastItem(): void {
         let clearedValue = this.itemStorage
@@ -740,7 +740,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
         this.focus();
 
         this.removeEvent.emit([clearedValue]);
-        this._emitChanges();
+        this._emitChange();
     }
     //! highligh-related
     onMouseMove() {
