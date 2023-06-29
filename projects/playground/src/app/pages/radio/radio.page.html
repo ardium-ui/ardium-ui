@@ -6,3 +6,35 @@
         <ard-radio value="value3">Option 3</ard-radio>
     </ard-radio-group>
 </div>
+<div class="master">
+    <span class="title">Radio group name</span>
+    <ard-radio-group name="example-radios-group">
+        <ard-radio value="value1">Option 1</ard-radio>
+        <ard-radio value="value2">Option 2</ard-radio>
+        <ard-radio value="value3">Option 3</ard-radio>
+    </ard-radio-group>
+</div>
+<div class="master">
+    <span class="title">Radios with preselected radio (by value)</span>
+    <ard-radio-group value="value2">
+        <ard-radio value="value1">Option 1</ard-radio>
+        <ard-radio value="value2">Option 2</ard-radio>
+        <ard-radio value="value3">Option 3</ard-radio>
+    </ard-radio-group>
+</div>
+<div class="master">
+    <span class="title">Radios with preselected radio (by reference)</span>
+    <ard-radio-group [selected]="selectMe">
+        <ard-radio value="value1">Option 1</ard-radio>
+        <ard-radio value="value2">Option 2</ard-radio>
+        <ard-radio value="value3" #selectMe>Option 3</ard-radio>
+    </ard-radio-group>
+</div>
+<div class="master">
+    <span class="title">Radios with preselected radio (by child input)</span>
+    <ard-radio-group>
+        <ard-radio value="value1">Option 1</ard-radio>
+        <ard-radio value="value2">Option 2</ard-radio>
+        <ard-radio value="value3" selected>Option 3</ard-radio>
+    </ard-radio-group>
+</div>
