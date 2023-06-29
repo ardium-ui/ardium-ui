@@ -11,8 +11,6 @@ import { _BooleanComponentBase } from '../../_internal/boolean-component';
 })
 export class ArdiumRadioComponent extends _BooleanComponentBase {
 
-    @ViewChild('radio') private _radioEl!: ElementRef<HTMLInputElement>;
-
     constructor(
         protected _changeDetector: ChangeDetectorRef,
     ) {
@@ -46,14 +44,9 @@ export class ArdiumRadioComponent extends _BooleanComponentBase {
         this._emitChange();
     }
 
-    log(...args: any[]): void {
-        console.log(...args);
-    }
-
     //! radio-group access points
     name: string | null = null;
 
-    //! helpers
     /**
      * Marks the radio button as needing checking for change detection.
      * This method is exposed because the parent radio group will directly
