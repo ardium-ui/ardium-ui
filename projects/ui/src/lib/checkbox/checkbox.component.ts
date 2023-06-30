@@ -22,6 +22,8 @@ import { CheckboxState } from './checkbox.types';
 export class ArdiumCheckboxComponent extends _BooleanComponentBase implements ControlValueAccessor {
     @Input() wrapperClasses: string = '';
 
+    @Input() htmlId?: string;
+
     //* appearance
     @Input() color: SimpleComponentColor = SimpleComponentColor.Primary;
 
