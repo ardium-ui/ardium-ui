@@ -2,3 +2,40 @@
     font-size: 14px;
     font-weight: normal;
 }
+
+.playground {
+    padding: 1rem;
+    padding-top: 0;
+}
+label {
+    font-weight: 500;
+}
+.settings-form {
+    margin-top: 1.5rem;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+}
+.checkboxes {
+    gap: 1rem;
+}
+.settings-top {
+    display: flex;
+    gap: 3rem;
+
+    > * {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+}
+.settings-left {
+    width: 150px;
+}
+.settings-right {
+    justify-content: space-between;
+}
+.button-container {
+    margin: 2rem auto 1rem;
+}
