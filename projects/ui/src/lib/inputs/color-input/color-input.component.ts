@@ -328,7 +328,7 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
 
     get actionButtonVariant(): ButtonVariant {
         if (this.variant == FormElementVariant.Sharp) return ButtonVariant.Sharp;
-        return ButtonVariant.Basic;
+        return ButtonVariant.Rounded;
     }
     getActionButtonsContext(): ColorInputActionButtonsContext {
         return {
