@@ -42,7 +42,7 @@ export class ArdiumButtonComponent extends _FocusableComponentBase {
             `ard-color-${this.color}`,
             `ard-align-${this.alignIcon}`,
             this.compact ? 'ard-compact' : '',
-            this.vertical ? 'ard-vertical' : '',
+            this.vertical ? 'ard-button-vertical' : '',
         ].join(' ');
     }
 }

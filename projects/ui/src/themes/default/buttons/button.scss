@@ -9,6 +9,15 @@
     padding: 0 1.2em;
     letter-spacing: 0.5px;
 
+
+    //! aligns
+    &.ard-align-left {
+        flex-direction: row;
+    }
+    &.ard-align-right {
+        flex-direction: row-reverse;
+    }
+
     //! button variants
     &.ard-button-vertical {
         height: max-content;
@@ -16,13 +25,14 @@
         gap: 2px;
         flex-direction: column;
     }
-    &.ard-button-basic {
+    &.ard-variant-rounded,
+    &.ard-variant-pill.ard-button-vertical {
         border-radius: 6px;
     }
-    &.ard-button-pill {
+    &.ard-variant-pill:not(.ard-button-vertical) {
         border-radius: 9999px;
     }
-    &.ard-button-sharp {
+    &.ard-variant-sharp {
         border-radius: 0;
     }
 
