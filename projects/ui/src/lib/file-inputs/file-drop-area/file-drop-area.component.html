@@ -1,0 +1,20 @@
+<div class="ard-file-drop-area">
+    <div class="ard-file-drop-area-outline">
+        <div class="ard-file-drop-area-content">
+
+        </div>
+    </div>
+</div>
+<input class="ard-file-drop-area-input-element" type="file" [name]="name" [id]="htmlId">
+
+<ng-template #defaultIdleTemplate>
+    <ard-icon class="ard-file-drop-area-icon">upload</ard-icon>
+    <span class="ard-file-drop-area-drop-text">Drop files</span>
+    <span class="ard-file-drop-area-or-text">or</span>
+    <ard-button
+        class="ard-file-drop-area-browse-button"
+        appearance="outlined"
+        [variant]="variant"
+        [color]="color"
+    >Browse files</ard-button>
+</ng-template>
