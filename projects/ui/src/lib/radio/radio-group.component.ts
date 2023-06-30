@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ContentChildren, forwardRef, Input, OnDestroy, OnInit, QueryList, ViewEncapsulation, AfterContentInit, Output, EventEmitter } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ContentChildren, forwardRef, Input, OnDestroy, OnInit, QueryList, ViewEncapsulation, AfterContentInit, Output, EventEmitter, HostBinding } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ArdiumRadioComponent } from './radio/radio.component';
@@ -28,10 +28,8 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
     @ContentChildren(ArdiumRadioComponent, { descendants: true })
     private _radios!: QueryList<ArdiumRadioComponent>;
 
-    constructor(
-    ) {
-        super();
-    }
+    @HostBinding('attr.id')
+    @Input() htmlId?: string;
 
     //! value
     @Input()
@@ -53,7 +51,9 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
 
             this._findRadioByValue(v);
         }
-        this._updateRadiosByValue();
+        setTimeout(() => {
+            this._updateRadiosByValue();
+        }, 0);
     }
 
     private _findRadioByValue(v: any): void {
@@ -89,6 +89,7 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
     private _checkSelectedRadioButton() {
         if (this._selected && !this._selected.selected) {
             this._selected.selected = true;
+            this._selected.markForCheck();
         }
     }
 
@@ -146,7 +147,9 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
             this.writeValue(this._valueBeforeInit);
         }
 
-        this._updateRadioButtonNames();
+        setTimeout(() => {
+            this._updateRadioButtonNames();
+        }, 0);
 
         this._radios.forEach(radio => {
             this._childEventSubs.push(radio.blurEvent.subscribe(v => {
