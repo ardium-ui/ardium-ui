@@ -27,7 +27,7 @@ label {
     > * {
         display: flex;
         flex-direction: column;
-        gap: 0.8rem;
+        gap: 0.6rem;
     }
 }
 .settings-left {
@@ -38,4 +38,9 @@ label {
 }
 .button-container {
     margin: 2rem auto 1rem;
+}
+.settings-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
 }
