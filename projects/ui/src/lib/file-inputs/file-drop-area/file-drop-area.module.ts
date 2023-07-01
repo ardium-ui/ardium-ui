@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ArdiumFileDropAreaComponent } from './file-drop-area.component';
-import { ArdiumFileDropAreaIdleContentTemplateDirective, ArdiumFileDropAreaDragoverContentTemplateDirective, ArdiumFileDropAreaDroppedContentTemplateDirective } from './file-drop-area.directives';
+import { ArdiumFileDropAreaIdleContentTemplateDirective, ArdiumFileDropAreaDragoverContentTemplateDirective, ArdiumFileDropAreaUploadedContentTemplateDirective } from './file-drop-area.directives';
 import { ArdiumButtonModule } from '../../buttons/button/button.module';
 import { ArdiumIconModule } from '../../icon/icon.module';
 
@@ -12,7 +12,7 @@ import { ArdiumIconModule } from '../../icon/icon.module';
         ArdiumFileDropAreaComponent,
         ArdiumFileDropAreaIdleContentTemplateDirective,
         ArdiumFileDropAreaDragoverContentTemplateDirective,
-        ArdiumFileDropAreaDroppedContentTemplateDirective,
+        ArdiumFileDropAreaUploadedContentTemplateDirective,
     ],
     imports: [
         CommonModule,
@@ -23,7 +23,7 @@ import { ArdiumIconModule } from '../../icon/icon.module';
         ArdiumFileDropAreaComponent,
         ArdiumFileDropAreaIdleContentTemplateDirective,
         ArdiumFileDropAreaDragoverContentTemplateDirective,
-        ArdiumFileDropAreaDroppedContentTemplateDirective,
+        ArdiumFileDropAreaUploadedContentTemplateDirective,
     ]
 })
 export class ArdiumFileDropAreaModule { }

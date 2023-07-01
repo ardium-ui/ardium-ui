@@ -18,3 +18,36 @@
         [color]="color"
     >Browse files</ard-button>
 </ng-template>
+
+<ng-template #defaultDragoverTemplate let-amount="amount">
+    <span class="ard-file-drop-area-dragover-text">Drop</span>
+    <span class="ard-file-drop-area-dragover-amount">{{ amount }}</span>
+    <span class="ard-file-drop-area-dragover-text">
+        <ng-container [ngPlural]="amount">
+            <ng-template ngPluralCase="=1">file</ng-template>
+            <ng-template ngPluralCase="other">files</ng-template>
+        </ng-container>
+        here to upload.
+    </span>
+</ng-template>
+
+<ng-template #defaultUploadedTemplate let-amount="amount" let-files="files" let-file>
+    <div class="ard-file-drop-area-uploaded-message">
+        <span class="ard-file-drop-area-uploaded-amount">{{ amount }}</span>
+        <span class="ard-file-drop-area-uploaded-text">
+            <ng-container [ngPlural]="amount">
+                <ng-template ngPluralCase="=1">file</ng-template>
+                <ng-template ngPluralCase="other">files</ng-template>
+            </ng-container>
+            uploaded.
+        </span>
+    </div>
+    <div class="ard-file-drop-area-uploaded-file" *ngIf="amount == 1">
+        <ard-icon>draft</ard-icon>
+        <span class="ard-file-drop-area-filename">{{ file.name }}</span>
+        <span class="ard-file-drop-area-filesize"></span>
+    </div>
+    <div class="ard-file-drop-area-uploaded-files" *ngIf="amount > 1">
+
+    </div>
+</ng-template>

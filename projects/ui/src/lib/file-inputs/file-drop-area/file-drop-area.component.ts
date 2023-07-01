@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ContentChild, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { _FileInputComponentBase } from '../file-input-base';
 import { FileInputBrowseContext, FileInputFilesContext } from '../file-input-types';
-import { ArdiumFileDropAreaDragoverContentTemplateDirective, ArdiumFileDropAreaDroppedContentTemplateDirective, ArdiumFileDropAreaIdleContentTemplateDirective } from './file-drop-area.directives';
+import { ArdiumFileDropAreaDragoverContentTemplateDirective, ArdiumFileDropAreaUploadedContentTemplateDirective, ArdiumFileDropAreaIdleContentTemplateDirective } from './file-drop-area.directives';
 
 @Component({
   selector: 'ard-file-drop-area',
@@ -14,7 +14,7 @@ export class ArdiumFileDropAreaComponent extends _FileInputComponentBase impleme
     //! templates
     @ContentChild(ArdiumFileDropAreaIdleContentTemplateDirective, { read: TemplateRef }) idleTemplate: TemplateRef<FileInputBrowseContext> | null = null;
     @ContentChild(ArdiumFileDropAreaDragoverContentTemplateDirective, { read: TemplateRef }) dragoverTemplate: TemplateRef<FileInputFilesContext> | null = null;
-    @ContentChild(ArdiumFileDropAreaDroppedContentTemplateDirective, { read: TemplateRef }) droppedTemplate: TemplateRef<FileInputFilesContext> | null = null;
+    @ContentChild(ArdiumFileDropAreaUploadedContentTemplateDirective, { read: TemplateRef }) uploadedTemplate: TemplateRef<FileInputFilesContext> | null = null;
 
     idleContext(): FileInputBrowseContext {
         return {
@@ -25,13 +25,15 @@ export class ArdiumFileDropAreaComponent extends _FileInputComponentBase impleme
         const files = this._draggedFiles!;
         return {
             $implicit: files[0],
+            amount: files.length,
             files,
         }
     }
-    droppedContext(): FileInputFilesContext {
+    uploadedContext(): FileInputFilesContext {
         const files = this.value!;
         return {
             $implicit: files[0],
+            amount: files.length,
             files,
         }
     }

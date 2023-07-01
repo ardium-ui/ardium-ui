@@ -7,5 +7,6 @@ export interface FileInputBrowseContext {
 
 export interface FileInputFilesContext {
     $implicit: File;
+    amount: number;
     files: FileList;
 };

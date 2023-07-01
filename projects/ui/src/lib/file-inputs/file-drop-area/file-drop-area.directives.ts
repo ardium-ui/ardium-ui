@@ -14,6 +14,6 @@ export class ArdiumFileDropAreaDragoverContentTemplateDirective {
 }
 
 @Directive({ selector: 'ard-file-drop-area > ng-template[ard-dropped-content-tmp]' })
-export class ArdiumFileDropAreaDroppedContentTemplateDirective {
+export class ArdiumFileDropAreaUploadedContentTemplateDirective {
     constructor(public template: TemplateRef<FileInputFilesContext>) { }
 }
