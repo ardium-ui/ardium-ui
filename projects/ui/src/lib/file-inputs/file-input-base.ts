@@ -1,8 +1,9 @@
-import { Directive, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, HostBinding, Input, OnInit, Output, ViewChild, HostListener } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ComponentColor } from '../types/colors.types';
 import { FormElementVariant } from '../types/theming.types';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
+
 
 @Directive()
 export abstract class _FileInputComponentBase extends _NgModelComponentBase implements OnInit {
@@ -12,7 +13,7 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
     @Input() name?: string;
 
     ngOnInit(): void {
-        if (!(window.File && window.FileReader && window.FileList && window.Blob)) {
+        if (!(window.File && window.FileReader && window.Blob)) {
             console.error(new Error("Cannot use Ardium UI file features because this browser does not support them!"))
         }
     }
@@ -35,36 +36,38 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
     }
 
     //! value
-    protected _value?: FileList;
+    protected _value: File[] | null = null;
     @Input()
-    get value(): FileList | undefined { return this._value; }
-    set value(v: FileList | undefined) {
+    get value(): File[] | null { return this._value; }
+    set value(v: File[] | null) {
         this.writeValue(v);
     }
 
-    @Output() valueChange = new EventEmitter<FileList | undefined>();
-    @Output('change') changeEvent = new EventEmitter<FileList | undefined>();
-    @Output('dragFiles') dragFilesEvent = new EventEmitter<FileList | undefined>();
+    @Output() valueChange = new EventEmitter<File[] | null>();
+    @Output('change') changeEvent = new EventEmitter<File[] | null>();
+    @Output('dragFiles') dragFilesEvent = new EventEmitter<File[] | null>();
 
-    writeValue(v: File | FileList | undefined): void {
+    writeValue(v: File | File[] | null): void {
         this._writeValue(v, false);
     }
-    protected _writeValue(v: File | FileList | undefined, emitEvents: boolean = true): void {
+    protected _writeValue(v: File | File[] | null, emitEvents: boolean = true): void {
         if (v instanceof File) {
-            const file = v;
-            v = new FileList();
-            v[0] = file;
+            v = [v];
         }
 
         this._value = v;
+        this._updateElementValue();
 
         if (emitEvents) {
             this._emitChange();
         }
     }
 
-    protected _emitChange(): void { //TODO
-
+    protected _emitChange(): void {
+        const v = this.value;
+        this._onChangeRegistered?.(v);
+        this.valueChange.emit(v);
+        this.changeEvent.emit(v);
     }
 
     openBrowseDialog(): void {
@@ -73,7 +76,11 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
 
     //! temporary value
     //for drag event handling
-    protected _draggedFiles?: FileList;
+    protected _draggedFiles: number | null = null;
+
+    //! view state
+    currentViewState: 'idle' | 'dragover' | 'uploaded' = 'idle';
+    private _beforeDragoverState: 'idle' | 'uploaded' = 'idle';
 
     //! triggering file dialog
     protected _wasMousedownOnElement: true | null = null;
@@ -88,17 +95,71 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
     }
 
     //! event handlers
-    onDragover(event: DragEvent): void {  //TODO
+    onDragenter(event: DragEvent): void {
+        if (this.currentViewState == 'dragover') return;
+        this._draggedFiles = this._countDragenterFiles(event.dataTransfer);
+
+        if (!this._draggedFiles) return;
+
+        this._beforeDragoverState = this.currentViewState;
+        this.currentViewState = 'dragover';
+    }
+    @HostListener('dragover', ['$event'])
+    onDragover(event: DragEvent): void {
+        event.preventDefault();
+    }
+    onDragleave(): void {
+        if (this.currentViewState != 'dragover') return;
+        
+        this.currentViewState = this._beforeDragoverState;
+    }
+    onDrop(event: DragEvent): void {
+        event.preventDefault();
+        const filelist = event.dataTransfer?.files;
+        if (!filelist) {
+            this.currentViewState = 'idle';
+            return;
+        }
+        const files = Array.from(filelist);
+        if (!files) {
+            this.currentViewState = 'idle';
+            return;
+        }
+
+        this.currentViewState = 'uploaded';
+        this._writeValue(files);
 
     }
-    onDrop(event: DragEvent): void { //TODO
-
+    onInputChange(): void {
+        const files = Array.from(this.fileInputEl.nativeElement.files ?? []);
+        if (files.length == 0) {
+            this._writeValue(null);
+            this.currentViewState = 'idle';
+            return;
+        }
+        this._writeValue(files);
+        this.currentViewState = 'uploaded';
     }
-    onInputChange(event: InputEvent): void { //TODO
 
+    //! helpers
+    protected _countDragenterFiles(data: DataTransfer | null): number | null {
+        if (!data) return null;
+
+        return Array.from(data.items).filter(item => item.kind == 'file').length;
     }
 
     protected _updateElementValue(): void {
-        this.fileInputEl.nativeElement.files = this.value ?? null;
+        const v = this.value;
+
+        if (!v) {
+            this.fileInputEl.nativeElement.files = null;
+            return;
+        }
+
+        const dataTransfer = new DataTransfer();
+        for (const file of v) {
+            dataTransfer.items.add(file);
+        }
+        this.fileInputEl.nativeElement.files = dataTransfer.files;
     }
 }

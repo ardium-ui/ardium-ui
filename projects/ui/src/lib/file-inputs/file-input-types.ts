@@ -5,8 +5,11 @@ export interface FileInputBrowseContext {
     browse: () => void;
 }
 
-export interface FileInputFilesContext {
-    $implicit: File;
+export interface FileInputFileAmountContext {
     amount: number;
-    files: FileList;
+}
+
+export interface FileInputFilesContext extends FileInputFileAmountContext {
+    $implicit: File[];
+    files: File[];
 };

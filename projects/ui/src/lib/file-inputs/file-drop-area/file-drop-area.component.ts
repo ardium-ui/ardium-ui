@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ContentChild, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { _FileInputComponentBase } from '../file-input-base';
-import { FileInputBrowseContext, FileInputFilesContext } from '../file-input-types';
+import { FileInputBrowseContext, FileInputFileAmountContext, FileInputFilesContext } from '../file-input-types';
 import { ArdiumFileDropAreaDragoverContentTemplateDirective, ArdiumFileDropAreaUploadedContentTemplateDirective, ArdiumFileDropAreaIdleContentTemplateDirective } from './file-drop-area.directives';
 
 @Component({
@@ -16,23 +16,20 @@ export class ArdiumFileDropAreaComponent extends _FileInputComponentBase impleme
     @ContentChild(ArdiumFileDropAreaDragoverContentTemplateDirective, { read: TemplateRef }) dragoverTemplate: TemplateRef<FileInputFilesContext> | null = null;
     @ContentChild(ArdiumFileDropAreaUploadedContentTemplateDirective, { read: TemplateRef }) uploadedTemplate: TemplateRef<FileInputFilesContext> | null = null;
 
-    idleContext(): FileInputBrowseContext {
+    getIdleContext(): FileInputBrowseContext {
         return {
             browse: () => { this.openBrowseDialog(); },
         }
     }
-    dragoverContext(): FileInputFilesContext {
-        const files = this._draggedFiles!;
+    getDragoverContext(): FileInputFileAmountContext {
         return {
-            $implicit: files[0],
-            amount: files.length,
-            files,
+            amount: this._draggedFiles!,
         }
     }
-    uploadedContext(): FileInputFilesContext {
+    getUploadedContext(): FileInputFilesContext {
         const files = this.value!;
         return {
-            $implicit: files[0],
+            $implicit: files,
             amount: files.length,
             files,
         }
