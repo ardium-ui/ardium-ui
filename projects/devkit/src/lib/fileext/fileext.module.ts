@@ -15,4 +15,4 @@ import { ArdiumFileextPipe } from './fileext.pipe';
         ArdiumFileextPipe
     ]
 })
-export class ArdiumFileextModule { }
+export class ArdiumFileextPipeModule { }
