@@ -13,6 +13,7 @@ import { ColorDisplayModule } from './pages/color-display/color-display.module';
 import { ColorPickerModule } from './pages/color-picker/color-picker.module';
 import { DividerModule } from './pages/divider/divider.module';
 import { FabModule } from './pages/fab/fab.module';
+import { FileDropAreaModule } from './pages/file-drop-area/file-drop-area.module';
 import { HomeModule } from './pages/home/home.module';
 import { IconModule } from './pages/icon/icon.module';
 import { InputsModule } from './pages/inputs/inputs.module';
@@ -56,6 +57,7 @@ import { StateboxModule } from './pages/statebox/statebox.module';
         CardModule,
         DividerModule,
         RadioModule,
+        FileDropAreaModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
