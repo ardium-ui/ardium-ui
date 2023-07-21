@@ -8,6 +8,6 @@ export class ArdiumFilenamePipe implements PipeTransform {
         if (typeof value != 'string') {
             value = value.name;
         }
-        return value.match(/^.+\./g)?.[0] ?? value;
+        return value.match(/^(.+)\./g)?.[1] ?? value;
     }
 }
