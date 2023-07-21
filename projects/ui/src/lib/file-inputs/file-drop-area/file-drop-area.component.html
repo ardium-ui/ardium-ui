@@ -1,8 +1,9 @@
 <div class="ard-file-drop-area"
-    (dragenter)="onDragenter($event)"
+    (dragover)="onDragover($event)"
     (dragleave)="onDragleave()"
     (drop)="onDrop($event)"
     (ardClickOutside)="onDragleave()"
+    [ngClass]="ngClasses"
 >
     <div class="ard-file-drop-area-outline">
         <div class="ard-file-drop-area-content">
@@ -31,11 +32,12 @@
 
 <ng-template #defaultIdleTemplate let-browse="browse">
     <ard-icon class="ard-file-drop-area-icon">upload</ard-icon>
-    <span class="ard-file-drop-area-drop-text">Drag & Drop files here</span>
+    <strong class="ard-file-drop-area-drop-text">Drag & Drop files here</strong>
     <span class="ard-file-drop-area-or-text">or</span>
     <ard-button
         class="ard-file-drop-area-browse-button"
-        appearance="outlined"
+        appearance="transparent"
+        [compact]="compact"
         [variant]="variant"
         [color]="color"
         (click)="browse()"
@@ -44,12 +46,13 @@
 
 <ng-template #defaultDragoverTemplate let-amount="amount">
     <span class="ard-file-drop-area-dragover-text">Drop </span>
-    <span class="ard-file-drop-area-dragover-amount">{{ amount }} </span>
-    <span class="ard-file-drop-area-dragover-text">
+    <span class="ard-file-drop-area-dragover-amount">
+        {{ amount }} 
         <ng-container [ngPlural]="amount">
             <ng-template ngPluralCase="=1">file</ng-template>
             <ng-template ngPluralCase="other">files</ng-template>
-        </ng-container>
+        </ng-container></span>
+    <span class="ard-file-drop-area-dragover-text">
         here to upload.
     </span>
 </ng-template>

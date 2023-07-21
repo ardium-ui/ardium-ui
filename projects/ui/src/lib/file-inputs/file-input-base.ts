@@ -19,21 +19,10 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
     }
 
     //! appearance
-    //all handled in ard-form-field-frame component
-    @Input() variant: FormElementVariant = FormElementVariant.Rounded;
-    @Input() color: ComponentColor = ComponentColor.None;
-
     private _compact: boolean = false;
     @Input()
     get compact(): boolean { return this._compact; }
     set compact(v: any) { this._compact = coerceBooleanProperty(v); }
-
-    get ngClasses(): string {
-        return [
-            `ard-variant-${this.variant}`,
-            this.compact ? 'ard-compact' : '',
-        ].join(' ');
-    }
 
     //! value
     protected _value: File[] | null = null;
@@ -95,7 +84,8 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
     }
 
     //! event handlers
-    onDragenter(event: DragEvent): void {
+    onDragover(event: DragEvent): void {
+        event.preventDefault();
         if (this.currentViewState == 'dragover') return;
         this._draggedFiles = this._countDragenterFiles(event.dataTransfer);
 
@@ -103,10 +93,6 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
 
         this._beforeDragoverState = this.currentViewState;
         this.currentViewState = 'dragover';
-    }
-    @HostListener('dragover', ['$event'])
-    onDragover(event: DragEvent): void {
-        event.preventDefault();
     }
     onDragleave(): void {
         if (this.currentViewState != 'dragover') return;
