@@ -59,20 +59,25 @@
 
 <ng-template #defaultUploadedTemplate let-amount="amount" let-files="files">
     <div class="ard-file-drop-area-uploaded-message">
-        <span class="ard-file-drop-area-uploaded-amount">{{ amount }} </span>
-        <span class="ard-file-drop-area-uploaded-text">
+        <span class="ard-file-drop-area-uploaded-amount">
+            {{ amount }}
             <ng-container [ngPlural]="amount">
                 <ng-template ngPluralCase="=1">file</ng-template>
                 <ng-template ngPluralCase="other">files</ng-template>
             </ng-container>
-            uploaded.
         </span>
+        <span class="ard-file-drop-area-uploaded-text"> uploaded.</span>
     </div>
     <div class="ard-file-drop-area-uploaded-files" *ngFor="let file of files">
         <div class="ard-file-drop-area-file">
             <ard-icon>draft</ard-icon>
-            <span class="ard-file-drop-area-filename">{{ file.name }}</span>
-            <span class="ard-file-drop-area-filesize">{{ file.size | filesize }}</span>
+            <div class="ard-file-drop-area-file-info">
+                <span class="ard-file-drop-area-filename">
+                    <span class="ard-file-drop-area-filename-name">{{ file | filename }}</span>
+                    <span class="ard-file-drop-area-filename-ext">{{ file | fileext: true }}</span>
+                </span>
+                <span class="ard-file-drop-area-filesize">{{ file.size | filesize }}</span>
+            </div>
         </div>
     </div>
 </ng-template>
