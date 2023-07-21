@@ -5,12 +5,13 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class ArdiumFileextPipe implements PipeTransform {
 
-    transform(value: string | File): string | null {
+    transform(value: string | File, withDot: boolean = false): string | null {
         if (typeof value != 'string') {
             value = value.name;
         }
         const parts = value.split('.');
-        return parts.length > 1 ? parts.last() : null;
+        const dot = withDot ? '.' : '';
+        return parts.length > 1 ? (dot + parts.last()) : null;
     }
 
 }
