@@ -58,25 +58,27 @@
 </ng-template>
 
 <ng-template #defaultUploadedTemplate let-amount="amount" let-files="files">
-    <div class="ard-file-drop-area-uploaded-message">
-        <span class="ard-file-drop-area-uploaded-amount">
-            {{ amount }}
-            <ng-container [ngPlural]="amount">
-                <ng-template ngPluralCase="=1">file</ng-template>
-                <ng-template ngPluralCase="other">files</ng-template>
-            </ng-container>
-        </span>
-        <span class="ard-file-drop-area-uploaded-text"> uploaded.</span>
-    </div>
-    <div class="ard-file-drop-area-uploaded-files" *ngFor="let file of files">
-        <div class="ard-file-drop-area-file">
-            <ard-icon>draft</ard-icon>
-            <div class="ard-file-drop-area-file-info">
-                <span class="ard-file-drop-area-filename">
-                    <span class="ard-file-drop-area-filename-name">{{ file | filename }}</span>
-                    <span class="ard-file-drop-area-filename-ext">{{ file | fileext: true }}</span>
-                </span>
-                <span class="ard-file-drop-area-filesize">{{ file.size | filesize }}</span>
+    <div class="ard-file-drop-area-uploaded-container">
+        <div class="ard-file-drop-area-uploaded-message">
+            <span class="ard-file-drop-area-uploaded-amount">
+                {{ amount }}
+                <ng-container [ngPlural]="amount">
+                    <ng-template ngPluralCase="=1">file</ng-template>
+                    <ng-template ngPluralCase="other">files</ng-template>
+                </ng-container>
+            </span>
+            <span class="ard-file-drop-area-uploaded-text"> uploaded.</span>
+        </div>
+        <div class="ard-file-drop-area-uploaded-files">
+            <div class="ard-file-drop-area-file" *ngFor="let file of files">
+                <ard-icon>draft</ard-icon>
+                <div class="ard-file-drop-area-file-info">
+                    <span class="ard-file-drop-area-filename">
+                        <span class="ard-file-drop-area-filename-name">{{ file | filename }}</span>
+                        <span class="ard-file-drop-area-filename-ext">{{ file | fileext: true }}</span>
+                    </span>
+                    <span class="ard-file-drop-area-filesize">{{ file.size | filesize }}</span>
+                </div>
             </div>
         </div>
     </div>

@@ -66,6 +66,15 @@ ard-file-drop-area {
         margin: -10% 0;
     }
     //uploaded
+    .ard-file-drop-area-uploaded-container {
+        max-height: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: max-content 1fr;
+        gap: 0.75rem;
+        justify-items: center;
+    }
     .ard-file-drop-area-uploaded-message {
         font-weight: 500;
         font-size: 105%;
@@ -75,16 +84,21 @@ ard-file-drop-area {
     }
     .ard-file-drop-area-uploaded-files {
         max-width: 100%;
+        width: 100%;
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
+        align-items: flex-start;
+        gap: 0.45rem;
+        overflow: hidden auto;
+        box-sizing: border-box;
 
         .ard-file-drop-area-file {
             max-width: 100%;
             display: grid;
             align-items: center;
             grid-template-columns: max-content 1fr;
-            gap: 0.75ch;
+            gap: 0.75rem;
+            max-height: min-content;
 
             ard-icon {
                 font-size: 220%;
@@ -92,6 +106,8 @@ ard-file-drop-area {
             .ard-file-drop-area-file-info {
                 display: flex;
                 flex-direction: column;
+                line-height: 1;
+                gap: 0.5ch;
             }
             .ard-file-drop-area-filename {
                 max-width: 100%;
@@ -101,8 +117,11 @@ ard-file-drop-area {
             }
             .ard-file-drop-area-filename-name {
                 max-width: 100%;
+                line-height: 1;
                 text-overflow: ellipsis;
                 overflow: hidden;
+                white-space: nowrap;
+                height: 1em;
             }
             .ard-file-drop-area-filesize {
                 font-weight: 500;
