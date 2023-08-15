@@ -26,6 +26,18 @@ export class ArdiumFileDropAreaComponent extends _FileInputComponentBase impleme
         ].join(' ');
     }
 
+    //! triggering file dialog
+    protected _wasMousedownOnElement: true | null = null;
+    onMousedown(): void {
+        this._wasMousedownOnElement = true;
+    }
+    onMouseup(): void {
+        if (!this._wasMousedownOnElement) return;
+        this._wasMousedownOnElement = null;
+
+        this.openBrowseDialog();
+    }
+
     //! templates
     @ContentChild(ArdiumFileDropAreaIdleContentTemplateDirective, { read: TemplateRef }) idleTemplate: TemplateRef<FileInputBrowseContext> | null = null;
     @ContentChild(ArdiumFileDropAreaDragoverContentTemplateDirective, { read: TemplateRef }) dragoverTemplate: TemplateRef<FileInputFilesContext> | null = null;

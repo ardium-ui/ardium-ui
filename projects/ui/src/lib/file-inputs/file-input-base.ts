@@ -3,6 +3,7 @@ import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ComponentColor } from '../types/colors.types';
 import { FormElementVariant } from '../types/theming.types';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
+import { isDefined } from 'simple-bool';
 
 
 @Directive()
@@ -23,6 +24,14 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
     @Input()
     get compact(): boolean { return this._compact; }
     set compact(v: any) { this._compact = coerceBooleanProperty(v); }
+
+    //! settings
+    private _blockAfterUpload: boolean = false;
+    @Input()
+    get blockAfterUpload(): boolean { return this._blockAfterUpload; }
+    set blockAfterUpload(v: any) { this._blockAfterUpload = coerceBooleanProperty(v); }
+
+    get shouldBeBlocked(): boolean { return this.blockAfterUpload && isDefined(this.value); }
 
     //! value
     protected _value: File[] | null = null;
@@ -71,22 +80,17 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
     currentViewState: 'idle' | 'dragover' | 'uploaded' = 'idle';
     private _beforeDragoverState: 'idle' | 'uploaded' = 'idle';
 
-    //! triggering file dialog
-    protected _wasMousedownOnElement: true | null = null;
-    onMousedown(): void {
-        this._wasMousedownOnElement = true;
-    }
-    onMouseup(): void {
-        if (!this._wasMousedownOnElement) return;
-        this._wasMousedownOnElement = null;
-
-        this.openBrowseDialog();
-    }
-
     //! event handlers
     onDragover(event: DragEvent): void {
         event.preventDefault();
+        if (this.shouldBeBlocked) {
+            if (!event.dataTransfer) return;
+
+            event.dataTransfer.dropEffect = "none";
+            return;
+        }
         if (this.currentViewState == 'dragover') return;
+
         this._draggedFiles = this._countDragenterFiles(event.dataTransfer);
 
         if (!this._draggedFiles) return;
@@ -95,12 +99,16 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
         this.currentViewState = 'dragover';
     }
     onDragleave(): void {
+        if (this.shouldBeBlocked) return;
         if (this.currentViewState != 'dragover') return;
         
         this.currentViewState = this._beforeDragoverState;
     }
     onDrop(event: DragEvent): void {
         event.preventDefault();
+
+        if (this.shouldBeBlocked) return;
+
         const filelist = event.dataTransfer?.files;
         if (!filelist) {
             this.currentViewState = 'idle';
@@ -114,7 +122,6 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
 
         this.currentViewState = 'uploaded';
         this._writeValue(files);
-
     }
     onInputChange(): void {
         const files = Array.from(this.fileInputEl.nativeElement.files ?? []);
