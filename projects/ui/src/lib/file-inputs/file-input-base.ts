@@ -1,13 +1,11 @@
-import { Directive, ElementRef, EventEmitter, HostBinding, Input, OnInit, Output, ViewChild, HostListener } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, AfterViewInit } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
-import { ComponentColor } from '../types/colors.types';
-import { FormElementVariant } from '../types/theming.types';
-import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { isDefined } from 'simple-bool';
+import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 
 
 @Directive()
-export abstract class _FileInputComponentBase extends _NgModelComponentBase implements OnInit {
+export abstract class _FileInputComponentBase extends _NgModelComponentBase implements OnInit, AfterViewInit {
     @ViewChild('fileInput') fileInputEl!: ElementRef<HTMLInputElement>;
 
     @Input() htmlId: string = crypto.randomUUID();
@@ -18,6 +16,14 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
             console.error(new Error("Cannot use Ardium UI file features because this browser does not support them!"))
         }
     }
+    protected _wasViewInit: boolean = false;
+    ngAfterViewInit(): void {
+        this._wasViewInit = true;
+
+        if (this._valueBeforeInit) {
+            this.writeValue(this._valueBeforeInit);
+        }
+    }
 
     //! appearance
     private _compact: boolean = false;
@@ -26,6 +32,11 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
     set compact(v: any) { this._compact = coerceBooleanProperty(v); }
 
     //! settings
+    private _multiple: boolean = false;
+    @Input()
+    get multiple(): boolean { return this._multiple; }
+    set multiple(v: any) { this._multiple = coerceBooleanProperty(v); }
+
     private _blockAfterUpload: boolean = false;
     @Input()
     get blockAfterUpload(): boolean { return this._blockAfterUpload; }
@@ -37,7 +48,7 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
     protected _value: File[] | null = null;
     @Input()
     get value(): File[] | null { return this._value; }
-    set value(v: File[] | null) {
+    set value(v: File | File[] | null) {
         this.writeValue(v);
     }
 
@@ -45,6 +56,7 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
     @Output('change') changeEvent = new EventEmitter<File[] | null>();
     @Output('dragFiles') dragFilesEvent = new EventEmitter<File[] | null>();
 
+    protected _valueBeforeInit: File[] | null = null;
     writeValue(v: File | File[] | null): void {
         this._writeValue(v, false);
     }
@@ -52,9 +64,15 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
         if (v instanceof File) {
             v = [v];
         }
+        if (!this._wasViewInit) {
+            this._valueBeforeInit = v;
+            return;
+        }
 
         this._value = v;
         this._updateElementValue();
+
+        this.currentViewState = 'uploaded';
 
         if (emitEvents) {
             this._emitChange();

@@ -32,7 +32,11 @@
 
 <ng-template #defaultIdleTemplate let-browse="browse">
     <ard-icon class="ard-file-drop-area-icon">upload</ard-icon>
-    <strong class="ard-file-drop-area-drop-text">Drag & Drop files here</strong>
+    <strong class="ard-file-drop-area-drop-text">
+        <span *ngIf="!multiple">Drag & Drop a file</span>
+        <span *ngIf="multiple">Drag & Drop files</span>
+        here
+    </strong>
     <span class="ard-file-drop-area-or-text">or</span>
     <ard-button
         class="ard-file-drop-area-browse-button"
@@ -55,6 +59,9 @@
     <span class="ard-file-drop-area-dragover-text">
         here to upload.
     </span>
+    <strong *ngIf="amount > 1 && !multiple" class="ard-file-drop-area-dragover-warning">
+        Only the first file will be uploaded!
+    </strong>
 </ng-template>
 
 <ng-template #defaultUploadedTemplate let-amount="amount" let-files="files">
