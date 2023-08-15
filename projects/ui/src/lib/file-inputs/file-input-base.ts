@@ -20,9 +20,7 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
     ngAfterViewInit(): void {
         this._wasViewInit = true;
 
-        if (this._valueBeforeInit) {
-            this.writeValue(this._valueBeforeInit);
-        }
+        this._updateElementValue();
     }
 
     //! appearance
@@ -64,15 +62,11 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
         if (v instanceof File) {
             v = [v];
         }
-        if (!this._wasViewInit) {
-            this._valueBeforeInit = v;
-            return;
-        }
-
-        this._value = v;
-        this._updateElementValue();
 
         this.currentViewState = 'uploaded';
+        this._value = v;
+
+        if (this._wasViewInit) this._updateElementValue();
 
         if (emitEvents) {
             this._emitChange();
