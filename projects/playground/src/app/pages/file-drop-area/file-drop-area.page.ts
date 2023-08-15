@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
 })
 export class FileDropAreaPage {
 
+
+    readonly exampleFile = new File([], 'example.txt');
 }

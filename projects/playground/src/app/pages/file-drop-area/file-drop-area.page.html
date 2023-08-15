@@ -1,4 +1,18 @@
 <div class="master first">
     <span class="title">Simplest file drop area</span>
-    <ard-file-drop-area></ard-file-drop-area>
+    <ard-file-drop-area/>
+</div>
+<div class="master first">
+    <span class="title">Pre-uploaded file drop area</span>
+    <ard-file-drop-area [value]="exampleFile"/>
+</div>
+<div class="master first">
+    <span class="title">Auto-resizing file drop area</span>
+    <div class="file-drop-area-container">
+        <ard-file-drop-area/>
+    </div>
+</div>
+<div class="master first">
+    <span class="title">Compact file drop area</span>
+    <ard-file-drop-area compact />
 </div>
