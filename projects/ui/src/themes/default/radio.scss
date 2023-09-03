@@ -102,3 +102,11 @@ ard-radio {
         }
     }
 }
+
+.ard-disabled {
+    .ard-radio {
+        pointer-events: none;
+        opacity: 50%;
+        user-select: none;
+    }
+}
