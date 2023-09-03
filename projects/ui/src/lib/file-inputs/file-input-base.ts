@@ -4,6 +4,7 @@ import { isDefined } from 'simple-bool';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 
 
+
 @Directive()
 export abstract class _FileInputComponentBase extends _NgModelComponentBase implements OnInit, AfterViewInit {
     @ViewChild('fileInput') fileInputEl!: ElementRef<HTMLInputElement>;

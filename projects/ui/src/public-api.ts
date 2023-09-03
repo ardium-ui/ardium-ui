@@ -135,6 +135,10 @@ export * from './lib/radio/radio-group.component';
 export * from './lib/file-inputs/file-drop-area/file-drop-area.module';
 export * from './lib/file-inputs/file-drop-area/file-drop-area.component';
 export * from './lib/file-inputs/file-drop-area/file-drop-area.directives';
+//file-input
+export * from './lib/file-inputs/file-input/file-input.module';
+export * from './lib/file-inputs/file-input/file-input.component';
+export * from './lib/file-inputs/file-input/file-input.directives';
 //! types
 export * from './lib/types/alignment.types';
 export * from './lib/types/colors.types';
