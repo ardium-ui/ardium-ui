@@ -16,6 +16,7 @@ import { FabModule } from './pages/fab/fab.module';
 import { FileDropAreaModule } from './pages/file-drop-area/file-drop-area.module';
 import { HomeModule } from './pages/home/home.module';
 import { IconModule } from './pages/icon/icon.module';
+import { FileInputModule } from './pages/inputs/file-input/file-input.module';
 import { InputsModule } from './pages/inputs/inputs.module';
 import { KbdShortcutModule } from './pages/kbd-shortcut/kbd-shortcut.module';
 import { KbdModule } from './pages/kbd/kbd.module';
@@ -58,6 +59,7 @@ import { StateboxModule } from './pages/statebox/statebox.module';
         DividerModule,
         RadioModule,
         FileDropAreaModule,
+        FileInputModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
