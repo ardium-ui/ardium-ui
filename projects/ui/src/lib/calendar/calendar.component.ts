@@ -214,7 +214,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
 
     @Output('change') changeEvent = new EventEmitter<Date | null>();
 
-    private _emitChange(): void {
+    protected _emitChange(): void {
         const v = this.selected;
         this._onChangeRegistered?.(v);
         this.selectedChange.emit(v);

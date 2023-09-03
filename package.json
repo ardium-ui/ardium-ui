@@ -27,7 +27,7 @@
     "color": "^4.2.3",
     "first-last": "^1.1.1",
     "key-display-names": "^1.2.0",
-    "more-rounding": "^4.0.1",
+    "more-rounding": "^4.1.2",
     "resolve-object-path": "^1.1.0",
     "rxjs": "~7.5.0",
     "simple-bool": "^3.0.1",

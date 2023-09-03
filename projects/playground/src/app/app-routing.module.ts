@@ -9,6 +9,7 @@ import { ColorDisplayPage } from './pages/color-display/color-display.page';
 import { ColorPickerPage } from './pages/color-picker/color-picker.page';
 import { DividerPage } from './pages/divider/divider.page';
 import { FabPage } from './pages/fab/fab.page';
+import { FileDropAreaPage } from './pages/file-drop-area/file-drop-area.page';
 import { HomePage } from './pages/home/home.page';
 import { IconPage } from './pages/icon/icon.page';
 import { InputsPage } from './pages/inputs/inputs.page';
@@ -44,6 +45,7 @@ const routes: Routes = [
     { path: 'card', component: CardPage },
     { path: 'divider', component: DividerPage },
     { path: 'radio', component: RadioPage },
+    { path: 'file-drop-area', component: FileDropAreaPage },
     { path: 'sliders', component: SlidersPage, loadChildren: () => import('./pages/sliders/sliders.module').then(m => m.SlidersModule) },
     { path: 'inputs', component: InputsPage, loadChildren: () => import('./pages/inputs/inputs.module').then(m => m.InputsModule) },
     //redirects

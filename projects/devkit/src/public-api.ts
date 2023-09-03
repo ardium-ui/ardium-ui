@@ -9,6 +9,15 @@ export * from "./lib/escape-html/escape-html.module";
 export * from "./lib/escape-html/escape-html.pipe";
 export * from "./lib/escape-html/escape-html";
 
+export * from "./lib/fileext/fileext.module";
+export * from "./lib/fileext/fileext.pipe";
+
+export * from "./lib/filename/filename.module";
+export * from "./lib/filename/filename.pipe";
+
+export * from "./lib/filesize/filesize.module";
+export * from "./lib/filesize/filesize.pipe";
+
 export * from "./lib/inner-html/inner-html.module";
 export * from "./lib/inner-html/inner-html.directive";
 

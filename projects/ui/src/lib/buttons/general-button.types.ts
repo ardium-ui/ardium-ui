@@ -38,47 +38,15 @@ export const ButtonVariant = {
     /**
      * Basic, rectangular button.
      */
-    Basic: 'basic align-left',
-    /**
-     * Basic, rectangular button with the icon on the left side. Same as {@link ButtonVariant.Basic}.
-     */
-    BasicIconLeft: 'basic align-left',
-    /**
-     * Basic, rectangular button with the icon on the right side.
-     */
-    BasicIconRight: 'basic align-right',
-    /**
-     * Basic, rectangular button, with vertical layout.
-     */
-    BasicVertical: 'basic vertical',
+    Rounded: 'rounded',
     /**
      * Pill-shaped button.
      */
-    Pill: 'pill align-left',
-    /**
-     * Pill-shaped button with the icon on the left side. Same as {@link ButtonVariant.Basic}.
-     */
-    PillIconLeft: 'pill align-left',
-    /**
-     * Pill-shaped button with the icon on the right side.
-     */
-    PillIconRight: 'pill align-right',
+    Pill: 'pill',
     /**
      * Basic, rectangular button with sharp corners.
      */
-    Sharp: 'sharp align-left',
-    /**
-     * Basic, rectangular button with sharp corners, with the icon on the left side. Same as {@link ButtonVariant.Basic}.
-     */
-    SharpIconLeft: 'sharp align-left',
-    /**
-     * Basic, rectangular button with sharp corners, with the icon on the right side.
-     */
-    SharpIconRight: 'sharp align-right',
-    /**
-     * Basic, rectangular button with sharp corners, with vertical layout.
-     */
-    SharpVertical: 'sharp vertical',
+    Sharp: 'sharp',
 } as const;
 export type ButtonVariant = typeof ButtonVariant[keyof typeof ButtonVariant];
 

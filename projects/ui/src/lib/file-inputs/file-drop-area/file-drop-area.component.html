@@ -1,0 +1,93 @@
+<div class="ard-file-drop-area"
+    (dragover)="onDragover($event)"
+    (dragleave)="onDragleave()"
+    (drop)="onDrop($event)"
+    (ardClickOutside)="onDragleave()"
+    [ngClass]="ngClasses"
+>
+    <div class="ard-file-drop-area-outline">
+        <div class="ard-file-drop-area-content">
+            <ng-template *ngIf="currentViewState == 'idle'"
+                [ngTemplateOutlet]="idleTemplate ?? defaultIdleTemplate"
+                [ngTemplateOutletContext]="getIdleContext()"
+            ></ng-template>
+            <ng-template *ngIf="currentViewState == 'dragover'"
+                [ngTemplateOutlet]="dragoverTemplate ?? defaultDragoverTemplate"
+                [ngTemplateOutletContext]="getDragoverContext()"
+            ></ng-template>
+            <ng-template *ngIf="currentViewState == 'uploaded'"
+                [ngTemplateOutlet]="uploadedTemplate ?? defaultUploadedTemplate"
+                [ngTemplateOutletContext]="getUploadedContext()"
+            ></ng-template>
+        </div>
+    </div>
+</div>
+<input #fileInput
+    class="ard-file-drop-area-input-element"
+    type="file"
+    [name]="name"
+    [multiple]="multiple"
+    [id]="htmlId"
+    (change)="onInputChange()"
+>
+
+<ng-template #defaultIdleTemplate let-browse="browse">
+    <ard-icon class="ard-file-drop-area-icon">upload</ard-icon>
+    <strong class="ard-file-drop-area-drop-text">
+        <span *ngIf="!multiple">Drag & Drop a file</span>
+        <span *ngIf="multiple">Drag & Drop files</span>
+        here
+    </strong>
+    <span class="ard-file-drop-area-or-text">or</span>
+    <ard-button
+        class="ard-file-drop-area-browse-button"
+        appearance="transparent"
+        [compact]="compact"
+        [variant]="variant"
+        [color]="color"
+        (click)="browse()"
+    >Browse files</ard-button>
+</ng-template>
+
+<ng-template #defaultDragoverTemplate let-amount="amount">
+    <span class="ard-file-drop-area-dragover-text">Drop </span>
+    <span class="ard-file-drop-area-dragover-amount">
+        {{ amount }} 
+        <ng-container [ngPlural]="amount">
+            <ng-template ngPluralCase="=1">file</ng-template>
+            <ng-template ngPluralCase="other">files</ng-template>
+        </ng-container></span>
+    <span class="ard-file-drop-area-dragover-text">
+        here to upload.
+    </span>
+    <strong *ngIf="amount > 1 && !multiple" class="ard-file-drop-area-dragover-warning">
+        Only the first file will be uploaded!
+    </strong>
+</ng-template>
+
+<ng-template #defaultUploadedTemplate let-amount="amount" let-files="files">
+    <div class="ard-file-drop-area-uploaded-container">
+        <div class="ard-file-drop-area-uploaded-message">
+            <span class="ard-file-drop-area-uploaded-amount">
+                {{ amount }}
+                <ng-container [ngPlural]="amount">
+                    <ng-template ngPluralCase="=1">file</ng-template>
+                    <ng-template ngPluralCase="other">files</ng-template>
+                </ng-container>
+            </span>
+            <span class="ard-file-drop-area-uploaded-text"> uploaded.</span>
+        </div>
+        <div class="ard-file-drop-area-uploaded-files">
+            <div class="ard-file-drop-area-file" *ngFor="let file of files">
+                <ard-icon>draft</ard-icon>
+                <div class="ard-file-drop-area-file-info">
+                    <span class="ard-file-drop-area-filename">
+                        <span class="ard-file-drop-area-filename-name">{{ file | filename }}</span>
+                        <span class="ard-file-drop-area-filename-ext">{{ file | fileext: true }}</span>
+                    </span>
+                    <span class="ard-file-drop-area-filesize">{{ file.size | filesize }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

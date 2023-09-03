@@ -37,9 +37,16 @@ export abstract class _NgModelComponentBase extends _FocusableComponentBase impl
     /**
      * Writes the a new value into the component. Required by ControlValueAccessor.
      * @abstract
-     * @param obj The new value to write.
+     * @param v The new value to write.
      */
-    abstract writeValue(obj: any): void; //* abstract
+    abstract writeValue(v: any): void; //* abstract
+
+    /**
+     * Writes the a new value into the component. Required by ControlValueAccessor.
+     * @abstract
+     * @param v The new value to write.
+     */
+    protected abstract _emitChange(): void; //* abstract
 
     //! event handlers
     override onBlur(event: FocusEvent) {

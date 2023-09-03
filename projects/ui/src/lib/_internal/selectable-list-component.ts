@@ -102,7 +102,7 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
         this._touched = state;
     }
 
-    protected _emitChanges(): void {
+    protected _emitChange(): void {
         let value = this.itemStorage.value;
         this._onChangeRegistered?.(value);
         this.changeEvent.emit(value);
@@ -180,14 +180,14 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
 
         if (selected.length > 0) {
             this.addEvent.emit(selected);
-            this._emitChanges();
+            this._emitChange();
         }
     }
     unselectItem(...items: ArdOptionSimple[]): void {
         let unselected = this.itemStorage.unselectItem(...items);
 
         this.removeEvent.emit(unselected);
-        this._emitChanges();
+        this._emitChange();
     }
 
     //! highligh-related

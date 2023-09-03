@@ -70,10 +70,10 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
     }
 
     get buttonVariant(): ButtonVariant {
-        if (this.variant == FormElementVariant.Rounded) return ButtonVariant.Basic;
+        if (this.variant == FormElementVariant.Rounded) return ButtonVariant.Rounded;
         if (this.variant == FormElementVariant.Pill) return ButtonVariant.Pill;
         if (this.variant == FormElementVariant.Sharp) return ButtonVariant.Sharp;
-        return ButtonVariant.Basic;
+        return ButtonVariant.Rounded;
     }
     get buttonAppearance(): ButtonAppearance {
         if (this.appearance == FormElementAppearance.Outlined && this.variant != FormElementVariant.Pill) return ButtonAppearance.Outlined;

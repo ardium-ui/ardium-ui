@@ -6,6 +6,7 @@
         --ard-cmpcl--button-border: #{$border-light};
         --ard-cmpcl--border: #{$text};
         --ard-cmpcl--bg: #{$bg};
+        --ard-cmpcl--bg-light: #{$bg-d};
         --ard-cmpcl--content: #{$text};
         --ard-cmpcl--overlay: #{$overlay};
     }
@@ -14,6 +15,7 @@
         --ard-cmpcl--button-border: #{$border-light};
         --ard-cmpcl--border: #{$main300};
         --ard-cmpcl--bg: #{$main500};
+        --ard-cmpcl--bg-light: #{$main50};
         --ard-cmpcl--content: #{$main700};
         --ard-cmpcl--overlay: #{$overlay};
     }
@@ -22,6 +24,7 @@
         --ard-cmpcl--button-border: #{$border-light};
         --ard-cmpcl--border: #{$scnd300};
         --ard-cmpcl--bg: #{$scnd500};
+        --ard-cmpcl--bg-light: #{$scnd50};
         --ard-cmpcl--content: #{$scnd700};
         --ard-cmpcl--overlay: #{$overlay};
     }
@@ -30,6 +33,7 @@
         --ard-cmpcl--button-border: #{$border-light};
         --ard-cmpcl--border: #{$warn300};
         --ard-cmpcl--bg: #{$warn500};
+        --ard-cmpcl--bg-light: #{$warn50};
         --ard-cmpcl--content: #{$warn700};
         --ard-cmpcl--overlay: #{$overlay};
     }
@@ -38,6 +42,7 @@
         --ard-cmpcl--button-border: #{$border-light};
         --ard-cmpcl--border: #{$danger300};
         --ard-cmpcl--bg: #{$danger700};
+        --ard-cmpcl--bg-light: #{$danger50};
         --ard-cmpcl--content: #{$danger900};
         --ard-cmpcl--overlay: #{$overlay};
     }
@@ -46,6 +51,7 @@
         --ard-cmpcl--button-border: #{$border-light};
         --ard-cmpcl--border: #{$success300};
         --ard-cmpcl--bg: #{$success700};
+        --ard-cmpcl--bg-light: #{$success50};
         --ard-cmpcl--content: #{$success900};
         --ard-cmpcl--overlay: #{$overlay};
     }
@@ -54,6 +60,7 @@
         --ard-cmpcl--button-border: #{$border-light};
         --ard-cmpcl--border: #{$info300};
         --ard-cmpcl--bg: #{$info500};
+        --ard-cmpcl--bg-light: #{$info50};
         --ard-cmpcl--content: #{$info700};
         --ard-cmpcl--overlay: #{$overlay};
     }

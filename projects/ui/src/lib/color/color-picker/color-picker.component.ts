@@ -330,7 +330,7 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
     }
 
     //! events
-    private _emitChange() {
+    protected _emitChange() {
         const v = this.value;
         this._onChangeRegistered?.(v);
         this.valueChange.next(v);

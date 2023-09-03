@@ -204,7 +204,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
         const minMaxDifference = Math.abs(this._min - this._max);
         return (v - this._min) / minMaxDifference;
     }
-    protected _emitChanges(): void {
+    protected _emitChange(): void {
         let v = this.value;
         this._onChangeRegistered?.(v);
         this.valueChange.emit(v);
@@ -265,7 +265,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
         
         this._updateTooltipValue();
 
-        this._emitChanges();
+        this._emitChange();
     }
     protected _writeValueFromEvent(event: MouseEvent | TouchEvent, handleId?: number): void {
         let percent = this._getPercentValueFromEvent(event);
