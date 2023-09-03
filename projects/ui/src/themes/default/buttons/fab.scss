@@ -28,8 +28,8 @@ ard-fab {
     }
 }
 
-ard-button.ard-disabled {
-    > .ard-button {
+ard-fab.ard-disabled {
+    >.ard-fab {
         @include shared.button-disabled;
     }
 }
