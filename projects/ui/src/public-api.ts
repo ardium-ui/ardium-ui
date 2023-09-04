@@ -10,6 +10,9 @@ export * from './lib/buttons/button/button.component';
 //fab
 export * from './lib/buttons/fab/fab.module';
 export * from './lib/buttons/fab/fab.component';
+//fab
+export * from './lib/buttons/icon-button/icon-button.module';
+export * from './lib/buttons/icon-button/icon-button.component';
 //checkbox
 export * from './lib/checkbox/checkbox.module';
 export * from './lib/checkbox/checkbox.component';

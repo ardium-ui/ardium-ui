@@ -1,26 +1,50 @@
 @use './button-mixins' as shared;
 
+ard-icon-button {
+    height: max-content;
+    border-radius: 9999px;
+    aspect-ratio: 1;
+    display: inline-block;
+}
+
 .ard-icon-button {
     @include shared.button;
     background: transparent;
-    gap: 6px;
-    font-size: 0.875rem;
-    height: 2.5em;
-    padding: 0 1.2em;
-    letter-spacing: 0.5px;
+    height: 2.1875rem;
     border-radius: 9999px;
     aspect-ratio: 1;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    overflow: hidden;
+    font-weight: 600;
+    color: var(--ard-cmpcl--bg) !important;
+
+    &.ard-color-none {
+        color: var(--ard-cmpcl--content) !important;
+    }
+
+    .ard-button-content {
+        font-size: 1.25rem;
+
+        > ard-icon {
+            font-weight: 500;
+            font-size: 1.5rem;
+            font-variation-settings: 'FILL' 1
+        }
+    }
 
     //! compact
     &.ard-compact {
         font-size: 0.75rem;
-        height: 2.25em;
-        padding: 0 0.9em;
+        height: 1.6875rem;
 
-        &.ard-button-vertical {
-            height: max-content;
-            padding: 0.2em 0.8em;
-            gap: 0;
+        .ard-button-content {
+            font-size: 1.0625rem;
+
+            > ard-icon {
+                font-size: 1.25rem;
+            }
         }
     }
 }
@@ -28,5 +52,9 @@
 ard-icon-button.ard-disabled {
     >.ard-icon-button {
         @include shared.button-disabled;
+
+        .ard-focus-overlay {
+            opacity: 0;
+        }
     }
 }

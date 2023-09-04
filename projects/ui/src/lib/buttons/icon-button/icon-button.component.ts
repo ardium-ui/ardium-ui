@@ -26,7 +26,7 @@ export class ArdiumIconButtonComponent extends _FocusableComponentBase {
     get ngClasses(): string {
         return [
             'ard-appearance-transparent',
-            `ard-color-${this.color}`,
+            `ard-color-${this.disabled ? ComponentColor.None : this.color}`,
             this.compact ? 'ard-compact' : '',
         ].join(' ');
     }
