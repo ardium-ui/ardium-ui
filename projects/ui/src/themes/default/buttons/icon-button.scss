@@ -1,0 +1,32 @@
+@use './button-mixins' as shared;
+
+.ard-icon-button {
+    @include shared.button;
+    background: transparent;
+    gap: 6px;
+    font-size: 0.875rem;
+    height: 2.5em;
+    padding: 0 1.2em;
+    letter-spacing: 0.5px;
+    border-radius: 9999px;
+    aspect-ratio: 1;
+
+    //! compact
+    &.ard-compact {
+        font-size: 0.75rem;
+        height: 2.25em;
+        padding: 0 0.9em;
+
+        &.ard-button-vertical {
+            height: max-content;
+            padding: 0.2em 0.8em;
+            gap: 0;
+        }
+    }
+}
+
+ard-icon-button.ard-disabled {
+    >.ard-icon-button {
+        @include shared.button-disabled;
+    }
+}
