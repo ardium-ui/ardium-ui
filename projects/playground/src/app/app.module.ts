@@ -15,6 +15,7 @@ import { DividerModule } from './pages/divider/divider.module';
 import { FabModule } from './pages/fab/fab.module';
 import { FileDropAreaModule } from './pages/file-drop-area/file-drop-area.module';
 import { HomeModule } from './pages/home/home.module';
+import { IconButtonModule } from './pages/icon-button/icon-button.module';
 import { IconModule } from './pages/icon/icon.module';
 import { FileInputModule } from './pages/inputs/file-input/file-input.module';
 import { InputsModule } from './pages/inputs/inputs.module';
@@ -39,6 +40,7 @@ import { StateboxModule } from './pages/statebox/statebox.module';
         HomeModule,
         SelectModule,
         ButtonModule,
+        IconButtonModule,
         FabModule,
         CheckboxModule,
         SlideToggleModule,

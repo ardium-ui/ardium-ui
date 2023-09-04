@@ -11,6 +11,7 @@ import { DividerPage } from './pages/divider/divider.page';
 import { FabPage } from './pages/fab/fab.page';
 import { FileDropAreaPage } from './pages/file-drop-area/file-drop-area.page';
 import { HomePage } from './pages/home/home.page';
+import { IconButtonPage } from './pages/icon-button/icon-button.page';
 import { IconPage } from './pages/icon/icon.page';
 import { InputsPage } from './pages/inputs/inputs.page';
 import { KbdShortcutPage } from './pages/kbd-shortcut/kbd-shortcut.page';
@@ -28,6 +29,7 @@ const routes: Routes = [
     { path: '', component: HomePage },
     { path: 'segment', component: SegmentPage },
     { path: 'select', component: SelectPage },
+    { path: 'icon-button', component: IconButtonPage },
     { path: 'button', component: ButtonPage },
     { path: 'fab', component: FabPage },
     { path: 'checkbox', component: CheckboxPage },
