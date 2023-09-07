@@ -78,7 +78,6 @@ export class ArdiumIconComponent implements AfterViewInit {
                 "font-variation-settings: ",
                 ...propObjectAsArray
             ].join('');
-            console.log(this._fontVariationMemo);
         }
         return this._fontVariationMemo;
     }
