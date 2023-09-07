@@ -13,18 +13,24 @@ ard-fab {
     border-radius: 999px;
     justify-content: center;
     margin: 0;
+    padding: 0;
 
     &.ard-fab-size-standard {
         --ard-fab-size: 3.5rem;
-        font-size: 1.5rem;
+        font-size: 1em
     }
     &.ard-fab-size-small {
         --ard-fab-size: 2.5rem;
-        font-size: 1.3rem;
+        font-size: 0.875em;
     }
     &.ard-fab-extended {
+        width: max-content;
         font-weight: unset;
-        padding: 0.675em;
+        padding: 0.75em;
+    }
+
+    .ard-button-content {
+        gap: 0.5em;
     }
 }
 
