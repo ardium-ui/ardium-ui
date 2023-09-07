@@ -4,6 +4,7 @@ import { SimpleItemStorage, SimpleItemStorageHost } from '../_internal/item-stor
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ComponentColor } from '../types/colors.types';
 import { ArdOptionSimple, CompareWithFn } from '../types/item-storage.types';
+import { CheckboxListAlignType } from './checkbox-list.types';
 
 @Component({
   selector: 'ard-checkbox-list',
@@ -44,6 +45,7 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
 
     //! appearance
     @Input() color: ComponentColor = ComponentColor.Primary;
+    @Input() align: CheckboxListAlignType = CheckboxListAlignType.LeftClumped;
 
     private _compact: boolean = false;
     @Input()
@@ -53,6 +55,7 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
     get ngClasses(): string {
         return [
             `ard-color-${this.color}`,
+            `ard-align-${this.align}`,
             this.compact ? 'ard-compact' : '',
         ].join(' ');
     }
@@ -92,10 +95,28 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
         this.valueChange.emit(v);
     }
 
-    onCheckboxSelect(v: ArdOptionSimple): void {
-        this._itemStorage.selectItem(v);
+    onItemHighlight(v: ArdOptionSimple): void {
+        this._itemStorage.highlightSingleItem(v);
     }
-    onCheckboxUnselect(v: ArdOptionSimple): void {
+    onItemFocus(v: ArdOptionSimple): void {
+        this._itemStorage.highlightSingleItem(v);
+    }
+    onItemBlur(): void {
+        this._itemStorage.unhighlightAll();
+    }
+    selectItem(v: ArdOptionSimple): void {
+        this._itemStorage.selectItem(v);
+        this._emitChange();
+    }
+    unselectItem(v: ArdOptionSimple): void {
         this._itemStorage.unselectItem(v);
+        this._emitChange();
+    }
+    toggleItem(v: ArdOptionSimple): void {
+        if (v.selected) {
+            this.unselectItem(v);
+            return;
+        }
+        this.selectItem(v);
     }
 }

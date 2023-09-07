@@ -17,6 +17,10 @@ export * from './lib/buttons/icon-button/icon-button.component';
 export * from './lib/checkbox/checkbox.module';
 export * from './lib/checkbox/checkbox.component';
 export * from './lib/checkbox/checkbox.types';
+//checkbox-list
+export * from './lib/checkbox-list/checkbox-list.module';
+export * from './lib/checkbox-list/checkbox-list.component';
+export * from './lib/checkbox-list/checkbox-list.types';
 //chips
 export * from './lib/chip/chip.module';
 export * from './lib/chip/chip.component';

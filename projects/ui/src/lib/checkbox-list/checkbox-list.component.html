@@ -1,5 +1,17 @@
-<div class="ard-checkbox-list__container" [class.ard-compact]="compact">
-    <div class="ard-checkbox-list__item" *ngFor="let item of items">
+<div class="ard-checkbox-list"
+    [class.ard-compact]="compact"
+    [ngClass]="ngClasses"
+>
+    <div
+        *ngFor="let item of items"
+        class="ard-checkbox-list__item"
+        [class.ard-item-highlighted]="item.highlighted"
+        [class.ard-item-disabled]="item.disabled"
+        (mouseover)="onItemHighlight(item)"
+        (mouseleave)="onItemBlur()"
+        (click)="toggleItem(item)"
+    >
+        <div class="ard-focus-overlay"></div>
         <ard-checkbox
             [selected]="item.selected"
             [disabled]="item.disabled"
@@ -7,11 +19,13 @@
             [htmlId]="htmlId + item.index"
             [tabIndex]="tabIndex"
             (focus)="onFocus($event)"
+            (focus)="onItemFocus(item)"
             (blur)="onBlur($event)"
-            (select)="onCheckboxSelect(item)"
-            (unselect)="onCheckboxUnselect(item)"
+            (blur)="onItemBlur()"
+            (select)="selectItem(item)"
+            (unselect)="unselectItem(item)"
         ></ard-checkbox>
-        <label [for]="htmlId + item.index" [class.ard-label-disabled]="item.disabled">
+        <label [for]="htmlId + item.index">
             {{ item.label }}
         </label>
     </div>
