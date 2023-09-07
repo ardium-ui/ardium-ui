@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FabPage } from './fab.page';
-import { ArdiumFabModule } from '@ardium-ui/ui';
+import { ArdiumCheckboxModule, ArdiumFabModule, ArdiumIconModule, ArdiumSelectModule, ArdiumSimpleInputModule } from '@ardium-ui/ui';
 
 
 
@@ -12,6 +12,10 @@ import { ArdiumFabModule } from '@ardium-ui/ui';
     imports: [
         CommonModule,
         ArdiumFabModule,
+        ArdiumIconModule,
+        ArdiumSelectModule,
+        ArdiumCheckboxModule,
+        ArdiumSimpleInputModule,
     ]
 })
 export class FabModule { }

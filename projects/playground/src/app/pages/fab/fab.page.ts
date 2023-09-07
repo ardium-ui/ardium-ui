@@ -12,6 +12,14 @@ export class FabPage implements OnInit {
     appearances: BA[] = Object.values(BA);
     colors: CC[] = Object.values(CC);
 
+    color: CC[] = [CC.Primary];
+    appearance: BA[] = [BA.RaisedStrong];
+    size: FS[] = [FS.Standard];
+    extended: boolean = false;
+    disabled: boolean = false;
+    icon: string | null = "favorite";
+    text: string | null = null;
+
     constructor(private _logger: Logger) { }
     log = this._logger.log;
 

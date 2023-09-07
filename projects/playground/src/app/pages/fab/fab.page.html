@@ -1,3 +1,58 @@
+<div class="master flex playground">
+    <span class="title">Button playground</span>
+    <div class="settings-form">
+        <div class="settings-top">
+            <div class="settings-left">
+                <div class="form-field flex">
+                    <label for="size">Size</label>
+                    <ard-select htmlId="size" [items]="sizes" [(value)]="size"/>
+                </div>
+                <div class="form-field flex">
+                    <label for="appearance">Appearance</label>
+                    <ard-select htmlId="appearance" [items]="appearances" [(value)]="appearance"/>
+                </div>
+                <div class="form-field flex">
+                    <label for="color">Color</label>
+                    <ard-select htmlId="color" [items]="colors" [(value)]="color"/>
+                </div>
+            </div>
+            <div class="settings-right">
+                <div class="form-field flex checkboxes">
+                    <div class="list-item flex horiz">
+                        <ard-checkbox [(selected)]="extended" htmlId="extended"/>
+                        <label for="extended">Extended</label>
+                    </div>
+                    <div class="list-item flex horiz">
+                        <ard-checkbox [(selected)]="disabled" htmlId="disabled"/>
+                        <label for="disabled">Disabled</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="settings-bottom">
+            <div class="form-field flex">
+                <label for="icon">Icon</label>
+                <ard-simple-input htmlId="icon" [(value)]="icon"/>
+            </div>
+            <div class="form-field flex">
+                <label for="text">Extended Text</label>
+                <ard-simple-input htmlId="text" [(value)]="text"/>
+            </div>
+        </div>
+    </div>
+    <div class="button-container">
+        <ard-fab
+            [appearance]="appearance[0]"
+            [color]="color[0]"
+            [disabled]="disabled"
+            [extended]="extended"
+            [size]="size[0]"
+        >
+            <ard-icon [icon]="icon"></ard-icon>
+            <ng-container *ngIf="extended">{{ text }}</ng-container>
+        </ard-fab>
+    </div>
+</div>
 <div class="flex master" *ngFor="let size of sizes">
     <p class="title">{{ size }}</p>
     <div class="flex horiz" *ngFor="let appearance of appearances">
@@ -5,7 +60,6 @@
             <div class="grid" *ngFor="let disabled of [false, true]">
                 <ard-fab
                     *ngFor="let color of colors"
-                    icon="close"
                     [size]="size"
                     [appearance]="appearance"
                     [color]="color"
@@ -13,7 +67,33 @@
                     (focus)="log('focus', $event)"
                     (blur)="log('blur', $event)"
                     (click)="log('click', $event)"
-                ></ard-fab>
+                >
+                    <ard-icon>home</ard-icon>
+                </ard-fab>
+            </div>
+        </div>
+        <span class="mono">{{ appearance }}</span>
+    </div>
+</div>
+<div class="flex master" *ngFor="let size of sizes">
+    <p class="title">{{ size }} extended</p>
+    <div class="flex horiz" *ngFor="let appearance of appearances">
+        <div class="flex">
+            <div class="grid" *ngFor="let disabled of [false, true]">
+                <ard-fab
+                    *ngFor="let color of colors"
+                    [size]="size"
+                    [appearance]="appearance"
+                    extended
+                    [color]="color"
+                    [disabled]="disabled"
+                    (focus)="log('focus', $event)"
+                    (blur)="log('blur', $event)"
+                    (click)="log('click', $event)"
+                >
+                    <ard-icon>edit</ard-icon>
+                    Edit
+                </ard-fab>
             </div>
         </div>
         <span class="mono">{{ appearance }}</span>
