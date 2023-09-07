@@ -9,7 +9,7 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, AfterView
 })
 export class ArdiumIconComponent implements AfterViewInit {
     @Input() ariaLabel?: string;
-    @Input() icon?: string;
+    @Input() icon?: string | null;
 
     @ViewChild('contentWrapper') contentWrapper!: ElementRef<HTMLElement>;
 
