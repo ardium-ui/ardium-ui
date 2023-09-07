@@ -29,6 +29,7 @@ import { SlideToggleModule } from './pages/slide-toggle/slide-toggle.module';
 import { SlidersModule } from './pages/sliders/sliders.module';
 import { StarsModule } from './pages/stars/stars.module';
 import { StateboxModule } from './pages/statebox/statebox.module';
+import { CheckboxListModule } from './pages/checkbox-list/checkbox-list.module';
 
 @NgModule({
     declarations: [
@@ -43,6 +44,7 @@ import { StateboxModule } from './pages/statebox/statebox.module';
         IconButtonModule,
         FabModule,
         CheckboxModule,
+        CheckboxListModule,
         SlideToggleModule,
         StarsModule,
         StateboxModule,

@@ -24,6 +24,7 @@ import { SlideTogglePage } from './pages/slide-toggle/slide-toggle.page';
 import { SlidersPage } from './pages/sliders/sliders.page';
 import { StarsPage } from './pages/stars/stars.page';
 import { StateboxPage } from './pages/statebox/statebox.page';
+import { CheckboxListPage } from './pages/checkbox-list/checkbox-list.page';
 
 const routes: Routes = [
     { path: '', component: HomePage },
@@ -33,6 +34,7 @@ const routes: Routes = [
     { path: 'button', component: ButtonPage },
     { path: 'fab', component: FabPage },
     { path: 'checkbox', component: CheckboxPage },
+    { path: 'checkbox-list', component: CheckboxListPage },
     { path: 'statebox', component: StateboxPage },
     { path: 'slide-toggle', component: SlideTogglePage },
     { path: 'stars', component: StarsPage },
