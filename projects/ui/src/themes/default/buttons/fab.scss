@@ -14,10 +14,6 @@ ard-fab {
     justify-content: center;
     margin: 0;
 
-    .ard-button-icon {
-        font-weight: 500;
-        font-size: 1em;
-    }
     &.ard-fab-size-standard {
         --ard-fab-size: 3.5rem;
         font-size: 1.5rem;
@@ -25,6 +21,10 @@ ard-fab {
     &.ard-fab-size-small {
         --ard-fab-size: 2.5rem;
         font-size: 1.3rem;
+    }
+    &.ard-fab-extended {
+        font-weight: unset;
+        padding: 0.675em;
     }
 }
 
