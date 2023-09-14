@@ -9,6 +9,7 @@
                 [attr.rowspan]="cell.rowspan"
                 [style.width]="cell.width"
                 [style.minWidth]="cell.minWidth"
+                [scope]="cell.colspan > 1 ? 'colgroup' : 'col'"
             >
                 <ng-template #defaultHeaderCellTemplate let-content>
                     {{ content }}
@@ -23,33 +24,36 @@
     </thead>
     <tbody class="ard-table__body">
         <tr class="ard-table__body-row" *ngFor="let row of dataRows; let rowIndex = index;">
-            <td
+            <ng-container 
                 *ngFor="let cell of row.data; let cellIndex = index"
-                class="ard-table__body-cell"
-                [ngClass]="row.dataColumns[cellIndex].cellClass"
-                [class.ard-table__checkbox-cell]="isCellCheckbox(cell)"
             >
-                <ng-container *ngIf="isCellCheckbox(cell)">
-                    <ng-template #defaultCheckboxTemplate let-isChecked let-onChange="onChange">
-                        <ard-checkbox [selected]="isChecked" (change)="onChange()" />
-                    </ng-template>
+                <td
+                    class="ard-table__body-cell"
+                    [ngClass]="row.dataColumns[cellIndex].cellClass"
+                    [class.ard-table__checkbox-cell]="isCellCheckbox(cell)"
+                >
+                    <ng-container *ngIf="isCellCheckbox(cell)">
+                        <ng-template #defaultCheckboxTemplate let-isChecked let-onChange="onChange">
+                            <ard-checkbox [selected]="isChecked" (change)="onChange()" />
+                        </ng-template>
 
-                    <ng-template
-                        [ngTemplateOutlet]="checkboxTemplate ?? defaultCheckboxTemplate"
-                        [ngTemplateOutletContext]="getCheckboxContext(rowIndex)"
-                    />
-                </ng-container>
-                <ng-container *ngIf="!isCellCheckbox(cell)">
-                    <ng-template #defaultCellTemplate let-content>
-                        {{ content }}
-                    </ng-template>
+                        <ng-template
+                            [ngTemplateOutlet]="checkboxTemplate ?? defaultCheckboxTemplate"
+                            [ngTemplateOutletContext]="getCheckboxContext(rowIndex)"
+                        />
+                    </ng-container>
+                    <ng-container *ngIf="!isCellCheckbox(cell)">
+                        <ng-template #defaultCellTemplate let-content>
+                            {{ content }}
+                        </ng-template>
 
-                    <ng-template
-                        [ngTemplateOutlet]="getCellTemplate(row.dataColumns[cellIndex].template) ?? defaultCellTemplate"
-                        [ngTemplateOutletContext]="{ $implicit: cell }"
-                    />
-                </ng-container>
-            </td>
+                        <ng-template
+                            [ngTemplateOutlet]="getCellTemplate(row.dataColumns[cellIndex].template) ?? defaultCellTemplate"
+                            [ngTemplateOutletContext]="{ $implicit: cell }"
+                        />
+                    </ng-container>
+                </td>
+            </ng-container>
         </tr>
     </tbody>
 </table>
