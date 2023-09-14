@@ -1,0 +1,16 @@
+<!-- <div class="master">
+    <span class="title">Simple table</span>
+    <ard-table [columns]="simpleColumns"></ard-table>
+</div> -->
+<div class="master">
+    <span class="title">People table</span>
+    <ard-table [columns]="peopleColumns" [data]="peopleData">
+        <ng-template ard-table-tmp="name" let-content>
+            <strong>{{ content }}</strong>
+        </ng-template>
+    </ard-table>
+</div>
+<!-- <div class="master">
+    <span class="title">Complex table header</span>
+    <ard-table [columns]="complexColumns"></ard-table>
+</div> -->

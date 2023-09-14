@@ -146,6 +146,10 @@ export * from './lib/file-inputs/file-drop-area/file-drop-area.directives';
 export * from './lib/file-inputs/file-input/file-input.module';
 export * from './lib/file-inputs/file-input/file-input.component';
 export * from './lib/file-inputs/file-input/file-input.directives';
+//table
+export * from './lib/table/table.module';
+export * from './lib/table/table.component';
+export * from './lib/table/table.types';
 //! types
 export * from './lib/types/alignment.types';
 export * from './lib/types/colors.types';

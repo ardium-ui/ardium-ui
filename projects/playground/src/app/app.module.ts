@@ -30,6 +30,7 @@ import { SlidersModule } from './pages/sliders/sliders.module';
 import { StarsModule } from './pages/stars/stars.module';
 import { StateboxModule } from './pages/statebox/statebox.module';
 import { CheckboxListModule } from './pages/checkbox-list/checkbox-list.module';
+import { TableModule } from './pages/table/table.module';
 
 @NgModule({
     declarations: [
@@ -64,6 +65,7 @@ import { CheckboxListModule } from './pages/checkbox-list/checkbox-list.module';
         RadioModule,
         FileDropAreaModule,
         FileInputModule,
+        TableModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

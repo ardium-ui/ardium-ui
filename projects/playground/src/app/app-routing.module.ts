@@ -25,6 +25,7 @@ import { SlidersPage } from './pages/sliders/sliders.page';
 import { StarsPage } from './pages/stars/stars.page';
 import { StateboxPage } from './pages/statebox/statebox.page';
 import { CheckboxListPage } from './pages/checkbox-list/checkbox-list.page';
+import { TablePage } from './pages/table/table.page';
 
 const routes: Routes = [
     { path: '', component: HomePage },
@@ -40,6 +41,7 @@ const routes: Routes = [
     { path: 'stars', component: StarsPage },
     { path: 'chips', component: ChipsPage },
     { path: 'icon', component: IconPage },
+    { path: 'table', component: TablePage },
     { path: 'color-display', component: ColorDisplayPage },
     { path: 'color-picker', component: ColorPickerPage },
     { path: 'calendar', component: CalendarPage },
