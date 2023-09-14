@@ -1,0 +1,17 @@
+
+.ard-table {
+    border-collapse: collapse;
+
+    .ard-table__header {
+        .ard-table__header-row {
+            .ard-table__header-cell {
+                border: 1px solid black;
+                padding: 0.3rem 0.5rem;
+                background: $darken-overlay;
+                height: 2.5rem;
+                min-width: 2.5rem;
+                box-sizing: border-box;
+            }
+        }
+    }
+}

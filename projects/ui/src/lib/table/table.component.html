@@ -1,0 +1,55 @@
+<table class="ard-table">
+    <thead class="ard-table__header">
+        <tr class="ard-table__header-row" *ngFor="let row of headerCells">
+            <th
+                *ngFor="let cell of row"
+                class="ard-table__header-cell"
+                [ngClass]="cell.cell.cellClass"
+                [attr.colspan]="cell.colspan"
+                [attr.rowspan]="cell.rowspan"
+                [style.width]="cell.width"
+                [style.minWidth]="cell.minWidth"
+            >
+                <ng-template #defaultHeaderCellTemplate let-content>
+                    {{ content }}
+                </ng-template>
+
+                <ng-template
+                    [ngTemplateOutlet]="defaultHeaderCellTemplate"
+                    [ngTemplateOutletContext]="{ $implicit: cell.cell.header }"
+                ></ng-template>
+            </th>
+        </tr>
+    </thead>
+    <tbody class="ard-table__body">
+        <tr class="ard-table__body-row" *ngFor="let row of dataRows; let rowIndex = index;">
+            <td
+                *ngFor="let cell of row.data; let cellIndex = index"
+                class="ard-table__body-cell"
+                [ngClass]="row.dataColumns[cellIndex].cellClass"
+                [class.ard-table__checkbox-cell]="isCellCheckbox(cell)"
+            >
+                <ng-container *ngIf="isCellCheckbox(cell)">
+                    <ng-template #defaultCheckboxTemplate let-isChecked let-onChange="onChange">
+                        <ard-checkbox [selected]="isChecked" (change)="onChange()" />
+                    </ng-template>
+
+                    <ng-template
+                        [ngTemplateOutlet]="checkboxTemplate ?? defaultCheckboxTemplate"
+                        [ngTemplateOutletContext]="getCheckboxContext(rowIndex)"
+                    />
+                </ng-container>
+                <ng-container *ngIf="!isCellCheckbox(cell)">
+                    <ng-template #defaultCellTemplate let-content>
+                        {{ content }}
+                    </ng-template>
+
+                    <ng-template
+                        [ngTemplateOutlet]="getCellTemplate(row.dataColumns[cellIndex].template) ?? defaultCellTemplate"
+                        [ngTemplateOutletContext]="{ $implicit: cell }"
+                    />
+                </ng-container>
+            </td>
+        </tr>
+    </tbody>
+</table>
