@@ -16,6 +16,7 @@ export interface TableDataColumn extends _GenericColumn {
     highlight?: boolean | ComponentColor;
     width?: string | number;
     minWidth?: string | number;
+    isRowHeader?: boolean;
 }
 export interface TableSubheader extends _GenericColumn {
     children: NonEmptyArray<TableSubheader | TableDataColumn>;

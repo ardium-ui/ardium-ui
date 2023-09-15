@@ -24,14 +24,8 @@
     </thead>
     <tbody class="ard-table__body">
         <tr class="ard-table__body-row" *ngFor="let row of dataRows; let rowIndex = index;">
-            <ng-container 
-                *ngFor="let cell of row.data; let cellIndex = index"
-            >
-                <td
-                    class="ard-table__body-cell"
-                    [ngClass]="row.dataColumns[cellIndex].cellClass"
-                    [class.ard-table__checkbox-cell]="isCellCheckbox(cell)"
-                >
+            <ng-container *ngFor="let cell of row.data; let cellIndex = index">
+                <ng-template #cell>
                     <ng-container *ngIf="isCellCheckbox(cell)">
                         <ng-template #defaultCheckboxTemplate let-isChecked let-onChange="onChange">
                             <ard-checkbox [selected]="isChecked" (change)="onChange()" />
@@ -52,7 +46,24 @@
                             [ngTemplateOutletContext]="{ $implicit: cell }"
                         />
                     </ng-container>
+                </ng-template>
+                <td
+                    *ngIf="!row.dataColumns[cellIndex].isRowHeader"
+                    class="ard-table__body-cell"
+                    [ngClass]="row.dataColumns[cellIndex].cellClass"
+                    [class.ard-table__checkbox-cell]="isCellCheckbox(cell)"
+                >
+                    <ng-template [ngTemplateOutlet]="cell"></ng-template>
                 </td>
+                <th
+                    *ngIf="row.dataColumns[cellIndex].isRowHeader"
+                    class="ard-table__body-cell ard-table__row-header"
+                    scope="row"
+                    [ngClass]="row.dataColumns[cellIndex].cellClass"
+                    [class.ard-table__checkbox-cell]="isCellCheckbox(cell)"
+                >
+                    <ng-template [ngTemplateOutlet]="cell"></ng-template>
+                </th>
             </ng-container>
         </tr>
     </tbody>
