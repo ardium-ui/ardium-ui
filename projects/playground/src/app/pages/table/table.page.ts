@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TableDataColumn, TableSubheader } from '@ardium-ui/ui';
+import { Logger } from '../../services/logger.service';
 
 @Component({
     selector: 'app-table',
@@ -7,6 +8,10 @@ import { TableDataColumn, TableSubheader } from '@ardium-ui/ui';
     styleUrls: ['./table.page.scss']
 })
 export class TablePage {
+
+    constructor(private _logger: Logger) {}
+    log = this._logger.log;
+
     complexColumns: (TableDataColumn | TableSubheader)[] = [
         {
             header: 'A',
@@ -161,6 +166,7 @@ export class TablePage {
         {
             header: 'No.',
             dataSource: { type: 'autocount' },
+            isRowHeader: true,
         },
         {
             header: 'Name',

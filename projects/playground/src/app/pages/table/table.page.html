@@ -4,7 +4,13 @@
 </div> -->
 <div class="master">
     <span class="title">People table</span>
-    <ard-table [columns]="peopleColumns" [data]="peopleData">
+    <ard-table
+        [columns]="peopleColumns"
+        [data]="peopleData"
+        (selectRow)="log('selectRow', $event)"
+        (unselectRow)="log('unselectRow', $event)"
+        (selectedRowsChange)="log('selectedRowsChange', $event)"
+    >
         <ng-template ard-table-tmp="name" let-content>
             <strong>{{ content }}</strong>
         </ng-template>
