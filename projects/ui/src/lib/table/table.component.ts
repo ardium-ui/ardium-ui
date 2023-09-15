@@ -1,4 +1,4 @@
-import { AfterContentInit, ChangeDetectionStrategy, Component, ContentChild, ContentChildren, Input, QueryList, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { AfterContentInit, ChangeDetectionStrategy, Component, ContentChild, ContentChildren, EventEmitter, Input, Output, QueryList, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
 import { ArdTableRow, HeaderCell, TableItemStorage, TableItemStorageHost } from './table-item-storage';
 import { ArdiumTableCheckboxTemplateDirective, ArdiumTableTemplateDirective } from './table.directives';
@@ -78,14 +78,28 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     //! select handlers
     toggleRowSelected(selected: boolean, index: number): void {
         if (selected) {
-            this._itemStorage.unselectItem(index);
-            return;
+            const unselected = this._itemStorage.unselectItem(index);
+            this.unselectRowEvent.emit(unselected);
         }
-        this._itemStorage.selectItem(index);
+        else {
+            const [selected, failed] = this._itemStorage.selectItem(index);
+            this.selectRowEvent.emit(selected);
+            this.failedSelectRowEvent.emit(failed);
+        }
+        this._emitSelect();
+    }
+    private _emitSelect(): void {
+        const v = this._itemStorage.value;
+        this.selectedRowsChangeEvent.emit(v);
     }
     isCellCheckbox(cell: any): boolean {
         return typeof cell == 'object' && '_ardCheckbox' in cell && 'index' in cell;
     }
+
+    @Output('selectedRowsChange') selectedRowsChangeEvent = new EventEmitter<any[]>();
+    @Output('failedSelectRow') failedSelectRowEvent = new EventEmitter<any[]>();
+    @Output('selectRow') selectRowEvent = new EventEmitter<any[]>();
+    @Output('unselectRow') unselectRowEvent = new EventEmitter<any[]>();
 
     //! contexts
     getCheckboxContext(index: number): TableCheckboxContext {
