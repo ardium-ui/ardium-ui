@@ -150,6 +150,9 @@ export * from './lib/file-inputs/file-input/file-input.directives';
 export * from './lib/table/table.module';
 export * from './lib/table/table.component';
 export * from './lib/table/table.types';
+//table-from-csv
+export * from './lib/table-from-csv/table-from-csv.module';
+export * from './lib/table-from-csv/table-from-csv.component';
 //! types
 export * from './lib/types/alignment.types';
 export * from './lib/types/colors.types';

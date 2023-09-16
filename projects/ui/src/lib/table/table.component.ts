@@ -3,6 +3,7 @@ import { _FocusableComponentBase } from '../_internal/focusable-component';
 import { ArdTableRow, HeaderCell, TableItemStorage, TableItemStorageHost } from './table-item-storage';
 import { ArdiumTableCheckboxTemplateDirective, ArdiumTableTemplateDirective } from './table.directives';
 import { TableCheckboxContext, TableDataColumn, TableSubheader } from './table.types';
+import { coerceBooleanProperty } from '@ardium-ui/devkit';
 
 @Component({
   selector: 'ard-table',
@@ -43,6 +44,11 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
         this._itemStorage.setItems(v);
     }
     get data(): any[] { return this._data; }
+
+    private _treatDataSourceAsString: boolean = false;
+    @Input()
+    get treatDataSourceAsString(): boolean { return this._treatDataSourceAsString; }
+    set treatDataSourceAsString(v: any) { this._treatDataSourceAsString = coerceBooleanProperty(v); }
 
     //! templates
     @ContentChild(ArdiumTableCheckboxTemplateDirective, { read: TemplateRef }) checkboxTemplate?: TemplateRef<TableCheckboxContext>;

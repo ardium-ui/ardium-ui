@@ -27,6 +27,7 @@ export interface TableItemStorageHost {
     readonly DEFAULTS: TableItemStorageHostDefaults;
     compareWith?: CompareWithFn;
     maxSelectedItems?: number;
+    treatDataSourceAsString?: boolean;
 }
 export interface DataColumn extends TableDataColumn {
 
@@ -285,6 +286,11 @@ export class TableItemStorage {
             const sourcePath = dataColumn.dataSource;
 
             if (typeof sourcePath == 'string') {
+                console.log(sourcePath, this._ardParentComp);
+                if (this._ardParentComp.treatDataSourceAsString) {
+                    data.push(rawItemData[sourcePath]);
+                    continue;
+                }
                 data.push(resolvePath(rawItemData, sourcePath));
                 continue;
             }
