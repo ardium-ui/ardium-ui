@@ -67,6 +67,10 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
         }
     }
 
+    getHeaderTemplate(tmp: string | { template: string | TemplateRef<any> }): TemplateRef<any> | undefined {
+        if (typeof tmp == 'string') return undefined;
+        return this.getCellTemplate(tmp.template);
+    }
     getCellTemplate(tmp?: string | TemplateRef<any>): TemplateRef<any> | undefined {
         //return undefined
         if (!tmp) return undefined;

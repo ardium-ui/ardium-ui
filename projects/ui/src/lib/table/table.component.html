@@ -16,7 +16,7 @@
                 </ng-template>
 
                 <ng-template
-                    [ngTemplateOutlet]="defaultHeaderCellTemplate"
+                    [ngTemplateOutlet]="getHeaderTemplate(cell.cell.header) ?? defaultHeaderCellTemplate"
                     [ngTemplateOutletContext]="{ $implicit: cell.cell.header }"
                 ></ng-template>
             </th>

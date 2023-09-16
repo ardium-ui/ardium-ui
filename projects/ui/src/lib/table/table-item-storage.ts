@@ -29,9 +29,6 @@ export interface TableItemStorageHost {
     maxSelectedItems?: number;
     treatDataSourceAsString?: boolean;
 }
-export interface DataColumn extends TableDataColumn {
-
-}
 export class HeaderCell {
     colspan!: number;
     rowspan!: number;
@@ -63,7 +60,7 @@ export class TableItemStorage {
     private _highlightedItems: ArdTableRow[] = [];
     private _selectedItems: ArdTableRow[] = [];
 
-    private _dataColumns: DataColumn[] = [];
+    private _dataColumns: TableDataColumn[] = [];
     private _headerCells: HeaderCell[][] = [];
 
     constructor(
@@ -286,7 +283,6 @@ export class TableItemStorage {
             const sourcePath = dataColumn.dataSource;
 
             if (typeof sourcePath == 'string') {
-                console.log(sourcePath, this._ardParentComp);
                 if (this._ardParentComp.treatDataSourceAsString) {
                     data.push(rawItemData[sourcePath]);
                     continue;
