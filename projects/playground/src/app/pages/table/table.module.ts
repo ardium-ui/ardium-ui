@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TablePage } from './table.page';
-import { ArdiumTableModule } from '@ardium-ui/ui';
+import { ArdiumTableModule, ArdiumTableFromCsvModule } from '@ardium-ui/ui';
 
 
 
@@ -12,6 +12,7 @@ import { ArdiumTableModule } from '@ardium-ui/ui';
     imports: [
         CommonModule,
         ArdiumTableModule,
+        ArdiumTableFromCsvModule,
     ]
 })
 export class TableModule { }

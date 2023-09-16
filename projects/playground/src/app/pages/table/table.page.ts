@@ -12,6 +12,18 @@ export class TablePage {
     constructor(private _logger: Logger) {}
     log = this._logger.log;
 
+    readonly CSV = `Album, Year, US Peak Chart Pos
+The White Stripes, 1998, -
+De Stijl, 2000, -
+White Blood Cells, 2001, 61
+Elephant, 2003, 6
+Get Behind Me Satan, 2005, 3
+Icky Thump, 2007, 2
+Under Great White Northern Lights, 2010, 11
+Live in Mississippi, 2011, -
+Live at the Gold Dollar, 2012, -
+Nine Miles from the White City, 2013, -`;
+
     complexColumns: (TableDataColumn | TableSubheader)[] = [
         {
             header: 'A',
