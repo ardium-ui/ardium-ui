@@ -2,8 +2,9 @@ import { AfterContentInit, ChangeDetectionStrategy, Component, ContentChild, Con
 import { _FocusableComponentBase } from '../_internal/focusable-component';
 import { ArdTableRow, HeaderCell, TableItemStorage, TableItemStorageHost } from './table-item-storage';
 import { ArdiumTableCheckboxTemplateDirective, ArdiumTableTemplateDirective } from './table.directives';
-import { TableCheckboxContext, TableDataColumn, TableSubheader } from './table.types';
+import { TableAlignType, TableAppearance, TableBorder, TableCheckboxContext, TableDataColumn, TableSubheader, TableVariant } from './table.types';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { ComponentColor } from '../types/colors.types';
 
 @Component({
   selector: 'ard-table',
@@ -22,7 +23,32 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     }
 
     @Input() rowDisabledFrom?: string; 
-    @Input() rowBoldFrom?: string; 
+    @Input() rowBoldFrom?: string;
+
+    //! appearance
+    @Input() appearance: TableAppearance = TableAppearance.Strong;
+    @Input() variant: TableVariant = TableVariant.Rounded;
+    @Input() color: ComponentColor = ComponentColor.Primary;
+    @Input() border: TableBorder = TableBorder.Horizontal;
+    @Input() align: TableAlignType = TableAlignType.CenterLeft;
+    @Input() headerAlign: TableAlignType = TableAlignType.Center;
+
+    private _compact: boolean = false;
+    @Input()
+    get compact(): boolean { return this._compact; }
+    set compact(v: any) { this._compact = coerceBooleanProperty(v); }
+
+    get ngClasses(): string {
+        return [
+            `ard-appearance-${this.appearance}`,
+            `ard-variant-${this.variant}`,
+            `ard-color-${this.color}`,
+            `ard-border-${this.border}`,
+            `ard-align-${this.align}`,
+            `ard-header-align-${this.headerAlign}`,
+            this.compact ? 'ard-compact' : '',
+        ].join(' ');
+    }
 
     //! item storage getters
     get headerCells(): HeaderCell[][] {
