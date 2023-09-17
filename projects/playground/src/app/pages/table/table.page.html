@@ -7,6 +7,8 @@
     <ard-table
         [columns]="peopleColumns"
         [data]="peopleData"
+        appearance="colorless"
+        compact
         (selectRow)="log('selectRow', $event)"
         (unselectRow)="log('unselectRow', $event)"
         (selectedRowsChange)="log('selectedRowsChange', $event)"
@@ -16,10 +18,10 @@
         </ng-template>
     </ard-table>
 </div>
-<div class="master">
+<!-- <div class="master">
     <span class="title">Table from CSV</span>
     <ard-table-from-csv [data]="CSV" />
-</div>
+</div> -->
 <!-- <div class="master">
     <span class="title">Complex table header</span>
     <ard-table [columns]="complexColumns"></ard-table>

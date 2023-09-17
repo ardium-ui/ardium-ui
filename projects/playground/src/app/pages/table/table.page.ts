@@ -212,7 +212,7 @@ Nine Miles from the White City, 2013, -`;
                 {
                     header: 'Email',
                     dataSource: 'email',
-                    minWidth: 100
+                    width: 160
                 },
             ]
         },
