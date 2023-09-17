@@ -7,18 +7,22 @@
                 [ngClass]="cell.cell.cellClass"
                 [attr.colspan]="cell.colspan"
                 [attr.rowspan]="cell.rowspan"
-                [style.width]="cell.width"
-                [style.minWidth]="cell.minWidth"
                 [scope]="cell.colspan > 1 ? 'colgroup' : 'col'"
             >
-                <ng-template #defaultHeaderCellTemplate let-content>
-                    {{ content }}
-                </ng-template>
+                <div
+                    class="ard-table__cell-container"
+                    [style.width]="cell.width"
+                    [style.minWidth]="cell.minWidth"
+                >
+                    <ng-template #defaultHeaderCellTemplate let-content>
+                        {{ content }}
+                    </ng-template>
 
-                <ng-template
-                    [ngTemplateOutlet]="getHeaderTemplate(cell.cell.header) ?? defaultHeaderCellTemplate"
-                    [ngTemplateOutletContext]="{ $implicit: cell.cell.header }"
-                ></ng-template>
+                    <ng-template
+                        [ngTemplateOutlet]="getHeaderTemplate(cell.cell.header) ?? defaultHeaderCellTemplate"
+                        [ngTemplateOutletContext]="{ $implicit: cell.cell.header }"
+                    ></ng-template>
+                </div>
             </th>
         </tr>
     </thead>
@@ -26,26 +30,31 @@
         <tr class="ard-table__body-row" *ngFor="let row of dataRows; let rowIndex = index;">
             <ng-container *ngFor="let cell of row.data; let cellIndex = index">
                 <ng-template #cellTmp>
-                    <ng-container *ngIf="isCellCheckbox(cell)">
-                        <ng-template #defaultCheckboxTemplate let-isChecked let-onChange="onChange">
-                            <ard-checkbox [selected]="isChecked" (change)="onChange()" />
-                        </ng-template>
+                    <div
+                        class="ard-table__cell-container"
+                        [style]="getCellStyle(row.dataColumns[cellIndex])"
+                    >
+                        <ng-container *ngIf="isCellCheckbox(cell)">
+                            <ng-template #defaultCheckboxTemplate let-isChecked let-onChange="onChange">
+                                <ard-checkbox [selected]="isChecked" (change)="onChange()" />
+                            </ng-template>
 
-                        <ng-template
-                            [ngTemplateOutlet]="checkboxTemplate ?? defaultCheckboxTemplate"
-                            [ngTemplateOutletContext]="getCheckboxContext(rowIndex)"
-                        />
-                    </ng-container>
-                    <ng-container *ngIf="!isCellCheckbox(cell)">
-                        <ng-template #defaultCellTemplate let-content>
-                            {{ content }}
-                        </ng-template>
+                            <ng-template
+                                [ngTemplateOutlet]="checkboxTemplate ?? defaultCheckboxTemplate"
+                                [ngTemplateOutletContext]="getCheckboxContext(rowIndex)"
+                            />
+                        </ng-container>
+                        <ng-container *ngIf="!isCellCheckbox(cell)">
+                            <ng-template #defaultCellTemplate let-content>
+                                {{ content }}
+                            </ng-template>
 
-                        <ng-template
-                            [ngTemplateOutlet]="getCellTemplate(row.dataColumns[cellIndex].template) ?? defaultCellTemplate"
-                            [ngTemplateOutletContext]="{ $implicit: cell }"
-                        />
-                    </ng-container>
+                            <ng-template
+                                [ngTemplateOutlet]="getCellTemplate(row.dataColumns[cellIndex].template) ?? defaultCellTemplate"
+                                [ngTemplateOutletContext]="{ $implicit: cell }"
+                            />
+                        </ng-container>
+                    </div>
                 </ng-template>
                 <td
                     *ngIf="!row.dataColumns[cellIndex].isRowHeader"

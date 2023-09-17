@@ -1,10 +1,11 @@
 import { AfterContentInit, ChangeDetectionStrategy, Component, ContentChild, ContentChildren, EventEmitter, Input, Output, QueryList, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
+import { ComponentColor } from '../types/colors.types';
 import { ArdTableRow, HeaderCell, TableItemStorage, TableItemStorageHost } from './table-item-storage';
 import { ArdiumTableCheckboxTemplateDirective, ArdiumTableTemplateDirective } from './table.directives';
-import { TableAlignType, TableAppearance, TableBorder, TableCheckboxContext, TableDataColumn, TableSubheader, TableVariant } from './table.types';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
-import { ComponentColor } from '../types/colors.types';
+import { TableAlignType, TableAppearance, TableCheckboxContext, TableDataColumn, TableSubheader, TableVariant } from './table.types';
+import { isTableSubheader } from './utils';
 
 @Component({
   selector: 'ard-table',
@@ -29,7 +30,6 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     @Input() appearance: TableAppearance = TableAppearance.Strong;
     @Input() variant: TableVariant = TableVariant.Rounded;
     @Input() color: ComponentColor = ComponentColor.Primary;
-    @Input() border: TableBorder = TableBorder.Horizontal;
     @Input() align: TableAlignType = TableAlignType.CenterLeft;
     @Input() headerAlign: TableAlignType = TableAlignType.Center;
 
@@ -43,7 +43,6 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
             `ard-appearance-${this.appearance}`,
             `ard-variant-${this.variant}`,
             `ard-color-${this.color}`,
-            `ard-border-${this.border}`,
             `ard-align-${this.align}`,
             `ard-header-align-${this.headerAlign}`,
             this.compact ? 'ard-compact' : '',
@@ -109,6 +108,16 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
         }
         //return the template
         return this._itemTemplates[tmp];
+    }
+    getCellStyle(cell: TableDataColumn | TableSubheader): string {
+        console.log(cell);
+        if (isTableSubheader(cell)) return 'width:unset;min-width:unset';
+        const width = typeof cell.width == 'number' ? `${cell.width}px` : cell.width;
+        const minWidth = typeof cell.minWidth == 'number' ? `${cell.minWidth}px` : cell.minWidth;
+        return [
+            `width:${width ?? 'unset'}`,
+            `min-width:${minWidth ?? 'unset'}`,
+        ].join(';');
     }
 
     //! select handlers

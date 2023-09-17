@@ -43,14 +43,6 @@ export const TableVariant = {
 } as const;
 export type TableVariant = typeof TableVariant[keyof typeof TableVariant];
 
-export const TableBorder = {
-    All: 'all',
-    Vertical: 'vertical',
-    Horizontal: 'horizontal',
-    None: 'none',
-} as const;
-export type TableBorder = typeof TableBorder[keyof typeof TableBorder];
-
 export const TablePaginationStrategy = {
     Noop: 'noop',
     Slice: 'slice',
