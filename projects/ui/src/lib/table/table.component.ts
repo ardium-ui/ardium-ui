@@ -59,6 +59,11 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     get zebra(): boolean { return this._zebra; }
     set zebra(v: any) { this._zebra = coerceBooleanProperty(v); }
 
+    private _stickyHeader: boolean = false;
+    @Input()
+    get stickyHeader(): boolean { return this._stickyHeader; }
+    set stickyHeader(v: any) { this._stickyHeader = coerceBooleanProperty(v); }
+
     get ngClasses(): string {
         return [
             `ard-appearance-${this.appearance}`,
@@ -69,6 +74,7 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
             this.compact ? 'ard-compact' : '',
             this.zebra ? 'ard-zebra-table' : '',
             this.selectableRows ? 'ard-selectable-rows' : '',
+            this.stickyHeader ? 'ard-sticky-header' : '',
         ].join(' ');
     }
 

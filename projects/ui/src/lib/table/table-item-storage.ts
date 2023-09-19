@@ -119,7 +119,7 @@ export class TableItemStorage {
      * @returns A boolean value indicating if all items are selected.
      */
     get areAllSelected(): boolean {
-        return this._selectedItems.length == this._items.length;
+        return this._selectedItems.length == this._items.filter(item => !item.disabled).length;
     }
     /**
      * Returns true if the parent component defines the limit of concurrently selectable items and the amount of currently selected items matches that limit. Otherwise returns false.
@@ -394,7 +394,7 @@ export class TableItemStorage {
      * * An array of items failed to select.
      */
     selectItem(...indexes: number[]): [any[], any[]] {
-        const itemsToBeSelected = this._items.filter(item => indexes.includes(item.index));
+        const itemsToBeSelected = this._items.filter(item => !item.disabled && indexes.includes(item.index));
         if (this.isItemLimitReached) {
             return [[], this._itemsToValue(itemsToBeSelected)];
         }
