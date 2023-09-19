@@ -7,7 +7,7 @@ import { ArdTableRow, HeaderCell, TableItemStorage, TableItemStorageHost } from 
 import { ArdiumTableCaptionTemplateDirective, ArdiumTableCheckboxTemplateDirective, ArdiumTableHeaderCheckboxTemplateDirective, ArdiumTablePaginationTemplateDirective, ArdiumTableTemplateDirective } from './table.directives';
 import { TableAlignType, TableAppearance, TableCaptionContext, TableCheckboxContext, TableDataColumn, TableHeaderCheckboxContext, TableSubheader, TableVariant } from './table.types';
 import { isTableSubheader } from './utils';
-import { TablePaginationContext } from '../table-pagination/table-pagination.types';
+import { PaginationContext } from '../_internal/models/pagination.model';
 
 @Component({
   selector: 'ard-table',
@@ -94,7 +94,7 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
 
     @Output() itemsPerPageChange = new EventEmitter<number>();
 
-    @ContentChild(ArdiumTablePaginationTemplateDirective, { read: TemplateRef }) paginationTemplate?: TemplateRef<TablePaginationContext>;
+    @ContentChild(ArdiumTablePaginationTemplateDirective, { read: TemplateRef }) paginationTemplate?: TemplateRef<PaginationContext>;
 
     //! item storage getters
     get headerCells(): HeaderCell[][] {
