@@ -1,12 +1,13 @@
-import { AfterContentInit, ChangeDetectionStrategy, Component, ContentChild, ContentChildren, EventEmitter, Input, Output, QueryList, TemplateRef, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { AfterContentInit, ChangeDetectionStrategy, Component, ContentChild, ContentChildren, EventEmitter, Input, Output, QueryList, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
+import { CheckboxState } from '../checkbox/checkbox.types';
 import { ComponentColor, SimpleComponentColor } from '../types/colors.types';
 import { ArdTableRow, HeaderCell, TableItemStorage, TableItemStorageHost } from './table-item-storage';
-import { ArdiumTableCaptionTemplateDirective, ArdiumTableCheckboxTemplateDirective, ArdiumTableHeaderCheckboxTemplateDirective, ArdiumTableTemplateDirective } from './table.directives';
+import { ArdiumTableCaptionTemplateDirective, ArdiumTableCheckboxTemplateDirective, ArdiumTableHeaderCheckboxTemplateDirective, ArdiumTablePaginationTemplateDirective, ArdiumTableTemplateDirective } from './table.directives';
 import { TableAlignType, TableAppearance, TableCaptionContext, TableCheckboxContext, TableDataColumn, TableHeaderCheckboxContext, TableSubheader, TableVariant } from './table.types';
 import { isTableSubheader } from './utils';
-import { CheckboxState } from '../checkbox/checkbox.types';
+import { TablePaginationContext } from '../table-pagination/table-pagination.types';
 
 @Component({
   selector: 'ard-table',
@@ -77,6 +78,23 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
             this.stickyHeader ? 'ard-sticky-header' : '',
         ].join(' ');
     }
+
+    //! pagination
+    private _paginated: boolean = false;
+    @Input()
+    get paginated(): boolean { return this._paginated; }
+    set paginated(v: any) { this._paginated = coerceBooleanProperty(v); }
+
+    @Input() paginationOptions?: number[] | { value: number, label: string }[] = [10, 25, 50];
+
+    private _itemsPerPage: number = 50;
+    @Input()
+    get itemsPerPage(): number { return this._itemsPerPage; }
+    set itemsPerPage(v: any) { this._itemsPerPage = coerceNumberProperty(v); }
+
+    @Output() itemsPerPageChange = new EventEmitter<number>();
+
+    @ContentChild(ArdiumTablePaginationTemplateDirective, { read: TemplateRef }) paginationTemplate?: TemplateRef<TablePaginationContext>;
 
     //! item storage getters
     get headerCells(): HeaderCell[][] {

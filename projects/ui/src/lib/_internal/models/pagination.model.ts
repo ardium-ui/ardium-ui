@@ -27,6 +27,9 @@ export class PaginationModel {
         this._totalItems = v;
         this._lastPageNumMemo = null;
     }
+    get isTotalItemsDefined(): boolean {
+        return isDefined(this._totalItems);
+    }
 
     //! items per page
     setItemsPerPageOptions(v: number[] | { value: number, label: string }[]): void {
@@ -35,6 +38,9 @@ export class PaginationModel {
     setItemsPerPage(v: number): void {
         this._itemsPerPage = v;
         this._lastPageNumMemo = null;
+    }
+    getItemsPerPage(): number {
+        return this._itemsPerPage;
     }
 
     private _itemsOnCurrentPageMemo: [number, number] | null = null;
@@ -72,6 +78,9 @@ export class PaginationModel {
     }
     setPage(v: number): void {
         this._page = v;
+    }
+    getPage(): number {
+        return this._page;
     }
     firstPage(): number | null {
         if (this.firstPageDisabled) return null;

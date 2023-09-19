@@ -1,6 +1,6 @@
 
 import { Directive, Input, TemplateRef } from '@angular/core';
-import { TableCaptionContext, TableCheckboxContext } from './table.types';
+import { TableCaptionContext, TableCheckboxContext, TablePaginationContext } from './table.types';
 
 @Directive({ selector: 'ard-table > ng-template[ard-table-tmp]' })
 export class ArdiumTableTemplateDirective {
@@ -22,4 +22,10 @@ export class ArdiumTableHeaderCheckboxTemplateDirective {
 @Directive({ selector: 'ard-table > ng-template[ard-table-caption-tmp]' })
 export class ArdiumTableCaptionTemplateDirective {
     constructor(public template: TemplateRef<TableCaptionContext>) { }
+}
+
+//! paginations
+@Directive({ selector: 'ard-table > ng-template[ard-table-pagination-tmp]' })
+export class ArdiumTablePaginationTemplateDirective {
+    constructor(public template: TemplateRef<TablePaginationContext>) { }
 }
