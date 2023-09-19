@@ -27,6 +27,7 @@ export interface TableSubheader extends _GenericColumn {
 export interface TableCheckboxContext {
     $implicit: boolean;
     selected: boolean;
+    disabled: boolean;
     onChange: (event: MouseEvent) => void;
 }
 export interface TableHeaderCheckboxContext {

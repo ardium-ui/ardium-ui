@@ -18,15 +18,24 @@ import { CheckboxState } from '../checkbox/checkbox.types';
 export class ArdiumTableComponent extends _FocusableComponentBase implements TableItemStorageHost, AfterContentInit {
     
     private readonly _itemStorage = new TableItemStorage(this);
-    private _isMouseBeingUsed = false;
 
     readonly DEFAULTS = {
-        rowDisabledFrom: 'rowDisabled',
-        rowBoldFrom: 'rowBold',
+        rowDisabledFrom: 'disabled',
+        rowBoldFrom: 'bold',
     }
 
-    @Input() rowDisabledFrom?: string; 
+    @Input() rowDisabledFrom?: string;
     @Input() rowBoldFrom?: string;
+
+    private _invertRowDisabled: boolean = false;
+    @Input()
+    get invertRowDisabled(): boolean { return this._invertRowDisabled; }
+    set invertRowDisabled(v: any) { this._invertRowDisabled = coerceBooleanProperty(v); }
+
+    private _invertRowBold: boolean = false;
+    @Input()
+    get invertRowBold(): boolean { return this._invertRowBold; }
+    set invertRowBold(v: any) { this._invertRowBold = coerceBooleanProperty(v); }
     
     private _selectableRows: boolean = false;
     @Input()
@@ -139,8 +148,7 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     }
 
     //! click & hover handlers
-    onCheckboxClick(index: number, event: MouseEvent): void {
-        event.stopPropagation();
+    onCheckboxClick(index: number): void {
         this.toggleRowSelected(index);
     }
     onRowClick(index: number, event: MouseEvent): void {
@@ -169,7 +177,6 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
      * @param index the index of the row in the table.
      */
     toggleRowSelected(index: number): void {
-        console.log('toggle row selected', index, this._itemStorage.isItemSelected(index));
         if (this._itemStorage.isItemSelected(index)) {
             const unselected = this._itemStorage.unselectItem(index);
             this.unselectRowEvent.emit(unselected);
@@ -233,12 +240,15 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
         }
     }
     getCheckboxContext(index: number): TableCheckboxContext {
-        const selected = this._itemStorage.isItemSelected(index);
+        const item = this._itemStorage.items.find(v => v.index == index)!;
+        const selected = item.selected ?? false;
+        const disabled = item.disabled ?? false;
         return {
             $implicit: selected,
             selected,
-            onChange: (event: MouseEvent) => {
-                this.onCheckboxClick(index, event);
+            disabled,
+            onChange: () => {
+                this.onCheckboxClick(index);
             }
         }
     }

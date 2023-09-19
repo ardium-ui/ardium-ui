@@ -22,7 +22,8 @@ export interface TableItemStorageHostDefaults {
 export interface TableItemStorageHost {
     rowDisabledFrom?: string;
     rowBoldFrom?: string;
-    invertDisabled?: boolean;
+    invertRowDisabled?: boolean;
+    invertRowBold?: boolean;
     data?: any[];
     readonly DEFAULTS: TableItemStorageHostDefaults;
     compareWith?: CompareWithFn;
@@ -264,12 +265,15 @@ export class TableItemStorage {
 
         //get bold
         const rowBoldFromPath = this._ardParentComp.rowBoldFrom ?? this._ardParentComp.DEFAULTS.rowBoldFrom;
-        const bold = resolvePath(rawItemData, rowBoldFromPath);
+        let bold = resolvePath(rawItemData, rowBoldFromPath);
+        if (this._ardParentComp.invertRowBold) {
+            bold = !bold;
+        }
 
         //get disabled
         const disabledPath = this._ardParentComp.rowDisabledFrom ?? this._ardParentComp.DEFAULTS.rowDisabledFrom;
         let disabled = evaluate(resolvePath(rawItemData, disabledPath));
-        if (this._ardParentComp.invertDisabled) {
+        if (this._ardParentComp.invertRowDisabled) {
             disabled = !disabled;
         }
 

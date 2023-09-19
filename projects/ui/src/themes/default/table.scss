@@ -162,6 +162,18 @@
         background: rgba(var(--_table-overlay), 8%);
     }
 
+    //! disabled
+    .ard-table__disabled-row {
+        pointer-events: none;
+        opacity: 50%;
+        user-select: none;
+    }
+
+    //! bold
+    .ard-table__bold-row {
+        font-weight: 600;
+    }
+
     //! header aligns
     &.ard-header-align-top-left,
     &.ard-header-align-center-left,

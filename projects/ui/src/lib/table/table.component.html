@@ -45,6 +45,8 @@
             class="ard-table__body-row"
             [class.ard-table__selected-row]="row.selected"
             [class.ard-table__highlighted-row]="row.highlighted"
+            [class.ard-table__disabled-row]="row.disabled"
+            [class.ard-table__bold-row]="row.bold"
             (click)="onRowClick(rowIndex, $event)"
             (mouseover)="onRowMouseOver($event)"
             (mouseenter)="onRowMouseEnter(rowIndex, $event)"
@@ -57,8 +59,8 @@
                         [style]="getCellStyle(row.dataColumns[cellIndex])"
                     >
                         <ng-container *ngIf="isCellCheckbox(cell)">
-                            <ng-template #defaultCheckboxTemplate let-isChecked let-onChange="onChange">
-                                <ard-checkbox [selected]="isChecked" [color]="color" (change)="onChange($event)" />
+                            <ng-template #defaultCheckboxTemplate let-isChecked let-onChange="onChange" let-disabled="disabled">
+                                <ard-checkbox [selected]="isChecked" [color]="color" [disabled]="disabled" (change)="onChange()" (click)="$event.stopPropagation()" />
                             </ng-template>
 
                             <ng-template
