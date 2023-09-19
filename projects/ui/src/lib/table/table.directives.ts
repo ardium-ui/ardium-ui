@@ -1,6 +1,6 @@
 
 import { Directive, Input, TemplateRef } from '@angular/core';
-import { TableCheckboxContext } from './table.types';
+import { TableCaptionContext, TableCheckboxContext } from './table.types';
 
 @Directive({ selector: 'ard-table > ng-template[ard-table-tmp]' })
 export class ArdiumTableTemplateDirective {
@@ -17,4 +17,9 @@ export class ArdiumTableCheckboxTemplateDirective {
 @Directive({ selector: 'ard-table > ng-template[ard-table-header-checkbox-tmp]' })
 export class ArdiumTableHeaderCheckboxTemplateDirective {
     constructor(public template: TemplateRef<TableCheckboxContext>) { }
+}
+
+@Directive({ selector: 'ard-table > ng-template[ard-table-caption-tmp]' })
+export class ArdiumTableCaptionTemplateDirective {
+    constructor(public template: TemplateRef<TableCaptionContext>) { }
 }

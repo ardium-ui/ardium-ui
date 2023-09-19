@@ -35,6 +35,9 @@ export interface TableHeaderCheckboxContext {
     state: CheckboxState;
     onChange: () => void;
 }
+export interface TableCaptionContext {
+    $implicit: string;
+}
 
 //! appearance-related
 export const TableAppearance = {

@@ -3,8 +3,8 @@ import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
 import { ComponentColor, SimpleComponentColor } from '../types/colors.types';
 import { ArdTableRow, HeaderCell, TableItemStorage, TableItemStorageHost } from './table-item-storage';
-import { ArdiumTableCheckboxTemplateDirective, ArdiumTableHeaderCheckboxTemplateDirective, ArdiumTableTemplateDirective } from './table.directives';
-import { TableAlignType, TableAppearance, TableCheckboxContext, TableDataColumn, TableHeaderCheckboxContext, TableSubheader, TableVariant } from './table.types';
+import { ArdiumTableCaptionTemplateDirective, ArdiumTableCheckboxTemplateDirective, ArdiumTableHeaderCheckboxTemplateDirective, ArdiumTableTemplateDirective } from './table.directives';
+import { TableAlignType, TableAppearance, TableCaptionContext, TableCheckboxContext, TableDataColumn, TableHeaderCheckboxContext, TableSubheader, TableVariant } from './table.types';
 import { isTableSubheader } from './utils';
 import { CheckboxState } from '../checkbox/checkbox.types';
 
@@ -104,9 +104,12 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     get treatDataSourceAsString(): boolean { return this._treatDataSourceAsString; }
     set treatDataSourceAsString(v: any) { this._treatDataSourceAsString = coerceBooleanProperty(v); }
 
+    @Input() caption?: string;
+
     //! templates
     @ContentChild(ArdiumTableCheckboxTemplateDirective, { read: TemplateRef }) checkboxTemplate?: TemplateRef<TableCheckboxContext>;
     @ContentChild(ArdiumTableHeaderCheckboxTemplateDirective, { read: TemplateRef }) headerCheckboxTemplate?: TemplateRef<TableHeaderCheckboxContext>;
+    @ContentChild(ArdiumTableCaptionTemplateDirective, { read: TemplateRef }) captionTemplate?: TemplateRef<TableCaptionContext>;
 
     private _itemTemplates: { [key: string]: TemplateRef<any>; } = {};
     @ContentChildren(ArdiumTableTemplateDirective) templateChildren!: QueryList<ArdiumTableTemplateDirective>;

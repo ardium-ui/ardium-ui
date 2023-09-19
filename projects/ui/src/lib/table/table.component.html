@@ -1,4 +1,19 @@
 <table class="ard-table" [ngClass]="ngClasses">
+    <caption
+        *ngIf="caption"
+        class="ard-table__caption"
+    >
+        <div class="ard-table__caption-container">
+            <ng-template #defaultCaptionTemplate let-captionText>
+                {{ captionText }}
+            </ng-template>
+        
+            <ng-template
+                [ngTemplateOutlet]="captionTemplate ?? defaultCaptionTemplate"
+                [ngTemplateOutletContext]="{ $implicit: caption }"
+            />
+        </div>
+    </caption>
     <thead class="ard-table__header">
         <tr class="ard-table__header-row" *ngFor="let row of headerCells">
             <th

@@ -4,6 +4,7 @@
 .ard-table {
     @include CM.typeColors();
     border-collapse: collapse;
+    background: $bg;
 
     .ard-table__body {
         border: 1px solid $detail-light;
@@ -44,6 +45,25 @@
     .ard-table__body-row .ard-table__body-cell {
         border-bottom: 1px solid $detail-light;
     }
+
+    //! caption
+    .ard-table__caption {
+        caption-side: bottom;
+        height: 3.125rem;
+        box-sizing: border-box;
+        color: $detail;
+        background: $bg;
+        border: 1px solid $detail-light;
+        border-top: none;
+        padding: 0 0.75rem;
+
+        .ard-table__caption-container {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+    }
+
     //! color
     --_table-header-border: var(--ard-cmpcl--border);
     --_table-header-border-light: var(--ard-cmpcl--border-light);
@@ -114,6 +134,16 @@
         .ard-table__body-row:last-child .ard-table__body-cell:last-child {
             border-bottom-right-radius: 8px;
         }
+        .ard-table__caption {
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+
+            + .ard-table__body {
+                * {
+                    border-radius: 0;
+                }
+            }
+        }
     }
 
     //! compact
@@ -140,6 +170,9 @@
                 width: 2.25rem;
                 height: 2.25rem;
             }
+        }
+        .ard-table__caption {
+            height: 2.25rem;
         }
     }
 
@@ -231,21 +264,24 @@
     &.ard-align-top-left,
     &.ard-align-center-left,
     &.ard-align-bottom-left {
-        .ard-table__body-cell > .ard-table__cell-container {
+        .ard-table__body-cell > .ard-table__cell-container,
+        .ard-table__caption {
             text-align: left;
         }
     }
     &.ard-align-top-center,
     &.ard-align-center-center,
     &.ard-align-bottom-center {
-        .ard-table__body-cell > .ard-table__cell-container {
+        .ard-table__body-cell > .ard-table__cell-container,
+        .ard-table__caption {
             text-align: center;
         }
     }
     &.ard-align-top-right,
     &.ard-align-center-right,
     &.ard-align-bottom-right {
-        .ard-table__body-cell > .ard-table__cell-container {
+        .ard-table__body-cell > .ard-table__cell-container,
+        .ard-table__caption {
             text-align: right;
         }
     }
