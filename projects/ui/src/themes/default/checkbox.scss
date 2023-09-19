@@ -4,6 +4,7 @@
 
 .ard-checkbox {
     @include coloringMixins.typeColors();
+    @include coloringMixins.typeColors('unsel-cmpcl');
     position: relative;
     cursor: pointer;
     user-select: none;
@@ -16,6 +17,7 @@
     border: none;
     background: none;
     padding: 0;
+    outline: none;
 
     .ard-hitbox {
         position: absolute;
@@ -52,6 +54,15 @@
     }
     .ard-icon-for-unselected::after {
         content: 'check_box_outline_blank';
+    }
+
+    color: var(--ard-unsel-cmpcl--bg);
+    &.ard-unselected-color-currentColor {
+        color: inherit;
+    }
+    //edge case for no coloring
+    &.ard-unselected-color-none {
+        color: $overlay;
     }
     &.ard-checkbox-selected {
         color: var(--ard-cmpcl--bg);

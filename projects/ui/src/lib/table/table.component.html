@@ -5,6 +5,7 @@
                 *ngFor="let cell of row"
                 class="ard-table__header-cell"
                 [ngClass]="cell.cell.cellClass"
+                [class.ard-table__checkbox-cell]="isHeaderCellCheckbox(cell)"
                 [attr.colspan]="cell.colspan"
                 [attr.rowspan]="cell.rowspan"
                 [scope]="cell.colspan > 1 ? 'colgroup' : 'col'"
@@ -14,20 +15,41 @@
                     [style.width]="cell.width"
                     [style.minWidth]="cell.minWidth"
                 >
-                    <ng-template #defaultHeaderCellTemplate let-content>
-                        {{ content }}
-                    </ng-template>
-
-                    <ng-template
-                        [ngTemplateOutlet]="getHeaderTemplate(cell.cell.header) ?? defaultHeaderCellTemplate"
-                        [ngTemplateOutletContext]="{ $implicit: cell.cell.header }"
-                    ></ng-template>
+                    <ng-container *ngIf="isHeaderCellCheckbox(cell)">
+                        <ng-template #defaultHeaderCheckboxTemplate let-state let-onChange="onChange">
+                            <ard-checkbox [state]="state" [color]="getHeaderCheckboxColor()" unselectedColor="currentColor" (change)="onChange()" />
+                        </ng-template>
+                    
+                        <ng-template
+                            [ngTemplateOutlet]="headerCheckboxTemplate ?? defaultHeaderCheckboxTemplate"
+                            [ngTemplateOutletContext]="getHeaderCheckboxContext()"
+                        />
+                    </ng-container>
+                    <ng-container *ngIf="!isHeaderCellCheckbox(cell)">
+                        <ng-template #defaultHeaderCellTemplate let-content>
+                            {{ content }}
+                        </ng-template>
+                    
+                        <ng-template 
+                            [ngTemplateOutlet]="getHeaderTemplate(cell.cell.header) ?? defaultHeaderCellTemplate"
+                            [ngTemplateOutletContext]="{ $implicit: cell.cell.header }"
+                        />
+                    </ng-container>
                 </div>
             </th>
         </tr>
     </thead>
     <tbody class="ard-table__body">
-        <tr class="ard-table__body-row" *ngFor="let row of dataRows; let rowIndex = index;">
+        <tr
+            *ngFor="let row of dataRows; let rowIndex = index;"
+            class="ard-table__body-row"
+            [class.ard-table__selected-row]="row.selected"
+            [class.ard-table__highlighted-row]="row.highlighted"
+            (click)="onRowClick(rowIndex, $event)"
+            (mouseover)="onRowMouseOver($event)"
+            (mouseenter)="onRowMouseEnter(rowIndex, $event)"
+            (mouseleave)="onRowMouseLeave(rowIndex, $event)"
+        >
             <ng-container *ngFor="let cell of row.data; let cellIndex = index">
                 <ng-template #cellTmp>
                     <div
@@ -36,7 +58,7 @@
                     >
                         <ng-container *ngIf="isCellCheckbox(cell)">
                             <ng-template #defaultCheckboxTemplate let-isChecked let-onChange="onChange">
-                                <ard-checkbox [selected]="isChecked" (change)="onChange()" />
+                                <ard-checkbox [selected]="isChecked" [color]="color" (change)="onChange($event)" />
                             </ng-template>
 
                             <ng-template

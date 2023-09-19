@@ -4,6 +4,7 @@
 :root {
     --ard-bg: white;
     --ard-overlay: black;
+    --ard-overlay-rgb: 0, 0, 0;
     --ard-bg-filled: #ebebeb;
     --ard-bg-darker: #f7f7f7;
     --ard-text: rgba(0, 0, 0, 100%);
@@ -26,6 +27,7 @@
     --ard-darken-overlay-strong: rgba(0, 0, 0, 20%);
     --ard-darken-overlay-medium: rgba(0, 0, 0, 10%);
     --ard-darken-overlay-light: rgba(0, 0, 0, 5%);
+    --ard-darken-overlay-ultralight: rgba(0, 0, 0, 3%);
 
     --ard-star: #ffc107;
 

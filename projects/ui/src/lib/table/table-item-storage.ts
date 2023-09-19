@@ -107,6 +107,20 @@ export class TableItemStorage {
         return this._highlightedItems.length > 0;
     }
     /**
+     * Checks if any item in the table is selected.
+     * @returns A boolean value indicating if any item is selected.
+     */
+    get isAnyItemSelected(): boolean {
+        return this._selectedItems.length > 0;
+    }
+    /**
+     * Checks if all items in the table are selected.
+     * @returns A boolean value indicating if all items are selected.
+     */
+    get areAllSelected(): boolean {
+        return this._selectedItems.length == this._items.length;
+    }
+    /**
      * Returns true if the parent component defines the limit of concurrently selectable items and the amount of currently selected items matches that limit. Otherwise returns false.
      * 
      * **TLDR**: true if `maxSelectedItems` is defined and the number of selected items matches that value.
@@ -323,6 +337,17 @@ export class TableItemStorage {
         return this._selectedItems.some(item => item.index == index);
     }
     /**
+     * Selects all items.
+     * 
+     * Accounts for the limit of concurrently selected items defined by the parent component.
+     * @returns a tuple containing two arrays:
+     * * An array of items selected.
+     * * An array of items failed to select.
+     */
+    selectAll(): [any[], any[]] {
+        return this.selectItem(...this._items.map(v => v.index));
+    }
+    /**
      * Unselects all selected items.
      * 
      * If the parent component requires at least one value to be selected at all times, the first selected items is left selected.
@@ -362,7 +387,7 @@ export class TableItemStorage {
      * @param indexes A rest operator array of item indexes to be selected.
      * @returns a tuple containing two arrays:
      * * An array of items selected.
-     * * An array of items unselected.
+     * * An array of items failed to select.
      */
     selectItem(...indexes: number[]): [any[], any[]] {
         const itemsToBeSelected = this._items.filter(item => indexes.includes(item.index));

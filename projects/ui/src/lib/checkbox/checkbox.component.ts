@@ -26,10 +26,12 @@ export class ArdiumCheckboxComponent extends _BooleanComponentBase implements Co
 
     //* appearance
     @Input() color: SimpleComponentColor = SimpleComponentColor.Primary;
+    @Input() unselectedColor: SimpleComponentColor = SimpleComponentColor.None;
 
     get ngClasses(): string {
         return [
             `ard-color-${this.color}`,
+            `ard-unselected-color-${this.unselectedColor}`,
             `ard-checkbox-${this.state}`,
         ].join(' ');
     }

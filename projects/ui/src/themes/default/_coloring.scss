@@ -1,82 +1,89 @@
 @import '../variables';
 
-@mixin typeColors {
+@mixin typeColors($prefix: 'cmpcl') {
     &.ard-color-none {
-        --ard-cmpcl--on-bg: #{$text};
-        --ard-cmpcl--button-border: #{$border-light};
-        --ard-cmpcl--border: #{$text};
-        --ard-cmpcl--border-light: #{$text};
-        --ard-cmpcl--bg: #{$bg};
-        --ard-cmpcl--bg-light: #{$bg-d};
-        --ard-cmpcl--content: #{$text};
-        --ard-cmpcl--overlay: #{$overlay};
+        --ard-#{$prefix}--on-bg: #{$text};
+        --ard-#{$prefix}--button-border: #{$border-light};
+        --ard-#{$prefix}--border: #{$text};
+        --ard-#{$prefix}--border-light: #{$text};
+        --ard-#{$prefix}--bg: #{$bg};
+        --ard-#{$prefix}--bg-light: #{$bg-d};
+        --ard-#{$prefix}--content: #{$text};
+        --ard-#{$prefix}--overlay-rgb: #{$overlay-rgb};
+        --ard-#{$prefix}--overlay: #{$overlay};
     }
     &.ard-color-primary {
-        --ard-cmpcl--on-bg: #{$text-alt};
-        --ard-cmpcl--button-border: #{$border-light};
-        --ard-cmpcl--border: #{$main300};
-        --ard-cmpcl--border-light: #{$main100};
-        --ard-cmpcl--bg: #{$main500};
-        --ard-cmpcl--bg-light: #{$main50};
-        --ard-cmpcl--content: #{$main700};
-        --ard-cmpcl--overlay: #{$overlay};
+        --ard-#{$prefix}--on-bg: #{$text-alt};
+        --ard-#{$prefix}--button-border: #{$border-light};
+        --ard-#{$prefix}--border: #{$main300};
+        --ard-#{$prefix}--border-light: #{$main100};
+        --ard-#{$prefix}--bg: #{$main500};
+        --ard-#{$prefix}--bg-light: #{$main50};
+        --ard-#{$prefix}--content: #{$main700};
+        --ard-#{$prefix}--overlay-rgb: #{$main500-rgb};
+        --ard-#{$prefix}--overlay: #{$overlay};
     }
     &.ard-color-secondary {
-        --ard-cmpcl--on-bg: #{$text-alt};
-        --ard-cmpcl--button-border: #{$border-light};
-        --ard-cmpcl--border: #{$scnd300};
-        --ard-cmpcl--border-light: #{$scnd100};
-        --ard-cmpcl--bg: #{$scnd500};
-        --ard-cmpcl--bg-light: #{$scnd50};
-        --ard-cmpcl--content: #{$scnd700};
-        --ard-cmpcl--overlay: #{$overlay};
+        --ard-#{$prefix}--on-bg: #{$text-alt};
+        --ard-#{$prefix}--button-border: #{$border-light};
+        --ard-#{$prefix}--border: #{$scnd300};
+        --ard-#{$prefix}--border-light: #{$scnd100};
+        --ard-#{$prefix}--bg: #{$scnd500};
+        --ard-#{$prefix}--bg-light: #{$scnd50};
+        --ard-#{$prefix}--content: #{$scnd700};
+        --ard-#{$prefix}--overlay-rgb: #{$scnd500-rgb};
+        --ard-#{$prefix}--overlay: #{$overlay};
     }
     &.ard-color-warn {
-        --ard-cmpcl--on-bg: #{$text-alt};
-        --ard-cmpcl--button-border: #{$border-light};
-        --ard-cmpcl--border: #{$warn300};
-        --ard-cmpcl--border-light: #{$warn100};
-        --ard-cmpcl--bg: #{$warn500};
-        --ard-cmpcl--bg-light: #{$warn50};
-        --ard-cmpcl--content: #{$warn700};
-        --ard-cmpcl--overlay: #{$overlay};
+        --ard-#{$prefix}--on-bg: #{$text-alt};
+        --ard-#{$prefix}--button-border: #{$border-light};
+        --ard-#{$prefix}--border: #{$warn300};
+        --ard-#{$prefix}--border-light: #{$warn100};
+        --ard-#{$prefix}--bg: #{$warn500};
+        --ard-#{$prefix}--bg-light: #{$warn50};
+        --ard-#{$prefix}--content: #{$warn700};
+        --ard-#{$prefix}--overlay-rgb: #{$warn500-rgb};
+        --ard-#{$prefix}--overlay: #{$overlay};
     }
     &.ard-color-danger {
-        --ard-cmpcl--on-bg: #{$text-alt};
-        --ard-cmpcl--button-border: #{$border-light};
-        --ard-cmpcl--border: #{$danger300};
-        --ard-cmpcl--border-light: #{$danger100};
-        --ard-cmpcl--bg: #{$danger700};
-        --ard-cmpcl--bg-light: #{$danger50};
-        --ard-cmpcl--content: #{$danger900};
-        --ard-cmpcl--overlay: #{$overlay};
+        --ard-#{$prefix}--on-bg: #{$text-alt};
+        --ard-#{$prefix}--button-border: #{$border-light};
+        --ard-#{$prefix}--border: #{$danger300};
+        --ard-#{$prefix}--border-light: #{$danger100};
+        --ard-#{$prefix}--bg: #{$danger700};
+        --ard-#{$prefix}--bg-light: #{$danger50};
+        --ard-#{$prefix}--content: #{$danger900};
+        --ard-#{$prefix}--overlay-rgb: #{$danger700-rgb};
+        --ard-#{$prefix}--overlay: #{$overlay};
     }
     &.ard-color-success {
-        --ard-cmpcl--on-bg: #{$text-alt};
-        --ard-cmpcl--button-border: #{$border-light};
-        --ard-cmpcl--border: #{$success300};
-        --ard-cmpcl--border-light: #{$success100};
-        --ard-cmpcl--bg: #{$success700};
-        --ard-cmpcl--bg-light: #{$success50};
-        --ard-cmpcl--content: #{$success900};
-        --ard-cmpcl--overlay: #{$overlay};
+        --ard-#{$prefix}--on-bg: #{$text-alt};
+        --ard-#{$prefix}--button-border: #{$border-light};
+        --ard-#{$prefix}--border: #{$success300};
+        --ard-#{$prefix}--border-light: #{$success100};
+        --ard-#{$prefix}--bg: #{$success700};
+        --ard-#{$prefix}--bg-light: #{$success50};
+        --ard-#{$prefix}--content: #{$success900};
+        --ard-#{$prefix}--overlay-rgb: #{$success700-rgb};
+        --ard-#{$prefix}--overlay: #{$overlay};
     }
     &.ard-color-info {
-        --ard-cmpcl--on-bg: #{$text-alt};
-        --ard-cmpcl--button-border: #{$border-light};
-        --ard-cmpcl--border: #{$info300};
-        --ard-cmpcl--border-light: #{$info100};
-        --ard-cmpcl--bg: #{$info500};
-        --ard-cmpcl--bg-light: #{$info50};
-        --ard-cmpcl--content: #{$info700};
-        --ard-cmpcl--overlay: #{$overlay};
+        --ard-#{$prefix}--on-bg: #{$text-alt};
+        --ard-#{$prefix}--button-border: #{$border-light};
+        --ard-#{$prefix}--border: #{$info300};
+        --ard-#{$prefix}--border-light: #{$info100};
+        --ard-#{$prefix}--bg: #{$info500};
+        --ard-#{$prefix}--bg-light: #{$info50};
+        --ard-#{$prefix}--content: #{$info700};
+        --ard-#{$prefix}--overlay-rgb: #{$info500-rgb};
+        --ard-#{$prefix}--overlay: #{$overlay};
     }
     &.ard-color-currentColor {
-        --ard-cmpcl--on-bg: #{$bg};
-        --ard-cmpcl--button-border: currentColor;
-        --ard-cmpcl--border: currentColor;
-        --ard-cmpcl--bg: currentColor;
-        --ard-cmpcl--content: currentColor;
-        --ard-cmpcl--overlay: #{$overlay};
+        --ard-#{$prefix}--on-bg: #{$bg};
+        --ard-#{$prefix}--button-border: currentColor;
+        --ard-#{$prefix}--border: currentColor;
+        --ard-#{$prefix}--bg: currentColor;
+        --ard-#{$prefix}--content: currentColor;
+        --ard-#{$prefix}--overlay: #{$overlay};
     }
 }

@@ -1,6 +1,7 @@
 import { TemplateRef } from "@angular/core";
 import { ComponentColor } from "../types/colors.types";
 import { NonEmptyArray } from "../types/utility.types";
+import { CheckboxState } from "../checkbox/checkbox.types";
 
 export type DataSource = string | { type: 'checkbox' | 'autocount' };
 
@@ -26,6 +27,11 @@ export interface TableSubheader extends _GenericColumn {
 export interface TableCheckboxContext {
     $implicit: boolean;
     selected: boolean;
+    onChange: (event: MouseEvent) => void;
+}
+export interface TableHeaderCheckboxContext {
+    $implicit: CheckboxState;
+    state: CheckboxState;
     onChange: () => void;
 }
 

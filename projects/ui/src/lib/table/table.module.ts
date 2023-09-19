@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ArdiumTableComponent } from './table.component';
 import { ArdiumCheckboxModule } from '../checkbox/checkbox.module';
-import { ArdiumTableCheckboxTemplateDirective, ArdiumTableTemplateDirective } from './table.directives';
+import { ArdiumTableCheckboxTemplateDirective, ArdiumTableHeaderCheckboxTemplateDirective, ArdiumTableTemplateDirective } from './table.directives';
 
 
 
@@ -11,6 +11,7 @@ import { ArdiumTableCheckboxTemplateDirective, ArdiumTableTemplateDirective } fr
         ArdiumTableComponent,
         ArdiumTableTemplateDirective,
         ArdiumTableCheckboxTemplateDirective,
+        ArdiumTableHeaderCheckboxTemplateDirective,
     ],
     imports: [
         CommonModule,
@@ -20,6 +21,7 @@ import { ArdiumTableCheckboxTemplateDirective, ArdiumTableTemplateDirective } fr
         ArdiumTableComponent,
         ArdiumTableTemplateDirective,
         ArdiumTableCheckboxTemplateDirective,
+        ArdiumTableHeaderCheckboxTemplateDirective,
     ]
 })
 export class ArdiumTableModule { }

@@ -13,3 +13,8 @@ export class ArdiumTableTemplateDirective {
 export class ArdiumTableCheckboxTemplateDirective {
     constructor(public template: TemplateRef<TableCheckboxContext>) { }
 }
+
+@Directive({ selector: 'ard-table > ng-template[ard-table-header-checkbox-tmp]' })
+export class ArdiumTableHeaderCheckboxTemplateDirective {
+    constructor(public template: TemplateRef<TableCheckboxContext>) { }
+}

@@ -1,11 +1,12 @@
-import { AfterContentInit, ChangeDetectionStrategy, Component, ContentChild, ContentChildren, EventEmitter, Input, Output, QueryList, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { AfterContentInit, ChangeDetectionStrategy, Component, ContentChild, ContentChildren, EventEmitter, Input, Output, QueryList, TemplateRef, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
-import { ComponentColor } from '../types/colors.types';
+import { ComponentColor, SimpleComponentColor } from '../types/colors.types';
 import { ArdTableRow, HeaderCell, TableItemStorage, TableItemStorageHost } from './table-item-storage';
-import { ArdiumTableCheckboxTemplateDirective, ArdiumTableTemplateDirective } from './table.directives';
-import { TableAlignType, TableAppearance, TableCheckboxContext, TableDataColumn, TableSubheader, TableVariant } from './table.types';
+import { ArdiumTableCheckboxTemplateDirective, ArdiumTableHeaderCheckboxTemplateDirective, ArdiumTableTemplateDirective } from './table.directives';
+import { TableAlignType, TableAppearance, TableCheckboxContext, TableDataColumn, TableHeaderCheckboxContext, TableSubheader, TableVariant } from './table.types';
 import { isTableSubheader } from './utils';
+import { CheckboxState } from '../checkbox/checkbox.types';
 
 @Component({
   selector: 'ard-table',
@@ -17,6 +18,7 @@ import { isTableSubheader } from './utils';
 export class ArdiumTableComponent extends _FocusableComponentBase implements TableItemStorageHost, AfterContentInit {
     
     private readonly _itemStorage = new TableItemStorage(this);
+    private _isMouseBeingUsed = false;
 
     readonly DEFAULTS = {
         rowDisabledFrom: 'rowDisabled',
@@ -25,18 +27,28 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
 
     @Input() rowDisabledFrom?: string; 
     @Input() rowBoldFrom?: string;
+    
+    private _selectableRows: boolean = false;
+    @Input()
+    get selectableRows(): boolean { return this._selectableRows; }
+    set selectableRows(v: any) { this._selectableRows = coerceBooleanProperty(v); }
 
     //! appearance
     @Input() appearance: TableAppearance = TableAppearance.Strong;
     @Input() variant: TableVariant = TableVariant.Rounded;
     @Input() color: ComponentColor = ComponentColor.Primary;
     @Input() align: TableAlignType = TableAlignType.CenterLeft;
-    @Input() headerAlign: TableAlignType = TableAlignType.Center;
+    @Input() headerAlign: TableAlignType = TableAlignType.CenterLeft;
 
     private _compact: boolean = false;
     @Input()
     get compact(): boolean { return this._compact; }
     set compact(v: any) { this._compact = coerceBooleanProperty(v); }
+
+    private _zebra: boolean = false;
+    @Input()
+    get zebra(): boolean { return this._zebra; }
+    set zebra(v: any) { this._zebra = coerceBooleanProperty(v); }
 
     get ngClasses(): string {
         return [
@@ -46,6 +58,8 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
             `ard-align-${this.align}`,
             `ard-header-align-${this.headerAlign}`,
             this.compact ? 'ard-compact' : '',
+            this.zebra ? 'ard-zebra-table' : '',
+            this.selectableRows ? 'ard-selectable-rows' : '',
         ].join(' ');
     }
 
@@ -77,6 +91,7 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
 
     //! templates
     @ContentChild(ArdiumTableCheckboxTemplateDirective, { read: TemplateRef }) checkboxTemplate?: TemplateRef<TableCheckboxContext>;
+    @ContentChild(ArdiumTableHeaderCheckboxTemplateDirective, { read: TemplateRef }) headerCheckboxTemplate?: TemplateRef<TableHeaderCheckboxContext>;
 
     private _itemTemplates: { [key: string]: TemplateRef<any>; } = {};
     @ContentChildren(ArdiumTableTemplateDirective) templateChildren!: QueryList<ArdiumTableTemplateDirective>;
@@ -96,6 +111,10 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
         if (typeof tmp == 'string') return undefined;
         return this.getCellTemplate(tmp.template);
     }
+    getHeaderCheckboxColor(): SimpleComponentColor {
+        if (this.appearance == TableAppearance.Strong) return SimpleComponentColor.CurrentColor;
+        return this.color;
+    }
     getCellTemplate(tmp?: string | TemplateRef<any>): TemplateRef<any> | undefined {
         //return undefined
         if (!tmp) return undefined;
@@ -110,7 +129,6 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
         return this._itemTemplates[tmp];
     }
     getCellStyle(cell: TableDataColumn | TableSubheader): string {
-        console.log(cell);
         if (isTableSubheader(cell)) return 'width:unset;min-width:unset';
         const width = typeof cell.width == 'number' ? `${cell.width}px` : cell.width;
         const minWidth = typeof cell.minWidth == 'number' ? `${cell.minWidth}px` : cell.minWidth;
@@ -120,14 +138,59 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
         ].join(';');
     }
 
+    //! click & hover handlers
+    onCheckboxClick(index: number, event: MouseEvent): void {
+        event.stopPropagation();
+        this.toggleRowSelected(index);
+    }
+    onRowClick(index: number, event: MouseEvent): void {
+        if (!this.selectableRows) return;
+        event.stopPropagation();
+        this.toggleRowSelected(index);
+    }
+    onRowMouseOver(event: MouseEvent): void {
+        event.stopPropagation();
+    }
+    onRowMouseEnter(index: number, event: MouseEvent): void {
+        if (!this.selectableRows) return;
+        event.stopPropagation();
+        this._itemStorage.highlightSingleItem(index);
+    }
+    onRowMouseLeave(index: number, event: MouseEvent): void {
+        if (!this.selectableRows) return;
+        event.stopPropagation();
+        this._itemStorage.unhighlightItem(index);
+    }
+
     //! select handlers
-    toggleRowSelected(selected: boolean, index: number): void {
-        if (selected) {
+    /**
+     * Toggles the selection state of a row in the table.
+     * @param selected a boolean value indicating if the row is currently selected.
+     * @param index the index of the row in the table.
+     */
+    toggleRowSelected(index: number): void {
+        console.log('toggle row selected', index, this._itemStorage.isItemSelected(index));
+        if (this._itemStorage.isItemSelected(index)) {
             const unselected = this._itemStorage.unselectItem(index);
             this.unselectRowEvent.emit(unselected);
         }
         else {
             const [selected, failed] = this._itemStorage.selectItem(index);
+            this.selectRowEvent.emit(selected);
+            this.failedSelectRowEvent.emit(failed);
+        }
+        this._emitSelect();
+    }
+    /**
+     * Toggles the selection state of all rows in the table.
+     */
+    toggleAllRowsSelected(): void {
+        if (this._itemStorage.areAllSelected) {
+            const unselected = this._itemStorage.unselectAll();
+            this.unselectRowEvent.emit(unselected);
+        }
+        else {
+            const [selected, failed] = this._itemStorage.selectAll();
             this.selectRowEvent.emit(selected);
             this.failedSelectRowEvent.emit(failed);
         }
@@ -140,6 +203,12 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     isCellCheckbox(cell: any): boolean {
         return typeof cell == 'object' && '_ardCheckbox' in cell && 'index' in cell;
     }
+    isHeaderCellCheckbox(cell: HeaderCell): boolean {
+        const dataCell = cell.cell;
+        if (isTableSubheader(dataCell)) return false;
+        if (typeof dataCell.dataSource == 'string') return false;
+        return dataCell.dataSource.type == 'checkbox';
+    }
 
     @Output('selectedRowsChange') selectedRowsChangeEvent = new EventEmitter<any[]>();
     @Output('failedSelectRow') failedSelectRowEvent = new EventEmitter<any[]>();
@@ -147,13 +216,29 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     @Output('unselectRow') unselectRowEvent = new EventEmitter<any[]>();
 
     //! contexts
+    getHeaderCheckboxContext(): TableHeaderCheckboxContext {
+        let state: CheckboxState = CheckboxState.Unselected;
+        if (this._itemStorage.isAnyItemSelected) {
+            state = CheckboxState.Indeterminate;
+            if (this._itemStorage.areAllSelected) {
+                state = CheckboxState.Selected;
+            }
+        }
+        return {
+            $implicit: state,
+            state,
+            onChange: () => {
+                this.toggleAllRowsSelected();
+            }
+        }
+    }
     getCheckboxContext(index: number): TableCheckboxContext {
         const selected = this._itemStorage.isItemSelected(index);
         return {
             $implicit: selected,
             selected,
-            onChange: () => {
-                this.toggleRowSelected(selected, index);
+            onChange: (event: MouseEvent) => {
+                this.onCheckboxClick(index, event);
             }
         }
     }
