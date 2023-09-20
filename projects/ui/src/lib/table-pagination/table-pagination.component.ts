@@ -1,7 +1,10 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { PaginationModel } from '../_internal/models/pagination.model';
-import { coerceNumberProperty } from '@ardium-ui/devkit';
+import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
+import { TableVariant } from '../table/table.types';
+import { ComponentColor } from '../types/colors.types';
+import { PaginationAlign } from './table-pagination.types';
 
 @Component({
   selector: 'ard-table-pagination',
@@ -13,9 +16,13 @@ import { _FocusableComponentBase } from '../_internal/focusable-component';
 export class ArdiumTablePaginationComponent extends _FocusableComponentBase implements OnInit {
     private readonly _pagination = new PaginationModel();
 
+    //! main settings
     @Input()
     set options(v: number[] | { value: number, label: string }[]) {
         this._pagination.setItemsPerPageOptions(v);
+    }
+    get options(): number[] | { value: number, label: string }[] {
+        return this._pagination.getItemsPerPageOptions();
     }
     @Input()
     set itemsPerPage(v: any) {
@@ -47,7 +54,44 @@ export class ArdiumTablePaginationComponent extends _FocusableComponentBase impl
         throw new Error("Table pagination requires [totalItems] to be defined");
     }
 
+    //! appearance
+    @Input() variant: TableVariant = TableVariant.Rounded;
+    @Input() color: ComponentColor = ComponentColor.Primary;
+    @Input() align: PaginationAlign = PaginationAlign.Split;
 
+    private _compact: boolean = false;
+    @Input()
+    get compact(): boolean { return this._compact; }
+    set compact(v: any) { this._compact = coerceBooleanProperty(v); }
+
+    get ngClasses(): string {
+        return [
+            `ard-variant-${this.variant}`,
+            `ard-color-${this.color}`,
+            `ard-align-${this.align}`,
+            this.compact ? 'ard-compact' : '',
+        ].join(' ');
+    }
+
+    //! miscellaneous
+    private _useFirstLastButtons: boolean = false;
+    @Input()
+    get useFirstLastButtons(): boolean { return this._useFirstLastButtons; }
+    set useFirstLastButtons(v: any) { this._useFirstLastButtons = coerceBooleanProperty(v); }
+
+    //! contexts
+    getCurrentItemsContext() {
+        return this._pagination.getCurrentItemsContext();
+    }
+
+    get firstPageDisabled(): boolean {
+        return this._pagination.firstPageDisabled;
+    }
+    get lastPageDisabled(): boolean {
+        return this._pagination.lastPageDisabled;
+    }
+
+    //! methods
     onItemsPerPageChange(newValue: number): void {
         if (newValue == this.itemsPerPage) return;
         this._pagination.setItemsPerPage(newValue);

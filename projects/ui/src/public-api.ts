@@ -149,7 +149,12 @@ export * from './lib/file-inputs/file-input/file-input.directives';
 //table
 export * from './lib/table/table.module';
 export * from './lib/table/table.component';
+export * from './lib/table/table.directives';
 export * from './lib/table/table.types';
+//table-pagination
+export * from './lib/table-pagination/table-pagination.module';
+export * from './lib/table-pagination/table-pagination.component';
+export * from './lib/table-pagination/table-pagination.types';
 //table-from-csv
 export * from './lib/table-from-csv/table-from-csv.module';
 export * from './lib/table-from-csv/table-from-csv.component';

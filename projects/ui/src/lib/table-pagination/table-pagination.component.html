@@ -1,1 +1,55 @@
-<p>table-pagination works!</p>
+<div class="ard-pagination">
+    <div class="ard-pagination__items-per-page">
+        <div class="ard-pagination__text">Items per page:</div>
+        <ard-select
+            [items]="options"
+            [compact]="compact"
+            [value]="itemsPerPage"
+            (valueChange)="onItemsPerPageChange($event[0])"
+        />
+    </div>
+    <div class="ard-pagination__current-page">
+        <div class="ard-pagination__text">
+            <ng-template #defaultCurrentPageTemplate let-start="currentItemsFirst" let-end="currentItemsLast" let-total="totalItems">
+                {{ start }} – {{ end }} of {{ total }}
+            </ng-template>
+
+            <ng-template
+                [ngTemplateOutlet]="defaultCurrentPageTemplate"
+                [ngTemplateOutletContext]="getCurrentItemsContext()"
+            />
+        </div>
+        <div class="ard-pagination__buttons">
+            <ard-icon-button
+                *ngIf="useFirstLastButtons"
+                [color]="color"
+                [compact]="compact"
+                [disabled]="firstPageDisabled"
+            >
+                <ard-icon>first page</ard-icon>
+            </ard-icon-button>
+            <ard-icon-button
+                [color]="color"
+                [compact]="compact"
+                [disabled]="firstPageDisabled"
+            >
+                <ard-icon>navigate before</ard-icon>
+            </ard-icon-button>
+            <ard-icon-button
+                [color]="color"
+                [compact]="compact"
+                [disabled]="lastPageDisabled"
+            >
+                <ard-icon>navigate next</ard-icon>
+            </ard-icon-button>
+            <ard-icon-button
+                *ngIf="useFirstLastButtons"
+                [color]="color"
+                [compact]="compact"
+                [disabled]="lastPageDisabled"
+            >
+                <ard-icon>last page</ard-icon>
+            </ard-icon-button>
+        </div>
+    </div>
+</div>

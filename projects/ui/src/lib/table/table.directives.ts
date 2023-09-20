@@ -1,6 +1,7 @@
 
 import { Directive, Input, TemplateRef } from '@angular/core';
-import { TableCaptionContext, TableCheckboxContext, TablePaginationContext } from './table.types';
+import { TableCaptionContext, TableCheckboxContext } from './table.types';
+import { PaginationContext } from '../_internal/models/pagination.model';
 
 @Directive({ selector: 'ard-table > ng-template[ard-table-tmp]' })
 export class ArdiumTableTemplateDirective {
@@ -27,5 +28,5 @@ export class ArdiumTableCaptionTemplateDirective {
 //! paginations
 @Directive({ selector: 'ard-table > ng-template[ard-table-pagination-tmp]' })
 export class ArdiumTablePaginationTemplateDirective {
-    constructor(public template: TemplateRef<TablePaginationContext>) { }
+    constructor(public template: TemplateRef<PaginationContext>) { }
 }

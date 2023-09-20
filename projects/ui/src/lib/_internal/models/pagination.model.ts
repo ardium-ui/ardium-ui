@@ -1,14 +1,17 @@
 import { isDefined } from "simple-bool";
 
-export interface PaginationContext {
+export interface PaginationCurrentItemsContext {
+    currentItemsFirst: number;
+    currentItemsLast: number;
+    totalItems: number;
+    totalPages: number;
+    page: number;
+}
+
+export interface PaginationContext extends PaginationCurrentItemsContext {
     itemsPerPageOptions: number[] | { value: number, label: string }[];
     itemsPerPage: number;
     onItemsPerPageChange: (newValue: number) => void;
-    totalPages: number;
-    totalItems: number;
-    page: number;
-    currentItemsFirst: number;
-    currentItemsLast: number;
     firstPageDisabled: boolean;
     prevPageDisabled: boolean;
     nextPageDisabled: boolean;
@@ -34,6 +37,9 @@ export class PaginationModel {
     //! items per page
     setItemsPerPageOptions(v: number[] | { value: number, label: string }[]): void {
         this._itemsPerPageOptions = v;
+    }
+    getItemsPerPageOptions(): number[] | { value: number, label: string }[] {
+        return this._itemsPerPageOptions;
     }
     setItemsPerPage(v: number): void {
         this._itemsPerPage = v;
@@ -104,18 +110,23 @@ export class PaginationModel {
     }
 
     //! context
-    getPartialContext(): Omit<PaginationContext, 'onItemsPerPageChange' | 'onPageChange' | 'onFirstPage' | 'onPrevPage' | 'onNextPage' | 'onLastPage'> {
+    getCurrentItemsContext(): PaginationCurrentItemsContext {
         if (!isDefined(this._totalItems)) throw new Error("Cannot use pagination model without defining total items first.");
-        
+
         const pageItems = this.itemsOnCurrentPage!;
         return {
-            itemsPerPageOptions: this._itemsPerPageOptions,
-            itemsPerPage: this._itemsPerPage,
             totalPages: this.lastPageNum!,
             totalItems: this._totalItems,
             page: this._page,
             currentItemsFirst: pageItems[0],
             currentItemsLast: pageItems[1],
+        }
+    }
+    getPartialContext(): Omit<PaginationContext, 'onItemsPerPageChange' | 'onPageChange' | 'onFirstPage' | 'onPrevPage' | 'onNextPage' | 'onLastPage'> {
+        return {
+            ...this.getCurrentItemsContext(),
+            itemsPerPageOptions: this._itemsPerPageOptions,
+            itemsPerPage: this._itemsPerPage,
             firstPageDisabled: this.firstPageDisabled,
             prevPageDisabled: this.firstPageDisabled,
             nextPageDisabled: this.lastPageDisabled,
