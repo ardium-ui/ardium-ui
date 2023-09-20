@@ -17,6 +17,14 @@
         </ng-template>
     </ard-table>
 </div>
+<div class="master">
+    <span class="title">Pagination</span>
+    <ard-table-pagination
+        [totalItems]="47"
+        (pageChange)="log('pageChange', $event)"
+        (itemsPerPageChange)="log('itemsPerPageChange', $event)"
+    ></ard-table-pagination>
+</div>
 <!-- <div class="master">
     <span class="title">Table from CSV</span>
     <ard-table-from-csv [data]="CSV" />
