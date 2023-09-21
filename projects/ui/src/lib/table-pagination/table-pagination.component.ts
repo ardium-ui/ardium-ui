@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { PaginationModel } from '../_internal/models/pagination.model';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
-import { TableVariant } from '../table/table.types';
+import { PaginationModel } from '../_internal/models/pagination.model';
 import { ComponentColor } from '../types/colors.types';
-import { PaginationAlign } from './table-pagination.types';
+import { CurrentItemsFormatFn, PaginationAlign } from './table-pagination.types';
 
 @Component({
   selector: 'ard-table-pagination',
@@ -55,7 +54,6 @@ export class ArdiumTablePaginationComponent extends _FocusableComponentBase impl
     }
 
     //! appearance
-    @Input() variant: TableVariant = TableVariant.Rounded;
     @Input() color: ComponentColor = ComponentColor.Primary;
     @Input() align: PaginationAlign = PaginationAlign.Split;
 
@@ -66,7 +64,6 @@ export class ArdiumTablePaginationComponent extends _FocusableComponentBase impl
 
     get ngClasses(): string {
         return [
-            `ard-variant-${this.variant}`,
             `ard-color-${this.color}`,
             `ard-align-${this.align}`,
             this.compact ? 'ard-compact' : '',
@@ -78,6 +75,11 @@ export class ArdiumTablePaginationComponent extends _FocusableComponentBase impl
     @Input()
     get useFirstLastButtons(): boolean { return this._useFirstLastButtons; }
     set useFirstLastButtons(v: any) { this._useFirstLastButtons = coerceBooleanProperty(v); }
+
+    @Input() itemsPerPageText: string = 'Items per page:';
+    @Input() currentItemsFormatFn: CurrentItemsFormatFn = ({ currentItemsFirst, currentItemsLast, totalItems }) => {
+        return `${currentItemsFirst} – ${currentItemsLast} of ${totalItems}`;
+    }
 
     //! contexts
     getCurrentItemsContext() {

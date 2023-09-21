@@ -1,0 +1,44 @@
+
+
+.ard-pagination {
+    height: 2.9375;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    .ard-pagination__items-per-page {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .ard-pagination__current-page {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+    }
+
+    //! compact
+    &.ard-compact {
+        height: 2.1875rem;
+    }
+
+    //! aligns
+    &.ard-align-left {
+        justify-content: flex-start;
+    }
+    &.ard-align-center {
+        justify-content: center;
+    }
+    &.ard-align-center {
+        justify-content: flex-end;
+    }
+    &.ard-align-center {
+        justify-content: space-between;
+    }
+    
+    //! style overrides
+    .ard-select {
+        padding-left: 0.875em;
+    }
+}

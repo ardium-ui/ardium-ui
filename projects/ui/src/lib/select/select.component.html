@@ -15,7 +15,7 @@
         <div class="ard-select-value-container">
             <ng-container *ngIf="shouldDisplayPlaceholder">
                 <ng-template #defaultPlaceholderTemplate let-plhldr>
-                    <span class="ard-placeholder">{{ plhldr }}</span>
+                    <div class="ard-placeholder">{{ plhldr }}</div>
                 </ng-template>
 
                 <ng-template
@@ -37,7 +37,7 @@
                 </div>
 
                 <ng-template #defaultValueTemplate let-item>
-                    <span [ardInnerHTML]="item.label" [ardEscapeInnerHTML]="isItemsInputUsed"></span>
+                    <div [ardInnerHTML]="item.label" [ardEscapeInnerHTML]="isItemsInputUsed"></div>
                 </ng-template>
                 <ng-template #defaultMultiValueTemplate let-item let-unselect="unselect">
                     <ard-deletable-chip
@@ -46,7 +46,7 @@
                         compact
                         appearance="outlined-strong"
                     >
-                        <span [ardInnerHTML]="item.label" [ardEscapeInnerHTML]="isItemsInputUsed"></span>
+                        <div [ardInnerHTML]="item.label" [ardEscapeInnerHTML]="isItemsInputUsed"></div>
                     </ard-deletable-chip>
                 </ng-template>
             </ng-container>
@@ -59,7 +59,7 @@
                     ></ng-template>
 
                     <ng-template #defaultItemDisplayLimitTemplate let-count="overflowCount">
-                        <span>{{count}} more...</span>
+                        <div>{{count}} more...</div>
                     </ng-template>
                 </div>
             </ng-container>
@@ -173,7 +173,7 @@
                         (mouseenter)="onItemMouseEnter(option, $event)"
                         (mouseleave)="onItemMouseLeave(option, $event)"
                     >
-                        <span class="ard-option-label">
+                        <div class="ard-option-label">
                             <ng-template #defaultOptionTemplate>
                                 <span [ardInnerHTML]="option.label" [ardEscapeInnerHTML]="isItemsInputUsed"></span>
                             </ng-template>
@@ -182,7 +182,7 @@
                                 [ngTemplateOutlet]="optionTemplate || defaultOptionTemplate"
                                 [ngTemplateOutletContext]="getOptionContext(option)"
                             ></ng-template>
-                        </span>
+                        </div>
                     </div>
                 </div>
             </div>

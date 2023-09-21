@@ -29,6 +29,7 @@ export class PaginationModel {
     setTotalItems(v: number): void {
         this._totalItems = v;
         this._lastPageNumMemo = null;
+        this._itemsOnCurrentPageMemo = null;
     }
     get isTotalItemsDefined(): boolean {
         return isDefined(this._totalItems);
@@ -44,6 +45,8 @@ export class PaginationModel {
     setItemsPerPage(v: number): void {
         this._itemsPerPage = v;
         this._lastPageNumMemo = null;
+        this._itemsOnCurrentPageMemo = null;
+        this.setPage(1);
     }
     getItemsPerPage(): number {
         return this._itemsPerPage;
@@ -54,8 +57,8 @@ export class PaginationModel {
         if (!isDefined(this._totalItems)) return null;
         if (!isDefined(this._itemsOnCurrentPageMemo)) [
             this._itemsOnCurrentPageMemo = [
-                (this._page - 1) * this._itemsPerPage + 1,
-                this._page * this._itemsPerPage,
+                Math.min(this._totalItems, (this._page - 1) * this._itemsPerPage + 1),
+                Math.min(this._totalItems, this._page * this._itemsPerPage),
             ]
         ]
         return this._itemsOnCurrentPageMemo;
@@ -84,28 +87,29 @@ export class PaginationModel {
     }
     setPage(v: number): void {
         this._page = v;
+        this._itemsOnCurrentPageMemo = null;
     }
     getPage(): number {
         return this._page;
     }
     firstPage(): number | null {
         if (this.firstPageDisabled) return null;
-        this._page = 1;
+        this.setPage(1);
         return 1;
     }
     prevPage(): number | null {
         if (this.firstPageDisabled) return null;
-        this._page -= 1;
+        this.setPage(this._page - 1);
         return this._page;
     }
     nextPage(): number | null {
         if (this.lastPageDisabled) return null;
-        this._page += 1;
+        this.setPage(this._page + 1);
         return this._page;
     }
     lastPage(): number | null {
         if (this.lastPageDisabled) return null;
-        this._page = this.lastPageNum!;
+        this.setPage(this.lastPageNum!);
         return this._page;
     }
 
@@ -113,6 +117,7 @@ export class PaginationModel {
     getCurrentItemsContext(): PaginationCurrentItemsContext {
         if (!isDefined(this._totalItems)) throw new Error("Cannot use pagination model without defining total items first.");
 
+        
         const pageItems = this.itemsOnCurrentPage!;
         return {
             totalPages: this.lastPageNum!,
@@ -122,7 +127,7 @@ export class PaginationModel {
             currentItemsLast: pageItems[1],
         }
     }
-    getPartialContext(): Omit<PaginationContext, 'onItemsPerPageChange' | 'onPageChange' | 'onFirstPage' | 'onPrevPage' | 'onNextPage' | 'onLastPage'> {
+    getPartialContext(): Omit<PaginationContext, 'onItemsPerPageChange' | 'onPageChange'> {
         return {
             ...this.getCurrentItemsContext(),
             itemsPerPageOptions: this._itemsPerPageOptions,

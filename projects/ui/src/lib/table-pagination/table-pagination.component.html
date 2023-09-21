@@ -1,23 +1,17 @@
 <div class="ard-pagination">
     <div class="ard-pagination__items-per-page">
-        <div class="ard-pagination__text">Items per page:</div>
+        <div class="ard-pagination__text">{{ itemsPerPageText }}</div>
         <ard-select
             [items]="options"
             [compact]="compact"
             [value]="itemsPerPage"
+            autoHighlightFirst="false"
             (valueChange)="onItemsPerPageChange($event[0])"
         />
     </div>
     <div class="ard-pagination__current-page">
         <div class="ard-pagination__text">
-            <ng-template #defaultCurrentPageTemplate let-start="currentItemsFirst" let-end="currentItemsLast" let-total="totalItems">
-                {{ start }} – {{ end }} of {{ total }}
-            </ng-template>
-
-            <ng-template
-                [ngTemplateOutlet]="defaultCurrentPageTemplate"
-                [ngTemplateOutletContext]="getCurrentItemsContext()"
-            />
+            {{ currentItemsFormatFn(getCurrentItemsContext()) }}
         </div>
         <div class="ard-pagination__buttons">
             <ard-icon-button
@@ -25,6 +19,7 @@
                 [color]="color"
                 [compact]="compact"
                 [disabled]="firstPageDisabled"
+                (click)="onFirstPage()"
             >
                 <ard-icon>first page</ard-icon>
             </ard-icon-button>
@@ -32,6 +27,7 @@
                 [color]="color"
                 [compact]="compact"
                 [disabled]="firstPageDisabled"
+                (click)="onPrevPage()"
             >
                 <ard-icon>navigate before</ard-icon>
             </ard-icon-button>
@@ -39,6 +35,7 @@
                 [color]="color"
                 [compact]="compact"
                 [disabled]="lastPageDisabled"
+                (click)="onNextPage()"
             >
                 <ard-icon>navigate next</ard-icon>
             </ard-icon-button>
@@ -47,6 +44,7 @@
                 [color]="color"
                 [compact]="compact"
                 [disabled]="lastPageDisabled"
+                (click)="onLastPage()"
             >
                 <ard-icon>last page</ard-icon>
             </ard-icon-button>
