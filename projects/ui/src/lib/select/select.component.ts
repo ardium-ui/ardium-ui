@@ -185,13 +185,15 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
 
     get ngClasses(): string {
         return [
-            //appearance, variant, and compact handled in ard-form-field-frame component
+            //appearance, variant handled in ard-form-field-frame component
+            this.compact ? 'ard-compact' : '',
             this.multiselectable ? 'ard-multiselect' : 'ard-singleselect',
             this.clearable ? 'ard-clearable' : '',
             this.searchable ? 'ard-searchable' : '',
             this.filtered ? 'ard-filtered' : '',
             this.touched ? 'ard-touched' : '',
             this.isDropdownOpen ? 'ard-dropdown-open' : '',
+            this._searchBarFocused ? 'ard-select-focused' : '',
             this._searchBarFocused ? 'ard-select-focused' : '',
         ].join(' ');
     }

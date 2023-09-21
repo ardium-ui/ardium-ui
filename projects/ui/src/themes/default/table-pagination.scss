@@ -1,7 +1,7 @@
 
 
 .ard-pagination {
-    height: 2.9375;
+    height: 2.9375rem;
     width: 100%;
     display: flex;
     align-items: center;
@@ -21,6 +21,7 @@
     //! compact
     &.ard-compact {
         height: 2.1875rem;
+        font-size: 0.875rem;
     }
 
     //! aligns
@@ -30,10 +31,10 @@
     &.ard-align-center {
         justify-content: center;
     }
-    &.ard-align-center {
+    &.ard-align-right {
         justify-content: flex-end;
     }
-    &.ard-align-center {
+    &.ard-align-split {
         justify-content: space-between;
     }
     

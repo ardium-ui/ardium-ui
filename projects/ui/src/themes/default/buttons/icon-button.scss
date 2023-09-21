@@ -26,6 +26,8 @@ ard-icon-button {
 
     .ard-button-content {
         font-size: 1.25rem;
+        display: flex;
+        align-items: center;
 
         > ard-icon {
             font-weight: 500;
