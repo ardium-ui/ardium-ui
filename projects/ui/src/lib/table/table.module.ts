@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ArdiumTableComponent } from './table.component';
 import { ArdiumCheckboxModule } from '../checkbox/checkbox.module';
+import { ArdiumTablePaginationModule } from '../table-pagination/table-pagination.module';
 import { ArdiumTableCaptionTemplateDirective, ArdiumTableCheckboxTemplateDirective, ArdiumTableHeaderCheckboxTemplateDirective, ArdiumTablePaginationTemplateDirective, ArdiumTableTemplateDirective } from './table.directives';
 
 
@@ -18,6 +19,7 @@ import { ArdiumTableCaptionTemplateDirective, ArdiumTableCheckboxTemplateDirecti
     imports: [
         CommonModule,
         ArdiumCheckboxModule,
+        ArdiumTablePaginationModule
     ],
     exports: [
         ArdiumTableComponent,

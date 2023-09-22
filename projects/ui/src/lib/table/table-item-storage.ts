@@ -1,7 +1,7 @@
 import resolvePath from 'resolve-object-path';
 import { evaluate, isDefined } from "simple-bool";
 import { CompareWithFn } from '../types/item-storage.types';
-import { TableDataColumn, TableSubheader } from './table.types';
+import { TableDataColumn, TablePaginationStrategy, TableSubheader } from './table.types';
 import { areAllDataColumns, isTableSubheader, merge2dArrays } from './utils';
 
 export interface ArdTableRow {
@@ -29,6 +29,11 @@ export interface TableItemStorageHost {
     compareWith?: CompareWithFn;
     maxSelectedItems?: number;
     treatDataSourceAsString?: boolean;
+
+    paginated: boolean;
+    paginationStrategy: TablePaginationStrategy;
+    itemsPerPage: number;
+    page: number;
 }
 export class HeaderCell {
     colspan!: number;
@@ -73,6 +78,21 @@ export class TableItemStorage {
      */
     get items(): ArdTableRow[] {
         return this._items;
+    }
+    /**
+     * Gets items based on the current pagination state.
+     */
+    get paginatedItems(): ArdTableRow[] {
+        //prettier-ignore
+        if (
+            !this._ardParentComp.paginated
+            || this._ardParentComp.paginationStrategy == TablePaginationStrategy.Noop
+        ) {
+            return this.items;
+        }
+        const page = this._ardParentComp.page;
+        const IPP = this._ardParentComp.itemsPerPage;
+        return this.items.slice((page - 1) * IPP, page * IPP - 1);
     }
     /**
      * Gets all currently selected items.

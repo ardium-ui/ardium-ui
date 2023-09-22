@@ -115,4 +115,22 @@
             </ng-container>
         </tr>
     </tbody>
+    <tfoot class="ard-table__foot" *ngIf="canDisplayPagination">
+        <tr class="ard-table__foot-row">
+            <td class="ard-table__pagination-cell" colspan="9999">
+                <ard-table-pagination
+                    [options]="paginationOptions"
+                    [(page)]="page"
+                    [totalItems]="totalItems"
+                    [disabled]="paginationDisabled"
+                    [(itemsPerPage)]="itemsPerPage"
+                    [align]="paginationAlign"
+                    [itemsPerPageText]="itemsPerPageText"
+                    [currentItemsFormatFn]="currentItemsFormatFn"
+                    (itemsPerPageChange)="itemsPerPageChange.emit($event)"
+                    (pageChange)="pageChange.emit($event)"
+                ></ard-table-pagination>
+            </td>
+        </tr>
+    </tfoot>
 </table>

@@ -6,6 +6,7 @@
             [compact]="compact"
             [value]="itemsPerPage"
             autoHighlightFirst="false"
+            [disabled]="disabled"
             (valueChange)="onItemsPerPageChange($event[0])"
         />
     </div>
@@ -18,7 +19,7 @@
                 *ngIf="useFirstLastButtons"
                 [color]="color"
                 [compact]="compact"
-                [disabled]="firstPageDisabled"
+                [disabled]="disabled || firstPageDisabled"
                 (click)="onFirstPage()"
             >
                 <ard-icon>first page</ard-icon>
@@ -26,7 +27,7 @@
             <ard-icon-button
                 [color]="color"
                 [compact]="compact"
-                [disabled]="firstPageDisabled"
+                [disabled]="disabled || firstPageDisabled"
                 (click)="onPrevPage()"
             >
                 <ard-icon>navigate before</ard-icon>
@@ -34,7 +35,7 @@
             <ard-icon-button
                 [color]="color"
                 [compact]="compact"
-                [disabled]="lastPageDisabled"
+                [disabled]="disabled || lastPageDisabled"
                 (click)="onNextPage()"
             >
                 <ard-icon>navigate next</ard-icon>
@@ -43,7 +44,7 @@
                 *ngIf="useFirstLastButtons"
                 [color]="color"
                 [compact]="compact"
-                [disabled]="lastPageDisabled"
+                [disabled]="disabled || lastPageDisabled"
                 (click)="onLastPage()"
             >
                 <ard-icon>last page</ard-icon>

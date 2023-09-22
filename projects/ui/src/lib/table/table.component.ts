@@ -5,19 +5,21 @@ import { CheckboxState } from '../checkbox/checkbox.types';
 import { ComponentColor, SimpleComponentColor } from '../types/colors.types';
 import { ArdTableRow, HeaderCell, TableItemStorage, TableItemStorageHost } from './table-item-storage';
 import { ArdiumTableCaptionTemplateDirective, ArdiumTableCheckboxTemplateDirective, ArdiumTableHeaderCheckboxTemplateDirective, ArdiumTablePaginationTemplateDirective, ArdiumTableTemplateDirective } from './table.directives';
-import { TableAlignType, TableAppearance, TableCaptionContext, TableCheckboxContext, TableDataColumn, TableHeaderCheckboxContext, TableSubheader, TableVariant } from './table.types';
+import { TableAlignType, TableAppearance, TableCaptionContext, TableCheckboxContext, TableDataColumn, TableHeaderCheckboxContext, TablePaginationStrategy, TableSubheader, TableVariant } from './table.types';
 import { isTableSubheader } from './utils';
 import { PaginationContext } from '../_internal/models/pagination.model';
+import { CurrentItemsFormatFn, PaginationAlign } from '../table-pagination/table-pagination.types';
+import { isDefined } from 'simple-bool';
 
 @Component({
-  selector: 'ard-table',
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ard-table',
+    templateUrl: './table.component.html',
+    styleUrls: ['./table.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArdiumTableComponent extends _FocusableComponentBase implements TableItemStorageHost, AfterContentInit {
-    
+
     private readonly _itemStorage = new TableItemStorage(this);
 
     readonly DEFAULTS = {
@@ -37,11 +39,13 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     @Input()
     get invertRowBold(): boolean { return this._invertRowBold; }
     set invertRowBold(v: any) { this._invertRowBold = coerceBooleanProperty(v); }
-    
+
     private _selectableRows: boolean = false;
     @Input()
     get selectableRows(): boolean { return this._selectableRows; }
     set selectableRows(v: any) { this._selectableRows = coerceBooleanProperty(v); }
+
+    @Input() caption?: string;
 
     //! appearance
     @Input() appearance: TableAppearance = TableAppearance.Strong;
@@ -85,23 +89,55 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     get paginated(): boolean { return this._paginated; }
     set paginated(v: any) { this._paginated = coerceBooleanProperty(v); }
 
-    @Input() paginationOptions?: number[] | { value: number, label: string }[] = [10, 25, 50];
+    @Input() paginationStrategy: TablePaginationStrategy = TablePaginationStrategy.Noop;
+
+    @Input() paginationOptions: number[] | { value: number, label: string }[] = [10, 25, 50];
+    @Input() totalItems?: number;
+    @Input() paginationColor: ComponentColor = ComponentColor.None;
+    @Input() paginationAlign: PaginationAlign = PaginationAlign.Split;
+    @Input() itemsPerPageText: string = 'Items per page:';
+    @Input() currentItemsFormatFn: CurrentItemsFormatFn = ({ currentItemsFirst, currentItemsLast, totalItems }) => {
+        return `${currentItemsFirst} – ${currentItemsLast} of ${totalItems}`;
+    }
+
+    private _paginationDisabled: boolean = false;
+    @Input()
+    get paginationDisabled(): boolean { return this._paginationDisabled; }
+    set paginationDisabled(v: any) { this._paginationDisabled = coerceBooleanProperty(v); }
+
+    private _useFirstLastButtons: boolean = false;
+    @Input()
+    get useFirstLastButtons(): boolean { return this._useFirstLastButtons; }
+    set useFirstLastButtons(v: any) { this._useFirstLastButtons = coerceBooleanProperty(v); }
 
     private _itemsPerPage: number = 50;
     @Input()
     get itemsPerPage(): number { return this._itemsPerPage; }
     set itemsPerPage(v: any) { this._itemsPerPage = coerceNumberProperty(v); }
-
     @Output() itemsPerPageChange = new EventEmitter<number>();
 
-    @ContentChild(ArdiumTablePaginationTemplateDirective, { read: TemplateRef }) paginationTemplate?: TemplateRef<PaginationContext>;
+    private _page: number = 1;
+    @Input()
+    get page(): number { return this._page; }
+    set page(v: any) { this._page = coerceNumberProperty(v); }
+    @Output() pageChange = new EventEmitter<number>();
+
+    get canDisplayPagination(): boolean {
+        //prettier-ignore
+        return this.paginated &&
+            (
+                this.paginationStrategy == TablePaginationStrategy.Noop && isDefined(this.totalItems)
+                ||
+                this.paginationStrategy != TablePaginationStrategy.Noop
+            )
+    }
 
     //! item storage getters
     get headerCells(): HeaderCell[][] {
         return this._itemStorage.headerCells;
     }
     get dataRows(): ArdTableRow[] {
-        return this._itemStorage.items;
+        return this._itemStorage.paginatedItems;
     }
 
     //! columns/data setters
@@ -121,8 +157,6 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     @Input()
     get treatDataSourceAsString(): boolean { return this._treatDataSourceAsString; }
     set treatDataSourceAsString(v: any) { this._treatDataSourceAsString = coerceBooleanProperty(v); }
-
-    @Input() caption?: string;
 
     //! templates
     @ContentChild(ArdiumTableCheckboxTemplateDirective, { read: TemplateRef }) checkboxTemplate?: TemplateRef<TableCheckboxContext>;

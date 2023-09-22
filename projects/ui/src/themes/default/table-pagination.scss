@@ -6,6 +6,8 @@
     display: flex;
     align-items: center;
     gap: 2rem;
+    padding: 0 0.5rem 0 1rem;
+    box-sizing: border-box;
 
     .ard-pagination__items-per-page {
         display: flex;
@@ -41,5 +43,16 @@
     //! style overrides
     .ard-select {
         padding-left: 0.875em;
+    }
+}
+
+.ard-disabled {
+    .ard-pagination {
+        pointer-events: none;
+        user-select: none;
+
+        .ard-pagination__text {
+            opacity: 50%;
+        }
     }
 }
