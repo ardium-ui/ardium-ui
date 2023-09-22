@@ -8,23 +8,28 @@
         [columns]="peopleColumns"
         [data]="peopleData"
         appearance="strong"
+        paginated
+        paginationStrategy="slice"
+        [totalItems]="peopleData.length"
         (selectRow)="log('selectRow', $event)"
         (unselectRow)="log('unselectRow', $event)"
         (selectedRowsChange)="log('selectedRowsChange', $event)"
+        (pageChange)="log('pageChange', $event)"
+        (itemsPerPageChange)="log('itemsPerPageChange', $event)"
     >
-        <ng-template ard-table-tmp="name" let-content>
-            <strong>{{ content }}</strong>
+        <ng-template ard-table-tmp="salary" let-amount>
+            ${{ amount.replace('$', '') | number: '1.0-0' }}
         </ng-template>
     </ard-table>
 </div>
-<div class="master">
+<!-- <div class="master">
     <span class="title">Pagination</span>
     <ard-table-pagination
         [totalItems]="67"
         (pageChange)="log('pageChange', $event)"
         (itemsPerPageChange)="log('itemsPerPageChange', $event)"
     ></ard-table-pagination>
-</div>
+</div> -->
 <!-- <div class="master">
     <span class="title">Table from CSV</span>
     <ard-table-from-csv [data]="CSV" />
