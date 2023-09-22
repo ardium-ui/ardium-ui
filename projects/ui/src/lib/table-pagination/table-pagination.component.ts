@@ -98,31 +98,35 @@ export class ArdiumTablePaginationComponent extends _FocusableComponentBase impl
         if (newValue == this.itemsPerPage) return;
         this._pagination.setItemsPerPage(newValue);
         this.itemsPerPageChangeEvent.emit(this.itemsPerPage);
+        this._emitPageEvent();
     }
 
+    private _emitPageEvent(): void {
+        this.pageChangeEvent.emit(this.page);
+    }
     onPageChange(newPage: number): void {
         if (newPage == this.page) return;
         this._pagination.setPage(newPage);
-        this.pageChangeEvent.emit(this.page);
+        this._emitPageEvent();
     }
     onFirstPage(): void {
         const newPage = this._pagination.firstPage();
         if (!newPage) return;
-        this.pageChangeEvent.emit(this.page);
+        this._emitPageEvent();
     }
     onPrevPage(): void {
         const newPage = this._pagination.prevPage();
         if (!newPage) return;
-        this.pageChangeEvent.emit(this.page);
+        this._emitPageEvent();
     }
     onNextPage(): void {
         const newPage = this._pagination.nextPage();
         if (!newPage) return;
-        this.pageChangeEvent.emit(this.page);
+        this._emitPageEvent();
     }
     onLastPage(): void {
         const newPage = this._pagination.lastPage();
         if (!newPage) return;
-        this.pageChangeEvent.emit(this.page);
+        this._emitPageEvent();
     }
 }
