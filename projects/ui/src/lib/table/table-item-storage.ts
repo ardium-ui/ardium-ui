@@ -7,6 +7,7 @@ import { areAllDataColumns, isTableSubheader, merge2dArrays } from './utils';
 export interface ArdTableRow {
     readonly itemData: any;
     readonly index: number;
+    readonly isEmpty?: boolean;
     data: any[];
     dataColumns: TableDataColumn[];
     class?: string;
@@ -92,7 +93,9 @@ export class TableItemStorage {
         }
         const page = this._ardParentComp.page;
         const IPP = this._ardParentComp.itemsPerPage;
-        return this.items.slice((page - 1) * IPP, page * IPP - 1);
+        const itemsStart = (page - 1) * IPP;
+        const itemsEnd = page * IPP;
+        return this.items.slice(itemsStart, itemsEnd);
     }
     /**
      * Gets all currently selected items.

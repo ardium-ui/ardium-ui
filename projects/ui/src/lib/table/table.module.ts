@@ -19,7 +19,7 @@ import { ArdiumTableCaptionTemplateDirective, ArdiumTableCheckboxTemplateDirecti
     imports: [
         CommonModule,
         ArdiumCheckboxModule,
-        ArdiumTablePaginationModule
+        ArdiumTablePaginationModule,
     ],
     exports: [
         ArdiumTableComponent,

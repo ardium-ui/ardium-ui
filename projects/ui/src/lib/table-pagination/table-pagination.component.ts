@@ -76,6 +76,8 @@ export class ArdiumTablePaginationComponent extends _FocusableComponentBase impl
     get useFirstLastButtons(): boolean { return this._useFirstLastButtons; }
     set useFirstLastButtons(v: any) { this._useFirstLastButtons = coerceBooleanProperty(v); }
 
+    @Input() isLoading?: boolean;
+
     @Input() itemsPerPageText: string = 'Items per page:';
     @Input() currentItemsFormatFn: CurrentItemsFormatFn = ({ currentItemsFirst, currentItemsLast, totalItems }) => {
         return `${currentItemsFirst} – ${currentItemsLast} of ${totalItems}`;
@@ -95,6 +97,7 @@ export class ArdiumTablePaginationComponent extends _FocusableComponentBase impl
 
     //! methods
     onItemsPerPageChange(newValue: number): void {
+        if (this.isLoading) return;
         if (newValue == this.itemsPerPage) return;
         this._pagination.setItemsPerPage(newValue);
         this.itemsPerPageChangeEvent.emit(this.itemsPerPage);
@@ -105,26 +108,31 @@ export class ArdiumTablePaginationComponent extends _FocusableComponentBase impl
         this.pageChangeEvent.emit(this.page);
     }
     onPageChange(newPage: number): void {
+        if (this.isLoading) return;
         if (newPage == this.page) return;
         this._pagination.setPage(newPage);
         this._emitPageEvent();
     }
     onFirstPage(): void {
+        if (this.isLoading) return;
         const newPage = this._pagination.firstPage();
         if (!newPage) return;
         this._emitPageEvent();
     }
     onPrevPage(): void {
+        if (this.isLoading) return;
         const newPage = this._pagination.prevPage();
         if (!newPage) return;
         this._emitPageEvent();
     }
     onNextPage(): void {
+        if (this.isLoading) return;
         const newPage = this._pagination.nextPage();
         if (!newPage) return;
         this._emitPageEvent();
     }
     onLastPage(): void {
+        if (this.isLoading) return;
         const newPage = this._pagination.lastPage();
         if (!newPage) return;
         this._emitPageEvent();

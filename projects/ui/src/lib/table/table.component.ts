@@ -1,15 +1,14 @@
 import { AfterContentInit, ChangeDetectionStrategy, Component, ContentChild, ContentChildren, EventEmitter, Input, Output, QueryList, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { isDefined } from 'simple-bool';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
 import { CheckboxState } from '../checkbox/checkbox.types';
+import { CurrentItemsFormatFn, PaginationAlign } from '../table-pagination/table-pagination.types';
 import { ComponentColor, SimpleComponentColor } from '../types/colors.types';
 import { ArdTableRow, HeaderCell, TableItemStorage, TableItemStorageHost } from './table-item-storage';
-import { ArdiumTableCaptionTemplateDirective, ArdiumTableCheckboxTemplateDirective, ArdiumTableHeaderCheckboxTemplateDirective, ArdiumTablePaginationTemplateDirective, ArdiumTableTemplateDirective } from './table.directives';
+import { ArdiumTableCaptionTemplateDirective, ArdiumTableCheckboxTemplateDirective, ArdiumTableHeaderCheckboxTemplateDirective, ArdiumTableTemplateDirective } from './table.directives';
 import { TableAlignType, TableAppearance, TableCaptionContext, TableCheckboxContext, TableDataColumn, TableHeaderCheckboxContext, TablePaginationStrategy, TableSubheader, TableVariant } from './table.types';
 import { isTableSubheader } from './utils';
-import { PaginationContext } from '../_internal/models/pagination.model';
-import { CurrentItemsFormatFn, PaginationAlign } from '../table-pagination/table-pagination.types';
-import { isDefined } from 'simple-bool';
 
 @Component({
     selector: 'ard-table',
@@ -47,6 +46,9 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
 
     @Input() caption?: string;
 
+    @Input() isLoading?: boolean;
+    @Input() loadingProgress?: number; //TODO add progress bar
+
     //! appearance
     @Input() appearance: TableAppearance = TableAppearance.Strong;
     @Input() variant: TableVariant = TableVariant.Rounded;
@@ -80,6 +82,7 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
             this.zebra ? 'ard-zebra-table' : '',
             this.selectableRows ? 'ard-selectable-rows' : '',
             this.stickyHeader ? 'ard-sticky-header' : '',
+            this.isLoading ? 'ard-table-loading' : '',
         ].join(' ');
     }
 
@@ -99,6 +102,11 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     @Input() currentItemsFormatFn: CurrentItemsFormatFn = ({ currentItemsFirst, currentItemsLast, totalItems }) => {
         return `${currentItemsFirst} – ${currentItemsLast} of ${totalItems}`;
     }
+
+    private _pageFillRemaining: boolean = false;
+    @Input()
+    get pageFillRemaining(): boolean { return this._pageFillRemaining; }
+    set pageFillRemaining(v: any) { this._pageFillRemaining = coerceBooleanProperty(v); }
 
     private _paginationDisabled: boolean = false;
     @Input()
@@ -122,14 +130,13 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     set page(v: any) { this._page = coerceNumberProperty(v); }
     @Output() pageChange = new EventEmitter<number>();
 
+    get isDefinedTotalItems(): boolean {
+        return this.paginationStrategy == TablePaginationStrategy.Noop && isDefined(this.totalItems)
+            || this.paginationStrategy != TablePaginationStrategy.Noop;
+    }
     get canDisplayPagination(): boolean {
         //prettier-ignore
-        return this.paginated &&
-            (
-                this.paginationStrategy == TablePaginationStrategy.Noop && isDefined(this.totalItems)
-                ||
-                this.paginationStrategy != TablePaginationStrategy.Noop
-            )
+        return this.paginated && this.isDefinedTotalItems;
     }
 
     //! item storage getters
@@ -137,7 +144,17 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
         return this._itemStorage.headerCells;
     }
     get dataRows(): ArdTableRow[] {
-        return this._itemStorage.paginatedItems;
+        const items: ArdTableRow[] = this._itemStorage.paginatedItems;
+
+        if (!this.pageFillRemaining) return items;
+        if (!this.isDefinedTotalItems) {
+            throw new Error("<ard-table> requires [totalItems] to be defined.");
+        }
+        if (this.page == 1) return items;
+        for (let i = items.length; i < this.itemsPerPage; i++) {
+            items.push({ itemData: null, index: i, data: [], dataColumns: [], isEmpty: true });
+        }
+        return items;
     }
 
     //! columns/data setters
