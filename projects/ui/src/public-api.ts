@@ -158,6 +158,9 @@ export * from './lib/table-pagination/table-pagination.types';
 //table-from-csv
 export * from './lib/table-from-csv/table-from-csv.module';
 export * from './lib/table-from-csv/table-from-csv.component';
+//badge
+export * from './lib/badge/badge.module';
+export * from './lib/badge/badge.directive';
 //! types
 export * from './lib/types/alignment.types';
 export * from './lib/types/colors.types';
