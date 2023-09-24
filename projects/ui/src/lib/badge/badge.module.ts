@@ -5,14 +5,14 @@ import { ArdiumBadgeDirective } from './badge.directive';
 
 
 @NgModule({
-  declarations: [
-    ArdiumBadgeDirective
-  ],
-  imports: [
-    CommonModule
-  ],
-  exports: [
-    ArdiumBadgeDirective
-  ]
+    declarations: [
+        ArdiumBadgeDirective
+    ],
+    imports: [
+        CommonModule
+    ],
+    exports: [
+        ArdiumBadgeDirective
+    ]
 })
 export class ArdiumBadgeModule { }
