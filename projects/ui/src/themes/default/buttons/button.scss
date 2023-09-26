@@ -1,5 +1,11 @@
 @use './button-mixins' as shared;
 
+ard-button {
+    display: block;
+    width: max-content;
+    height: max-content;
+}
+
 .ard-button {
     @include shared.button;
     background: transparent;
