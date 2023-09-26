@@ -27,14 +27,16 @@
     //! row & option styling
     .ard-segment-row {
         gap: var(--ard-_segment-padding);
-        height: 2.0625em;
+        --ard-_font-size: 0.85em;
+        height: calc(2.42em + 1px);
+        font-size: var(--ard-_font-size);
 
         .ard-segment-option {
-            --ard-_font-size: 0.85em;
             margin: 0;
-            font-size: var(--ard-_font-size);
             padding: 0 1em;
             height: 100%;
+            font-size: 1em;
+            min-width: 2.42em;
             border: 1px solid transparent;
             background: transparent;
             position: relative;
@@ -293,12 +295,12 @@
     //! compact
     &.ard-compact {
         .ard-segment-row {
-            height: 1.5625em;
+            --ard-_font-size: 0.85em;
+            height: calc(1.85em + 1px);
 
             .ard-segment-option {
-                --ard-_font-size: 0.85em;
                 padding: 0 0.5em;
-                min-width: 1.6875em;
+                min-width: 1.85em;
             }
         }
     }
