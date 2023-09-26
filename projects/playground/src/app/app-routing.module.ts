@@ -26,6 +26,7 @@ import { StarsPage } from './pages/stars/stars.page';
 import { StateboxPage } from './pages/statebox/statebox.page';
 import { CheckboxListPage } from './pages/checkbox-list/checkbox-list.page';
 import { TablePage } from './pages/table/table.page';
+import { BadgePage } from './pages/badge/badge.page';
 
 const routes: Routes = [
     { path: '', component: HomePage },
@@ -51,6 +52,7 @@ const routes: Routes = [
     { path: 'card', component: CardPage },
     { path: 'divider', component: DividerPage },
     { path: 'radio', component: RadioPage },
+    { path: 'badge', component: BadgePage },
     { path: 'file-drop-area', component: FileDropAreaPage },
     { path: 'sliders', component: SlidersPage, loadChildren: () => import('./pages/sliders/sliders.module').then(m => m.SlidersModule) },
     { path: 'inputs', component: InputsPage, loadChildren: () => import('./pages/inputs/inputs.module').then(m => m.InputsModule) },

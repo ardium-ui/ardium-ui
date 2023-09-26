@@ -31,6 +31,7 @@ import { StarsModule } from './pages/stars/stars.module';
 import { StateboxModule } from './pages/statebox/statebox.module';
 import { CheckboxListModule } from './pages/checkbox-list/checkbox-list.module';
 import { TableModule } from './pages/table/table.module';
+import { BadgeModule } from './pages/badge/badge.module';
 
 @NgModule({
     declarations: [
@@ -66,6 +67,7 @@ import { TableModule } from './pages/table/table.module';
         FileDropAreaModule,
         FileInputModule,
         TableModule,
+        BadgeModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
