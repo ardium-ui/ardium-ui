@@ -161,6 +161,7 @@ export * from './lib/table-from-csv/table-from-csv.component';
 //badge
 export * from './lib/badge/badge.module';
 export * from './lib/badge/badge.directive';
+export * from './lib/badge/badge.types';
 //! types
 export * from './lib/types/alignment.types';
 export * from './lib/types/colors.types';
