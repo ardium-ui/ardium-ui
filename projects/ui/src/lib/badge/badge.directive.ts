@@ -52,11 +52,6 @@ export class ArdiumBadgeDirective implements OnChanges, AfterViewInit, OnDestroy
     get overlap(): boolean { return this._overlap; }
     set overlap(v: any) { this._overlap = coerceBooleanProperty(v); }
 
-    private _disabled: boolean = false;
-    @Input()
-    get disabled(): boolean { return this._disabled; }
-    set disabled(v: any) { this._disabled = coerceBooleanProperty(v); }
-
     private _createBadgeElement(): HTMLElement {
         const R = this._renderer;
         const elementClasses = [

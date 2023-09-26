@@ -1,0 +1,85 @@
+@use './coloring' as CM;
+
+.ard-badge-host {
+    position: relative;
+}
+.ard-badge {
+    @include CM.typeColors();
+    position: absolute;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+
+    //! colors
+    background: var(--ard-cmpcl--bg);
+    color: var(--ard-cmpcl--on-bg);
+
+    &.ard-badge-color-none {
+        background: var(--ard-cmpcl--content);
+        color: var(--ard-cmpcl--bg);
+    }
+
+    //! hidden
+    &.ard-badge-hidden {
+        display: none;
+    }
+
+    //! sizes
+    font-size: var(--ard-_badge-size);
+    min-width: calc(var(--ard-_badge-size) * 1.375);
+    height: calc(var(--ard-_badge-size) * 1.375);
+    padding: 0 calc(var(--ard-_badge-size) * 0.5);
+
+    &.ard-badge-size-small {
+        --ard-_badge-size: 0.55rem;
+        font-weight: 300;
+        letter-spacing: 0.2px;
+    }
+    &.ard-badge-size-medium {
+        --ard-_badge-size: 0.667rem;
+        font-weight: 400;
+        letter-spacing: 0.2px;
+    }
+    &.ard-badge-size-large {
+        --ard-_badge-size: 0.8125rem;
+        font-weight: 500;
+        letter-spacing: 0.2px;
+    }
+
+    //! overlap
+    --ot: 15%;
+    
+    &.ard-badge-overlap {
+        --ot: 60%;
+    }
+    &.ard-badge-position-above-before {
+        transform: translate(var(--ot), var(--ot));
+    }
+    &.ard-badge-position-above-after {
+        transform: translate(calc(-1 * var(--ot)), var(--ot));
+    }
+    &.ard-badge-position-below-after {
+        transform: translate(calc(-1 * var(--ot)), calc(-1 * var(--ot)));
+    }
+    &.ard-badge-position-below-before {
+        transform: translate(var(--ot), calc(-1 * var(--ot)));
+    }
+
+    //! positions
+    &.ard-badge-position-above-before,
+    &.ard-badge-position-below-before {
+        right: 100%;
+    }
+    &.ard-badge-position-above-after,
+    &.ard-badge-position-below-after {
+        left: 100%;
+    }
+    &.ard-badge-position-below-before,
+    &.ard-badge-position-below-after {
+        top: 100%;
+    }
+    &.ard-badge-position-above-before,
+    &.ard-badge-position-above-after {
+        bottom: 100%;
+    }
+}
