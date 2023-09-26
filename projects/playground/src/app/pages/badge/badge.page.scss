@@ -1,0 +1,75 @@
+.appearance {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.playground {
+    padding: 1rem;
+    padding-top: 0;
+
+    .ard-segment-row {
+        .ard-option-disabled {
+            border-color: transparent;
+        }
+        &:nth-child(1) {
+            .ard-option-disabled:nth-of-type(2),
+            .ard-option-disabled:nth-of-type(3) {
+                border-top-color: var(--ard-cmpcl--button-border);
+            }
+        }
+        &:nth-child(2) {
+            .ard-option-disabled:nth-of-type(1) {
+                border-left-color: var(--ard-cmpcl--button-border);
+            }
+            .ard-option-disabled:nth-of-type(4) {
+                border-right-color: var(--ard-cmpcl--button-border);
+            }
+        }
+        &:nth-child(3) {
+            .ard-option-disabled:nth-of-type(2),
+            .ard-option-disabled:nth-of-type(3) {
+                border-bottom-color: var(--ard-cmpcl--button-border);
+            }
+        }
+    }
+}
+label {
+    font-weight: 500;
+}
+.settings-form {
+    margin-top: 1.5rem;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+}
+.checkboxes {
+    gap: 1rem;
+}
+.settings-top,
+.settings-bottom {
+    display: flex;
+    gap: 3rem;
+
+    > * {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+    }
+}
+.settings-top {
+    .settings-right {
+        justify-content: space-between;
+    }
+}
+.settings-bottom {
+    .settings-right {
+        justify-content: center;
+    }
+}
+.settings-left {
+width: 250px;
+}
+.button-container {
+    margin: 2rem auto 1rem;
+}

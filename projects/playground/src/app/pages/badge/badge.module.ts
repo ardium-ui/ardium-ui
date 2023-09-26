@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ArdiumBadgeModule, ArdiumButtonModule, ArdiumCheckboxModule, ArdiumRadioModule, ArdiumSegmentModule, ArdiumSelectModule, ArdiumSimpleInputModule } from '@ardium-ui/ui';
 import { BadgePage } from './badge.page';
-import { ArdiumBadgeModule, ArdiumButtonModule } from '@ardium-ui/ui';
 
 
 
@@ -13,6 +13,11 @@ import { ArdiumBadgeModule, ArdiumButtonModule } from '@ardium-ui/ui';
         CommonModule,
         ArdiumBadgeModule,
         ArdiumButtonModule,
+        ArdiumSelectModule,
+        ArdiumSegmentModule,
+        ArdiumSimpleInputModule,
+        ArdiumCheckboxModule,
+        ArdiumRadioModule,
     ]
 })
 export class BadgeModule { }
