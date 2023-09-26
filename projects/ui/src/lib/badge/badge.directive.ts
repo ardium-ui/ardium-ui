@@ -1,4 +1,4 @@
-import { ComponentRef, Directive, ElementRef, Input, OnChanges, OnDestroy, OnInit, Renderer2, TemplateRef } from '@angular/core';
+import { ComponentRef, Directive, ElementRef, Input, OnChanges, OnDestroy, AfterViewInit, Renderer2, TemplateRef } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ComponentColor } from '../types/colors.types';
 import { BadgePosition, BadgeSize } from './badge.types';
@@ -6,18 +6,39 @@ import { BadgePosition, BadgeSize } from './badge.types';
 @Directive({
     selector: '[ardBadge]'
 })
-export class ArdiumBadgeDirective implements OnChanges, OnInit, OnDestroy {
+export class ArdiumBadgeDirective implements OnChanges, AfterViewInit, OnDestroy {
 
     constructor(
         private _el: ElementRef,
         private _renderer: Renderer2
     ) {}
 
-    @Input('ardBadge') text?: string | TemplateRef<unknown> | ComponentRef<unknown>;
+    @Input('ardBadge') text?: string;
 
     @Input('ardBadgeSize') size: BadgeSize = BadgeSize.Medium;
     @Input('ardBadgeColor') color: ComponentColor = ComponentColor.Primary;
-    @Input('ardBadgePosition') position: BadgePosition = BadgePosition.After;
+
+    private _position: BadgePosition = BadgePosition.AboveAfter;
+    @Input('ardBadgePosition')
+    get position(): BadgePosition { return this._position; }
+    set position(v: BadgePosition) {
+        switch (v) {
+            case BadgePosition.Before:
+                this._position = BadgePosition.AboveBefore;
+                return;
+            case BadgePosition.After:
+            case BadgePosition.Above:
+                this._position = BadgePosition.AboveAfter;
+                return;
+            case BadgePosition.Below:
+                this._position = BadgePosition.BelowAfter;
+                return;
+        
+            default:
+                this._position = v;
+                return;
+        }
+    }
 
     @Input('ardBadgeAriaLabel') ariaLabel?: string;
 
@@ -47,8 +68,11 @@ export class ArdiumBadgeDirective implements OnChanges, OnInit, OnDestroy {
             this.overlap ? 'ard-badge-overlap' : 'ard-badge-no-overlap',
         ].join(' ');
         const element = R.createElement('div') as HTMLDivElement;
-        R.addClass(element, elementClasses);
+        R.setAttribute(element, 'class', elementClasses);
         R.setAttribute(element, 'aria-label', this.ariaLabel ?? '');
+        const text = R.createText(this.text ?? '')
+
+        R.appendChild(element, text);
         
         return element;
     }
@@ -56,15 +80,15 @@ export class ArdiumBadgeDirective implements OnChanges, OnInit, OnDestroy {
     private _badgeElement?: HTMLElement;
     ngOnChanges(): void {
         if (this._badgeElement) {
-            this._renderer.removeChild(this._el, this._badgeElement);
+            this._renderer.removeChild(this._el.nativeElement, this._badgeElement);
         }
         const element = this._createBadgeElement();
         this._badgeElement = element;
-        this._renderer.appendChild(this._el, this._badgeElement);
+        this._renderer.appendChild(this._el.nativeElement, this._badgeElement);
     }
 
-    ngOnInit(): void {
-        this._renderer.addClass(this._el, 'ard-badge-host');
+    ngAfterViewInit(): void {
+        this._renderer.addClass(this._el.nativeElement, 'ard-badge-host');
     }
     ngOnDestroy(): void {
         if (this._badgeElement) {
