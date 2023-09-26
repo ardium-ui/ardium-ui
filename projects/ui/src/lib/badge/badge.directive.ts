@@ -2,6 +2,7 @@ import { ComponentRef, Directive, ElementRef, Input, OnChanges, OnDestroy, After
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ComponentColor } from '../types/colors.types';
 import { BadgePosition, BadgeSize } from './badge.types';
+import { FormElementVariant } from '../types/theming.types';
 
 @Directive({
     selector: '[ardBadge]'
@@ -15,8 +16,9 @@ export class ArdiumBadgeDirective implements OnChanges, AfterViewInit, OnDestroy
 
     @Input('ardBadge') text?: string;
 
-    @Input('ardBadgeSize') size: BadgeSize = BadgeSize.Medium;
     @Input('ardBadgeColor') color: ComponentColor = ComponentColor.Primary;
+    @Input('ardBadgeVariant') variant: FormElementVariant = FormElementVariant.Pill;
+    @Input('ardBadgeSize') size: BadgeSize = BadgeSize.Medium;
 
     private _position: BadgePosition = BadgePosition.AboveAfter;
     @Input('ardBadgePosition')
@@ -56,8 +58,9 @@ export class ArdiumBadgeDirective implements OnChanges, AfterViewInit, OnDestroy
         const R = this._renderer;
         const elementClasses = [
             'ard-badge',
-            `ard-badge-size-${this.size}`,
             `ard-color-${this.color}`,
+            `ard-variant-${this.variant}`,
+            `ard-badge-size-${this.size}`,
             `ard-badge-position-${this.position}`,
             this.hidden ? 'ard-badge-hidden' : '',
             this.overlap ? 'ard-badge-overlap' : 'ard-badge-no-overlap',
@@ -65,9 +68,15 @@ export class ArdiumBadgeDirective implements OnChanges, AfterViewInit, OnDestroy
         const element = R.createElement('div') as HTMLDivElement;
         R.setAttribute(element, 'class', elementClasses);
         R.setAttribute(element, 'aria-label', this.ariaLabel ?? '');
-        const text = R.createText(this.text ?? '')
+        
+        if (this.text) {
+            const textHost = R.createElement('div') as HTMLDivElement;
+            R.addClass(textHost, 'ard-badge-content');
 
-        R.appendChild(element, text);
+            const text = R.createText(this.text ?? '');
+            R.appendChild(textHost, text);
+            R.appendChild(element, textHost);
+        }
         
         return element;
     }
@@ -87,8 +96,8 @@ export class ArdiumBadgeDirective implements OnChanges, AfterViewInit, OnDestroy
     }
     ngOnDestroy(): void {
         if (this._badgeElement) {
-            this._renderer.removeChild(this._el, this._badgeElement);
+            this._renderer.removeChild(this._el.nativeElement, this._badgeElement);
         }
-        this._renderer.removeClass(this._el, 'ard-badge-host');
+        this._renderer.removeClass(this._el.nativeElement, 'ard-badge-host');
     }
 }

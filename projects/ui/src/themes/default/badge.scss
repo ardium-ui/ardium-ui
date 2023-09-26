@@ -6,17 +6,28 @@
 .ard-badge {
     @include CM.typeColors();
     position: absolute;
-    border-radius: 9999px;
     display: flex;
     align-items: center;
+    pointer-events: none;
 
     //! colors
     background: var(--ard-cmpcl--bg);
     color: var(--ard-cmpcl--on-bg);
 
-    &.ard-badge-color-none {
+    &.ard-color-none {
         background: var(--ard-cmpcl--content);
         color: var(--ard-cmpcl--bg);
+    }
+
+    //! variants
+    &.ard-variant-pill {
+        border-radius: 9999px;
+    }
+    &.ard-variant-rounded {
+        border-radius: calc(var(--ard-_badge-size) * 0.25);
+    }
+    &.ard-variant-sharp {
+        border-radius: 0;
     }
 
     //! hidden
@@ -28,7 +39,10 @@
     font-size: var(--ard-_badge-size);
     min-width: calc(var(--ard-_badge-size) * 1.375);
     height: calc(var(--ard-_badge-size) * 1.375);
-    padding: 0 calc(var(--ard-_badge-size) * 0.5);
+
+    .ard-badge-content {
+        padding: 0 calc(var(--ard-_badge-size) * 0.5);
+    }
 
     &.ard-badge-size-small {
         --ard-_badge-size: 0.55rem;
@@ -47,22 +61,22 @@
     }
 
     //! overlap
-    --ot: 15%;
+    --ard-_badge-overlap-offset-x: 0%;
     
     &.ard-badge-overlap {
-        --ot: 60%;
+        --ard-_badge-overlap-offset-x: 50%;
     }
     &.ard-badge-position-above-before {
-        transform: translate(var(--ot), var(--ot));
+        transform: translate(var(--ard-_badge-overlap-offset-x), 50%);
     }
     &.ard-badge-position-above-after {
-        transform: translate(calc(-1 * var(--ot)), var(--ot));
+        transform: translate(calc(-1 * var(--ard-_badge-overlap-offset-x)), 50%);
     }
     &.ard-badge-position-below-after {
-        transform: translate(calc(-1 * var(--ot)), calc(-1 * var(--ot)));
+        transform: translate(calc(-1 * var(--ard-_badge-overlap-offset-x)), -50%);
     }
     &.ard-badge-position-below-before {
-        transform: translate(var(--ot), calc(-1 * var(--ot)));
+        transform: translate(var(--ard-_badge-overlap-offset-x), -50%);
     }
 
     //! positions
