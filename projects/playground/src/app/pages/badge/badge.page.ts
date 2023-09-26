@@ -1,6 +1,8 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { BadgeSize as BS, BadgePosition, ComponentColor as CC, FormElementVariant as FEV } from '@ardium-ui/ui';
 
+const nbspString = '\xa0'.repeat(9);
+    
 @Component({
     selector: 'app-badge',
     templateUrl: './badge.page.html',
@@ -12,18 +14,15 @@ export class BadgePage {
     colors: CC[] = Object.values(CC);
     sizes: BS[] = Object.values(BS);
     positionItems = [
-        { value: BadgePosition.AboveBefore, label: '' },
-        { value: null, disabled: true, label: '' },
-        { value: null, disabled: true, label: '' },
-        { value: BadgePosition.AboveAfter, label: '' },
-        { value: null, disabled: true, label: '' },
-        { value: null, disabled: true, label: '' },
-        { value: null, disabled: true, label: '' },
-        { value: null, disabled: true, label: '' },
-        { value: BadgePosition.BelowBefore, label: '' },
-        { value: null, disabled: true, label: '' },
-        { value: null, disabled: true, label: '' },
-        { value: BadgePosition.BelowAfter, label: '' },
+        { value: BadgePosition.AboveBefore, label: nbspString },
+        { value: null, disabled: true, label: nbspString },
+        { value: BadgePosition.AboveAfter, label: nbspString },
+        { value: null, disabled: true, label: nbspString },
+        { value: null, disabled: true, label: nbspString },
+        { value: null, disabled: true, label: nbspString },
+        { value: BadgePosition.BelowBefore, label: nbspString },
+        { value: null, disabled: true, label: nbspString },
+        { value: BadgePosition.BelowAfter, label: nbspString },
     ];
 
     variant: FEV[] = [FEV.Pill];
