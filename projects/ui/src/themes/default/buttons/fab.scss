@@ -9,8 +9,8 @@ ard-fab {
 
 .ard-fab {
     @include shared.button;
-    height: var(--ard-fab-size);
-    width: var(--ard-fab-size);
+    height: var(--ard-_fab-size);
+    width: var(--ard-_fab-size);
     font-weight: 900;
     user-select: none;
     border-radius: 999px;
@@ -19,15 +19,15 @@ ard-fab {
     padding: 0;
 
     &.ard-fab-size-standard {
-        --ard-fab-size: 3.5rem;
+        --ard-_fab-size: 3.5rem;
         font-size: 1rem
     }
     &.ard-fab-size-small {
-        --ard-fab-size: 2.5rem;
+        --ard-_fab-size: 2.5rem;
         font-size: 0.875rem;
     }
     &.ard-fab-extended {
-        min-width: var(--ard-fab-size);
+        min-width: var(--ard-_fab-size);
         width: max-content;
         font-weight: unset;
         padding: 0.75em;

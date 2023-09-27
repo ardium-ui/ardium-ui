@@ -19,11 +19,7 @@ ard-icon-button {
     padding: 0;
     overflow: hidden;
     font-weight: 600;
-    color: var(--ard-cmpcl--bg) !important;
-
-    &.ard-color-none {
-        color: var(--ard-cmpcl--content) !important;
-    }
+    color: var(--ard-cmpcl--bg-colored) !important;
 
     .ard-button-content {
         font-size: 1.25rem;
@@ -33,7 +29,7 @@ ard-icon-button {
         > ard-icon {
             font-weight: 500;
             font-size: 1.5rem;
-            font-variation-settings: 'FILL' 1
+            font-variation-settings: 'FILL' 1;
         }
     }
 

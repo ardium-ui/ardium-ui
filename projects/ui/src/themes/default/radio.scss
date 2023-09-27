@@ -44,7 +44,7 @@ ard-radio {
             right: 25%;
             top: 25%;
             bottom: 25%;
-            background: var(--ard-cmpcl--border);
+            background: var(--ard-cmpcl--bg-colored);
             border-radius: 9999px;
             transform: scale(0);
             transition: transform 0.2s $timing-fn;
@@ -77,13 +77,13 @@ ard-radio {
     &.ard-radio-selected {
         > .ard-radio-circles {
             > .ard-radio-outer-circle {
-                border-color: var(--ard-cmpcl--border);
+                border-color: var(--ard-cmpcl--bg-colored);
             }
             > .ard-radio-inner-circle {
                 transform: scale(1);
             }
             > .ard-focus-overlay {
-                background-color: var(--ard-cmpcl--border);
+                background-color: var(--ard-cmpcl--bg-colored);
             }
         }
     }

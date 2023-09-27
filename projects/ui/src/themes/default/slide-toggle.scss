@@ -58,7 +58,7 @@
 
         .ard-focus-overlay {
             @include defaultMixins.focus-overlay;
-            background: var(--ard-cmpcl--overlay);
+            background: var(--ard-cmpcl--overlay-colored);
         }
         .ard-slide-toggle-icon {
             @include defaultMixins.icon(0, 600);

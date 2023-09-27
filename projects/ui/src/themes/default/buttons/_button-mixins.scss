@@ -14,11 +14,11 @@
     cursor: pointer;
     outline: none;
     
-    //* button icon
+    //! button icon
     .ard-button-icon {
         @include defaultMixins.icon(1);
     }
-    //* button focus inficator
+    //! button focus inficator
     .ard-focus-overlay {
         @include defaultMixins.focus-overlay;
         background-color: var(--ard-cmpcl--overlay);
@@ -40,7 +40,7 @@
             opacity: 18%;
         }
     }
-    //* button appearances
+    //! button appearances
     &.ard-appearance-transparent,
     &.ard-appearance-raised {
         background: transparent;
@@ -48,7 +48,7 @@
         border: none;
         
         .ard-focus-overlay {
-            background: var(--ard-cmpcl--content);
+            background: var(--ard-cmpcl--overlay-colored);
         }
     }
     &.ard-appearance-flat,
@@ -58,7 +58,7 @@
         border: none;
         
         .ard-focus-overlay {
-            background: var(--ard-cmpcl--overlay);
+            background: var(--ard-cmpcl--on-bg);
         }
     }
     &.ard-appearance-raised,
@@ -77,50 +77,36 @@
     &.ard-appearance-outlined {
         background: $bg;
         color: var(--ard-cmpcl--content);
-        border: 1px solid var(--ard-cmpcl--button-border);
+        border: 1px solid $border-light;
 
         .ard-focus-overlay {
-            background: var(--ard-cmpcl--content);
+            background: var(--ard-cmpcl--overlay-colored);
         }
     }
     &.ard-appearance-outlined-strong {
         background: $bg;
         color: var(--ard-cmpcl--content);
-        border: 1px solid var(--ard-cmpcl--button-border);
+        border: 1px solid $border-light;
+
+        .ard-focus-overlay {
+            display: none;
+        }
 
         transition: background-color 0.2s ease, color 0.2s ease;
         &:hover,
         &:focus,
         &:focus-visible {
-            background: var(--ard-cmpcl--content);
-            color: var(--ard-cmpcl--on-bg);
-
-            .ard-focus-overlay {
-                display: none;
-            }
-
-            //edge case for no coloring
-            &.ard-color-none {
-                color: var(--ard-cmpcl--bg);
-            }
-        }
-
-        //edge case for no coloring
-        &.ard-color-none {
-            .ard-focus-overlay {
-                background: var(--ard-cmpcl--bg);
-            }
+            background: var(--ard-cmpcl--bg-colored);
+            color: var(--ard-cmpcl--on-bg-colored);
         }
     }
     &.ard-appearance-raised-strong,
     &.ard-appearance-flat {
+        .ard-focus-overlay {
+            background: var(--ard-cmpcl--on-bg);
+        }
         &:focus-visible {
             outline: solid black;
-        }
-        &:not(.ard-color-none) {
-            .ard-focus-overlay {
-                background: var(--ard-cmpcl--on-bg);
-            }
         }
     }
 }

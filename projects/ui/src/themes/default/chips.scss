@@ -11,7 +11,7 @@
     font-family: "Roboto", sans-serif;
     color: $text2;
     background: $bg;
-    border-radius: var(--ard-current-border-radius);
+    border-radius: var(--ard-_chip-border-radius);
     padding: 0;
     margin: 6px;
     vertical-align: middle;
@@ -60,21 +60,17 @@
     }
     //! variants
     &.ard-variant-rounded {
-        --ard-current-border-radius: 6px;
+        --ard-_chip-border-radius: 6px;
     }
     &.ard-chip-variant-pill {
-        --ard-current-border-radius: 9999px;
+        --ard-_chip-border-radius: 9999px;
     }
     //! appearances
     &.ard-appearance-filled {
-        background: var(--ard-cmpcl--bg);
+        background: var(--ard-cmpcl--bg-colored-light);
         color: var(--ard-cmpcl--on-bg);
         border: none;
 
-        //edge case for no coloring
-        &.ard-color-none {
-            background-color: $bg-f;
-        }
         &.ard-chip-selectable {
             background-color: $bg-f;
             color: $text2;
@@ -84,14 +80,8 @@
                 background-color 0.15s ease;
 
             &.ard-chip-selected {
-                color: var(--ard-cmpcl--on-bg);
-                background: var(--ard-cmpcl--bg);
-
-                //edge case for no coloring
-                &.ard-color-none {
-                    color: var(--ard-cmpcl--bg);
-                    background: var(--ard-cmpcl--content);
-                }
+                color: var(--ard-cmpcl--on-bg-colored);
+                background: var(--ard-cmpcl--bg-colored);
             }
         }
     }
@@ -99,13 +89,8 @@
     &.ard-appearance-outlined-strong {
         background: transparent;
         color: var(--ard-cmpcl--content);
-        border: 1px solid var(--ard-cmpcl--bg);
+        border: 1px solid var(--ard-cmpcl--bg-colored);
         font-weight: 600;
-        
-        //edge case for no coloring
-        &.ard-color-none {
-            border-color: var(--ard-cmpcl--content);
-        }
         
         &.ard-chip-selectable {
             transition:
@@ -114,7 +99,7 @@
 
             >.ard-focus-overlay {
                 opacity: 0;
-                background: var(--ard-cmpcl--bg);
+                background: var(--ard-cmpcl--bg-colored);
             }
             &:hover,
             &:focus {
@@ -130,7 +115,6 @@
 
             &.ard-chip-selected {
                 color: var(--ard-cmpcl--content);
-                border-color: var(--ard-cmpcl--bg);
 
                 >.ard-focus-overlay {
                     opacity: 7.5%;
@@ -152,11 +136,7 @@
     &.ard-appearance-outlined-strong {
         >.ard-focus-overlay {
             opacity: 7.5%;
-            background: var(--ard-cmpcl--bg);
-        }
-        //edge case for no coloring
-        &.ard-color-none >.ard-focus-overlay {
-            background: var(--ard-cmpcl--content);
+            background: var(--ard-cmpcl--bg-colored);
         }
     }
     

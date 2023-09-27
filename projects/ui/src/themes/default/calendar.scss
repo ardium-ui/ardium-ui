@@ -64,7 +64,7 @@
             .ard-focus-overlay {
                 @include DM.focus-overlay();
                 z-index: -1;
-                background: var(--ard-cmpcl--bg);
+                background: var(--ard-cmpcl--bg-colored);
                 border: 2px solid transparent;
                 transition: border-color 0.2s ease, opacity 0.2s ease;
             }
@@ -84,7 +84,7 @@
         }
         &.ard-calendar-entry-selected {
             .ard-calendar-entry-button {
-                color: var(--ard-cmpcl--on-bg);
+                color: var(--ard-cmpcl--on-bg-colored);
             }
             .ard-focus-overlay {
                 opacity: 100%;

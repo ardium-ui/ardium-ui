@@ -97,37 +97,37 @@
     }
 
     //! color
-    --_table-header-border: var(--ard-cmpcl--border);
-    --_table-header-border-light: var(--ard-cmpcl--border-light);
-    --_table-border: $border;
-    --_table-header-background: var(--ard-cmpcl--bg);
-    --_table-header-background-light: var(--ard-cmpcl--bg-light);
-    --_table-header-color: var(--ard-cmpcl--content);
-    --_table-header-color-on-bg: var(--ard-cmpcl--on-bg);
-    --_table-overlay: var(--ard-cmpcl--overlay-rgb);
-    --_table-overlay-colorless: var(--ard-overlay-rgb);
+    --ard-_table-header-border: var(--ard-cmpcl--border);
+    --ard-_table-header-border-light: var(--ard-cmpcl--border-light);
+    --ard-_table-border: $border;
+    --ard-_table-header-background: var(--ard-cmpcl--bg);
+    --ard-_table-header-background-light: var(--ard-cmpcl--bg-colored-light);
+    --ard-_table-header-color: var(--ard-cmpcl--content);
+    --ard-_table-header-color-on-bg: var(--ard-cmpcl--on-bg);
+    --ard-_table-overlay: var(--ard-cmpcl--overlay-rgb);
+    --ard-_table-overlay-colorless: var(--ard-overlay-rgb);
 
     //! appearances
     &.ard-appearance-strong {
         .ard-table__header {
             border-bottom: 1px solid $detail-light;
-            background-color: var(--_table-header-background);
+            background-color: var(--ard-_table-header-background);
         }
         .ard-table__header-cell {
-            color: var(--_table-header-color-on-bg);
-            border-bottom: 1px solid var(--_table-header-border);
+            color: var(--ard-_table-header-color-on-bg);
+            border-bottom: 1px solid var(--ard-_table-header-border);
         }
     }
     &.ard-appearance-light {
         .ard-table__header-cell {
-            color: var(--_table-header-color);
+            color: var(--ard-_table-header-color);
         }
         .ard-table__header {
-            background-color: var(--_table-header-background-light);
-            border: 1px solid var(--_table-header-border-light);
+            background-color: var(--ard-_table-header-background-light);
+            border: 1px solid var(--ard-_table-header-border-light);
         }
         .ard-table__header-row .ard-table__header-cell {
-            border-bottom: 1px solid var(--_table-header-border-light);
+            border-bottom: 1px solid var(--ard-_table-header-border-light);
         }
     }
     &.ard-appearance-colorless {
@@ -240,10 +240,10 @@
         }
     }
     .ard-table__body-row.ard-table__highlighted-row .ard-table__body-cell {
-        background: rgba(var(--_table-overlay-colorless), 4%);
+        background: rgba(var(--ard-_table-overlay-colorless), 4%);
     }
     .ard-table__body-row.ard-table__selected-row .ard-table__body-cell {
-        background: rgba(var(--_table-overlay), 8%);
+        background: rgba(var(--ard-_table-overlay), 8%);
     }
 
     //! disabled

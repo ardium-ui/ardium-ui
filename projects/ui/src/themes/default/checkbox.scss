@@ -56,28 +56,12 @@
         content: 'check_box_outline_blank';
     }
 
-    color: var(--ard-unsel-cmpcl--bg);
-    &.ard-unselected-color-currentColor {
-        color: inherit;
-    }
-    //edge case for no coloring
-    &.ard-unselected-color-none {
-        color: $overlay;
-    }
+    color: $text2;
     &.ard-checkbox-selected {
-        color: var(--ard-cmpcl--bg);
-
-        &.ard-color-currentColor {
-            color: inherit;
-        }
+        color: var(--ard-unsel-cmpcl--bg-colored);
 
         .ard-checkbox-icon {
             opacity: 90%;
-        }
-
-        //edge case for no coloring
-        &.ard-color-none {
-            color: $overlay;
         }
     }
     &.ard-checkbox-selected {

@@ -6,17 +6,10 @@
 .ard-star-display,
 .ard-star-input {
     @include coloringMixins.typeColors();
-    color: var(--ard-cmpcl--bg);
+    color: var(--ard-cmpcl--bg-colored);
     
-    &.ard-color-currentColor {
-        color: currentColor;
-    }
     &.ard-color-star {
         color: $star;
-    }
-    //edge case for no coloring
-    &.ard-color-none {
-        color: var(--ard-cmpcl--content);
     }
 }
 .ard-star {

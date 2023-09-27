@@ -5,11 +5,6 @@
     @include coloringMixins.typeColors;
     width: 3em;
 
-    --ard-_progress-circle-fill-color: var(--ard-cmpcl--bg);
-    //special case for no coloring
-    &.ard-color-none {
-        --ard-_progress-circle-fill-color: var(--ard-cmpcl--content);
-    }
     //! appearances
     &.ard-appearance-transparent {
         .ard-progress-circle-background {
@@ -24,13 +19,12 @@
     &.ard-appearance-colored {
         .ard-progress-circle-background {
             opacity: 16%;
-            background: var(--ard-cmpcl--bg);
+            background: var(--ard-cmpcl--bg-colored);
         }
         //special case for no coloring
         &.ard-color-none {
             .ard-progress-circle-background {
                 opacity: 8%;
-                background: var(--ard-cmpcl--content);
             }
         }
     }

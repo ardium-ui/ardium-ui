@@ -11,13 +11,8 @@
     pointer-events: none;
 
     //! colors
-    background: var(--ard-cmpcl--bg);
-    color: var(--ard-cmpcl--on-bg);
-
-    &.ard-color-none {
-        background: var(--ard-cmpcl--content);
-        color: var(--ard-cmpcl--bg);
-    }
+    background: var(--ard-cmpcl--bgcolored);
+    color: var(--ard-cmpcl--on-bg-colored);
 
     //! variants
     &.ard-variant-pill {

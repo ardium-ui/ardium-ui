@@ -10,7 +10,7 @@
     position: relative;
     cursor: pointer;
     user-select: none;
-    color: var(--ard-cmpcl--bg);
+    color: var(--ard-cmpcl--bg-colored);
     border: none;
     background: none;
     padding: 0;
@@ -100,10 +100,6 @@
         .ard-focus-overlay {
             opacity: 20%;
         }
-    }
-    //edge case for no coloring
-    &.ard-color-none {
-        color: var(--ard-cmpcl--content);
     }
 }
 //! disabled state
