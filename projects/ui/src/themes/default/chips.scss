@@ -67,8 +67,8 @@
     }
     //! appearances
     &.ard-appearance-filled {
-        background: var(--ard-cmpcl--bg-colored-light);
-        color: var(--ard-cmpcl--on-bg);
+        background: var(--ard-cmpcl--bg-colored);
+        color: var(--ard-cmpcl--on-bg-colored);
         border: none;
 
         &.ard-chip-selectable {
