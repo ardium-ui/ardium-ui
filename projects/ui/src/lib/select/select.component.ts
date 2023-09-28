@@ -295,7 +295,7 @@ export class ArdiumSelectComponent extends _NgModelComponentBase implements OnCh
     set multiselectable(v: any) { this._multiselectable = coerceBooleanProperty(v); }
     get singleselectable(): boolean { return !this._multiselectable };
 
-    private _clearable: boolean = false;
+    private _clearable: boolean = true;
     @Input()
     get clearable(): boolean { return this._clearable };
     set clearable(v: any) { this._clearable = coerceBooleanProperty(v); }
