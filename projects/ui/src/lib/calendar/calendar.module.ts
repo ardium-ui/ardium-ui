@@ -4,6 +4,7 @@ import { ArdiumCalendarComponent } from './calendar.component';
 import { ArdiumButtonModule } from '../buttons/button/button.module';
 import { ArdiumFabModule } from '../buttons/fab/fab.module';
 import { ArdiumIconModule } from './../icon/icon.module';
+import { ArdiumIconButtonModule } from '../buttons/icon-button/icon-button.module';
 
 
 @NgModule({
@@ -11,9 +12,9 @@ import { ArdiumIconModule } from './../icon/icon.module';
         ArdiumCalendarComponent
     ],
     imports: [
-    CommonModule,
+        CommonModule,
         ArdiumButtonModule,
-        ArdiumFabModule,
+        ArdiumIconButtonModule,
         ArdiumIconModule
     ],
     exports: [
