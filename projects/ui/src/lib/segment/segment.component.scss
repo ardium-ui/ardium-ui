@@ -1,6 +1,16 @@
 .ard-segment-container {
     display: flex;
     flex-direction: column;
+
+    &.ard-align-left .ard-segment-option {
+        justify-content: left;
+    }
+    &.ard-align-middle .ard-segment-option {
+        justify-content: center;
+    }
+    &.ard-align-right .ard-segment-option {
+        justify-content: right;
+    }
 }
 .ard-segment-row {
     width: 100%;

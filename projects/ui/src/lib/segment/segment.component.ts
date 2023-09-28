@@ -6,6 +6,7 @@ import { _SelectableListComponentBase } from '../_internal/selectable-list-compo
 import { SimpleItemStorageHost } from './../_internal/item-storages/simple-item-storage';
 import { ArdSegmentOptionTemplateDirective } from './segment.directives';
 import { SegmentAppearance, SegmentVariant } from './segment.types';
+import { OneAxisAlignment } from '../types/alignment.types';
 
 type SegmentRow = {
     options: ArdOptionSimple[];
@@ -25,13 +26,13 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
     @Input() appearance: SegmentAppearance = SegmentAppearance.Outlined;
     @Input() variant: SegmentVariant = SegmentVariant.RoundedConnected;
     @Input() color: ComponentColor = ComponentColor.Primary;
+    @Input() align: OneAxisAlignment = OneAxisAlignment.Middle;
     
     private _iconBased: boolean = false;
     @Input()
     get iconBased(): boolean { return this._iconBased; }
     set iconBased(v: any) { this._iconBased = coerceBooleanProperty(v); }
     
-
     private _compact: boolean = false;
     @Input()
     get compact(): boolean { return this._compact; }
@@ -42,6 +43,7 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
             `ard-appearance-${this.appearance}`,
             `ard-variant-${this.variant}`,
             `ard-color-${this.color}`,
+            `ard-align-${this.align}`,
             this.iconBased ? 'ard-icon-based' : '',
             this.compact ? 'ard-compact' : '',
         ].join(' ');
