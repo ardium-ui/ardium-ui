@@ -22,6 +22,19 @@
     transition: opacity 0.2s ease;
 
 }
+@mixin focus-overlay-scale-addon() {
+    > .ard-focus-overlay {
+        transform: scale(0.2);
+        
+        transition: opacity 0.2s ease, transform 0.1s ease;
+    }
+
+    &:hover, &:focus {
+        >.ard-focus-overlay {
+            transform: scale(1);
+        }
+    }
+}
 
 @mixin formAppearances() {
     &.ard-appearance-outlined {

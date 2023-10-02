@@ -106,6 +106,8 @@
             @include defaultMixins.focus-overlay(0.5em);
             background: currentColor;
         }
+        @include defaultMixins.focus-overlay-scale-addon();
+
         .ard-hitbox {
             position: absolute;
             inset: (-7em / 16);
@@ -158,6 +160,7 @@
         font-weight: 500;
         position: relative;
         z-index: 2;
+        user-select: none;
 
         transform: scale(0);
         transition: transform 0.1s $timing-fn;

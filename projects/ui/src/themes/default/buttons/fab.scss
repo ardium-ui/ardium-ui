@@ -1,4 +1,5 @@
 @use './button-mixins' as shared;
+@use '../mixins' as CM;
 
 ard-fab {
     margin: 8px;
@@ -35,6 +36,10 @@ ard-fab {
 
     .ard-button-content {
         gap: 0.5em;
+    }
+
+    &.ard-appearance-transparent {
+        @include CM.focus-overlay-scale-addon();
     }
 }
 
