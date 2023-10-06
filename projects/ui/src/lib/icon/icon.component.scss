@@ -14,6 +14,7 @@ ard-icon {
     background-repeat: no-repeat;
     fill: currentColor;
     overflow: hidden;
+    flex-shrink: 0;
     
     .ard-icon {
         font-variation-settings: inherit;

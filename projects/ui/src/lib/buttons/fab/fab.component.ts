@@ -15,7 +15,7 @@ export class ArdiumFabComponent extends _FocusableComponentBase {
 
     @Input() wrapperClasses: string = '';
 
-    //* button settings
+    //! appearance
     @Input() appearance: ButtonAppearance = ButtonAppearance.Raised;
     @Input() size: FABSize = FABSize.Standard;
     @Input() color: ComponentColor = ComponentColor.Primary;
@@ -25,7 +25,6 @@ export class ArdiumFabComponent extends _FocusableComponentBase {
     get extended(): boolean { return this._extended; }
     set extended(v: any) { this._extended = coerceBooleanProperty(v); }
 
-    //* for adding classes to the button
     get ngClasses(): string {
         return [
             `ard-appearance-${this.appearance}`,

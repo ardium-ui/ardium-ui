@@ -3,11 +3,12 @@
     [ngClass]="ngClasses"
     [tabindex]="tabIndex"
     [class]="wrapperClasses"
+    [style]="'--ard-_fab-content-size:'+content.clientWidth+'px'"
     (focus)="focusEvent.emit($event)"
     (blur)="blurEvent.emit($event)"
 >
     <div class="ard-focus-overlay"></div>
-    <div class="ard-button-content">
+    <div class="ard-button-content" #content>
         <ng-content></ng-content>
     </div>
 </button>
