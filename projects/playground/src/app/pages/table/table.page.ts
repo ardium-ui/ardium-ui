@@ -184,6 +184,7 @@ Nine Miles from the White City, 2013, -`;
             header: 'Name',
             dataSource: 'name',
             isRowHeader: true,
+            sortable: true,
         },
         {
             header: 'HR Info',
