@@ -14,7 +14,7 @@ export interface TableDataColumn extends _GenericColumn {
     dataSource: DataSource;
     template?: string | TemplateRef<unknown>;
     sortable?: boolean;
-    sortFn?: (colData: any[]) => any[];
+    sortFn?: (columnAData: any, columnBData: any) => number;
     highlight?: boolean | ComponentColor;
     width?: string | number;
     minWidth?: string | number;
@@ -31,12 +31,15 @@ export const SortType = {
 export type SortType = typeof SortType[keyof typeof SortType];
 
 //! contexts
-export interface TableHeaderContext {
+export interface TableSubheaderContext {
     $implicit: string;
     header: string;
+}
+export interface TableHeaderContext extends TableSubheaderContext {
     sortable: boolean;
     sortType: SortType | null;
-    onClickSort: (event?: MouseEvent) => void;
+    onTriggerSort: (event?: MouseEvent) => void;
+    onTriggerResetSort: (event?: MouseEvent) => void;
 }
 export interface TableCheckboxContext {
     $implicit: boolean;

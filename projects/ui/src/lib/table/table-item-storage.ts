@@ -1,7 +1,7 @@
 import resolvePath from 'resolve-object-path';
-import { evaluate, isDefined } from "simple-bool";
+import { evaluate, isDefined, isNull } from "simple-bool";
 import { CompareWithFn } from '../types/item-storage.types';
-import { TableDataColumn, TablePaginationStrategy, TableSubheader } from './table.types';
+import { SortType, TableDataColumn, TablePaginationStrategy, TableSubheader } from './table.types';
 import { areAllDataColumns, isTableSubheader, merge2dArrays } from './utils';
 
 export interface ArdTableRow {
@@ -27,7 +27,6 @@ export interface TableItemStorageHost {
     invertRowBold?: boolean;
     data?: any[];
     readonly DEFAULTS: TableItemStorageHostDefaults;
-    compareWith?: CompareWithFn;
     maxSelectedItems?: number;
     treatDataSourceAsString?: boolean;
 
@@ -64,6 +63,7 @@ export class HeaderCell {
 
 export class TableItemStorage {
     private _items: ArdTableRow[] = [];
+    private _sortedItems: ArdTableRow[] = [];
     private _highlightedItems: ArdTableRow[] = [];
     private _selectedItems: ArdTableRow[] = [];
 
@@ -80,6 +80,9 @@ export class TableItemStorage {
     get items(): ArdTableRow[] {
         return this._items;
     }
+    get sortedItems(): ArdTableRow[] {
+        return this._sortedItems;
+    }
     /**
      * Gets items based on the current pagination state.
      */
@@ -89,13 +92,13 @@ export class TableItemStorage {
             !this._ardParentComp.paginated
             || this._ardParentComp.paginationStrategy == TablePaginationStrategy.Noop
         ) {
-            return this.items;
+            return this.sortedItems;
         }
         const page = this._ardParentComp.page;
         const IPP = this._ardParentComp.itemsPerPage;
         const itemsStart = (page - 1) * IPP;
         const itemsEnd = page * IPP;
-        return this.items.slice(itemsStart, itemsEnd);
+        return this.sortedItems.slice(itemsStart, itemsEnd);
     }
     /**
      * Gets all currently selected items.
@@ -273,6 +276,7 @@ export class TableItemStorage {
         this._items = items.map((item, index) => {
             return this._setItemsMapFn(item, index);
         });
+        this._sortedItems = this._items;
     }
     /**
      * Maps raw item data to an {@link ArdTableRow} object.
@@ -565,5 +569,59 @@ export class TableItemStorage {
      */
     private _getHiglightableItems(): ArdTableRow[] {
         return this._items.filter(item => !item.disabled);
+    }
+
+    //! sorting
+    private _currentSortColumn: number | null = null;
+    private _currentSortType: SortType | null = null;
+
+    toggleCurrentSortColumn(column: number): void {
+        if (this._currentSortColumn == column) {
+            if (this._currentSortType == SortType.Ascending) {
+                this._currentSortType = SortType.Descending;
+            } else {
+                this._currentSortType = SortType.Ascending;
+            }
+            this._generateSortedRows(true);
+            return;
+        }
+        this._currentSortColumn = column;
+        this._currentSortType = SortType.Ascending;
+        this._generateSortedRows();
+    }
+    resetSort(): void {
+        this._currentSortColumn = null;
+        this._currentSortType = null;
+        this._sortedItems = [...this.items];
+    }
+    getColumnSortType(column: number): SortType | null {
+        if (this._currentSortColumn == column) {
+            return this._currentSortType;
+        }
+        return null;
+    }
+    private _generateSortedRows(justReverse?: boolean): void {
+        if (justReverse) {
+            this._sortedItems.reverse();
+            return;
+        }
+        const sortColumnIndex = this._currentSortColumn;
+        if (isNull(sortColumnIndex) || !this._currentSortType) {
+            this._sortedItems = this.items;
+            return;
+        }
+        const sortColumn = this._dataColumns[sortColumnIndex];
+        if (!sortColumn) {
+            throw new Error(`Encountered an issue in <ard-table>: could not find the column with index ${sortColumnIndex}. This is most likely an Ardium bug, please report it on GitHub.`);
+        }
+
+        const direction = this._currentSortType == SortType.Ascending ? 1 : -1;
+        const sortFn = sortColumn.sortFn ?? ((a, b) => {
+            if (a > b) return direction;
+            if (a < b) return -1 * direction;
+            return 0;
+        });
+
+        this._sortedItems = [...this.items].sort((a, b) => sortFn(a.data[sortColumnIndex], b.data[sortColumnIndex]));
     }
 }

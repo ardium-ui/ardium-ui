@@ -17,7 +17,7 @@
     <thead class="ard-table__header">
         <tr class="ard-table__header-row" *ngFor="let row of headerCells">
             <th
-                *ngFor="let cell of row"
+                *ngFor="let cell of row; let index = index"
                 class="ard-table__header-cell"
                 [ngClass]="cell.cell.cellClass"
                 [class.ard-table__checkbox-cell]="isHeaderCellCheckbox(cell)"
@@ -27,6 +27,7 @@
             >
                 <div
                     class="ard-table__cell-container"
+                    [class.ard-table__sortable]="isHeaderCellSortable(cell)"
                     [style.width]="cell.width"
                     [style.minWidth]="cell.minWidth"
                 >
@@ -41,13 +42,44 @@
                         />
                     </ng-container>
                     <ng-container *ngIf="!isHeaderCellCheckbox(cell)">
-                        <ng-template #defaultHeaderCellTemplate let-content>
-                            {{ content }}
+                        <ng-template
+                            #defaultHeaderCellTemplate
+                            let-content
+                            let-sortable="sortable"
+                            let-sortType="sortType"
+                            let-onTriggerSort="onTriggerSort"
+                            let-onTriggerResetSort="onTriggerResetSort"
+                        >
+                            <div
+                                class="ard-table__header-template-container"
+                                [class.ard-sortable]="sortable"
+                                [class.ard-nonsortable]="!sortable"
+                            >
+                                <button
+                                    class="ard-table__header-content-container"
+                                    *ngIf="sortable"
+                                    (click)="onTriggerSort($event)"
+                                    [tabindex]="tabIndex"
+                                    (keydown.Esc)="onTriggerResetSort($event)"
+                                >
+                                    <div class="ard-table__header-content">{{ content }}</div>
+                                    <div class="ard-table__header-sort-icon" *ngIf="sortType != null">
+                                        <ard-icon *ngIf="sortType == 'ascending'">south</ard-icon>
+                                        <ard-icon *ngIf="sortType == 'descending'">north</ard-icon>
+                                    </div>
+                                </button>
+                                <div
+                                    class="ard-table__header-content-container"
+                                    *ngIf="!sortable"
+                                >
+                                    <div class="ard-table__header-content">{{ content }}</div>
+                                </div>
+                            </div>
                         </ng-template>
                     
                         <ng-template 
                             [ngTemplateOutlet]="getHeaderTemplate(cell.cell.header) ?? defaultHeaderCellTemplate"
-                            [ngTemplateOutletContext]="{ $implicit: cell.cell.header }"
+                            [ngTemplateOutletContext]="getHeaderContext(cell.cell, index)"
                         />
                     </ng-container>
                 </div>

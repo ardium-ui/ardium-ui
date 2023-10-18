@@ -4,6 +4,7 @@ import { ArdiumTableComponent } from './table.component';
 import { ArdiumCheckboxModule } from '../checkbox/checkbox.module';
 import { ArdiumTablePaginationModule } from '../table-pagination/table-pagination.module';
 import { ArdiumTableCaptionTemplateDirective, ArdiumTableCheckboxTemplateDirective, ArdiumTableHeaderCheckboxTemplateDirective, ArdiumTablePaginationTemplateDirective, ArdiumTableTemplateDirective } from './table.directives';
+import { ArdiumIconModule } from '../icon/icon.module';
 
 
 
@@ -20,6 +21,7 @@ import { ArdiumTableCaptionTemplateDirective, ArdiumTableCheckboxTemplateDirecti
         CommonModule,
         ArdiumCheckboxModule,
         ArdiumTablePaginationModule,
+        ArdiumIconModule,
     ],
     exports: [
         ArdiumTableComponent,

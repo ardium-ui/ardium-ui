@@ -7,7 +7,7 @@ import { CurrentItemsFormatFn, PaginationAlign } from '../table-pagination/table
 import { ComponentColor, SimpleComponentColor } from '../types/colors.types';
 import { ArdTableRow, HeaderCell, TableItemStorage, TableItemStorageHost } from './table-item-storage';
 import { ArdiumTableCaptionTemplateDirective, ArdiumTableCheckboxTemplateDirective, ArdiumTableHeaderCheckboxTemplateDirective, ArdiumTableTemplateDirective } from './table.directives';
-import { TableAlignType, TableAppearance, TableCaptionContext, TableCheckboxContext, TableDataColumn, TableHeaderCheckboxContext, TablePaginationStrategy, TableSubheader, TableVariant } from './table.types';
+import { SortType, TableAlignType, TableAppearance, TableCaptionContext, TableCheckboxContext, TableDataColumn, TableHeaderCheckboxContext, TableHeaderContext, TablePaginationStrategy, TableSubheader, TableVariant, TableSubheaderContext } from './table.types';
 import { isTableSubheader } from './utils';
 
 @Component({
@@ -294,6 +294,11 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
         if (typeof dataCell.dataSource == 'string') return false;
         return dataCell.dataSource.type == 'checkbox';
     }
+    isHeaderCellSortable(cell: HeaderCell): boolean {
+        const dataCell = cell.cell;
+        if (isTableSubheader(dataCell)) return false;
+        return dataCell.sortable ?? false;
+    }
 
     @Output('selectedRowsChange') selectedRowsChangeEvent = new EventEmitter<any[]>();
     @Output('failedSelectRow') failedSelectRowEvent = new EventEmitter<any[]>();
@@ -301,6 +306,28 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     @Output('unselectRow') unselectRowEvent = new EventEmitter<any[]>();
 
     //! contexts
+    getHeaderContext(cell: TableDataColumn, index: number): TableHeaderContext | null;
+    getHeaderContext(cell: TableSubheader, index: number): TableSubheaderContext | null;
+    getHeaderContext(cell: TableDataColumn | TableSubheader, index: number): TableHeaderContext | TableSubheaderContext | null;
+    getHeaderContext(cell: TableDataColumn | TableSubheader, index: number): TableHeaderContext | TableSubheaderContext | null {
+        if (typeof cell.header != 'string') return null;
+        if (isTableSubheader(cell)) return {
+            $implicit: cell.header,
+            header: cell.header,
+        };
+        return {
+            $implicit: cell.header,
+            header: cell.header,
+            sortable: cell.sortable ?? false,
+            sortType: this._itemStorage.getColumnSortType(index),
+            onTriggerSort: (event?: Event) => this._itemStorage.toggleCurrentSortColumn(index),
+            onTriggerResetSort: (event?: Event) => {
+                this._itemStorage.resetSort();
+                event?.preventDefault();
+                event?.stopPropagation();
+            },
+        };
+    }
     getHeaderCheckboxContext(): TableHeaderCheckboxContext {
         let state: CheckboxState = CheckboxState.Unselected;
         if (this._itemStorage.isAnyItemSelected) {
