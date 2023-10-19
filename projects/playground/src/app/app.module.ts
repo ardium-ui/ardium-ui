@@ -32,6 +32,7 @@ import { StateboxModule } from './pages/statebox/statebox.module';
 import { CheckboxListModule } from './pages/checkbox-list/checkbox-list.module';
 import { TableModule } from './pages/table/table.module';
 import { BadgeModule } from './pages/badge/badge.module';
+import { ProgressBarModule } from './pages/progress-bar/progress-bar.module';
 
 @NgModule({
     declarations: [
@@ -68,6 +69,7 @@ import { BadgeModule } from './pages/badge/badge.module';
         FileInputModule,
         TableModule,
         BadgeModule,
+        ProgressBarModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

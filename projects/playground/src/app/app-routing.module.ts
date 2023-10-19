@@ -18,6 +18,7 @@ import { KbdShortcutPage } from './pages/kbd-shortcut/kbd-shortcut.page';
 import { KbdPage } from './pages/kbd/kbd.page';
 import { ProgressCirclePage } from './pages/progress-circle/progress-circle.page';
 import { RadioPage } from './pages/radio/radio.page';
+import { ProgressBarPage } from './pages/progress-bar/progress-bar.page';
 import { SegmentPage } from './pages/segment/segment.page';
 import { SelectPage } from './pages/select/select.page';
 import { SlideTogglePage } from './pages/slide-toggle/slide-toggle.page';
@@ -54,6 +55,7 @@ const routes: Routes = [
     { path: 'radio', component: RadioPage },
     { path: 'badge', component: BadgePage },
     { path: 'file-drop-area', component: FileDropAreaPage },
+    { path: 'progress-bar', component: ProgressBarPage },
     { path: 'sliders', component: SlidersPage, loadChildren: () => import('./pages/sliders/sliders.module').then(m => m.SlidersModule) },
     { path: 'inputs', component: InputsPage, loadChildren: () => import('./pages/inputs/inputs.module').then(m => m.InputsModule) },
     //redirects
