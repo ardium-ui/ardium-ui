@@ -121,6 +121,11 @@ export * from './lib/progress-circle/progress-circle.module';
 export * from './lib/progress-circle/progress-circle.component';
 export * from './lib/progress-circle/progress-circle.types';
 export * from './lib/progress-circle/progress-circle.directive';
+//progress-bar
+export * from './lib/progress-bar/progress-bar.module';
+export * from './lib/progress-bar/progress-bar.component';
+export * from './lib/progress-bar/progress-bar.types';
+export * from './lib/progress-bar/progress-bar.directive';
 //card
 export * from './lib/card/card.module';
 export * from './lib/card/card.component';
