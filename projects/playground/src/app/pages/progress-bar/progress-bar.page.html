@@ -7,11 +7,22 @@
     <ard-progress-bar value="50"></ard-progress-bar>
 </div>
 <div class="master">
+    <span class="title">Default progress bar with value</span>
+    <ard-progress-bar [value]="currentProgress"></ard-progress-bar>
+</div>
+<div class="master">
     <span class="title">Indeterminate progress bar</span>
     <ard-progress-bar mode="indeterminate"></ard-progress-bar>
+</div>
+<div class="master">
+    <span class="title">Query progress bar</span>
     <ard-progress-bar mode="query"></ard-progress-bar>
 </div>
 <div class="master">
     <span class="title">Buffer progress bar</span>
-    <ard-progress-bar mode="buffer" value="50" bufferValue="60"></ard-progress-bar>
+    <ard-progress-bar mode="buffer" color="none" value="50" bufferValue="60"></ard-progress-bar>
+</div>
+<div class="master">
+    <span class="title">Buffer progress bar</span>
+    <ard-progress-bar mode="buffer" color="currentColor" [value]="currentProgress" [bufferValue]="currentBuffer"></ard-progress-bar>
 </div>
