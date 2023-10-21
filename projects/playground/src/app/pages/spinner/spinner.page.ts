@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SimpleComponentColor as SCC } from '@ardium-ui/ui';
 
 @Component({
   selector: 'app-spinner',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./spinner.page.scss']
 })
 export class SpinnerPage {
-    
+
+    readonly colors = Object.values(SCC);
 }
