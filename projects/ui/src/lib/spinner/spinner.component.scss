@@ -5,31 +5,31 @@ $offset: 187;
 }
 
 @keyframes rotator {
-    0% {
-        transform: rotate(0deg);
-    }
     100% {
-        transform: rotate(270deg);
+        transform: rotate(360deg);
     }
 }
 
 .ard-spinner-circle {
-    stroke-dasharray: $offset;
+    stroke-dasharray: 1, 200;
     stroke-dashoffset: 0;
-    transform-origin: center;
-    animation: dash var(--ard-_spinner-duration) ease-in-out infinite;
+    animation: dash var(--ard-_spinner-duration) ease-in-out infinite 0s;
+    stroke-linecap: round;
+    fill: none;
+    stroke-width: 3;
 }
 
 @keyframes dash {
     0% {
-        stroke-dashoffset: $offset;
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
     }
     50% {
-        stroke-dashoffset: $offset/4;
-        transform: rotate(135deg);
+        stroke-dasharray: 75, 200;
+        stroke-dashoffset: -35;
     }
     100% {
-        stroke-dashoffset: $offset;
-        transform: rotate(450deg);
+        stroke-dasharray: 75, 200;
+        stroke-dashoffset: -124;
     }
 }

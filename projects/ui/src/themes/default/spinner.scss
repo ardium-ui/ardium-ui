@@ -1,9 +1,20 @@
+@use './coloring' as CM;
 
+ard-spinner {
+    display: block;
+    height: 32px;
+    width: 32px;
+}
 
 .ard-spinner {
+    @include CM.typeColors();
     --ard-_spinner-duration: 1.4s;
+    //some magic numbers to make it work
+    width: 230%;
+    height: 230%;
+    translate: -28% -28%;
 
-    circle {
+    > circle {    
         stroke: var(--ard-cmpcl--bg-colored);
     }
 }
