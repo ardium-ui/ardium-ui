@@ -28,6 +28,7 @@ import { StateboxPage } from './pages/statebox/statebox.page';
 import { CheckboxListPage } from './pages/checkbox-list/checkbox-list.page';
 import { TablePage } from './pages/table/table.page';
 import { BadgePage } from './pages/badge/badge.page';
+import { SpinnerPage } from './pages/spinner/spinner.page';
 
 const routes: Routes = [
     { path: '', component: HomePage },
@@ -56,6 +57,7 @@ const routes: Routes = [
     { path: 'badge', component: BadgePage },
     { path: 'file-drop-area', component: FileDropAreaPage },
     { path: 'progress-bar', component: ProgressBarPage },
+    { path: 'spinner', component: SpinnerPage },
     { path: 'sliders', component: SlidersPage, loadChildren: () => import('./pages/sliders/sliders.module').then(m => m.SlidersModule) },
     { path: 'inputs', component: InputsPage, loadChildren: () => import('./pages/inputs/inputs.module').then(m => m.InputsModule) },
     //redirects

@@ -33,6 +33,7 @@ import { CheckboxListModule } from './pages/checkbox-list/checkbox-list.module';
 import { TableModule } from './pages/table/table.module';
 import { BadgeModule } from './pages/badge/badge.module';
 import { ProgressBarModule } from './pages/progress-bar/progress-bar.module';
+import { SpinnerModule } from './pages/spinner/spinner.module';
 
 @NgModule({
     declarations: [
@@ -70,6 +71,7 @@ import { ProgressBarModule } from './pages/progress-bar/progress-bar.module';
         TableModule,
         BadgeModule,
         ProgressBarModule,
+        SpinnerModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
