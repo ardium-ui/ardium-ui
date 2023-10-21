@@ -221,3 +221,32 @@
         font-size: 0.85rem;
     }
 }
+
+//! spinner
+.ard-simple-spinner {
+    border-radius: 999px;
+    border: 0.5em solid var(--ard-spinner-color);
+    border-top-color: transparent;
+    animation: spinner-anim 1s linear infinite;
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 999px;
+        border: 0.35em solid var(--ard-bg);
+    }
+}
+
+@keyframes spinner-anim {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

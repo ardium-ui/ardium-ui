@@ -93,7 +93,7 @@
         <div class="ard-select-controls">
             <ng-container *ngIf="isLoading">
                 <ng-template #defaultLoadingSpinnerTemplate>
-                    <div class="ard-spinner"></div>
+                    <div class="ard-simple-spinner"></div>
                 </ng-template>
 
                 <ng-template [ngTemplateOutlet]="loadingSpinnerTemplate || defaultLoadingSpinnerTemplate">
