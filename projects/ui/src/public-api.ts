@@ -167,6 +167,9 @@ export * from './lib/table-from-csv/table-from-csv.component';
 export * from './lib/badge/badge.module';
 export * from './lib/badge/badge.directive';
 export * from './lib/badge/badge.types';
+//spinner
+export * from './lib/spinner/spinner.module';
+export * from './lib/spinner/spinner.component';
 //! types
 export * from './lib/types/alignment.types';
 export * from './lib/types/colors.types';
