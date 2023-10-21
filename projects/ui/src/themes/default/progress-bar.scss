@@ -1,8 +1,6 @@
 @use './coloring' as CM;
 @import '../variables';
 
-$_prgrBrMain: var(--ard-_progress-bar-main, 100%);
-
 .ard-progress-bar {
     @include CM.typeColors();
     width: 100%;
@@ -12,7 +10,7 @@ $_prgrBrMain: var(--ard-_progress-bar-main, 100%);
     .ard-progress-bar__background,
     .ard-progress-bar__overlay {
         position: absolute;
-        background-color: var(--ard-cmpcl--bg);
+        background-color: var(--ard-cmpcl--bg-colored);
         top: 0;
         bottom: 0;
         left: 0;
@@ -78,13 +76,21 @@ $_prgrBrMain: var(--ard-_progress-bar-main, 100%);
         transform: rotate(180deg);
     }
     &.ard-progress-bar__mode-buffer {
-        overflow: hidden;
-
         .ard-progress-bar__background {
-            background: none;
-            border-bottom: 0.25rem dotted var(--ard-cmpcl--bg-colored);
-            right: -0.5rem;
-            animation: buffer 0.4s linear infinite;
+            background: none !important;
+            left: var(--ard-_progress-bar-buffer, 100%);
+            overflow: hidden;
+            
+            &::after {
+                content: "";
+                position: absolute;
+                right: -0.5rem;
+                top: 0;
+                bottom: 0;
+                width: 9999px;
+                animation: buffer 0.4s linear infinite;
+                border-bottom: 0.25rem dotted var(--ard-cmpcl--bg-colored);
+            }
         }
         .ard-progress-bar__overlay-buffer {
             background: var(--ard-cmpcl--bg-colored-light);
@@ -103,6 +109,18 @@ $_prgrBrMain: var(--ard-_progress-bar-main, 100%);
     &.ard-progress-bar__mode-buffer {
         >.ard-progress-bar__value {
             display: none;
+        }
+    }
+
+    //! currentColor special case
+    &.ard-color-currentColor {
+        .ard-progress-bar__background {
+            opacity: 22.5%;
+            background: var(--ard-cmpcl--bg-colored);
+        }
+        .ard-progress-bar__overlay-buffer {
+            opacity: 30%;
+            background: var(--ard-cmpcl--bg-colored);
         }
     }
 }

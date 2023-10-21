@@ -47,7 +47,7 @@ export class ArdiumProgressBarComponent implements OnChanges {
     //! error detection
     ngOnChanges(changes: SimpleChanges): void {
         if (!changes['size'] && !changes['mode']) return
-        if ((changes['mode']?.currentValue ?? this.mode) == ProgressBarMode.Buffer && (changes['size'].currentValue ?? this.size) == ProgressBarSize.Auto) {
+        if ((changes['mode']?.currentValue ?? this.mode) == ProgressBarMode.Buffer && (changes['size']?.currentValue ?? this.size) == ProgressBarSize.Auto) {
             console.error(`Forbidden param combination in <ard-progress-bar>: cannot use 'mode="buffer"' and 'size="auto"' at the same time.`);
         }
     }    
