@@ -7,7 +7,7 @@
     background: $bg;
 
     .ard-table__body {
-        border: 1px solid $detail-light;
+        border: 1px solid $detail-ultralight;
     }
     .ard-table__header-cell,
     .ard-table__body-cell {
@@ -58,7 +58,7 @@
         }
     }
     .ard-table__body-row .ard-table__body-cell {
-        border-bottom: 1px solid $detail-light;
+        border-bottom: 1px solid $detail-ultralight;
     }
 
     //! empty rows
@@ -123,7 +123,7 @@
         box-sizing: border-box;
         color: $detail;
         background: $bg;
-        border: 1px solid $detail-light;
+        border: 1px solid $detail-ultralight;
         border-top: none;
         padding: 0 0.75rem;
 
@@ -137,7 +137,7 @@
     //! footer
     .ard-table__foot {
         .ard-table__pagination-cell {
-            border: 1px solid $detail-light;
+            border: 1px solid $detail-ultralight;
         }
     }
 
@@ -146,7 +146,7 @@
     --ard-_table-header-border-light: var(--ard-cmpcl--border-light);
     --ard-_table-border: $border;
     --ard-_table-header-background: var(--ard-cmpcl--bg);
-    --ard-_table-header-background-light: var(--ard-cmpcl--bg-colored-light);
+    --ard-_table-header-background-light: var(--ard-cmpcl--bg-header);
     --ard-_table-header-color: var(--ard-cmpcl--content);
     --ard-_table-header-color-on-bg: var(--ard-cmpcl--on-bg);
     --ard-_table-overlay: var(--ard-cmpcl--overlay-rgb);
@@ -155,7 +155,7 @@
     //! appearances
     &.ard-appearance-strong {
         .ard-table__header {
-            border-bottom: 1px solid $detail-light;
+            border-bottom: 1px solid $detail-ultralight;
             background-color: var(--ard-_table-header-background);
         }
         .ard-table__header-cell {
@@ -180,11 +180,11 @@
             color: $text;
         }
         .ard-table__header {
-            border: 1px solid $detail-light;
+            border: 1px solid $detail-ultralight;
             background-color: $bg;
         }
         .ard-table__header-row .ard-table__header-cell {
-            border-bottom: 1px solid $detail-light;
+            border-bottom: 1px solid $detail-ultralight;
         }
     }
     //! variants

@@ -4,10 +4,10 @@ ard-divider {
     margin: 0;
 
     &:not(.ard-divider-vertical) {
-        border-top: 1px solid $detail-light;
+        border-top: 1px solid $detail-ultralight;
     }
 
     &.ard-divider-vertical {
-        border-left: 1px solid $detail-light;   
+        border-left: 1px solid $detail-ultralight;   
     }
 }
