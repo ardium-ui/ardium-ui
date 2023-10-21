@@ -11,13 +11,9 @@ ard-spinner {
 .ard-spinner {
     @include CM.typeColors();
     --ard-_spinner-duration: 1.4s;
-    
     position: absolute;
-    top: -65%;
-    left: -65%;
-    //some magic numbers to make it work
-    width: 230%;
-    height: 230%;
+    
+    scale: 2.3; //magic number
 
     > circle {    
         stroke: var(--ard-cmpcl--content);
