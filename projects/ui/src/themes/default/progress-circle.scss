@@ -5,6 +5,8 @@
     @include coloringMixins.typeColors;
     width: 3em;
 
+    --ard-_progress-circle-fill-color: var(--ard-cmpcl--bg-colored);
+
     //! appearances
     &.ard-appearance-transparent {
         .ard-progress-circle-background {
