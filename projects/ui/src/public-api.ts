@@ -170,6 +170,9 @@ export * from './lib/badge/badge.types';
 //spinner
 export * from './lib/spinner/spinner.module';
 export * from './lib/spinner/spinner.component';
+//digit-input
+export * from './lib/inputs/digit-input/digit-input.module';
+export * from './lib/inputs/digit-input/digit-input.component';
 //! types
 export * from './lib/types/alignment.types';
 export * from './lib/types/colors.types';
