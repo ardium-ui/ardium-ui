@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, forwardRef, Output, EventEmitter, Input, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, forwardRef, Output, EventEmitter, Input, ViewChildren, QueryList, AfterViewInit, AfterContentInit, ElementRef } from '@angular/core';
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
@@ -19,7 +19,7 @@ import { DigitInputConfig, DigitInputConfigData, DigitInputModel, DigitInputMode
         }
     ]
 })
-export class ArdiumDigitInputComponent extends _NgModelComponentBase implements ControlValueAccessor, DigitInputModelHost, AfterViewInit {
+export class ArdiumDigitInputComponent extends _NgModelComponentBase implements ControlValueAccessor, DigitInputModelHost, AfterContentInit {
 
     private readonly model = new DigitInputModel(this);
 
@@ -45,8 +45,9 @@ export class ArdiumDigitInputComponent extends _NgModelComponentBase implements 
     set config(v: DigitInputConfig) {
         this.model.setConfig(v);
     }
+    configArrayData: DigitInputConfigData[] = [];
 
-    get configArrayData(): DigitInputConfigData[] { return this.model.configArrayData; }
+    get isConfigDefined(): boolean { return this.model.isConfigDefined; }
 
     //! control value accessor's write value implementation
     writeValue(v: any): void {
@@ -54,14 +55,6 @@ export class ArdiumDigitInputComponent extends _NgModelComponentBase implements 
     }
     private _writeValue(v: any): boolean {
         return this.model.writeValue(v);
-    }
-
-    //! input handler
-    handleInput(event: Event, index: number): void {
-        const valueChanged = this.model.validateInputAndSetValue((event.target as HTMLInputElement).value, index);
-        if (!valueChanged) return;
-
-        this._emitInput();
     }
 
     //! value two-way binding
@@ -92,9 +85,16 @@ export class ArdiumDigitInputComponent extends _NgModelComponentBase implements 
     @Output('blurIndex') blurIndexEvent = new EventEmitter<number>();
 
     //! event handlers
-    onInput(newVal: string): void {
-        let valueHasChanged = this._writeValue(newVal);
-        if (!valueHasChanged) return;
+    onInput(event: Event, index: number): void {
+        const valueChanged = this.model.validateInputAndSetValue((event.target as HTMLInputElement).value, index);
+        if (!valueChanged || !valueChanged[0]) return;
+        
+        const nextEl = this.inputs.get(index + 1)?.nativeElement;
+        if (nextEl && valueChanged[1]) {
+            nextEl.focus();
+            nextEl.setSelectionRange(0, 1);
+        }
+
         this._emitInput();
     }
     private _emitInput(): void {
@@ -117,9 +117,18 @@ export class ArdiumDigitInputComponent extends _NgModelComponentBase implements 
     }
 
     //! inputs ref
-    @ViewChildren('.ard-digit-input__input') inputs!: QueryList<HTMLInputElement>;
+    @ViewChildren('input') inputs!: QueryList<ElementRef<HTMLInputElement>>;
 
-    ngAfterViewInit(): void {
-        console.log(this.inputs);
+    ngAfterViewInit(): void { //TODO remove
+        console.log(this.configArrayData);
+        setTimeout(() => {
+            
+            console.log(Array.from(this.inputs));
+        }, 4000);
+    }
+    ngAfterContentInit(): void {
+        if (!this.isConfigDefined) {
+            throw new Error(`ARD-FT040<ard-digit-input>`);
+        }
     }
 }

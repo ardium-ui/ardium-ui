@@ -1,11 +1,13 @@
 <div class="ard-digit-input">
     <div class="ard-digit-input__item" *ngFor="let data of configArrayData">
         <input
+            #input
+            #focusableElement
             *ngIf="data.type == 'input'"
             class="ard-digit-input__input"
             type="text"
             autocomplete="off"
-            (input)="handleInput($event, data.index!)"
+            (input)="onInput($event, data.index!)"
             (focus)="onFocusMaster($event, data.index!)"
             (blur)="onBlurMaster($event, data.index!)"
         />
