@@ -8,6 +8,7 @@ import { InputsHomePage } from './inputs-home/inputs-home.page';
 import { NumberInputPage } from './number-input/number-input.page';
 import { PasswordInputPage } from './password-input/password-input.page';
 import { SimpleInputPage } from './simple-input/simple-input.page';
+import { DigitInputPage } from './digit-input/digit-input.page';
 
 const routes: Routes = [
     { path: '', component: InputsHomePage },
@@ -18,6 +19,7 @@ const routes: Routes = [
     { path: 'color-input', component: ColorInputPage },
     { path: 'password-input', component: PasswordInputPage },
     { path: 'file-input', component: FileInputPage },
+    { path: 'digit-input', component: DigitInputPage },
     //redirects
     { path: '**' , redirectTo: '' },
 ];

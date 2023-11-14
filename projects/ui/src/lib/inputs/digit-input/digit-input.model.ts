@@ -46,7 +46,7 @@ export type DigitInputConfigData = {
 
 export class DigitInputModel {
 
-    constructor(private _ardParentComp: DigitInputModelHost) { }
+    constructor(private _ardHost: DigitInputModelHost) { }
 
     private _configArray: DigitInputOption[] = [];
     private set configArray(arr: DigitInputOption[]) {
@@ -58,7 +58,7 @@ export class DigitInputModel {
 
     setConfigArrayData() {
         let inputIndex = 0;
-        this._ardParentComp.configArrayData = this._configArray.map(v => {
+        this._ardHost.configArrayData = this._configArray.map(v => {
             if ('static' in v) {
                 return {
                     type: DigitInputConfigDataType.Static,
@@ -115,7 +115,7 @@ export class DigitInputModel {
     private _updateInputElements() {
         const value = this.value ?? [];
         let i = 0;
-        for (const inputEl of this._ardParentComp.inputs) {
+        for (const inputEl of this._ardHost.inputs) {
             inputEl.nativeElement.value = value[i] ?? '';
             i++;
         }
@@ -190,7 +190,7 @@ export class DigitInputModel {
         const transformed = this._validateSingleChar(input, before, this._configArrayNoStatics[index]);
         this.value[index] = transformed;
 
-        const inputEl = this._ardParentComp.inputs.get(index);
+        const inputEl = this._ardHost.inputs.get(index);
         if (!inputEl) {
             throw new Error("ARD-IS048: <ard-digit-input>'s value changed, but its corresponding input element could not be found. This is error is fatal to the functioning of Ardium UI. Please report this issue to the creators.");
         }

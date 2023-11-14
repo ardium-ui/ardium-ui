@@ -10,6 +10,7 @@ import { InputsPage } from './inputs.page';
 import { NumberInputModule } from './number-input/number-input.module';
 import { PasswordInputModule } from './password-input/password-input.module';
 import { SimpleInputModule } from './simple-input/simple-input.module';
+import { DigitInputModule } from './digit-input/digit-input.module';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { SimpleInputModule } from './simple-input/simple-input.module';
         HexInputModule,
         ColorInputModule,
         PasswordInputModule,
+        DigitInputModule,
     ],
     exports: [
         InputsPage,
