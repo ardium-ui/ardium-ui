@@ -3,7 +3,7 @@ import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
-import { DigitInputConfig, DigitInputConfigData, DigitInputModel, DigitInputModelHost } from './digit-input.model';
+import { DigitInputConfig, DigitInputConfigData, DigitInputModel, DigitInputModelHost, DigitInputShape } from './digit-input.model';
 
 @Component({
     selector: 'ard-digit-input',
@@ -26,6 +26,7 @@ export class ArdiumDigitInputComponent extends _NgModelComponentBase implements 
     //! appearance
     @Input() appearance: FormElementAppearance = FormElementAppearance.Outlined;
     @Input() variant: FormElementVariant = FormElementVariant.Rounded;
+    @Input() shape: DigitInputShape = DigitInputShape.Square;
 
     private _compact: boolean = false;
     @Input()
@@ -36,6 +37,7 @@ export class ArdiumDigitInputComponent extends _NgModelComponentBase implements 
         return [
             `ard-appearance-${this.appearance}`,
             `ard-variant-${this.variant}`,
+            `ard-shape-${this.shape}`,
             this.compact ? 'ard-compact' : '',
         ].join(' ');
     }
@@ -48,6 +50,10 @@ export class ArdiumDigitInputComponent extends _NgModelComponentBase implements 
     configArrayData: DigitInputConfigData[] = [];
 
     get isConfigDefined(): boolean { return this.model.isConfigDefined; }
+
+    isInputEmpty(index: number): boolean {
+        return !this.model.isDefinedAtIndex(index);
+    }
 
     //! control value accessor's write value implementation
     writeValue(v: any): void {
@@ -111,12 +117,18 @@ export class ArdiumDigitInputComponent extends _NgModelComponentBase implements 
         }
         this._emitInput();
     }
-    focusByIndex(index: number): void {
-        if (index < 0 || index >= this.inputs.length) return;
+    focusByIndex(index: number): boolean;
+    focusByIndex(index: number, tryFocusingNext: boolean, direction: 1 | -1): boolean;
+    focusByIndex(index: number, tryFocusingNext?: boolean, direction?: 1 | -1): boolean {
+        if (index < 0 || index >= this.inputs.length) return false;
         const nextEl = this.inputs.get(index)?.nativeElement;
-        if (!nextEl) return;
+        if (!nextEl) return false;
 
         nextEl.focus();
+        if (tryFocusingNext && direction && document.activeElement != nextEl) {
+            return this.focusByIndex(index + direction);
+        }
+        return document.activeElement == nextEl;
     }
     private _emitInput(): void {
         this._onChangeRegistered?.(this.value);
@@ -142,24 +154,24 @@ export class ArdiumDigitInputComponent extends _NgModelComponentBase implements 
     onKeydown(event: KeyboardEvent, index: number): void {
         switch (event.key) {
             case 'ArrowLeft':
-                this.focusByIndex(index - 1);
+                this.focusByIndex(index - 1, true, -1);
                 break;
             case 'ArrowRight':
-                this.focusByIndex(index + 1);
+                this.focusByIndex(index + 1, true, +1);
                 break;
             case 'Home':
-                this.focusByIndex(0);
+                this.focusByIndex(0, true, 1);
                 break;
             case 'End':
-                this.focusByIndex(this.inputs.length - 1);
+                this.focusByIndex(this.inputs.length - 1, true, -1);
                 break;
             case 'Backspace':
             case 'Delete':
                 this._updateSingleInputValue('', index);
-                this.focusByIndex(index - 1);
+                this.focusByIndex(index - 1, true, -1);
                 event.preventDefault();
                 break;
-        
+
             default:
                 break;
         }

@@ -8,6 +8,12 @@ export interface DigitInputModelHost {
     configArrayData: DigitInputConfigData[];
 }
 
+export const DigitInputShape = {
+    Square: 'square',
+    Rectangle: 'rectangle',
+} as const;
+export type DigitInputShape = typeof DigitInputShape[keyof typeof DigitInputShape];
+
 export const TransformType = {
     Uppercase: 'uppercase',
     Lowercase: 'lowercase',
@@ -25,6 +31,7 @@ export type DigitInputPrimitiveOption = typeof DigitInputPrimitiveOption[keyof t
 type DigitInputAcceptObject = {
     accept: string | RegExp | ((char: string, charsBefore: string) => boolean);
     transform?: TransformType | null;
+    readonly?: boolean;
 };
 type DigitInputStaticObject = { static: string; };
 
@@ -42,6 +49,7 @@ export type DigitInputConfigData = {
     type: DigitInputConfigDataType;
     char?: string;
     index?: number;
+    readonly?: boolean;
 }
 
 export class DigitInputModel {
@@ -88,6 +96,10 @@ export class DigitInputModel {
 
     get isValueFull(): boolean {
         return isDefined(this.value) && this.value.length === this._configArrayNoStatics.length;
+    }
+
+    isDefinedAtIndex(index: number): boolean {
+        return isDefined(this.value?.[index]);
     }
 
     writeValue(v: any): boolean {
@@ -220,6 +232,9 @@ export class DigitInputModel {
         this.value = newValue;
     }
     private _validateSingleChar(char: string | null, before: string, config: DigitInputAcceptObject): string | null {
+        if (config.readonly) {
+            throw new Error(`ARD-IS049R: trying to set value of a digit-input's readonly field. This is error is fatal to the functioning of Ardium UI. Please report this issue to the creators.`);
+        }
         if (!isFunction(config.accept)) {
             const regExp = isRegExp(config.accept) ? config.accept : new RegExp(`[${_sanitizeRegExpString(config.accept)}]`);
             config.accept = str => regExp.test(str);
