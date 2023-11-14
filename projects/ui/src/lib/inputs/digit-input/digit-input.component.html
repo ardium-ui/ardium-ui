@@ -7,9 +7,11 @@
             class="ard-digit-input__input"
             type="text"
             autocomplete="off"
+            (paste)="onPaste($event, data.index!)"
             (input)="onInput($event, data.index!)"
             (focus)="onFocusMaster($event, data.index!)"
             (blur)="onBlurMaster($event, data.index!)"
+            (keydown)="onKeydown($event, data.index!)"
         />
         <div
             *ngIf="data.type == 'static'"

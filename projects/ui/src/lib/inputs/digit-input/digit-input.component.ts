@@ -80,27 +80,51 @@ export class ArdiumDigitInputComponent extends _NgModelComponentBase implements 
     //! event emitters
     @Output('input') inputEvent = new EventEmitter<string | (string | null)[] | null>();
     @Output('change') changeEvent = new EventEmitter<string | (string | null)[] | null>();
+    @Output() finishedValue = new EventEmitter<string | (string | null)[] | null>();
 
     @Output('focusIndex') focusIndexEvent = new EventEmitter<number>();
     @Output('blurIndex') blurIndexEvent = new EventEmitter<number>();
 
     //! event handlers
-    onInput(event: Event, index: number): void {
-        const valueChanged = this.model.validateInputAndSetValue((event.target as HTMLInputElement).value, index);
-        if (!valueChanged || !valueChanged[0]) return;
-        
-        const nextEl = this.inputs.get(index + 1)?.nativeElement;
-        if (nextEl && valueChanged[1]) {
-            nextEl.focus();
-            nextEl.setSelectionRange(0, 1);
-        }
+    onPaste(event: ClipboardEvent, index: number): void {
+        const value = event.clipboardData?.getData('text');
+        event.stopPropagation();
+        event.preventDefault();
+        if (!value) return;
 
+        const maxLength = this.inputs.length - index
+        value.slice(0, maxLength).split('').forEach((char, i) => {
+            this.model.validateInputAndSetValue(char, index + i);
+        });
+        this.focusByIndex(index - 1 + Math.min(value.length, maxLength));
+    }
+    onInput(event: Event, index: number): void {
+        this._updateSingleInputValue((event.target as HTMLInputElement).value, index);
+    }
+    private _updateSingleInputValue(value: string, index: number): void {
+        const valueChanged = this.model.validateInputAndSetValue(value, index);
+        console.log(value, index, valueChanged);
+        if (!valueChanged || !valueChanged[0]) return;
+
+        if (valueChanged[1]) {
+            this.focusByIndex(index + 1);
+        }
         this._emitInput();
+    }
+    focusByIndex(index: number): void {
+        if (index < 0 || index >= this.inputs.length) return;
+        const nextEl = this.inputs.get(index)?.nativeElement;
+        if (!nextEl) return;
+
+        nextEl.focus();
     }
     private _emitInput(): void {
         this._onChangeRegistered?.(this.value);
         this.inputEvent.emit(this.emittableValue);
         this.valueChange.emit(this.emittableValue);
+        if (this.model.isValueFull) {
+            this.finishedValue.emit(this.emittableValue);
+        }
     }
     //focus, blur, change
     onFocusMaster(event: FocusEvent, index: number): void {
@@ -115,20 +139,38 @@ export class ArdiumDigitInputComponent extends _NgModelComponentBase implements 
     protected _emitChange(): void {
         this.changeEvent.emit(this.emittableValue);
     }
+    onKeydown(event: KeyboardEvent, index: number): void {
+        switch (event.key) {
+            case 'ArrowLeft':
+                this.focusByIndex(index - 1);
+                break;
+            case 'ArrowRight':
+                this.focusByIndex(index + 1);
+                break;
+            case 'Home':
+                this.focusByIndex(0);
+                break;
+            case 'End':
+                this.focusByIndex(this.inputs.length - 1);
+                break;
+            case 'Backspace':
+            case 'Delete':
+                this._updateSingleInputValue('', index);
+                this.focusByIndex(index - 1);
+                event.preventDefault();
+                break;
+        
+            default:
+                break;
+        }
+    }
 
     //! inputs ref
     @ViewChildren('input') inputs!: QueryList<ElementRef<HTMLInputElement>>;
 
-    ngAfterViewInit(): void { //TODO remove
-        console.log(this.configArrayData);
-        setTimeout(() => {
-            
-            console.log(Array.from(this.inputs));
-        }, 4000);
-    }
     ngAfterContentInit(): void {
         if (!this.isConfigDefined) {
-            throw new Error(`ARD-FT040<ard-digit-input>`);
+            throw new Error(`ARD-FT040: <ard-digit-input>'s [config] field has to be defined.`);
         }
     }
 }

@@ -46,7 +46,7 @@ export type DigitInputConfigData = {
 
 export class DigitInputModel {
 
-    constructor(private _ardParentComp: DigitInputModelHost) {}
+    constructor(private _ardParentComp: DigitInputModelHost) { }
 
     private _configArray: DigitInputOption[] = [];
     private set configArray(arr: DigitInputOption[]) {
@@ -55,7 +55,7 @@ export class DigitInputModel {
         this.setConfigArrayData();
     }
     private _configArrayNoStatics: DigitInputAcceptObject[] = [];
-    
+
     setConfigArrayData() {
         let inputIndex = 0;
         this._ardParentComp.configArrayData = this._configArray.map(v => {
@@ -74,11 +74,20 @@ export class DigitInputModel {
     get isConfigDefined(): boolean { return this._configArray.length > 0; }
 
     private _value: (string | null)[] | null = null;
-    private set value(v: (string | null)[] | null) { this._value = v; }
+    private set value(v: (string | null)[] | null) { this._value = v; this._stringValueMemo = null; }
     get value(): (string | null)[] | null { return this._value; }
 
+    private _stringValueMemo: string | null = null;
     get stringValue(): string {
-        return this.value?.map(v => v ?? ' ').join('').trimEnd() ?? '';
+        if (isNull(this._stringValueMemo)) {
+            const v = this.value?.map(v => v ?? ' ').join('').trimEnd() ?? '';
+            this._stringValueMemo = v;
+        }
+        return this._stringValueMemo;
+    }
+
+    get isValueFull(): boolean {
+        return isDefined(this.value) && this.value.length === this._configArrayNoStatics.length;
     }
 
     writeValue(v: any): boolean {
@@ -153,7 +162,7 @@ export class DigitInputModel {
                     return { accept: str => /[0-9a-zA-Z]/.test(str) };
                 case DigitInputPrimitiveOption.Special:
                     return { accept: str => /[!@#$%^&*-_=+/\\.,]/.test(str) };
-            
+
                 default:
                     if (configArr.length == 1) {
                         throw new Error(`ARD-NF043S: <ard-digit-input>'s config is invalid. Expected number or array, got "${v}"`);
@@ -166,14 +175,18 @@ export class DigitInputModel {
     //! validate against the config
     validateInputAndSetValue(input: string, index: number): false | [boolean, string | null] {
         if (index < 0 || index > this._configArrayNoStatics.length) return false;
-        input = input.charAt(0);
-
+        
         if (!this.value) {
             this.value = [];
         }
         const before = this.value.slice(0, index).map(v => v ?? ' ').join('');
 
         const oldVal = this.value[index];
+        if (oldVal && input.length > 1 && input.match(oldVal)) {
+            input = input.replace(oldVal, '');
+        }
+        input = input.charAt(0);
+
         const transformed = this._validateSingleChar(input, before, this._configArrayNoStatics[index]);
         this.value[index] = transformed;
 
@@ -210,7 +223,7 @@ export class DigitInputModel {
         if (!isFunction(config.accept)) {
             const regExp = isRegExp(config.accept) ? config.accept : new RegExp(`[${_sanitizeRegExpString(config.accept)}]`);
             config.accept = str => regExp.test(str);
-            console.warn(`ARD-IS049A: digit-input's value validator encountered an unexpected value of the config's "accept" property. This is not fatal to the functioning of Ardium UI, but please report this issue to the creators.`);
+            console.warn(`ARD-IS049A: digit-input's value validator encountered an unexpected value of the config's "accept" property. Ardium UI was able to handle this issue, but please report it to the creators.`);
         }
         if (!char) return char;
 
@@ -224,7 +237,7 @@ export class DigitInputModel {
             if (config.transform == TransformType.Uppercase) {
                 return char.toUpperCase();
             }
-            console.warn(`ARD-IS049T: digit-input's value validator encountered an unexpected value of the config's "transform" property. This is not fatal to the functioning of Ardium UI, but please report this issue to the creators.`)
+            console.warn(`ARD-IS049T: digit-input's value validator encountered an unexpected value of the config's "transform" property. Ardium UI was able to handle this issue, but please report it to the creators.`)
         }
         return char;
     }
