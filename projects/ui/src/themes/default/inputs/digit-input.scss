@@ -33,7 +33,9 @@
     &.ard-shape-rectangle {
         .ard-digit-input__item {
             .ard-digit-input__input {
-                height: 4.5ch;
+                font-size: 1.2em;
+                width: calc(3ch / 1.2);
+                height: calc(4.5ch / 1.2);
             }
         }
     }

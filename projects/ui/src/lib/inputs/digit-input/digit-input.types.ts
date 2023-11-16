@@ -1,0 +1,34 @@
+
+
+
+export const DigitInputShape = {
+    Square: 'square',
+    Rectangle: 'rectangle',
+} as const;
+export type DigitInputShape = typeof DigitInputShape[keyof typeof DigitInputShape];
+
+export const TransformType = {
+    Uppercase: 'uppercase',
+    Lowercase: 'lowercase',
+} as const;
+export type TransformType = typeof TransformType[keyof typeof TransformType];
+
+export const DigitInputPrimitiveOption = {
+    Number: 'number',
+    Letter: 'letter',
+    Alphanumeric: 'alphanumeric',
+    Special: 'special',
+} as const;
+export type DigitInputPrimitiveOption = typeof DigitInputPrimitiveOption[keyof typeof DigitInputPrimitiveOption];
+
+export type DigitInputAcceptObject = {
+    accept: string | RegExp | ((char: string, charsBefore: string) => boolean);
+    transform?: TransformType | null;
+    readonly?: boolean;
+};
+export type DigitInputStaticObject = { static: string; };
+
+export type DigitInputOption = DigitInputAcceptObject | DigitInputStaticObject;
+
+export type DigitInputConfig = (DigitInputPrimitiveOption | DigitInputOption)[] | string | number;
+

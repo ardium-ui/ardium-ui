@@ -173,6 +173,7 @@ export * from './lib/spinner/spinner.component';
 //digit-input
 export * from './lib/inputs/digit-input/digit-input.module';
 export * from './lib/inputs/digit-input/digit-input.component';
+export * from './lib/inputs/digit-input/digit-input.types';
 //! types
 export * from './lib/types/alignment.types';
 export * from './lib/types/colors.types';

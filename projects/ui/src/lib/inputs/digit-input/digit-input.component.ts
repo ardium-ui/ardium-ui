@@ -3,7 +3,9 @@ import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
-import { DigitInputConfig, DigitInputConfigData, DigitInputModel, DigitInputModelHost, DigitInputShape } from './digit-input.model';
+import { DigitInputModel } from './digit-input.model';
+import { DigitInputConfigData, DigitInputModelHost } from './digit-input.utils';
+import { DigitInputConfig, DigitInputShape } from './digit-input.types';
 
 @Component({
     selector: 'ard-digit-input',
@@ -98,7 +100,7 @@ export class ArdiumDigitInputComponent extends _NgModelComponentBase implements 
         event.preventDefault();
         if (!value) return;
 
-        const maxLength = this.inputs.length - index
+        const maxLength = this.inputs.length - index;
         value.slice(0, maxLength).split('').forEach((char, i) => {
             this.model.validateInputAndSetValue(char, index + i);
         });
@@ -109,7 +111,6 @@ export class ArdiumDigitInputComponent extends _NgModelComponentBase implements 
     }
     private _updateSingleInputValue(value: string, index: number): void {
         const valueChanged = this.model.validateInputAndSetValue(value, index);
-        console.log(value, index, valueChanged);
         if (!valueChanged || !valueChanged[0]) return;
 
         if (valueChanged[1]) {

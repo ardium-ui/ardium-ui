@@ -1,56 +1,8 @@
 import { ElementRef, QueryList } from '@angular/core';
 import { coerceArrayProperty } from "@ardium-ui/devkit";
 import { isAnyString, isArray, isDefined, isFunction, isNull, isNumber, isRegExp } from "simple-bool";
-import { _sanitizeRegExpString } from "./digit-input.utils";
-
-export interface DigitInputModelHost {
-    inputs: QueryList<ElementRef<HTMLInputElement>>;
-    configArrayData: DigitInputConfigData[];
-}
-
-export const DigitInputShape = {
-    Square: 'square',
-    Rectangle: 'rectangle',
-} as const;
-export type DigitInputShape = typeof DigitInputShape[keyof typeof DigitInputShape];
-
-export const TransformType = {
-    Uppercase: 'uppercase',
-    Lowercase: 'lowercase',
-} as const;
-export type TransformType = typeof TransformType[keyof typeof TransformType];
-
-export const DigitInputPrimitiveOption = {
-    Number: 'number',
-    Letter: 'letter',
-    Alphanumeric: 'alphanumeric',
-    Special: 'special',
-} as const;
-export type DigitInputPrimitiveOption = typeof DigitInputPrimitiveOption[keyof typeof DigitInputPrimitiveOption];
-
-type DigitInputAcceptObject = {
-    accept: string | RegExp | ((char: string, charsBefore: string) => boolean);
-    transform?: TransformType | null;
-    readonly?: boolean;
-};
-type DigitInputStaticObject = { static: string; };
-
-export type DigitInputOption = DigitInputAcceptObject | DigitInputStaticObject;
-
-export type DigitInputConfig = (DigitInputPrimitiveOption | DigitInputOption)[] | string | number;
-
-export const DigitInputConfigDataType = {
-    Input: 'input',
-    Static: 'static',
-} as const;
-export type DigitInputConfigDataType = typeof DigitInputConfigDataType[keyof typeof DigitInputConfigDataType];
-
-export type DigitInputConfigData = {
-    type: DigitInputConfigDataType;
-    char?: string;
-    index?: number;
-    readonly?: boolean;
-}
+import { DigitInputConfigDataType, DigitInputModelHost, _sanitizeRegExpString } from "./digit-input.utils";
+import { DigitInputAcceptObject, DigitInputConfig, DigitInputOption, DigitInputPrimitiveOption, TransformType } from './digit-input.types';
 
 export class DigitInputModel {
 
@@ -99,7 +51,7 @@ export class DigitInputModel {
     }
 
     isDefinedAtIndex(index: number): boolean {
-        return isDefined(this.value?.[index]);
+        return Boolean(this.value?.[index]);
     }
 
     writeValue(v: any): boolean {
@@ -140,8 +92,9 @@ export class DigitInputModel {
     }
     private _setConfig(config: DigitInputConfig): void {
         //map a number to ready objects
+        console.log(config);
         let configAsNumber = isAnyString(config) ? Number(config) : null;
-        if (isNumber(config) || isDefined(configAsNumber) && !isNaN(configAsNumber)) {
+        if (isNumber(config) || isNumber(configAsNumber)) {
             configAsNumber = isNumber(config) ? config : configAsNumber!;
             this.configArray = 'a'
                 .repeat(configAsNumber)
@@ -163,6 +116,7 @@ export class DigitInputModel {
                     const regExp = isRegExp(v.accept) ? v.accept : new RegExp(`[${_sanitizeRegExpString(v.accept)}]`);
                     v.accept = str => regExp.test(str);
                 }
+                return v;
             }
 
             switch (v) {
@@ -188,27 +142,36 @@ export class DigitInputModel {
     validateInputAndSetValue(input: string, index: number): false | [boolean, string | null] {
         if (index < 0 || index > this._configArrayNoStatics.length) return false;
         
+        //prepare the value array if does not exist
         if (!this.value) {
             this.value = [];
         }
+        //prepare the characters before the current one (to be used in validation)
         const before = this.value.slice(0, index).map(v => v ?? ' ').join('');
 
+        //remove the old character from the input element
         const oldVal = this.value[index];
         if (oldVal && input.length > 1 && input.match(oldVal)) {
             input = input.replace(oldVal, '');
         }
+        //use only the first character (error safety)
         input = input.charAt(0);
 
-        const transformed = this._validateSingleChar(input, before, this._configArrayNoStatics[index]);
-        this.value[index] = transformed;
+        //validate and transform, if necessary
+        const inputChar = this._validateSingleChar(input, before, this._configArrayNoStatics[index]);
 
+        //get the corresponding HTML input element
         const inputEl = this._ardHost.inputs.get(index);
         if (!inputEl) {
             throw new Error("ARD-IS048: <ard-digit-input>'s value changed, but its corresponding input element could not be found. This is error is fatal to the functioning of Ardium UI. Please report this issue to the creators.");
         }
-        inputEl.nativeElement.value = transformed ?? '';
+        //update the input element and value array
+        const newVal = inputChar ?? oldVal;
+        inputEl.nativeElement.value = newVal ?? '';
+        this.value[index] = newVal;
 
-        return [transformed !== oldVal, transformed];
+        //return changes marker and validated value
+        return [newVal !== oldVal, inputChar];
     }
     validateValueAndUpdate(): void {
         const v = this.value;
