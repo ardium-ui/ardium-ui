@@ -1,2 +1,40 @@
 @use '../coloring' as CM;
 @import '../../variables';
+
+.ard-digit-input {
+    display: flex;
+    gap: 1ch;
+
+    .ard-digit-input__item {
+        height: max-content;
+        display: flex;
+
+        .ard-digit-input__input {
+            width: 3ch;
+            text-align: center;
+            font: inherit;
+
+            &:not(.ard-digit-input__input-empty) {
+                caret-color: transparent;
+            }
+        }
+        .ard-digit-input__static {
+            width: max-content;
+            white-space: nowrap;
+        }
+    }
+    &.ard-shape-square {
+        .ard-digit-input__item {
+            .ard-digit-input__input {
+                height: 3ch;
+            }
+        }
+    }
+    &.ard-shape-rectangle {
+        .ard-digit-input__item {
+            .ard-digit-input__input {
+                height: 4.5ch;
+            }
+        }
+    }
+}

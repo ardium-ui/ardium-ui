@@ -2,3 +2,29 @@
     <span class="title">Basic digit input</span>
     <ard-digit-input config="4" />
 </div>
+<div class="master">
+    <span class="title">Digit input events</span>
+    <ard-digit-input
+        config="4"
+        (valueChange)="log('valueChange', $event)"
+        (input)="log('input', $event)"
+        (change)="log('change', $event)"
+        (finishedValue)="log('finishedValue', $event)"
+        (focus)="log('focus', $event)"
+        (blur)="log('blur', $event)"
+        (focusIndex)="log('focusIndex', $event)"
+        (blurIndex)="log('blurIndex', $event)"
+    />
+</div>
+<div class="master">
+    <span class="title">Basic digit input (rectangular)</span>
+    <ard-digit-input config="4" shape="rectangle" />
+</div>
+<div class="master">
+    <span class="title">Digit input with simple config (letter, 3x number)</span>
+    <ard-digit-input [config]="simpleConfig" />
+</div>
+<div class="master">
+    <span class="title">Digit input with complex config (4x hex digit) with uppercase-transform</span>
+    <ard-digit-input [config]="complexConfig" />
+</div>
