@@ -16,19 +16,19 @@ export class DigitInputPage {
 
     readonly complexConfig: DigitInputConfig = [
         {
-            accept: 'a-f0-9',
+            accept: 'a-fA-F0-9',
             transform: TransformType.Uppercase,
         },
         {
-            accept: 'a-f0-9',
+            accept: 'a-fA-F0-9',
             transform: TransformType.Uppercase,
         },
         {
-            accept: 'a-f0-9',
+            accept: 'a-fA-F0-9',
             transform: TransformType.Uppercase,
         },
         {
-            accept: 'a-f0-9',
+            accept: 'a-fA-F0-9',
             transform: TransformType.Uppercase,
         },
     ]
