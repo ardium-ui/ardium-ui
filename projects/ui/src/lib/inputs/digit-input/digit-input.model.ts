@@ -92,7 +92,6 @@ export class DigitInputModel {
     }
     private _setConfig(config: DigitInputConfig): void {
         //map a number to ready objects
-        console.log(config);
         let configAsNumber = isAnyString(config) ? Number(config) : null;
         if (isNumber(config) || isNumber(configAsNumber)) {
             configAsNumber = isNumber(config) ? config : configAsNumber!;
