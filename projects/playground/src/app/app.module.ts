@@ -34,7 +34,7 @@ import { TableModule } from './pages/table/table.module';
 import { BadgeModule } from './pages/badge/badge.module';
 import { ProgressBarModule } from './pages/progress-bar/progress-bar.module';
 import { SpinnerModule } from './pages/spinner/spinner.module';
-import { DigitInputModule } from './pages/inputs/digit-input/digit-input.module';
+import { SearchBarModule } from './pages/search-bar/search-bar.module';
 
 @NgModule({
     declarations: [
@@ -73,6 +73,7 @@ import { DigitInputModule } from './pages/inputs/digit-input/digit-input.module'
         BadgeModule,
         ProgressBarModule,
         SpinnerModule,
+        SearchBarModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
