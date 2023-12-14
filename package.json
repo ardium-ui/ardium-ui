@@ -13,14 +13,14 @@
     "ngg-pc": "ng g c --type=page --project=playground"
   },
   "dependencies": {
-    "@angular/animations": "^16.2.12",
-    "@angular/cdk": "^16.2.12",
-    "@angular/compiler": "^16.2.12",
-    "@angular/core": "^16.2.12",
-    "@angular/forms": "^16.2.12",
-    "@angular/platform-browser": "^16.2.12",
-    "@angular/platform-browser-dynamic": "^16.2.12",
-    "@angular/router": "^16.2.12",
+    "@angular/animations": "^17.0.7",
+    "@angular/cdk": "^17.0.4",
+    "@angular/compiler": "^17.0.7",
+    "@angular/core": "^17.0.7",
+    "@angular/forms": "^17.0.7",
+    "@angular/platform-browser": "^17.0.7",
+    "@angular/platform-browser-dynamic": "^17.0.7",
+    "@angular/router": "^17.0.7",
     "@types/color": "^3.0.3",
     "@types/string-similarity": "^4.0.0",
     "color": "^4.2.3",
@@ -32,12 +32,12 @@
     "simple-bool": "^3.0.1",
     "string-similarity": "^4.0.4",
     "tslib": "^2.3.0",
-    "zone.js": "~0.13.3"
+    "zone.js": "~0.14.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^16.2.10",
-    "@angular/cli": "^16.2.10",
-    "@angular/compiler-cli": "^16.2.12",
+    "@angular-devkit/build-angular": "^17.0.7",
+    "@angular/cli": "^17.0.7",
+    "@angular/compiler-cli": "^17.0.7",
     "@types/jasmine": "~3.10.0",
     "@types/node": "^12.11.1",
     "jasmine-core": "~4.0.0",
@@ -46,7 +46,7 @@
     "karma-coverage": "~2.1.0",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
-    "ng-packagr": "^16.2.3",
-    "typescript": "~5.1.6"
+    "ng-packagr": "^17.0.2",
+    "typescript": "~5.2.2"
   }
 }
