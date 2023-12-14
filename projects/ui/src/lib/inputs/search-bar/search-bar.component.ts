@@ -48,19 +48,8 @@ export class ArdiumSearchBarComponent extends _NgModelComponentBase implements S
     @Input() clearButtonTitle: string = this.DEFAULTS.clearButtonTitle;
 
     //! prefix & suffix
-    @ContentChild(ArdSearchBarPrefixTemplateDirective, { read: TemplateRef })
-    private _prefixTemplate?: TemplateRef<any>;
-    @ContentChild(ArdSearchBarSuffixTemplateDirective, { read: TemplateRef })
-    private _suffixTemplate?: TemplateRef<any>;
-
-    @ViewChild('icon', { read: TemplateRef }) iconTemplate!: TemplateRef<any>;
-
-    get prefixTemplate(): TemplateRef<any> | undefined {
-        return (this.alignIcon == SimpleOneAxisAlignment.Left && this.iconTemplate) || this._prefixTemplate;
-    }
-    get suffixTemplate(): TemplateRef<any> | undefined {
-        return (this.alignIcon == SimpleOneAxisAlignment.Right && this.iconTemplate) || this._suffixTemplate;
-    }
+    @ContentChild(ArdSearchBarPrefixTemplateDirective, { read: TemplateRef }) prefixTemplate?: TemplateRef<any>;
+    @ContentChild(ArdSearchBarSuffixTemplateDirective, { read: TemplateRef }) suffixTemplate?: TemplateRef<any>;
 
     //! placeholder
     @ContentChild(ArdSearchBarPlaceholderTemplateDirective, { read: TemplateRef })

@@ -44,22 +44,22 @@
     @include defaultMixins.formVariants();
     background: var(--ard-appearance-background);
     border: var(--ard-appearance-border);
-    transition: border-color 0.2s $timing-fn;
+    transition: border-color 0.15s $timing-fn;
 
     .ard-form-field-overlay {
         background: $overlay;
         opacity: 0;
-        transition: opacity 0.2s $timing-fn, background-color 0.2s $timing-fn;
+        transition: opacity 0.15s $timing-fn, background-color 0.15s $timing-fn;
     }
 
     &:hover {
         .ard-form-field-overlay {
-            opacity: 4%;
+            opacity: 3%;
         }
     }
     &.ard-focused {
         .ard-form-field-overlay {
-            opacity: 8%;
+            opacity: 6%;
         }
         border-color: $border-dark;
     }
@@ -70,7 +70,7 @@
 
     &.ard-appearance-transparent {
         .ard-form-field-overlay {
-            opacity: 6%;
+            opacity: 4.5%;
         }
     }
 }

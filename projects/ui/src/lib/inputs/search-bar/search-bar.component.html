@@ -3,8 +3,8 @@
     [variant]="variant"
     [compact]="compact"
     [isFocused]="isFocused"
-    [prefixTemplate]="prefixTemplate"
-    [suffixTemplate]="suffixTemplate"
+    [prefixTemplate]="alignIcon == 'left' ? (icon || prefixTemplate) : undefined"
+    [suffixTemplate]="alignIcon == 'right' ? (icon || suffixTemplate) : undefined"
 >
     <div class="ard-simple-input"
         [ngClass]="ngClasses"
