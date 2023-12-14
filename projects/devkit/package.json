@@ -1,10 +1,11 @@
 {
     "name": "@ardium-ui/devkit",
-    "version": "1.0.2",
+    "version": "1.0.4",
     "private": false,
     "peerDependencies": {
         "@angular/common": "^17.0.7",
         "@angular/core": "^17.0.7",
+        "@angular/platform-browser": "^17.0.7",
         "string-similarity": "^4.0.4",
         "key-display-names": "^1.2.0",
         "more-rounding": "^4.2.0"
