@@ -11,7 +11,7 @@ export class ArdiumFileextPipe implements PipeTransform {
         }
         const parts = value.split('.');
         const dot = withDot ? '.' : '';
-        return parts.length > 1 ? (dot + parts.last()) : null;
+        return parts.length > 1 ? (dot + parts.at(-1)) : null;
     }
 
 }

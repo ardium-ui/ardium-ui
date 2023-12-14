@@ -37,8 +37,8 @@ export function getDomPaddingRect(el: HTMLElement | ElementRef<HTMLElement>): DO
 }
 
 function getFourWayValue(el: HTMLElement, v: string): [number, number, number, number] {
-    const elPadding = window.getComputedStyle(el).getPropertyValue(v);
-    const values = v.split(' ').map(v => v ? parseFloat(v) : null);
+    const elValues = window.getComputedStyle(el).getPropertyValue(v);
+    const values = elValues.split(' ').map(v => v ? parseFloat(v) : null);
     const topValue = values[0] ?? 0;
     const rightValue = values[1] ?? topValue;
     const bottomValue = values[2] ?? topValue;
