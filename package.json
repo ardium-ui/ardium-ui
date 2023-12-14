@@ -12,7 +12,6 @@
     "ngg-pm": "ng g m --project=playground",
     "ngg-pc": "ng g c --type=page --project=playground"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "^15.2.5",
     "@angular/cdk": "^15.2.5",

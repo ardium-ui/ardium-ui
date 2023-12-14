@@ -1,6 +1,7 @@
 {
-  "name": "devkit",
+  "name": "@ardium-ui/devkit",
   "version": "1.0.0",
+  "private": false,
   "peerDependencies": {
     "@angular/common": "^13.2.0",
     "@angular/core": "^13.2.0"
