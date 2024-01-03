@@ -14,3 +14,13 @@ export class ArdSearchBarPrefixTemplateDirective {
 export class ArdSearchBarSuffixTemplateDirective {
     constructor(public template: TemplateRef<undefined>) { }
 }
+
+@Directive({ selector: 'ard-search-bar > ng-template[ard-dropdown-header-tmp]' })
+export class ArdDropdownHeaderTemplateDirective {
+    constructor(public template: TemplateRef<undefined>) { }
+}
+
+@Directive({ selector: 'ard-search-bar > ng-template[ard-dropdown-footer-tmp]' })
+export class ArdDropdownFooterTemplateDirective {
+    constructor(public template: TemplateRef<undefined>) {  }
+}

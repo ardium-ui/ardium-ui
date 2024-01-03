@@ -1,12 +1,17 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, forwardRef, ContentChild, TemplateRef, ViewChild, ElementRef, Input, HostBinding, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, forwardRef, ContentChild, TemplateRef, ViewChild, ElementRef, Input, HostBinding, Output, EventEmitter, signal, ViewContainerRef, HostListener } from '@angular/core';
 import { ArdiumSimpleInputComponent } from '../simple-input/simple-input.component';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ArdSearchBarPlaceholderTemplateDirective, ArdSearchBarPrefixTemplateDirective, ArdSearchBarSuffixTemplateDirective } from './search-bar.directives';
+import { ArdDropdownFooterTemplateDirective, ArdDropdownHeaderTemplateDirective, ArdSearchBarPlaceholderTemplateDirective, ArdSearchBarPrefixTemplateDirective, ArdSearchBarSuffixTemplateDirective } from './search-bar.directives';
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { SimpleInputModel, SimpleInputModelHost } from '../input-utils';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { SimpleOneAxisAlignment } from '../../types/alignment.types';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { DropdownPanelAppearance, DropdownPanelVariant } from '../../dropdown-panel/dropdown-panel.types';
+import { ArdiumDropdownPanelComponent } from '../../dropdown-panel/dropdown-panel.component';
+import { Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
+import { TemplatePortal } from '@angular/cdk/portal';
+import { isAnyString } from 'simple-bool';
 
 @Component({
     selector: 'ard-search-bar',
@@ -23,6 +28,14 @@ import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
     ]
 })
 export class ArdiumSearchBarComponent extends _NgModelComponentBase implements SimpleInputModelHost {
+
+    constructor(
+        private overlay: Overlay,
+        private viewContainerRef: ViewContainerRef,
+        private scrollStrategyOpts: ScrollStrategyOptions,
+    ) {
+        super();
+    }
 
     //needed to implement the model
     readonly maxLength?: number | undefined;
@@ -44,7 +57,7 @@ export class ArdiumSearchBarComponent extends _NgModelComponentBase implements S
     }
 
     @Input() placeholder: string = '';
-    @Input() inputId?: string;
+    @Input() inputId: string = crypto.randomUUID();
     @Input() clearButtonTitle: string = this.DEFAULTS.clearButtonTitle;
 
     //! prefix & suffix
@@ -73,6 +86,7 @@ export class ArdiumSearchBarComponent extends _NgModelComponentBase implements S
             `ard-appearance-${this.appearance}`,
             `ard-variant-${this.variant}`,
             `ard-text-align-${this.alignText}`,
+            this._isDropdownOpen ? 'ard-dropdown-open' : '',
             this.compact ? 'ard-compact' : '',
         ].join(' ');
     }
@@ -120,7 +134,7 @@ export class ArdiumSearchBarComponent extends _NgModelComponentBase implements S
         this.inputEvent.emit(this.value);
         this.valueChange.emit(this.value);
     }
-    //focus, blur, change
+    //! focus, blur, change
     onFocusMaster(event: FocusEvent): void {
         this.onFocus(event);
     }
@@ -134,7 +148,7 @@ export class ArdiumSearchBarComponent extends _NgModelComponentBase implements S
     protected _emitChange(): void {
         this.changeEvent.emit(this.inputModel.value);
     }
-    // clear button
+    //!  clear button
     get shouldShowClearButton(): boolean {
         return this._clearable && !this.disabled && Boolean(this.inputModel.value);
     }
@@ -147,7 +161,7 @@ export class ArdiumSearchBarComponent extends _NgModelComponentBase implements S
         this.focus();
     }
 
-    // copy
+    //! copy
     onCopy(event: ClipboardEvent): void {
         if (
             this.value &&
@@ -163,6 +177,100 @@ export class ArdiumSearchBarComponent extends _NgModelComponentBase implements S
             event.preventDefault();
         }
     }
+
+    //! search suggestions
+    private _suggestions: undefined | { value: string, bold?: boolean; }[][] = undefined;
+    @Input() set suggestions(v: undefined | string[] | { value: string, bold?: boolean; }[][]) {
+        if (v && isAnyString(v[1])) {
+            v = v.map((el => [{ value: el as string }]));
+        }
+        this._suggestions = v as undefined | { value: string, bold?: boolean; }[][];
+    }
+    get suggestions() {
+        return this._suggestions;
+    }
+
+    //! dropdown
+    private _isDropdownOpen = false;
+
+    @ViewChild(forwardRef(() => ArdiumDropdownPanelComponent)) dropdownPanel!: ArdiumDropdownPanelComponent;
+
+    private _dropdownAppearance?: DropdownPanelAppearance = undefined;
+    @Input()
+    set dropdowonAppearance(v: DropdownPanelAppearance) {
+        this._dropdownAppearance = v;
+    }
+    get dropdownAppearance(): DropdownPanelAppearance {
+        if (this._dropdownAppearance) return this._dropdownAppearance;
+        if (this.appearance == FormElementAppearance.Outlined) return DropdownPanelAppearance.Outlined;
+        return DropdownPanelAppearance.Raised;
+    }
+    private _dropdownVariant?: DropdownPanelVariant = undefined;
+    @Input()
+    set dropdowonVariant(v: DropdownPanelVariant) {
+        this._dropdownVariant = v;
+    }
+    get dropdownVariant(): DropdownPanelVariant {
+        if (this._dropdownVariant) return this._dropdownVariant;
+        if (this.variant == FormElementVariant.Pill) return DropdownPanelVariant.Rounded;
+        return this.variant;
+    }
+
+    @ContentChild(ArdDropdownHeaderTemplateDirective, { read: TemplateRef }) dropdownHeaderTemplate?: TemplateRef<any>;
+    @ContentChild(ArdDropdownFooterTemplateDirective, { read: TemplateRef }) dropdownFooterTemplate?: TemplateRef<any>;
+
+    //! dropdown overlay
+    @ViewChild('dropdownHost', { read: ElementRef }) dropdownHost!: ElementRef<HTMLDivElement>;
+    @ViewChild('dropdownTemplate', { read: TemplateRef }) dropdownTemplate!: TemplateRef<any>;
+
+    private dropdownOverlay?: OverlayRef;
+
+    private _createOverlay(): void {
+        const strategy = this.overlay.position()
+            .flexibleConnectedTo(this.dropdownHost)
+            .withPositions([{
+                originX: 'start',
+                originY: 'bottom',
+                overlayX: 'start',
+                overlayY: 'top',
+            }, {
+                originX: 'start',
+                originY: 'top',
+                overlayX: 'start',
+                overlayY: 'bottom',
+            }]);
+
+        const config = new OverlayConfig({
+            positionStrategy: strategy,
+            scrollStrategy: this.scrollStrategyOpts.block(),
+            hasBackdrop: false,
+        });
+
+        this.dropdownOverlay = this.overlay.create(config);
+
+        const portal = new TemplatePortal(this.dropdownTemplate, this.viewContainerRef);
+        this.dropdownOverlay.attach(portal);
+        this.setOverlaySize();
+    }
+    private _destroyOverlay(): void {
+        if (!this.dropdownOverlay) return;
+
+        this.dropdownOverlay.dispose();
+        delete this.dropdownOverlay;
+    }
+
+    setOverlaySize(): void {
+        if (!this.dropdownOverlay) return;
+
+        const rect = this.dropdownHost.nativeElement.getBoundingClientRect();
+        this.dropdownOverlay.updateSize({ width: rect.width });
+    }
+
+    @HostListener('window:resize')
+    onWindowResize(): void {
+        this.setOverlaySize();
+    }
+
     //! helpers
     protected _setInputAttributes() {
         const input = this.textInputEl.nativeElement;

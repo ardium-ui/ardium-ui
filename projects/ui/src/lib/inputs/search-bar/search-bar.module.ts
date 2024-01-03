@@ -5,6 +5,7 @@ import { _ClearButtonModule } from '../../_internal/clear-button/clear-button.mo
 import { ArdiumFormFieldFrameModule } from '../../form-field-frame/form-field-frame.module';
 import { ArdSearchBarPlaceholderTemplateDirective, ArdSearchBarPrefixTemplateDirective, ArdSearchBarSuffixTemplateDirective } from './search-bar.directives';
 import { ArdiumIconModule } from '../../icon/icon.module';
+import { ArdiumDropdownPanelModule } from '../../dropdown-panel/dropdown-panel.module';
 
 
 
@@ -19,7 +20,8 @@ import { ArdiumIconModule } from '../../icon/icon.module';
         CommonModule,
         _ClearButtonModule,
         ArdiumFormFieldFrameModule,
-        ArdiumIconModule
+        ArdiumIconModule,
+        ArdiumDropdownPanelModule,
     ],
     exports: [
         ArdiumSearchBarComponent,
