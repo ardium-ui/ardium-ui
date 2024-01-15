@@ -1,0 +1,15 @@
+<ng-template #modalTemplate>
+    <div class="ard-modal ard-modal-backdrop" [ngClass]="ngClasses" (click)="onBackdropClick($event)">
+        <div class="ard-modal-panel" [class.ard-modal-no-heading-text]="!heading">
+            <div class="ard-modal-heading">
+                <div class="ard-modal-heading-text">{{heading}}</div>
+                @if (!noCloseButton()) {
+                    <ard-icon-button class="ard-modal-close-button" color="none"><ard-icon>close</ard-icon></ard-icon-button>
+                }
+            </div>
+            <div class="ard-modal-content">
+                <ng-content></ng-content>
+            </div>
+        </div>
+    </div>
+</ng-template>

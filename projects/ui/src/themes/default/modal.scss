@@ -8,3 +8,38 @@
     display: grid;
     place-items: center;
 }
+.ard-modal {
+    .ard-modal-panel {
+        padding: 1.5rem;
+        background: $bg;
+        max-width: calc(100vw - 4rem);
+        position: relative;
+    }
+    .ard-modal-heading {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+
+        .ard-modal-heading-text {
+            font-size: 1.25rem;
+            color: $text;
+            font-weight: 500;
+            font-family: Roboto;
+        }
+        .ard-modal-close-button {
+            position: relative;
+            right: -1rem;
+            top: -1rem;
+        }
+    }
+    .ard-modal-no-heading-text {
+        &.ard-modal-panel {
+            padding-right: 3.5rem;
+        }
+        .ard-modal-close-button {
+            position: absolute;
+            right: 0.5rem;
+            top: 0.5rem;
+        }
+    }
+}
