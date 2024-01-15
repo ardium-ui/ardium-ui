@@ -1,0 +1,14 @@
+<div class="master">
+    <div class="title">Simplest modal</div>
+    <button (click)="isOpen1.set(true)">Open</button>
+    <ard-modal [open]="isOpen1()" (openChange)="isOpen1.set($event)">
+        Modal content
+    </ard-modal>
+</div>
+<div class="master">
+    <div class="title">Simple modal with a title</div>
+    <button (click)="isOpen2.set(true)">Open</button>
+    <ard-modal [open]="isOpen2()" (openChange)="isOpen2.set($event)" heading="Modal heading">
+        Modal content
+    </ard-modal>
+</div>

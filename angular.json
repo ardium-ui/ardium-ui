@@ -10,7 +10,8 @@
             "projectType": "library",
             "schematics": {
                 "@schematics/angular:component": {
-                    "style": "scss"
+                    "style": "scss",
+                    "standalone": false
                 }
             },
             "root": "projects/ui",
@@ -78,7 +79,8 @@
             "schematics": {
                 "@schematics/angular:component": {
                     "style": "scss",
-                    "skipTests": true
+                    "skipTests": true,
+                    "standalone": false
                 },
                 "@schematics/angular:application": {
                     "strict": true
