@@ -1,6 +1,6 @@
 <ng-template #modalTemplate>
     <div class="ard-modal ard-modal-backdrop" [ngClass]="ngClasses" (click)="onBackdropClick($event)">
-        <div class="ard-modal-panel" [class.ard-modal-no-heading-text]="!heading">
+        <div class="ard-modal-panel" [class.ard-modal-no-heading-text]="!heading" cdkTrapFocus>
             <div class="ard-modal-heading">
                 <div class="ard-modal-heading-text">{{heading}}</div>
                 @if (!noCloseButton()) {
