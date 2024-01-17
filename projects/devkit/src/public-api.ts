@@ -9,6 +9,9 @@ export * from "./lib/escape-html/escape-html.module";
 export * from "./lib/escape-html/escape-html.pipe";
 export * from "./lib/escape-html/escape-html";
 
+export * from "./lib/file-saver/file-saver.service";
+export * from "./lib/file-saver/file-saver.types";
+
 export * from "./lib/fileext/fileext.module";
 export * from "./lib/fileext/fileext.pipe";
 
