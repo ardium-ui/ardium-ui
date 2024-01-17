@@ -10,7 +10,9 @@
     "ngg-um": "ng g m --project=ui",
     "ngg-uc": "ng g c --project=ui --change-detection=OnPush --export --view-encapsulation=None",
     "ngg-pm": "ng g m --project=playground",
-    "ngg-pc": "ng g c --type=page --project=playground"
+    "ngg-pc": "ng g c --type=page --project=playground",
+    "publish-devkit": "ng build --project=devkit && cd dist/devkit && npm publish --access public && cd ../../",
+    "publish-ui": "ng build --project=ui && cd dist/ui && npm publish --access public && cd ../../"
   },
   "dependencies": {
     "@angular/animations": "^17.0.7",
