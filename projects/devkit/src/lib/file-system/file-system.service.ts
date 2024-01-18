@@ -20,18 +20,25 @@ const DEFAULT_REQUEST_OPTIONS = {
     providedIn: 'root',
 })
 export class FileSystemService {
-    constructor(private renderer2: Renderer2) {
+    constructor(private renderer2: Renderer2) {}
+
+    isFileSystemAPISupported(
+        method: 'showSaveFilePicker' | 'showOpenFilePicker'
+    ): boolean {
         try {
-            this.isFileSystemAPISupported = 'showSaveFilePicker' in window;
-        } catch (err) {}
+            // isn't in an iframe &&
+            return window.self === window.top && method in window;
+        } catch (err) {
+            return false;
+        }
     }
 
-    readonly isFileSystemAPISupported!: boolean;
-
-    async saveAs(
-        data: string | Blob,
-        options: FileSystemSaveOptions = DEFAULT_SAVE_OPTIONS
-    ) {
+    //! saving files
+    async saveAs(data: string | Blob, options: FileSystemSaveOptions = {}): Promise<boolean> {
+        options = {
+            ...DEFAULT_SAVE_OPTIONS,
+            ...options,
+        };
         // coerce string to blob if needed
         if (typeof data == 'string') {
             data = new Blob([data], {
@@ -40,8 +47,7 @@ export class FileSystemService {
         }
         // use the File System Access API if supported & preferred
         if (
-            this.isFileSystemAPISupported &&
-            isNotIFrame() &&
+            this.isFileSystemAPISupported('showSaveFilePicker') &&
             options.method == FileSystemMethod.PreferFileSystem
         ) {
             // coerce the options.accept into a valid options.types object
@@ -67,16 +73,15 @@ export class FileSystemService {
                 const writable = await handle.createWritable();
                 await writable.write(data);
                 await writable.close();
-                return;
+                return true;
             } catch (err) {
                 // fail silently if the user has simply canceled the dialog.
                 const error = err as any;
                 if (error.name !== 'AbortError') {
                     console.error(error.name, error.message);
-                    return;
                 }
+                return false;
             }
-            return;
         }
         // fallback if the File System Access API is not supported
         // or the user doesn't want to use it
@@ -90,24 +95,30 @@ export class FileSystemService {
         a.click();
 
         //remove the element from the DOM
-        setTimeout(() => {
+        return await new Promise<boolean>(resolve => setTimeout(() => {
             URL.revokeObjectURL(blobURL);
             this.renderer2.removeChild(document.body, a);
-        }, 1000);
+            resolve(true);
+        }, 1000));
     }
 
+    //! opening files
     async requestFileUpload(
-        options: FileSystemRequestOptions = DEFAULT_REQUEST_OPTIONS
-    ): Promise<any> {
+        options: FileSystemRequestOptions = {}
+    ): Promise<File | File[] | null> {
+        options = {
+            ...DEFAULT_REQUEST_OPTIONS,
+            ...options,
+        };
         // use the File System Access API if supported & preferred
         if (
-            this.isFileSystemAPISupported &&
-            isNotIFrame() &&
-            options.method == FileSystemMethod.PreferFileSystem
+            this.isFileSystemAPISupported('showOpenFilePicker') &&
+            options.method == 'preferFileSystem'
         ) {
             try {
+                console.log('%cusing file system api', 'color:red');
                 // coerce the options.accept into a valid options.types object
-                if (options.accept) {
+                if (options.accept && options.accept != '*') {
                     if (typeof options.accept == 'string') {
                         options.accept = options.accept.split(',');
                     }
@@ -126,18 +137,17 @@ export class FileSystemService {
                     types: options.types,
                     multiple: options.multiple,
                 });
-                if (!options.multiple) {
-                    const file = await handles[0].getFile();
-                    file.handle = handles[0];
-                    return file;
-                }
-                return await Promise.all(
+                const fileArray = (await Promise.all(
                     handles.map(async (handle: any) => {
                         const file = await handle.getFile();
                         file.handle = handle;
-                        return file;
+                        return file as File;
                     })
-                );
+                )) as File[];
+                if (!options.multiple) {
+                    return fileArray[0];
+                }
+                return fileArray;
             } catch (err) {
                 // fail silently if the user has simply canceled the dialog.
                 const error = err as any;
@@ -147,41 +157,37 @@ export class FileSystemService {
                 return null;
             }
         }
+        // fallback if the File System Access API is not supported
+        // or the user doesn't want to use it
+
         // coerce options.accept into a string
         if (isArray(options.accept)) {
             options.accept = options.accept.join(',');
         } else {
             options.accept = options.accept ?? '*';
         }
-        // fallback if the File System Access API is not supported
-        // or the user doesn't want to use it
 
         const input = document.createElement('input');
         input.type = 'file';
         input.accept = options.accept;
+        input.multiple = options.multiple ?? false;
         input.style.display = 'none';
         this.renderer2.appendChild(document.body, input);
         input.click();
 
-        const filePromise = new Promise((resolve) => {
+        const fileArray = await new Promise<File[] | null>((resolve) => {
             input.onchange = () => {
                 resolve(
-                    input.files && input.files.length > 0 ? input.files : null
+                    input.files && input.files.length > 0
+                        ? Array.from(input.files)
+                        : null
                 );
                 this.renderer2.removeChild(document.body, input);
             };
         });
-
-        return await filePromise;
-    }
-}
-
-function isNotIFrame() {
-    return (() => {
-        try {
-            return window.self === window.top;
-        } catch {
-            return false;
+        if (options.multiple || !fileArray) {
+            return fileArray;
         }
-    })();
+        return fileArray[0];
+    }
 }
