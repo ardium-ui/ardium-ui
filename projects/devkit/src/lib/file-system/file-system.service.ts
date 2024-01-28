@@ -34,7 +34,10 @@ export class FileSystemService {
     }
 
     //! saving files
-    async saveAs(data: string | Blob, options: FileSystemSaveOptions = {}): Promise<boolean> {
+    async saveAs(
+        data: string | Blob,
+        options: FileSystemSaveOptions = {}
+    ): Promise<boolean> {
         options = {
             ...DEFAULT_SAVE_OPTIONS,
             ...options,
@@ -95,11 +98,13 @@ export class FileSystemService {
         a.click();
 
         //remove the element from the DOM
-        return await new Promise<boolean>(resolve => setTimeout(() => {
-            URL.revokeObjectURL(blobURL);
-            this.renderer2.removeChild(document.body, a);
-            resolve(true);
-        }, 1000));
+        return await new Promise<boolean>((resolve) =>
+            setTimeout(() => {
+                URL.revokeObjectURL(blobURL);
+                this.renderer2.removeChild(document.body, a);
+                resolve(true);
+            }, 1000)
+        );
     }
 
     //! opening files
@@ -189,5 +194,40 @@ export class FileSystemService {
             return fileArray;
         }
         return fileArray[0];
+    }
+
+    //! reading file content
+    async readFile(
+        file: File,
+        readAs?: 'text',
+        encoding?: string
+    ): Promise<string | null>;
+    async readFile(file: File, readAs?: 'binary'): Promise<ArrayBuffer | null>;
+    async readFile(
+        file: File,
+        readAs?: 'text' | 'binary',
+        encoding?: string
+    ): Promise<string | ArrayBuffer | null>;
+    async readFile(
+        file: File,
+        readAs: 'text' | 'binary' = 'text',
+        encoding: string = 'UTF-8'
+    ): Promise<string | ArrayBuffer | null> {
+        if (readAs == 'text') {
+            return await new Promise<string | null>((resolve) => {
+                const reader = new FileReader();
+                reader.readAsText(file, encoding);
+                reader.onload = function (e) {
+                    resolve(e.target!.result as string | null);
+                };
+            });
+        }
+        return await new Promise<ArrayBuffer | null>((resolve) => {
+            const reader = new FileReader();
+            reader.readAsArrayBuffer(file);
+            reader.onload = function (e) {
+                resolve(e.target!.result as ArrayBuffer | null);
+            };
+        });
     }
 }
