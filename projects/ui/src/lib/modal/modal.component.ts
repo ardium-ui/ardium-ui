@@ -98,7 +98,7 @@ export class ArdiumModalComponent {
 
     //! events
     onBackdropClick(event: MouseEvent): void {
-        if (this.disableBackdropClose() || this.noBackdrop()) return;
+        if (this.disableBackdropClose()) return;
         this._destroyOverlay();
     }
 }

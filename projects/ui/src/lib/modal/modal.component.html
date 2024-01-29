@@ -1,15 +1,32 @@
 <ng-template #modalTemplate>
-    <div class="ard-modal ard-modal-backdrop" [ngClass]="ngClasses" (click)="onBackdropClick($event)">
-        <div class="ard-modal-panel" [class.ard-modal-no-heading-text]="!heading" cdkTrapFocus>
-            <div class="ard-modal-heading">
-                <div class="ard-modal-heading-text">{{heading}}</div>
-                @if (!noCloseButton()) {
-                    <ard-icon-button class="ard-modal-close-button" color="none"><ard-icon>close</ard-icon></ard-icon-button>
-                }
-            </div>
-            <div class="ard-modal-content">
-                <ng-content></ng-content>
-            </div>
+    @if (noBackdrop()) {
+        <div class="ard-modal" [ngClass]="ngClasses" (click)="onBackdropClick($event)">
+            <ng-template [ngTemplateOutlet]="_modalInsidePanel"></ng-template>
+        </div>
+    } @else {
+        <div class="ard-modal ard-modal-backdrop" [ngClass]="ngClasses" (click)="onBackdropClick($event)">
+            <ng-template [ngTemplateOutlet]="_modalInsidePanel"></ng-template>
+        </div>
+    }
+</ng-template>
+
+<ng-template #_modalInsidePanel>
+    <div
+        class="ard-modal-panel"
+        [class.ard-modal-no-heading-text]="!heading"
+        [class.ard-modal-has-close-button]="!this.noCloseButton()"
+        cdkTrapFocus
+    >
+        <div class="ard-modal-heading">
+            <div class="ard-modal-heading-text">{{heading}}</div>
+            @if (!noCloseButton()) {
+                <ard-icon-button class="ard-modal-close-button" color="none" [compact]="compact">
+                    <ard-icon>close</ard-icon>
+                </ard-icon-button>
+            }
+        </div>
+        <div class="ard-modal-content">
+            <ng-content></ng-content>
         </div>
     </div>
 </ng-template>
