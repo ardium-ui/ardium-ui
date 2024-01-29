@@ -1,3 +1,44 @@
+<div class="master flex playground">
+    <span class="title">Modal playground</span>
+    <div class="settings-form flex horiz">
+        <div class="settings-left flex">
+            <div class="form-field flex">
+                <label for="appearance">Appearance</label>
+                <ard-select htmlId="appearance" [items]="appearances" [value]="appearance" />
+            </div>
+            <div class="form-field flex">
+                <label for="variant">Variant</label>
+                <ard-select htmlId="variant" [items]="variants" [value]="variant" />
+            </div>
+        </div>
+        <div class="settings-right flex">
+            <div class="list-item flex horiz">
+                <ard-slide-toggle [selected]="compact()" (selectedChange)="compact.set($event)" htmlId="compact" />
+                <label for="compact">Compact</label>
+            </div>
+            <div class="list-item flex horiz">
+                <ard-slide-toggle [selected]="noCloseButton()" (selectedChange)="noCloseButton.set($event)"
+                    htmlId="noCloseButton" />
+                <label for="noCloseButton">No close button?</label>
+            </div>
+            <div class="list-item flex horiz">
+                <ard-slide-toggle [selected]="noBackdrop()" (selectedChange)="noBackdrop.set($event)"
+                    htmlId="noBackdrop" />
+                <label for="noBackdrop">No backdrop?</label>
+            </div>
+            <div class="list-item flex horiz">
+                <ard-slide-toggle [selected]="disableBackdropClose()"
+                    (selectedChange)="disableBackdropClose.set($event)" htmlId="disableBackdropClose" />
+                <label for="disableBackdropClose">Disable backdrop close?</label>
+            </div>
+        </div>
+    </div>
+    <div class="button-container">
+        <button (click)="isOpenMain.set(true)">Open</button>
+    </div>
+    <ard-modal [open]="isOpenMain()" (openChange)="isOpenMain.set($event)" [appearance]="appearance" [variant]="variant" [compact]="compact()" [noCloseButton]="noCloseButton()"
+        [noBackdrop]="noBackdrop()" [disableBackdropClose]="disableBackdropClose()">Modal content</ard-modal>
+</div>
 <div class="master">
     <div class="title">Simplest modal</div>
     <button (click)="isOpen1.set(true)">Open</button>
