@@ -177,6 +177,12 @@ export * from './lib/inputs/digit-input/digit-input.types';
 //modal
 export * from './lib/modal/modal.module';
 export * from './lib/modal/modal.component';
+//dialog
+export * from './lib/dialog/dialog.module';
+export * from './lib/dialog/dialog.component';
+export * from './lib/dialog/dialog.types';
+export * from './lib/dialog/dialog.directives';
+
 //! types
 export * from './lib/types/alignment.types';
 export * from './lib/types/colors.types';

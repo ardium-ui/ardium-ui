@@ -63,6 +63,7 @@ export class ArdiumModalComponent {
     }
 
     @Output() openChange = new EventEmitter<boolean>();
+    @Output('close') closeEvent = new EventEmitter<null>();
 
     readonly openEffect = effect(() => {
         if (this._openSignal()) this._openOverlay();
@@ -92,6 +93,7 @@ export class ArdiumModalComponent {
         if (!this.modalOverlay) return;
 
         this.openChange.emit(false);
+        this.closeEvent.emit();
         this.modalOverlay.dispose();
         delete this.modalOverlay;
     }

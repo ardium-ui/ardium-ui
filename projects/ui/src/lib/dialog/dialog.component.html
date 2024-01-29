@@ -1,0 +1,52 @@
+<ard-modal
+    [appearance]="appearance"
+    [variant]="variant"
+    [compact]="compact"
+    [heading]="heading"
+    [noCloseButton]="noCloseButton()"
+    [noBackdrop]="noBackdrop()"
+    [disableBackdropClose]="disableBackdropClose()"
+    [(open)]="open"
+    (openChange)="openChange.emit($event)"
+    (close)="onModalClose()"
+>
+    <div class="ard-dialog-container">
+        <div class="ard-dialog-content">
+            <ng-content></ng-content>
+        </div>
+        <div class="ard-dialog-buttons">
+            <ng-template #defaultButtonsTemplate
+                let-confirm="confirm"
+                let-reject="reject"
+                let-canConfirm="canConfirm" 
+                let-onConfirm="onConfirm"
+                let-onReject="onReject"
+                let-dialogAppearance="dialogAppearance"
+                let-dialogVariant="dialogVariant"
+                let-dialogCompact="dialogCompact"
+            >
+                <div class="ard-dialog-buttons-container">
+                    <ard-button
+                        [color]="reject.color"
+                        [appearance]="dialogAppearance"
+                        [variant]="dialogVariant"
+                        [compact]="dialogCompact"
+                        (click)="onReject()"
+                    >
+                        {{ reject.text }}
+                    </ard-button>
+                    <ard-button
+                        [color]="confirm.color"
+                        [appearance]="dialogAppearance"
+                        [variant]="dialogVariant"
+                        [compact]="dialogCompact"
+                        (click)="onConfirm()"
+                        [disabled]="canConfirm"
+                    >
+                        {{ confirm.text }}
+                    </ard-button>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</ard-modal>
