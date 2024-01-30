@@ -35,6 +35,7 @@ import { BadgeModule } from './pages/badge/badge.module';
 import { ProgressBarModule } from './pages/progress-bar/progress-bar.module';
 import { SpinnerModule } from './pages/spinner/spinner.module';
 import { ModalModule } from './pages/modal/modal.module';
+import { DialogModule } from './pages/dialog/dialog.module';
 
 @NgModule({
     declarations: [
@@ -73,7 +74,8 @@ import { ModalModule } from './pages/modal/modal.module';
         BadgeModule,
         ProgressBarModule,
         SpinnerModule,
-        ModalModule
+        ModalModule,
+        DialogModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
