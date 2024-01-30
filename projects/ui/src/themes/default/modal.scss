@@ -17,12 +17,23 @@
         background: $bg;
         max-width: calc(100vw - 4rem);
         position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        gap: 1.5rem;
 
         &.ard-modal-no-heading-text {
+            gap: 0.25rem;
+
             .ard-modal-close-button {
                 position: absolute;
                 right: 0.5rem;
                 top: 0.5rem;
+            }
+        }
+        &.ard-modal-has-close-button {
+            .ard-modal-heading {
+                padding-right: 1rem;
             }
         }
     }
@@ -66,8 +77,11 @@
         .ard-modal-panel {
             font-size: 90%;
             padding: 0.75rem 2rem 1rem 2rem;
+            gap: 1rem;
 
             &.ard-modal-no-heading-text {
+                gap: 0.25rem;
+                
                 .ard-modal-close-button {
                     position: absolute;
                     right: 0.25rem;
