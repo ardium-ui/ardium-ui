@@ -16,37 +16,41 @@
         </div>
         <div class="ard-dialog-buttons">
             <ng-template #defaultButtonsTemplate
-                let-confirm="confirm"
-                let-reject="reject"
+                let-confirmButton="confirmButton"
+                let-rejectButton="rejectButton"
                 let-canConfirm="canConfirm" 
                 let-onConfirm="onConfirm"
                 let-onReject="onReject"
-                let-dialogAppearance="dialogAppearance"
                 let-dialogVariant="dialogVariant"
                 let-dialogCompact="dialogCompact"
             >
                 <div class="ard-dialog-buttons-container">
                     <ard-button
-                        [color]="reject.color"
-                        [appearance]="dialogAppearance"
+                        [color]="rejectButton.color"
+                        appearance="transparent"
                         [variant]="dialogVariant"
                         [compact]="dialogCompact"
                         (click)="onReject()"
                     >
-                        {{ reject.text }}
+                        {{ rejectButton.text }}
                     </ard-button>
                     <ard-button
-                        [color]="confirm.color"
-                        [appearance]="dialogAppearance"
+                        [color]="confirmButton.color"
+                        appearance="raised-strong"
                         [variant]="dialogVariant"
                         [compact]="dialogCompact"
                         (click)="onConfirm()"
                         [disabled]="canConfirm"
                     >
-                        {{ confirm.text }}
+                        {{ confirmButton.text }}
                     </ard-button>
                 </div>
             </ng-template>
+
+            <ng-template
+                [ngTemplateOutlet]="buttonsTemplate ?? defaultButtonsTemplate"
+                [ngTemplateOutletContext]="getButtonsContext()"
+            ></ng-template>
         </div>
     </div>
 </ard-modal>

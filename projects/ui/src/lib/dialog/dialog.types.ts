@@ -19,8 +19,8 @@ export type DialogButtonsContext = {
         color: ComponentColor,
     },
     canConfirm: boolean,
-    onConfirm: () => {},
-    onReject: () => {},
+    onConfirm: () => void,
+    onReject: () => void,
     dialogAppearance: PanelAppearance,
     dialogVariant: PanelVariant,
     dialogCompact: boolean;

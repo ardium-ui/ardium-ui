@@ -3,7 +3,7 @@ import { DialogButtonsContext } from "./dialog.types";
 
 
 
-@Directive({ selector: 'ard-calendar > ng-template[ard-month-picker-header-tmp], ard-datepicker > ng-template[ard-month-picker-header-tmp]' })
+@Directive({ selector: 'ard-dialog > ng-template[ard-buttons-tmp]' })
 export class ArdDialogButtonsTemplateDirective {
     constructor(public template: TemplateRef<DialogButtonsContext>) { }
 }

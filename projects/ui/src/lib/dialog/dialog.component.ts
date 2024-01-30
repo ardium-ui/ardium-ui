@@ -1,12 +1,19 @@
-import { Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
-import { TemplatePortal } from '@angular/cdk/portal';
-import { ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Input, Output, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation, effect, signal } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    ContentChild,
+    EventEmitter,
+    Input,
+    Output,
+    TemplateRef,
+    ViewEncapsulation,
+    signal,
+} from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
-import { PanelAppearance, PanelVariant } from '../types/theming.types';
-import { ButtonAppearance } from '../buttons/general-button.types';
 import { ComponentColor } from '../types/colors.types';
-import { DialogButtonsContext, DialogResult } from './dialog.types';
+import { PanelAppearance, PanelVariant } from '../types/theming.types';
 import { ArdDialogButtonsTemplateDirective } from './dialog.directives';
+import { DialogButtonsContext, DialogResult } from './dialog.types';
 
 @Component({
     selector: 'ard-dialog',
@@ -71,10 +78,10 @@ export class ArdiumDialogComponent {
     @Output('reject') rejectEvent = new EventEmitter<null>();
 
     //! button settings
-    @Input() confirmButtonText?: string = 'Confirm';
-    @Input() confirmButtonColor?: ComponentColor = ComponentColor.Primary;
-    @Input() rejectButtonText?: string = 'Cancel';
-    @Input() rejectButtonColor?: ComponentColor = ComponentColor.Primary;
+    @Input() confirmButtonText: string = 'Confirm';
+    @Input() confirmButtonColor: ComponentColor = ComponentColor.Primary;
+    @Input() rejectButtonText: string = 'Cancel';
+    @Input() rejectButtonColor: ComponentColor = ComponentColor.Primary;
 
     readonly canConfirm = signal<boolean>(false);
     @Input('canConfirm')
@@ -82,8 +89,6 @@ export class ArdiumDialogComponent {
         this.canConfirm.set(coerceBooleanProperty(v));
     }
 
-    @ContentChild(ArdDialogButtonsTemplateDirective) buttonsTemplate?: TemplateRef<DialogButtonsContext>;
-    
     onConfirmClick() {
         if (!this.canConfirm()) return;
 
@@ -98,5 +103,28 @@ export class ArdiumDialogComponent {
     }
     onModalClose() {
         this.closeEvent.emit('close');
+    }
+
+    //! templates
+    @ContentChild(ArdDialogButtonsTemplateDirective)
+    buttonsTemplate?: TemplateRef<DialogButtonsContext>;
+
+    getButtonsContext(): DialogButtonsContext {
+        return {
+            confirmButton: {
+                text: this.confirmButtonText,
+                color: this.confirmButtonColor,
+            },
+            rejectButton: {
+                text: this.rejectButtonText,
+                color: this.rejectButtonColor,
+            },
+            canConfirm: this.canConfirm(),
+            onConfirm: this.onConfirmClick,
+            onReject: this.onRejectClick,
+            dialogAppearance: this.appearance,
+            dialogVariant: this.variant,
+            dialogCompact: this.compact,
+        }
     }
 }
