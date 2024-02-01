@@ -174,10 +174,15 @@ export * from './lib/spinner/spinner.component';
 export * from './lib/inputs/digit-input/digit-input.module';
 export * from './lib/inputs/digit-input/digit-input.component';
 export * from './lib/inputs/digit-input/digit-input.types';
-//search-bar
-export * from './lib/inputs/search-bar/search-bar.module';
-export * from './lib/inputs/search-bar/search-bar.component';
-export * from './lib/inputs/search-bar/search-bar.directives';
+//modal
+export * from './lib/modal/modal.module';
+export * from './lib/modal/modal.component';
+//dialog
+export * from './lib/dialog/dialog.module';
+export * from './lib/dialog/dialog.component';
+export * from './lib/dialog/dialog.types';
+export * from './lib/dialog/dialog.directives';
+
 //! types
 export * from './lib/types/alignment.types';
 export * from './lib/types/colors.types';
