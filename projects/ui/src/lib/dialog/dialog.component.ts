@@ -14,6 +14,7 @@ import { ComponentColor } from '../types/colors.types';
 import { PanelAppearance, PanelVariant } from '../types/theming.types';
 import { ArdDialogButtonsTemplateDirective } from './dialog.directives';
 import { DialogButtonsContext, DialogResult } from './dialog.types';
+import { ButtonAppearance } from '../buttons/general-button.types';
 
 @Component({
     selector: 'ard-dialog',
@@ -80,12 +81,18 @@ export class ArdiumDialogComponent {
     //! button settings
     @Input() confirmButtonText: string = 'Confirm';
     @Input() confirmButtonColor: ComponentColor = ComponentColor.Primary;
+    @Input() confirmButtonAppearance: ButtonAppearance =
+        ButtonAppearance.RaisedStrong;
     @Input() rejectButtonText: string = 'Cancel';
     @Input() rejectButtonColor: ComponentColor = ComponentColor.Primary;
+    @Input() rejectButtonAppearance: ButtonAppearance =
+        ButtonAppearance.Transparent;
 
     readonly noRejectButton = signal<boolean>(false);
-    @Input("noRejectButton")
-    set _noRejectButton(v: any) { this.noRejectButton.set(coerceBooleanProperty(v)); }
+    @Input('noRejectButton')
+    set _noRejectButton(v: any) {
+        this.noRejectButton.set(coerceBooleanProperty(v));
+    }
 
     readonly canConfirm = signal<boolean>(false);
     @Input('canConfirm')
@@ -97,13 +104,19 @@ export class ArdiumDialogComponent {
         if (!this.canConfirm()) return;
 
         this._open = false;
-        this.closeEvent.emit('confirm');
-        this.confirmEvent.emit();
+        setTimeout(() => {
+            this.openChange.emit(false);
+            this.closeEvent.emit('confirm');
+            this.confirmEvent.emit();
+        }, 0);
     }
     onRejectClick() {
         this._open = false;
-        this.closeEvent.emit('reject');
-        this.rejectEvent.emit();
+        setTimeout(() => {
+            this.openChange.emit(false);
+            this.closeEvent.emit('reject');
+            this.rejectEvent.emit();
+        }, 0);
     }
     onModalClose() {
         this.closeEvent.emit('close');
@@ -118,18 +131,20 @@ export class ArdiumDialogComponent {
             confirmButton: {
                 text: this.confirmButtonText,
                 color: this.confirmButtonColor,
+                appearance: this.confirmButtonAppearance,
             },
             rejectButton: {
                 enabled: !this.noRejectButton(),
                 text: this.rejectButtonText,
                 color: this.rejectButtonColor,
+                appearance: this.rejectButtonAppearance,
             },
             canConfirm: this.canConfirm(),
-            onConfirm: this.onConfirmClick,
-            onReject: this.onRejectClick,
+            onConfirm: () => this.onConfirmClick(),
+            onReject: () => this.onRejectClick(),
             dialogAppearance: this.appearance,
             dialogVariant: this.variant,
             dialogCompact: this.compact,
-        }
+        };
     }
 }

@@ -1,3 +1,4 @@
+import { ButtonAppearance } from "../buttons/general-button.types";
 import { ComponentColor } from "../types/colors.types";
 import { PanelAppearance, PanelVariant } from "../types/theming.types";
 
@@ -13,11 +14,13 @@ export type DialogButtonsContext = {
     confirmButton: {
         text: string,
         color: ComponentColor,
+        appearance: ButtonAppearance,
     },
     rejectButton: {
         enabled: boolean;
         text: string,
         color: ComponentColor,
+        appearance: ButtonAppearance,
     },
     canConfirm: boolean,
     onConfirm: () => void,

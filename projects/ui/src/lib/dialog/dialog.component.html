@@ -27,7 +27,7 @@
                 <div class="ard-dialog-buttons-container">
                     @if (rejectButton.enabled) {<ard-button
                         [color]="rejectButton.color"
-                        appearance="transparent"
+                        [appearance]="rejectButton.appearance"
                         [variant]="dialogVariant"
                         [compact]="dialogCompact"
                         (click)="onReject()"
@@ -36,11 +36,11 @@
                     </ard-button>}
                     <ard-button
                         [color]="confirmButton.color"
-                        appearance="raised-strong"
+                        [appearance]="confirmButton.appearance"
                         [variant]="dialogVariant"
                         [compact]="dialogCompact"
                         (click)="onConfirm()"
-                        [disabled]="canConfirm"
+                        [disabled]="!canConfirm"
                     >
                         {{ confirmButton.text }}
                     </ard-button>
