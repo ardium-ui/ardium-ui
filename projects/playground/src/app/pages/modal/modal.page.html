@@ -53,3 +53,16 @@
         Modal content
     </ard-modal>
 </div>
+<div class="master">
+    <div class="title">Modal events</div>
+    <button (click)="isOpen3.set(true)">Open</button>
+    <ard-modal
+        [open]="isOpen3()"
+        (openChange)="isOpen3.set($event)"
+        heading="Modal heading"
+        (openChange)="log('openChange', $event)"
+        (close)="log('close', $event)"
+    >
+        Modal content
+    </ard-modal>
+</div>

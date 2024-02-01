@@ -46,10 +46,31 @@
         Dialog content
     </ard-dialog>
 </div>
-<!-- <div class="master">
+<div class="master">
     <div class="title">Simple dialog with a title</div>
     <button (click)="isOpen2.set(true)">Open</button>
     <ard-dialog [open]="isOpen2()" (openChange)="isOpen2.set($event)" heading="Dialog heading">
-        Dialog content
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, laboriosam?
     </ard-dialog>
-</div> -->
+</div>
+<div class="master">
+    <div class="title">Dialog with changed buttons</div>
+    <button (click)="openDeleteConfirmationDialog()">Open</button>
+    <ard-dialog
+        [open]="isOpen3()"
+        (openChange)="isOpen3.set($event)"
+        heading="Are you sure you want to delete?"
+        confirmButtonText="Delete"
+        confirmButtonColor="danger"
+        confirmButtonAppearance="outlined-strong"
+        rejectButtonText="Keep"
+        rejectButtonColor="none"
+        rejectButtonAppearance="transparent"
+        [canConfirm]="canConfirmDelete()"
+        (confirm)="onDeleteConfirm()"
+        (close)="clearDeleteConfirmationTimeout()"
+
+    >
+        This action is irreversible.
+    </ard-dialog>
+</div>

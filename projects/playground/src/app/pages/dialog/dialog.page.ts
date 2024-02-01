@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, effect } from '@angular/core';
 import { PanelAppearance, PanelVariant } from '@ardium-ui/ui';
 
 @Component({
@@ -20,4 +20,36 @@ export class DialogPage {
 
     readonly isOpen1 = signal(false);
     readonly isOpen2 = signal(false);
+    readonly isOpen3 = signal(false);
+    readonly isOpen4 = signal(false);
+    readonly isOpen5 = signal(false);
+    readonly isOpen6 = signal(false);
+    readonly isOpen7 = signal(false);
+
+    //! delete confirmation
+    readonly canConfirmDelete = signal<boolean>(false);
+    readonly deleteConfirmationTimeout = signal<NodeJS.Timeout | null>(null);
+    clearDeleteConfirmationTimeout() {
+        const prevTimeout = this.deleteConfirmationTimeout();
+        if (prevTimeout) {
+            clearTimeout(prevTimeout);
+        }
+    }
+    constructor() {
+        effect(() => {
+            console.log(this.isOpen3());
+        })
+    }
+    openDeleteConfirmationDialog() {
+        console.log('openDeleteConfirmationDialog');
+        this.isOpen3.set(true);
+        this.canConfirmDelete.set(false);
+        const newTimeout = setTimeout(() => {
+            clearTimeout(newTimeout);
+            this.canConfirmDelete.set(true);
+        }, 3000);
+    }
+    onDeleteConfirm() {
+        alert('File has been deleted.');
+    }
 }

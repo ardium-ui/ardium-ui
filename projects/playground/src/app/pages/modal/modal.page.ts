@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { PanelAppearance, PanelVariant } from '@ardium-ui/ui';
+import { Logger } from '../../services/logger.service';
 
 @Component({
     selector: 'app-modal',
@@ -7,6 +8,10 @@ import { PanelAppearance, PanelVariant } from '@ardium-ui/ui';
     styleUrl: './modal.page.scss',
 })
 export class ModalPage {
+
+    constructor(private _logger: Logger) {}
+    log(...args: any[]) { console.log(...args); }
+
     readonly isOpenMain = signal(false);
     appearance: PanelAppearance = PanelAppearance.Raised;
     variant: PanelVariant = PanelVariant.Rounded;
@@ -20,4 +25,5 @@ export class ModalPage {
 
     readonly isOpen1 = signal(false);
     readonly isOpen2 = signal(false);
+    readonly isOpen3 = signal(false);
 }
