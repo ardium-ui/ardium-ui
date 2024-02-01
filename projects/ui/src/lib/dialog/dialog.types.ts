@@ -15,6 +15,7 @@ export type DialogButtonsContext = {
         color: ComponentColor,
     },
     rejectButton: {
+        enabled: boolean;
         text: string,
         color: ComponentColor,
     },

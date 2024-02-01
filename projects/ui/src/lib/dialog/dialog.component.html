@@ -25,7 +25,7 @@
                 let-dialogCompact="dialogCompact"
             >
                 <div class="ard-dialog-buttons-container">
-                    <ard-button
+                    @if (rejectButton.enabled) {<ard-button
                         [color]="rejectButton.color"
                         appearance="transparent"
                         [variant]="dialogVariant"
@@ -33,7 +33,7 @@
                         (click)="onReject()"
                     >
                         {{ rejectButton.text }}
-                    </ard-button>
+                    </ard-button>}
                     <ard-button
                         [color]="confirmButton.color"
                         appearance="raised-strong"

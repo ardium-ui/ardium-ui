@@ -83,6 +83,10 @@ export class ArdiumDialogComponent {
     @Input() rejectButtonText: string = 'Cancel';
     @Input() rejectButtonColor: ComponentColor = ComponentColor.Primary;
 
+    readonly noRejectButton = signal<boolean>(false);
+    @Input("noRejectButton")
+    set _noRejectButton(v: any) { this.noRejectButton.set(coerceBooleanProperty(v)); }
+
     readonly canConfirm = signal<boolean>(false);
     @Input('canConfirm')
     set _canConfirm(v: any) {
@@ -116,6 +120,7 @@ export class ArdiumDialogComponent {
                 color: this.confirmButtonColor,
             },
             rejectButton: {
+                enabled: !this.noRejectButton(),
                 text: this.rejectButtonText,
                 color: this.rejectButtonColor,
             },
