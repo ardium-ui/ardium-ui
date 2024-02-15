@@ -1,4 +1,4 @@
-<!-- <div class="master flex playground">
+<div class="master flex playground">
     <span class="title">Dialog playground</span>
     <div class="settings-form flex horiz">
         <div class="settings-left flex">
@@ -38,7 +38,7 @@
     </div>
     <ard-dialog [open]="isOpenMain()" (openChange)="isOpenMain.set($event)" [appearance]="appearance" [variant]="variant" [compact]="compact()" [noCloseButton]="noCloseButton()"
         [noBackdrop]="noBackdrop()" [disableBackdropClose]="disableBackdropClose()">Dialog content</ard-dialog>
-</div> -->
+</div>
 <div class="master">
     <div class="title">Simplest dialog</div>
     <button (click)="isOpen1.set(true)">Open</button>
@@ -69,7 +69,6 @@
         [canConfirm]="canConfirmDelete()"
         (confirm)="onDeleteConfirm()"
         (close)="clearDeleteConfirmationTimeout()"
-
     >
         This action is irreversible.
     </ard-dialog>
