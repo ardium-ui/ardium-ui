@@ -94,7 +94,7 @@ export class ArdiumDialogComponent {
         this.noRejectButton.set(coerceBooleanProperty(v));
     }
 
-    readonly canConfirm = signal<boolean>(false);
+    readonly canConfirm = signal<boolean>(true);
     @Input('canConfirm')
     set _canConfirm(v: any) {
         this.canConfirm.set(coerceBooleanProperty(v));

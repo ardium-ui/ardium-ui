@@ -35,11 +35,6 @@ export class DialogPage {
             clearTimeout(prevTimeout);
         }
     }
-    constructor() {
-        effect(() => {
-            console.log(this.isOpen3());
-        })
-    }
     openDeleteConfirmationDialog() {
         console.log('openDeleteConfirmationDialog');
         this.isOpen3.set(true);

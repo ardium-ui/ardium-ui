@@ -52,23 +52,17 @@ export class ArdiumModalComponent {
     set _disableBackdropClose(v: any) { this.disableBackdropClose.set(coerceBooleanProperty(v)); }
 
     //! open state handling
-    private readonly _openSignal = signal(false);
-
     private _open: boolean = false;
     @Input()
     get open(): boolean { return this._open; }
     set open(v: any) {
         this._open = coerceBooleanProperty(v);
-        this._openSignal.set(this._open);
+        if (this._open) this._openOverlay();
+        else this._destroyOverlay();
     }
 
     @Output() openChange = new EventEmitter<boolean>();
     @Output('close') closeEvent = new EventEmitter<null>();
-
-    readonly openEffect = effect(() => {
-        if (this._openSignal()) this._openOverlay();
-        else this._destroyOverlay();
-    })
 
     //! overlay handling
     @ViewChild('modalTemplate', { read: TemplateRef }) modalTemplate!: TemplateRef<any>;
@@ -101,6 +95,9 @@ export class ArdiumModalComponent {
     //! events
     onBackdropClick(event: MouseEvent): void {
         if (this.disableBackdropClose()) return;
+        this._destroyOverlay();
+    }
+    onCloseButtonClick(event: MouseEvent): void {
         this._destroyOverlay();
     }
 }
