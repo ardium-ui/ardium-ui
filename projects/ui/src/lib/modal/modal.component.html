@@ -15,12 +15,13 @@
         class="ard-modal-panel"
         [class.ard-modal-no-heading-text]="!heading"
         [class.ard-modal-has-close-button]="!this.noCloseButton()"
+        (click)="$event.stopPropagation()"
         cdkTrapFocus
     >
         <div class="ard-modal-heading">
             <div class="ard-modal-heading-text">{{heading}}</div>
             @if (!noCloseButton()) {
-                <ard-icon-button class="ard-modal-close-button" color="none" [compact]="compact">
+                <ard-icon-button class="ard-modal-close-button" color="none" [compact]="compact" (click)="onCloseButtonClick($event)">
                     <ard-icon>close</ard-icon>
                 </ard-icon-button>
             }
