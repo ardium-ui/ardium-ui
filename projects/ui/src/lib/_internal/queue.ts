@@ -1,19 +1,30 @@
 class Queue<T = unknown> {
-    private readonly elements: T[] = [];
+    private head?: QueueItem<T>;
+    private tail?: QueueItem<T>;
 
     push(item: T): void {
-        this.elements.push(item);
+        if (!this.tail) this.pushFront(item);
+        this.tail!.next = new QueueItem(item);
     }
     pushFront(item: T): void {
-        this.elements.unshift(item);
+        this.head = new QueueItem(item, this.head);
+        if (!this.tail) this.tail = this.head;
     }
     next(): T | undefined {
-        return this.elements.splice(0, 1)[0];
+        const head = this.head;
+        if (!head) return;
+        this.head = head.next;
+        return head.value;
     }
     clear(): void {
-        this.elements.length = 0;
+        this.head = undefined;
+        this.tail = undefined;
     }
     isEmpty(): boolean {
-        return this.elements.length === 0;
+        return !this.head;
     }
+}
+
+class QueueItem<T> {
+    constructor(public value: T, public next?: QueueItem<T>) {  }
 }
