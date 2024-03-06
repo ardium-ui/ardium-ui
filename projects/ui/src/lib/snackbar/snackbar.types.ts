@@ -1,5 +1,4 @@
 import { ComponentRef, ElementRef } from '@angular/core';
-import { Observable } from 'rxjs';
 
 export const ArdSnackbarAlignment = {
     TopLeft: 'top-left',
@@ -32,6 +31,7 @@ export type ArdSnackbarOrigin<T = any> =
     | ComponentRef<T>;
 
 export type ArdSnackbarOptions = {
+    data?: { message: string; action?: string };
     placement?: {
         align?: ArdSnackbarAlignment;
         origin?: ArdSnackbarOrigin;

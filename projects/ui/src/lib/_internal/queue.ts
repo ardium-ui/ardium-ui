@@ -10,7 +10,7 @@ class Queue<T = unknown> {
         this.head = new QueueItem(item, this.head);
         if (!this.tail) this.tail = this.head;
     }
-    next(): T | undefined {
+    pop(): T | undefined {
         const head = this.head;
         if (!head) return;
         this.head = head.next;

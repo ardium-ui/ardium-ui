@@ -1,38 +1,33 @@
-import { Observable, Subject } from 'rxjs';
+import { ComponentType } from '@angular/cdk/portal';
+import { InjectionToken } from '@angular/core';
+import { Subject } from 'rxjs';
 import { ArdSnackbarOptions } from './snackbar.types';
+import { OverlayRef } from '@angular/cdk/overlay';
 
-export type ArdSnackbarRef = {
-    close(withAction?: boolean): void;
-    onOpen: Observable<void>;
-    onClose: Observable<boolean>;
-    isClosed: boolean;
-};
+export const ARD_SNACKBAR_DATA = new InjectionToken<{ message: string, action: string }>('ArdSnackbarData');
 
-export class _ArdSnackbarRefInternal {
+export class _ArdSnackbarRefInternal<T> {
     constructor(
-        private message: string,
-        private action: string,
-        private options: ArdSnackbarOptions,
+        public component: ComponentType<T>,
+        public options: Required<ArdSnackbarOptions>,
         dismiss: (withAction?: boolean) => void
     ) {
-        this.publicRef = new _ArdSnackbarRef(dismiss, this._onOpen);
+        this.publicRef = new ArdSnackbarRef(dismiss, this._onOpen);
     }
 
-    readonly publicRef!: ArdSnackbarRef;
+    readonly publicRef!: ArdSnackbarRef<T>;
+
+    timeout!: NodeJS.Timeout;
+    overlay!: OverlayRef;
 
     private readonly _onOpen = new Subject<void>();
 
-    open() {
+    markAsOpened() {
         this._onOpen.next();
         this._onOpen.complete();
-        return {
-            message: this.message,
-            action: this.action,
-            options: this.options,
-        };
     }
 }
-export class _ArdSnackbarRef implements ArdSnackbarRef {
+export class ArdSnackbarRef<T> {
     constructor(
         private dismiss: (withAction?: boolean) => void,
         private _onOpen: Subject<void>
@@ -42,9 +37,16 @@ export class _ArdSnackbarRef implements ArdSnackbarRef {
     public readonly onOpen = this._onOpen.asObservable();
     public readonly onClose = this._onClose.asObservable();
 
+    public instance!: T;
+
     close(withAction: boolean = false): void {
-        if (this._isClosed) return;
+        if (this.isClosed) return;
         this.dismiss(withAction);
+        this.markAsClosed();
+    }
+
+    markAsClosed(withAction: boolean = false): void {
+        if (this.isClosed) return;
         this._onClose.next(withAction);
         this._onClose.complete();
         this._isClosed = true;
