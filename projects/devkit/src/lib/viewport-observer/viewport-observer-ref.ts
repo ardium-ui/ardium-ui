@@ -1,5 +1,13 @@
 import { computed, signal } from '@angular/core';
-import { Observable, Subject, throttle, interval, Subscription } from 'rxjs';
+import {
+    BehaviorSubject,
+    Observable,
+    Subject,
+    Subscription,
+    filter,
+    map,
+    pairwise,
+} from 'rxjs';
 import { throttleSaveLast } from './throttleSaveLast';
 
 export const ViewportRelation = {
@@ -46,7 +54,7 @@ export class ArdViewportObserverRef {
                     : config?.margin?.bottom) ?? 0,
         };
 
-        this.subscription = this.scroll$
+        this._scrollSubscription = this.scroll$
             .pipe(throttleSaveLast(this._throttleTime))
             .subscribe(() => this._checkViewportRelation());
     }
@@ -54,51 +62,55 @@ export class ArdViewportObserverRef {
     private readonly _throttleTime!: number;
     private readonly _margins!: { top: number; bottom: number };
 
-    private readonly _leaveVieportSubject = new Subject<void>();
-    public readonly leaveViewport = this._leaveVieportSubject.asObservable();
-
-    private readonly _enterVieportSubject = new Subject<void>();
-    public readonly enterViewport = this._enterVieportSubject.asObservable();
-
-    private readonly _viewportRelation = signal<ViewportRelation>(
-        ViewportRelation.Undefined
-    );
-    public readonly viewportRelation = computed(() => this._viewportRelation());
-    public readonly isInViewport = computed(
-        () => this._viewportRelation() === ViewportRelation.Undefined
+    private readonly _viewportRelationSubject =
+        new BehaviorSubject<ViewportRelation>(ViewportRelation.Undefined);
+    public readonly viewportRelation =
+        this._viewportRelationSubject.asObservable();
+    public readonly isInViewport = this.viewportRelation.pipe(
+        map((v) => v === ViewportRelation.Inside)
     );
 
-    private readonly subscription!: Subscription;
+    private readonly _leaveViewportSubject = new Subject<void>();
+    public readonly leaveViewport = this._viewportRelationSubject.pipe(
+        pairwise(),
+        filter(([oldRelation, newRelation]) => {
+            return (
+                newRelation !== ViewportRelation.Inside &&
+                (oldRelation === ViewportRelation.Inside ||
+                    oldRelation === ViewportRelation.Undefined)
+            );
+        }),
+        map(() => undefined)
+    );
+
+    private readonly _enterViewportSubject = new Subject<void>();
+    public readonly enterViewport = this._viewportRelationSubject.pipe(
+        pairwise(),
+        filter(([oldRelation, newRelation]) => {
+            return (
+                newRelation === ViewportRelation.Inside &&
+                oldRelation !== ViewportRelation.Inside
+            );
+        }),
+        map(() => undefined)
+    );
+
+    private readonly _scrollSubscription!: Subscription;
 
     private _checkViewportRelation() {
         const domRect = this.element.getBoundingClientRect();
-        console.log('_checkViewportRelation');
 
-        const oldRelation = this._viewportRelation();
         let newRelation!: ViewportRelation;
 
-        if (domRect.bottom < this._margins.top)
+        if (domRect.bottom < this._margins.top) {
             newRelation = ViewportRelation.Above;
-        else if (domRect.top > window.innerHeight - this._margins.bottom)
+        } else if (domRect.top > window.innerHeight - this._margins.bottom) {
             newRelation = ViewportRelation.Below;
-        else newRelation = ViewportRelation.Inside;
-
-        this._viewportRelation.set(newRelation);
-
-        if (
-            newRelation !== ViewportRelation.Inside &&
-            (oldRelation === ViewportRelation.Inside ||
-                oldRelation === ViewportRelation.Undefined)
-        ) {
-            this._leaveVieportSubject.next();
+        } else {
+            newRelation = ViewportRelation.Inside;
         }
 
-        if (
-            newRelation === ViewportRelation.Inside &&
-            oldRelation !== ViewportRelation.Inside
-        ) {
-            this._enterVieportSubject.next();
-        }
+        this._viewportRelationSubject.next(newRelation);
     }
 
     private readonly _isDestroyed = signal(false);
@@ -107,8 +119,9 @@ export class ArdViewportObserverRef {
     public destroy(): void {
         if (this.isDestroyed()) return;
         this._isDestroyed.set(true);
-        this.subscription.unsubscribe();
-        this._leaveVieportSubject.complete();
+        this._scrollSubscription.unsubscribe();
+        this._leaveViewportSubject.complete();
+        this._enterViewportSubject.complete();
     }
 
     public setMargin(topAndBottom: number): ArdViewportObserverRef;
