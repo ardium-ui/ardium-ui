@@ -44,7 +44,21 @@ export class ArdiumViewportObserverService implements OnDestroy {
 
         if (!element) {
             throw new Error(
-                `DKT-NF0001: Trying to observe an element by id, but the element does not exist.`
+                `DKT-NF0001: Trying to observe an element by id, but the element with id "${id}" does not exist.`
+            );
+        }
+        return this.observeElement(element, config);
+    }
+
+    public observeByQuery(
+        query: string,
+        config?: ArdViewportObserverConfig
+    ): ArdViewportObserverRef {
+        const element = document.querySelector<HTMLElement>(query);
+
+        if (!element) {
+            throw new Error(
+                `DKT-NF0002: Trying to observe an element by query, but no element matching "${query}" exists.`
             );
         }
         return this.observeElement(element, config);
