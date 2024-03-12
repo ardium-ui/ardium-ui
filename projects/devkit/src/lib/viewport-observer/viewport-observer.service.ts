@@ -1,51 +1,53 @@
-import { Injectable, OnDestroy, Renderer2, computed, inject, signal } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Injectable, OnDestroy, Renderer2, inject } from '@angular/core';
 import { Subject } from 'rxjs';
-import { ArdViewportObserverRef } from './viewport-observer-ref';
+import {
+    ArdViewportObserverConfig,
+    ArdViewportObserverRef,
+} from './viewport-observer-ref';
 
 @Injectable({ providedIn: 'root' })
 export class ArdiumViewportObserverService implements OnDestroy {
+    constructor() {
+        this.setScrollHost(document);
+    }
 
     private readonly renderer = inject(Renderer2);
-    private readonly document = inject(DOCUMENT);
 
     private readonly _scrollSubject = new Subject<void>();
     private readonly scroll$ = this._scrollSubject.asObservable();
 
     private readonly _registeredObservers: ArdViewportObserverRef[] = [];
 
-    private readonly _scrollHost = signal<HTMLElement | Document>(this.document.body);
-    private _scrollCleanupFn = computed<() => void>(() => {
-        return this.renderer.listen(this._scrollHost(), 'scroll', () => {
+    private _scrollCleanupFn!: () => void;
+
+    public setScrollHost(element: HTMLElement | Document): void {
+        this.ngOnDestroy();
+        this._scrollCleanupFn = this.renderer.listen(element, 'scroll', () => {
             this._scrollSubject.next();
         });
-    });
-
-    // maybe will implement later
-    // for now it will remain private
-    private setScrollHost(element: HTMLElement | Document): void {
-        this.ngOnDestroy();
-        this._scrollHost.set(element);
     }
 
-    public observeElement(element: HTMLElement): ArdViewportObserverRef {
-        const host = this._scrollHost();
-        const vo = new ArdViewportObserverRef(
-            element,
-            this.scroll$,
-            host instanceof Document ? host.body : host
-        );
+    public observeElement(
+        element: HTMLElement,
+        config?: ArdViewportObserverConfig
+    ): ArdViewportObserverRef {
+        const vo = new ArdViewportObserverRef(element, this.scroll$, config);
         this._registeredObservers.push(vo);
         return vo;
     }
 
-    public observeById(id: string): ArdViewportObserverRef {
-        const element = this.document.getElementById(id);
+    public observeById(
+        id: string,
+        config?: ArdViewportObserverConfig
+    ): ArdViewportObserverRef {
+        const element = document.getElementById(id);
 
         if (!element) {
-            throw new Error(`DKT-NF0001: Trying to observe an element by id, but the element does not exist.`);
+            throw new Error(
+                `DKT-NF0001: Trying to observe an element by id, but the element does not exist.`
+            );
         }
-        return this.observeElement(element);
+        return this.observeElement(element, config);
     }
 
     public triggerRecheck(): void {
@@ -54,6 +56,6 @@ export class ArdiumViewportObserverService implements OnDestroy {
 
     ngOnDestroy(): void {
         this._scrollCleanupFn?.();
-        this._registeredObservers.forEach(obs => obs.destroy());
+        this._registeredObservers.forEach((obs) => obs.destroy());
     }
 }

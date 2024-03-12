@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ButtonAppearance as BA, ButtonVariant as BV, ComponentColor as CC, SimpleOneAxisAlignment as SOAA } from '@ardium-ui/ui';
 import { Logger } from '../../services/logger.service';
 
