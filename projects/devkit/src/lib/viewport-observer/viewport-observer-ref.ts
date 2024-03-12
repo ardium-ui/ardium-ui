@@ -110,6 +110,8 @@ export class ArdViewportObserverRef {
             newRelation = ViewportRelation.Inside;
         }
 
+        if (newRelation === this._viewportRelationSubject.getValue()) return;
+
         this._viewportRelationSubject.next(newRelation);
     }
 
