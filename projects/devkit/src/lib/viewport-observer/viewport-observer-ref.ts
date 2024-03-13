@@ -34,7 +34,7 @@ export type ArdViewportObserverConfig = {
 
 export class ArdViewportObserverRef {
     constructor(
-        private readonly element: HTMLElement,
+        public readonly element: HTMLElement,
         private readonly scroll$: Observable<void>,
         config?: ArdViewportObserverConfig
     ) {
