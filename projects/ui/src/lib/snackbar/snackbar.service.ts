@@ -1,14 +1,3 @@
-import { Injectable, inject, OnDestroy, Injector } from '@angular/core';
-import { ArdSnackbarOptions, ArdSnackbarQueueHandling } from './snackbar.types';
-import {
-    ARD_SNACKBAR_ANIMATION_LENGTH,
-    ARD_SNACKBAR_DEFAULT_OPTIONS,
-} from './snackbar.token';
-import {
-    ARD_SNACKBAR_DATA,
-    ArdSnackbarRef,
-    _ArdSnackbarRefInternal,
-} from './snackbar-ref';
 import {
     ComponentType,
     Overlay,
@@ -16,8 +5,20 @@ import {
     OverlayRef,
 } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
+import { Injectable, Injector, OnDestroy, inject } from '@angular/core';
 import { isArray } from 'simple-bool';
+import { Queue } from '../_internal/queue';
+import {
+    ARD_SNACKBAR_DATA,
+    ArdSnackbarRef,
+    _ArdSnackbarRefInternal,
+} from './snackbar-ref';
 import { _ArdSimpleSnackbar } from './snackbar.component';
+import {
+    ARD_SNACKBAR_ANIMATION_LENGTH,
+    ARD_SNACKBAR_DEFAULT_OPTIONS,
+} from './snackbar.token';
+import { ArdSnackbarOptions, ArdSnackbarQueueHandling } from './snackbar.types';
 
 @Injectable({
     providedIn: 'root',

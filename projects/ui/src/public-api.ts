@@ -182,6 +182,8 @@ export * from './lib/dialog/dialog.module';
 export * from './lib/dialog/dialog.component';
 export * from './lib/dialog/dialog.types';
 export * from './lib/dialog/dialog.directives';
+//snackbar
+export * from './lib/snackbar';
 
 //! types
 export * from './lib/types/alignment.types';

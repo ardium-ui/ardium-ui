@@ -1,4 +1,4 @@
-class Queue<T = unknown> {
+export class Queue<T = unknown> {
     private head?: QueueItem<T>;
     private tail?: QueueItem<T>;
 
@@ -25,6 +25,6 @@ class Queue<T = unknown> {
     }
 }
 
-class QueueItem<T> {
+export class QueueItem<T> {
     constructor(public value: T, public next?: QueueItem<T>) {  }
 }
