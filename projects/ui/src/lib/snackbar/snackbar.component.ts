@@ -10,7 +10,7 @@ import { ARD_SNACKBAR_DATA, ArdSnackbarRef } from './snackbar-ref';
 
 @Component({
     selector: '_ard-simple-snack-bar',
-    template: ``,
+    templateUrl: './snackbar.component.html',
     styles: ``,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,

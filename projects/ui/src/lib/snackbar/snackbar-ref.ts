@@ -1,10 +1,10 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { InjectionToken } from '@angular/core';
 import { Subject } from 'rxjs';
-import { ArdSnackbarOptions } from './snackbar.types';
+import { ArdSnackbarData, ArdSnackbarOptions } from './snackbar.types';
 import { OverlayRef } from '@angular/cdk/overlay';
 
-export const ARD_SNACKBAR_DATA = new InjectionToken<{ message: string, action: string }>('ArdSnackbarData');
+export const ARD_SNACKBAR_DATA = new InjectionToken<ArdSnackbarData>('ArdSnackbarData');
 
 export class _ArdSnackbarRefInternal<T> {
     constructor(

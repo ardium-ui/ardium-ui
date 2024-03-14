@@ -30,8 +30,10 @@ export type ArdSnackbarOrigin<T = any> =
     | ElementRef<T>
     | ComponentRef<T>;
 
+export type ArdSnackbarData = { message: string; action?: string };
+
 export type ArdSnackbarOptions = {
-    data?: { message: string; action?: string };
+    data?: ArdSnackbarData;
     placement?: {
         align?: ArdSnackbarAlignment;
         origin?: ArdSnackbarOrigin;
