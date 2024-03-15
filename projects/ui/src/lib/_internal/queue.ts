@@ -1,4 +1,11 @@
-export class Queue<T = unknown> {
+
+
+
+interface IQueue {
+    readonly length: number;
+}
+
+export class Queue<T = unknown> implements IQueue {
     private head?: QueueItem<T>;
     private tail?: QueueItem<T>;
 
@@ -16,9 +23,21 @@ export class Queue<T = unknown> {
         this.head = head.next;
         return head.value;
     }
+    peek(): T | undefined {
+        return this.head?.value;
+    }
     clear(): void {
         this.head = undefined;
         this.tail = undefined;
+    }
+    get length(): number {
+        let length = 0;
+        let currentNode = this.head;
+        while (currentNode) {
+            length++;
+            currentNode = currentNode.next;
+        }
+        return length;
     }
     isEmpty(): boolean {
         return !this.head;
