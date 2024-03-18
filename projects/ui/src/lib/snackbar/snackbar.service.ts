@@ -17,18 +17,20 @@ import { _ArdSimpleSnackbar } from './snackbar.component';
 import {
     ARD_SNACKBAR_ANIMATION_LENGTH,
     ARD_SNACKBAR_DEFAULT_OPTIONS,
+    _DEFAULT_OPTIONS_STATIC,
 } from './snackbar.token';
 import { ArdSnackbarOptions, ArdSnackbarQueueHandling } from './snackbar.types';
 
 @Injectable({
     providedIn: 'root',
 })
-export class SnackbarService implements OnDestroy {
+export class ArdiumSnackbarService implements OnDestroy {
     private readonly _snackbarQueue = new Queue<
         _ArdSnackbarRefInternal<unknown>
     >();
     private _openedSnackbar?: _ArdSnackbarRefInternal<unknown>;
 
+    private readonly _defaultOptionsStatic = _DEFAULT_OPTIONS_STATIC;
     private readonly _defaultOptions = inject(ARD_SNACKBAR_DEFAULT_OPTIONS);
     private readonly _animationLength = inject(ARD_SNACKBAR_ANIMATION_LENGTH);
     private readonly _overlay = inject(Overlay);
@@ -36,9 +38,13 @@ export class SnackbarService implements OnDestroy {
 
     open(
         message: string,
-        action: string = '',
-        options: ArdSnackbarOptions = { data: { message, action } }
+        action?: string,
+        options: ArdSnackbarOptions = {}
     ): ArdSnackbarRef<_ArdSimpleSnackbar> {
+        options.data = {
+            message,
+            action: action ?? options.data?.action
+        }
         const mergedOptions = this._mergeOptions(options);
 
         if (
@@ -55,7 +61,7 @@ export class SnackbarService implements OnDestroy {
             (withAction?: boolean) => this.dismissCurrent(withAction)
         );
 
-        this._handleQueue(options.queueHandling!, internalRef);
+        this._handleQueue(mergedOptions.queueHandling!, internalRef);
         return internalRef.publicRef;
     }
     openFromComponent<T>(
@@ -97,24 +103,43 @@ export class SnackbarService implements OnDestroy {
     private _mergeOptions(
         options: ArdSnackbarOptions
     ): Required<ArdSnackbarOptions> {
+        // merge placement
         if (options.placement) {
             options.placement = {
+                ...this._defaultOptionsStatic.placement,
                 ...this._defaultOptions.placement,
                 ...options.placement,
             };
         } else {
-            options.placement = this._defaultOptions.placement;
+            options.placement =
+                this._defaultOptions.placement ??
+                this._defaultOptionsStatic.placement;
         }
+        // merge data
+        if (options.data) {
+            options.data = {
+                ...this._defaultOptionsStatic.data,
+                ...this._defaultOptions.data,
+                ...options.data,
+            };
+        } else {
+            options.data =
+                this._defaultOptions.data ?? this._defaultOptionsStatic.data;
+        }
+        console.log(options);
         return {
+            ...this._defaultOptionsStatic,
             ...this._defaultOptions,
             ...options,
         } as Required<ArdSnackbarOptions>;
     }
+    //! opening snackbars
     private _openNext() {
         const sb = this._snackbarQueue.pop();
         if (!sb) return;
         this._openedSnackbar = sb;
         const overlay = this._createOverlay(sb.options);
+        sb.overlay = overlay;
 
         const injector = this._createInjector(sb.options, sb.publicRef);
         const portal = new ComponentPortal(sb.component, undefined, injector);
@@ -153,6 +178,8 @@ export class SnackbarService implements OnDestroy {
 
         return this._overlay.create(config);
     }
+
+    //! public actions
     dismissCurrent(withAction?: boolean) {
         const sb = this._openedSnackbar;
         if (!sb) {
@@ -165,7 +192,7 @@ export class SnackbarService implements OnDestroy {
         }
 
         setTimeout(() => {
-            sb.overlay.dispose();
+            sb.overlay?.dispose();
             this._openedSnackbar = undefined;
             sb.publicRef.markAsClosed(withAction);
 
@@ -173,6 +200,9 @@ export class SnackbarService implements OnDestroy {
         }, this._animationLength);
     }
 
+    /**
+     * @deprecated Internal implementation detail, do not use directly.
+     */
     ngOnDestroy(): void {
         this._snackbarQueue.clear();
         this.dismissCurrent(false);
