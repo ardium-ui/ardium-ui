@@ -43,8 +43,8 @@ export class ArdiumSnackbarService implements OnDestroy {
     ): ArdSnackbarRef<_ArdSimpleSnackbar> {
         options.data = {
             message,
-            action: action ?? options.data?.action
-        }
+            action: action ?? options.data?.action,
+        };
         const mergedOptions = this._mergeOptions(options);
 
         if (
@@ -90,14 +90,24 @@ export class ArdiumSnackbarService implements OnDestroy {
                 this._openNext();
             }
         } else if (handling === ArdSnackbarQueueHandling.Skip) {
+            const wasEmpty = this._snackbarQueue.isEmpty();
             this._snackbarQueue.pushFront(ref);
-            this.dismissCurrent(false);
-            //it is opened automatically within the dismiss method
+            if (wasEmpty) {
+                this._openNext();
+            } else {
+                this.dismissCurrent(false);
+                //it is opened automatically within the dismiss method
+            }
         } else if (handling === ArdSnackbarQueueHandling.Overwrite) {
-            this._snackbarQueue.clear();
+            const wasEmpty = this._snackbarQueue.isEmpty();
+            if (!wasEmpty) this._snackbarQueue.clear();
             this._snackbarQueue.push(ref);
-            this.dismissCurrent(false);
-            //it is opened automatically within the dismiss method
+            if (wasEmpty) {
+                this._openNext();
+            } else {
+                this.dismissCurrent(false);
+                //it is opened automatically within the dismiss method
+            }
         }
     }
     private _mergeOptions(
@@ -126,7 +136,6 @@ export class ArdiumSnackbarService implements OnDestroy {
             options.data =
                 this._defaultOptions.data ?? this._defaultOptionsStatic.data;
         }
-        console.log(options);
         return {
             ...this._defaultOptionsStatic,
             ...this._defaultOptions,

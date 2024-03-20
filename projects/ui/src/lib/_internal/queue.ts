@@ -12,6 +12,7 @@ export class Queue<T = unknown> implements IQueue {
     push(item: T): void {
         if (!this.tail) this.pushFront(item);
         this.tail!.next = new QueueItem(item);
+        this.tail = this.tail!.next!;
     }
     pushFront(item: T): void {
         this.head = new QueueItem(item, this.head);
