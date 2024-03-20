@@ -10,7 +10,7 @@ export class Queue<T = unknown> implements IQueue {
     private tail?: QueueItem<T>;
 
     push(item: T): void {
-        if (!this.tail) this.pushFront(item);
+        if (!this.tail) return this.pushFront(item);
         this.tail!.next = new QueueItem(item);
         this.tail = this.tail!.next!;
     }
@@ -21,7 +21,11 @@ export class Queue<T = unknown> implements IQueue {
     pop(): T | undefined {
         const head = this.head;
         if (!head) return;
+        //replace head with the next item
         this.head = head.next;
+        //delete the tail if there are no next items
+        if (!this.head) this.tail = undefined;
+
         return head.value;
     }
     peek(): T | undefined {
@@ -42,6 +46,15 @@ export class Queue<T = unknown> implements IQueue {
     }
     isEmpty(): boolean {
         return !this.head;
+    }
+    toArray(): T[] {
+        const array: T[] = [];
+        let currentNode = this.head;
+        while (currentNode) {
+            array.push(currentNode.value);
+            currentNode = currentNode.next;
+        }
+        return array;
     }
 }
 

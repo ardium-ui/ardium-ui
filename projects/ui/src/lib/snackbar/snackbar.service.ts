@@ -36,6 +36,7 @@ export class ArdiumSnackbarService implements OnDestroy {
     private readonly _overlay = inject(Overlay);
     private readonly _injector = inject(Injector);
 
+    //! public methods for creating new snackbars
     open(
         message: string,
         action?: string,
@@ -61,6 +62,8 @@ export class ArdiumSnackbarService implements OnDestroy {
             (withAction?: boolean) => this.dismissCurrent(withAction)
         );
 
+        console.time('test');
+
         this._handleQueue(mergedOptions.queueHandling!, internalRef);
         return internalRef.publicRef;
     }
@@ -79,6 +82,7 @@ export class ArdiumSnackbarService implements OnDestroy {
         this._handleQueue(options.queueHandling!, internalRef);
         return internalRef.publicRef;
     }
+    //! handling adding new snackbars to queue
     private _handleQueue<T>(
         handling: ArdSnackbarQueueHandling,
         ref: _ArdSnackbarRefInternal<T>
@@ -89,19 +93,10 @@ export class ArdiumSnackbarService implements OnDestroy {
             if (wasEmpty) {
                 this._openNext();
             }
-        } else if (handling === ArdSnackbarQueueHandling.Skip) {
+        } else if (handling === ArdSnackbarQueueHandling.Skip || handling === ArdSnackbarQueueHandling.Overwrite) {
             const wasEmpty = this._snackbarQueue.isEmpty();
+            if (!wasEmpty && handling === ArdSnackbarQueueHandling.Overwrite) this._snackbarQueue.clear();
             this._snackbarQueue.pushFront(ref);
-            if (wasEmpty) {
-                this._openNext();
-            } else {
-                this.dismissCurrent(false);
-                //it is opened automatically within the dismiss method
-            }
-        } else if (handling === ArdSnackbarQueueHandling.Overwrite) {
-            const wasEmpty = this._snackbarQueue.isEmpty();
-            if (!wasEmpty) this._snackbarQueue.clear();
-            this._snackbarQueue.push(ref);
             if (wasEmpty) {
                 this._openNext();
             } else {
@@ -145,6 +140,8 @@ export class ArdiumSnackbarService implements OnDestroy {
     //! opening snackbars
     private _openNext() {
         const sb = this._snackbarQueue.pop();
+        console.timeLog('test');
+        console.log(sb);
         if (!sb) return;
         this._openedSnackbar = sb;
         const overlay = this._createOverlay(sb.options);
@@ -207,6 +204,14 @@ export class ArdiumSnackbarService implements OnDestroy {
 
             this._openNext();
         }, this._animationLength);
+    }
+
+    //! public queue methods
+    getQueue(): ArdSnackbarRef<unknown>[] {
+        return this._snackbarQueue.toArray().map((v) => v.publicRef);
+    }
+    clearQueue(): void {
+        this._snackbarQueue.clear();
     }
 
     /**
