@@ -10,6 +10,9 @@ export class SnackbarPage {
     private readonly _snackbarService = inject(ArdiumSnackbarService);
 
     openSnackbar1() {
-        const ref = this._snackbarService.open('Hello world!', undefined, {});
+        const ref = this._snackbarService.open('Hello world!');
+    }
+    openSnackbar2() {
+        const ref = this._snackbarService.open('Hello world!', 'Dismiss');
     }
 }
