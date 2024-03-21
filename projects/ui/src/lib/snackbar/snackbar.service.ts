@@ -193,6 +193,7 @@ export class ArdiumSnackbarService implements OnDestroy {
         const config = new OverlayConfig({
             positionStrategy: strategy,
             hasBackdrop: false,
+            panelClass: options.panelClass,
         });
 
         return this._overlay.create(config);
