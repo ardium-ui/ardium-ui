@@ -35,7 +35,7 @@ export class _ArdSnackbarRefInternal<T> {
         this._onCloseStart.complete();
     }
 }
-export class ArdSnackbarRef<T> {
+export class ArdSnackbarRef<T = unknown> {
     constructor(
         private readonly dismiss: (withAction?: boolean) => void,
         private readonly _onOpen: Subject<void>,

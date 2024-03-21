@@ -92,10 +92,11 @@ export class ArdiumSnackbarService implements OnDestroy {
         handling: ArdSnackbarQueueHandling,
         ref: _ArdSnackbarRefInternal<T>
     ) {
+        const isNotOpen = !isDefined(this._openedSnackbar);
         if (handling === ArdSnackbarQueueHandling.Default) {
             const wasEmpty = this._snackbarQueue.isEmpty();
             this._snackbarQueue.push(ref);
-            if (wasEmpty && !isDefined(this._openedSnackbar)) {
+            if (wasEmpty && isNotOpen) {
                 this._openNext();
             }
         } else if (
@@ -106,7 +107,7 @@ export class ArdiumSnackbarService implements OnDestroy {
             if (!wasEmpty && handling === ArdSnackbarQueueHandling.Overwrite)
                 this._snackbarQueue.clear();
             this._snackbarQueue.pushFront(ref);
-            if (wasEmpty) {
+            if (wasEmpty && isNotOpen) {
                 this._openNext();
             } else {
                 this.dismissCurrent(false);
@@ -162,9 +163,14 @@ export class ArdiumSnackbarService implements OnDestroy {
 
         this._openedSnackbar = sb;
 
+        const duration =
+            sb.options.duration === Infinity || sb.options.duration <= 0
+                ? 2_147_483_647 //maximum duration for setTimeout
+                : sb.options.duration;
+
         sb.timeout = setTimeout(() => {
             this.dismissCurrent(false);
-        }, sb.options.duration);
+        }, duration);
     }
     private _createOverlay(options: ArdSnackbarOptions): OverlayRef {
         const strategy = this._overlay.position().global();
