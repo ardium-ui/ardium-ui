@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
-import { ComponentColor } from '../../types/colors.types';
-import { _FocusableComponentBase } from '../../_internal/focusable-component';
-import { ButtonAppearance, FABSize } from '../general-button.types';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { _FocusableComponentBase } from '../../_internal/focusable-component';
+import { ComponentColor } from '../../types/colors.types';
 
 @Component({
   selector: 'ard-icon-button',

@@ -6,10 +6,12 @@ import {
 } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { Injectable, Injector, OnDestroy, inject } from '@angular/core';
-import { isArray } from 'simple-bool';
+import { isArray, isDefined } from 'simple-bool';
 import { Queue } from '../_internal/queue';
 import {
+    ARD_SNACKBAR_COLOR,
     ARD_SNACKBAR_DATA,
+    ARD_SNACKBAR_TYPE,
     ArdSnackbarRef,
     _ArdSnackbarRefInternal,
 } from './snackbar-ref';
@@ -19,7 +21,12 @@ import {
     ARD_SNACKBAR_DEFAULT_OPTIONS,
     _DEFAULT_OPTIONS_STATIC,
 } from './snackbar.token';
-import { ArdSnackbarOptions, ArdSnackbarQueueHandling } from './snackbar.types';
+import {
+    ArdSnackbarOptions,
+    ArdSnackbarQueueHandling,
+    ArdSnackbarType,
+} from './snackbar.types';
+import { ComponentColor } from '../types/colors.types';
 
 @Injectable({
     providedIn: 'root',
@@ -62,8 +69,6 @@ export class ArdiumSnackbarService implements OnDestroy {
             (withAction?: boolean) => this.dismissCurrent(withAction)
         );
 
-        console.time('test');
-
         this._handleQueue(mergedOptions.queueHandling!, internalRef);
         return internalRef.publicRef;
     }
@@ -90,12 +95,16 @@ export class ArdiumSnackbarService implements OnDestroy {
         if (handling === ArdSnackbarQueueHandling.Default) {
             const wasEmpty = this._snackbarQueue.isEmpty();
             this._snackbarQueue.push(ref);
-            if (wasEmpty) {
+            if (wasEmpty && !isDefined(this._openedSnackbar)) {
                 this._openNext();
             }
-        } else if (handling === ArdSnackbarQueueHandling.Skip || handling === ArdSnackbarQueueHandling.Overwrite) {
+        } else if (
+            handling === ArdSnackbarQueueHandling.Skip ||
+            handling === ArdSnackbarQueueHandling.Overwrite
+        ) {
             const wasEmpty = this._snackbarQueue.isEmpty();
-            if (!wasEmpty && handling === ArdSnackbarQueueHandling.Overwrite) this._snackbarQueue.clear();
+            if (!wasEmpty && handling === ArdSnackbarQueueHandling.Overwrite)
+                this._snackbarQueue.clear();
             this._snackbarQueue.pushFront(ref);
             if (wasEmpty) {
                 this._openNext();
@@ -140,8 +149,6 @@ export class ArdiumSnackbarService implements OnDestroy {
     //! opening snackbars
     private _openNext() {
         const sb = this._snackbarQueue.pop();
-        console.timeLog('test');
-        console.log(sb);
         if (!sb) return;
         this._openedSnackbar = sb;
         const overlay = this._createOverlay(sb.options);
@@ -197,10 +204,13 @@ export class ArdiumSnackbarService implements OnDestroy {
             return;
         }
 
+        sb.markAsStartingToClose();
+
         setTimeout(() => {
             sb.overlay?.dispose();
             this._openedSnackbar = undefined;
             sb.publicRef.markAsClosed(withAction);
+            clearTimeout(sb.timeout);
 
             this._openNext();
         }, this._animationLength);
@@ -231,6 +241,19 @@ export class ArdiumSnackbarService implements OnDestroy {
             providers: [
                 { provide: ArdSnackbarRef, useValue: snackbarRef },
                 { provide: ARD_SNACKBAR_DATA, useValue: options.data },
+                {
+                    provide: ARD_SNACKBAR_TYPE,
+                    useValue: options.type ?? ArdSnackbarType.None,
+                },
+                {
+                    provide: ARD_SNACKBAR_COLOR,
+                    useValue:
+                        options.color ??
+                        (options.type !== ArdSnackbarType.None
+                            ? options.type
+                            : null) ??
+                        ComponentColor.Secondary,
+                },
             ],
         });
     }

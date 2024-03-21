@@ -1,36 +1,34 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Input,
+    ViewEncapsulation,
+} from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { SimpleOneAxisAlignment } from '../../types/alignment.types';
-import { ComponentColor } from '../../types/colors.types';
-import { ButtonAppearance, ButtonVariant } from '../general-button.types';
-import { _FocusableComponentBase } from './../../_internal/focusable-component';
+import { _ButtonBase } from '../_button-base';
+import { ButtonVariant } from '../general-button.types';
 
 @Component({
-  selector: 'ard-button',
-  templateUrl: './button.component.html',
+    selector: 'ard-button',
+    templateUrl: './button.component.html',
     styleUrls: ['./button.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumButtonComponent extends _FocusableComponentBase {
-
-    @Input() wrapperClasses: string = '';
-
+export class ArdiumButtonComponent extends _ButtonBase {
     //* button settings
-    @Input() appearance: ButtonAppearance = ButtonAppearance.Raised;
     @Input() variant: ButtonVariant = ButtonVariant.Rounded;
-    @Input() color: ComponentColor = ComponentColor.Primary;
     @Input() alignIcon: SimpleOneAxisAlignment = SimpleOneAxisAlignment.Left;
-
-    private _compact: boolean = false;
-    @Input()
-    get compact(): boolean { return this._compact; }
-    set compact(v: any) { this._compact = coerceBooleanProperty(v); }
 
     private _vertical: boolean = false;
     @Input()
-    get vertical(): boolean { return this._vertical; }
-    set vertical(v: any) { this._vertical = coerceBooleanProperty(v); }
+    get vertical(): boolean {
+        return this._vertical;
+    }
+    set vertical(v: any) {
+        this._vertical = coerceBooleanProperty(v);
+    }
 
     @Input() icon?: string;
 
@@ -41,6 +39,7 @@ export class ArdiumButtonComponent extends _FocusableComponentBase {
             `ard-variant-${this.variant}`,
             `ard-color-${this.color}`,
             `ard-align-${this.alignIcon}`,
+            this.lightColoring ? `ard-light-coloring` : '',
             this.compact ? 'ard-compact' : '',
             this.vertical ? 'ard-button-vertical' : '',
         ].join(' ');
