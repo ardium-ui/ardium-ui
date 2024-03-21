@@ -28,8 +28,7 @@ export type ArdSnackbarQueueHandling = typeof ArdSnackbarQueueHandling[keyof typ
 
 export type ArdSnackbarOrigin<T = any> =
     | HTMLElement
-    | ElementRef<T>
-    | ComponentRef<T>;
+    | ElementRef<T>;
 
 export const ArdSnackbarType = {
     None: 'none',

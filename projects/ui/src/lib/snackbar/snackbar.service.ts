@@ -23,6 +23,7 @@ import {
 } from './snackbar.token';
 import {
     ArdSnackbarOptions,
+    ArdSnackbarOriginRelation,
     ArdSnackbarQueueHandling,
     ArdSnackbarType,
 } from './snackbar.types';
@@ -173,22 +174,55 @@ export class ArdiumSnackbarService implements OnDestroy {
         }, duration);
     }
     private _createOverlay(options: ArdSnackbarOptions): OverlayRef {
-        const strategy = this._overlay.position().global();
+        let x!: 'start' | 'center' | 'end';
+        let originY!: 'top' | 'center' | 'bottom';
+        let overlayY!: 'top' | 'center' | 'bottom';
+        let overlayY2!: 'top' | 'center' | 'bottom';
 
-        // horizontal align
+        //horizontal alignments
         if (options.placement?.align?.match('left')) {
-            strategy.left('0');
+            x = 'start';
         } else if (options.placement?.align?.match('right')) {
-            strategy.right('0');
+            x = 'end';
         } else {
-            strategy.centerHorizontally();
+            x = 'center';
         }
-        //vertical align
-        if (options.placement?.align?.match('bottom')) {
-            strategy.bottom('0');
-        } else {
-            strategy.top('0');
+        // vertical alignments
+            if (options.placement?.align?.match('bottom')) {
+                originY = 'bottom';
+                overlayY = 'bottom';
+                overlayY2 = 'top';
+            } else {
+                originY = 'top';
+                overlayY = 'top';
+                overlayY2 = 'bottom';
         }
+
+        const origin = options.placement!.origin;
+        if (!origin) {
+            throw new Error(
+                    `ARD-NF8011: trying to open a snackbar, but the origin is undefined. Using "document.body" instead.`
+                )
+        }
+
+        const isInside = options.placement?.originRelation === ArdSnackbarOriginRelation.Inside;
+        const strategy = this._overlay
+            .position()
+            .flexibleConnectedTo(options.placement!.origin!)
+            .withPositions([
+                {
+                    originX: x,
+                    originY,
+                    overlayX: x,
+                    overlayY: isInside ? overlayY : overlayY2,
+                },
+                {
+                    originX: x,
+                    originY,
+                    overlayX: x,
+                    overlayY: !isInside ? overlayY : overlayY2,
+                }
+            ]);
 
         const config = new OverlayConfig({
             positionStrategy: strategy,
