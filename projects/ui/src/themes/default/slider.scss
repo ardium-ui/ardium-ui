@@ -1,6 +1,6 @@
-@use './mixins'as defaultMixins;
-@use './coloring' as coloringMixins;
-@import '../variables';
+@use "./mixins" as defaultMixins;
+@use "./coloring" as coloringMixins;
+@import "../variables";
 
 .ard-slider-container-master,
 .ard-range-slider-container-master {
@@ -53,7 +53,9 @@
                 height: calc(100% + 0.125em);
                 top: (-1em / 16);
                 opacity: 100%;
-                transition: width var(--_ard-slider-transition) ease, left var(--_ard-slider-transition) ease;
+                transition:
+                    width var(--_ard-slider-transition) ease,
+                    left var(--_ard-slider-transition) ease;
             }
         }
         .ard-hitbox {
@@ -93,10 +95,12 @@
         z-index: 1;
         outline: none;
         cursor: pointer;
-        
-        transition: box-shadow 0.15s ease, left var(--_ard-slider-transition) ease;
+
+        transition:
+            box-shadow 0.15s ease,
+            left var(--_ard-slider-transition) ease;
         box-shadow: $simple-shadow;
-        
+
         // cursor: grab;
         // &.ard-grabbed {
         //     cursor: grabbing;
@@ -211,8 +215,7 @@
         }
     }
     //make a way to force-show a tooltip
-    .ard-slider-handle
-    .ard-slider-tooltip-wrapper.ard-tooltip-always {
+    .ard-slider-handle .ard-slider-tooltip-wrapper.ard-tooltip-always {
         .ard-slider-tooltip {
             transform: scale(1) !important;
         }

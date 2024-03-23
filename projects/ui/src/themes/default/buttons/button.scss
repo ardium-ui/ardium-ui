@@ -1,4 +1,4 @@
-@use './button-mixins' as shared;
+@use "./button-mixins" as shared;
 
 ard-button {
     display: block;
@@ -14,7 +14,6 @@ ard-button {
     height: 2.5em;
     padding: 0 1.2em;
     letter-spacing: 0.5px;
-
 
     //! aligns
     &.ard-align-left {

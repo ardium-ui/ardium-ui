@@ -1,5 +1,3 @@
-
-
 export const ColorDisplayAppearance = {
     Rounded: 'rounded with-border',
     Circle: 'circle with-border',
@@ -8,4 +6,5 @@ export const ColorDisplayAppearance = {
     CircleBorderless: 'circle',
     SharpBorderless: 'sharp',
 } as const;
-export type ColorDisplayAppearance = typeof ColorDisplayAppearance[keyof typeof ColorDisplayAppearance];
+export type ColorDisplayAppearance =
+    (typeof ColorDisplayAppearance)[keyof typeof ColorDisplayAppearance];

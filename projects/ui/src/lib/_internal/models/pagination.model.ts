@@ -1,4 +1,4 @@
-import { isDefined } from "simple-bool";
+import { isDefined } from 'simple-bool';
 
 export interface PaginationCurrentItemsContext {
     currentItemsFirst: number;
@@ -9,7 +9,7 @@ export interface PaginationCurrentItemsContext {
 }
 
 export interface PaginationContext extends PaginationCurrentItemsContext {
-    itemsPerPageOptions: number[] | { value: number, label: string }[];
+    itemsPerPageOptions: number[] | { value: number; label: string }[];
     itemsPerPage: number;
     onItemsPerPageChange: (newValue: number) => void;
     firstPageDisabled: boolean;
@@ -21,7 +21,9 @@ export interface PaginationContext extends PaginationCurrentItemsContext {
 
 export class PaginationModel {
     private _totalItems?: number;
-    private _itemsPerPageOptions: number[] | { value: number, label: string }[] = [10, 25, 50];
+    private _itemsPerPageOptions:
+        | number[]
+        | { value: number; label: string }[] = [10, 25, 50];
     private _itemsPerPage: number = 50;
     private _page: number = 1;
 
@@ -36,10 +38,12 @@ export class PaginationModel {
     }
 
     //! items per page
-    setItemsPerPageOptions(v: number[] | { value: number, label: string }[]): void {
+    setItemsPerPageOptions(
+        v: number[] | { value: number; label: string }[],
+    ): void {
         this._itemsPerPageOptions = v;
     }
-    getItemsPerPageOptions(): number[] | { value: number, label: string }[] {
+    getItemsPerPageOptions(): number[] | { value: number; label: string }[] {
         return this._itemsPerPageOptions;
     }
     setItemsPerPage(v: number): void {
@@ -55,12 +59,16 @@ export class PaginationModel {
     private _itemsOnCurrentPageMemo: [number, number] | null = null;
     get itemsOnCurrentPage(): [number, number] | null {
         if (!isDefined(this._totalItems)) return null;
-        if (!isDefined(this._itemsOnCurrentPageMemo)) [
-            this._itemsOnCurrentPageMemo = [
-                Math.min(this._totalItems, (this._page - 1) * this._itemsPerPage + 1),
-                Math.min(this._totalItems, this._page * this._itemsPerPage),
-            ]
-        ]
+        if (!isDefined(this._itemsOnCurrentPageMemo))
+            [
+                (this._itemsOnCurrentPageMemo = [
+                    Math.min(
+                        this._totalItems,
+                        (this._page - 1) * this._itemsPerPage + 1,
+                    ),
+                    Math.min(this._totalItems, this._page * this._itemsPerPage),
+                ]),
+            ];
         return this._itemsOnCurrentPageMemo;
     }
 
@@ -77,7 +85,9 @@ export class PaginationModel {
     get lastPageNum(): number | null {
         if (!isDefined(this._totalItems)) return null;
         if (!isDefined(this._lastPageNumMemo)) {
-            this._lastPageNumMemo = Math.ceil(this._totalItems / this._itemsPerPage);
+            this._lastPageNumMemo = Math.ceil(
+                this._totalItems / this._itemsPerPage,
+            );
         }
         return this._lastPageNumMemo;
     }
@@ -115,9 +125,11 @@ export class PaginationModel {
 
     //! context
     getCurrentItemsContext(): PaginationCurrentItemsContext {
-        if (!isDefined(this._totalItems)) throw new Error("Cannot use pagination model without defining total items first.");
+        if (!isDefined(this._totalItems))
+            throw new Error(
+                'Cannot use pagination model without defining total items first.',
+            );
 
-        
         const pageItems = this.itemsOnCurrentPage!;
         return {
             totalPages: this.lastPageNum!,
@@ -125,9 +137,12 @@ export class PaginationModel {
             page: this._page,
             currentItemsFirst: pageItems[0],
             currentItemsLast: pageItems[1],
-        }
+        };
     }
-    getPartialContext(): Omit<PaginationContext, 'onItemsPerPageChange' | 'onPageChange'> {
+    getPartialContext(): Omit<
+        PaginationContext,
+        'onItemsPerPageChange' | 'onPageChange'
+    > {
         return {
             ...this.getCurrentItemsContext(),
             itemsPerPageOptions: this._itemsPerPageOptions,
@@ -136,6 +151,6 @@ export class PaginationModel {
             prevPageDisabled: this.firstPageDisabled,
             nextPageDisabled: this.lastPageDisabled,
             lastPageDisabled: this.lastPageDisabled,
-        }
+        };
     }
 }

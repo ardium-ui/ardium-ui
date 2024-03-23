@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ArdiumSimpleInputComponent } from './simple-input.component';
 import { _ClearButtonModule } from '../../_internal/clear-button/clear-button.module';
-import { ArdSimpleInputPlaceholderTemplateDirective, ArdSimpleInputPrefixTemplateDirective, ArdSimpleInputSuffixTemplateDirective } from './simple-input.directives';
+import {
+    ArdSimpleInputPlaceholderTemplateDirective,
+    ArdSimpleInputPrefixTemplateDirective,
+    ArdSimpleInputSuffixTemplateDirective,
+} from './simple-input.directives';
 import { ArdiumFormFieldFrameModule } from '../../form-field-frame/form-field-frame.module';
-
-
 
 @NgModule({
     declarations: [
@@ -14,16 +16,12 @@ import { ArdiumFormFieldFrameModule } from '../../form-field-frame/form-field-fr
         ArdSimpleInputPrefixTemplateDirective,
         ArdSimpleInputSuffixTemplateDirective,
     ],
-    imports: [
-        CommonModule,
-        _ClearButtonModule,
-        ArdiumFormFieldFrameModule,
-    ],
+    imports: [CommonModule, _ClearButtonModule, ArdiumFormFieldFrameModule],
     exports: [
         ArdiumSimpleInputComponent,
         ArdSimpleInputPlaceholderTemplateDirective,
         ArdSimpleInputPrefixTemplateDirective,
         ArdSimpleInputSuffixTemplateDirective,
-    ]
+    ],
 })
-export class ArdiumSimpleInputModule { }
+export class ArdiumSimpleInputModule {}

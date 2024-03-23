@@ -1,4 +1,4 @@
-@use './coloring' as CM;
+@use "./coloring" as CM;
 
 ard-spinner {
     display: inline-block;
@@ -12,10 +12,10 @@ ard-spinner {
     @include CM.typeColors();
     --ard-_spinner-duration: 1.4s;
     position: absolute;
-    
+
     scale: 2.3; //magic number
 
-    > circle {    
+    > circle {
         stroke: var(--ard-cmpcl--content);
     }
 }

@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, forwardRef, HostListener, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    forwardRef,
+    HostListener,
+    ViewEncapsulation,
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { roundToPrecision } from 'more-rounding';
 import { _AbstractSlider } from './abstract-slider';
@@ -14,18 +20,17 @@ import { SliderTooltipContext } from './slider.types';
         {
             provide: NG_VALUE_ACCESSOR,
             useExisting: forwardRef(() => ArdiumSliderComponent),
-            multi: true
-        }
-    ]
+            multi: true,
+        },
+    ],
 })
 export class ArdiumSliderComponent extends _AbstractSlider<number> {
-
     //! value input & output
     protected _value: number = 0;
 
     //! tooltip updater
     _tooltipValue: string = String(this.value);
-    
+
     protected _updateTooltipValue(): void {
         let v: string | number = this._value;
         if (this.tooltipFormat) v = this.tooltipFormat(v);
@@ -43,7 +48,7 @@ export class ArdiumSliderComponent extends _AbstractSlider<number> {
     writeValue(v: any): void {
         v = Number(v);
         if (isNaN(v)) {
-            this.reset()
+            this.reset();
             return;
         }
         v = this._clampValue(v);
@@ -51,7 +56,7 @@ export class ArdiumSliderComponent extends _AbstractSlider<number> {
         this._positionPercent[0] = this._valueToPercent(v);
         this._updateTooltipValue();
     }
-    
+
     //! methods for programmatic manipulation
     reset(): void {
         this._value = 0;

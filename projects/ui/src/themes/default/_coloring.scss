@@ -1,6 +1,6 @@
-@import '../variables';
+@import "../variables";
 
-@mixin typeColors($prefix: 'cmpcl') {
+@mixin typeColors($prefix: "cmpcl") {
     &.ard-color-none {
         --ard-#{$prefix}--bg: #{$bg};
         --ard-#{$prefix}--bg-colored: #{$bg-alt};

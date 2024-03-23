@@ -48,7 +48,7 @@ export class ArdiumSnackbarService implements OnDestroy {
     open(
         message: string,
         action?: string,
-        options: ArdSnackbarOptions = {}
+        options: ArdSnackbarOptions = {},
     ): ArdSnackbarRef<_ArdSimpleSnackbar> {
         options.data = {
             message,
@@ -67,7 +67,7 @@ export class ArdiumSnackbarService implements OnDestroy {
         const internalRef = new _ArdSnackbarRefInternal(
             _ArdSimpleSnackbar,
             mergedOptions,
-            (withAction?: boolean) => this.dismissCurrent(withAction)
+            (withAction?: boolean) => this.dismissCurrent(withAction),
         );
 
         this._handleQueue(mergedOptions.queueHandling!, internalRef);
@@ -75,14 +75,14 @@ export class ArdiumSnackbarService implements OnDestroy {
     }
     openFromComponent<T>(
         component: ComponentType<T>,
-        options: ArdSnackbarOptions
+        options: ArdSnackbarOptions,
     ): ArdSnackbarRef<T> {
         const mergedOptions = this._mergeOptions(options);
 
         const internalRef = new _ArdSnackbarRefInternal(
             component,
             mergedOptions,
-            (withAction?: boolean) => this.dismissCurrent(withAction)
+            (withAction?: boolean) => this.dismissCurrent(withAction),
         );
 
         this._handleQueue(options.queueHandling!, internalRef);
@@ -91,7 +91,7 @@ export class ArdiumSnackbarService implements OnDestroy {
     //! handling adding new snackbars to queue
     private _handleQueue<T>(
         handling: ArdSnackbarQueueHandling,
-        ref: _ArdSnackbarRefInternal<T>
+        ref: _ArdSnackbarRefInternal<T>,
     ) {
         const isNotOpen = !isDefined(this._openedSnackbar);
         if (handling === ArdSnackbarQueueHandling.Default) {
@@ -117,7 +117,7 @@ export class ArdiumSnackbarService implements OnDestroy {
         }
     }
     private _mergeOptions(
-        options: ArdSnackbarOptions
+        options: ArdSnackbarOptions,
     ): Required<ArdSnackbarOptions> {
         // merge placement
         if (options.placement) {
@@ -188,24 +188,26 @@ export class ArdiumSnackbarService implements OnDestroy {
             x = 'center';
         }
         // vertical alignments
-            if (options.placement?.align?.match('bottom')) {
-                originY = 'bottom';
-                overlayY = 'bottom';
-                overlayY2 = 'top';
-            } else {
-                originY = 'top';
-                overlayY = 'top';
-                overlayY2 = 'bottom';
+        if (options.placement?.align?.match('bottom')) {
+            originY = 'bottom';
+            overlayY = 'bottom';
+            overlayY2 = 'top';
+        } else {
+            originY = 'top';
+            overlayY = 'top';
+            overlayY2 = 'bottom';
         }
 
         const origin = options.placement!.origin;
         if (!origin) {
             throw new Error(
-                    `ARD-NF8011: trying to open a snackbar, but the origin is undefined. Using "document.body" instead.`
-                )
+                `ARD-NF8011: trying to open a snackbar, but the origin is undefined. Using "document.body" instead.`,
+            );
         }
 
-        const isInside = options.placement?.originRelation === ArdSnackbarOriginRelation.Inside;
+        const isInside =
+            options.placement?.originRelation ===
+            ArdSnackbarOriginRelation.Inside;
         const strategy = this._overlay
             .position()
             .flexibleConnectedTo(options.placement!.origin!)
@@ -221,7 +223,7 @@ export class ArdiumSnackbarService implements OnDestroy {
                     originY,
                     overlayX: x,
                     overlayY: !isInside ? overlayY : overlayY2,
-                }
+                },
             ]);
 
         const config = new OverlayConfig({
@@ -239,8 +241,8 @@ export class ArdiumSnackbarService implements OnDestroy {
         if (!sb) {
             console.warn(
                 new Error(
-                    `ARD-WA8010: trying to dismiss the current snackbar, but no snackbar is currently opened.`
-                )
+                    `ARD-WA8010: trying to dismiss the current snackbar, but no snackbar is currently opened.`,
+                ),
             );
             return;
         }
@@ -275,7 +277,7 @@ export class ArdiumSnackbarService implements OnDestroy {
 
     private _createInjector<T>(
         options: ArdSnackbarOptions,
-        snackbarRef: ArdSnackbarRef<T>
+        snackbarRef: ArdSnackbarRef<T>,
     ): Injector {
         return Injector.create({
             parent: this._injector,

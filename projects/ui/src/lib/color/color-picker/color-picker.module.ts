@@ -5,9 +5,12 @@ import { ArdiumNumberInputModule } from '../../inputs/number-input/number-input.
 import { ArdiumOptionModule } from '../../option/option.module';
 import { ArdiumSelectModule } from '../../select/select.module';
 import { ArdiumColorPickerComponent } from './color-picker.component';
-import { ArdColorPickerColorReferenceTemplateDirective, ArdColorPickerHueIndicatorTemplateDirective, ArdColorPickerOpacityIndicatorTemplateDirective, ArdColorPickerShadeIndicatorTemplateDirective } from './color-picker.directives';
-
-
+import {
+    ArdColorPickerColorReferenceTemplateDirective,
+    ArdColorPickerHueIndicatorTemplateDirective,
+    ArdColorPickerOpacityIndicatorTemplateDirective,
+    ArdColorPickerShadeIndicatorTemplateDirective,
+} from './color-picker.directives';
 
 @NgModule({
     declarations: [
@@ -30,6 +33,6 @@ import { ArdColorPickerColorReferenceTemplateDirective, ArdColorPickerHueIndicat
         ArdColorPickerShadeIndicatorTemplateDirective,
         ArdColorPickerColorReferenceTemplateDirective,
         ArdColorPickerOpacityIndicatorTemplateDirective,
-    ]
+    ],
 })
-export class ArdiumColorPickerModule { }
+export class ArdiumColorPickerModule {}

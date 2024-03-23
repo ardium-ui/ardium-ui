@@ -28,5 +28,5 @@ export const ARD_SNACKBAR_ANIMATION_LENGTH = new InjectionToken<number>(
     'ard-snackbar-animation-length',
     {
         factory: () => 150,
-    }
+    },
 );

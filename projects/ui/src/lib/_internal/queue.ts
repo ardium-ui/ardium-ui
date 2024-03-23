@@ -1,6 +1,3 @@
-
-
-
 interface IQueue {
     readonly length: number;
 }
@@ -59,5 +56,8 @@ export class Queue<T = unknown> implements IQueue {
 }
 
 export class QueueItem<T> {
-    constructor(public value: T, public next?: QueueItem<T>) {  }
+    constructor(
+        public value: T,
+        public next?: QueueItem<T>,
+    ) {}
 }

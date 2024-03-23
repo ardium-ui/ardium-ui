@@ -1,5 +1,5 @@
-@use './mixins'as defaultMixins;
-@use './coloring' as coloringMixins;
+@use "./mixins" as defaultMixins;
+@use "./coloring" as coloringMixins;
 
 .ard-slide-toggle {
     @include coloringMixins.typeColors();
@@ -50,7 +50,7 @@
         box-shadow: $simple-shadow;
         overflow: hidden;
 
-        transition: 
+        transition:
             box-shadow 0.28s $timing-fn,
             left 0.1s ease,
             background-color 0.1s ease,

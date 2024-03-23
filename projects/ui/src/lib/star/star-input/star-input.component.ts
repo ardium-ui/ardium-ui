@@ -1,4 +1,18 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, HostListener, ViewEncapsulation, ViewChildren, ElementRef, QueryList, forwardRef } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    Output,
+    SimpleChanges,
+    HostListener,
+    ViewEncapsulation,
+    ViewChildren,
+    ElementRef,
+    QueryList,
+    forwardRef,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ArdiumStarButtonComponent } from '../star-button/star-button.component';
 import { _NgModelComponentBase } from './../../_internal/ngmodel-component';
@@ -7,7 +21,7 @@ import { StarColor } from './../star.types';
 type StarInputObject = {
     filled: boolean;
     isInValue: boolean;
-}
+};
 
 @Component({
     selector: 'ard-star-input',
@@ -19,23 +33,25 @@ type StarInputObject = {
         {
             provide: NG_VALUE_ACCESSOR,
             useExisting: forwardRef(() => ArdiumStarInputComponent),
-            multi: true
-        }
-    ]
+            multi: true,
+        },
+    ],
 })
-export class ArdiumStarInputComponent extends _NgModelComponentBase implements OnChanges, ControlValueAccessor {
+export class ArdiumStarInputComponent
+    extends _NgModelComponentBase
+    implements OnChanges, ControlValueAccessor
+{
     @Input() wrapperClasses: string = '';
 
     //* appearance
     @Input() color: StarColor = StarColor.Star;
 
     get ngClasses(): string {
-        return [
-            `ard-color-${this.color}`,
-        ].join(' ');
+        return [`ard-color-${this.color}`].join(' ');
     }
 
-    @ViewChildren('starButton') starButtonInstances!: QueryList<ArdiumStarButtonComponent>;
+    @ViewChildren('starButton')
+    starButtonInstances!: QueryList<ArdiumStarButtonComponent>;
 
     //* events
     @Output('change') changeEvent = new EventEmitter<number>();
@@ -54,16 +70,14 @@ export class ArdiumStarInputComponent extends _NgModelComponentBase implements O
             if (i < targetIndex) {
                 v.filled = true;
                 v.isInValue = true;
-            }
-            else if (i < this.value) {
+            } else if (i < this.value) {
                 v.filled = false;
                 v.isInValue = true;
-            }
-            else {
+            } else {
                 v.filled = false;
                 v.isInValue = false;
             }
-        })
+        });
     }
     createFirstStarArray(): StarInputObject[] {
         let arr = new Array(this.max);
@@ -134,8 +148,9 @@ export class ArdiumStarInputComponent extends _NgModelComponentBase implements O
         this.starButtonInstances.get(index)!.focus();
     }
     focusNextStarButton(offset: number): void {
-        if (!this.starButtonInstances || this._currentFocusIndex == null) return;
-        
+        if (!this.starButtonInstances || this._currentFocusIndex == null)
+            return;
+
         let nextIndex = this._currentFocusIndex + offset;
         nextIndex = Math.min(nextIndex, this.max - 1);
         nextIndex = Math.max(nextIndex, 0);
@@ -151,10 +166,11 @@ export class ArdiumStarInputComponent extends _NgModelComponentBase implements O
         this.focusStarButtonByIndex(0);
     }
     override blur(): void {
-        if (!this.starButtonInstances || this._currentFocusIndex == null) return;
+        if (!this.starButtonInstances || this._currentFocusIndex == null)
+            return;
         this.starButtonInstances.get(this._currentFocusIndex)!.blur();
     }
-    
+
     //* key press handlers
     @HostListener('keydown', ['$event'])
     onKeyPress(event: KeyboardEvent): void {

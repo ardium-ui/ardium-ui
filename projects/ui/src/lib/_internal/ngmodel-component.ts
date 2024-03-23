@@ -4,11 +4,14 @@ import { _FocusableComponentBase } from './focusable-component';
 
 /**
  * Common code for components, which implement the ControlValueAccessor.
- * 
+ *
  * **Warning**: `writeValue` function should be implemented on the child component!
  */
 @Directive()
-export abstract class _NgModelComponentBase extends _FocusableComponentBase implements ControlValueAccessor {
+export abstract class _NgModelComponentBase
+    extends _FocusableComponentBase
+    implements ControlValueAccessor
+{
     //! control value accessor
     protected _onChangeRegistered!: (_: any) => void;
     protected _onTouchedRegistered!: () => void;

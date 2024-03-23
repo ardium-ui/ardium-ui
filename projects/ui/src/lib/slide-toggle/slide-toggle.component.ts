@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, forwardRef } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Input,
+    ViewEncapsulation,
+    forwardRef,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ComponentColor } from '../types/colors.types';
 import { _BooleanComponentBase } from './../_internal/boolean-component';
@@ -13,11 +19,14 @@ import { _BooleanComponentBase } from './../_internal/boolean-component';
         {
             provide: NG_VALUE_ACCESSOR,
             useExisting: forwardRef(() => ArdiumSlideToggleComponent),
-            multi: true
-        }
-    ]
+            multi: true,
+        },
+    ],
 })
-export class ArdiumSlideToggleComponent extends _BooleanComponentBase implements ControlValueAccessor {
+export class ArdiumSlideToggleComponent
+    extends _BooleanComponentBase
+    implements ControlValueAccessor
+{
     @Input() wrapperClasses: string = '';
 
     //* appearance
@@ -27,8 +36,6 @@ export class ArdiumSlideToggleComponent extends _BooleanComponentBase implements
     @Input() unselectedIcon?: string;
 
     get ngClasses(): string {
-        return [
-            `ard-color-${this.color}`,
-        ].join(' ');
+        return [`ard-color-${this.color}`].join(' ');
     }
 }

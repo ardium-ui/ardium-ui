@@ -1,4 +1,4 @@
-@use './coloring' as CM;
+@use "./coloring" as CM;
 
 ard-file-drop-area {
     display: block;
@@ -39,7 +39,7 @@ ard-file-drop-area {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center ;
+        justify-content: center;
         gap: clamp(0.2rem, 10%, 1rem);
         padding: 0.2rem 0;
         box-sizing: border-box;
@@ -154,7 +154,7 @@ ard-file-drop-area {
         font-size: 85%;
         min-width: 12rem;
         min-height: 8rem;
-        
+
         .ard-file-drop-area-content {
             gap: clamp(0.1667rem, 10%, 0.75rem);
         }

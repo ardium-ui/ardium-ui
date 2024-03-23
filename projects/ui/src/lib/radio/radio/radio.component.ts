@@ -1,6 +1,12 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
-import { ComponentColor } from '@ardium-ui/ui';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    Input,
+    ViewEncapsulation,
+} from '@angular/core';
 import { _BooleanComponentBase } from '../../_internal/boolean-component';
+import { ComponentColor } from '../../types/colors.types';
 
 @Component({
     selector: 'ard-radio',
@@ -10,10 +16,7 @@ import { _BooleanComponentBase } from '../../_internal/boolean-component';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumRadioComponent extends _BooleanComponentBase {
-
-    constructor(
-        protected _changeDetector: ChangeDetectorRef,
-    ) {
+    constructor(protected _changeDetector: ChangeDetectorRef) {
         super();
     }
 
@@ -37,7 +40,7 @@ export class ArdiumRadioComponent extends _BooleanComponentBase {
     }
     onMouseup(): void {
         this.focus();
-        
+
         if (this.selected) return;
         this.selected = true;
 

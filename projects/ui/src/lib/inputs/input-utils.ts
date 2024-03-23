@@ -8,21 +8,33 @@ export class SimpleInputModel {
     protected _hostComp!: SimpleInputModelHost;
     constructor(
         protected inputEl: HTMLInputElement,
-        hostComp: SimpleInputModelHost
+        hostComp: SimpleInputModelHost,
     ) {
         this._hostComp = hostComp;
     }
 
     protected _value: string | null = null;
-    get value(): string | null { return this._value; }
-    set value(v: string | null) { this._value = v; }
-    get stringValue(): string { return this._value ?? '' }
-    set stringValue(v: string) { this._value = v || null; }
+    get value(): string | null {
+        return this._value;
+    }
+    set value(v: string | null) {
+        this._value = v;
+    }
+    get stringValue(): string {
+        return this._value ?? '';
+    }
+    set stringValue(v: string) {
+        this._value = v || null;
+    }
 
     writeValue(v: any): boolean {
         if (!isAnyString(v) && !isNull(v)) {
             //warn when using non-string/non-null value
-            console.warn(new Error(`Trying to set simple-input's value to ${typeof v}, expected string.`));
+            console.warn(
+                new Error(
+                    `Trying to set simple-input's value to ${typeof v}, expected string.`,
+                ),
+            );
             //normalize the value
             v = v?.toString?.() ?? String(v);
         }
@@ -96,15 +108,14 @@ export class InputModel extends SimpleInputModel {
         this.inputEl.setSelectionRange(from, to);
     }
     //* constraints
-    protected _applyAllowOrDenylistTransformer(v: string, prev: string): string {
+    protected _applyAllowOrDenylistTransformer(
+        v: string,
+        prev: string,
+    ): string {
         if (!this._hostComp.charlist || !v) return v;
         let { text, caretPos } = new RegExpTransformer(
-            this._hostComp.charlist
-        ).apply(
-            v,
-            prev,
-            this.caretPos,
-        );
+            this._hostComp.charlist,
+        ).apply(v, prev, this.caretPos);
         this.caretPos = caretPos;
         return text;
     }
@@ -119,27 +130,43 @@ export class NumberInputModel {
     protected _hostComp!: NumberInputModelHost;
     constructor(
         protected inputEl: HTMLInputElement,
-        hostComp: NumberInputModelHost
+        hostComp: NumberInputModelHost,
     ) {
         this._hostComp = hostComp;
     }
 
     //! value setters/getters
     protected _value: string | null = null;
-    get value(): string | null { return this._value; }
-    set value(v: string | null) { this._value = v; }
+    get value(): string | null {
+        return this._value;
+    }
+    set value(v: string | null) {
+        this._value = v;
+    }
     //value as string
-    get stringValue(): string { return this._value ?? '' }
-    set stringValue(v: string) { this._value = v || null; }
+    get stringValue(): string {
+        return this._value ?? '';
+    }
+    set stringValue(v: string) {
+        this._value = v || null;
+    }
     //value as number
-    get numberValue(): number | null { return this._value == null && null || Number(this._value) }
-    set numberValue(v: number | null) { this._value = v == null ? null : v.toString(); }
+    get numberValue(): number | null {
+        return (this._value == null && null) || Number(this._value);
+    }
+    set numberValue(v: number | null) {
+        this._value = v == null ? null : v.toString();
+    }
 
     //! write value handlers
     writeValue(v: any): boolean {
         if (!isNumber(v) && !isAnyString(v) && !isNull(v)) {
             //warn when using non-string/non-null value
-            console.warn(new Error(`Trying to set simple-input's value to ${typeof v}, expected string, number, or null.`));
+            console.warn(
+                new Error(
+                    `Trying to set simple-input's value to ${typeof v}, expected string, number, or null.`,
+                ),
+            );
             //normalize the value
             v = v?.toString?.() ?? String(v);
         }
@@ -181,8 +208,7 @@ export class NumberInputModel {
 
         if (v.match(/[.,].+/)) {
             const num = Number(v);
-            if (!isNaN(num))
-                v = Math.round(num).toString();
+            if (!isNaN(num)) v = Math.round(num).toString();
         }
         return v;
     }
@@ -190,11 +216,19 @@ export class NumberInputModel {
         if (!v) return '';
 
         if (this._hostComp.allowFloat) {
-            const { text, caretPos } = ArdTransformer.Float(v, this.stringValue, this.caretPos);
+            const { text, caretPos } = ArdTransformer.Float(
+                v,
+                this.stringValue,
+                this.caretPos,
+            );
             this.caretPos = caretPos;
             return text;
         }
-        const { text, caretPos } = ArdTransformer.Integer(v, this.stringValue, this.caretPos);
+        const { text, caretPos } = ArdTransformer.Integer(
+            v,
+            this.stringValue,
+            this.caretPos,
+        );
         this.caretPos = caretPos;
         return text;
     }
@@ -202,16 +236,19 @@ export class NumberInputModel {
         if (!v) return '';
 
         const numericValue = Number(v);
-        if (numericValue > this._hostComp.max) return this._hostComp.max.toString();
-        if (numericValue < this._hostComp.min) return this._hostComp.min.toString();
+        if (numericValue > this._hostComp.max)
+            return this._hostComp.max.toString();
+        if (numericValue < this._hostComp.min)
+            return this._hostComp.min.toString();
         return v;
     }
 }
 
-
-
-export function escapeAndCreateRegex(str: string, flags?: string, negated: boolean = true): RegExp {
+export function escapeAndCreateRegex(
+    str: string,
+    flags?: string,
+    negated: boolean = true,
+): RegExp {
     str = str.replace(/([\]]+)/g, '\\$1');
     return new RegExp(`[${negated ? '^' : ''}${str}]`, flags);
 }
-

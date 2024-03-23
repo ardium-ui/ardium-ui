@@ -1,37 +1,50 @@
-import { isAnyString, isDefined, isNull } from "simple-bool";
+import { isAnyString, isDefined, isNull } from 'simple-bool';
 import { RegExpTransformer } from './input-transformers';
-import { CaseTransformerType } from "./input-types";
+import { CaseTransformerType } from './input-types';
 
 export interface HexInputModelHost {
-    case: CaseTransformerType,
-    maxDigits: number | undefined,
+    case: CaseTransformerType;
+    maxDigits: number | undefined;
 }
 export class HexInputModel {
     constructor(
         protected inputEl: HTMLInputElement,
         protected _hostComp: HexInputModelHost,
-    ) {  }
+    ) {}
 
     //! value setters/getters
     protected _value: string | null = null;
-    get value(): string | null { return this._value; }
-    set value(v: string | null) { this._value = v; }
+    get value(): string | null {
+        return this._value;
+    }
+    set value(v: string | null) {
+        this._value = v;
+    }
     //value as string
-    get stringValue(): string { return this._value ?? '' }
-    set stringValue(v: string) { this._value = v || null; }
+    get stringValue(): string {
+        return this._value ?? '';
+    }
+    set stringValue(v: string) {
+        this._value = v || null;
+    }
     //value with the hash sign
-    get hashSignValue(): string { return '#' + this._value; }
+    get hashSignValue(): string {
+        return '#' + this._value;
+    }
 
     //! write value handlers
     writeValue(v: any): boolean {
         if (!isAnyString(v) && !isNull(v)) {
             //warn when using non-string/non-null value
-            console.warn(new Error(`Trying to set ard-hex-input's value to type ${typeof v}, expected string, or null.`));
+            console.warn(
+                new Error(
+                    `Trying to set ard-hex-input's value to type ${typeof v}, expected string, or null.`,
+                ),
+            );
         }
         //normalize the value
         v = v ?? '';
-        if (typeof v == 'string')
-            v = v.replace('#', '');
+        if (typeof v == 'string') v = v.replace('#', '');
 
         return this._writeValue(v);
     }
@@ -69,9 +82,16 @@ export class HexInputModel {
     }
 
     //! constraints
-    private _charactersRegexTransformer = new RegExpTransformer(/[^0-9a-f]/i, '');
+    private _charactersRegexTransformer = new RegExpTransformer(
+        /[^0-9a-f]/i,
+        '',
+    );
     private _applyCharactersConstraint(v: string): string {
-        const { text, caretPos } = this._charactersRegexTransformer.apply(v, '', this.caretPos);
+        const { text, caretPos } = this._charactersRegexTransformer.apply(
+            v,
+            '',
+            this.caretPos,
+        );
         this.caretPos = caretPos;
         return text;
     }
@@ -83,9 +103,10 @@ export class HexInputModel {
 
         let firstChangeIndex = 0;
         while (
-            firstChangeIndex < v.length
-            && (!prev.charAt(firstChangeIndex) || v.charAt(firstChangeIndex) == prev.charAt(firstChangeIndex))
-            && firstChangeIndex <= maxLength
+            firstChangeIndex < v.length &&
+            (!prev.charAt(firstChangeIndex) ||
+                v.charAt(firstChangeIndex) == prev.charAt(firstChangeIndex)) &&
+            firstChangeIndex <= maxLength
         ) {
             firstChangeIndex++;
         }
@@ -93,11 +114,16 @@ export class HexInputModel {
 
         const overflow = v.length - maxLength;
         this.caretPos -= overflow;
-        return v.substring(0, firstChangeIndex) + v.substring(firstChangeIndex + overflow);
+        return (
+            v.substring(0, firstChangeIndex) +
+            v.substring(firstChangeIndex + overflow)
+        );
     }
     private _applyCaseTransformer(v: string): string {
-        if (this._hostComp.case == CaseTransformerType.Uppercase) return v.toUpperCase();
-        if (this._hostComp.case == CaseTransformerType.Lowercase) return v.toLowerCase();
+        if (this._hostComp.case == CaseTransformerType.Uppercase)
+            return v.toUpperCase();
+        if (this._hostComp.case == CaseTransformerType.Lowercase)
+            return v.toLowerCase();
         return v;
     }
 }

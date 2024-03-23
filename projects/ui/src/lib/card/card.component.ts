@@ -1,6 +1,12 @@
-import { ChangeDetectionStrategy, Component, Directive, HostBinding, Input, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Directive,
+    HostBinding,
+    Input,
+    ViewEncapsulation,
+} from '@angular/core';
 import { CardAppearance, CardVariant } from './card.types';
-
 
 @Directive({ selector: '[ard-card]' })
 export class ArdiumCardDirective {
@@ -22,7 +28,6 @@ export class ArdiumCardDirective {
     selector: 'ard-card',
     template: '<ng-content></ng-content>',
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumCardComponent extends ArdiumCardDirective {
-}
+export class ArdiumCardComponent extends ArdiumCardDirective {}

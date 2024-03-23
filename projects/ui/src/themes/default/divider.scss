@@ -1,4 +1,4 @@
-@import '../variables';
+@import "../variables";
 
 ard-divider {
     margin: 0;
@@ -8,6 +8,6 @@ ard-divider {
     }
 
     &.ard-divider-vertical {
-        border-left: 1px solid $detail-ultralight;   
+        border-left: 1px solid $detail-ultralight;
     }
 }

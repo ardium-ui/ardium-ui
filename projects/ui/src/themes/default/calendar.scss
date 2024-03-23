@@ -1,7 +1,7 @@
-@use './dropdown-arrow.scss' as DA;
-@use './mixins.scss' as DM;
-@use './coloring.scss' as CM;
-@import '../variables';
+@use "./dropdown-arrow.scss" as DA;
+@use "./mixins.scss" as DM;
+@use "./coloring.scss" as CM;
+@import "../variables";
 
 .ard-calendar {
     @include CM.typeColors();
@@ -66,7 +66,9 @@
                 z-index: -1;
                 background: var(--ard-cmpcl--bg-colored);
                 border: 2px solid transparent;
-                transition: border-color 0.2s ease, opacity 0.2s ease;
+                transition:
+                    border-color 0.2s ease,
+                    opacity 0.2s ease;
             }
         }
         &.ard-calendar-entry-empty {
@@ -101,7 +103,7 @@
     .ard-calendar-grid {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
-        
+
         > * {
             max-width: 100%;
             box-sizing: border-box;
@@ -158,13 +160,13 @@
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         grid-template-rows: repeat(6, 1fr);
-        
+
         > * {
             max-width: 100%;
             box-sizing: border-box;
-            aspect-ratio: 7/4;  //it has to be the same height as in the days view
-                                //before it was 7/7 (1) because there are 7 entries in a single row
-                                //now there are 4 entries, and thus 7/4
+            aspect-ratio: 7/4; //it has to be the same height as in the days view
+            //before it was 7/7 (1) because there are 7 entries in a single row
+            //now there are 4 entries, and thus 7/4
         }
     }
     //! interactions

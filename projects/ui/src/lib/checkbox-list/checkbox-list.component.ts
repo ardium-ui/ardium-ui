@@ -1,47 +1,75 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output, ViewEncapsulation } from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    HostBinding,
+    Input,
+    Output,
+    ViewEncapsulation,
+} from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import { SimpleItemStorage, SimpleItemStorageHost } from '../_internal/item-storages/simple-item-storage';
+import {
+    SimpleItemStorage,
+    SimpleItemStorageHost,
+} from '../_internal/item-storages/simple-item-storage';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ComponentColor } from '../types/colors.types';
 import { ArdOptionSimple, CompareWithFn } from '../types/item-storage.types';
 import { CheckboxListAlignType } from './checkbox-list.types';
 
 @Component({
-  selector: 'ard-checkbox-list',
-  templateUrl: './checkbox-list.component.html',
-  styleUrls: ['./checkbox-list.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ard-checkbox-list',
+    templateUrl: './checkbox-list.component.html',
+    styleUrls: ['./checkbox-list.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumCheckboxListComponent extends _NgModelComponentBase implements SimpleItemStorageHost, AfterViewInit {
+export class ArdiumCheckboxListComponent
+    extends _NgModelComponentBase
+    implements SimpleItemStorageHost, AfterViewInit
+{
     @HostBinding('attr.id')
-    @Input() htmlId: string = crypto.randomUUID();
+    @Input()
+    htmlId: string = crypto.randomUUID();
 
     readonly DEFAULTS = {
         valueFrom: 'value',
         labelFrom: 'label',
         disabledFrom: 'disabled',
-    }
+    };
     readonly multiselectable = true;
     readonly requireValue = false;
 
     private _itemStorage = new SimpleItemStorage(this);
 
     @Input()
-    set items(v: any[]) { this._itemStorage.setItems(v); }
-    get items(): ArdOptionSimple[] { return this._itemStorage.items; }
+    set items(v: any[]) {
+        this._itemStorage.setItems(v);
+    }
+    get items(): ArdOptionSimple[] {
+        return this._itemStorage.items;
+    }
 
     compareWith?: CompareWithFn;
 
     private _invertDisabled: boolean = false;
     @Input()
-    get invertDisabled(): boolean { return this._invertDisabled; }
-    set invertDisabled(v: any) { this._invertDisabled = coerceBooleanProperty(v); }
+    get invertDisabled(): boolean {
+        return this._invertDisabled;
+    }
+    set invertDisabled(v: any) {
+        this._invertDisabled = coerceBooleanProperty(v);
+    }
 
     private _maxSelectedItems?: number;
     @Input()
-    get maxSelectedItems(): number | undefined { return this._maxSelectedItems; }
-    set maxSelectedItems(v: any) { this._maxSelectedItems = coerceNumberProperty(v); }
+    get maxSelectedItems(): number | undefined {
+        return this._maxSelectedItems;
+    }
+    set maxSelectedItems(v: any) {
+        this._maxSelectedItems = coerceNumberProperty(v);
+    }
 
     //! appearance
     @Input() color: ComponentColor = ComponentColor.Primary;
@@ -49,8 +77,12 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
 
     private _compact: boolean = false;
     @Input()
-    get compact(): boolean { return this._compact; }
-    set compact(v: any) { this._compact = coerceBooleanProperty(v); }
+    get compact(): boolean {
+        return this._compact;
+    }
+    set compact(v: any) {
+        this._compact = coerceBooleanProperty(v);
+    }
 
     get ngClasses(): string {
         return [
@@ -62,7 +94,9 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
 
     //! value
     @Input()
-    get value(): any { return this._itemStorage.value; }
+    get value(): any {
+        return this._itemStorage.value;
+    }
     set value(v: any) {
         this.writeValue(v);
     }

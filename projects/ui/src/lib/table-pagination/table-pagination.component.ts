@@ -1,26 +1,40 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    ViewEncapsulation,
+} from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
 import { PaginationModel } from '../_internal/models/pagination.model';
 import { ComponentColor } from '../types/colors.types';
-import { CurrentItemsFormatFn, PaginationAlign } from './table-pagination.types';
+import {
+    CurrentItemsFormatFn,
+    PaginationAlign,
+} from './table-pagination.types';
 
 @Component({
-  selector: 'ard-table-pagination',
-  templateUrl: './table-pagination.component.html',
-  styleUrls: ['./table-pagination.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ard-table-pagination',
+    templateUrl: './table-pagination.component.html',
+    styleUrls: ['./table-pagination.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumTablePaginationComponent extends _FocusableComponentBase implements OnInit {
+export class ArdiumTablePaginationComponent
+    extends _FocusableComponentBase
+    implements OnInit
+{
     private readonly _pagination = new PaginationModel();
 
     //! main settings
     @Input()
-    set options(v: number[] | { value: number, label: string }[]) {
+    set options(v: number[] | { value: number; label: string }[]) {
         this._pagination.setItemsPerPageOptions(v);
     }
-    get options(): number[] | { value: number, label: string }[] {
+    get options(): number[] | { value: number; label: string }[] {
         return this._pagination.getItemsPerPageOptions();
     }
     @Input()
@@ -45,12 +59,13 @@ export class ArdiumTablePaginationComponent extends _FocusableComponentBase impl
         this._pagination.setTotalItems(num);
     }
 
-    @Output('itemsPerPageChange') itemsPerPageChangeEvent = new EventEmitter<number>();
+    @Output('itemsPerPageChange') itemsPerPageChangeEvent =
+        new EventEmitter<number>();
     @Output('pageChange') pageChangeEvent = new EventEmitter<number>();
 
     ngOnInit(): void {
         if (this._pagination.isTotalItemsDefined) return;
-        throw new Error("Table pagination requires [totalItems] to be defined");
+        throw new Error('Table pagination requires [totalItems] to be defined');
     }
 
     //! appearance
@@ -59,8 +74,12 @@ export class ArdiumTablePaginationComponent extends _FocusableComponentBase impl
 
     private _compact: boolean = false;
     @Input()
-    get compact(): boolean { return this._compact; }
-    set compact(v: any) { this._compact = coerceBooleanProperty(v); }
+    get compact(): boolean {
+        return this._compact;
+    }
+    set compact(v: any) {
+        this._compact = coerceBooleanProperty(v);
+    }
 
     get ngClasses(): string {
         return [
@@ -73,15 +92,23 @@ export class ArdiumTablePaginationComponent extends _FocusableComponentBase impl
     //! miscellaneous
     private _useFirstLastButtons: boolean = false;
     @Input()
-    get useFirstLastButtons(): boolean { return this._useFirstLastButtons; }
-    set useFirstLastButtons(v: any) { this._useFirstLastButtons = coerceBooleanProperty(v); }
+    get useFirstLastButtons(): boolean {
+        return this._useFirstLastButtons;
+    }
+    set useFirstLastButtons(v: any) {
+        this._useFirstLastButtons = coerceBooleanProperty(v);
+    }
 
     @Input() isLoading?: boolean;
 
     @Input() itemsPerPageText: string = 'Items per page:';
-    @Input() currentItemsFormatFn: CurrentItemsFormatFn = ({ currentItemsFirst, currentItemsLast, totalItems }) => {
+    @Input() currentItemsFormatFn: CurrentItemsFormatFn = ({
+        currentItemsFirst,
+        currentItemsLast,
+        totalItems,
+    }) => {
         return `${currentItemsFirst} – ${currentItemsLast} of ${totalItems}`;
-    }
+    };
 
     //! contexts
     getCurrentItemsContext() {

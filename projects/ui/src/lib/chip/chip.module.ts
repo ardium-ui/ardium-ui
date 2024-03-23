@@ -5,22 +5,17 @@ import { ArdiumSelectableChipComponent } from './selectable-chip/selectable-chip
 import { ArdiumDeletableChipComponent } from './deletable-chip/deletable-chip.component';
 import { _ClearButtonModule } from '../_internal/clear-button/clear-button.module';
 
-
-
 @NgModule({
     declarations: [
         ArdiumChipComponent,
         ArdiumSelectableChipComponent,
         ArdiumDeletableChipComponent,
     ],
-    imports: [
-        CommonModule,
-        _ClearButtonModule,
-    ],
+    imports: [CommonModule, _ClearButtonModule],
     exports: [
         ArdiumChipComponent,
         ArdiumSelectableChipComponent,
         ArdiumDeletableChipComponent,
     ],
 })
-export class ArdiumChipModule { }
+export class ArdiumChipModule {}

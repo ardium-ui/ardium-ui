@@ -1,4 +1,4 @@
-@import '../variables';
+@import "../variables";
 
 ard-dropdown-panel {
     width: 100%;
@@ -28,7 +28,7 @@ ard-dropdown-panel {
         box-shadow: $box-shadow;
     }
 
-    //! connected 
+    //! connected
     &.ard-connected {
         margin: 0;
         border-top: none;

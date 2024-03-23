@@ -3,7 +3,10 @@ import { NgModule } from '@angular/core';
 
 import { ArdiumChipModule } from './../chip/chip.module';
 
-import { ArdiumClickOutsideEventModule, ArdiumInnerHTMLModule } from '@ardium-ui/devkit';
+import {
+    ArdiumClickOutsideEventModule,
+    ArdiumInnerHTMLModule,
+} from '@ardium-ui/devkit';
 import { ArdiumDropdownPanelModule } from '../dropdown-panel/dropdown-panel.module';
 import { ArdiumSelectComponent } from './select.component';
 import {
@@ -21,7 +24,7 @@ import {
     ArdSelectPrefixTemplateDirective,
     ArdSelectSuffixTemplateDirective,
     ArdValueChipTemplateDirective,
-    ArdValueTemplateDirective
+    ArdValueTemplateDirective,
 } from './select.directive';
 
 import { _ClearButtonModule } from './../_internal/clear-button/clear-button.module';
@@ -76,4 +79,4 @@ import { ArdiumFormFieldFrameModule } from '../form-field-frame/form-field-frame
         ArdSelectSuffixTemplateDirective,
     ],
 })
-export class ArdiumSelectModule { }
+export class ArdiumSelectModule {}

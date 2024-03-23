@@ -1,15 +1,22 @@
-
-import { EventEmitter, HostBinding, Input, Output, Directive } from '@angular/core';
+import {
+    EventEmitter,
+    HostBinding,
+    Input,
+    Output,
+    Directive,
+} from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { coerceBooleanProperty } from '../../../../devkit/src/public-api';
 import { _NgModelComponentBase } from './ngmodel-component';
-
 
 /**
  * Common code for components, which only operate on the "selected" state.
  */
 @Directive()
-export abstract class _BooleanComponentBase extends _NgModelComponentBase implements ControlValueAccessor {
+export abstract class _BooleanComponentBase
+    extends _NgModelComponentBase
+    implements ControlValueAccessor
+{
     //! control value accessor
     writeValue(v: any): void {
         this.selected = v;
@@ -23,7 +30,7 @@ export abstract class _BooleanComponentBase extends _NgModelComponentBase implem
 
         if (this._selected) this.selectEvent.emit(null);
         else this.unselectEvent.emit(null);
-        
+
         this.selectedChange.emit(this.selected);
         this.changeEvent.emit(this.selected);
     }
@@ -31,15 +38,15 @@ export abstract class _BooleanComponentBase extends _NgModelComponentBase implem
     //! events
     /**
      * The event emitter responsible for firing `select` events. Fired when the `selected` state is set to true.
-    */
+     */
     @Output('select') selectEvent = new EventEmitter<null>();
     /**
      * The event emitter responsible for firing `unselect` events. Fired when the `selected` state is set to false.
-    */
+     */
     @Output('unselect') unselectEvent = new EventEmitter<null>();
     /**
      * The event emitter responsible for firing `change` events. Fired when the `selected` state is changed.
-    */
+     */
     @Output('change') changeEvent = new EventEmitter<boolean>();
 
     //! [(selected)] two-way binding
@@ -47,15 +54,19 @@ export abstract class _BooleanComponentBase extends _NgModelComponentBase implem
     protected _selected: boolean = false;
     /**
      * The selection state of the component. Coercible into a boolean.
-    */
+     */
     @Input()
     @HostBinding('attr.selected')
     @HostBinding('class.ard-selected')
-    get selected(): boolean { return this._selected };
-    set selected(v: any) { this._selected = coerceBooleanProperty(v); }
+    get selected(): boolean {
+        return this._selected;
+    }
+    set selected(v: any) {
+        this._selected = coerceBooleanProperty(v);
+    }
     /**
      * The event emitter responsible for firing `selectedChange` events. Fired when the `selected` state is changed.
-    */
+     */
     @Output() selectedChange = new EventEmitter<boolean>();
 
     /**

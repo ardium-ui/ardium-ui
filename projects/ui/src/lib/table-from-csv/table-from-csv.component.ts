@@ -1,18 +1,24 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, Input, AfterContentInit } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    ViewEncapsulation,
+    Input,
+    AfterContentInit,
+} from '@angular/core';
 import { TableDataColumn } from '../table/table.types';
 import { NonEmptyArray } from '../types/utility.types';
 
 @Component({
-  selector: 'ard-table-from-csv',
-  templateUrl: './table-from-csv.component.html',
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ard-table-from-csv',
+    templateUrl: './table-from-csv.component.html',
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumTableFromCsvComponent implements AfterContentInit {
     @Input() separator: string = ',';
 
     private _isDataOkay: boolean = false;
-    @Input() 
+    @Input()
     set data(v: string) {
         this._isDataOkay = false;
         if (!this._isCsvValid(v)) return;
@@ -30,7 +36,11 @@ export class ArdiumTableFromCsvComponent implements AfterContentInit {
 
     ngAfterContentInit(): void {
         if (!this._isDataOkay) {
-            console.error(new Error('<ard-table-from-csv> error: must provide non-empty data'));
+            console.error(
+                new Error(
+                    '<ard-table-from-csv> error: must provide non-empty data',
+                ),
+            );
         }
     }
 
@@ -39,7 +49,7 @@ export class ArdiumTableFromCsvComponent implements AfterContentInit {
     }
     private _convertCsvToHeaders(line: string): TableDataColumn[] {
         const headers = line.split(this.separator);
-        return headers.map(header => {
+        return headers.map((header) => {
             header = header.trim();
             return {
                 header,
@@ -47,7 +57,10 @@ export class ArdiumTableFromCsvComponent implements AfterContentInit {
             };
         });
     }
-    private _convertCsvToArray(lines: string[], headers: TableDataColumn[]): any[] {
+    private _convertCsvToArray(
+        lines: string[],
+        headers: TableDataColumn[],
+    ): any[] {
         const dataRows: { [key: string]: any }[] = [];
 
         for (const line of lines) {

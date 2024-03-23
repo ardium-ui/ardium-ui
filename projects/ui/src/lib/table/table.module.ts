@@ -3,10 +3,14 @@ import { CommonModule } from '@angular/common';
 import { ArdiumTableComponent } from './table.component';
 import { ArdiumCheckboxModule } from '../checkbox/checkbox.module';
 import { ArdiumTablePaginationModule } from '../table-pagination/table-pagination.module';
-import { ArdiumTableCaptionTemplateDirective, ArdiumTableCheckboxTemplateDirective, ArdiumTableHeaderCheckboxTemplateDirective, ArdiumTablePaginationTemplateDirective, ArdiumTableTemplateDirective } from './table.directives';
+import {
+    ArdiumTableCaptionTemplateDirective,
+    ArdiumTableCheckboxTemplateDirective,
+    ArdiumTableHeaderCheckboxTemplateDirective,
+    ArdiumTablePaginationTemplateDirective,
+    ArdiumTableTemplateDirective,
+} from './table.directives';
 import { ArdiumIconModule } from '../icon/icon.module';
-
-
 
 @NgModule({
     declarations: [
@@ -30,6 +34,6 @@ import { ArdiumIconModule } from '../icon/icon.module';
         ArdiumTableHeaderCheckboxTemplateDirective,
         ArdiumTableCaptionTemplateDirective,
         ArdiumTablePaginationTemplateDirective,
-    ]
+    ],
 })
-export class ArdiumTableModule { }
+export class ArdiumTableModule {}

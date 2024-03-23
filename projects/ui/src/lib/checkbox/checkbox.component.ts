@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, Output, ViewEncapsulation, ChangeDetectionStrategy, forwardRef } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    Input,
+    Output,
+    ViewEncapsulation,
+    ChangeDetectionStrategy,
+    forwardRef,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '../../../../devkit/src/public-api';
 import { SimpleComponentColor } from '../types/colors.types';
@@ -15,11 +23,14 @@ import { CheckboxState } from './checkbox.types';
         {
             provide: NG_VALUE_ACCESSOR,
             useExisting: forwardRef(() => ArdiumCheckboxComponent),
-            multi: true
-        }
-    ]
+            multi: true,
+        },
+    ],
 })
-export class ArdiumCheckboxComponent extends _BooleanComponentBase implements ControlValueAccessor {
+export class ArdiumCheckboxComponent
+    extends _BooleanComponentBase
+    implements ControlValueAccessor
+{
     @Input() wrapperClasses: string = '';
 
     @Input() htmlId?: string;
@@ -41,14 +52,17 @@ export class ArdiumCheckboxComponent extends _BooleanComponentBase implements Co
         this._selected = coerceBooleanProperty(v);
         this.state = this._selected ? 'selected' : 'unselected';
     }
-    override get selected(): boolean { return this._selected }
+    override get selected(): boolean {
+        return this._selected;
+    }
 
     @Input() state: CheckboxState = 'unselected';
     @Output() stateChange = new EventEmitter<CheckboxState>();
 
     //* click action
     toggleState() {
-        if (this.state == 'selected' || this.state == 'indeterminate') this.state = 'unselected';
+        if (this.state == 'selected' || this.state == 'indeterminate')
+            this.state = 'unselected';
         else this.state = 'selected';
         this._selected = this.state == 'selected';
 

@@ -6,19 +6,14 @@ import { ArdiumFabModule } from '../buttons/fab/fab.module';
 import { ArdiumIconModule } from './../icon/icon.module';
 import { ArdiumIconButtonModule } from '../buttons/icon-button/icon-button.module';
 
-
 @NgModule({
-    declarations: [
-        ArdiumCalendarComponent
-    ],
+    declarations: [ArdiumCalendarComponent],
     imports: [
         CommonModule,
         ArdiumButtonModule,
         ArdiumIconButtonModule,
-        ArdiumIconModule
+        ArdiumIconModule,
     ],
-    exports: [
-        ArdiumCalendarComponent
-    ]
+    exports: [ArdiumCalendarComponent],
 })
-export class ArdiumCalendarModule { }
+export class ArdiumCalendarModule {}

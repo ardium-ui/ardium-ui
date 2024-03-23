@@ -1,6 +1,6 @@
-import { ArdOptionSimple, CompareWithFn } from "../../types/item-storage.types";
+import { ArdOptionSimple, CompareWithFn } from '../../types/item-storage.types';
 import resolvePath from 'resolve-object-path';
-import { any, evaluate, isDefined, isObject, isPrimitive } from "simple-bool";
+import { any, evaluate, isDefined, isObject, isPrimitive } from 'simple-bool';
 
 export interface ItemStorageHostDefaults {
     valueFrom: string;
@@ -24,9 +24,7 @@ export class SimpleItemStorage {
     private _highlightedItems: ArdOptionSimple[] = [];
     private _selectedItems: ArdOptionSimple[] = [];
 
-    constructor(
-        private _ardParentComp: SimpleItemStorageHost,
-    ) {}
+    constructor(private _ardParentComp: SimpleItemStorageHost) {}
 
     /**
      * Gets all items.
@@ -58,7 +56,7 @@ export class SimpleItemStorage {
      * @returns An array of item values.
      */
     private _itemsToValue(items: ArdOptionSimple[]): any[] {
-        return items.map(item => item.value);
+        return items.map((item) => item.value);
     }
 
     /**
@@ -69,14 +67,19 @@ export class SimpleItemStorage {
     }
     /**
      * Returns true if the parent component defines the limit of concurrently selectable items and the amount of currently selected items matches that limit. Otherwise returns false.
-     * 
+     *
      * **TLDR**: true if `maxSelectedItems` is defined and the number of selected items matches that value.
      */
     get isItemLimitReached(): boolean {
-        if (!this._ardParentComp.multiselectable || !isDefined(this._ardParentComp.maxSelectedItems)) {
+        if (
+            !this._ardParentComp.multiselectable ||
+            !isDefined(this._ardParentComp.maxSelectedItems)
+        ) {
             return false;
         }
-        return this._ardParentComp.maxSelectedItems <= this.selectedItems.length;
+        return (
+            this._ardParentComp.maxSelectedItems <= this.selectedItems.length
+        );
     }
 
     /**
@@ -100,25 +103,39 @@ export class SimpleItemStorage {
     private _primitiveItemsMapFn<T>(item: T): { value: T } {
         return { value: item };
     }
-    private _setItemsMapFn(rawItemData: any, index: number, areItemsPrimitive: boolean): ArdOptionSimple {
+    private _setItemsMapFn(
+        rawItemData: any,
+        index: number,
+        areItemsPrimitive: boolean,
+    ): ArdOptionSimple {
         if (areItemsPrimitive) {
             return {
                 itemData: rawItemData,
                 index,
                 value: rawItemData.value,
-                label: rawItemData.value?.toString?.() ?? String(rawItemData.value),
-            }
+                label:
+                    rawItemData.value?.toString?.() ??
+                    String(rawItemData.value),
+            };
         }
         //get value
-        const valuePath = this._ardParentComp.valueFrom ?? this._ardParentComp.labelFrom ?? this._ardParentComp.DEFAULTS.valueFrom;
+        const valuePath =
+            this._ardParentComp.valueFrom ??
+            this._ardParentComp.labelFrom ??
+            this._ardParentComp.DEFAULTS.valueFrom;
         const value = resolvePath(rawItemData, valuePath);
 
         //get label
-        const labelPath = this._ardParentComp.labelFrom ?? this._ardParentComp.valueFrom ?? this._ardParentComp.DEFAULTS.labelFrom;
+        const labelPath =
+            this._ardParentComp.labelFrom ??
+            this._ardParentComp.valueFrom ??
+            this._ardParentComp.DEFAULTS.labelFrom;
         const label = resolvePath(rawItemData, labelPath) ?? value;
 
         //get disabled
-        const disabledPath = this._ardParentComp.disabledFrom ?? this._ardParentComp.DEFAULTS.disabledFrom;
+        const disabledPath =
+            this._ardParentComp.disabledFrom ??
+            this._ardParentComp.DEFAULTS.disabledFrom;
         let disabled = evaluate(resolvePath(rawItemData, disabledPath));
         if (this._ardParentComp.invertDisabled) {
             disabled = !disabled;
@@ -133,7 +150,7 @@ export class SimpleItemStorage {
             value,
             label: label?.toString?.() ?? String(label),
             disabled,
-        }
+        };
     }
     /**
      * Writes a new value to the item storage. Selects the correct items based on the provided values, warning the user if the value is not found.
@@ -151,8 +168,10 @@ export class SimpleItemStorage {
                 this.selectItem(item);
                 return;
             }
-            console.warn(`Couldn't find an item with value ${value?.toString?.() || String(value)}.`);
-        }
+            console.warn(
+                `Couldn't find an item with value ${value?.toString?.() || String(value)}.`,
+            );
+        };
 
         for (const modelValue of ngModel) {
             selectItemByValue(modelValue);
@@ -160,7 +179,7 @@ export class SimpleItemStorage {
     }
     /**
      * Validates that all values of the value to be written are able to be accurately compared against the storage items.
-     * 
+     *
      * An item from the ngModel array is considered valid if it is a primitive value, or if all of the below points are met:
      * 1. The parent component defines the `compareWith` property.
      * 2. The ngModel value item is an object (or array).
@@ -169,10 +188,14 @@ export class SimpleItemStorage {
      * @returns true if all items are valid, otherwise false.
      */
     private _validateWriteValue(ngModel: any[]): boolean {
-        return ngModel.every(item => {
-            if (!isDefined(this._ardParentComp.compareWith) && isObject(item) && this._ardParentComp.valueFrom) {
+        return ngModel.every((item) => {
+            if (
+                !isDefined(this._ardParentComp.compareWith) &&
+                isObject(item) &&
+                this._ardParentComp.valueFrom
+            ) {
                 console.warn(
-                    `Setting object(${JSON.stringify(item)}) as your model with [valueFrom] is not allowed unless [compareWith] is used.`
+                    `Setting object(${JSON.stringify(item)}) as your model with [valueFrom] is not allowed unless [compareWith] is used.`,
                 );
                 return false;
             }
@@ -182,17 +205,17 @@ export class SimpleItemStorage {
     findItemByValue(valueToFind: any): ArdOptionSimple | undefined {
         let findBy: (item: ArdOptionSimple) => boolean;
         if (isDefined(this._ardParentComp.compareWith)) {
-            findBy = item => this._ardParentComp.compareWith!(valueToFind, item.value);
+            findBy = (item) =>
+                this._ardParentComp.compareWith!(valueToFind, item.value);
+        } else {
+            findBy = (item) => item.value === valueToFind;
         }
-        else {
-            findBy = item => item.value === valueToFind;
-        }
-        return this._items.find(item => findBy(item));
+        return this._items.find((item) => findBy(item));
     }
 
     /**
      * Unselects all selected items.
-     * 
+     *
      * If the parent component requires at least one value to be selected at all times, the first selected items is left selected.
      * @returns An array of items cleared, mapped to only their values.
      */
@@ -203,7 +226,10 @@ export class SimpleItemStorage {
 
         const ret = this._itemsToValue(this._selectedItems);
 
-        if (this._ardParentComp.requireValue && this._selectedItems.length > 0) {
+        if (
+            this._ardParentComp.requireValue &&
+            this._selectedItems.length > 0
+        ) {
             this._selectedItems.first().selected = true;
             ret.splice(0, 1);
         }
@@ -229,7 +255,7 @@ export class SimpleItemStorage {
     }
     /**
      * Selects one or multiple items.
-     * 
+     *
      * Accounts for the limit of concurrently selected items defined by the parent component.
      * @param items A rest operator array of item objects to be selected.
      * @returns A tuple containing three arrays, all mapped to only their values:
@@ -260,10 +286,14 @@ export class SimpleItemStorage {
         }
 
         const itemsFailedToSelect = items.slice(itemsSelectedCount - 1);
-        return [this._itemsToValue(itemsSelected), unselected, this._itemsToValue(itemsFailedToSelect)];
+        return [
+            this._itemsToValue(itemsSelected),
+            unselected,
+            this._itemsToValue(itemsFailedToSelect),
+        ];
     }
     /**
-     * 
+     *
      * @param items A rest operator array of item objects to be unselected.
      * @returns An array of items unselected, mapped to only their values.
      */
@@ -278,9 +308,9 @@ export class SimpleItemStorage {
             if (!item.selected) continue;
             item.selected = false;
         }
-        this._selectedItems = this._selectedItems.filter(v => v.selected);
+        this._selectedItems = this._selectedItems.filter((v) => v.selected);
 
-        return this._itemsToValue(items);;
+        return this._itemsToValue(items);
     }
 
     /**
@@ -324,7 +354,9 @@ export class SimpleItemStorage {
 
             item.highlighted = false;
         }
-        this._highlightedItems = this._highlightedItems.filter(v => v.highlighted);
+        this._highlightedItems = this._highlightedItems.filter(
+            (v) => v.highlighted,
+        );
     }
     /**
      * Highlights the first item out of all items.
@@ -355,20 +387,28 @@ export class SimpleItemStorage {
         this.highlightItem(...itemsToHighlight);
     }
     /**
-     * Highlights the next non-disabled item defined by the offset amount. 
-     * 
+     * Highlights the next non-disabled item defined by the offset amount.
+     *
      * If `hasShift` is set to true, all originally highlighted items are kept. Otherwise, all original items are unselected.
      * @param offset The amount of items to offset the highlight by.
      * @param hasShift Whether the user has the shift key pressed.
      * @returns The item highlighted.
      */
-    highlightNextItem(offset: number, hasShift?: boolean): ArdOptionSimple | null {
+    highlightNextItem(
+        offset: number,
+        hasShift?: boolean,
+    ): ArdOptionSimple | null {
         if (!this.isAnyItemHighlighted) {
             return this.highlightFirstItem();
         }
         const currentItem = this.highlightedItems.last();
-        const itemsWithoutDisabled = this._items.filter(item => !item.disabled && (!this.isItemLimitReached || item.selected));
-        const currentIndexInItems = itemsWithoutDisabled.findIndex(item => item.index == currentItem.index);
+        const itemsWithoutDisabled = this._items.filter(
+            (item) =>
+                !item.disabled && (!this.isItemLimitReached || item.selected),
+        );
+        const currentIndexInItems = itemsWithoutDisabled.findIndex(
+            (item) => item.index == currentItem.index,
+        );
 
         let nextItemIndex = currentIndexInItems + offset;
         if (nextItemIndex >= itemsWithoutDisabled.length) {
@@ -392,6 +432,6 @@ export class SimpleItemStorage {
      * @returns An array of all highlightable items.
      */
     private _getHiglightableItems(): ArdOptionSimple[] {
-        return this._items.filter(item => !item.disabled);
+        return this._items.filter((item) => !item.disabled);
     }
 }

@@ -7,6 +7,6 @@ describe('KbdPipe', () => {
     });
     it('should return a value', () => {
         const pipe = new ArdiumKbdPipe();
-        expect(pipe.transform("1", true)).not.toThrow();
+        expect(pipe.transform('1', true)).not.toThrow();
     });
 });

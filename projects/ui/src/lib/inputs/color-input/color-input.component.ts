@@ -1,16 +1,51 @@
-import { Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
+import {
+    Overlay,
+    OverlayConfig,
+    OverlayRef,
+    ScrollStrategyOptions,
+} from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, forwardRef, Input, Output, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    ContentChild,
+    ElementRef,
+    EventEmitter,
+    forwardRef,
+    Input,
+    Output,
+    TemplateRef,
+    ViewChild,
+    ViewContainerRef,
+    ViewEncapsulation,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import * as Color from 'color';
 import { ButtonVariant } from '../../buttons/general-button.types';
 import { CardAppearance, CardVariant } from '../../card/card.types';
-import { DropdownPanelAppearance, DropdownPanelVariant } from '../../dropdown-panel/dropdown-panel.types';
-import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
+import {
+    DropdownPanelAppearance,
+    DropdownPanelVariant,
+} from '../../dropdown-panel/dropdown-panel.types';
+import {
+    FormElementAppearance,
+    FormElementVariant,
+} from '../../types/theming.types';
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { CaseTransformerType } from '../input-types';
-import { ArdColorInputActionButtonsTemplateDirective, ArdColorInputColorReferenceTemplateDirective, ArdColorInputHueIndicatorTemplateDirective, ArdColorInputOpacityIndicatorTemplateDirective, ArdColorInputPlaceholderTemplateDirective, ArdColorInputPrefixTemplateDirective, ArdColorInputShadeIndicatorTemplateDirective, ArdColorInputSuffixTemplateDirective } from './color-input.directives';
+import {
+    ArdColorInputActionButtonsTemplateDirective,
+    ArdColorInputColorReferenceTemplateDirective,
+    ArdColorInputHueIndicatorTemplateDirective,
+    ArdColorInputOpacityIndicatorTemplateDirective,
+    ArdColorInputPlaceholderTemplateDirective,
+    ArdColorInputPrefixTemplateDirective,
+    ArdColorInputShadeIndicatorTemplateDirective,
+    ArdColorInputSuffixTemplateDirective,
+} from './color-input.directives';
 import { ColorInputActionButtonsContext } from './color-input.types';
 
 @Component({
@@ -23,12 +58,14 @@ import { ColorInputActionButtonsContext } from './color-input.types';
         {
             provide: NG_VALUE_ACCESSOR,
             useExisting: forwardRef(() => ArdiumColorInputComponent),
-            multi: true
-        }
-    ]
+            multi: true,
+        },
+    ],
 })
-export class ArdiumColorInputComponent extends _NgModelComponentBase implements ControlValueAccessor, AfterViewInit {
-
+export class ArdiumColorInputComponent
+    extends _NgModelComponentBase
+    implements ControlValueAccessor, AfterViewInit
+{
     readonly element!: HTMLElement;
 
     constructor(
@@ -50,28 +87,35 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
     }
 
     //! input view
-    @ViewChild('textInput') protected textInputEl!: ElementRef<HTMLInputElement>;
+    @ViewChild('textInput')
+    protected textInputEl!: ElementRef<HTMLInputElement>;
     ngAfterViewInit(): void {
         this._setInputAttributes();
     }
 
     readonly DEFAULTS = {
         clearButtonTitle: 'Clear',
-    }
+    };
 
     @Input() inputId?: string;
 
     //! prefix & suffix
-    @ContentChild(ArdColorInputPrefixTemplateDirective, { read: TemplateRef }) prefixTemplate?: TemplateRef<any>;
-    @ContentChild(ArdColorInputSuffixTemplateDirective, { read: TemplateRef }) suffixTemplate?: TemplateRef<any>;
+    @ContentChild(ArdColorInputPrefixTemplateDirective, { read: TemplateRef })
+    prefixTemplate?: TemplateRef<any>;
+    @ContentChild(ArdColorInputSuffixTemplateDirective, { read: TemplateRef })
+    suffixTemplate?: TemplateRef<any>;
 
     //! placeholder
     @Input() placeholder: string = '';
 
-    @ContentChild(ArdColorInputPlaceholderTemplateDirective, { read: TemplateRef })
+    @ContentChild(ArdColorInputPlaceholderTemplateDirective, {
+        read: TemplateRef,
+    })
     placeholderTemplate?: TemplateRef<any>;
 
-    get shouldDisplayPlaceholder(): boolean { return Boolean(this.placeholder) && !this.value };
+    get shouldDisplayPlaceholder(): boolean {
+        return Boolean(this.placeholder) && !this.value;
+    }
 
     //! appearance
     //all handled in ard-form-field-frame component
@@ -80,21 +124,31 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
 
     private _compact: boolean = false;
     @Input()
-    get compact(): boolean { return this._compact; }
-    set compact(v: any) { this._compact = coerceBooleanProperty(v); }
+    get compact(): boolean {
+        return this._compact;
+    }
+    set compact(v: any) {
+        this._compact = coerceBooleanProperty(v);
+    }
 
     //! settings
     @Input() case: CaseTransformerType = CaseTransformerType.NoChange;
 
     private _withActionButtons: boolean = false;
     @Input()
-    get withActionButtons(): boolean { return this._withActionButtons; }
-    set withActionButtons(v: any) { this._withActionButtons = coerceBooleanProperty(v); }
+    get withActionButtons(): boolean {
+        return this._withActionButtons;
+    }
+    set withActionButtons(v: any) {
+        this._withActionButtons = coerceBooleanProperty(v);
+    }
 
     //! clear button
     private _clearable: boolean = true;
     @Input()
-    get clearable(): boolean { return this._clearable; }
+    get clearable(): boolean {
+        return this._clearable;
+    }
     set clearable(v: any) {
         this._clearable = coerceBooleanProperty(v);
         if (this.value == null) {
@@ -137,7 +191,9 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
         this._value = v;
         this._updateInputElValue();
     }
-    get value(): Color | null { return this._value; }
+    get value(): Color | null {
+        return this._value;
+    }
     @Output() valueChange = new EventEmitter<Color>();
 
     //* event emitters
@@ -153,7 +209,7 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
     protected _emitChange(): void {
         const v = this.value;
         if (!v) return;
-        
+
         this._onChangeRegistered?.(v);
         this.changeEvent.emit(v);
         this.valueChange.emit(v);
@@ -172,47 +228,57 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
         const v = this.value;
         if (!v) return;
 
-        event.clipboardData?.setData("text/plain", v.hex().toString());
+        event.clipboardData?.setData('text/plain', v.hex().toString());
         event.preventDefault();
     }
 
     //! state
     private _touched: boolean = false;
-    get touched(): boolean { return this._touched };
+    get touched(): boolean {
+        return this._touched;
+    }
     private set touched(state: boolean) {
         this._touched = state;
     }
 
     //! color picker overlay
-    @ViewChild('overlayHost', { read: ElementRef }) overlayHost!: ElementRef<HTMLDivElement>;
-    @ViewChild('overlayTemplate', { read: TemplateRef }) overlayTemplate!: TemplateRef<any>;
+    @ViewChild('overlayHost', { read: ElementRef })
+    overlayHost!: ElementRef<HTMLDivElement>;
+    @ViewChild('overlayTemplate', { read: TemplateRef })
+    overlayTemplate!: TemplateRef<any>;
 
     private overlayRef?: OverlayRef;
 
     private _createOverlay(): void {
-        const strategy = this.overlay.position()
+        const strategy = this.overlay
+            .position()
             .flexibleConnectedTo(this.overlayHost)
-            .withPositions([{
-                originX: 'end',
-                originY: 'bottom',
-                overlayX: 'end',
-                overlayY: 'top',
-            }, {
-                originX: 'start',
-                originY: 'bottom',
-                overlayX: 'end',
-                overlayY: 'top',
-            }, {
-                originX: 'start',
-                originY: 'top',
-                overlayX: 'start',
-                overlayY: 'bottom',
-            }, {
-                originX: 'start',
-                originY: 'top',
-                overlayX: 'start',
-                overlayY: 'bottom',
-            }]);
+            .withPositions([
+                {
+                    originX: 'end',
+                    originY: 'bottom',
+                    overlayX: 'end',
+                    overlayY: 'top',
+                },
+                {
+                    originX: 'start',
+                    originY: 'bottom',
+                    overlayX: 'end',
+                    overlayY: 'top',
+                },
+                {
+                    originX: 'start',
+                    originY: 'top',
+                    overlayX: 'start',
+                    overlayY: 'bottom',
+                },
+                {
+                    originX: 'start',
+                    originY: 'top',
+                    overlayX: 'start',
+                    overlayY: 'bottom',
+                },
+            ]);
 
         const config = new OverlayConfig({
             positionStrategy: strategy,
@@ -222,7 +288,10 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
 
         this.overlayRef = this.overlay.create(config);
 
-        const portal = new TemplatePortal(this.overlayTemplate, this.viewContainerRef);
+        const portal = new TemplatePortal(
+            this.overlayTemplate,
+            this.viewContainerRef,
+        );
         this.overlayRef.attach(portal);
     }
     private _destroyOverlay(): void {
@@ -274,7 +343,8 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
     }
     get overlayAppearance(): CardAppearance {
         if (this._overlayAppearance) return this._overlayAppearance;
-        if (this.appearance == FormElementAppearance.Outlined) return DropdownPanelAppearance.Outlined;
+        if (this.appearance == FormElementAppearance.Outlined)
+            return DropdownPanelAppearance.Outlined;
         return DropdownPanelAppearance.Raised;
     }
     private _overlayVariant?: CardVariant = undefined;
@@ -284,7 +354,8 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
     }
     get overlayVariant(): CardVariant {
         if (this._overlayVariant) return this._overlayVariant;
-        if (this.variant == FormElementVariant.Pill) return DropdownPanelVariant.Rounded;
+        if (this.variant == FormElementVariant.Pill)
+            return DropdownPanelVariant.Rounded;
         return this.variant;
     }
 
@@ -320,27 +391,50 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
     }
 
     //! overlay templates
-    @ContentChild(ArdColorInputShadeIndicatorTemplateDirective, { read: TemplateRef }) shadeIndicatorTemplate?: TemplateRef<any>;
-    @ContentChild(ArdColorInputHueIndicatorTemplateDirective, { read: TemplateRef }) hueIndicatorTemplate?: TemplateRef<any>;
-    @ContentChild(ArdColorInputOpacityIndicatorTemplateDirective, { read: TemplateRef }) opacityIndicatorTemplate?: TemplateRef<any>;
-    @ContentChild(ArdColorInputColorReferenceTemplateDirective, { read: TemplateRef }) colorReferenceTemplate?: TemplateRef<any>;
-    @ContentChild(ArdColorInputActionButtonsTemplateDirective, { read: TemplateRef }) actionButtonsTemplate?: TemplateRef<any>;
+    @ContentChild(ArdColorInputShadeIndicatorTemplateDirective, {
+        read: TemplateRef,
+    })
+    shadeIndicatorTemplate?: TemplateRef<any>;
+    @ContentChild(ArdColorInputHueIndicatorTemplateDirective, {
+        read: TemplateRef,
+    })
+    hueIndicatorTemplate?: TemplateRef<any>;
+    @ContentChild(ArdColorInputOpacityIndicatorTemplateDirective, {
+        read: TemplateRef,
+    })
+    opacityIndicatorTemplate?: TemplateRef<any>;
+    @ContentChild(ArdColorInputColorReferenceTemplateDirective, {
+        read: TemplateRef,
+    })
+    colorReferenceTemplate?: TemplateRef<any>;
+    @ContentChild(ArdColorInputActionButtonsTemplateDirective, {
+        read: TemplateRef,
+    })
+    actionButtonsTemplate?: TemplateRef<any>;
 
     get actionButtonVariant(): ButtonVariant {
-        if (this.variant == FormElementVariant.Sharp) return ButtonVariant.Sharp;
+        if (this.variant == FormElementVariant.Sharp)
+            return ButtonVariant.Sharp;
         return ButtonVariant.Rounded;
     }
     getActionButtonsContext(): ColorInputActionButtonsContext {
         return {
-            apply: () => { this.apply(); },
-            cancel: () => { this.cancel(); },
-            reset: () => { this.reset(); },
-        }
+            apply: () => {
+                this.apply();
+            },
+            cancel: () => {
+                this.cancel();
+            },
+            reset: () => {
+                this.reset();
+            },
+        };
     }
 
     //! helpers
     protected _updateInputElValue(): void {
-        this.textInputEl.nativeElement.value = this.value?.hex().toString() ?? '';
+        this.textInputEl.nativeElement.value =
+            this.value?.hex().toString() ?? '';
     }
     protected _setInputAttributes() {
         const input = this.textInputEl.nativeElement;
@@ -350,7 +444,7 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
             autocapitalize: 'off',
             autocomplete: 'off',
             tabindex: String(this.tabIndex),
-            ...this.inputAttrs
+            ...this.inputAttrs,
         };
 
         for (const key of Object.keys(attributes)) {

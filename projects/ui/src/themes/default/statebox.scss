@@ -1,6 +1,6 @@
-@use './mixins'as defaultMixins;
-@use './coloring' as coloringMixins;
-@import '../variables';
+@use "./mixins" as defaultMixins;
+@use "./coloring" as coloringMixins;
+@import "../variables";
 
 .ard-statebox {
     @include coloringMixins.typeColors();
@@ -43,7 +43,7 @@
         transform: translate(-50%, -50%);
     }
     .ard-statebox-frame::after {
-        content: '\e835';
+        content: "\e835";
     }
     &.ard-statebox-keep-frame {
         .ard-statebox-icon {
@@ -52,15 +52,15 @@
     }
     &.ard-statebox-filled {
         .ard-statebox-icon {
-            font-variation-settings: 'FILL'1;
+            font-variation-settings: "FILL" 1;
         }
         &.ard-statebox-keep-frame {
             .ard-statebox-icon,
             .ard-statebox-character {
-                color: var(--ard-cmpcl--on-bg)
+                color: var(--ard-cmpcl--on-bg);
             }
             .ard-statebox-frame::before {
-                content: '';
+                content: "";
                 position: absolute;
                 left: 2px;
                 right: 2px;
@@ -82,7 +82,7 @@
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-        font-family: 'Roboto', sans-serif;
+        font-family: "Roboto", sans-serif;
     }
     &.ard-color-custom {
         color: var(--ard-custom-color);

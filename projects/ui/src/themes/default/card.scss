@@ -1,6 +1,7 @@
-@import '../variables';
+@import "../variables";
 
-ard-card, .ard-card {
+ard-card,
+.ard-card {
     position: relative;
     background: $bg;
     box-sizing: border-box;
@@ -40,7 +41,8 @@ ard-card-header {
         padding-top: 1em;
     }
 }
-.ard-card-title, .ard-card-subtitle {
+.ard-card-title,
+.ard-card-subtitle {
     line-height: normal;
     display: block;
     margin: 0;

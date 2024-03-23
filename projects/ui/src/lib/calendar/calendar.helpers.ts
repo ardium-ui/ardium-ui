@@ -1,21 +1,22 @@
-
-
 export type CalendarArray = {
     array: (number | null)[][];
     leadingSpaces: number;
     trailingSpaces: number;
     weeks: number;
-}
+};
 
 /**
  * Generates a layout array to be used to create a calendar page for the given date's month.
- * 
+ *
  * The returned object contains an array to create the layout from, the number of leading and trailing spaces in the layout, and the number of weeks (full or not) in the month.
  * @param date The date to get the month from.
  * @param firstWeekday The index of the first weekday in the calendar layout. Starts at Sunday, with the index 0. Defaults to 1.
  * @returns A {@link CalendarArray} object.
  */
-export function getMonthLayout(date: Date, firstWeekday: number = 1): CalendarArray {
+export function getMonthLayout(
+    date: Date,
+    firstWeekday: number = 1,
+): CalendarArray {
     firstWeekday %= 7;
 
     const firstDayDate = new Date(date);

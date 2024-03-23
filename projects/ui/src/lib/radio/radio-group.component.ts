@@ -1,8 +1,22 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ContentChildren, forwardRef, Input, OnDestroy, OnInit, QueryList, ViewEncapsulation, AfterContentInit, Output, EventEmitter, HostBinding } from '@angular/core';
+import {
+    AfterContentInit,
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    ContentChildren,
+    EventEmitter,
+    HostBinding,
+    Input,
+    OnDestroy,
+    Output,
+    QueryList,
+    ViewEncapsulation,
+    forwardRef,
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Observable, Subscription } from 'rxjs';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ArdiumRadioComponent } from './radio/radio.component';
-import { Subscription, Observable } from 'rxjs';
 
 @Component({
     selector: 'ard-radio-group',
@@ -14,26 +28,32 @@ import { Subscription, Observable } from 'rxjs';
         '[attr.aria-label]': 'null',
         '[attr.aria-labelledby]': 'null',
         '[attr.aria-describedby]': 'null',
-        'role': 'radiogroup',
+        role: 'radiogroup',
     },
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
             useExisting: forwardRef(() => ArdiumRadioGroupComponent),
-            multi: true
-        }
-    ]
+            multi: true,
+        },
+    ],
 })
-export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements AfterContentInit, AfterViewInit, OnDestroy {
+export class ArdiumRadioGroupComponent
+    extends _NgModelComponentBase
+    implements AfterContentInit, AfterViewInit, OnDestroy
+{
     @ContentChildren(ArdiumRadioComponent, { descendants: true })
     private _radios!: QueryList<ArdiumRadioComponent>;
 
     @HostBinding('attr.id')
-    @Input() htmlId?: string;
+    @Input()
+    htmlId?: string;
 
     //! value
     @Input()
-    get value(): any { return this._selected?.value; }
+    get value(): any {
+        return this._selected?.value;
+    }
     set value(v: any) {
         this.writeValue(v);
     }
@@ -59,14 +79,15 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
     private _findRadioByValue(v: any): void {
         if (!this._radios) return;
 
-        this._selected = this._radios.find(radio => v === radio.value) ?? null;
+        this._selected =
+            this._radios.find((radio) => v === radio.value) ?? null;
     }
 
     /** Updates all child radios depending on the currently selected radio. */
     private _updateRadiosByValue(): void {
         if (!this._isContentInit) return;
-        
-        this._radios.forEach(radio => {
+
+        this._radios.forEach((radio) => {
             radio.selected = this.value === radio.value;
             radio.markForCheck();
         });
@@ -105,10 +126,9 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
         this._updateRadioButtonNames();
     }
 
-
     private _updateRadioButtonNames(): void {
         if (this._radios) {
-            this._radios.forEach(radio => {
+            this._radios.forEach((radio) => {
                 radio.name = this.name;
                 radio.markForCheck();
             });
@@ -151,20 +171,28 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
             this._updateRadioButtonNames();
         }, 0);
 
-        this._radios.forEach(radio => {
-            this._childEventSubs.push(radio.blurEvent.subscribe(v => {
-                this._handleBlurEvents(v);
-            }));
-            this._childEventSubs.push(radio.focusEvent.subscribe(v => {
-                this._handleFocusEvents(v);
-            }));
-            this._childEventSubs.push(radio.selectedChange.subscribe(() => {
-                this._handleChangeEvents(radio);
-            }));
+        this._radios.forEach((radio) => {
+            this._childEventSubs.push(
+                radio.blurEvent.subscribe((v) => {
+                    this._handleBlurEvents(v);
+                }),
+            );
+            this._childEventSubs.push(
+                radio.focusEvent.subscribe((v) => {
+                    this._handleFocusEvents(v);
+                }),
+            );
+            this._childEventSubs.push(
+                radio.selectedChange.subscribe(() => {
+                    this._handleChangeEvents(radio);
+                }),
+            );
         });
     }
     ngAfterViewInit(): void {
-        const sub = (this._radios.changes as Observable<ArdiumRadioComponent[]>).subscribe(radios => {
+        const sub = (
+            this._radios.changes as Observable<ArdiumRadioComponent[]>
+        ).subscribe((radios) => {
             setTimeout(() => {
                 this._updateRadioButtonNames();
             }, 0);
@@ -173,15 +201,21 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
 
             //sub to child component events
             for (const radio of radios) {
-                this._childEventSubs.push(radio.blurEvent.subscribe(v => {
-                    this._handleBlurEvents(v);
-                }));
-                this._childEventSubs.push(radio.focusEvent.subscribe(v => {
-                    this._handleFocusEvents(v);
-                }));
-                this._childEventSubs.push(radio.selectedChange.subscribe(() => {
-                    this._handleChangeEvents(radio);
-                }));
+                this._childEventSubs.push(
+                    radio.blurEvent.subscribe((v) => {
+                        this._handleBlurEvents(v);
+                    }),
+                );
+                this._childEventSubs.push(
+                    radio.focusEvent.subscribe((v) => {
+                        this._handleFocusEvents(v);
+                    }),
+                );
+                this._childEventSubs.push(
+                    radio.selectedChange.subscribe(() => {
+                        this._handleChangeEvents(radio);
+                    }),
+                );
             }
         });
 

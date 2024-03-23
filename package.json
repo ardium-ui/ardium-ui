@@ -23,6 +23,7 @@
     "@angular/platform-browser": "^17.0.7",
     "@angular/platform-browser-dynamic": "^17.0.7",
     "@angular/router": "^17.0.7",
+    "@ardium-ui/devkit": "^1.3.6",
     "@types/color": "^3.0.3",
     "@types/string-similarity": "^4.0.0",
     "color": "^4.2.3",

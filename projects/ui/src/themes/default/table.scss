@@ -1,5 +1,5 @@
-@use './coloring' as CM;
-@import '../variables';
+@use "./coloring" as CM;
+@import "../variables";
 
 .ard-table {
     @include CM.typeColors();
@@ -73,7 +73,6 @@
 
     //! loading
     &.ard-table-loading {
-
         .ard-table__header,
         .ard-table__body {
             pointer-events: none;
@@ -133,7 +132,7 @@
             height: 100%;
         }
     }
-    
+
     //! footer
     .ard-table__foot {
         .ard-table__pagination-cell {
@@ -245,15 +244,15 @@
     &.ard-compact {
         .ard-table__header-cell,
         .ard-table__body-cell {
-            >.ard-table__cell-container {
+            > .ard-table__cell-container {
                 padding: 0 0.625rem;
                 font-size: 0.875rem;
             }
         }
         .ard-table__header-cell {
             height: 2.625rem;
-    
-            >.ard-table__cell-container {
+
+            > .ard-table__cell-container {
                 letter-spacing: 0.18px;
             }
         }
@@ -261,7 +260,7 @@
             height: 2.25rem;
         }
         .ard-table__checkbox-cell {
-            >.ard-table__cell-container {
+            > .ard-table__cell-container {
                 width: 2.25rem;
                 height: 2.25rem;
             }

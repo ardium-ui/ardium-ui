@@ -1,21 +1,35 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { InjectionToken } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { ArdSnackbarData, ArdSnackbarOptions, ArdSnackbarType } from './snackbar.types';
+import {
+    ArdSnackbarData,
+    ArdSnackbarOptions,
+    ArdSnackbarType,
+} from './snackbar.types';
 import { OverlayRef } from '@angular/cdk/overlay';
 import { ComponentColor } from '../types/colors.types';
 
-export const ARD_SNACKBAR_DATA = new InjectionToken<ArdSnackbarData>('ArdSnackbarData');
-export const ARD_SNACKBAR_COLOR = new InjectionToken<ComponentColor>('ArdSnackbarColor');
-export const ARD_SNACKBAR_TYPE = new InjectionToken<ArdSnackbarType>('ArdSnackbarType');
+export const ARD_SNACKBAR_DATA = new InjectionToken<ArdSnackbarData>(
+    'ArdSnackbarData',
+);
+export const ARD_SNACKBAR_COLOR = new InjectionToken<ComponentColor>(
+    'ArdSnackbarColor',
+);
+export const ARD_SNACKBAR_TYPE = new InjectionToken<ArdSnackbarType>(
+    'ArdSnackbarType',
+);
 
 export class _ArdSnackbarRefInternal<T> {
     constructor(
         public component: ComponentType<T>,
         public options: Required<ArdSnackbarOptions>,
-        dismiss: (withAction?: boolean) => void
+        dismiss: (withAction?: boolean) => void,
     ) {
-        this.publicRef = new ArdSnackbarRef(dismiss, this._onOpen, this._onCloseStart);
+        this.publicRef = new ArdSnackbarRef(
+            dismiss,
+            this._onOpen,
+            this._onCloseStart,
+        );
     }
 
     readonly publicRef!: ArdSnackbarRef<T>;

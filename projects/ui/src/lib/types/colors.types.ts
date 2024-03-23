@@ -1,7 +1,6 @@
-
 /**
  * The color of the component.
- * 
+ *
  * @see {@link ButtonColoringMode} to set what part of the component should be colored.
  */
 export const ComponentColor = {
@@ -34,7 +33,8 @@ export const ComponentColor = {
      */
     Info: 'info',
 } as const;
-export type ComponentColor = typeof ComponentColor[keyof typeof ComponentColor];
+export type ComponentColor =
+    (typeof ComponentColor)[keyof typeof ComponentColor];
 
 export const SimpleComponentColor = {
     ...ComponentColor,
@@ -43,4 +43,5 @@ export const SimpleComponentColor = {
      */
     CurrentColor: 'currentColor',
 } as const;
-export type SimpleComponentColor = typeof SimpleComponentColor[keyof typeof SimpleComponentColor];
+export type SimpleComponentColor =
+    (typeof SimpleComponentColor)[keyof typeof SimpleComponentColor];

@@ -1,27 +1,49 @@
-import { ChangeDetectionStrategy, Component, ContentChild, Input, OnChanges, SimpleChanges, TemplateRef, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    ContentChild,
+    Input,
+    OnChanges,
+    SimpleChanges,
+    TemplateRef,
+    ViewEncapsulation,
+} from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { SimpleComponentColor } from '../types/colors.types';
 import { ArdProgressBarValueTemplateDirective } from './progress-bar.directive';
-import { ProgressBarAppearance, ProgressBarMode, ProgressBarSize, ProgressBarValueContext, ProgressBarVariant } from './progress-bar.types';
+import {
+    ProgressBarAppearance,
+    ProgressBarMode,
+    ProgressBarSize,
+    ProgressBarValueContext,
+    ProgressBarVariant,
+} from './progress-bar.types';
 
 @Component({
-  selector: 'ard-progress-bar',
-  templateUrl: './progress-bar.component.html',
-  styleUrls: ['./progress-bar.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'ard-progress-bar',
+    templateUrl: './progress-bar.component.html',
+    styleUrls: ['./progress-bar.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumProgressBarComponent implements OnChanges {
-
     private _value: number = 0;
     @Input()
-    get value(): number { return this._value; }
-    set value(v: any) { this._value = coerceNumberProperty(v); }
+    get value(): number {
+        return this._value;
+    }
+    set value(v: any) {
+        this._value = coerceNumberProperty(v);
+    }
 
     private _bufferValue: number = 0;
     @Input()
-    get bufferValue(): number { return this._bufferValue; }
-    set bufferValue(v: any) { this._bufferValue = coerceNumberProperty(v); }
+    get bufferValue(): number {
+        return this._bufferValue;
+    }
+    set bufferValue(v: any) {
+        this._bufferValue = coerceNumberProperty(v);
+    }
 
     //! appearance
     @Input() color: SimpleComponentColor = SimpleComponentColor.Primary;
@@ -31,8 +53,12 @@ export class ArdiumProgressBarComponent implements OnChanges {
 
     private _hideValue: boolean = false;
     @Input()
-    get hideValue(): boolean { return this._hideValue; }
-    set hideValue(v: any) { this._hideValue = coerceBooleanProperty(v); }
+    get hideValue(): boolean {
+        return this._hideValue;
+    }
+    set hideValue(v: any) {
+        this._hideValue = coerceBooleanProperty(v);
+    }
 
     get ngClasses(): string {
         return [
@@ -46,31 +72,44 @@ export class ArdiumProgressBarComponent implements OnChanges {
 
     //! error detection
     ngOnChanges(changes: SimpleChanges): void {
-        if (!changes['size'] && !changes['mode']) return
-        if ((changes['mode']?.currentValue ?? this.mode) == ProgressBarMode.Buffer && (changes['size']?.currentValue ?? this.size) == ProgressBarSize.Auto) {
-            console.error(`Forbidden param combination in <ard-progress-bar>: cannot use 'mode="buffer"' and 'size="auto"' at the same time.`);
+        if (!changes['size'] && !changes['mode']) return;
+        if (
+            (changes['mode']?.currentValue ?? this.mode) ==
+                ProgressBarMode.Buffer &&
+            (changes['size']?.currentValue ?? this.size) == ProgressBarSize.Auto
+        ) {
+            console.error(
+                `Forbidden param combination in <ard-progress-bar>: cannot use 'mode="buffer"' and 'size="auto"' at the same time.`,
+            );
         }
-    }    
+    }
 
     //! bar styling
     get cssVariables(): string {
-        if (this.mode == ProgressBarMode.Indeterminate || this.mode == ProgressBarMode.Query) {
+        if (
+            this.mode == ProgressBarMode.Indeterminate ||
+            this.mode == ProgressBarMode.Query
+        ) {
             return '--ard-_progress-bar-main: 0;';
         }
         const mainVariable = `--ard-_progress-bar-main: ${this.value}%;`;
         if (this.mode == ProgressBarMode.Buffer) {
-            return mainVariable + `--ard-_progress-bar-buffer: ${this.bufferValue}%;`
+            return (
+                mainVariable +
+                `--ard-_progress-bar-buffer: ${this.bufferValue}%;`
+            );
         }
         return mainVariable;
     }
 
     //! templates
-    @ContentChild(ArdProgressBarValueTemplateDirective, { read: TemplateRef }) valueTemplate?: TemplateRef<any>;
+    @ContentChild(ArdProgressBarValueTemplateDirective, { read: TemplateRef })
+    valueTemplate?: TemplateRef<any>;
 
     getValueContext(): ProgressBarValueContext {
         return {
             value: this.value,
             $implicit: this.value,
-        }
+        };
     }
 }

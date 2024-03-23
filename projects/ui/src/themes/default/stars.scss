@@ -1,5 +1,5 @@
-@use './mixins'as defaultMixins;
-@use './coloring' as coloringMixins;
+@use "./mixins" as defaultMixins;
+@use "./coloring" as coloringMixins;
 
 .ard-star,
 .ard-star-button,
@@ -7,7 +7,7 @@
 .ard-star-input {
     @include coloringMixins.typeColors();
     color: var(--ard-cmpcl--bg-colored);
-    
+
     &.ard-color-star {
         color: $star;
     }

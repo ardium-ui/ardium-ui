@@ -1,5 +1,5 @@
-@use './mixins' as defaultMixins;
-@import '../variables';
+@use "./mixins" as defaultMixins;
+@import "../variables";
 
 .ard-form-field-frame {
     box-sizing: border-box;
@@ -31,14 +31,14 @@
     .ard-form-field-suffix-container {
         padding-right: 0.375em;
     }
-    
+
     //! compact
     &.ard-compact {
         min-height: 1.6875rem;
         font-size: 0.85rem;
         line-height: 1;
     }
-    
+
     //! appearance & variant
     @include defaultMixins.formAppearances();
     @include defaultMixins.formVariants();
@@ -49,7 +49,9 @@
     .ard-form-field-overlay {
         background: $overlay;
         opacity: 0;
-        transition: opacity 0.15s $timing-fn, background-color 0.15s $timing-fn;
+        transition:
+            opacity 0.15s $timing-fn,
+            background-color 0.15s $timing-fn;
     }
 
     &:hover {

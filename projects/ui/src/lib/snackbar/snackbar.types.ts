@@ -24,11 +24,10 @@ export const ArdSnackbarQueueHandling = {
     Skip: 'skip',
     Overwrite: 'overwrite',
 } as const;
-export type ArdSnackbarQueueHandling = typeof ArdSnackbarQueueHandling[keyof typeof ArdSnackbarQueueHandling];
+export type ArdSnackbarQueueHandling =
+    (typeof ArdSnackbarQueueHandling)[keyof typeof ArdSnackbarQueueHandling];
 
-export type ArdSnackbarOrigin<T = any> =
-    | HTMLElement
-    | ElementRef<T>;
+export type ArdSnackbarOrigin<T = any> = HTMLElement | ElementRef<T>;
 
 export const ArdSnackbarType = {
     None: 'none',
@@ -37,9 +36,10 @@ export const ArdSnackbarType = {
     Success: 'success',
     Info: 'info',
 } as const;
-export type ArdSnackbarType = typeof ArdSnackbarType[keyof typeof ArdSnackbarType];
+export type ArdSnackbarType =
+    (typeof ArdSnackbarType)[keyof typeof ArdSnackbarType];
 
-export type ArdSnackbarData = { message: string; action?: string; };
+export type ArdSnackbarData = { message: string; action?: string };
 
 export type ArdSnackbarOptions = {
     data?: ArdSnackbarData;

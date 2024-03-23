@@ -1,5 +1,5 @@
-@use './shared' as inputMixin;
-@use '../mixins' as defaultMixins;
+@use "./shared" as inputMixin;
+@use "../mixins" as defaultMixins;
 
 .ard-number-input {
     @include inputMixin.genericInput();
@@ -31,10 +31,10 @@
         &.ard-disabled .ard-focus-overlay {
             opacity: 0;
         }
-        
+
         &.decrement {
             left: 1px;
-            
+
             .ard-button {
                 border-top-right-radius: 0;
                 border-bottom-right-radius: 0;

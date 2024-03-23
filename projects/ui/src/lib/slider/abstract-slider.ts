@@ -1,18 +1,39 @@
 import { Overlay, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { DOCUMENT } from '@angular/common';
-import { ContentChild, Directive, ElementRef, EventEmitter, HostListener, Inject, Input, Output, Renderer2, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+    ContentChild,
+    Directive,
+    ElementRef,
+    EventEmitter,
+    HostListener,
+    Inject,
+    Input,
+    Output,
+    Renderer2,
+    TemplateRef,
+    ViewChild,
+    ViewContainerRef,
+} from '@angular/core';
 import { roundToMultiple, roundToPrecision } from 'more-rounding';
-import { coerceBooleanProperty, coerceNumberProperty } from 'projects/devkit/src/public-api';
+import {
+    coerceBooleanProperty,
+    coerceNumberProperty,
+} from 'projects/devkit/src/public-api';
 import { isDefined, isObject } from 'simple-bool';
 import { SimpleComponentColor } from '../types/colors.types';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ArdSliderTooltipDirective } from './slider.directive';
-import { SliderLabelObject, SliderDecorationPosition, SliderTooltipContext, SliderTooltipFormatFn, _InternalSliderLabelObject, SliderTooltipBehavior } from './slider.types';
-
+import {
+    SliderLabelObject,
+    SliderDecorationPosition,
+    SliderTooltipContext,
+    SliderTooltipFormatFn,
+    _InternalSliderLabelObject,
+    SliderTooltipBehavior,
+} from './slider.types';
 
 @Directive()
 export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
-
     @ViewChild('track')
     public readonly element!: ElementRef<HTMLElement>;
 
@@ -28,8 +49,12 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
 
     private _noTooltip: boolean = false;
     @Input()
-    get noTooltip(): boolean { return this._noTooltip; }
-    set noTooltip(v: any) { this._noTooltip = coerceBooleanProperty(v); }
+    get noTooltip(): boolean {
+        return this._noTooltip;
+    }
+    set noTooltip(v: any) {
+        this._noTooltip = coerceBooleanProperty(v);
+    }
 
     @Input() tooltipFormat?: SliderTooltipFormatFn;
 
@@ -38,7 +63,9 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     //! min, max, step sizes
     protected _min: number = 0;
     @Input()
-    get min(): number { return this._min; }
+    get min(): number {
+        return this._min;
+    }
     set min(v: any) {
         this._min = coerceNumberProperty(v, 0);
         this._updateComputedStepSizes();
@@ -46,7 +73,9 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     }
     protected _max: number = 100;
     @Input()
-    get max(): number { return this._max; }
+    get max(): number {
+        return this._max;
+    }
     set max(v: any) {
         this._max = coerceNumberProperty(v, 100);
         this._updateComputedStepSizes();
@@ -54,19 +83,27 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     }
     protected _step: number = 1;
     @Input()
-    get step(): number { return this._step; }
+    get step(): number {
+        return this._step;
+    }
     set step(v: any) {
         this._step = coerceNumberProperty(v, 0.5);
         if (this._step <= 0) {
-            throw new Error("Cannot use negative or zero step size for a slider.");
+            throw new Error(
+                'Cannot use negative or zero step size for a slider.',
+            );
         }
         this._updateComputedStepSizes();
         this._updateTickArray();
     }
     protected _shiftMultiplier: number = 5;
     @Input()
-    get shiftMultiplier(): number { return this._shiftMultiplier; }
-    set shiftMultiplier(v: any) { this._shiftMultiplier = coerceNumberProperty(v, 1); }
+    get shiftMultiplier(): number {
+        return this._shiftMultiplier;
+    }
+    set shiftMultiplier(v: any) {
+        this._shiftMultiplier = coerceNumberProperty(v, 1);
+    }
 
     protected _stepSizeComputed: number = this._updateComputedStepSizes();
     protected _updateComputedStepSizes(): number {
@@ -78,8 +115,12 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     //! value ticks
     protected _showValueTicks: boolean = false;
     @Input()
-    get showValueTicks(): boolean { return this._showValueTicks; }
-    set showValueTicks(v: any) { this._showValueTicks = coerceBooleanProperty(v); }
+    get showValueTicks(): boolean {
+        return this._showValueTicks;
+    }
+    set showValueTicks(v: any) {
+        this._showValueTicks = coerceBooleanProperty(v);
+    }
 
     get percentStepSize(): number {
         return this._stepSizeComputed * 100;
@@ -92,11 +133,14 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
         while (positionPercentCumulative < 100) {
             newArr.push(positionPercentCumulative);
             positionPercentCumulative += this._stepSizeComputed * 100;
-            positionPercentCumulative = roundToPrecision(positionPercentCumulative, 6);
+            positionPercentCumulative = roundToPrecision(
+                positionPercentCumulative,
+                6,
+            );
         }
         newArr.push(100);
 
-        let stringArr = newArr.map(v => `${v}%`);
+        let stringArr = newArr.map((v) => `${v}%`);
 
         this._tickArray = stringArr;
         return stringArr;
@@ -106,7 +150,8 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     }
 
     //! labels
-    @Input() labelPosition: SliderDecorationPosition = SliderDecorationPosition.Bottom;
+    @Input() labelPosition: SliderDecorationPosition =
+        SliderDecorationPosition.Bottom;
     public labelObjects: _InternalSliderLabelObject[] = [];
     @Input()
     set labels(val: SliderLabelObject[] | number[] | null) {
@@ -114,15 +159,19 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
             this.labelObjects = [];
             return;
         }
-        this.labelObjects = val.map(this._numberLabelArrayMapFn).map(label => {
-            let v = this._clampValue(label.for);
-            return {
-                label: String(label.label),
-                positionPercent: `${this._valueToPercent(v) * 100}%`,
-            };
-        });
+        this.labelObjects = val
+            .map(this._numberLabelArrayMapFn)
+            .map((label) => {
+                let v = this._clampValue(label.for);
+                return {
+                    label: String(label.label),
+                    positionPercent: `${this._valueToPercent(v) * 100}%`,
+                };
+            });
     }
-    protected _numberLabelArrayMapFn(val: SliderLabelObject | number): SliderLabelObject {
+    protected _numberLabelArrayMapFn(
+        val: SliderLabelObject | number,
+    ): SliderLabelObject {
         if (isObject(val)) return val;
         return {
             label: val,
@@ -135,9 +184,13 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
 
     private _compact: boolean = false;
     @Input()
-    get compact(): boolean { return this._compact; }
-    set compact(v: any) { this._compact = coerceBooleanProperty(v); }
-    
+    get compact(): boolean {
+        return this._compact;
+    }
+    set compact(v: any) {
+        this._compact = coerceBooleanProperty(v);
+    }
+
     get ngClasses(): string {
         return [
             `ard-color-${this.color}`,
@@ -152,7 +205,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
         const x = this._totalSteps;
         //this is determined using this graph: https://www.geogebra.org/calculator/nqgnhpap
         //capped at y=80
-        const formulaResult = 20 * (x + 200) / (x + 20) - 80;
+        const formulaResult = (20 * (x + 200)) / (x + 20) - 80;
         const formulaResultRounded = roundToPrecision(formulaResult, 3);
 
         if (formulaResultRounded < 0) return '0';
@@ -182,9 +235,15 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     //! methods for programmatic manipulation
     abstract reset(): void;
 
-    protected _offset(offset: number, hasShift: boolean, handleId: number = 1): void {
-        let stepSize = this._stepSizeComputed * (hasShift ? this._shiftMultiplier : 1);
-        let newPercent = this._positionPercent[handleId - 1] + stepSize * offset;
+    protected _offset(
+        offset: number,
+        hasShift: boolean,
+        handleId: number = 1,
+    ): void {
+        let stepSize =
+            this._stepSizeComputed * (hasShift ? this._shiftMultiplier : 1);
+        let newPercent =
+            this._positionPercent[handleId - 1] + stepSize * offset;
         newPercent = this._clampPercentValue(newPercent);
         this._setValueFromPercent(newPercent);
     }
@@ -211,14 +270,21 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     }
 
     //! tooltip
-    @ContentChild(ArdSliderTooltipDirective, { read: TemplateRef }) tooltipTemplate?: TemplateRef<any>;
+    @ContentChild(ArdSliderTooltipDirective, { read: TemplateRef })
+    tooltipTemplate?: TemplateRef<any>;
 
-    @Input() tooltipPosition: SliderDecorationPosition = SliderDecorationPosition.Top;
+    @Input() tooltipPosition: SliderDecorationPosition =
+        SliderDecorationPosition.Top;
 
-    private _tooltipBehavior: SliderTooltipBehavior = SliderTooltipBehavior.Auto;
+    private _tooltipBehavior: SliderTooltipBehavior =
+        SliderTooltipBehavior.Auto;
     @Input()
-    set tooltipBehavior(v: SliderTooltipBehavior) { this._tooltipBehavior = v; }
-    get tooltipBehavior(): SliderTooltipBehavior { return this._tooltipBehavior; }
+    set tooltipBehavior(v: SliderTooltipBehavior) {
+        this._tooltipBehavior = v;
+    }
+    get tooltipBehavior(): SliderTooltipBehavior {
+        return this._tooltipBehavior;
+    }
 
     //! event handlers
     protected _isGrabbed: number = 0;
@@ -230,12 +296,18 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     }
     abstract onTrackHitboxPointerDown(event: MouseEvent | TouchEvent): void; //* abstact
 
-    onPointerDownOnHandle(event: MouseEvent | TouchEvent, handleId: number = 1): void {
+    onPointerDownOnHandle(
+        event: MouseEvent | TouchEvent,
+        handleId: number = 1,
+    ): void {
         this._isGrabbed = handleId;
         this._shouldCheckForMovement = true;
         if (!this._bodyHasClass) {
             this._bodyHasClass = true;
-            this.renderer.addClass(this.document.body, 'ard-prevent-touch-actions');
+            this.renderer.addClass(
+                this.document.body,
+                'ard-prevent-touch-actions',
+            );
         }
     }
 
@@ -246,10 +318,13 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     onPointerUp(event: MouseEvent | TouchEvent): void {
         if (!this._shouldCheckForMovement) return;
         this._isGrabbed = 0;
-        this._shouldCheckForMovement = false;   
+        this._shouldCheckForMovement = false;
         if (this._bodyHasClass) {
             this._bodyHasClass = false;
-            this.renderer.removeClass(this.document.body, 'ard-prevent-touch-actions');
+            this.renderer.removeClass(
+                this.document.body,
+                'ard-prevent-touch-actions',
+            );
         }
     }
 
@@ -258,20 +333,29 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     getHandlePosition(handleId: number = 1): string {
         return this._positionPercent[handleId - 1] * 100 + '%';
     }
-    protected _setValueFromPercent(percent: number, handleId: number = 1): void {
+    protected _setValueFromPercent(
+        percent: number,
+        handleId: number = 1,
+    ): void {
         if (this._positionPercent[handleId - 1] == percent) return;
         this._positionPercent[handleId - 1] = percent;
         this._value = this._percentValueToValue(percent, handleId);
-        
+
         this._updateTooltipValue();
 
         this._emitChange();
     }
-    protected _writeValueFromEvent(event: MouseEvent | TouchEvent, handleId?: number): void {
+    protected _writeValueFromEvent(
+        event: MouseEvent | TouchEvent,
+        handleId?: number,
+    ): void {
         let percent = this._getPercentValueFromEvent(event);
         this._setValueFromPercent(percent, handleId);
     }
-    protected abstract _percentValueToValue(percent: number, handleId?: number): T; //* abstact
+    protected abstract _percentValueToValue(
+        percent: number,
+        handleId?: number,
+    ): T; //* abstact
 
     protected _getElementRect(): DOMRect {
         return this.element.nativeElement.getBoundingClientRect();
@@ -284,13 +368,14 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
         percent = roundToMultiple(percent, this._stepSizeComputed);
         return percent;
     }
-    protected _getPercentValueFromEvent(event: MouseEvent | TouchEvent): number {
+    protected _getPercentValueFromEvent(
+        event: MouseEvent | TouchEvent,
+    ): number {
         const rect = this._getElementRect();
         let position: number;
         if (event instanceof MouseEvent) {
             position = event.clientX;
-        }
-        else {
+        } else {
             position = event.targetTouches[0].clientX;
         }
         let percent = (position - rect.left) / rect.width;

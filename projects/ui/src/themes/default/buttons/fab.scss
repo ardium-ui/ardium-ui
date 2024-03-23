@@ -1,5 +1,5 @@
-@use './button-mixins' as shared;
-@use '../mixins' as CM;
+@use "./button-mixins" as shared;
+@use "../mixins" as CM;
 
 ard-fab {
     margin: 8px;
@@ -54,7 +54,7 @@ ard-fab {
 }
 
 ard-fab.ard-disabled {
-    >.ard-fab {
+    > .ard-fab {
         @include shared.button-disabled;
     }
 }

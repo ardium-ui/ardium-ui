@@ -4,7 +4,14 @@
     "compilerOptions": {
         "outDir": "../../out-tsc/app",
         "experimentalDecorators": true,
-        "types": []
+        "types": [],
+        "paths": {
+            "@ardium-ui/ui": [
+                "projects/ui/src/public-api",
+                "dist/ui/ui",
+                "dist/ui"
+            ],
+        }
     },
     "files": [
         "src/main.ts",

@@ -1,5 +1,3 @@
-
-
 //! appearances
 export const OutlinedAppearance = {
     /**
@@ -7,7 +5,8 @@ export const OutlinedAppearance = {
      */
     Outlined: 'outlined',
 } as const;
-export type OutlinedAppearance = typeof OutlinedAppearance[keyof typeof OutlinedAppearance];
+export type OutlinedAppearance =
+    (typeof OutlinedAppearance)[keyof typeof OutlinedAppearance];
 
 export const PanelAppearance = {
     /**
@@ -15,7 +14,8 @@ export const PanelAppearance = {
      */
     Raised: 'raised',
 } as const;
-export type PanelAppearance = typeof PanelAppearance[keyof typeof PanelAppearance];
+export type PanelAppearance =
+    (typeof PanelAppearance)[keyof typeof PanelAppearance];
 
 export const FormElementAppearance = {
     ...OutlinedAppearance,
@@ -28,14 +28,16 @@ export const FormElementAppearance = {
      */
     Filled: 'filled',
 } as const;
-export type FormElementAppearance = typeof FormElementAppearance[keyof typeof FormElementAppearance];
+export type FormElementAppearance =
+    (typeof FormElementAppearance)[keyof typeof FormElementAppearance];
 
 export const DecorationElementAppearance = {
     Outlined: 'outlined',
     OutlinedStrong: 'outlined-strong',
     Filled: 'filled',
 } as const;
-export type DecorationElementAppearance = typeof DecorationElementAppearance[keyof typeof DecorationElementAppearance];
+export type DecorationElementAppearance =
+    (typeof DecorationElementAppearance)[keyof typeof DecorationElementAppearance];
 
 //! variants
 export const PanelVariant = {
@@ -48,7 +50,7 @@ export const PanelVariant = {
      */
     Sharp: 'sharp',
 } as const;
-export type PanelVariant = typeof PanelVariant[keyof typeof PanelVariant];
+export type PanelVariant = (typeof PanelVariant)[keyof typeof PanelVariant];
 
 export const FormElementVariant = {
     ...PanelVariant,
@@ -57,4 +59,5 @@ export const FormElementVariant = {
      */
     Pill: 'pill',
 } as const;
-export type FormElementVariant = typeof FormElementVariant[keyof typeof FormElementVariant];
+export type FormElementVariant =
+    (typeof FormElementVariant)[keyof typeof FormElementVariant];

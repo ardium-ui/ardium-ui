@@ -1,7 +1,7 @@
-@use './coloring' as C;
-@import '../variables';
+@use "./coloring" as C;
+@import "../variables";
 
-@import '@angular/cdk/overlay-prebuilt.css';
+@import "@angular/cdk/overlay-prebuilt.css";
 
 .ard-snackbar {
     @include C.typeColors();
@@ -32,7 +32,7 @@
         color: $text2-alt;
 
         ard-icon {
-            color: var(--ard-cmpcl--content-light)
+            color: var(--ard-cmpcl--content-light);
         }
     }
 

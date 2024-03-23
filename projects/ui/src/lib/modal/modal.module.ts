@@ -5,8 +5,6 @@ import { ArdiumIconButtonModule } from '../buttons/icon-button/icon-button.modul
 import { ArdiumIconModule } from '../icon/icon.module';
 import { A11yModule } from '@angular/cdk/a11y';
 
-
-
 @NgModule({
     declarations: [ArdiumModalComponent],
     imports: [

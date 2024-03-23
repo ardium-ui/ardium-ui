@@ -1,11 +1,9 @@
-
-
 export const BadgeSize = {
     Small: 'small',
     Medium: 'medium',
     Large: 'large',
 } as const;
-export type BadgeSize = typeof BadgeSize[keyof typeof BadgeSize];
+export type BadgeSize = (typeof BadgeSize)[keyof typeof BadgeSize];
 
 export const BadgePosition = {
     AboveBefore: 'above-before',
@@ -17,4 +15,4 @@ export const BadgePosition = {
     Above: 'above',
     Below: 'below',
 } as const;
-export type BadgePosition = typeof BadgePosition[keyof typeof BadgePosition];
+export type BadgePosition = (typeof BadgePosition)[keyof typeof BadgePosition];

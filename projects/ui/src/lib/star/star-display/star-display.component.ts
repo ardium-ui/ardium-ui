@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Input,
+    OnChanges,
+    SimpleChanges,
+    ViewEncapsulation,
+} from '@angular/core';
 import { isArray } from 'simple-bool';
 import { StarColor, StarFillMode } from './../star.types';
 
@@ -7,7 +14,7 @@ import { StarColor, StarFillMode } from './../star.types';
     templateUrl: './star-display.component.html',
     styleUrls: ['./star-display.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumStarDisplayComponent implements OnChanges {
     @Input() wrapperClasses: string = '';
@@ -16,9 +23,7 @@ export class ArdiumStarDisplayComponent implements OnChanges {
     @Input() color: StarColor = StarColor.Star;
 
     get ngClasses(): string {
-        return [
-            `ard-color-${this.color}`,
-        ].join(' ');
+        return [`ard-color-${this.color}`].join(' ');
     }
 
     //* stars
@@ -37,11 +42,9 @@ export class ArdiumStarDisplayComponent implements OnChanges {
         while (this.starArray.length < this.max) {
             if (stars >= 1) {
                 this.starArray.push('filled');
-            }
-            else if (Math.round(stars) == 1) {
+            } else if (Math.round(stars) == 1) {
                 this.starArray.push('half');
-            }
-            else {
+            } else {
                 this.starArray.push('none');
             }
             stars--;
@@ -52,8 +55,7 @@ export class ArdiumStarDisplayComponent implements OnChanges {
         if (changes['max'] || changes['value']) {
             if (isArray(this.value)) {
                 this.setStarArrayFromArray(this.value);
-            }
-            else this.setStarArrayFromNumber(this.value);
+            } else this.setStarArrayFromNumber(this.value);
         }
     }
 }

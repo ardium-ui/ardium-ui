@@ -1,9 +1,28 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output, ViewChild, ViewEncapsulation, ContentChild, TemplateRef } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    EventEmitter,
+    forwardRef,
+    Input,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation,
+    ContentChild,
+    TemplateRef,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import { ButtonVariant, ButtonAppearance } from '../../buttons/general-button.types';
+import {
+    ButtonVariant,
+    ButtonAppearance,
+} from '../../buttons/general-button.types';
 import { OneAxisAlignment } from '../../types/alignment.types';
-import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
+import {
+    FormElementAppearance,
+    FormElementVariant,
+} from '../../types/theming.types';
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { NumberInputModel, NumberInputModelHost } from '../input-utils';
 import { isDefined, isFloat } from 'simple-bool';
@@ -20,17 +39,23 @@ import { roundToPrecision } from 'more-rounding';
         {
             provide: NG_VALUE_ACCESSOR,
             useExisting: forwardRef(() => ArdiumNumberInputComponent),
-            multi: true
-        }
-    ]
+            multi: true,
+        },
+    ],
 })
-export class ArdiumNumberInputComponent extends _NgModelComponentBase implements ControlValueAccessor, NumberInputModelHost, OnInit {
-
+export class ArdiumNumberInputComponent
+    extends _NgModelComponentBase
+    implements ControlValueAccessor, NumberInputModelHost, OnInit
+{
     //! input view
-    @ViewChild('textInput', { static: true }) textInputEl!: ElementRef<HTMLInputElement>;
+    @ViewChild('textInput', { static: true })
+    textInputEl!: ElementRef<HTMLInputElement>;
     protected inputModel!: NumberInputModel;
     ngOnInit(): void {
-        this.inputModel = new NumberInputModel(this.textInputEl.nativeElement, this);
+        this.inputModel = new NumberInputModel(
+            this.textInputEl.nativeElement,
+            this,
+        );
         this._setInputAttributes();
         //set the value
         if (this._valueBeforeInit) {
@@ -40,14 +65,18 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
     }
 
     @Input() inputId?: string;
-    
+
     //! placeholder
     @Input() placeholder: string = '';
-    
-    @ContentChild(ArdNumberInputPlaceholderTemplateDirective, { read: TemplateRef })
+
+    @ContentChild(ArdNumberInputPlaceholderTemplateDirective, {
+        read: TemplateRef,
+    })
     placeholderTemplate?: TemplateRef<any>;
 
-    get shouldDisplayPlaceholder(): boolean { return Boolean(this.placeholder) && !this.inputModel.stringValue };
+    get shouldDisplayPlaceholder(): boolean {
+        return Boolean(this.placeholder) && !this.inputModel.stringValue;
+    }
 
     //! appearance
     @Input() appearance: FormElementAppearance = FormElementAppearance.Outlined;
@@ -56,8 +85,12 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
 
     private _compact: boolean = false;
     @Input()
-    get compact(): boolean { return this._compact; }
-    set compact(v: any) { this._compact = coerceBooleanProperty(v); }
+    get compact(): boolean {
+        return this._compact;
+    }
+    set compact(v: any) {
+        this._compact = coerceBooleanProperty(v);
+    }
 
     get ngClasses(): string {
         return [
@@ -70,13 +103,19 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
     }
 
     get buttonVariant(): ButtonVariant {
-        if (this.variant == FormElementVariant.Rounded) return ButtonVariant.Rounded;
+        if (this.variant == FormElementVariant.Rounded)
+            return ButtonVariant.Rounded;
         if (this.variant == FormElementVariant.Pill) return ButtonVariant.Pill;
-        if (this.variant == FormElementVariant.Sharp) return ButtonVariant.Sharp;
+        if (this.variant == FormElementVariant.Sharp)
+            return ButtonVariant.Sharp;
         return ButtonVariant.Rounded;
     }
     get buttonAppearance(): ButtonAppearance {
-        if (this.appearance == FormElementAppearance.Outlined && this.variant != FormElementVariant.Pill) return ButtonAppearance.Outlined;
+        if (
+            this.appearance == FormElementAppearance.Outlined &&
+            this.variant != FormElementVariant.Pill
+        )
+            return ButtonAppearance.Outlined;
         return ButtonAppearance.Transparent;
     }
 
@@ -105,35 +144,58 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
     @Output('input') inputEvent = new EventEmitter<number | null>();
     @Output('change') changeEvent = new EventEmitter<number | null>();
     @Output('clear') clearEvent = new EventEmitter<MouseEvent>();
-    @Output('quickChange') quickChangeEvent = new EventEmitter<{ direction: 1 | -1, value: number }>();
+    @Output('quickChange') quickChangeEvent = new EventEmitter<{
+        direction: 1 | -1;
+        value: number;
+    }>();
 
     //! min/max and number type
     private _min: number = 0;
     @Input()
-    get min(): number { return this._min; }
-    set min(v: any) { this._min = coerceNumberProperty(v); }
-    
+    get min(): number {
+        return this._min;
+    }
+    set min(v: any) {
+        this._min = coerceNumberProperty(v);
+    }
+
     private _max: number = 999;
     @Input()
-    get max(): number { return this._max; }
-    set max(v: any) { this._max = coerceNumberProperty(v); }
+    get max(): number {
+        return this._max;
+    }
+    set max(v: any) {
+        this._max = coerceNumberProperty(v);
+    }
 
     private _allowFloat?: boolean = undefined;
     @Input()
-    get allowFloat(): boolean { return this._allowFloat ?? isFloat(this._stepSize); }
-    set allowFloat(v: any) { this._allowFloat = coerceBooleanProperty(v); }
+    get allowFloat(): boolean {
+        return this._allowFloat ?? isFloat(this._stepSize);
+    }
+    set allowFloat(v: any) {
+        this._allowFloat = coerceBooleanProperty(v);
+    }
 
     //! incerement/decrement buttons
     private _allowQuickChange: boolean = true;
     @Input()
-    get allowQuickChange(): boolean { return this._allowQuickChange; }
-    set allowQuickChange(v: any) { this._allowQuickChange = coerceBooleanProperty(v); }
+    get allowQuickChange(): boolean {
+        return this._allowQuickChange;
+    }
+    set allowQuickChange(v: any) {
+        this._allowQuickChange = coerceBooleanProperty(v);
+    }
 
     private _stepSize: number = 1;
     @Input()
-    get stepSize(): number { return this._stepSize; }
-    set stepSize(v: any) { this._stepSize = coerceNumberProperty(v); }
-    
+    get stepSize(): number {
+        return this._stepSize;
+    }
+    set stepSize(v: any) {
+        this._stepSize = coerceNumberProperty(v);
+    }
+
     onQuickChangeButtonClick(direction: 1 | -1, event?: MouseEvent): void {
         let num = this.inputModel.numberValue;
         if (!num) num = 0;
@@ -147,7 +209,7 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
         //round to 9 decimal places to avoid floating point arithmetic errors
         //9 is an arbitrary number that just works well. ¯\_(ツ)_/¯
         const newValuePrecise = roundToPrecision(newValue, 9);
-        
+
         this.writeValue(newValuePrecise);
         this.quickChangeEvent.next({ direction, value: newValuePrecise });
         this._emitChange();
@@ -209,15 +271,15 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
     onCopy(event: ClipboardEvent): void {
         if (
             this.value &&
-            (
-                //does the selection cover the entire input
-                this.textInputEl.nativeElement.selectionStart == 0
-                && this.textInputEl.nativeElement.selectionEnd == this.textInputEl.nativeElement.value.length
+            //does the selection cover the entire input
+            ((this.textInputEl.nativeElement.selectionStart == 0 &&
+                this.textInputEl.nativeElement.selectionEnd ==
+                    this.textInputEl.nativeElement.value.length) ||
                 //or is zero-wide
-                || this.textInputEl.nativeElement.selectionStart == this.textInputEl.nativeElement.selectionEnd
-            )
+                this.textInputEl.nativeElement.selectionStart ==
+                    this.textInputEl.nativeElement.selectionEnd)
         ) {
-            event.clipboardData?.setData("text/plain", String(this.value));
+            event.clipboardData?.setData('text/plain', String(this.value));
             event.preventDefault();
         }
     }
@@ -231,7 +293,7 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
             autocapitalize: 'off',
             autocomplete: 'off',
             tabindex: String(this.tabIndex),
-            ...this.inputAttrs
+            ...this.inputAttrs,
         };
 
         for (const key of Object.keys(attributes)) {

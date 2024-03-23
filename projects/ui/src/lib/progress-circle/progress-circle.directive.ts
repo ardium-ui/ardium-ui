@@ -3,5 +3,5 @@ import { ProgressCircleValueContext } from './progress-circle.types';
 
 @Directive({ selector: 'ard-progress-circle > ng-template[ard-value-tmp]' })
 export class ArdProgressCircleValueTemplateDirective {
-    constructor(public template: TemplateRef<ProgressCircleValueContext>) { }
+    constructor(public template: TemplateRef<ProgressCircleValueContext>) {}
 }

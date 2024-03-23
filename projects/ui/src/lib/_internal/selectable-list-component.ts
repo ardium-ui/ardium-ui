@@ -1,14 +1,30 @@
-
-import { ChangeDetectorRef, Directive, EventEmitter, HostBinding, HostListener, Input, Output } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Directive,
+    EventEmitter,
+    HostBinding,
+    HostListener,
+    Input,
+    Output,
+} from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import {
+    coerceArrayProperty,
+    coerceBooleanProperty,
+    coerceNumberProperty,
+} from '@ardium-ui/devkit';
 import { ArdOptionSimple, OptionContext } from '../types/item-storage.types';
-import { SimpleItemStorage, SimpleItemStorageHost } from './item-storages/simple-item-storage';
+import {
+    SimpleItemStorage,
+    SimpleItemStorageHost,
+} from './item-storages/simple-item-storage';
 import { _NgModelComponentBase } from './ngmodel-component';
 
 @Directive()
-export abstract class _SelectableListComponentBase extends _NgModelComponentBase implements ControlValueAccessor, SimpleItemStorageHost {
-
+export abstract class _SelectableListComponentBase
+    extends _NgModelComponentBase
+    implements ControlValueAccessor, SimpleItemStorageHost
+{
     //! public constants
     readonly itemStorage = new SimpleItemStorage(this);
     readonly htmlId = crypto.randomUUID();
@@ -17,11 +33,9 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
         valueFrom: 'value',
         labelFrom: 'label',
         disabledFrom: 'disabled',
-    }
+    };
 
-    constructor(
-        private _cd: ChangeDetectorRef,
-    ) {
+    constructor(private _cd: ChangeDetectorRef) {
         super();
     }
 
@@ -30,10 +44,11 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
     @Input() labelFrom?: string;
     @Input() disabledFrom?: string;
 
-
     //! items setter/getter
     @Input()
-    get items(): any[] { return this.itemStorage.items }
+    get items(): any[] {
+        return this.itemStorage.items;
+    }
     set items(value: any) {
         if (!Array.isArray(value)) value = coerceArrayProperty(value);
 
@@ -42,10 +57,12 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
         if (shouldPrintErrors) {
             this._printPrimitiveWarnings();
         }
-    };
+    }
     private _printPrimitiveWarnings() {
         function makeWarning(str: string): void {
-            console.warn(`Skipped using [${str}] property bound to <ard-segment>, as some provided items are of primitive type`);
+            console.warn(
+                `Skipped using [${str}] property bound to <ard-segment>, as some provided items are of primitive type`,
+            );
         }
         if (this.valueFrom) {
             makeWarning('valueFrom');
@@ -64,7 +81,9 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
     //! multiselectable
     protected _multiselectable: boolean = false;
     abstract multiselectable: any;
-    get singleselectable(): boolean { return !this._multiselectable };
+    get singleselectable(): boolean {
+        return !this._multiselectable;
+    }
 
     //! require value
     protected _requireValue: boolean | undefined = undefined;
@@ -75,13 +94,21 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
     //useful when the property is e.g. "active", which is the oposite of "disabled"
     private _invertDisabled: boolean = false;
     @Input()
-    get invertDisabled(): boolean { return this._invertDisabled; }
-    set invertDisabled(v: any) { this._invertDisabled = coerceBooleanProperty(v); }
+    get invertDisabled(): boolean {
+        return this._invertDisabled;
+    }
+    set invertDisabled(v: any) {
+        this._invertDisabled = coerceBooleanProperty(v);
+    }
 
     private _maxSelectedItems: number | undefined = undefined;
     @Input()
-    get maxSelectedItems(): number | undefined { return this._maxSelectedItems; }
-    set maxSelectedItems(v: any) { this._maxSelectedItems = coerceNumberProperty(v); }
+    get maxSelectedItems(): number | undefined {
+        return this._maxSelectedItems;
+    }
+    set maxSelectedItems(v: any) {
+        this._maxSelectedItems = coerceNumberProperty(v);
+    }
 
     //! control value accessor
     //override the writeValue and setDisabledState defined in _NgModelComponent
@@ -97,7 +124,9 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
     //! change & touch event emitters
     private _touched: boolean = false;
     @HostBinding('class.ard-touched')
-    get touched(): boolean { return this._touched };
+    get touched(): boolean {
+        return this._touched;
+    }
     protected set touched(state: boolean) {
         this._touched = state;
     }
@@ -120,7 +149,12 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
     override onFocus(event: FocusEvent): void {
         super.onFocus(event);
 
-        if (this.touched || !this.lastBlurTimestamp || this.lastBlurTimestamp + 1 < Date.now()) return;
+        if (
+            this.touched ||
+            !this.lastBlurTimestamp ||
+            this.lastBlurTimestamp + 1 < Date.now()
+        )
+            return;
         this.lastBlurTimestamp = null;
 
         this._onTouched();
@@ -148,7 +182,7 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
             $implicit: item,
             item,
             itemData: item.itemData,
-        }
+        };
     }
 
     //! value input & output
@@ -163,7 +197,6 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
     @Output('change') changeEvent = new EventEmitter<any[]>();
     @Output('add') addEvent = new EventEmitter<any[]>();
     @Output('remove') removeEvent = new EventEmitter<any[]>();
-
 
     //! item selection handlers
     toggleItem(item: ArdOptionSimple): void {
@@ -253,10 +286,9 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
 
         const highlightedItems = this.highlightedItems;
 
-        if (highlightedItems.every(item => item.selected)) {
+        if (highlightedItems.every((item) => item.selected)) {
             this.unselectItem(...highlightedItems);
-        }
-        else {
+        } else {
             this.selectItem(...highlightedItems);
         }
     }

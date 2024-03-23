@@ -1,11 +1,31 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ContentChild, ElementRef, EventEmitter, forwardRef, Input, Output, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    ContentChild,
+    ElementRef,
+    EventEmitter,
+    forwardRef,
+    Input,
+    Output,
+    TemplateRef,
+    ViewChild,
+    ViewEncapsulation,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
+import {
+    FormElementAppearance,
+    FormElementVariant,
+} from '../../types/theming.types';
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { HexInputModel, HexInputModelHost } from '../hex-input.model';
 import { CaseTransformerType } from '../input-types';
-import { ArdHexInputPlaceholderTemplateDirective, ArdHexInputPrefixTemplateDirective, ArdHexInputSuffixTemplateDirective } from './hex-input.directives';
+import {
+    ArdHexInputPlaceholderTemplateDirective,
+    ArdHexInputPrefixTemplateDirective,
+    ArdHexInputSuffixTemplateDirective,
+} from './hex-input.directives';
 
 @Component({
     selector: 'ard-hex-input',
@@ -17,17 +37,23 @@ import { ArdHexInputPlaceholderTemplateDirective, ArdHexInputPrefixTemplateDirec
         {
             provide: NG_VALUE_ACCESSOR,
             useExisting: forwardRef(() => ArdiumHexInputComponent),
-            multi: true
-        }
-    ]
+            multi: true,
+        },
+    ],
 })
-export class ArdiumHexInputComponent extends _NgModelComponentBase implements ControlValueAccessor, HexInputModelHost, AfterViewInit {
-
+export class ArdiumHexInputComponent
+    extends _NgModelComponentBase
+    implements ControlValueAccessor, HexInputModelHost, AfterViewInit
+{
     //! input view
-    @ViewChild('textInput', { static: true }) textInputEl!: ElementRef<HTMLInputElement>;
+    @ViewChild('textInput', { static: true })
+    textInputEl!: ElementRef<HTMLInputElement>;
     protected inputModel!: HexInputModel;
     ngAfterViewInit(): void {
-        this.inputModel = new HexInputModel(this.textInputEl.nativeElement, this);
+        this.inputModel = new HexInputModel(
+            this.textInputEl.nativeElement,
+            this,
+        );
         this._setInputAttributes();
         //set the value
         if (this._valueBeforeInit) {
@@ -38,21 +64,27 @@ export class ArdiumHexInputComponent extends _NgModelComponentBase implements Co
 
     readonly DEFAULTS = {
         clearButtonTitle: 'Clear',
-    }
+    };
 
     @Input() inputId?: string;
 
     //! prefix & suffix
-    @ContentChild(ArdHexInputPrefixTemplateDirective, { read: TemplateRef }) prefixTemplate?: TemplateRef<any>;
-    @ContentChild(ArdHexInputSuffixTemplateDirective, { read: TemplateRef }) suffixTemplate?: TemplateRef<any>;
+    @ContentChild(ArdHexInputPrefixTemplateDirective, { read: TemplateRef })
+    prefixTemplate?: TemplateRef<any>;
+    @ContentChild(ArdHexInputSuffixTemplateDirective, { read: TemplateRef })
+    suffixTemplate?: TemplateRef<any>;
 
     //! placeholder
     @Input() placeholder: string = '';
 
-    @ContentChild(ArdHexInputPlaceholderTemplateDirective, { read: TemplateRef })
+    @ContentChild(ArdHexInputPlaceholderTemplateDirective, {
+        read: TemplateRef,
+    })
     placeholderTemplate?: TemplateRef<any>;
 
-    get shouldDisplayPlaceholder(): boolean { return Boolean(this.placeholder) && !this.inputModel.stringValue };
+    get shouldDisplayPlaceholder(): boolean {
+        return Boolean(this.placeholder) && !this.inputModel.stringValue;
+    }
 
     //! appearance
     //all handled in ard-form-field-frame component
@@ -61,34 +93,54 @@ export class ArdiumHexInputComponent extends _NgModelComponentBase implements Co
 
     private _compact: boolean = false;
     @Input()
-    get compact(): boolean { return this._compact; }
-    set compact(v: any) { this._compact = coerceBooleanProperty(v); }
+    get compact(): boolean {
+        return this._compact;
+    }
+    set compact(v: any) {
+        this._compact = coerceBooleanProperty(v);
+    }
 
     //! settings
     @Input() case: CaseTransformerType = CaseTransformerType.NoChange;
 
     private _maxDigits: number | undefined = undefined;
     @Input()
-    get maxDigits(): number | undefined { return this._maxDigits; }
-    set maxDigits(v: any) { this._maxDigits = coerceNumberProperty(v, undefined); }
+    get maxDigits(): number | undefined {
+        return this._maxDigits;
+    }
+    set maxDigits(v: any) {
+        this._maxDigits = coerceNumberProperty(v, undefined);
+    }
 
     private _hideHash: boolean = false;
     @Input()
-    get hideHash(): boolean { return this._hideHash; }
-    set hideHash(v: any) { this._hideHash = coerceBooleanProperty(v); }
-    
-    get showHash(): boolean { return !this.hideHash; }
+    get hideHash(): boolean {
+        return this._hideHash;
+    }
+    set hideHash(v: any) {
+        this._hideHash = coerceBooleanProperty(v);
+    }
+
+    get showHash(): boolean {
+        return !this.hideHash;
+    }
 
     //! clear button
     private _clearable: boolean = true;
     @Input()
-    get clearable(): boolean { return this._clearable; }
-    set clearable(v: any) { this._clearable = coerceBooleanProperty(v); }
-    
+    get clearable(): boolean {
+        return this._clearable;
+    }
+    set clearable(v: any) {
+        this._clearable = coerceBooleanProperty(v);
+    }
+
     @Input() clearButtonTitle: string = this.DEFAULTS.clearButtonTitle;
-    
+
     get shouldShowClearButton(): boolean {
-        return this._clearable && !this.disabled && Boolean(this.inputModel?.value);
+        return (
+            this._clearable && !this.disabled && Boolean(this.inputModel?.value)
+        );
     }
     onClearButtonClick(event: MouseEvent): void {
         event.stopPropagation();
@@ -121,7 +173,9 @@ export class ArdiumHexInputComponent extends _NgModelComponentBase implements Co
         }
         this.writeValue(v);
     }
-    get value(): string | null { return this.inputModel?.hashSignValue ?? ''; }
+    get value(): string | null {
+        return this.inputModel?.hashSignValue ?? '';
+    }
     @Output() valueChange = new EventEmitter<string>();
 
     //* event emitters
@@ -163,15 +217,15 @@ export class ArdiumHexInputComponent extends _NgModelComponentBase implements Co
     onCopy(event: ClipboardEvent): void {
         if (
             this.value &&
-            (
-                //does the selection cover the entire input
-                this.textInputEl.nativeElement.selectionStart == 0
-                && this.textInputEl.nativeElement.selectionEnd == this.textInputEl.nativeElement.value.length
+            //does the selection cover the entire input
+            ((this.textInputEl.nativeElement.selectionStart == 0 &&
+                this.textInputEl.nativeElement.selectionEnd ==
+                    this.textInputEl.nativeElement.value.length) ||
                 //or is zero-wide
-                || this.textInputEl.nativeElement.selectionStart == this.textInputEl.nativeElement.selectionEnd
-            )
+                this.textInputEl.nativeElement.selectionStart ==
+                    this.textInputEl.nativeElement.selectionEnd)
         ) {
-            event.clipboardData?.setData("text/plain", this.value);
+            event.clipboardData?.setData('text/plain', this.value);
             event.preventDefault();
         }
     }
@@ -185,7 +239,7 @@ export class ArdiumHexInputComponent extends _NgModelComponentBase implements Co
             autocapitalize: 'off',
             autocomplete: 'off',
             tabindex: String(this.tabIndex),
-            ...this.inputAttrs
+            ...this.inputAttrs,
         };
 
         for (const key of Object.keys(attributes)) {

@@ -1,11 +1,32 @@
-import { ChangeDetectionStrategy, Component, ContentChild, ElementRef, EventEmitter, forwardRef, HostBinding, Input, OnInit, Output, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    ContentChild,
+    ElementRef,
+    EventEmitter,
+    forwardRef,
+    HostBinding,
+    Input,
+    OnInit,
+    Output,
+    TemplateRef,
+    ViewChild,
+    ViewEncapsulation,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
+import {
+    FormElementAppearance,
+    FormElementVariant,
+} from '../../types/theming.types';
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { SimpleOneAxisAlignment } from './../../types/alignment.types';
 import { SimpleInputModel, SimpleInputModelHost } from './../input-utils';
-import { ArdSimpleInputPlaceholderTemplateDirective, ArdSimpleInputPrefixTemplateDirective, ArdSimpleInputSuffixTemplateDirective } from './simple-input.directives';
+import {
+    ArdSimpleInputPlaceholderTemplateDirective,
+    ArdSimpleInputPrefixTemplateDirective,
+    ArdSimpleInputSuffixTemplateDirective,
+} from './simple-input.directives';
 
 @Component({
     selector: 'ard-simple-input',
@@ -17,20 +38,26 @@ import { ArdSimpleInputPlaceholderTemplateDirective, ArdSimpleInputPrefixTemplat
         {
             provide: NG_VALUE_ACCESSOR,
             useExisting: forwardRef(() => ArdiumSimpleInputComponent),
-            multi: true
-        }
-    ]
+            multi: true,
+        },
+    ],
 })
-export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements SimpleInputModelHost, ControlValueAccessor, OnInit {
-
+export class ArdiumSimpleInputComponent
+    extends _NgModelComponentBase
+    implements SimpleInputModelHost, ControlValueAccessor, OnInit
+{
     readonly DEFAULTS = {
         clearButtonTitle: 'Clear',
-    }
+    };
     //! input view
-    @ViewChild('textInput', { static: true }) textInputEl!: ElementRef<HTMLInputElement>;
+    @ViewChild('textInput', { static: true })
+    textInputEl!: ElementRef<HTMLInputElement>;
     protected inputModel!: SimpleInputModel;
     ngOnInit(): void {
-        this.inputModel = new SimpleInputModel(this.textInputEl.nativeElement, this);
+        this.inputModel = new SimpleInputModel(
+            this.textInputEl.nativeElement,
+            this,
+        );
         this._setInputAttributes();
         //set the value
         if (this._valueBeforeInit) {
@@ -44,14 +71,20 @@ export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements
     @Input() clearButtonTitle: string = this.DEFAULTS.clearButtonTitle;
 
     //! prefix & suffix
-    @ContentChild(ArdSimpleInputPrefixTemplateDirective, { read: TemplateRef }) prefixTemplate?: TemplateRef<any>;
-    @ContentChild(ArdSimpleInputSuffixTemplateDirective, { read: TemplateRef }) suffixTemplate?: TemplateRef<any>;
+    @ContentChild(ArdSimpleInputPrefixTemplateDirective, { read: TemplateRef })
+    prefixTemplate?: TemplateRef<any>;
+    @ContentChild(ArdSimpleInputSuffixTemplateDirective, { read: TemplateRef })
+    suffixTemplate?: TemplateRef<any>;
 
     //! placeholder
-    @ContentChild(ArdSimpleInputPlaceholderTemplateDirective, { read: TemplateRef })
+    @ContentChild(ArdSimpleInputPlaceholderTemplateDirective, {
+        read: TemplateRef,
+    })
     placeholderTemplate?: TemplateRef<any>;
 
-    get shouldDisplayPlaceholder(): boolean { return Boolean(this.placeholder) && !this.value };
+    get shouldDisplayPlaceholder(): boolean {
+        return Boolean(this.placeholder) && !this.value;
+    }
 
     //! appearance
     @Input() appearance: FormElementAppearance = FormElementAppearance.Outlined;
@@ -60,8 +93,12 @@ export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements
 
     private _compact: boolean = false;
     @Input()
-    get compact(): boolean { return this._compact; }
-    set compact(v: any) { this._compact = coerceBooleanProperty(v); }
+    get compact(): boolean {
+        return this._compact;
+    }
+    set compact(v: any) {
+        this._compact = coerceBooleanProperty(v);
+    }
 
     get ngClasses(): string {
         return [
@@ -78,15 +115,23 @@ export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements
     //! number attribute setters/getters
     protected _maxLength?: number;
     @Input()
-    get maxLength(): number | undefined { return this._maxLength; }
-    set maxLength(v: any) { this._maxLength = coerceNumberProperty(v); }
-    
+    get maxLength(): number | undefined {
+        return this._maxLength;
+    }
+    set maxLength(v: any) {
+        this._maxLength = coerceNumberProperty(v);
+    }
+
     //! no-value attribute setters/getters
     protected _clearable: boolean = true;
     @Input()
     @HostBinding('class.ard-clearable')
-    get clearable(): boolean { return this._clearable; };
-    set clearable(v: any) { this._clearable = coerceBooleanProperty(v); }
+    get clearable(): boolean {
+        return this._clearable;
+    }
+    set clearable(v: any) {
+        this._clearable = coerceBooleanProperty(v);
+    }
 
     //! control value accessor's write value implementation
     writeValue(v: any) {
@@ -102,7 +147,9 @@ export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements
         }
         this.writeValue(v);
     }
-    get value(): string | null { return this.inputModel.value; }
+    get value(): string | null {
+        return this.inputModel.value;
+    }
     @Output() valueChange = new EventEmitter<string | null>();
 
     //! event emitters
@@ -137,7 +184,9 @@ export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements
     }
     // clear button
     get shouldShowClearButton(): boolean {
-        return this._clearable && !this.disabled && Boolean(this.inputModel.value);
+        return (
+            this._clearable && !this.disabled && Boolean(this.inputModel.value)
+        );
     }
     onClearButtonClick(event: MouseEvent): void {
         event.stopPropagation();
@@ -152,15 +201,15 @@ export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements
     onCopy(event: ClipboardEvent): void {
         if (
             this.value &&
-            (
-                //does the selection cover the entire input
-                this.textInputEl.nativeElement.selectionStart == 0
-                && this.textInputEl.nativeElement.selectionEnd == this.textInputEl.nativeElement.value.length
+            //does the selection cover the entire input
+            ((this.textInputEl.nativeElement.selectionStart == 0 &&
+                this.textInputEl.nativeElement.selectionEnd ==
+                    this.textInputEl.nativeElement.value.length) ||
                 //or is zero-wide
-                || this.textInputEl.nativeElement.selectionStart == this.textInputEl.nativeElement.selectionEnd
-            )
+                this.textInputEl.nativeElement.selectionStart ==
+                    this.textInputEl.nativeElement.selectionEnd)
         ) {
-            event.clipboardData?.setData("text/plain", this.value);
+            event.clipboardData?.setData('text/plain', this.value);
             event.preventDefault();
         }
     }
@@ -173,7 +222,7 @@ export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements
             autocapitalize: 'off',
             autocomplete: 'off',
             tabindex: String(this.tabIndex),
-            ...this.inputAttrs
+            ...this.inputAttrs,
         };
 
         for (const key of Object.keys(attributes)) {

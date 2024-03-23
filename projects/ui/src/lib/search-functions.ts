@@ -1,17 +1,16 @@
-import { ArdOption, SearchFn } from "./types/item-storage.types";
-
+import { ArdOption, SearchFn } from './types/item-storage.types';
 
 export function searchInString(searchTerm: string, toSearch: any) {
     if (toSearch === undefined) return false;
     return String(toSearch).toLocaleLowerCase().indexOf(searchTerm) != -1;
 }
 export const searchFunctions: {
-    byLabel: SearchFn,
-    byValue: SearchFn,
-    byGroup: SearchFn,
-    byLabelAndGroup: SearchFn,
-    byLabelAndValue: SearchFn,
-    byLabelAndGroupAndValue: SearchFn,
+    byLabel: SearchFn;
+    byValue: SearchFn;
+    byGroup: SearchFn;
+    byLabelAndGroup: SearchFn;
+    byLabelAndValue: SearchFn;
+    byLabelAndGroupAndValue: SearchFn;
 } = {
     /**
      * Determines if the item should appear in the search results, based on the label only.
@@ -49,10 +48,8 @@ export const searchFunctions: {
     byLabelAndGroup: (searchTerm: string, item: ArdOption) => {
         return (
             searchFunctions.byLabel(searchTerm, item) ||
-            (
-                item.label !== item.value &&
-                searchFunctions.byValue(searchTerm, item)
-            )
+            (item.label !== item.value &&
+                searchFunctions.byValue(searchTerm, item))
         );
     },
     /**
@@ -76,11 +73,9 @@ export const searchFunctions: {
     byLabelAndGroupAndValue: (searchTerm: string, item: ArdOption) => {
         return (
             searchFunctions.byLabel(searchTerm, item) ||
-            (
-                item.label !== item.value &&
-                searchFunctions.byValue(searchTerm, item)
-            ) ||
+            (item.label !== item.value &&
+                searchFunctions.byValue(searchTerm, item)) ||
             searchFunctions.byGroup(searchTerm, item)
         );
     },
-}
+};

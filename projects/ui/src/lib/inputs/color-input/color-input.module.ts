@@ -16,10 +16,8 @@ import {
     ArdColorInputPlaceholderTemplateDirective,
     ArdColorInputPrefixTemplateDirective,
     ArdColorInputShadeIndicatorTemplateDirective,
-    ArdColorInputSuffixTemplateDirective
+    ArdColorInputSuffixTemplateDirective,
 } from './color-input.directives';
-
-
 
 @NgModule({
     declarations: [
@@ -34,7 +32,7 @@ import {
         ArdColorInputActionButtonsTemplateDirective,
     ],
     imports: [
-    CommonModule,
+        CommonModule,
         ArdiumFormFieldFrameModule,
         _ClearButtonModule,
         ArdiumColorPickerModule,
@@ -53,6 +51,6 @@ import {
         ArdColorInputOpacityIndicatorTemplateDirective,
         ArdColorInputColorReferenceTemplateDirective,
         ArdColorInputActionButtonsTemplateDirective,
-    ]
+    ],
 })
-export class ArdiumColorInputModule { }
+export class ArdiumColorInputModule {}

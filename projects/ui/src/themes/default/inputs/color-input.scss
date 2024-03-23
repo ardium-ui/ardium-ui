@@ -1,6 +1,6 @@
-@use './shared' as inputMixin;
-@use '../mixins' as defaultMixins;
-@use '../clear-button' as CB;
+@use "./shared" as inputMixin;
+@use "../mixins" as defaultMixins;
+@use "../clear-button" as CB;
 
 .ard-color-input {
     @include inputMixin.genericInput();
@@ -13,7 +13,7 @@
 
     .ard-input-container {
         pointer-events: none;
-        
+
         input {
             font-family: monospace;
             user-select: none;

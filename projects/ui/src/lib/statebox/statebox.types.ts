@@ -1,18 +1,17 @@
-import { ComponentColor } from "../types/colors.types";
-
+import { ComponentColor } from '../types/colors.types';
 
 export type StateboxValue = string | boolean | number | null | undefined;
 
 export type StateboxState = {
-    value: StateboxValue,
-    icon?: string,
-    character?: string,
-    color?: ComponentColor,
-    customColor?: string,
+    value: StateboxValue;
+    icon?: string;
+    character?: string;
+    color?: ComponentColor;
+    customColor?: string;
     colorOnCustomColor?: string;
     fillMode?: boolean;
     keepFrame?: boolean;
-}
+};
 export type _StateboxInternalState = {
     value: StateboxValue;
     display: string;
@@ -22,4 +21,4 @@ export type _StateboxInternalState = {
     colorOnCustomColor?: string;
     fillMode: boolean;
     keepFrame: boolean;
-}
+};

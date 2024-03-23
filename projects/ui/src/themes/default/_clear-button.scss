@@ -1,5 +1,5 @@
-@use './mixins' as defaultMixins;
-@import '../variables';
+@use "./mixins" as defaultMixins;
+@import "../variables";
 
 @mixin clearButton() {
     ard-_clear-button {
@@ -46,7 +46,7 @@
             transform: translate(-50%, -50%);
 
             &::before {
-                content: 'close';
+                content: "close";
                 @include defaultMixins.icon;
                 font-size: 70%;
             }

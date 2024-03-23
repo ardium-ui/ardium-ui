@@ -5,9 +5,13 @@ import { ArdiumDropdownPanelModule } from '../../dropdown-panel/dropdown-panel.m
 import { ArdiumFormFieldFrameModule } from '../../form-field-frame/form-field-frame.module';
 import { _ClearButtonModule } from '../../_internal/clear-button/clear-button.module';
 import { ArdiumInputComponent } from './input.component';
-import { ArdInputLoadingTemplateDirective, ArdInputPlaceholderTemplateDirective, ArdInputPrefixTemplateDirective, ArdInputSuffixTemplateDirective, ArdSuggestionTemplateDirective } from './input.directives';
-
-
+import {
+    ArdInputLoadingTemplateDirective,
+    ArdInputPlaceholderTemplateDirective,
+    ArdInputPrefixTemplateDirective,
+    ArdInputSuffixTemplateDirective,
+    ArdSuggestionTemplateDirective,
+} from './input.directives';
 
 @NgModule({
     declarations: [
@@ -32,6 +36,6 @@ import { ArdInputLoadingTemplateDirective, ArdInputPlaceholderTemplateDirective,
         ArdInputLoadingTemplateDirective,
         ArdInputPrefixTemplateDirective,
         ArdInputSuffixTemplateDirective,
-    ]
+    ],
 })
-export class ArdiumInputModule { }
+export class ArdiumInputModule {}

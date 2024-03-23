@@ -1,12 +1,12 @@
-import { TemplateRef } from "@angular/core";
-import { ComponentColor } from "../types/colors.types";
-import { NonEmptyArray } from "../types/utility.types";
-import { CheckboxState } from "../checkbox/checkbox.types";
+import { TemplateRef } from '@angular/core';
+import { ComponentColor } from '../types/colors.types';
+import { NonEmptyArray } from '../types/utility.types';
+import { CheckboxState } from '../checkbox/checkbox.types';
 
 export type DataSource = string | { type: 'checkbox' | 'autocount' };
 
 export interface _GenericColumn {
-    header: string | { template: string | TemplateRef<unknown>; };
+    header: string | { template: string | TemplateRef<unknown> };
     cellClass?: string;
 }
 
@@ -28,7 +28,7 @@ export const SortType = {
     Ascending: 'ascending',
     Descending: 'descending',
 } as const;
-export type SortType = typeof SortType[keyof typeof SortType];
+export type SortType = (typeof SortType)[keyof typeof SortType];
 
 //! contexts
 export interface TableSubheaderContext {
@@ -62,19 +62,21 @@ export const TableAppearance = {
     Light: 'light',
     Colorless: 'colorless',
 } as const;
-export type TableAppearance = typeof TableAppearance[keyof typeof TableAppearance];
+export type TableAppearance =
+    (typeof TableAppearance)[keyof typeof TableAppearance];
 
 export const TableVariant = {
     Rounded: 'rounded',
     Sharp: 'sharp',
 } as const;
-export type TableVariant = typeof TableVariant[keyof typeof TableVariant];
+export type TableVariant = (typeof TableVariant)[keyof typeof TableVariant];
 
 export const TablePaginationStrategy = {
     Noop: 'noop',
     Slice: 'slice',
 } as const;
-export type TablePaginationStrategy = typeof TablePaginationStrategy[keyof typeof TablePaginationStrategy];
+export type TablePaginationStrategy =
+    (typeof TablePaginationStrategy)[keyof typeof TablePaginationStrategy];
 
 export const TableAlignType = {
     TopLeft: 'top-left',
@@ -87,4 +89,5 @@ export const TableAlignType = {
     BottomCenter: 'bottom-center',
     BottomRight: 'bottom-right',
 } as const;
-export type TableAlignType = typeof TableAlignType[keyof typeof TableAlignType];
+export type TableAlignType =
+    (typeof TableAlignType)[keyof typeof TableAlignType];

@@ -1,12 +1,22 @@
-import { Directive, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, AfterViewInit } from '@angular/core';
+import {
+    Directive,
+    ElementRef,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    ViewChild,
+    AfterViewInit,
+} from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { isDefined } from 'simple-bool';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 
-
-
 @Directive()
-export abstract class _FileInputComponentBase extends _NgModelComponentBase implements OnInit, AfterViewInit {
+export abstract class _FileInputComponentBase
+    extends _NgModelComponentBase
+    implements OnInit, AfterViewInit
+{
     @ViewChild('fileInput') fileInputEl!: ElementRef<HTMLInputElement>;
 
     @Input() htmlId: string = crypto.randomUUID();
@@ -14,7 +24,11 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
 
     ngOnInit(): void {
         if (!(window.File && window.FileReader && window.Blob)) {
-            console.error(new Error("Cannot use Ardium UI file features because this browser does not support them!"))
+            console.error(
+                new Error(
+                    'Cannot use Ardium UI file features because this browser does not support them!',
+                ),
+            );
         }
     }
     protected _wasViewInit: boolean = false;
@@ -27,26 +41,42 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
     //! appearance
     private _compact: boolean = false;
     @Input()
-    get compact(): boolean { return this._compact; }
-    set compact(v: any) { this._compact = coerceBooleanProperty(v); }
+    get compact(): boolean {
+        return this._compact;
+    }
+    set compact(v: any) {
+        this._compact = coerceBooleanProperty(v);
+    }
 
     //! settings
     private _multiple: boolean = false;
     @Input()
-    get multiple(): boolean { return this._multiple; }
-    set multiple(v: any) { this._multiple = coerceBooleanProperty(v); }
+    get multiple(): boolean {
+        return this._multiple;
+    }
+    set multiple(v: any) {
+        this._multiple = coerceBooleanProperty(v);
+    }
 
     private _blockAfterUpload: boolean = false;
     @Input()
-    get blockAfterUpload(): boolean { return this._blockAfterUpload; }
-    set blockAfterUpload(v: any) { this._blockAfterUpload = coerceBooleanProperty(v); }
+    get blockAfterUpload(): boolean {
+        return this._blockAfterUpload;
+    }
+    set blockAfterUpload(v: any) {
+        this._blockAfterUpload = coerceBooleanProperty(v);
+    }
 
-    get shouldBeBlocked(): boolean { return this.blockAfterUpload && isDefined(this.value); }
+    get shouldBeBlocked(): boolean {
+        return this.blockAfterUpload && isDefined(this.value);
+    }
 
     //! value
     protected _value: File[] | null = null;
     @Input()
-    get value(): File[] | null { return this._value; }
+    get value(): File[] | null {
+        return this._value;
+    }
     set value(v: File | File[] | null) {
         this.writeValue(v);
     }
@@ -59,7 +89,10 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
     writeValue(v: File | File[] | null): void {
         this._writeValue(v, false);
     }
-    protected _writeValue(v: File | File[] | null, emitEvents: boolean = true): void {
+    protected _writeValue(
+        v: File | File[] | null,
+        emitEvents: boolean = true,
+    ): void {
         if (v instanceof File) {
             v = [v];
         }
@@ -99,7 +132,7 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
         if (this.shouldBeBlocked) {
             if (!event.dataTransfer) return;
 
-            event.dataTransfer.dropEffect = "none";
+            event.dataTransfer.dropEffect = 'none';
             return;
         }
         if (this.currentViewState == 'dragover') return;
@@ -114,7 +147,7 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
     onDragleave(): void {
         if (this.shouldBeBlocked) return;
         if (this.currentViewState != 'dragover') return;
-        
+
         this.currentViewState = this._beforeDragoverState;
     }
     onDrop(event: DragEvent): void {
@@ -151,7 +184,8 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
     protected _countDragenterFiles(data: DataTransfer | null): number | null {
         if (!data) return null;
 
-        return Array.from(data.items).filter(item => item.kind == 'file').length;
+        return Array.from(data.items).filter((item) => item.kind == 'file')
+            .length;
     }
 
     protected _updateElementValue(): void {

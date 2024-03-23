@@ -1,11 +1,20 @@
-import { ChangeDetectionStrategy, Component, Directive, ElementRef, HostBinding, Input, Renderer2, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Directive,
+    ElementRef,
+    HostBinding,
+    Input,
+    Renderer2,
+    ViewEncapsulation,
+} from '@angular/core';
 import { OneAxisAlignment } from '../types/alignment.types';
 
 @Component({
     selector: 'ard-card-header',
     templateUrl: 'card-header.template.html',
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumCardHeaderComponent {}
 
@@ -49,7 +58,9 @@ export class ArdiumCardActionButtonsDirective {
     @Input() align: OneAxisAlignment = OneAxisAlignment.Right;
 
     @HostBinding('class')
-    get alignClass(): string { return `ard-card-action-buttons ard-align-${this.align}`; }
+    get alignClass(): string {
+        return `ard-card-action-buttons ard-align-${this.align}`;
+    }
 }
 
 @Directive({ selector: 'ard-card-footer, [ard-card-footer]' })

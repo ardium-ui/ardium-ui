@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, forwardRef } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Input,
+    ViewEncapsulation,
+    forwardRef,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ClickStrategy } from '../../types/utility.types';
 import { _BooleanComponentBase } from '../../_internal/boolean-component';
@@ -15,11 +21,14 @@ import { StarFillMode } from './../star.types';
         {
             provide: NG_VALUE_ACCESSOR,
             useExisting: forwardRef(() => ArdiumStarButtonComponent),
-            multi: true
-        }
-    ]
+            multi: true,
+        },
+    ],
 })
-export class ArdiumStarButtonComponent extends _BooleanComponentBase implements ControlValueAccessor {
+export class ArdiumStarButtonComponent
+    extends _BooleanComponentBase
+    implements ControlValueAccessor
+{
     @Input() wrapperClasses: string = '';
     @Input() clickStrategy: ClickStrategy = ClickStrategy.Default;
 
@@ -27,9 +36,7 @@ export class ArdiumStarButtonComponent extends _BooleanComponentBase implements 
     @Input() color: StarColor = StarColor.Star;
 
     get ngClasses(): string {
-        return [
-            `ard-color-${this.color}`,
-        ].join(' ');
+        return [`ard-color-${this.color}`].join(' ');
     }
 
     get starFillState(): StarFillMode {

@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, ContentChild, HostBinding, Input, TemplateRef, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    ContentChild,
+    HostBinding,
+    Input,
+    TemplateRef,
+    ViewEncapsulation,
+} from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { ComponentColor } from '../types/colors.types';
 import { ArdOptionSimple } from '../types/item-storage.types';
@@ -11,32 +19,42 @@ import { OneAxisAlignment } from '../types/alignment.types';
 type SegmentRow = {
     options: ArdOptionSimple[];
     isNotFull?: boolean;
-}
+};
 
 @Component({
     selector: 'ard-segment',
     templateUrl: './segment.component.html',
     styleUrls: ['./segment.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumSegmentComponent extends _SelectableListComponentBase implements SimpleItemStorageHost {
-
+export class ArdiumSegmentComponent
+    extends _SelectableListComponentBase
+    implements SimpleItemStorageHost
+{
     //! appearance
     @Input() appearance: SegmentAppearance = SegmentAppearance.Outlined;
     @Input() variant: SegmentVariant = SegmentVariant.RoundedConnected;
     @Input() color: ComponentColor = ComponentColor.Primary;
     @Input() align: OneAxisAlignment = OneAxisAlignment.Middle;
-    
+
     private _iconBased: boolean = false;
     @Input()
-    get iconBased(): boolean { return this._iconBased; }
-    set iconBased(v: any) { this._iconBased = coerceBooleanProperty(v); }
-    
+    get iconBased(): boolean {
+        return this._iconBased;
+    }
+    set iconBased(v: any) {
+        this._iconBased = coerceBooleanProperty(v);
+    }
+
     private _compact: boolean = false;
     @Input()
-    get compact(): boolean { return this._compact; }
-    set compact(v: any) { this._compact = coerceBooleanProperty(v); }
+    get compact(): boolean {
+        return this._compact;
+    }
+    set compact(v: any) {
+        this._compact = coerceBooleanProperty(v);
+    }
 
     get ngClasses(): string {
         return [
@@ -53,37 +71,57 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
     @Input()
     @HostBinding('attr.multiple')
     @HostBinding('class.ard-multiselect')
-    get multiselectable(): boolean { return this._multiselectable };
-    set multiselectable(v: any) { this._multiselectable = coerceBooleanProperty(v); }
+    get multiselectable(): boolean {
+        return this._multiselectable;
+    }
+    set multiselectable(v: any) {
+        this._multiselectable = coerceBooleanProperty(v);
+    }
 
     @Input()
     @HostBinding('class.ard-require-value')
-    get requireValue(): boolean { return this._requireValue ?? !this.multiselectable; }
-    set requireValue(v: any) { this._requireValue = coerceBooleanProperty(v); }
+    get requireValue(): boolean {
+        return this._requireValue ?? !this.multiselectable;
+    }
+    set requireValue(v: any) {
+        this._requireValue = coerceBooleanProperty(v);
+    }
 
     private _autoFocus: boolean = false;
     @Input()
-    get autoFocus(): boolean { return this._autoFocus; }
-    set autoFocus(v: any) { this._autoFocus = coerceBooleanProperty(v); }
+    get autoFocus(): boolean {
+        return this._autoFocus;
+    }
+    set autoFocus(v: any) {
+        this._autoFocus = coerceBooleanProperty(v);
+    }
 
     private _uniformWidths: boolean = false;
     @Input()
-    get uniformWidths(): boolean { return this._uniformWidths; }
-    set uniformWidths(v: any) { this._uniformWidths = coerceBooleanProperty(v); }
+    get uniformWidths(): boolean {
+        return this._uniformWidths;
+    }
+    set uniformWidths(v: any) {
+        this._uniformWidths = coerceBooleanProperty(v);
+    }
 
     private _itemsPerRow: number | undefined = undefined;
     @Input()
-    get itemsPerRow(): number { return this._itemsPerRow ?? Infinity; }
+    get itemsPerRow(): number {
+        return this._itemsPerRow ?? Infinity;
+    }
     set itemsPerRow(v: any) {
-        const newValue = coerceNumberProperty(v, undefined)
-        if (newValue == 0) throw new Error("Cannot set items per row to 0.");
+        const newValue = coerceNumberProperty(v, undefined);
+        if (newValue == 0) throw new Error('Cannot set items per row to 0.');
         this._itemsPerRow = newValue;
     }
-    get itemsInActualRow(): number { return this._itemsPerRow ?? this.items.length }
-    
+    get itemsInActualRow(): number {
+        return this._itemsPerRow ?? this.items.length;
+    }
 
     //! option template
-    @ContentChild(ArdSegmentOptionTemplateDirective, { read: TemplateRef }) optionTemplate?: TemplateRef<any>;
+    @ContentChild(ArdSegmentOptionTemplateDirective, { read: TemplateRef })
+    optionTemplate?: TemplateRef<any>;
 
     //! lifecycle hooks
     ngAfterContentInit(): void {
@@ -114,7 +152,7 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
         if (currentRow.length != 0) {
             itemRows.push({
                 options: currentRow,
-                isNotFull: Boolean(this._itemsPerRow)
+                isNotFull: Boolean(this._itemsPerRow),
             });
         }
 
@@ -125,9 +163,9 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
     //! focus handler override
     override onFocus(event: FocusEvent): void {
         super.onFocus(event);
-        
+
         if (this.itemStorage.isAnyItemHighlighted) return;
-        
+
         this.itemStorage.highlightFirstItem();
     }
 

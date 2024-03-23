@@ -1,5 +1,4 @@
-import { SimpleComponentColor } from "../types/colors.types";
-
+import { SimpleComponentColor } from '../types/colors.types';
 
 export const StarFillMode = {
     /**
@@ -15,7 +14,7 @@ export const StarFillMode = {
      */
     Filled: 'filled',
 } as const;
-export type StarFillMode = typeof StarFillMode[keyof typeof StarFillMode];
+export type StarFillMode = (typeof StarFillMode)[keyof typeof StarFillMode];
 
 export const StarColor = {
     ...SimpleComponentColor,
@@ -24,4 +23,4 @@ export const StarColor = {
      */
     Star: 'star',
 } as const;
-export type StarColor = typeof StarColor[keyof typeof StarColor];
+export type StarColor = (typeof StarColor)[keyof typeof StarColor];

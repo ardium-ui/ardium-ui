@@ -1,9 +1,19 @@
-
-import { ChangeDetectionStrategy, Component, EventEmitter, forwardRef, Input, Output, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    forwardRef,
+    Input,
+    Output,
+    ViewEncapsulation,
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SimpleOneAxisAlignment } from '../../types/alignment.types';
 import { ComponentColor } from '../../types/colors.types';
-import { DecorationElementAppearance, FormElementVariant } from '../../types/theming.types';
+import {
+    DecorationElementAppearance,
+    FormElementVariant,
+} from '../../types/theming.types';
 import { _FocusableComponentBase } from '../../_internal/focusable-component';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 
@@ -17,28 +27,33 @@ import { coerceBooleanProperty } from '@ardium-ui/devkit';
         {
             provide: NG_VALUE_ACCESSOR,
             useExisting: forwardRef(() => ArdiumDeletableChipComponent),
-            multi: true
-        }
-    ]
+            multi: true,
+        },
+    ],
 })
 export class ArdiumDeletableChipComponent extends _FocusableComponentBase {
-
     readonly DEFAULTS = {
         deleteButtonTitle: 'Delete',
-    }
+    };
 
     @Input() deleteButtonTitle: string = this.DEFAULTS.deleteButtonTitle;
-    @Input() contentAlignment: SimpleOneAxisAlignment = SimpleOneAxisAlignment.Left;
+    @Input() contentAlignment: SimpleOneAxisAlignment =
+        SimpleOneAxisAlignment.Left;
 
     //* appearance
-    @Input() appearance: DecorationElementAppearance = DecorationElementAppearance.Outlined;
+    @Input() appearance: DecorationElementAppearance =
+        DecorationElementAppearance.Outlined;
     @Input() variant: FormElementVariant = FormElementVariant.Rounded;
     @Input() color: ComponentColor = ComponentColor.Primary;
 
     private _compact: boolean = false;
     @Input()
-    get compact(): boolean { return this._compact; }
-    set compact(v: any) { this._compact = coerceBooleanProperty(v); }
+    get compact(): boolean {
+        return this._compact;
+    }
+    set compact(v: any) {
+        this._compact = coerceBooleanProperty(v);
+    }
 
     @Input() wrapperClasses: string = '';
     get ngClasses(): string {

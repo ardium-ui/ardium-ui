@@ -1,17 +1,26 @@
-import { Directive, TemplateRef } from "@angular/core";
-import { OptionContext } from "../types/item-storage.types";
-import { CustomOptionContext, GroupContext, ItemDisplayLimitContext, ItemLimitContext, PlaceholderContext, SearchContext, StatsContext, ValueContext } from "./select.types";
+import { Directive, TemplateRef } from '@angular/core';
+import { OptionContext } from '../types/item-storage.types';
+import {
+    CustomOptionContext,
+    GroupContext,
+    ItemDisplayLimitContext,
+    ItemLimitContext,
+    PlaceholderContext,
+    SearchContext,
+    StatsContext,
+    ValueContext,
+} from './select.types';
 
 //public (exported)
 
 @Directive({ selector: 'ard-select > ng-template[ard-prefix-tmp]' })
 export class ArdSelectPrefixTemplateDirective {
-    constructor(public template: TemplateRef<undefined>) { }
+    constructor(public template: TemplateRef<undefined>) {}
 }
 
 @Directive({ selector: 'ard-select > ng-template[ard-suffix-tmp]' })
 export class ArdSelectSuffixTemplateDirective {
-    constructor(public template: TemplateRef<undefined>) { }
+    constructor(public template: TemplateRef<undefined>) {}
 }
 
 @Directive({ selector: 'ard-select > ng-template[ard-value-tmp]' })
@@ -44,7 +53,9 @@ export class ArdLoadingSpinnerTemplateDirective {
     constructor(public template: TemplateRef<null>) {}
 }
 
-@Directive({ selector: 'ard-select > ng-template[ard-loading-placeholder-tmp]' })
+@Directive({
+    selector: 'ard-select > ng-template[ard-loading-placeholder-tmp]',
+})
 export class ArdLoadingPlaceholderTemplateDirective {
     constructor(public template: TemplateRef<SearchContext>) {}
 }

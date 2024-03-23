@@ -1,17 +1,21 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Input,
+    ViewEncapsulation,
+} from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _FocusableComponentBase } from '../../_internal/focusable-component';
 import { ComponentColor } from '../../types/colors.types';
 
 @Component({
-  selector: 'ard-icon-button',
-  templateUrl: './icon-button.component.html',
+    selector: 'ard-icon-button',
+    templateUrl: './icon-button.component.html',
     styleUrls: ['./icon-button.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumIconButtonComponent extends _FocusableComponentBase {
-
     @Input() wrapperClasses: string = '';
 
     //! button settings
@@ -19,8 +23,12 @@ export class ArdiumIconButtonComponent extends _FocusableComponentBase {
 
     private _compact: boolean = false;
     @Input()
-    get compact(): boolean { return this._compact; }
-    set compact(v: any) { this._compact = coerceBooleanProperty(v); }
+    get compact(): boolean {
+        return this._compact;
+    }
+    set compact(v: any) {
+        this._compact = coerceBooleanProperty(v);
+    }
 
     get ngClasses(): string {
         return [

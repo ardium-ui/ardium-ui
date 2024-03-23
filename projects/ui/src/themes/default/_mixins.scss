@@ -1,12 +1,13 @@
-@import '../variables';
+@import "../variables";
 
 @mixin icon($fill: 0, $wght: 500, $grad: 0, $opsz: 48) {
     font-family: "Material Symbols Outlined";
     font-size: 1.5em;
-    font-variation-settings: 'FILL'#{$fill},
-    'wght'#{$wght},
-    'GRAD'#{$grad},
-    'opsz'#{$opsz};
+    font-variation-settings:
+        "FILL" #{$fill},
+        "wght" #{$wght},
+        "GRAD" #{$grad},
+        "opsz" #{$opsz};
 }
 
 @mixin focus-overlay($size: 0) {
@@ -20,17 +21,19 @@
     pointer-events: none;
 
     transition: opacity 0.2s ease;
-
 }
 @mixin focus-overlay-scale-addon() {
     > .ard-focus-overlay {
         transform: scale(0.2);
-        
-        transition: opacity 0.2s ease, transform 0.1s ease;
+
+        transition:
+            opacity 0.2s ease,
+            transform 0.1s ease;
     }
 
-    &:hover, &:focus {
-        >.ard-focus-overlay {
+    &:hover,
+    &:focus {
+        > .ard-focus-overlay {
             transform: scale(1);
         }
     }
@@ -53,7 +56,7 @@
 
 @mixin formVariants() {
     border-radius: var(--ard-variant-border-radius);
-    
+
     &.ard-variant-rounded,
     &.ard-variant-semirounded {
         --ard-variant-border-radius: 8px;

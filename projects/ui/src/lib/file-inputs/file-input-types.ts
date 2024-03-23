@@ -1,6 +1,3 @@
-
-
-
 export interface FileInputBrowseContext {
     browse: () => void;
 }
@@ -12,4 +9,4 @@ export interface FileInputFileAmountContext {
 export interface FileInputFilesContext extends FileInputFileAmountContext {
     $implicit: File[];
     files: File[];
-};
+}

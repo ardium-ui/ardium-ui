@@ -1,28 +1,42 @@
-import { ComponentRef, Directive, ElementRef, Input, OnChanges, OnDestroy, AfterViewInit, Renderer2, TemplateRef } from '@angular/core';
+import {
+    ComponentRef,
+    Directive,
+    ElementRef,
+    Input,
+    OnChanges,
+    OnDestroy,
+    AfterViewInit,
+    Renderer2,
+    TemplateRef,
+} from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ComponentColor } from '../types/colors.types';
 import { BadgePosition, BadgeSize } from './badge.types';
 import { FormElementVariant } from '../types/theming.types';
 
 @Directive({
-    selector: '[ardBadge]'
+    selector: '[ardBadge]',
 })
-export class ArdiumBadgeDirective implements OnChanges, AfterViewInit, OnDestroy {
-
+export class ArdiumBadgeDirective
+    implements OnChanges, AfterViewInit, OnDestroy
+{
     constructor(
         private _el: ElementRef,
-        private _renderer: Renderer2
+        private _renderer: Renderer2,
     ) {}
 
     @Input('ardBadge') text?: string;
 
     @Input('ardBadgeColor') color: ComponentColor = ComponentColor.Primary;
-    @Input('ardBadgeVariant') variant: FormElementVariant = FormElementVariant.Pill;
+    @Input('ardBadgeVariant') variant: FormElementVariant =
+        FormElementVariant.Pill;
     @Input('ardBadgeSize') size: BadgeSize = BadgeSize.Medium;
 
     private _position: BadgePosition = BadgePosition.AboveAfter;
     @Input('ardBadgePosition')
-    get position(): BadgePosition { return this._position; }
+    get position(): BadgePosition {
+        return this._position;
+    }
     set position(v: BadgePosition) {
         switch (v) {
             case BadgePosition.Before:
@@ -35,7 +49,7 @@ export class ArdiumBadgeDirective implements OnChanges, AfterViewInit, OnDestroy
             case BadgePosition.Below:
                 this._position = BadgePosition.BelowAfter;
                 return;
-        
+
             default:
                 this._position = v;
                 return;
@@ -46,13 +60,21 @@ export class ArdiumBadgeDirective implements OnChanges, AfterViewInit, OnDestroy
 
     private _hidden: boolean = false;
     @Input('ardBadgeHidden')
-    get hidden(): boolean { return this._hidden; }
-    set hidden(v: any) { this._hidden = coerceBooleanProperty(v); }
+    get hidden(): boolean {
+        return this._hidden;
+    }
+    set hidden(v: any) {
+        this._hidden = coerceBooleanProperty(v);
+    }
 
     private _overlap: boolean = true;
     @Input('ardBadgeOverlap')
-    get overlap(): boolean { return this._overlap; }
-    set overlap(v: any) { this._overlap = coerceBooleanProperty(v); }
+    get overlap(): boolean {
+        return this._overlap;
+    }
+    set overlap(v: any) {
+        this._overlap = coerceBooleanProperty(v);
+    }
 
     private _createBadgeElement(): HTMLElement {
         const R = this._renderer;
@@ -68,7 +90,7 @@ export class ArdiumBadgeDirective implements OnChanges, AfterViewInit, OnDestroy
         const element = R.createElement('div') as HTMLDivElement;
         R.setAttribute(element, 'class', elementClasses);
         R.setAttribute(element, 'aria-label', this.ariaLabel ?? '');
-        
+
         if (this.text) {
             const textHost = R.createElement('div') as HTMLDivElement;
             R.addClass(textHost, 'ard-badge-content');
@@ -77,14 +99,17 @@ export class ArdiumBadgeDirective implements OnChanges, AfterViewInit, OnDestroy
             R.appendChild(textHost, text);
             R.appendChild(element, textHost);
         }
-        
+
         return element;
     }
 
     private _badgeElement?: HTMLElement;
     ngOnChanges(): void {
         if (this._badgeElement) {
-            this._renderer.removeChild(this._el.nativeElement, this._badgeElement);
+            this._renderer.removeChild(
+                this._el.nativeElement,
+                this._badgeElement,
+            );
         }
         const element = this._createBadgeElement();
         this._badgeElement = element;
@@ -96,7 +121,10 @@ export class ArdiumBadgeDirective implements OnChanges, AfterViewInit, OnDestroy
     }
     ngOnDestroy(): void {
         if (this._badgeElement) {
-            this._renderer.removeChild(this._el.nativeElement, this._badgeElement);
+            this._renderer.removeChild(
+                this._el.nativeElement,
+                this._badgeElement,
+            );
         }
         this._renderer.removeClass(this._el.nativeElement, 'ard-badge-host');
     }

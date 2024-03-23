@@ -1,7 +1,22 @@
-import { ArdOptionGroup, ArdOption, GroupByFn, ArdItemGroupMap, SearchFn, CompareWithFn } from "../../types/item-storage.types"; 
+import {
+    ArdOptionGroup,
+    ArdOption,
+    GroupByFn,
+    ArdItemGroupMap,
+    SearchFn,
+    CompareWithFn,
+} from '../../types/item-storage.types';
 import resolvePath from 'resolve-object-path';
-import { any, evaluate, isArray, isDefined, isObject, isPrimitive, isPromise } from "simple-bool";
-import { AddCustomFn } from "../../select/select.types";
+import {
+    any,
+    evaluate,
+    isArray,
+    isDefined,
+    isObject,
+    isPrimitive,
+    isPromise,
+} from 'simple-bool';
+import { AddCustomFn } from '../../select/select.types';
 
 export interface ItemStorageHostDefaults {
     valueFrom: string;
@@ -42,14 +57,12 @@ export class ItemStorage {
     private _recentlyHighlightedItem?: ArdOption;
     private _selectedItems: ArdOption[] = [];
 
-    constructor(
-        private _ardParentComp: ItemStorageHost,
-    ) {}
+    constructor(private _ardParentComp: ItemStorageHost) {}
 
     get groups(): ArdOptionGroup[] {
         return Array.from(this._groups.entries())
             .map(([_, group]) => group)
-            .filter(group => group.children.length);
+            .filter((group) => group.children.length);
     }
     get items(): ArdOption[] {
         return this._items;
@@ -61,7 +74,7 @@ export class ItemStorage {
         if (this._ardParentComp.sortMultipleValues) {
             return this._selectedItems.sort((a, b) => {
                 return a.index - b.index;
-            })
+            });
         }
         return this._selectedItems;
     }
@@ -69,13 +82,13 @@ export class ItemStorage {
         return this._highlightedItems;
     }
     get lastSelectedItem(): ArdOption {
-        return this._filteredItems.last(1, item => !item.disabled);
+        return this._filteredItems.last(1, (item) => !item.disabled);
     }
     get value(): any[] {
         return this._itemsToValue(this.selectedItems);
     }
     private _itemsToValue(items: ArdOption[]): any[] {
-        return items.map(item => item.value);
+        return items.map((item) => item.value);
     }
 
     get isNoItemsToSelect(): boolean {
@@ -92,19 +105,23 @@ export class ItemStorage {
     }
     get isItemLimitReached(): boolean {
         return (
-            this._ardParentComp.multiselectable
-            && isDefined(this._ardParentComp.maxSelectedItems)
-            && this._ardParentComp.maxSelectedItems! <= this.selectedItems.length
+            this._ardParentComp.multiselectable &&
+            isDefined(this._ardParentComp.maxSelectedItems) &&
+            this._ardParentComp.maxSelectedItems! <= this.selectedItems.length
         );
     }
 
     setItems(items: any[]): boolean {
         let areItemsPrimitive = false;
-        if (this._ardParentComp.groupItems && this._ardParentComp.itemsAlreadyGrouped) {
+        if (
+            this._ardParentComp.groupItems &&
+            this._ardParentComp.itemsAlreadyGrouped
+        ) {
             let newItems = [];
             for (const group of items) {
                 let children: any[];
-                [children, areItemsPrimitive] = this._ungroupAlreadyGroupedItems(group);
+                [children, areItemsPrimitive] =
+                    this._ungroupAlreadyGroupedItems(group);
                 newItems.push(...children);
             }
             items = newItems;
@@ -138,7 +155,11 @@ export class ItemStorage {
             item = this._primitiveItemsMapFn(item);
         }
         //map the item to create data bindings
-        const ardOption = this._setItemsMapFn(item, this._items.last()?.index + 1, isItemPrimitive);
+        const ardOption = this._setItemsMapFn(
+            item,
+            this._items.last()?.index + 1,
+            isItemPrimitive,
+        );
 
         //push the item into all items
         this._items.push(ardOption);
@@ -151,21 +172,26 @@ export class ItemStorage {
     private _primitiveItemsMapFn<T>(item: T): { value: T } {
         return { value: item };
     }
-    private _ungroupAlreadyGroupedItems<T extends object>(group: T): [any[], boolean] {
+    private _ungroupAlreadyGroupedItems<T extends object>(
+        group: T,
+    ): [any[], boolean] {
         //determine groupBy (groupLabel) path
-        let groupBy = this._ardParentComp.groupLabelFrom ?? this._ardParentComp.DEFAULTS.groupLabelFrom;
+        let groupBy =
+            this._ardParentComp.groupLabelFrom ??
+            this._ardParentComp.DEFAULTS.groupLabelFrom;
 
         //get group label from object
         let groupName: any;
         if (typeof groupBy == 'string') {
             groupName = resolvePath(group, groupBy);
-        }
-        else {
+        } else {
             groupName = groupBy(group);
         }
 
         //determine group children path
-        let childrenPath = this._ardParentComp.childrenFrom ?? this._ardParentComp.DEFAULTS.childrenFrom;
+        let childrenPath =
+            this._ardParentComp.childrenFrom ??
+            this._ardParentComp.DEFAULTS.childrenFrom;
 
         //get group children
         let groupItems: any = resolvePath(group, childrenPath);
@@ -186,25 +212,39 @@ export class ItemStorage {
 
         return [groupItems, areItemsPrimitive];
     }
-    private _setItemsMapFn(rawItemData: any, index: number, areItemsPrimitive: boolean): ArdOption {
+    private _setItemsMapFn(
+        rawItemData: any,
+        index: number,
+        areItemsPrimitive: boolean,
+    ): ArdOption {
         if (areItemsPrimitive) {
             return {
                 itemData: rawItemData,
                 index,
                 value: rawItemData.value,
-                label: rawItemData.value?.toString?.() ?? String(rawItemData.value),
-            }
+                label:
+                    rawItemData.value?.toString?.() ??
+                    String(rawItemData.value),
+            };
         }
         //get value
-        const valuePath = this._ardParentComp.valueFrom ?? this._ardParentComp.labelFrom ?? this._ardParentComp.DEFAULTS.valueFrom;
+        const valuePath =
+            this._ardParentComp.valueFrom ??
+            this._ardParentComp.labelFrom ??
+            this._ardParentComp.DEFAULTS.valueFrom;
         const value = resolvePath(rawItemData, valuePath);
 
         //get label
-        const labelPath = this._ardParentComp.labelFrom ?? this._ardParentComp.valueFrom ?? this._ardParentComp.DEFAULTS.labelFrom;
+        const labelPath =
+            this._ardParentComp.labelFrom ??
+            this._ardParentComp.valueFrom ??
+            this._ardParentComp.DEFAULTS.labelFrom;
         const label = resolvePath(rawItemData, labelPath) ?? value;
 
         //get disabled
-        const disabledPath = this._ardParentComp.disabledFrom ?? this._ardParentComp.DEFAULTS.disabledFrom;
+        const disabledPath =
+            this._ardParentComp.disabledFrom ??
+            this._ardParentComp.DEFAULTS.disabledFrom;
         let disabled = evaluate(resolvePath(rawItemData, disabledPath));
         if (this._ardParentComp.invertDisabled) {
             disabled = !disabled;
@@ -215,13 +255,13 @@ export class ItemStorage {
         if (this._ardParentComp.groupItems) {
             if (rawItemData.$ardgroup) {
                 group = rawItemData.$ardgroup;
-            }
-            else {
-                let groupBy = this._ardParentComp.groupLabelFrom ?? this._ardParentComp.DEFAULTS.groupLabelFrom;
+            } else {
+                let groupBy =
+                    this._ardParentComp.groupLabelFrom ??
+                    this._ardParentComp.DEFAULTS.groupLabelFrom;
                 if (typeof groupBy == 'string') {
                     group = resolvePath(rawItemData, groupBy);
-                }
-                else {
+                } else {
                     group = (groupBy as GroupByFn)(rawItemData);
                 }
             }
@@ -237,16 +277,13 @@ export class ItemStorage {
             label: label?.toString?.() ?? String(label),
             disabled,
             group,
-        }
+        };
     }
     private _populateGroups(): void {
         this._groups = this._createEmptyGroupMap();
 
         for (const item of this._filteredItems) {
-            if (
-                this._ardParentComp.hideSelected &&
-                item.selected
-            ) continue;
+            if (this._ardParentComp.hideSelected && item.selected) continue;
 
             this._addToGroup(item);
         }
@@ -256,7 +293,10 @@ export class ItemStorage {
         let targetGroup = this._groups.get(groupKey);
         //create new group if needed
         if (!targetGroup) {
-            this._groups.set(groupKey, { label: String(groupKey ?? ''), children: [item] });
+            this._groups.set(groupKey, {
+                label: String(groupKey ?? ''),
+                children: [item],
+            });
             return;
         }
         targetGroup.children.push(item);
@@ -265,10 +305,14 @@ export class ItemStorage {
         return new Map([[undefined, { label: '', children: [] }]]);
     }
     private _isWriteValueValid(ngModel: any[]): boolean {
-        return ngModel.every(item => {
-            if (!isDefined(this._ardParentComp.compareWith) && isObject(item) && this._ardParentComp.valueFrom) {
+        return ngModel.every((item) => {
+            if (
+                !isDefined(this._ardParentComp.compareWith) &&
+                isObject(item) &&
+                this._ardParentComp.valueFrom
+            ) {
                 console.warn(
-                    `Setting object(${JSON.stringify(item)}) as your model with [valueFrom] is not allowed unless [compareWith] is used.`
+                    `Setting object(${JSON.stringify(item)}) as your model with [valueFrom] is not allowed unless [compareWith] is used.`,
                 );
                 return false;
             }
@@ -297,8 +341,10 @@ export class ItemStorage {
                 this.selectItem(item);
                 return;
             }
-            console.warn(`Couldn't find an item with value ${value?.toString?.() || String(value)}.`);
-        }
+            console.warn(
+                `Couldn't find an item with value ${value?.toString?.() || String(value)}.`,
+            );
+        };
 
         for (const modelValue of ngModel) {
             selectItemByValue(modelValue);
@@ -307,14 +353,17 @@ export class ItemStorage {
     findItemByValue(valueToFind: any): ArdOption | undefined {
         let findBy: (item: ArdOption) => boolean;
         if (this._ardParentComp.compareWith) {
-            findBy = item => this._ardParentComp.compareWith!(valueToFind, item.value);
+            findBy = (item) =>
+                this._ardParentComp.compareWith!(valueToFind, item.value);
+        } else {
+            findBy = (item) => item.value === valueToFind;
         }
-        else {
-            findBy = item => item.value === valueToFind;
-        }
-        return this._items.find(item => findBy(item));
+        return this._items.find((item) => findBy(item));
     }
-    async addCustomOption(value: string, fn: AddCustomFn<any> | AddCustomFn<Promise<any>>): Promise<ArdOption> {
+    async addCustomOption(
+        value: string,
+        fn: AddCustomFn<any> | AddCustomFn<Promise<any>>,
+    ): Promise<ArdOption> {
         const fnResult = fn(value);
 
         let optionValue = fnResult;
@@ -325,8 +374,6 @@ export class ItemStorage {
         return newOptionObj;
     }
 
-
-
     clearAllSelected(repopulateGroups: boolean = false): any[] {
         for (const item of this._selectedItems) {
             item.selected = false;
@@ -334,7 +381,8 @@ export class ItemStorage {
         let removedItemValues = this._itemsToValue(this._selectedItems);
         this._selectedItems = [];
 
-        if (repopulateGroups && this._ardParentComp.hideSelected) this._populateGroups();
+        if (repopulateGroups && this._ardParentComp.hideSelected)
+            this._populateGroups();
 
         return removedItemValues;
     }
@@ -371,14 +419,18 @@ export class ItemStorage {
         }
 
         const itemsFailedToSelect = items.slice(itemsSelectedCount - 1);
-        return [this._itemsToValue(itemsSelected), unselected, this._itemsToValue(itemsFailedToSelect)];
+        return [
+            this._itemsToValue(itemsSelected),
+            unselected,
+            this._itemsToValue(itemsFailedToSelect),
+        ];
     }
     unselectItem(...items: ArdOption[]): any[] {
         for (const item of items) {
             if (!item.selected) continue;
             item.selected = false;
         }
-        this._selectedItems = this._selectedItems.filter(v => v.selected);
+        this._selectedItems = this._selectedItems.filter((v) => v.selected);
 
         if (this._ardParentComp.hideSelected) this._populateGroups();
 
@@ -419,7 +471,9 @@ export class ItemStorage {
 
             item.highlighted = false;
         }
-        this._highlightedItems = this._highlightedItems.filter(v => v.highlighted);
+        this._highlightedItems = this._highlightedItems.filter(
+            (v) => v.highlighted,
+        );
     }
     highlightFirstItem(): ArdOption | null {
         this.clearAllHighlights();
@@ -432,17 +486,25 @@ export class ItemStorage {
         return this.highlightSingleItem(itemsToHighlight.last());
     }
     private _getHiglightableItems(): ArdOption[] {
-        let itemsToHighlight = this._filteredItems.filter(item => !item.disabled);
+        let itemsToHighlight = this._filteredItems.filter(
+            (item) => !item.disabled,
+        );
         if (this._ardParentComp.hideSelected) {
-            itemsToHighlight = itemsToHighlight.filter(item => !item.selected);
+            itemsToHighlight = itemsToHighlight.filter(
+                (item) => !item.selected,
+            );
         }
         return itemsToHighlight;
     }
     highlightAllItems(): void {
-        let itemsToHighlight = this._filteredItems.filter(item => !item.disabled);
+        let itemsToHighlight = this._filteredItems.filter(
+            (item) => !item.disabled,
+        );
 
         if (this._ardParentComp.hideSelected) {
-            itemsToHighlight = itemsToHighlight.filter(item => !item.selected);
+            itemsToHighlight = itemsToHighlight.filter(
+                (item) => !item.selected,
+            );
         }
         this.highlightItem(...itemsToHighlight);
     }
@@ -462,7 +524,9 @@ export class ItemStorage {
         }
         const currentItem = this.highlightedItems.last();
         const highlightableItems = this._getHiglightableItems();
-        const currentIndexInFiltered = highlightableItems.findIndex(item => item.index == currentItem.index);
+        const currentIndexInFiltered = highlightableItems.findIndex(
+            (item) => item.index == currentItem.index,
+        );
 
         let nextItemIndex = currentIndexInFiltered + offset;
         if (nextItemIndex >= highlightableItems.length) {
@@ -491,7 +555,9 @@ export class ItemStorage {
         }
 
         const searchFn = this._ardParentComp.searchFn;
-        this._filteredItems = this._items.filter(item => searchFn(filterTerm, item));
+        this._filteredItems = this._items.filter((item) =>
+            searchFn(filterTerm, item),
+        );
 
         this._populateGroups();
 
@@ -504,9 +570,8 @@ export class ItemStorage {
         if (this._filteredItems.length == this._items.length) return;
 
         if (this._ardParentComp.hideSelected && this.isAnyItemSelected) {
-            this._filteredItems = this._items.filter(item => !item.selected);
-        }
-        else {
+            this._filteredItems = this._items.filter((item) => !item.selected);
+        } else {
             this._filteredItems = this._items;
         }
         this._populateGroups();

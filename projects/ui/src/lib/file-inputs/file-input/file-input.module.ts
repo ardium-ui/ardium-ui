@@ -5,20 +5,14 @@ import { ArdiumFormFieldFrameModule } from '../../form-field-frame/form-field-fr
 import { _ClearButtonModule } from '../../_internal/clear-button/clear-button.module';
 import { ArdiumIconModule } from '../../icon/icon.module';
 
-
-
 @NgModule({
-    declarations: [
-        ArdiumFileInputComponent
-    ],
+    declarations: [ArdiumFileInputComponent],
     imports: [
         CommonModule,
         ArdiumFormFieldFrameModule,
         _ClearButtonModule,
         ArdiumIconModule,
     ],
-    exports: [
-        ArdiumFileInputComponent
-    ]
+    exports: [ArdiumFileInputComponent],
 })
-export class ArdiumFileInputModule { }
+export class ArdiumFileInputModule {}

@@ -1,7 +1,4 @@
-import {
-    Directive,
-    Input
-} from '@angular/core';
+import { Directive, Input } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ButtonAppearance } from './general-button.types';
 import { _FocusableComponentBase } from '../_internal/focusable-component';

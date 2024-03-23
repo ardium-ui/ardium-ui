@@ -3,19 +3,15 @@ import { CommonModule } from '@angular/common';
 import { ArdiumProgressCircleComponent } from './progress-circle.component';
 import { ArdProgressCircleValueTemplateDirective } from './progress-circle.directive';
 
-
-
 @NgModule({
     declarations: [
         ArdiumProgressCircleComponent,
-        ArdProgressCircleValueTemplateDirective
+        ArdProgressCircleValueTemplateDirective,
     ],
-    imports: [
-        CommonModule
-    ],
+    imports: [CommonModule],
     exports: [
         ArdiumProgressCircleComponent,
-        ArdProgressCircleValueTemplateDirective
-    ]
+        ArdProgressCircleValueTemplateDirective,
+    ],
 })
-export class ArdiumProgressCircleModule { }
+export class ArdiumProgressCircleModule {}
