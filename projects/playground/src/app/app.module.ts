@@ -36,6 +36,7 @@ import { ProgressBarModule } from './pages/progress-bar/progress-bar.module';
 import { SpinnerModule } from './pages/spinner/spinner.module';
 import { ModalModule } from './pages/modal/modal.module';
 import { DialogModule } from './pages/dialog/dialog.module';
+import { SnackbarModule } from './pages/snackbar/snackbar.module';
 
 @NgModule({
     declarations: [
@@ -76,6 +77,7 @@ import { DialogModule } from './pages/dialog/dialog.module';
         SpinnerModule,
         ModalModule,
         DialogModule,
+        SnackbarModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

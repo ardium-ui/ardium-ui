@@ -13,7 +13,7 @@
     position: relative;
     cursor: pointer;
     outline: none;
-    
+
     //! button icon
     .ard-button-icon {
         @include defaultMixins.icon(1);
@@ -46,7 +46,7 @@
         background: transparent;
         color: var(--ard-cmpcl--content);
         border: none;
-        
+
         .ard-focus-overlay {
             background: var(--ard-cmpcl--overlay-colored);
         }
@@ -56,7 +56,7 @@
         background: var(--ard-cmpcl--bg);
         color: var(--ard-cmpcl--on-bg);
         border: none;
-        
+
         .ard-focus-overlay {
             background: var(--ard-cmpcl--on-bg);
         }
@@ -65,7 +65,7 @@
     &.ard-appearance-raised-strong {
         transition: box-shadow 0.28s $timing-fn;
         box-shadow: $simple-shadow;
-        
+
         &:hover,
         &:focus {
             box-shadow: $simple-shadow2;
@@ -107,6 +107,14 @@
         }
         &:focus-visible {
             outline: solid black;
+        }
+    }
+    //! light coloring
+    &.ard-appearance-transparent.ard-light-coloring {
+        color: var(--ard-cmpcl--content-light);
+
+        .ard-focus-overlay {
+            background: var(--ard-cmpcl--overlay-colored-light);
         }
     }
 }
