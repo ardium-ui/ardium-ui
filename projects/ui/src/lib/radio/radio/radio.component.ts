@@ -1,10 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    Input,
-    ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, ViewEncapsulation } from '@angular/core';
 import { _BooleanComponentBase } from '../../_internal/boolean-component';
 import { ComponentColor } from '../../types/colors.types';
 
@@ -28,10 +22,7 @@ export class ArdiumRadioComponent extends _BooleanComponentBase {
     @Input() color: ComponentColor = ComponentColor.Primary;
 
     get ngClasses(): string {
-        return [
-            `ard-color-${this.color}`,
-            `ard-radio-${this.selected ? 'selected' : 'unselected'}`,
-        ].join(' ');
+        return [`ard-color-${this.color}`, `ard-radio-${this.selected ? 'selected' : 'unselected'}`].join(' ');
     }
 
     //! event handlers

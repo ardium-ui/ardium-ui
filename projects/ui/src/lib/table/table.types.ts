@@ -62,8 +62,7 @@ export const TableAppearance = {
     Light: 'light',
     Colorless: 'colorless',
 } as const;
-export type TableAppearance =
-    (typeof TableAppearance)[keyof typeof TableAppearance];
+export type TableAppearance = (typeof TableAppearance)[keyof typeof TableAppearance];
 
 export const TableVariant = {
     Rounded: 'rounded',
@@ -75,8 +74,7 @@ export const TablePaginationStrategy = {
     Noop: 'noop',
     Slice: 'slice',
 } as const;
-export type TablePaginationStrategy =
-    (typeof TablePaginationStrategy)[keyof typeof TablePaginationStrategy];
+export type TablePaginationStrategy = (typeof TablePaginationStrategy)[keyof typeof TablePaginationStrategy];
 
 export const TableAlignType = {
     TopLeft: 'top-left',
@@ -89,5 +87,4 @@ export const TableAlignType = {
     BottomCenter: 'bottom-center',
     BottomRight: 'bottom-right',
 } as const;
-export type TableAlignType =
-    (typeof TableAlignType)[keyof typeof TableAlignType];
+export type TableAlignType = (typeof TableAlignType)[keyof typeof TableAlignType];

@@ -46,11 +46,7 @@ export const searchFunctions: {
      * @returns `true` if the item matches the search term, otherwise `false`.
      */
     byLabelAndGroup: (searchTerm: string, item: ArdOption) => {
-        return (
-            searchFunctions.byLabel(searchTerm, item) ||
-            (item.label !== item.value &&
-                searchFunctions.byValue(searchTerm, item))
-        );
+        return searchFunctions.byLabel(searchTerm, item) || (item.label !== item.value && searchFunctions.byValue(searchTerm, item));
     },
     /**
      * Determines if the item should appear in the search results, based on the label and value.
@@ -59,10 +55,7 @@ export const searchFunctions: {
      * @returns `true` if the item matches the search term, otherwise `false`.
      */
     byLabelAndValue: (searchTerm: string, item: ArdOption) => {
-        return (
-            searchFunctions.byLabel(searchTerm, item) ||
-            searchFunctions.byValue(searchTerm, item)
-        );
+        return searchFunctions.byLabel(searchTerm, item) || searchFunctions.byValue(searchTerm, item);
     },
     /**
      * Determines if the item should appear in the search results, based on the label, group, and value.
@@ -73,8 +66,7 @@ export const searchFunctions: {
     byLabelAndGroupAndValue: (searchTerm: string, item: ArdOption) => {
         return (
             searchFunctions.byLabel(searchTerm, item) ||
-            (item.label !== item.value &&
-                searchFunctions.byValue(searchTerm, item)) ||
+            (item.label !== item.value && searchFunctions.byValue(searchTerm, item)) ||
             searchFunctions.byGroup(searchTerm, item)
         );
     },

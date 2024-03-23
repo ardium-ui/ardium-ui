@@ -1,4 +1,4 @@
-@use "./coloring" as CM;
+@use './coloring' as CM;
 
 .ard-badge-host {
     position: relative;
@@ -65,16 +65,10 @@
         transform: translate(var(--ard-_badge-overlap-offset-x), 50%);
     }
     &.ard-badge-position-above-after {
-        transform: translate(
-            calc(-1 * var(--ard-_badge-overlap-offset-x)),
-            50%
-        );
+        transform: translate(calc(-1 * var(--ard-_badge-overlap-offset-x)), 50%);
     }
     &.ard-badge-position-below-after {
-        transform: translate(
-            calc(-1 * var(--ard-_badge-overlap-offset-x)),
-            -50%
-        );
+        transform: translate(calc(-1 * var(--ard-_badge-overlap-offset-x)), -50%);
     }
     &.ard-badge-position-below-before {
         transform: translate(var(--ard-_badge-overlap-offset-x), -50%);

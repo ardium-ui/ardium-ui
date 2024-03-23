@@ -1,6 +1,6 @@
-@use "./mixins" as defaultMixins;
-@use "./coloring" as coloringMixins;
-@use "./clear-button" as clearButton;
+@use './mixins' as defaultMixins;
+@use './coloring' as coloringMixins;
+@use './clear-button' as clearButton;
 
 //! general css
 .ard-chip-wrapper {
@@ -8,7 +8,7 @@
     @include clearButton.clearButton();
     @include defaultMixins.formVariants();
 
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     color: $text2;
     background: $bg;
     border-radius: var(--ard-_chip-border-radius);
@@ -54,7 +54,7 @@
             @include defaultMixins.icon;
 
             &::after {
-                content: "\e876";
+                content: '\e876';
             }
         }
     }

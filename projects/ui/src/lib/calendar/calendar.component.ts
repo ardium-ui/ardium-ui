@@ -60,10 +60,7 @@ function isLeapYear(year: number): boolean {
         },
     ],
 })
-export class ArdiumCalendarComponent
-    extends _NgModelComponentBase
-    implements OnInit, OnChanges
-{
+export class ArdiumCalendarComponent extends _NgModelComponentBase implements OnInit, OnChanges {
     ngOnInit(): void {
         this._updateCalendarArray();
         this._updateWeekdayArray();
@@ -86,17 +83,10 @@ export class ArdiumCalendarComponent
     todayDate: Date = new Date();
 
     isDayToday(day: number | null): boolean {
-        return (
-            this.activeYear == this.todayDate.getFullYear() &&
-            this.activeMonth == this.todayDate.getMonth() &&
-            day == this.todayDate.getDate()
-        );
+        return this.activeYear == this.todayDate.getFullYear() && this.activeMonth == this.todayDate.getMonth() && day == this.todayDate.getDate();
     }
     isMonthToday(month: number): boolean {
-        return (
-            this.activeYear == this.todayDate.getFullYear() &&
-            month == this.todayDate.getMonth()
-        );
+        return this.activeYear == this.todayDate.getFullYear() && month == this.todayDate.getMonth();
     }
     isYearToday(year: number): boolean {
         return year == this.todayDate.getFullYear();
@@ -114,11 +104,7 @@ export class ArdiumCalendarComponent
     }
     isMonthSelected(month: number | Date): boolean {
         if (month instanceof Date) month = month.getMonth();
-        return (
-            this.selected != null &&
-            this.activeYear == this.selected.getFullYear() &&
-            month == this.selected.getMonth()
-        );
+        return this.selected != null && this.activeYear == this.selected.getFullYear() && month == this.selected.getMonth();
     }
     isYearSelected(year: number | Date): boolean {
         if (year instanceof Date) year = year.getFullYear();
@@ -129,17 +115,12 @@ export class ArdiumCalendarComponent
     @Input() color: ComponentColor = ComponentColor.Primary;
 
     get ngClasses(): string {
-        return [
-            `ard-color-${this.color}`,
-            this.nointeract ? 'ard-calendar-nointeract' : '',
-            this.staticHeight ? 'ard-calendar-static-height' : '',
-        ].join(' ');
+        return [`ard-color-${this.color}`, this.nointeract ? 'ard-calendar-nointeract' : '', this.staticHeight ? 'ard-calendar-static-height' : ''].join(' ');
     }
 
     //! open year & month setters
     //pick a year range start so that the today date is always in the 3rd row
-    private readonly todayYearRangeStart: number =
-        this.todayDate.getFullYear() - (this.todayDate.getFullYear() % 4) - 8;
+    private readonly todayYearRangeStart: number = this.todayDate.getFullYear() - (this.todayDate.getFullYear() % 4) - 8;
 
     displayedYearRangeStart: number = this.todayYearRangeStart;
 
@@ -149,13 +130,7 @@ export class ArdiumCalendarComponent
         //add the difference between the active year and the start of the range for the current year
         //rounded to a multiple of 24, towards the number zero
         //the difference may be negative, if the active year is before todayYearRangeStart
-        this.displayedYearRangeStart =
-            this.todayYearRangeStart +
-            roundToMultiple(
-                this.activeYear - this.todayYearRangeStart,
-                24,
-                'to_zero',
-            );
+        this.displayedYearRangeStart = this.todayYearRangeStart + roundToMultiple(this.activeYear - this.todayYearRangeStart, 24, 'to_zero');
     }
 
     yearRangeArrayCache: number[] | null = null;
@@ -168,15 +143,10 @@ export class ArdiumCalendarComponent
         return this.yearRangeArrayCache;
     }
 
-    protected _activeDate: Date = new Date(
-        this.todayDate.getFullYear(),
-        this.todayDate.getMonth(),
-        this.todayDate.getDate(),
-    );
+    protected _activeDate: Date = new Date(this.todayDate.getFullYear(), this.todayDate.getMonth(), this.todayDate.getDate());
     set activeDate(v: Date | string | number) {
         const newDate = new Date(v);
-        if (this.activeYear != newDate.getFullYear())
-            this.yearRangeArrayCache = null;
+        if (this.activeYear != newDate.getFullYear()) this.yearRangeArrayCache = null;
         this._activeDate = newDate;
 
         this._updateCalendarArray();
@@ -223,30 +193,14 @@ export class ArdiumCalendarComponent
     writeValue(v: any): void {
         if (typeof v == 'string') {
             //try to see if it is an array of numbers separated by a comma
-            const vAsArray1 = v.split(',').map((v) => Number(v));
-            if (
-                vAsArray1.length >= 1 &&
-                vAsArray1.length <= 3 &&
-                vAsArray1.every((v) => !isNaN(v))
-            ) {
-                v = new Date(
-                    vAsArray1[0],
-                    vAsArray1[1] ?? 0,
-                    vAsArray1[2] ?? 1,
-                );
+            const vAsArray1 = v.split(',').map(v => Number(v));
+            if (vAsArray1.length >= 1 && vAsArray1.length <= 3 && vAsArray1.every(v => !isNaN(v))) {
+                v = new Date(vAsArray1[0], vAsArray1[1] ?? 0, vAsArray1[2] ?? 1);
             } else {
                 //try to see if it is an array of numbers separated by some whitespace
-                const vAsArray2 = v.split(/\s/).map((v) => Number(v));
-                if (
-                    vAsArray2.length >= 1 &&
-                    vAsArray2.length <= 3 &&
-                    vAsArray2.every((v) => !isNaN(v))
-                ) {
-                    v = new Date(
-                        vAsArray2[0],
-                        vAsArray2[1] ?? 0,
-                        vAsArray2[2] ?? 1,
-                    );
+                const vAsArray2 = v.split(/\s/).map(v => Number(v));
+                if (vAsArray2.length >= 1 && vAsArray2.length <= 3 && vAsArray2.every(v => !isNaN(v))) {
+                    v = new Date(vAsArray2[0], vAsArray2[1] ?? 0, vAsArray2[2] ?? 1);
                 } else {
                     v = new Date(v);
                 }
@@ -261,9 +215,7 @@ export class ArdiumCalendarComponent
             this._selected = null;
             return;
         }
-        console.warn(
-            `Could not parse [selected] value on <ard-calendar>, as it is not a valid value. Provided value: "${v}"`,
-        );
+        console.warn(`Could not parse [selected] value on <ard-calendar>, as it is not a valid value. Provided value: "${v}"`);
         this._selected = null;
     }
 
@@ -305,11 +257,9 @@ export class ArdiumCalendarComponent
 
         const date = new Date(this.activeYear, this.activeMonth, day);
 
-        if (this.activeYear != date.getFullYear())
-            this.activeYear = date.getFullYear();
+        if (this.activeYear != date.getFullYear()) this.activeYear = date.getFullYear();
 
-        if (this.activeMonth != date.getMonth())
-            this.activeMonth = date.getMonth();
+        if (this.activeMonth != date.getMonth()) this.activeMonth = date.getMonth();
     }
 
     private _highlightedMonth: number | null = null;
@@ -330,8 +280,7 @@ export class ArdiumCalendarComponent
 
         const date = new Date(this.activeYear, month, 1);
 
-        if (this.activeYear != date.getFullYear())
-            this.activeYear = date.getFullYear();
+        if (this.activeYear != date.getFullYear()) this.activeYear = date.getFullYear();
     }
 
     private _highlightedYear: number | null = null;
@@ -345,27 +294,16 @@ export class ArdiumCalendarComponent
     setHighlightedYearAdjustPage(year: number): void {
         this.highlightedYear = year;
 
-        if (
-            year < this.displayedYearRangeStart ||
-            year >= this.displayedYearRangeStart + 24
-        ) {
+        if (year < this.displayedYearRangeStart || year >= this.displayedYearRangeStart + 24) {
             //add the difference between the highlighted year and the displayed range start year
             //rounded to a multiple of 24, away from the number zero
             //the difference may be negative, if the first if condition is met
-            this.displayedYearRangeStart += roundToMultiple(
-                year - this.displayedYearRangeStart,
-                24,
-                'from_zero',
-            );
+            this.displayedYearRangeStart += roundToMultiple(year - this.displayedYearRangeStart, 24, 'from_zero');
         }
     }
 
     get currentAriaLabel(): string {
-        return new Date(
-            this.activeYear,
-            this.activeMonth,
-            this.highlightedDay ?? 1,
-        ).toLocaleDateString(undefined, {
+        return new Date(this.activeYear, this.activeMonth, this.highlightedDay ?? 1).toLocaleDateString(undefined, {
             weekday: 'long',
             year: 'numeric',
             month: 'long',
@@ -681,8 +619,7 @@ export class ArdiumCalendarComponent
         const oldyear = this.activeYear;
         this.activeMonth += offset;
 
-        if (this.activeYear != oldyear)
-            this.activeYearChange.emit(this.activeYear);
+        if (this.activeYear != oldyear) this.activeYearChange.emit(this.activeYear);
         this.activeMonthChange.emit(this.activeMonth);
     }
     changeYear(offset: number): void {
@@ -835,9 +772,7 @@ export class ArdiumCalendarComponent
             return;
         }
 
-        this.setHighlightedYearAdjustPage(
-            this.highlightedYear + (multiple ? 60 : 24),
-        );
+        this.setHighlightedYearAdjustPage(this.highlightedYear + (multiple ? 60 : 24));
     }
     highlightSameYearPreviousPage(multiple: boolean): void {
         if (!isDefined(this.highlightedYear)) {
@@ -845,9 +780,7 @@ export class ArdiumCalendarComponent
             return;
         }
 
-        this.setHighlightedYearAdjustPage(
-            this.highlightedYear - (multiple ? 60 : 24),
-        );
+        this.setHighlightedYearAdjustPage(this.highlightedYear - (multiple ? 60 : 24));
     }
 
     //! settings
@@ -903,11 +836,7 @@ export class ArdiumCalendarComponent
     getYearsArray(): number[] {
         const year = this.displayedYearRangeStart;
 
-        if (
-            this._yearsArrayCacheStartYear == year &&
-            isDefined(this._yearsArrayCache)
-        )
-            return this._yearsArrayCache;
+        if (this._yearsArrayCacheStartYear == year && isDefined(this._yearsArrayCache)) return this._yearsArrayCache;
 
         const newArray: number[] = [];
 
@@ -924,9 +853,7 @@ export class ArdiumCalendarComponent
     weekdayArray!: number[];
 
     protected _updateWeekdayArray(): void {
-        this.weekdayArray = [0, 1, 2, 3, 4, 5, 6].map(
-            (v) => (v + this.firstWeekday) % 7,
-        );
+        this.weekdayArray = [0, 1, 2, 3, 4, 5, 6].map(v => (v + this.firstWeekday) % 7);
     }
 
     //! change view functions
@@ -952,11 +879,7 @@ export class ArdiumCalendarComponent
 
         //emit events
         this.viewChange.emit(this.activeView);
-        if (
-            oldYear != this.activeYear &&
-            this.activeYear == this.todayDate.getFullYear()
-        )
-            this.activeYearChange.emit(this.activeYear);
+        if (oldYear != this.activeYear && this.activeYear == this.todayDate.getFullYear()) this.activeYearChange.emit(this.activeYear);
     }
     openDaysView(): void {
         this.activeView = CalendarView.Days;
@@ -968,16 +891,8 @@ export class ArdiumCalendarComponent
 
         //emit events
         this.viewChange.emit(this.activeView);
-        if (
-            oldYear != this.activeYear &&
-            this.activeYear == this.todayDate.getFullYear()
-        )
-            this.activeYearChange.emit(this.activeYear);
-        if (
-            oldMonth != this.activeMonth &&
-            this.activeMonth == this.todayDate.getMonth()
-        )
-            this.activeMonthChange.emit(this.activeMonth);
+        if (oldYear != this.activeYear && this.activeYear == this.todayDate.getFullYear()) this.activeYearChange.emit(this.activeYear);
+        if (oldMonth != this.activeMonth && this.activeMonth == this.todayDate.getMonth()) this.activeMonthChange.emit(this.activeMonth);
     }
 
     //! template customization

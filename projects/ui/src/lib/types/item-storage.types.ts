@@ -95,8 +95,7 @@ export const ArdPanelPosition = {
     Bottom: 'bottom',
     Auto: 'auto',
 } as const;
-export type ArdPanelPosition =
-    (typeof ArdPanelPosition)[keyof typeof ArdPanelPosition];
+export type ArdPanelPosition = (typeof ArdPanelPosition)[keyof typeof ArdPanelPosition];
 
 export type ArdItemGroupMap = Map<any, ArdOptionGroup>;
 

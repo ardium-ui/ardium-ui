@@ -1,10 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    HostListener,
-    OnInit,
-    ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { roundToPrecision } from 'more-rounding';
 import { isNumber, isObject } from 'simple-bool';
 import { _AbstractSlider } from '../abstract-slider';
@@ -18,15 +12,11 @@ import { isDefined } from 'simple-bool';
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumRangeSliderComponent
-    extends _AbstractSlider<SliderRange>
-    implements OnInit
-{
+export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> implements OnInit {
     protected _value: SliderRange = { low: -Infinity, high: Infinity };
 
     ngOnInit(): void {
-        if (this._value.low != -Infinity && this._value.high != Infinity)
-            return;
+        if (this._value.low != -Infinity && this._value.high != Infinity) return;
 
         this.writeValue({ low: this._min, high: this._max });
     }
@@ -36,12 +26,7 @@ export class ArdiumRangeSliderComponent
         return isObject(v) && isNumber(v['low']) && isNumber(v['high']);
     }
     private _isValidTuple(v: any): v is [number, number] {
-        return (
-            Array.isArray(v) &&
-            isNumber(v[0]) &&
-            isNumber(v[1]) &&
-            v.length == 2
-        );
+        return Array.isArray(v) && isNumber(v[0]) && isNumber(v[1]) && v.length == 2;
     }
     private _arrayValueToObjectValue(v: [number, number]): SliderRange {
         return { low: v[0], high: v[1] };
@@ -66,10 +51,7 @@ export class ArdiumRangeSliderComponent
         }
         let lowClamped = this._clampValue(low);
         let highClamped = this._clampValue(high);
-        let value: SliderRange = this._arrayValueToObjectValue([
-            lowClamped,
-            highClamped,
-        ]);
+        let value: SliderRange = this._arrayValueToObjectValue([lowClamped, highClamped]);
         this._value = value;
         this._positionPercent[0] = this._valueToPercent(lowClamped);
         this._positionPercent[1] = this._valueToPercent(highClamped);
@@ -113,11 +95,7 @@ export class ArdiumRangeSliderComponent
         return Math.min(...this._positionPercent) * 100 + '%';
     }
     get trackOverlayWidth(): string {
-        return (
-            Math.abs(this._positionPercent[0] - this._positionPercent[1]!) *
-                100 +
-            '%'
-        );
+        return Math.abs(this._positionPercent[0] - this._positionPercent[1]!) * 100 + '%';
     }
 
     //! event handlers
@@ -131,19 +109,13 @@ export class ArdiumRangeSliderComponent
         if (!this._shouldCheckForMovement) return;
         if (!this._bodyHasClass) {
             this._bodyHasClass = true;
-            this.renderer.addClass(
-                this.document.body,
-                'ard-prevent-touch-actions',
-            );
+            this.renderer.addClass(this.document.body, 'ard-prevent-touch-actions');
         }
         this._writeValueFromEvent(event, this._isGrabbed);
     }
 
     //! position calculators
-    protected _percentValueToValue(
-        percent: number,
-        handleId: number,
-    ): SliderRange {
+    protected _percentValueToValue(percent: number, handleId: number): SliderRange {
         const minMaxDifference = Math.abs(this._min - this._max);
         let newVal = percent * minMaxDifference + this._min;
         //round to 9 decimal places to avoid floating point arithmetic errors

@@ -3,10 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { ArdiumChipModule } from './../chip/chip.module';
 
-import {
-    ArdiumClickOutsideEventModule,
-    ArdiumInnerHTMLModule,
-} from '@ardium-ui/devkit';
+import { ArdiumClickOutsideEventModule, ArdiumInnerHTMLModule } from '@ardium-ui/devkit';
 import { ArdiumDropdownPanelModule } from '../dropdown-panel/dropdown-panel.module';
 import { ArdiumSelectComponent } from './select.component';
 import {

@@ -2,8 +2,7 @@ export const DigitInputShape = {
     Square: 'square',
     Rectangle: 'rectangle',
 } as const;
-export type DigitInputShape =
-    (typeof DigitInputShape)[keyof typeof DigitInputShape];
+export type DigitInputShape = (typeof DigitInputShape)[keyof typeof DigitInputShape];
 
 export const TransformType = {
     Uppercase: 'uppercase',
@@ -17,8 +16,7 @@ export const DigitInputPrimitiveOption = {
     Alphanumeric: 'alphanumeric',
     Special: 'special',
 } as const;
-export type DigitInputPrimitiveOption =
-    (typeof DigitInputPrimitiveOption)[keyof typeof DigitInputPrimitiveOption];
+export type DigitInputPrimitiveOption = (typeof DigitInputPrimitiveOption)[keyof typeof DigitInputPrimitiveOption];
 
 export type DigitInputAcceptObject = {
     accept: string | RegExp | ((char: string, charsBefore: string) => boolean);
@@ -29,7 +27,4 @@ export type DigitInputStaticObject = { static: string };
 
 export type DigitInputOption = DigitInputAcceptObject | DigitInputStaticObject;
 
-export type DigitInputConfig =
-    | (DigitInputPrimitiveOption | DigitInputOption)[]
-    | string
-    | number;
+export type DigitInputConfig = (DigitInputPrimitiveOption | DigitInputOption)[] | string | number;

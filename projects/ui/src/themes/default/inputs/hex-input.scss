@@ -1,6 +1,6 @@
-@use "./shared" as inputMixin;
-@use "../mixins" as defaultMixins;
-@use "../clear-button" as CB;
+@use './shared' as inputMixin;
+@use '../mixins' as defaultMixins;
+@use '../clear-button' as CB;
 
 .ard-hex-input {
     @include inputMixin.genericInput();

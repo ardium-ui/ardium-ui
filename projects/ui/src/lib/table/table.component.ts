@@ -15,17 +15,9 @@ import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { isDefined } from 'simple-bool';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
 import { CheckboxState } from '../checkbox/checkbox.types';
-import {
-    CurrentItemsFormatFn,
-    PaginationAlign,
-} from '../table-pagination/table-pagination.types';
+import { CurrentItemsFormatFn, PaginationAlign } from '../table-pagination/table-pagination.types';
 import { ComponentColor, SimpleComponentColor } from '../types/colors.types';
-import {
-    ArdTableRow,
-    HeaderCell,
-    TableItemStorage,
-    TableItemStorageHost,
-} from './table-item-storage';
+import { ArdTableRow, HeaderCell, TableItemStorage, TableItemStorageHost } from './table-item-storage';
 import {
     ArdiumTableCaptionTemplateDirective,
     ArdiumTableCheckboxTemplateDirective,
@@ -55,10 +47,7 @@ import { isTableSubheader } from './utils';
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumTableComponent
-    extends _FocusableComponentBase
-    implements TableItemStorageHost, AfterContentInit
-{
+export class ArdiumTableComponent extends _FocusableComponentBase implements TableItemStorageHost, AfterContentInit {
     private readonly _itemStorage = new TableItemStorage(this);
 
     readonly DEFAULTS = {
@@ -160,20 +149,14 @@ export class ArdiumTableComponent
         this._paginated = coerceBooleanProperty(v);
     }
 
-    @Input() paginationStrategy: TablePaginationStrategy =
-        TablePaginationStrategy.Noop;
+    @Input() paginationStrategy: TablePaginationStrategy = TablePaginationStrategy.Noop;
 
-    @Input() paginationOptions: number[] | { value: number; label: string }[] =
-        [10, 25, 50];
+    @Input() paginationOptions: number[] | { value: number; label: string }[] = [10, 25, 50];
     @Input() totalItems?: number;
     @Input() paginationColor: ComponentColor = ComponentColor.None;
     @Input() paginationAlign: PaginationAlign = PaginationAlign.Split;
     @Input() itemsPerPageText: string = 'Items per page:';
-    @Input() currentItemsFormatFn: CurrentItemsFormatFn = ({
-        currentItemsFirst,
-        currentItemsLast,
-        totalItems,
-    }) => {
+    @Input() currentItemsFormatFn: CurrentItemsFormatFn = ({ currentItemsFirst, currentItemsLast, totalItems }) => {
         return `${currentItemsFirst} – ${currentItemsLast} of ${totalItems}`;
     };
 
@@ -226,9 +209,7 @@ export class ArdiumTableComponent
 
     get isDefinedTotalItems(): boolean {
         return (
-            (this.paginationStrategy == TablePaginationStrategy.Noop &&
-                isDefined(this.totalItems)) ||
-            this.paginationStrategy != TablePaginationStrategy.Noop
+            (this.paginationStrategy == TablePaginationStrategy.Noop && isDefined(this.totalItems)) || this.paginationStrategy != TablePaginationStrategy.Noop
         );
     }
     get canDisplayPagination(): boolean {
@@ -302,42 +283,29 @@ export class ArdiumTableComponent
         const templates = Array.from(this.templateChildren);
         for (const instance of templates) {
             if (!instance.name) {
-                console.error(
-                    new Error(
-                        '[ard-table-tmp] requires a value to be specified.',
-                    ),
-                );
+                console.error(new Error('[ard-table-tmp] requires a value to be specified.'));
                 continue;
             }
             this._itemTemplates[instance.name] = instance.template;
         }
     }
 
-    getHeaderTemplate(
-        tmp: string | { template: string | TemplateRef<any> },
-    ): TemplateRef<any> | undefined {
+    getHeaderTemplate(tmp: string | { template: string | TemplateRef<any> }): TemplateRef<any> | undefined {
         if (typeof tmp == 'string') return undefined;
         return this.getCellTemplate(tmp.template);
     }
     getHeaderCheckboxColor(): SimpleComponentColor {
-        if (this.appearance == TableAppearance.Strong)
-            return SimpleComponentColor.CurrentColor;
+        if (this.appearance == TableAppearance.Strong) return SimpleComponentColor.CurrentColor;
         return this.color;
     }
-    getCellTemplate(
-        tmp?: string | TemplateRef<any>,
-    ): TemplateRef<any> | undefined {
+    getCellTemplate(tmp?: string | TemplateRef<any>): TemplateRef<any> | undefined {
         //return undefined
         if (!tmp) return undefined;
         //return template, if it is one
         if (tmp instanceof TemplateRef) return tmp;
         //check if the name can be found
         if (!(tmp in this._itemTemplates)) {
-            console.error(
-                new Error(
-                    `<ard-table> error: cannot find template named "${tmp}"`,
-                ),
-            );
+            console.error(new Error(`<ard-table> error: cannot find template named "${tmp}"`));
             return undefined;
         }
         //return the template
@@ -345,16 +313,9 @@ export class ArdiumTableComponent
     }
     getCellStyle(cell: TableDataColumn | TableSubheader): string {
         if (isTableSubheader(cell)) return 'width:unset;min-width:unset';
-        const width =
-            typeof cell.width == 'number' ? `${cell.width}px` : cell.width;
-        const minWidth =
-            typeof cell.minWidth == 'number'
-                ? `${cell.minWidth}px`
-                : cell.minWidth;
-        return [
-            `width:${width ?? 'unset'}`,
-            `min-width:${minWidth ?? 'unset'}`,
-        ].join(';');
+        const width = typeof cell.width == 'number' ? `${cell.width}px` : cell.width;
+        const minWidth = typeof cell.minWidth == 'number' ? `${cell.minWidth}px` : cell.minWidth;
+        return [`width:${width ?? 'unset'}`, `min-width:${minWidth ?? 'unset'}`].join(';');
     }
 
     //! click & hover handlers
@@ -416,9 +377,7 @@ export class ArdiumTableComponent
         this.selectedRowsChangeEvent.emit(v);
     }
     isCellCheckbox(cell: any): boolean {
-        return (
-            typeof cell == 'object' && '_ardCheckbox' in cell && 'index' in cell
-        );
+        return typeof cell == 'object' && '_ardCheckbox' in cell && 'index' in cell;
     }
     isHeaderCellCheckbox(cell: HeaderCell): boolean {
         const dataCell = cell.cell;
@@ -432,30 +391,16 @@ export class ArdiumTableComponent
         return dataCell.sortable ?? false;
     }
 
-    @Output('selectedRowsChange') selectedRowsChangeEvent = new EventEmitter<
-        any[]
-    >();
+    @Output('selectedRowsChange') selectedRowsChangeEvent = new EventEmitter<any[]>();
     @Output('failedSelectRow') failedSelectRowEvent = new EventEmitter<any[]>();
     @Output('selectRow') selectRowEvent = new EventEmitter<any[]>();
     @Output('unselectRow') unselectRowEvent = new EventEmitter<any[]>();
 
     //! contexts
-    getHeaderContext(
-        cell: TableDataColumn,
-        index: number,
-    ): TableHeaderContext | null;
-    getHeaderContext(
-        cell: TableSubheader,
-        index: number,
-    ): TableSubheaderContext | null;
-    getHeaderContext(
-        cell: TableDataColumn | TableSubheader,
-        index: number,
-    ): TableHeaderContext | TableSubheaderContext | null;
-    getHeaderContext(
-        cell: TableDataColumn | TableSubheader,
-        index: number,
-    ): TableHeaderContext | TableSubheaderContext | null {
+    getHeaderContext(cell: TableDataColumn, index: number): TableHeaderContext | null;
+    getHeaderContext(cell: TableSubheader, index: number): TableSubheaderContext | null;
+    getHeaderContext(cell: TableDataColumn | TableSubheader, index: number): TableHeaderContext | TableSubheaderContext | null;
+    getHeaderContext(cell: TableDataColumn | TableSubheader, index: number): TableHeaderContext | TableSubheaderContext | null {
         if (typeof cell.header != 'string') return null;
         if (isTableSubheader(cell))
             return {
@@ -467,8 +412,7 @@ export class ArdiumTableComponent
             header: cell.header,
             sortable: cell.sortable ?? false,
             sortType: this._itemStorage.getColumnSortType(index),
-            onTriggerSort: (event?: Event) =>
-                this._itemStorage.toggleCurrentSortColumn(index),
+            onTriggerSort: (event?: Event) => this._itemStorage.toggleCurrentSortColumn(index),
             onTriggerResetSort: (event?: Event) => {
                 this._itemStorage.resetSort();
                 event?.preventDefault();
@@ -493,7 +437,7 @@ export class ArdiumTableComponent
         };
     }
     getCheckboxContext(index: number): TableCheckboxContext {
-        const item = this._itemStorage.items.find((v) => v.index == index)!;
+        const item = this._itemStorage.items.find(v => v.index == index)!;
         const selected = item.selected ?? false;
         const disabled = item.disabled ?? false;
         return {

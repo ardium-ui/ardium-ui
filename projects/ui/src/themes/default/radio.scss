@@ -1,6 +1,6 @@
-@use "./coloring" as CM;
-@use "./mixins" as GM;
-@import "../variables";
+@use './coloring' as CM;
+@use './mixins' as GM;
+@import '../variables';
 
 ard-radio-group {
     display: flex;

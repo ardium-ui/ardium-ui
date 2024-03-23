@@ -7,12 +7,7 @@ import { A11yModule } from '@angular/cdk/a11y';
 
 @NgModule({
     declarations: [ArdiumModalComponent],
-    imports: [
-        CommonModule,
-        ArdiumIconButtonModule,
-        ArdiumIconModule,
-        A11yModule,
-    ],
+    imports: [CommonModule, ArdiumIconButtonModule, ArdiumIconModule, A11yModule],
     exports: [ArdiumModalComponent],
 })
 export class ArdiumModalModule {}

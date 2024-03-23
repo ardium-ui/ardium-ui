@@ -1,5 +1,5 @@
-@use "./mixins" as defaultMixins;
-@use "./coloring" as coloringMixins;
+@use './mixins' as defaultMixins;
+@use './coloring' as coloringMixins;
 
 .ard-slide-toggle {
     @include coloringMixins.typeColors();

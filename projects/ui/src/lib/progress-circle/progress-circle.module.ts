@@ -4,14 +4,8 @@ import { ArdiumProgressCircleComponent } from './progress-circle.component';
 import { ArdProgressCircleValueTemplateDirective } from './progress-circle.directive';
 
 @NgModule({
-    declarations: [
-        ArdiumProgressCircleComponent,
-        ArdProgressCircleValueTemplateDirective,
-    ],
+    declarations: [ArdiumProgressCircleComponent, ArdProgressCircleValueTemplateDirective],
     imports: [CommonModule],
-    exports: [
-        ArdiumProgressCircleComponent,
-        ArdProgressCircleValueTemplateDirective,
-    ],
+    exports: [ArdiumProgressCircleComponent, ArdProgressCircleValueTemplateDirective],
 })
 export class ArdiumProgressCircleModule {}

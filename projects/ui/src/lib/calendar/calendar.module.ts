@@ -8,12 +8,7 @@ import { ArdiumIconButtonModule } from '../buttons/icon-button/icon-button.modul
 
 @NgModule({
     declarations: [ArdiumCalendarComponent],
-    imports: [
-        CommonModule,
-        ArdiumButtonModule,
-        ArdiumIconButtonModule,
-        ArdiumIconModule,
-    ],
+    imports: [CommonModule, ArdiumButtonModule, ArdiumIconButtonModule, ArdiumIconModule],
     exports: [ArdiumCalendarComponent],
 })
 export class ArdiumCalendarModule {}

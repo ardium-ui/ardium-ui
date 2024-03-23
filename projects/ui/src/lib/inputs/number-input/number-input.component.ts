@@ -14,15 +14,9 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import {
-    ButtonVariant,
-    ButtonAppearance,
-} from '../../buttons/general-button.types';
+import { ButtonVariant, ButtonAppearance } from '../../buttons/general-button.types';
 import { OneAxisAlignment } from '../../types/alignment.types';
-import {
-    FormElementAppearance,
-    FormElementVariant,
-} from '../../types/theming.types';
+import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { NumberInputModel, NumberInputModelHost } from '../input-utils';
 import { isDefined, isFloat } from 'simple-bool';
@@ -43,19 +37,13 @@ import { roundToPrecision } from 'more-rounding';
         },
     ],
 })
-export class ArdiumNumberInputComponent
-    extends _NgModelComponentBase
-    implements ControlValueAccessor, NumberInputModelHost, OnInit
-{
+export class ArdiumNumberInputComponent extends _NgModelComponentBase implements ControlValueAccessor, NumberInputModelHost, OnInit {
     //! input view
     @ViewChild('textInput', { static: true })
     textInputEl!: ElementRef<HTMLInputElement>;
     protected inputModel!: NumberInputModel;
     ngOnInit(): void {
-        this.inputModel = new NumberInputModel(
-            this.textInputEl.nativeElement,
-            this,
-        );
+        this.inputModel = new NumberInputModel(this.textInputEl.nativeElement, this);
         this._setInputAttributes();
         //set the value
         if (this._valueBeforeInit) {
@@ -103,19 +91,13 @@ export class ArdiumNumberInputComponent
     }
 
     get buttonVariant(): ButtonVariant {
-        if (this.variant == FormElementVariant.Rounded)
-            return ButtonVariant.Rounded;
+        if (this.variant == FormElementVariant.Rounded) return ButtonVariant.Rounded;
         if (this.variant == FormElementVariant.Pill) return ButtonVariant.Pill;
-        if (this.variant == FormElementVariant.Sharp)
-            return ButtonVariant.Sharp;
+        if (this.variant == FormElementVariant.Sharp) return ButtonVariant.Sharp;
         return ButtonVariant.Rounded;
     }
     get buttonAppearance(): ButtonAppearance {
-        if (
-            this.appearance == FormElementAppearance.Outlined &&
-            this.variant != FormElementVariant.Pill
-        )
-            return ButtonAppearance.Outlined;
+        if (this.appearance == FormElementAppearance.Outlined && this.variant != FormElementVariant.Pill) return ButtonAppearance.Outlined;
         return ButtonAppearance.Transparent;
     }
 
@@ -273,11 +255,9 @@ export class ArdiumNumberInputComponent
             this.value &&
             //does the selection cover the entire input
             ((this.textInputEl.nativeElement.selectionStart == 0 &&
-                this.textInputEl.nativeElement.selectionEnd ==
-                    this.textInputEl.nativeElement.value.length) ||
+                this.textInputEl.nativeElement.selectionEnd == this.textInputEl.nativeElement.value.length) ||
                 //or is zero-wide
-                this.textInputEl.nativeElement.selectionStart ==
-                    this.textInputEl.nativeElement.selectionEnd)
+                this.textInputEl.nativeElement.selectionStart == this.textInputEl.nativeElement.selectionEnd)
         ) {
             event.clipboardData?.setData('text/plain', String(this.value));
             event.preventDefault();

@@ -16,10 +16,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { isAnyString, isDefined } from 'simple-bool';
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
-import {
-    FormElementAppearance,
-    FormElementVariant,
-} from '../../types/theming.types';
+import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import {
     ArdPasswordInputPlaceholderTemplateDirective,
     ArdPasswordInputPrefixTemplateDirective,
@@ -42,10 +39,7 @@ import { PasswordInputRevealButtonContext } from './password-input.types';
         },
     ],
 })
-export class ArdiumPasswordInputComponent
-    extends _NgModelComponentBase
-    implements ControlValueAccessor, OnInit
-{
+export class ArdiumPasswordInputComponent extends _NgModelComponentBase implements ControlValueAccessor, OnInit {
     //! input view
     @ViewChild('textInput', { static: true })
     textInputEl!: ElementRef<HTMLInputElement>;
@@ -155,11 +149,7 @@ export class ArdiumPasswordInputComponent
     //! control value accessor's write value implementation
     writeValue(v: any) {
         if (!isAnyString(v) && isDefined(v)) {
-            console.error(
-                new Error(
-                    `Error using <ard-password-input>: Unexpected value type ${typeof v}.`,
-                ),
-            );
+            console.error(new Error(`Error using <ard-password-input>: Unexpected value type ${typeof v}.`));
             return;
         }
         this._writeValue(v);
@@ -211,11 +201,9 @@ export class ArdiumPasswordInputComponent
             this.value &&
             //does the selection cover the entire input
             ((this.textInputEl.nativeElement.selectionStart == 0 &&
-                this.textInputEl.nativeElement.selectionEnd ==
-                    this.textInputEl.nativeElement.value.length) ||
+                this.textInputEl.nativeElement.selectionEnd == this.textInputEl.nativeElement.value.length) ||
                 //or is zero-wide
-                this.textInputEl.nativeElement.selectionStart ==
-                    this.textInputEl.nativeElement.selectionEnd)
+                this.textInputEl.nativeElement.selectionStart == this.textInputEl.nativeElement.selectionEnd)
         ) {
             event.clipboardData?.setData('text/plain', this.value);
             event.preventDefault();

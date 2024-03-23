@@ -1,12 +1,12 @@
-@use "./mixins" as defaultMixins;
-@use "./coloring" as coloringMixins;
-@import "../variables";
+@use './mixins' as defaultMixins;
+@use './coloring' as coloringMixins;
+@import '../variables';
 
 .ard-segment-container {
     @include coloringMixins.typeColors();
     --ard-_segment-padding: 0.15rem;
     padding: var(--ard-_segment-padding);
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin: 2px;
     border: 1px solid transparent;
     font-weight: 500;
@@ -157,69 +157,43 @@
                 &:first-child {
                     .ard-segment-option {
                         &:first-child {
-                            border-top-left-radius: var(
-                                --ard-variant-border-radius
-                            ) !important;
+                            border-top-left-radius: var(--ard-variant-border-radius) !important;
                         }
                         &:last-child {
-                            border-top-right-radius: var(
-                                --ard-variant-border-radius
-                            ) !important;
+                            border-top-right-radius: var(--ard-variant-border-radius) !important;
                         }
                         &:first-child:last-child {
-                            border-top-right-radius: var(
-                                --ard-variant-border-radius
-                            ) !important;
-                            border-top-left-radius: var(
-                                --ard-variant-border-radius
-                            ) !important;
+                            border-top-right-radius: var(--ard-variant-border-radius) !important;
+                            border-top-left-radius: var(--ard-variant-border-radius) !important;
                         }
                     }
                 }
                 &:last-child {
                     .ard-segment-option {
                         &:first-child {
-                            border-bottom-left-radius: var(
-                                --ard-variant-border-radius
-                            ) !important;
+                            border-bottom-left-radius: var(--ard-variant-border-radius) !important;
                         }
                         &:last-child {
-                            border-bottom-right-radius: var(
-                                --ard-variant-border-radius
-                            ) !important;
+                            border-bottom-right-radius: var(--ard-variant-border-radius) !important;
                         }
                         &:first-child:last-child {
-                            border-bottom-right-radius: var(
-                                --ard-variant-border-radius
-                            ) !important;
-                            border-bottom-left-radius: var(
-                                --ard-variant-border-radius
-                            ) !important;
+                            border-bottom-right-radius: var(--ard-variant-border-radius) !important;
+                            border-bottom-left-radius: var(--ard-variant-border-radius) !important;
                         }
                     }
                 }
                 &:first-child:last-child {
                     .ard-segment-option {
                         &:first-child {
-                            border-top-left-radius: var(
-                                --ard-variant-border-radius
-                            ) !important;
-                            border-bottom-left-radius: var(
-                                --ard-variant-border-radius
-                            ) !important;
+                            border-top-left-radius: var(--ard-variant-border-radius) !important;
+                            border-bottom-left-radius: var(--ard-variant-border-radius) !important;
                         }
                         &:last-child {
-                            border-top-right-radius: var(
-                                --ard-variant-border-radius
-                            ) !important;
-                            border-bottom-right-radius: var(
-                                --ard-variant-border-radius
-                            ) !important;
+                            border-top-right-radius: var(--ard-variant-border-radius) !important;
+                            border-bottom-right-radius: var(--ard-variant-border-radius) !important;
                         }
                         &:first-child:last-child {
-                            border-radius: var(
-                                --ard-variant-border-radius
-                            ) !important;
+                            border-radius: var(--ard-variant-border-radius) !important;
                         }
                     }
                 }
@@ -236,7 +210,7 @@
         position: relative;
 
         &::before {
-            content: "";
+            content: '';
             position: absolute;
             top: 0;
             bottom: 0;
@@ -305,14 +279,7 @@
 
         .ard-segment-row {
             .ard-segment-option {
-                border-radius: max(
-                    1px,
-                    calc(
-                        var(--ard-variant-border-radius) - var(
-                                --ard-_segment-padding
-                            )
-                    )
-                );
+                border-radius: max(1px, calc(var(--ard-variant-border-radius) - var(--ard-_segment-padding)));
             }
         }
     }

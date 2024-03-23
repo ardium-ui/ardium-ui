@@ -1,26 +1,8 @@
 import { ElementRef, QueryList } from '@angular/core';
 import { coerceArrayProperty } from '@ardium-ui/devkit';
-import {
-    isAnyString,
-    isArray,
-    isDefined,
-    isFunction,
-    isNull,
-    isNumber,
-    isRegExp,
-} from 'simple-bool';
-import {
-    DigitInputConfigDataType,
-    DigitInputModelHost,
-    _sanitizeRegExpString,
-} from './digit-input.utils';
-import {
-    DigitInputAcceptObject,
-    DigitInputConfig,
-    DigitInputOption,
-    DigitInputPrimitiveOption,
-    TransformType,
-} from './digit-input.types';
+import { isAnyString, isArray, isDefined, isFunction, isNull, isNumber, isRegExp } from 'simple-bool';
+import { DigitInputConfigDataType, DigitInputModelHost, _sanitizeRegExpString } from './digit-input.utils';
+import { DigitInputAcceptObject, DigitInputConfig, DigitInputOption, DigitInputPrimitiveOption, TransformType } from './digit-input.types';
 
 export class DigitInputModel {
     constructor(private _ardHost: DigitInputModelHost) {}
@@ -28,16 +10,14 @@ export class DigitInputModel {
     private _configArray: DigitInputOption[] = [];
     private set configArray(arr: DigitInputOption[]) {
         this._configArray = arr;
-        this._configArrayNoStatics = arr.filter(
-            (v) => !('static' in v),
-        ) as DigitInputAcceptObject[];
+        this._configArrayNoStatics = arr.filter(v => !('static' in v)) as DigitInputAcceptObject[];
         this.setConfigArrayData();
     }
     private _configArrayNoStatics: DigitInputAcceptObject[] = [];
 
     setConfigArrayData() {
         let inputIndex = 0;
-        this._ardHost.configArrayData = this._configArray.map((v) => {
+        this._ardHost.configArrayData = this._configArray.map(v => {
             if ('static' in v) {
                 return {
                     type: DigitInputConfigDataType.Static,
@@ -68,7 +48,7 @@ export class DigitInputModel {
         if (isNull(this._stringValueMemo)) {
             const v =
                 this.value
-                    ?.map((v) => v ?? ' ')
+                    ?.map(v => v ?? ' ')
                     .join('')
                     .trimEnd() ?? '';
             this._stringValueMemo = v;
@@ -77,10 +57,7 @@ export class DigitInputModel {
     }
 
     get isValueFull(): boolean {
-        return (
-            isDefined(this.value) &&
-            this.value.length === this._configArrayNoStatics.length
-        );
+        return isDefined(this.value) && this.value.length === this._configArrayNoStatics.length;
     }
 
     isDefinedAtIndex(index: number): boolean {
@@ -90,28 +67,22 @@ export class DigitInputModel {
     writeValue(v: any): boolean {
         if (!isArray(v) && !isAnyString(v) && !isNull(v)) {
             //warn when using non-string/non-null value
-            console.warn(
-                new Error(
-                    `ARD-WA041: Trying to set <ard-digit-input>'s value to ${typeof v}, expected string or array strings.`,
-                ),
-            );
+            console.warn(new Error(`ARD-WA041: Trying to set <ard-digit-input>'s value to ${typeof v}, expected string or array strings.`));
             //normalize the value
             v = v?.toString?.() ?? String(v);
         }
         const vArray = coerceArrayProperty(v);
-        const problemIndex = vArray.findIndex(
-            (el) => !isAnyString(el) || el.length > 1,
-        );
+        const problemIndex = vArray.findIndex(el => !isAnyString(el) || el.length > 1);
         if (problemIndex != -1) {
             throw new Error(
-                `ARD-FT042: Array passed to <ard-digit-input>'s value must only contain strings of length 1 or 0. Element at index ${problemIndex} does not match those requirements.`,
+                `ARD-FT042: Array passed to <ard-digit-input>'s value must only contain strings of length 1 or 0. Element at index ${problemIndex} does not match those requirements.`
             );
         }
         return this._writeValue(vArray);
     }
     private _writeValue(v: string[] | null): boolean {
         let oldVal = this.value;
-        this.value = v && v.map((el) => el || null);
+        this.value = v && v.map(el => el || null);
         this.validateValueAndUpdate();
         this._updateInputElements();
         return oldVal !== v;
@@ -139,7 +110,7 @@ export class DigitInputModel {
             this.configArray = 'a'
                 .repeat(configAsNumber)
                 .split('')
-                .map(() => ({ accept: (str) => /[0-9]/.test(str) }));
+                .map(() => ({ accept: str => /[0-9]/.test(str) }));
             return;
         }
         //map a string to an array
@@ -153,44 +124,34 @@ export class DigitInputModel {
         this.configArray = configArr.map((v, i) => {
             if (!isAnyString(v)) {
                 if ('accept' in v && !isFunction(v.accept)) {
-                    const regExp = isRegExp(v.accept)
-                        ? v.accept
-                        : new RegExp(`[${_sanitizeRegExpString(v.accept)}]`);
-                    v.accept = (str) => regExp.test(str);
+                    const regExp = isRegExp(v.accept) ? v.accept : new RegExp(`[${_sanitizeRegExpString(v.accept)}]`);
+                    v.accept = str => regExp.test(str);
                 }
                 return v;
             }
 
             switch (v) {
                 case DigitInputPrimitiveOption.Number:
-                    return { accept: (str) => /[0-9]/.test(str) };
+                    return { accept: str => /[0-9]/.test(str) };
                 case DigitInputPrimitiveOption.Letter:
-                    return { accept: (str) => /[a-zA-Z]/.test(str) };
+                    return { accept: str => /[a-zA-Z]/.test(str) };
                 case DigitInputPrimitiveOption.Alphanumeric:
-                    return { accept: (str) => /[0-9a-zA-Z]/.test(str) };
+                    return { accept: str => /[0-9a-zA-Z]/.test(str) };
                 case DigitInputPrimitiveOption.Special:
-                    return { accept: (str) => /[!@#$%^&*-_=+/\\.,]/.test(str) };
+                    return { accept: str => /[!@#$%^&*-_=+/\\.,]/.test(str) };
 
                 default:
                     if (configArr.length == 1) {
-                        throw new Error(
-                            `ARD-NF043S: <ard-digit-input>'s config is invalid. Expected number or array, got "${v}"`,
-                        );
+                        throw new Error(`ARD-NF043S: <ard-digit-input>'s config is invalid. Expected number or array, got "${v}"`);
                     }
-                    throw new Error(
-                        `ARD-NF043B: Found invalid string in <ard-digit-input>'s config: "${v}" at index ${i}`,
-                    );
+                    throw new Error(`ARD-NF043B: Found invalid string in <ard-digit-input>'s config: "${v}" at index ${i}`);
             }
         });
     }
 
     //! validate against the config
-    validateInputAndSetValue(
-        input: string,
-        index: number,
-    ): false | [boolean, string | null] {
-        if (index < 0 || index > this._configArrayNoStatics.length)
-            return false;
+    validateInputAndSetValue(input: string, index: number): false | [boolean, string | null] {
+        if (index < 0 || index > this._configArrayNoStatics.length) return false;
 
         //prepare the value array if does not exist
         if (!this.value) {
@@ -199,7 +160,7 @@ export class DigitInputModel {
         //prepare the characters before the current one (to be used in validation)
         const before = this.value
             .slice(0, index)
-            .map((v) => v ?? ' ')
+            .map(v => v ?? ' ')
             .join('');
 
         //remove the old character from the input element
@@ -211,17 +172,13 @@ export class DigitInputModel {
         input = input.charAt(0);
 
         //validate and transform, if necessary
-        const inputChar = this._validateSingleChar(
-            input,
-            before,
-            this._configArrayNoStatics[index],
-        );
+        const inputChar = this._validateSingleChar(input, before, this._configArrayNoStatics[index]);
 
         //get the corresponding HTML input element
         const inputEl = this._ardHost.inputs.get(index);
         if (!inputEl) {
             throw new Error(
-                "ARD-IS048: <ard-digit-input>'s value changed, but its corresponding input element could not be found. This is error is fatal to the functioning of Ardium UI. Please report this issue to the creators.",
+                "ARD-IS048: <ard-digit-input>'s value changed, but its corresponding input element could not be found. This is error is fatal to the functioning of Ardium UI. Please report this issue to the creators."
             );
         }
         //update the input element and value array
@@ -238,11 +195,7 @@ export class DigitInputModel {
 
         let before = '';
         const newValue: (string | null)[] = [];
-        for (
-            let i = 0;
-            i < Math.min(this._configArrayNoStatics.length, v.length);
-            i++
-        ) {
+        for (let i = 0; i < Math.min(this._configArrayNoStatics.length, v.length); i++) {
             const char = v[i];
             before += char ?? ' ';
 
@@ -257,23 +210,17 @@ export class DigitInputModel {
         }
         this.value = newValue;
     }
-    private _validateSingleChar(
-        char: string | null,
-        before: string,
-        config: DigitInputAcceptObject,
-    ): string | null {
+    private _validateSingleChar(char: string | null, before: string, config: DigitInputAcceptObject): string | null {
         if (config.readonly) {
             throw new Error(
-                `ARD-IS049R: trying to set value of a digit-input's readonly field. This is error is fatal to the functioning of Ardium UI. Please report this issue to the creators.`,
+                `ARD-IS049R: trying to set value of a digit-input's readonly field. This is error is fatal to the functioning of Ardium UI. Please report this issue to the creators.`
             );
         }
         if (!isFunction(config.accept)) {
-            const regExp = isRegExp(config.accept)
-                ? config.accept
-                : new RegExp(`[${_sanitizeRegExpString(config.accept)}]`);
-            config.accept = (str) => regExp.test(str);
+            const regExp = isRegExp(config.accept) ? config.accept : new RegExp(`[${_sanitizeRegExpString(config.accept)}]`);
+            config.accept = str => regExp.test(str);
             console.warn(
-                `ARD-IS049A: digit-input's value validator encountered an unexpected value of the config's "accept" property. Ardium UI was able to handle this issue, but please report it to the creators.`,
+                `ARD-IS049A: digit-input's value validator encountered an unexpected value of the config's "accept" property. Ardium UI was able to handle this issue, but please report it to the creators.`
             );
         }
         if (!char) return char;
@@ -289,7 +236,7 @@ export class DigitInputModel {
                 return char.toUpperCase();
             }
             console.warn(
-                `ARD-IS049T: digit-input's value validator encountered an unexpected value of the config's "transform" property. Ardium UI was able to handle this issue, but please report it to the creators.`,
+                `ARD-IS049T: digit-input's value validator encountered an unexpected value of the config's "transform" property. Ardium UI was able to handle this issue, but please report it to the creators.`
             );
         }
         return char;

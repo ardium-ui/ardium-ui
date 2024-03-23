@@ -1,9 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    Input,
-    ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { StarColor, StarFillMode } from './star.types';
 
 @Component({
@@ -21,8 +16,6 @@ export class ArdiumStarComponent {
     @Input() color: StarColor = StarColor.Star;
 
     get ngClasses(): string {
-        return [`ard-color-${this.color}`, `ard-star-fill-${this.fill}`].join(
-            ' ',
-        );
+        return [`ard-color-${this.color}`, `ard-star-fill-${this.fill}`].join(' ');
     }
 }

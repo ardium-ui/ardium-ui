@@ -1,14 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    ViewEncapsulation,
-    OnChanges,
-    AfterViewChecked,
-    OnDestroy,
-    ElementRef,
-    Input,
-    SimpleChanges,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, OnChanges, AfterViewChecked, OnDestroy, ElementRef, Input, SimpleChanges } from '@angular/core';
 import { Subject } from 'rxjs';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 
@@ -18,9 +8,7 @@ import { coerceBooleanProperty } from '@ardium-ui/devkit';
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumOptionComponent
-    implements OnChanges, AfterViewChecked, OnDestroy
-{
+export class ArdiumOptionComponent implements OnChanges, AfterViewChecked, OnDestroy {
     constructor(private elementRef: ElementRef<HTMLElement>) {}
 
     private _value: any;
@@ -41,10 +29,7 @@ export class ArdiumOptionComponent
         this._label = v?.toString?.() ?? String(v);
     }
     get label(): string {
-        return (
-            this._label ??
-            (this.elementRef.nativeElement.innerHTML || '').trim()
-        );
+        return this._label ?? (this.elementRef.nativeElement.innerHTML || '').trim();
     }
 
     private _disabled: boolean = false;

@@ -1,12 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    ContentChild,
-    HostBinding,
-    Input,
-    TemplateRef,
-    ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ContentChild, HostBinding, Input, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { ComponentColor } from '../types/colors.types';
 import { ArdOptionSimple } from '../types/item-storage.types';
@@ -28,10 +20,7 @@ type SegmentRow = {
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumSegmentComponent
-    extends _SelectableListComponentBase
-    implements SimpleItemStorageHost
-{
+export class ArdiumSegmentComponent extends _SelectableListComponentBase implements SimpleItemStorageHost {
     //! appearance
     @Input() appearance: SegmentAppearance = SegmentAppearance.Outlined;
     @Input() variant: SegmentVariant = SegmentVariant.RoundedConnected;

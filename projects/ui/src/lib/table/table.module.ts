@@ -21,12 +21,7 @@ import { ArdiumIconModule } from '../icon/icon.module';
         ArdiumTableCaptionTemplateDirective,
         ArdiumTablePaginationTemplateDirective,
     ],
-    imports: [
-        CommonModule,
-        ArdiumCheckboxModule,
-        ArdiumTablePaginationModule,
-        ArdiumIconModule,
-    ],
+    imports: [CommonModule, ArdiumCheckboxModule, ArdiumTablePaginationModule, ArdiumIconModule],
     exports: [
         ArdiumTableComponent,
         ArdiumTableTemplateDirective,

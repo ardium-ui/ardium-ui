@@ -15,8 +15,7 @@ export const DigitInputConfigDataType = {
     Input: 'input',
     Static: 'static',
 } as const;
-export type DigitInputConfigDataType =
-    (typeof DigitInputConfigDataType)[keyof typeof DigitInputConfigDataType];
+export type DigitInputConfigDataType = (typeof DigitInputConfigDataType)[keyof typeof DigitInputConfigDataType];
 
 export function _sanitizeRegExpString(str: string): string {
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

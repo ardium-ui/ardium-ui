@@ -1,10 +1,5 @@
 import { InjectionToken } from '@angular/core';
-import {
-    ArdSnackbarAlignment,
-    ArdSnackbarOptions,
-    ArdSnackbarOriginRelation,
-    ArdSnackbarQueueHandling,
-} from './snackbar.types';
+import { ArdSnackbarAlignment, ArdSnackbarOptions, ArdSnackbarOriginRelation, ArdSnackbarQueueHandling } from './snackbar.types';
 
 export const _DEFAULT_OPTIONS_STATIC = {
     placement: {
@@ -18,15 +13,10 @@ export const _DEFAULT_OPTIONS_STATIC = {
     data: { message: null },
 } as unknown as Required<ArdSnackbarOptions>;
 
-export const ARD_SNACKBAR_DEFAULT_OPTIONS = new InjectionToken<
-    Required<ArdSnackbarOptions>
->('ard-snackbar-default-options', {
+export const ARD_SNACKBAR_DEFAULT_OPTIONS = new InjectionToken<Required<ArdSnackbarOptions>>('ard-snackbar-default-options', {
     factory: () => ({ ..._DEFAULT_OPTIONS_STATIC }),
 });
 
-export const ARD_SNACKBAR_ANIMATION_LENGTH = new InjectionToken<number>(
-    'ard-snackbar-animation-length',
-    {
-        factory: () => 150,
-    },
-);
+export const ARD_SNACKBAR_ANIMATION_LENGTH = new InjectionToken<number>('ard-snackbar-animation-length', {
+    factory: () => 150,
+});

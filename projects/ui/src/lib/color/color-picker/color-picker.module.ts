@@ -20,13 +20,7 @@ import {
         ArdColorPickerColorReferenceTemplateDirective,
         ArdColorPickerOpacityIndicatorTemplateDirective,
     ],
-    imports: [
-        CommonModule,
-        ArdiumSelectModule,
-        ArdiumOptionModule,
-        ArdiumNumberInputModule,
-        ArdiumHexInputModule,
-    ],
+    imports: [CommonModule, ArdiumSelectModule, ArdiumOptionModule, ArdiumNumberInputModule, ArdiumHexInputModule],
     exports: [
         ArdiumColorPickerComponent,
         ArdColorPickerHueIndicatorTemplateDirective,

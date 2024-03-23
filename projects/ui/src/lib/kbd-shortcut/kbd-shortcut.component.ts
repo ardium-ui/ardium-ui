@@ -1,12 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    ViewEncapsulation,
-    AfterViewInit,
-    ViewChild,
-    ElementRef,
-    Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, AfterViewInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { FormElementAppearance } from '../types/theming.types';
 
@@ -21,10 +13,7 @@ export class ArdiumKbdShortcutComponent implements AfterViewInit {
     @ViewChild('contentWrapper') contentWrapper!: ElementRef<HTMLElement>;
 
     ngAfterViewInit(): void {
-        if (!this.keys && !this.contentWrapper.nativeElement.innerText)
-            console.warn(
-                `Using <ard-kbd-shortcut> without specifying the [keys] field.`,
-            );
+        if (!this.keys && !this.contentWrapper.nativeElement.innerText) console.warn(`Using <ard-kbd-shortcut> without specifying the [keys] field.`);
     }
 
     readonly splitRegex = /[+ ]/;

@@ -7,12 +7,7 @@ import { ArdiumIconModule } from '../../icon/icon.module';
 
 @NgModule({
     declarations: [ArdiumFileInputComponent],
-    imports: [
-        CommonModule,
-        ArdiumFormFieldFrameModule,
-        _ClearButtonModule,
-        ArdiumIconModule,
-    ],
+    imports: [CommonModule, ArdiumFormFieldFrameModule, _ClearButtonModule, ArdiumIconModule],
     exports: [ArdiumFileInputComponent],
 })
 export class ArdiumFileInputModule {}

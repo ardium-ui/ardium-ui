@@ -9,23 +9,20 @@ export const ArdSnackbarAlignment = {
     BottomCenter: 'bottom-center',
     BottomRight: 'bottom-right',
 } as const;
-export type ArdSnackbarAlignment =
-    (typeof ArdSnackbarAlignment)[keyof typeof ArdSnackbarAlignment];
+export type ArdSnackbarAlignment = (typeof ArdSnackbarAlignment)[keyof typeof ArdSnackbarAlignment];
 
 export const ArdSnackbarOriginRelation = {
     Inside: 'inside',
     Outside: 'outside',
 } as const;
-export type ArdSnackbarOriginRelation =
-    (typeof ArdSnackbarOriginRelation)[keyof typeof ArdSnackbarOriginRelation];
+export type ArdSnackbarOriginRelation = (typeof ArdSnackbarOriginRelation)[keyof typeof ArdSnackbarOriginRelation];
 
 export const ArdSnackbarQueueHandling = {
     Default: 'default',
     Skip: 'skip',
     Overwrite: 'overwrite',
 } as const;
-export type ArdSnackbarQueueHandling =
-    (typeof ArdSnackbarQueueHandling)[keyof typeof ArdSnackbarQueueHandling];
+export type ArdSnackbarQueueHandling = (typeof ArdSnackbarQueueHandling)[keyof typeof ArdSnackbarQueueHandling];
 
 export type ArdSnackbarOrigin<T = any> = HTMLElement | ElementRef<T>;
 
@@ -36,8 +33,7 @@ export const ArdSnackbarType = {
     Success: 'success',
     Info: 'info',
 } as const;
-export type ArdSnackbarType =
-    (typeof ArdSnackbarType)[keyof typeof ArdSnackbarType];
+export type ArdSnackbarType = (typeof ArdSnackbarType)[keyof typeof ArdSnackbarType];
 
 export type ArdSnackbarData = { message: string; action?: string };
 

@@ -57,33 +57,21 @@ export class SimplestItemStorage {
     private _primitiveItemsMapFn<T>(item: T): { value: T } {
         return { value: item };
     }
-    private _setItemsMapFn(
-        rawItemData: any,
-        index: number,
-        areItemsPrimitive: boolean,
-    ): ArdSimplestStorageItem {
+    private _setItemsMapFn(rawItemData: any, index: number, areItemsPrimitive: boolean): ArdSimplestStorageItem {
         if (areItemsPrimitive) {
             return {
                 itemData: rawItemData,
                 index,
                 value: rawItemData.value,
-                label:
-                    rawItemData.value?.toString?.() ??
-                    String(rawItemData.value),
+                label: rawItemData.value?.toString?.() ?? String(rawItemData.value),
             };
         }
         //get value
-        const valuePath =
-            this._ardParentComp.valueFrom ??
-            this._ardParentComp.labelFrom ??
-            this._ardParentComp.DEFAULTS.valueFrom;
+        const valuePath = this._ardParentComp.valueFrom ?? this._ardParentComp.labelFrom ?? this._ardParentComp.DEFAULTS.valueFrom;
         const value = resolvePath(rawItemData, valuePath);
 
         //get label
-        const labelPath =
-            this._ardParentComp.labelFrom ??
-            this._ardParentComp.valueFrom ??
-            this._ardParentComp.DEFAULTS.labelFrom;
+        const labelPath = this._ardParentComp.labelFrom ?? this._ardParentComp.valueFrom ?? this._ardParentComp.DEFAULTS.labelFrom;
         const label = resolvePath(rawItemData, labelPath) ?? value;
 
         const itemData = areItemsPrimitive ? rawItemData.value : rawItemData;
@@ -137,8 +125,7 @@ export class SimplestItemStorage {
     unhighlightItem(item: ArdSimplestStorageItem): void {
         item.highlighted = false;
 
-        if (this._highlightedItem?.index == item.index)
-            this._highlightedItem = null;
+        if (this._highlightedItem?.index == item.index) this._highlightedItem = null;
     }
     /**
      * Highlights the first item out of all items.
@@ -178,12 +165,8 @@ export class SimplestItemStorage {
         if (!currentItem) {
             return this.highlightFirstItem();
         }
-        const itemsWithoutDisabled = this._items.filter(
-            (item) => !item.disabled,
-        );
-        const currentIndexInItems = itemsWithoutDisabled.findIndex(
-            (item) => item.index == currentItem.index,
-        );
+        const itemsWithoutDisabled = this._items.filter(item => !item.disabled);
+        const currentIndexInItems = itemsWithoutDisabled.findIndex(item => item.index == currentItem.index);
 
         let nextItemIndex = currentIndexInItems + offset;
         if (nextItemIndex >= itemsWithoutDisabled.length) {

@@ -1,5 +1,5 @@
-@use "./mixins" as defaultMixins;
-@import "../variables";
+@use './mixins' as defaultMixins;
+@import '../variables';
 
 .ard-form-field-frame {
     box-sizing: border-box;
@@ -12,7 +12,7 @@
     position: relative;
     font-size: 1rem;
     line-height: 1.25em;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
 
     .ard-form-field-content-container {
         flex-grow: 1;

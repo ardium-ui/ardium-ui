@@ -1,26 +1,9 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    Input,
-    ViewEncapsulation,
-    AfterViewInit,
-    ViewChild,
-    ElementRef,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { isDefined } from 'simple-bool';
 
 type WeightNumber = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
-type WeightString =
-    | '100'
-    | '200'
-    | '300'
-    | '400'
-    | '500'
-    | '600'
-    | '700'
-    | '800'
-    | '900';
+type WeightString = '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900';
 
 type GradeNumber = -25 | 0 | 200;
 type GradeString = '-25' | '0' | '200';
@@ -94,17 +77,12 @@ export class ArdiumIconComponent implements AfterViewInit {
             };
             //map the object to an array of strings
             let propObjectAsArray = Object.entries(propObject) //object to array
-                .filter((v) => isDefined(v[1])) //filter undefined values
-                .map((v) => `"${v[0]}" ${v[1]}`) //map key-value pairs to strings
+                .filter(v => isDefined(v[1])) //filter undefined values
+                .map(v => `"${v[0]}" ${v[1]}`) //map key-value pairs to strings
                 .flat(); //flatten
 
             //create the final string only if any of the properties are defined
-            this._fontVariationMemo =
-                propObjectAsArray.length === 0
-                    ? ''
-                    : ['font-variation-settings: ', ...propObjectAsArray].join(
-                          '',
-                      );
+            this._fontVariationMemo = propObjectAsArray.length === 0 ? '' : ['font-variation-settings: ', ...propObjectAsArray].join('');
         }
         return this._fontVariationMemo;
     }
@@ -112,9 +90,6 @@ export class ArdiumIconComponent implements AfterViewInit {
     @ViewChild('contentWrapper') contentWrapper!: ElementRef<HTMLElement>;
 
     ngAfterViewInit(): void {
-        if (!this.icon && !this.contentWrapper.nativeElement.innerText)
-            console.warn(
-                `Using <ard-icon> without specifying the [icon] field.`,
-            );
+        if (!this.icon && !this.contentWrapper.nativeElement.innerText) console.warn(`Using <ard-icon> without specifying the [icon] field.`);
     }
 }

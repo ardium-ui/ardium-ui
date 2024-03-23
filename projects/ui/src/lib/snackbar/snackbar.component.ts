@@ -1,17 +1,7 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    ViewEncapsulation,
-    inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@angular/core';
 import { isDefined } from 'simple-bool';
 import { ArdiumButtonModule } from '../buttons/button/button.module';
-import {
-    ARD_SNACKBAR_COLOR,
-    ARD_SNACKBAR_DATA,
-    ARD_SNACKBAR_TYPE,
-    ArdSnackbarRef,
-} from './snackbar-ref';
+import { ARD_SNACKBAR_COLOR, ARD_SNACKBAR_DATA, ARD_SNACKBAR_TYPE, ArdSnackbarRef } from './snackbar-ref';
 import { AsyncPipe } from '@angular/common';
 import { ArdSnackbarType } from './snackbar.types';
 import { ArdiumIconModule } from '../icon/icon.module';

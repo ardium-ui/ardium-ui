@@ -3,8 +3,7 @@ export const CalendarRangeVariant = {
     OutlineRounded: 'outline-rounded',
     OutlineSharp: 'outline-sharp',
 } as const;
-export type CalendarRangeVariant =
-    (typeof CalendarRangeVariant)[keyof typeof CalendarRangeVariant];
+export type CalendarRangeVariant = (typeof CalendarRangeVariant)[keyof typeof CalendarRangeVariant];
 
 export type DateRange = {
     low: Date;

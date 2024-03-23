@@ -1,9 +1,4 @@
-import {
-    Overlay,
-    OverlayConfig,
-    OverlayRef,
-    ScrollStrategyOptions,
-} from '@angular/cdk/overlay';
+import { Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import {
     ChangeDetectionStrategy,
@@ -32,7 +27,7 @@ export class ArdiumModalComponent {
     constructor(
         private overlay: Overlay,
         private scrollStrategyOpts: ScrollStrategyOptions,
-        private viewContainerRef: ViewContainerRef,
+        private viewContainerRef: ViewContainerRef
     ) {}
 
     //! appearance
@@ -49,11 +44,7 @@ export class ArdiumModalComponent {
     }
 
     get ngClasses(): string {
-        return [
-            `ard-appearance-${this.appearance}`,
-            `ard-variant-${this.variant}`,
-            this.compact ? 'ard-compact' : '',
-        ].join(' ');
+        return [`ard-appearance-${this.appearance}`, `ard-variant-${this.variant}`, this.compact ? 'ard-compact' : ''].join(' ');
     }
 
     //! heading
@@ -110,10 +101,7 @@ export class ArdiumModalComponent {
 
         this.modalOverlay = this.overlay.create(config);
 
-        const portal = new TemplatePortal(
-            this.modalTemplate,
-            this.viewContainerRef,
-        );
+        const portal = new TemplatePortal(this.modalTemplate, this.viewContainerRef);
         this.modalOverlay.attach(portal);
     }
     private _destroyOverlay(): void {

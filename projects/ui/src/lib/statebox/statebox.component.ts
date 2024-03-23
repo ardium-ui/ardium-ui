@@ -1,21 +1,7 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    EventEmitter,
-    Input,
-    OnChanges,
-    Output,
-    SimpleChanges,
-    ViewEncapsulation,
-    forwardRef,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewEncapsulation, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { _NgModelComponentBase } from './../_internal/ngmodel-component';
-import {
-    StateboxState,
-    StateboxValue,
-    _StateboxInternalState,
-} from './statebox.types';
+import { StateboxState, StateboxValue, _StateboxInternalState } from './statebox.types';
 import { ArdiumStarButtonComponent } from './../star/star-button/star-button.component';
 
 const defaultStateboxStates: StateboxState[] = [
@@ -37,13 +23,8 @@ const defaultStateboxStates: StateboxState[] = [
         },
     ],
 })
-export class ArdiumStateboxComponent
-    extends _NgModelComponentBase
-    implements ControlValueAccessor, OnChanges
-{
-    _states: _StateboxInternalState[] = defaultStateboxStates.map(
-        this._stateMapFn,
-    );
+export class ArdiumStateboxComponent extends _NgModelComponentBase implements ControlValueAccessor, OnChanges {
+    _states: _StateboxInternalState[] = defaultStateboxStates.map(this._stateMapFn);
     @Input() states?: StateboxState[];
 
     @Input() manualStateHandling: boolean = false;
@@ -52,9 +33,7 @@ export class ArdiumStateboxComponent
 
     get ngClasses(): string {
         return [
-            this.currState.useCustomColor
-                ? 'ard-color-custom'
-                : `ard-color-${this.currState.color}`,
+            this.currState.useCustomColor ? 'ard-color-custom' : `ard-color-${this.currState.color}`,
             this.currState.fillMode ? 'ard-statebox-filled' : '',
             this.currState.keepFrame ? 'ard-statebox-keep-frame' : '',
         ].join(' ');
@@ -159,8 +138,7 @@ export class ArdiumStateboxComponent
         }
         return {
             '--ard-custom-color': customColor,
-            '--ard-on-custom-color':
-                this.currState.colorOnCustomColor ?? '#fff',
+            '--ard-on-custom-color': this.currState.colorOnCustomColor ?? '#fff',
         };
     }
 }

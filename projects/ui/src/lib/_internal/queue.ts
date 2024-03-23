@@ -58,6 +58,6 @@ export class Queue<T = unknown> implements IQueue {
 export class QueueItem<T> {
     constructor(
         public value: T,
-        public next?: QueueItem<T>,
+        public next?: QueueItem<T>
     ) {}
 }

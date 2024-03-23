@@ -1,10 +1,4 @@
-import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    Component,
-    Input,
-    ViewEncapsulation,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import * as Color from 'color';
 import { ColorDisplayAppearance } from './color-display.types';
@@ -29,8 +23,7 @@ export class ArdiumColorDisplayComponent implements AfterViewInit {
     }
 
     //! appearance
-    @Input() appearance: ColorDisplayAppearance =
-        ColorDisplayAppearance.Rounded;
+    @Input() appearance: ColorDisplayAppearance = ColorDisplayAppearance.Rounded;
 
     get ngClasses(): string {
         const apprncParts = this.appearance.split(' ');
@@ -48,9 +41,6 @@ export class ArdiumColorDisplayComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        if (!this._color)
-            console.warn(
-                `Using <ard-color-display> without specifying the [color] field.`,
-            );
+        if (!this._color) console.warn(`Using <ard-color-display> without specifying the [color] field.`);
     }
 }

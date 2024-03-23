@@ -1,13 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    Directive,
-    ElementRef,
-    HostBinding,
-    Input,
-    Renderer2,
-    ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Directive, ElementRef, HostBinding, Input, Renderer2, ViewEncapsulation } from '@angular/core';
 import { OneAxisAlignment } from '../types/alignment.types';
 
 @Component({

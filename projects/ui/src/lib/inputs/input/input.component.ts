@@ -1,10 +1,4 @@
-import {
-    ConnectedPosition,
-    Overlay,
-    OverlayConfig,
-    OverlayRef,
-    ScrollStrategyOptions,
-} from '@angular/cdk/overlay';
+import { ConnectedPosition, Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import {
     AfterViewInit,
@@ -26,26 +20,13 @@ import {
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { isString } from 'simple-bool';
-import {
-    DropdownPanelAppearance,
-    DropdownPanelVariant,
-} from '../../dropdown-panel/dropdown-panel.types';
+import { DropdownPanelAppearance, DropdownPanelVariant } from '../../dropdown-panel/dropdown-panel.types';
 import { ArdSimplestStorageItem } from '../../types/item-storage.types';
-import {
-    FormElementAppearance,
-    FormElementVariant,
-} from '../../types/theming.types';
-import {
-    SimplestItemStorage,
-    SimplestItemStorageHost,
-} from '../../_internal/item-storages/simplest-item-storage';
+import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
+import { SimplestItemStorage, SimplestItemStorageHost } from '../../_internal/item-storages/simplest-item-storage';
 import { ArdiumSimpleInputComponent } from '../simple-input/simple-input.component';
 import { OptionContext } from './../../types/item-storage.types';
-import {
-    escapeAndCreateRegex,
-    InputModel,
-    InputModelHost,
-} from './../input-utils';
+import { escapeAndCreateRegex, InputModel, InputModelHost } from './../input-utils';
 import {
     ArdInputLoadingTemplateDirective,
     ArdInputPlaceholderTemplateDirective,
@@ -68,16 +49,13 @@ import {
         },
     ],
 })
-export class ArdiumInputComponent
-    extends ArdiumSimpleInputComponent
-    implements InputModelHost, OnInit, SimplestItemStorageHost, AfterViewInit
-{
+export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements InputModelHost, OnInit, SimplestItemStorageHost, AfterViewInit {
     private readonly element!: HTMLElement;
 
     constructor(
         private viewContainerRef: ViewContainerRef,
         private overlay: Overlay,
-        private scrollStrategyOpts: ScrollStrategyOptions,
+        private scrollStrategyOpts: ScrollStrategyOptions
     ) {
         super();
 
@@ -126,10 +104,7 @@ export class ArdiumInputComponent
         this._charlistCaseInsensitive = coerceBooleanProperty(v);
         if (this._charlistRegExp) {
             let flags = this._charlistCaseInsensitive ? 'i' : '';
-            this._charlistRegExp = new RegExp(
-                this._charlistRegExp.source,
-                flags,
-            );
+            this._charlistRegExp = new RegExp(this._charlistRegExp.source, flags);
         }
     }
 
@@ -185,9 +160,7 @@ export class ArdiumInputComponent
     }
     private _printPrimitiveWarnings() {
         function makeWarning(str: string): void {
-            console.warn(
-                `Skipped using [${str}] property bound to <ard-input>, as some provided suggestion items are of primitive type`,
-            );
+            console.warn(`Skipped using [${str}] property bound to <ard-input>, as some provided suggestion items are of primitive type`);
         }
         if (this.valueFrom) {
             makeWarning('valueFrom');
@@ -200,16 +173,11 @@ export class ArdiumInputComponent
     private _suggestionDropdowOpen: boolean = false;
 
     get shouldDisplaySuggestions(): boolean {
-        return (
-            !this.disabled &&
-            (this.suggestionItems.length > 0 || this.areSuggestionsLoading) &&
-            this._suggestionDropdowOpen
-        );
+        return !this.disabled && (this.suggestionItems.length > 0 || this.areSuggestionsLoading) && this._suggestionDropdowOpen;
     }
 
     @Input() areSuggestionsLoading: boolean = false;
-    @Input() suggestionsLoadingText: string =
-        this.DEFAULTS.suggestionsLoadingText;
+    @Input() suggestionsLoadingText: string = this.DEFAULTS.suggestionsLoadingText;
 
     @ContentChild(ArdSuggestionTemplateDirective, { read: TemplateRef })
     suggestionTemplate?: TemplateRef<any>;
@@ -248,10 +216,7 @@ export class ArdiumInputComponent
 
         this.dropdownOverlay;
 
-        const portal = new TemplatePortal(
-            this.dropdownTemplate,
-            this.viewContainerRef,
-        );
+        const portal = new TemplatePortal(this.dropdownTemplate, this.viewContainerRef);
         this.dropdownOverlay.attach(portal);
 
         this.setOverlaySize();
@@ -281,19 +246,13 @@ export class ArdiumInputComponent
     onMouseMove() {
         this._isMouseBeingUsed = true;
     }
-    onSuggestionMouseEnter(
-        item: ArdSimplestStorageItem,
-        event: MouseEvent,
-    ): void {
+    onSuggestionMouseEnter(item: ArdSimplestStorageItem, event: MouseEvent): void {
         if (!this._isMouseBeingUsed) return;
         this.suggestionStorage.highlightItem(item);
 
         event.stopPropagation();
     }
-    onSuggestionMouseLeave(
-        item: ArdSimplestStorageItem,
-        event: MouseEvent,
-    ): void {
+    onSuggestionMouseLeave(item: ArdSimplestStorageItem, event: MouseEvent): void {
         if (!this._isMouseBeingUsed) return;
         this.suggestionStorage.unhighlightItem(item);
 
@@ -332,8 +291,7 @@ export class ArdiumInputComponent
     }
     get dropdownAppearance(): DropdownPanelAppearance {
         if (this._dropdownAppearance) return this._dropdownAppearance;
-        if (this.appearance == FormElementAppearance.Outlined)
-            return DropdownPanelAppearance.Outlined;
+        if (this.appearance == FormElementAppearance.Outlined) return DropdownPanelAppearance.Outlined;
         return DropdownPanelAppearance.Raised;
     }
     private _dropdownVariant?: DropdownPanelVariant = undefined;
@@ -343,16 +301,14 @@ export class ArdiumInputComponent
     }
     get dropdownVariant(): DropdownPanelVariant {
         if (this._dropdownVariant) return this._dropdownVariant;
-        if (this.variant == FormElementVariant.Pill)
-            return DropdownPanelVariant.Rounded;
+        if (this.variant == FormElementVariant.Pill) return DropdownPanelVariant.Rounded;
         return this.variant;
     }
 
     //! focus override
     override onFocus(event: FocusEvent): void {
         this._suggestionDropdowOpen = true;
-        if (!this.suggestionStorage.highlightedItem)
-            this.suggestionStorage.highlightFirstItem();
+        if (!this.suggestionStorage.highlightedItem) this.suggestionStorage.highlightFirstItem();
 
         super.onFocus(event);
     }

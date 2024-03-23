@@ -1,30 +1,12 @@
-import {
-    ChangeDetectorRef,
-    Directive,
-    EventEmitter,
-    HostBinding,
-    HostListener,
-    Input,
-    Output,
-} from '@angular/core';
+import { ChangeDetectorRef, Directive, EventEmitter, HostBinding, HostListener, Input, Output } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import {
-    coerceArrayProperty,
-    coerceBooleanProperty,
-    coerceNumberProperty,
-} from '@ardium-ui/devkit';
+import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { ArdOptionSimple, OptionContext } from '../types/item-storage.types';
-import {
-    SimpleItemStorage,
-    SimpleItemStorageHost,
-} from './item-storages/simple-item-storage';
+import { SimpleItemStorage, SimpleItemStorageHost } from './item-storages/simple-item-storage';
 import { _NgModelComponentBase } from './ngmodel-component';
 
 @Directive()
-export abstract class _SelectableListComponentBase
-    extends _NgModelComponentBase
-    implements ControlValueAccessor, SimpleItemStorageHost
-{
+export abstract class _SelectableListComponentBase extends _NgModelComponentBase implements ControlValueAccessor, SimpleItemStorageHost {
     //! public constants
     readonly itemStorage = new SimpleItemStorage(this);
     readonly htmlId = crypto.randomUUID();
@@ -60,9 +42,7 @@ export abstract class _SelectableListComponentBase
     }
     private _printPrimitiveWarnings() {
         function makeWarning(str: string): void {
-            console.warn(
-                `Skipped using [${str}] property bound to <ard-segment>, as some provided items are of primitive type`,
-            );
+            console.warn(`Skipped using [${str}] property bound to <ard-segment>, as some provided items are of primitive type`);
         }
         if (this.valueFrom) {
             makeWarning('valueFrom');
@@ -149,12 +129,7 @@ export abstract class _SelectableListComponentBase
     override onFocus(event: FocusEvent): void {
         super.onFocus(event);
 
-        if (
-            this.touched ||
-            !this.lastBlurTimestamp ||
-            this.lastBlurTimestamp + 1 < Date.now()
-        )
-            return;
+        if (this.touched || !this.lastBlurTimestamp || this.lastBlurTimestamp + 1 < Date.now()) return;
         this.lastBlurTimestamp = null;
 
         this._onTouched();
@@ -286,7 +261,7 @@ export abstract class _SelectableListComponentBase
 
         const highlightedItems = this.highlightedItems;
 
-        if (highlightedItems.every((item) => item.selected)) {
+        if (highlightedItems.every(item => item.selected)) {
             this.unselectItem(...highlightedItems);
         } else {
             this.selectItem(...highlightedItems);

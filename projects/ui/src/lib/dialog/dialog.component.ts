@@ -1,14 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    ContentChild,
-    EventEmitter,
-    Input,
-    Output,
-    TemplateRef,
-    ViewEncapsulation,
-    signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Input, Output, TemplateRef, ViewEncapsulation, signal } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ComponentColor } from '../types/colors.types';
 import { PanelAppearance, PanelVariant } from '../types/theming.types';
@@ -81,12 +71,10 @@ export class ArdiumDialogComponent {
     //! button settings
     @Input() confirmButtonText: string = 'Confirm';
     @Input() confirmButtonColor: ComponentColor = ComponentColor.Primary;
-    @Input() confirmButtonAppearance: ButtonAppearance =
-        ButtonAppearance.RaisedStrong;
+    @Input() confirmButtonAppearance: ButtonAppearance = ButtonAppearance.RaisedStrong;
     @Input() rejectButtonText: string = 'Cancel';
     @Input() rejectButtonColor: ComponentColor = ComponentColor.Primary;
-    @Input() rejectButtonAppearance: ButtonAppearance =
-        ButtonAppearance.Transparent;
+    @Input() rejectButtonAppearance: ButtonAppearance = ButtonAppearance.Transparent;
 
     readonly noRejectButton = signal<boolean>(false);
     @Input('noRejectButton')

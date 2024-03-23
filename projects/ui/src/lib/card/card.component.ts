@@ -1,11 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    Directive,
-    HostBinding,
-    Input,
-    ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Directive, HostBinding, Input, ViewEncapsulation } from '@angular/core';
 import { CardAppearance, CardVariant } from './card.types';
 
 @Directive({ selector: '[ard-card]' })
@@ -16,11 +9,7 @@ export class ArdiumCardDirective {
 
     @HostBinding('class')
     get ngClasses(): string {
-        return [
-            'ard-card',
-            `ard-appearance-${this.appearance}`,
-            `ard-variant-${this.variant}`,
-        ].join(' ');
+        return ['ard-card', `ard-appearance-${this.appearance}`, `ard-variant-${this.variant}`].join(' ');
     }
 }
 

@@ -1,19 +1,8 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    ContentChild,
-    Input,
-    TemplateRef,
-    ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ContentChild, Input, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { SimpleComponentColor } from '../types/colors.types';
 import { ArdProgressCircleValueTemplateDirective } from './progress-circle.directive';
-import {
-    ProgressCircleAppearance,
-    ProgressCircleValueContext,
-    ProgressCircleVariant,
-} from './progress-circle.types';
+import { ProgressCircleAppearance, ProgressCircleValueContext, ProgressCircleVariant } from './progress-circle.types';
 
 @Component({
     selector: 'ard-progress-circle',
@@ -46,8 +35,7 @@ export class ArdiumProgressCircleComponent {
     }
 
     //! appearance
-    @Input() appearance: ProgressCircleAppearance =
-        ProgressCircleAppearance.Transparent;
+    @Input() appearance: ProgressCircleAppearance = ProgressCircleAppearance.Transparent;
     @Input() variant: ProgressCircleVariant = ProgressCircleVariant.Full;
     @Input() color: SimpleComponentColor = SimpleComponentColor.Primary;
 
@@ -80,9 +68,7 @@ export class ArdiumProgressCircleComponent {
     }
 
     get fillPercentVariable(): string {
-        const fillAmount = this.reverse
-            ? 100 - this.percentValue
-            : this.percentValue;
+        const fillAmount = this.reverse ? 100 - this.percentValue : this.percentValue;
         return `--ard-_progress-circle-fill-amount: ${fillAmount}%`;
     }
 

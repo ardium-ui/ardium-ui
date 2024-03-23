@@ -1,9 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    Input,
-    ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { SimpleOneAxisAlignment } from '../../types/alignment.types';
 import { _ButtonBase } from '../_button-base';

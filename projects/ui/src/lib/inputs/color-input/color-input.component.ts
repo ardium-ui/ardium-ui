@@ -1,9 +1,4 @@
-import {
-    Overlay,
-    OverlayConfig,
-    OverlayRef,
-    ScrollStrategyOptions,
-} from '@angular/cdk/overlay';
+import { Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import {
     AfterViewInit,
@@ -26,14 +21,8 @@ import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import * as Color from 'color';
 import { ButtonVariant } from '../../buttons/general-button.types';
 import { CardAppearance, CardVariant } from '../../card/card.types';
-import {
-    DropdownPanelAppearance,
-    DropdownPanelVariant,
-} from '../../dropdown-panel/dropdown-panel.types';
-import {
-    FormElementAppearance,
-    FormElementVariant,
-} from '../../types/theming.types';
+import { DropdownPanelAppearance, DropdownPanelVariant } from '../../dropdown-panel/dropdown-panel.types';
+import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { CaseTransformerType } from '../input-types';
 import {
@@ -62,10 +51,7 @@ import { ColorInputActionButtonsContext } from './color-input.types';
         },
     ],
 })
-export class ArdiumColorInputComponent
-    extends _NgModelComponentBase
-    implements ControlValueAccessor, AfterViewInit
-{
+export class ArdiumColorInputComponent extends _NgModelComponentBase implements ControlValueAccessor, AfterViewInit {
     readonly element!: HTMLElement;
 
     constructor(
@@ -73,7 +59,7 @@ export class ArdiumColorInputComponent
         private viewContainerRef: ViewContainerRef,
         private overlay: Overlay,
         private scrollStrategyOpts: ScrollStrategyOptions,
-        elementRef: ElementRef<HTMLElement>,
+        elementRef: ElementRef<HTMLElement>
     ) {
         super();
 
@@ -288,10 +274,7 @@ export class ArdiumColorInputComponent
 
         this.overlayRef = this.overlay.create(config);
 
-        const portal = new TemplatePortal(
-            this.overlayTemplate,
-            this.viewContainerRef,
-        );
+        const portal = new TemplatePortal(this.overlayTemplate, this.viewContainerRef);
         this.overlayRef.attach(portal);
     }
     private _destroyOverlay(): void {
@@ -343,8 +326,7 @@ export class ArdiumColorInputComponent
     }
     get overlayAppearance(): CardAppearance {
         if (this._overlayAppearance) return this._overlayAppearance;
-        if (this.appearance == FormElementAppearance.Outlined)
-            return DropdownPanelAppearance.Outlined;
+        if (this.appearance == FormElementAppearance.Outlined) return DropdownPanelAppearance.Outlined;
         return DropdownPanelAppearance.Raised;
     }
     private _overlayVariant?: CardVariant = undefined;
@@ -354,8 +336,7 @@ export class ArdiumColorInputComponent
     }
     get overlayVariant(): CardVariant {
         if (this._overlayVariant) return this._overlayVariant;
-        if (this.variant == FormElementVariant.Pill)
-            return DropdownPanelVariant.Rounded;
+        if (this.variant == FormElementVariant.Pill) return DropdownPanelVariant.Rounded;
         return this.variant;
     }
 
@@ -413,8 +394,7 @@ export class ArdiumColorInputComponent
     actionButtonsTemplate?: TemplateRef<any>;
 
     get actionButtonVariant(): ButtonVariant {
-        if (this.variant == FormElementVariant.Sharp)
-            return ButtonVariant.Sharp;
+        if (this.variant == FormElementVariant.Sharp) return ButtonVariant.Sharp;
         return ButtonVariant.Rounded;
     }
     getActionButtonsContext(): ColorInputActionButtonsContext {
@@ -433,8 +413,7 @@ export class ArdiumColorInputComponent
 
     //! helpers
     protected _updateInputElValue(): void {
-        this.textInputEl.nativeElement.value =
-            this.value?.hex().toString() ?? '';
+        this.textInputEl.nativeElement.value = this.value?.hex().toString() ?? '';
     }
     protected _setInputAttributes() {
         const input = this.textInputEl.nativeElement;

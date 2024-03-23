@@ -1,12 +1,4 @@
-import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    Input,
-    ViewChild,
-    ViewEncapsulation,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { FormElementAppearance } from './../types/theming.types';
 
@@ -21,8 +13,7 @@ export class ArdiumKbdComponent implements AfterViewInit {
     @ViewChild('contentWrapper') contentWrapper!: ElementRef<HTMLElement>;
 
     ngAfterViewInit(): void {
-        if (!this.key && !this.contentWrapper.nativeElement.innerText)
-            console.warn(`Using <ard-kbd> without specifying the [key] field.`);
+        if (!this.key && !this.contentWrapper.nativeElement.innerText) console.warn(`Using <ard-kbd> without specifying the [key] field.`);
     }
 
     @Input() key?: string;

@@ -37,10 +37,7 @@ type StarInputObject = {
         },
     ],
 })
-export class ArdiumStarInputComponent
-    extends _NgModelComponentBase
-    implements OnChanges, ControlValueAccessor
-{
+export class ArdiumStarInputComponent extends _NgModelComponentBase implements OnChanges, ControlValueAccessor {
     @Input() wrapperClasses: string = '';
 
     //* appearance
@@ -148,8 +145,7 @@ export class ArdiumStarInputComponent
         this.starButtonInstances.get(index)!.focus();
     }
     focusNextStarButton(offset: number): void {
-        if (!this.starButtonInstances || this._currentFocusIndex == null)
-            return;
+        if (!this.starButtonInstances || this._currentFocusIndex == null) return;
 
         let nextIndex = this._currentFocusIndex + offset;
         nextIndex = Math.min(nextIndex, this.max - 1);
@@ -166,8 +162,7 @@ export class ArdiumStarInputComponent
         this.focusStarButtonByIndex(0);
     }
     override blur(): void {
-        if (!this.starButtonInstances || this._currentFocusIndex == null)
-            return;
+        if (!this.starButtonInstances || this._currentFocusIndex == null) return;
         this.starButtonInstances.get(this._currentFocusIndex)!.blur();
     }
 

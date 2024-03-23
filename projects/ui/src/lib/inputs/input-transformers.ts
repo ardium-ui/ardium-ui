@@ -1,8 +1,4 @@
-export type ArdTransformerFn = (
-    currentText: string,
-    previousText: string,
-    caretPos: number,
-) => { text: string; caretPos: number };
+export type ArdTransformerFn = (currentText: string, previousText: string, caretPos: number) => { text: string; caretPos: number };
 
 interface IRegExpTransformer {
     apply: ArdTransformerFn;
@@ -11,26 +7,17 @@ export class RegExpTransformer implements IRegExpTransformer {
     constructor(
         public regex: RegExp,
         public replace: string = '',
-        public caretModif: number = 0,
+        public caretModif: number = 0
     ) {}
 
-    apply(
-        currentText: string,
-        previousText: string,
-        caretPos: number,
-    ): { text: string; caretPos: number } {
+    apply(currentText: string, previousText: string, caretPos: number): { text: string; caretPos: number } {
         let text = currentText;
         if (text && this.regex) {
             let safetySwitch = 0;
             while (text.match(this.regex)) {
                 //prevent infinite loop
                 if (safetySwitch > 999) {
-                    console.error(
-                        this,
-                        new Error(
-                            'Possible infinite loop in the above RegExpTransformer. Exited after 1000 iterations.',
-                        ),
-                    );
+                    console.error(this, new Error('Possible infinite loop in the above RegExpTransformer. Exited after 1000 iterations.'));
                     break;
                 }
                 //apply regex
@@ -47,59 +34,33 @@ export class RegExpTransformer implements IRegExpTransformer {
     }
 }
 
-const toUpper: ArdTransformerFn = (
-    currentText: string,
-    previousText: string,
-    caretPos: number,
-) => {
+const toUpper: ArdTransformerFn = (currentText: string, previousText: string, caretPos: number) => {
     return { text: currentText.toUpperCase(), caretPos };
 };
-const toLower: ArdTransformerFn = (
-    currentText: string,
-    previousText: string,
-    caretPos: number,
-) => {
+const toLower: ArdTransformerFn = (currentText: string, previousText: string, caretPos: number) => {
     return { text: currentText.toLowerCase(), caretPos };
 };
-const int: ArdTransformerFn = (
-    currentText: string,
-    previousText: string,
-    caretPos: number,
-) => {
-    const regexes: ([RegExp] | [RegExp, string] | [RegExp, string, number])[] =
-        [[/[^0-9-]/], [/(.+)-/, '$1']];
+const int: ArdTransformerFn = (currentText: string, previousText: string, caretPos: number) => {
+    const regexes: ([RegExp] | [RegExp, string] | [RegExp, string, number])[] = [[/[^0-9-]/], [/(.+)-/, '$1']];
     let obj = { text: currentText, caretPos };
     for (const arr of regexes) {
         let [regex, replace, caretModif] = arr;
-        obj = new RegExpTransformer(regex, replace, caretModif).apply(
-            obj.text,
-            previousText,
-            obj.caretPos,
-        );
+        obj = new RegExpTransformer(regex, replace, caretModif).apply(obj.text, previousText, obj.caretPos);
     }
     return obj;
 };
-const float: ArdTransformerFn = (
-    currentText: string,
-    previousText: string,
-    caretPos: number,
-) => {
-    const regexes: ([RegExp] | [RegExp, string] | [RegExp, string, number])[] =
-        [
-            [/[^0-9,\.\-]/],
-            [/,/, '.'],
-            [/(.+)-/, '$1'],
-            [/\.(.*)\./, '$1.'],
-            [/^(-?)\./, '$10.'],
-        ];
+const float: ArdTransformerFn = (currentText: string, previousText: string, caretPos: number) => {
+    const regexes: ([RegExp] | [RegExp, string] | [RegExp, string, number])[] = [
+        [/[^0-9,\.\-]/],
+        [/,/, '.'],
+        [/(.+)-/, '$1'],
+        [/\.(.*)\./, '$1.'],
+        [/^(-?)\./, '$10.'],
+    ];
     let obj = { text: currentText, caretPos };
     for (const arr of regexes) {
         let [regex, replace, caretModif] = arr;
-        obj = new RegExpTransformer(regex, replace, caretModif).apply(
-            obj.text,
-            previousText,
-            obj.caretPos,
-        );
+        obj = new RegExpTransformer(regex, replace, caretModif).apply(obj.text, previousText, obj.caretPos);
     }
     return obj;
 };

@@ -8,7 +8,7 @@ export class SimpleInputModel {
     protected _hostComp!: SimpleInputModelHost;
     constructor(
         protected inputEl: HTMLInputElement,
-        hostComp: SimpleInputModelHost,
+        hostComp: SimpleInputModelHost
     ) {
         this._hostComp = hostComp;
     }
@@ -30,11 +30,7 @@ export class SimpleInputModel {
     writeValue(v: any): boolean {
         if (!isAnyString(v) && !isNull(v)) {
             //warn when using non-string/non-null value
-            console.warn(
-                new Error(
-                    `Trying to set simple-input's value to ${typeof v}, expected string.`,
-                ),
-            );
+            console.warn(new Error(`Trying to set simple-input's value to ${typeof v}, expected string.`));
             //normalize the value
             v = v?.toString?.() ?? String(v);
         }
@@ -108,14 +104,9 @@ export class InputModel extends SimpleInputModel {
         this.inputEl.setSelectionRange(from, to);
     }
     //* constraints
-    protected _applyAllowOrDenylistTransformer(
-        v: string,
-        prev: string,
-    ): string {
+    protected _applyAllowOrDenylistTransformer(v: string, prev: string): string {
         if (!this._hostComp.charlist || !v) return v;
-        let { text, caretPos } = new RegExpTransformer(
-            this._hostComp.charlist,
-        ).apply(v, prev, this.caretPos);
+        let { text, caretPos } = new RegExpTransformer(this._hostComp.charlist).apply(v, prev, this.caretPos);
         this.caretPos = caretPos;
         return text;
     }
@@ -130,7 +121,7 @@ export class NumberInputModel {
     protected _hostComp!: NumberInputModelHost;
     constructor(
         protected inputEl: HTMLInputElement,
-        hostComp: NumberInputModelHost,
+        hostComp: NumberInputModelHost
     ) {
         this._hostComp = hostComp;
     }
@@ -162,11 +153,7 @@ export class NumberInputModel {
     writeValue(v: any): boolean {
         if (!isNumber(v) && !isAnyString(v) && !isNull(v)) {
             //warn when using non-string/non-null value
-            console.warn(
-                new Error(
-                    `Trying to set simple-input's value to ${typeof v}, expected string, number, or null.`,
-                ),
-            );
+            console.warn(new Error(`Trying to set simple-input's value to ${typeof v}, expected string, number, or null.`));
             //normalize the value
             v = v?.toString?.() ?? String(v);
         }
@@ -216,19 +203,11 @@ export class NumberInputModel {
         if (!v) return '';
 
         if (this._hostComp.allowFloat) {
-            const { text, caretPos } = ArdTransformer.Float(
-                v,
-                this.stringValue,
-                this.caretPos,
-            );
+            const { text, caretPos } = ArdTransformer.Float(v, this.stringValue, this.caretPos);
             this.caretPos = caretPos;
             return text;
         }
-        const { text, caretPos } = ArdTransformer.Integer(
-            v,
-            this.stringValue,
-            this.caretPos,
-        );
+        const { text, caretPos } = ArdTransformer.Integer(v, this.stringValue, this.caretPos);
         this.caretPos = caretPos;
         return text;
     }
@@ -236,19 +215,13 @@ export class NumberInputModel {
         if (!v) return '';
 
         const numericValue = Number(v);
-        if (numericValue > this._hostComp.max)
-            return this._hostComp.max.toString();
-        if (numericValue < this._hostComp.min)
-            return this._hostComp.min.toString();
+        if (numericValue > this._hostComp.max) return this._hostComp.max.toString();
+        if (numericValue < this._hostComp.min) return this._hostComp.min.toString();
         return v;
     }
 }
 
-export function escapeAndCreateRegex(
-    str: string,
-    flags?: string,
-    negated: boolean = true,
-): RegExp {
+export function escapeAndCreateRegex(str: string, flags?: string, negated: boolean = true): RegExp {
     str = str.replace(/([\]]+)/g, '\\$1');
     return new RegExp(`[${negated ? '^' : ''}${str}]`, flags);
 }

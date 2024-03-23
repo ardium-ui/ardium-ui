@@ -15,10 +15,7 @@ import {
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
-import {
-    FormElementAppearance,
-    FormElementVariant,
-} from '../../types/theming.types';
+import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { DigitInputModel } from './digit-input.model';
 import { DigitInputConfigData, DigitInputModelHost } from './digit-input.utils';
 import { DigitInputConfig, DigitInputShape } from './digit-input.types';
@@ -37,10 +34,7 @@ import { DigitInputConfig, DigitInputShape } from './digit-input.types';
         },
     ],
 })
-export class ArdiumDigitInputComponent
-    extends _NgModelComponentBase
-    implements ControlValueAccessor, DigitInputModelHost, AfterContentInit
-{
+export class ArdiumDigitInputComponent extends _NgModelComponentBase implements ControlValueAccessor, DigitInputModelHost, AfterContentInit {
     private readonly model = new DigitInputModel(this);
 
     //! appearance
@@ -58,12 +52,7 @@ export class ArdiumDigitInputComponent
     }
 
     get ngClasses(): string {
-        return [
-            `ard-appearance-${this.appearance}`,
-            `ard-variant-${this.variant}`,
-            `ard-shape-${this.shape}`,
-            this.compact ? 'ard-compact' : '',
-        ].join(' ');
+        return [`ard-appearance-${this.appearance}`, `ard-variant-${this.variant}`, `ard-shape-${this.shape}`, this.compact ? 'ard-compact' : ''].join(' ');
     }
 
     //! model access points
@@ -106,9 +95,7 @@ export class ArdiumDigitInputComponent
     get value(): (string | null)[] | null {
         return this.model.value;
     }
-    @Output() valueChange = new EventEmitter<
-        string | (string | null)[] | null
-    >();
+    @Output() valueChange = new EventEmitter<string | (string | null)[] | null>();
 
     get stringValue(): string {
         return this.model.stringValue;
@@ -120,15 +107,9 @@ export class ArdiumDigitInputComponent
     }
 
     //! event emitters
-    @Output('input') inputEvent = new EventEmitter<
-        string | (string | null)[] | null
-    >();
-    @Output('change') changeEvent = new EventEmitter<
-        string | (string | null)[] | null
-    >();
-    @Output() finishedValue = new EventEmitter<
-        string | (string | null)[] | null
-    >();
+    @Output('input') inputEvent = new EventEmitter<string | (string | null)[] | null>();
+    @Output('change') changeEvent = new EventEmitter<string | (string | null)[] | null>();
+    @Output() finishedValue = new EventEmitter<string | (string | null)[] | null>();
 
     @Output('focusIndex') focusIndexEvent = new EventEmitter<number>();
     @Output('blurIndex') blurIndexEvent = new EventEmitter<number>();
@@ -150,10 +131,7 @@ export class ArdiumDigitInputComponent
         this.focusByIndex(index - 1 + Math.min(value.length, maxLength));
     }
     onInput(event: Event, index: number): void {
-        this._updateSingleInputValue(
-            (event.target as HTMLInputElement).value,
-            index,
-        );
+        this._updateSingleInputValue((event.target as HTMLInputElement).value, index);
     }
     private _updateSingleInputValue(value: string, index: number): void {
         const valueChanged = this.model.validateInputAndSetValue(value, index);
@@ -165,16 +143,8 @@ export class ArdiumDigitInputComponent
         this._emitInput();
     }
     focusByIndex(index: number): boolean;
-    focusByIndex(
-        index: number,
-        tryFocusingNext: boolean,
-        direction: 1 | -1,
-    ): boolean;
-    focusByIndex(
-        index: number,
-        tryFocusingNext?: boolean,
-        direction?: 1 | -1,
-    ): boolean {
+    focusByIndex(index: number, tryFocusingNext: boolean, direction: 1 | -1): boolean;
+    focusByIndex(index: number, tryFocusingNext?: boolean, direction?: 1 | -1): boolean {
         if (index < 0 || index >= this.inputs.length) return false;
         const nextEl = this.inputs.get(index)?.nativeElement;
         if (!nextEl) return false;
@@ -237,9 +207,7 @@ export class ArdiumDigitInputComponent
 
     ngAfterContentInit(): void {
         if (!this.isConfigDefined) {
-            throw new Error(
-                `ARD-FT040: <ard-digit-input>'s [config] field has to be defined.`,
-            );
+            throw new Error(`ARD-FT040: <ard-digit-input>'s [config] field has to be defined.`);
         }
     }
 }

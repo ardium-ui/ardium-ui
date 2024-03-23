@@ -1,10 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    Input,
-    ViewEncapsulation,
-    forwardRef,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ComponentColor } from '../types/colors.types';
 import { _BooleanComponentBase } from './../_internal/boolean-component';
@@ -23,10 +17,7 @@ import { _BooleanComponentBase } from './../_internal/boolean-component';
         },
     ],
 })
-export class ArdiumSlideToggleComponent
-    extends _BooleanComponentBase
-    implements ControlValueAccessor
-{
+export class ArdiumSlideToggleComponent extends _BooleanComponentBase implements ControlValueAccessor {
     @Input() wrapperClasses: string = '';
 
     //* appearance

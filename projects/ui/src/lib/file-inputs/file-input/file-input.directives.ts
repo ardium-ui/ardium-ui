@@ -1,8 +1,5 @@
 import { Directive, TemplateRef } from '@angular/core';
-import {
-    FileInputBrowseContext,
-    FileInputFilesContext,
-} from '../file-input-types';
+import { FileInputBrowseContext, FileInputFilesContext } from '../file-input-types';
 
 @Directive({ selector: 'ard-file-input > ng-template[ard-placeholder-tmp]' })
 export class ArdFileInputPlaceholderTemplateDirective {

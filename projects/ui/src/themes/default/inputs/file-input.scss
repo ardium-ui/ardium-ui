@@ -1,7 +1,7 @@
-@use "./shared" as inputMixin;
-@use "../mixins" as defaultMixins;
-@use "../clear-button" as CB;
-@import "../../variables";
+@use './shared' as inputMixin;
+@use '../mixins' as defaultMixins;
+@use '../clear-button' as CB;
+@import '../../variables';
 
 .ard-file-input-form-field-frame {
     .ard-form-field-overlay {

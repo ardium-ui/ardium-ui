@@ -1,8 +1,5 @@
 import { Directive, TemplateRef } from '@angular/core';
-import {
-    ColorPickerColorReferenceContext,
-    ColorPickerIndicatorContext,
-} from '../../color/color-picker/color-picker.types';
+import { ColorPickerColorReferenceContext, ColorPickerIndicatorContext } from '../../color/color-picker/color-picker.types';
 import { ColorInputActionButtonsContext } from './color-input.types';
 
 @Directive({ selector: 'ard-color-input > ng-template[ard-placeholder-tmp]' })
@@ -44,9 +41,7 @@ export class ArdColorInputOpacityIndicatorTemplateDirective {
     selector: 'ard-color-input > ng-template[ard-color-reference-tmp]',
 })
 export class ArdColorInputColorReferenceTemplateDirective {
-    constructor(
-        public template: TemplateRef<ColorPickerColorReferenceContext>,
-    ) {}
+    constructor(public template: TemplateRef<ColorPickerColorReferenceContext>) {}
 }
 
 //! action buttons

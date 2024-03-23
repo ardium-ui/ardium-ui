@@ -1,23 +1,9 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    ViewEncapsulation,
-    ContentChild,
-    TemplateRef,
-    Input,
-    HostBinding,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, ContentChild, TemplateRef, Input, HostBinding } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
-import {
-    FormElementAppearance,
-    FormElementVariant,
-} from '../types/theming.types';
+import { FormElementAppearance, FormElementVariant } from '../types/theming.types';
 import { _DisablableComponentBase } from '../_internal/disablable-component';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
-import {
-    ArdFormFieldPrefixTemplateDirective,
-    ArdFormFieldSuffixTemplateDirective,
-} from './form-field-frame.directives';
+import { ArdFormFieldPrefixTemplateDirective, ArdFormFieldSuffixTemplateDirective } from './form-field-frame.directives';
 
 @Component({
     selector: 'ard-form-field-frame',

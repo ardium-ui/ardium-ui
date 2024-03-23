@@ -1,10 +1,10 @@
-@use "./mixins" as defaultMixins;
-@use "./coloring" as coloringMixins;
-@use "../variables";
+@use './mixins' as defaultMixins;
+@use './coloring' as coloringMixins;
+@use '../variables';
 
 .ard-checkbox {
     @include coloringMixins.typeColors();
-    @include coloringMixins.typeColors("unsel-cmpcl");
+    @include coloringMixins.typeColors('unsel-cmpcl');
     position: relative;
     cursor: pointer;
     user-select: none;
@@ -51,13 +51,13 @@
     }
     .ard-icon-for-selected::after {
         @include defaultMixins.icon(1, 500);
-        content: "check_box";
+        content: 'check_box';
     }
     .ard-icon-for-indeterminate::after {
-        content: "indeterminate_check_box";
+        content: 'indeterminate_check_box';
     }
     .ard-icon-for-unselected::after {
-        content: "check_box_outline_blank";
+        content: 'check_box_outline_blank';
     }
 
     &.ard-checkbox-selected {

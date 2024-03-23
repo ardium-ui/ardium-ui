@@ -1,14 +1,4 @@
-import {
-    ComponentRef,
-    Directive,
-    ElementRef,
-    Input,
-    OnChanges,
-    OnDestroy,
-    AfterViewInit,
-    Renderer2,
-    TemplateRef,
-} from '@angular/core';
+import { ComponentRef, Directive, ElementRef, Input, OnChanges, OnDestroy, AfterViewInit, Renderer2, TemplateRef } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ComponentColor } from '../types/colors.types';
 import { BadgePosition, BadgeSize } from './badge.types';
@@ -17,19 +7,16 @@ import { FormElementVariant } from '../types/theming.types';
 @Directive({
     selector: '[ardBadge]',
 })
-export class ArdiumBadgeDirective
-    implements OnChanges, AfterViewInit, OnDestroy
-{
+export class ArdiumBadgeDirective implements OnChanges, AfterViewInit, OnDestroy {
     constructor(
         private _el: ElementRef,
-        private _renderer: Renderer2,
+        private _renderer: Renderer2
     ) {}
 
     @Input('ardBadge') text?: string;
 
     @Input('ardBadgeColor') color: ComponentColor = ComponentColor.Primary;
-    @Input('ardBadgeVariant') variant: FormElementVariant =
-        FormElementVariant.Pill;
+    @Input('ardBadgeVariant') variant: FormElementVariant = FormElementVariant.Pill;
     @Input('ardBadgeSize') size: BadgeSize = BadgeSize.Medium;
 
     private _position: BadgePosition = BadgePosition.AboveAfter;
@@ -106,10 +93,7 @@ export class ArdiumBadgeDirective
     private _badgeElement?: HTMLElement;
     ngOnChanges(): void {
         if (this._badgeElement) {
-            this._renderer.removeChild(
-                this._el.nativeElement,
-                this._badgeElement,
-            );
+            this._renderer.removeChild(this._el.nativeElement, this._badgeElement);
         }
         const element = this._createBadgeElement();
         this._badgeElement = element;
@@ -121,10 +105,7 @@ export class ArdiumBadgeDirective
     }
     ngOnDestroy(): void {
         if (this._badgeElement) {
-            this._renderer.removeChild(
-                this._el.nativeElement,
-                this._badgeElement,
-            );
+            this._renderer.removeChild(this._el.nativeElement, this._badgeElement);
         }
         this._renderer.removeClass(this._el.nativeElement, 'ard-badge-host');
     }

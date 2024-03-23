@@ -8,15 +8,13 @@ export const SliderTooltipBehavior = {
     Auto: 'auto',
     Never: 'never',
 } as const;
-export type SliderTooltipBehavior =
-    (typeof SliderTooltipBehavior)[keyof typeof SliderTooltipBehavior];
+export type SliderTooltipBehavior = (typeof SliderTooltipBehavior)[keyof typeof SliderTooltipBehavior];
 
 export const SliderDecorationPosition = {
     Top: 'top',
     Bottom: 'bottom',
 } as const;
-export type SliderDecorationPosition =
-    (typeof SliderDecorationPosition)[keyof typeof SliderDecorationPosition];
+export type SliderDecorationPosition = (typeof SliderDecorationPosition)[keyof typeof SliderDecorationPosition];
 
 export type SliderLabelObject = {
     label: string | number;

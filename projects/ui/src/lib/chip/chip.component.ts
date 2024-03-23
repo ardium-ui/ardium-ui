@@ -1,16 +1,8 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    Input,
-    ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { SimpleOneAxisAlignment } from '../types/alignment.types';
 import { ComponentColor } from '../types/colors.types';
-import {
-    DecorationElementAppearance,
-    FormElementVariant,
-} from '../types/theming.types';
+import { DecorationElementAppearance, FormElementVariant } from '../types/theming.types';
 import { _DisablableComponentBase } from './../_internal/disablable-component';
 
 @Component({
@@ -21,12 +13,10 @@ import { _DisablableComponentBase } from './../_internal/disablable-component';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumChipComponent extends _DisablableComponentBase {
-    @Input() contentAlignment: SimpleOneAxisAlignment =
-        SimpleOneAxisAlignment.Left;
+    @Input() contentAlignment: SimpleOneAxisAlignment = SimpleOneAxisAlignment.Left;
 
     //* appearance
-    @Input() appearance: DecorationElementAppearance =
-        DecorationElementAppearance.Outlined;
+    @Input() appearance: DecorationElementAppearance = DecorationElementAppearance.Outlined;
     @Input() variant: FormElementVariant = FormElementVariant.Rounded;
     @Input() color: ComponentColor = ComponentColor.Primary;
 

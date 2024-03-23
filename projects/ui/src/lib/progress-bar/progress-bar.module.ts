@@ -4,10 +4,7 @@ import { ArdiumProgressBarComponent } from './progress-bar.component';
 import { ArdProgressBarValueTemplateDirective } from './progress-bar.directive';
 
 @NgModule({
-    declarations: [
-        ArdiumProgressBarComponent,
-        ArdProgressBarValueTemplateDirective,
-    ],
+    declarations: [ArdiumProgressBarComponent, ArdProgressBarValueTemplateDirective],
     imports: [CommonModule],
     exports: [ArdiumProgressBarComponent, ArdProgressBarValueTemplateDirective],
 })

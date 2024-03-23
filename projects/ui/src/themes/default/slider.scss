@@ -1,6 +1,6 @@
-@use "./mixins" as defaultMixins;
-@use "./coloring" as coloringMixins;
-@import "../variables";
+@use './mixins' as defaultMixins;
+@use './coloring' as coloringMixins;
+@import '../variables';
 
 .ard-slider-container-master,
 .ard-range-slider-container-master {
@@ -170,7 +170,7 @@
         transition: transform 0.1s $timing-fn;
 
         &::before {
-            content: "";
+            content: '';
             position: absolute;
             border: 0.375em solid transparent;
             left: 50%;

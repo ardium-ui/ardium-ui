@@ -1,8 +1,5 @@
 import { Directive, TemplateRef } from '@angular/core';
-import {
-    FileInputBrowseContext,
-    FileInputFilesContext,
-} from '../file-input-types';
+import { FileInputBrowseContext, FileInputFilesContext } from '../file-input-types';
 
 @Directive({
     selector: 'ard-file-drop-area > ng-template[ard-idle-content-tmp]',

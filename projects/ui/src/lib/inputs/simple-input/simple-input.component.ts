@@ -15,10 +15,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import {
-    FormElementAppearance,
-    FormElementVariant,
-} from '../../types/theming.types';
+import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { SimpleOneAxisAlignment } from './../../types/alignment.types';
 import { SimpleInputModel, SimpleInputModelHost } from './../input-utils';
@@ -42,10 +39,7 @@ import {
         },
     ],
 })
-export class ArdiumSimpleInputComponent
-    extends _NgModelComponentBase
-    implements SimpleInputModelHost, ControlValueAccessor, OnInit
-{
+export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements SimpleInputModelHost, ControlValueAccessor, OnInit {
     readonly DEFAULTS = {
         clearButtonTitle: 'Clear',
     };
@@ -54,10 +48,7 @@ export class ArdiumSimpleInputComponent
     textInputEl!: ElementRef<HTMLInputElement>;
     protected inputModel!: SimpleInputModel;
     ngOnInit(): void {
-        this.inputModel = new SimpleInputModel(
-            this.textInputEl.nativeElement,
-            this,
-        );
+        this.inputModel = new SimpleInputModel(this.textInputEl.nativeElement, this);
         this._setInputAttributes();
         //set the value
         if (this._valueBeforeInit) {
@@ -101,12 +92,9 @@ export class ArdiumSimpleInputComponent
     }
 
     get ngClasses(): string {
-        return [
-            `ard-appearance-${this.appearance}`,
-            `ard-variant-${this.variant}`,
-            `ard-text-align-${this.alignText}`,
-            this.compact ? 'ard-compact' : '',
-        ].join(' ');
+        return [`ard-appearance-${this.appearance}`, `ard-variant-${this.variant}`, `ard-text-align-${this.alignText}`, this.compact ? 'ard-compact' : ''].join(
+            ' '
+        );
     }
 
     //! other inputs
@@ -184,9 +172,7 @@ export class ArdiumSimpleInputComponent
     }
     // clear button
     get shouldShowClearButton(): boolean {
-        return (
-            this._clearable && !this.disabled && Boolean(this.inputModel.value)
-        );
+        return this._clearable && !this.disabled && Boolean(this.inputModel.value);
     }
     onClearButtonClick(event: MouseEvent): void {
         event.stopPropagation();
@@ -203,11 +189,9 @@ export class ArdiumSimpleInputComponent
             this.value &&
             //does the selection cover the entire input
             ((this.textInputEl.nativeElement.selectionStart == 0 &&
-                this.textInputEl.nativeElement.selectionEnd ==
-                    this.textInputEl.nativeElement.value.length) ||
+                this.textInputEl.nativeElement.selectionEnd == this.textInputEl.nativeElement.value.length) ||
                 //or is zero-wide
-                this.textInputEl.nativeElement.selectionStart ==
-                    this.textInputEl.nativeElement.selectionEnd)
+                this.textInputEl.nativeElement.selectionStart == this.textInputEl.nativeElement.selectionEnd)
         ) {
             event.clipboardData?.setData('text/plain', this.value);
             event.preventDefault();

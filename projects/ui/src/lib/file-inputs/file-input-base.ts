@@ -1,22 +1,10 @@
-import {
-    Directive,
-    ElementRef,
-    EventEmitter,
-    Input,
-    OnInit,
-    Output,
-    ViewChild,
-    AfterViewInit,
-} from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, AfterViewInit } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { isDefined } from 'simple-bool';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 
 @Directive()
-export abstract class _FileInputComponentBase
-    extends _NgModelComponentBase
-    implements OnInit, AfterViewInit
-{
+export abstract class _FileInputComponentBase extends _NgModelComponentBase implements OnInit, AfterViewInit {
     @ViewChild('fileInput') fileInputEl!: ElementRef<HTMLInputElement>;
 
     @Input() htmlId: string = crypto.randomUUID();
@@ -24,11 +12,7 @@ export abstract class _FileInputComponentBase
 
     ngOnInit(): void {
         if (!(window.File && window.FileReader && window.Blob)) {
-            console.error(
-                new Error(
-                    'Cannot use Ardium UI file features because this browser does not support them!',
-                ),
-            );
+            console.error(new Error('Cannot use Ardium UI file features because this browser does not support them!'));
         }
     }
     protected _wasViewInit: boolean = false;
@@ -89,10 +73,7 @@ export abstract class _FileInputComponentBase
     writeValue(v: File | File[] | null): void {
         this._writeValue(v, false);
     }
-    protected _writeValue(
-        v: File | File[] | null,
-        emitEvents: boolean = true,
-    ): void {
+    protected _writeValue(v: File | File[] | null, emitEvents: boolean = true): void {
         if (v instanceof File) {
             v = [v];
         }
@@ -184,8 +165,7 @@ export abstract class _FileInputComponentBase
     protected _countDragenterFiles(data: DataTransfer | null): number | null {
         if (!data) return null;
 
-        return Array.from(data.items).filter((item) => item.kind == 'file')
-            .length;
+        return Array.from(data.items).filter(item => item.kind == 'file').length;
     }
 
     protected _updateElementValue(): void {

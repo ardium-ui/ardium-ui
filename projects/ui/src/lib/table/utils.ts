@@ -1,15 +1,11 @@
 import { TableDataColumn, TableSubheader } from './table.types';
 
-export function isTableSubheader(
-    v: TableDataColumn | TableSubheader,
-): v is TableSubheader {
+export function isTableSubheader(v: TableDataColumn | TableSubheader): v is TableSubheader {
     return 'children' in v;
 }
 
-export function areAllDataColumns(
-    cols: (TableDataColumn | TableSubheader)[],
-): boolean {
-    return cols.every((col) => !isTableSubheader(col));
+export function areAllDataColumns(cols: (TableDataColumn | TableSubheader)[]): boolean {
+    return cols.every(col => !isTableSubheader(col));
 }
 
 export function merge2dArrays<T>(destArr: T[][], arr: T[][]): void {

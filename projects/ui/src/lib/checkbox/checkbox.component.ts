@@ -1,12 +1,4 @@
-import {
-    Component,
-    EventEmitter,
-    Input,
-    Output,
-    ViewEncapsulation,
-    ChangeDetectionStrategy,
-    forwardRef,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation, ChangeDetectionStrategy, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '../../../../devkit/src/public-api';
 import { SimpleComponentColor } from '../types/colors.types';
@@ -27,10 +19,7 @@ import { CheckboxState } from './checkbox.types';
         },
     ],
 })
-export class ArdiumCheckboxComponent
-    extends _BooleanComponentBase
-    implements ControlValueAccessor
-{
+export class ArdiumCheckboxComponent extends _BooleanComponentBase implements ControlValueAccessor {
     @Input() wrapperClasses: string = '';
 
     @Input() htmlId?: string;
@@ -40,11 +29,7 @@ export class ArdiumCheckboxComponent
     @Input() unselectedColor: SimpleComponentColor = SimpleComponentColor.None;
 
     get ngClasses(): string {
-        return [
-            `ard-color-${this.color}`,
-            `ard-unselected-color-${this.unselectedColor}`,
-            `ard-checkbox-${this.state}`,
-        ].join(' ');
+        return [`ard-color-${this.color}`, `ard-unselected-color-${this.unselectedColor}`, `ard-checkbox-${this.state}`].join(' ');
     }
 
     //override the "selected" setter, so it changes the state too.
@@ -61,8 +46,7 @@ export class ArdiumCheckboxComponent
 
     //* click action
     toggleState() {
-        if (this.state == 'selected' || this.state == 'indeterminate')
-            this.state = 'unselected';
+        if (this.state == 'selected' || this.state == 'indeterminate') this.state = 'unselected';
         else this.state = 'selected';
         this._selected = this.state == 'selected';
 

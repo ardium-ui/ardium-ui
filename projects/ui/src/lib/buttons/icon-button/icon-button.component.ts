@@ -1,9 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    Input,
-    ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _FocusableComponentBase } from '../../_internal/focusable-component';
 import { ComponentColor } from '../../types/colors.types';
@@ -31,10 +26,6 @@ export class ArdiumIconButtonComponent extends _FocusableComponentBase {
     }
 
     get ngClasses(): string {
-        return [
-            'ard-appearance-transparent',
-            `ard-color-${this.disabled ? ComponentColor.None : this.color}`,
-            this.compact ? 'ard-compact' : '',
-        ].join(' ');
+        return ['ard-appearance-transparent', `ard-color-${this.disabled ? ComponentColor.None : this.color}`, this.compact ? 'ard-compact' : ''].join(' ');
     }
 }

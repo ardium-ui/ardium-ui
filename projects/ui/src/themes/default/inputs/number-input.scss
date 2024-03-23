@@ -1,5 +1,5 @@
-@use "./shared" as inputMixin;
-@use "../mixins" as defaultMixins;
+@use './shared' as inputMixin;
+@use '../mixins' as defaultMixins;
 
 .ard-number-input {
     @include inputMixin.genericInput();

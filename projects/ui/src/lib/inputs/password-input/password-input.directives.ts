@@ -20,7 +20,5 @@ export class ArdPasswordInputSuffixTemplateDirective {
 
 @Directive({ selector: 'ard-password-input > ng-template[ard-reveal-tmp]' })
 export class ArdPasswordInputRevealButtonTemplateDirective {
-    constructor(
-        public template: TemplateRef<PasswordInputRevealButtonContext>,
-    ) {}
+    constructor(public template: TemplateRef<PasswordInputRevealButtonContext>) {}
 }

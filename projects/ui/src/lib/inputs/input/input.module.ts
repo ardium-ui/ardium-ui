@@ -22,13 +22,7 @@ import {
         ArdInputPrefixTemplateDirective,
         ArdInputSuffixTemplateDirective,
     ],
-    imports: [
-        CommonModule,
-        ArdiumFormFieldFrameModule,
-        _ClearButtonModule,
-        ArdiumDropdownPanelModule,
-        ArdiumClickOutsideEventModule,
-    ],
+    imports: [CommonModule, ArdiumFormFieldFrameModule, _ClearButtonModule, ArdiumDropdownPanelModule, ArdiumClickOutsideEventModule],
     exports: [
         ArdiumInputComponent,
         ArdSuggestionTemplateDirective,

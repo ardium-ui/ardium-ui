@@ -31,8 +31,7 @@ export const ButtonAppearance = {
      */
     Flat: 'flat',
 } as const;
-export type ButtonAppearance =
-    (typeof ButtonAppearance)[keyof typeof ButtonAppearance];
+export type ButtonAppearance = (typeof ButtonAppearance)[keyof typeof ButtonAppearance];
 
 export const ButtonVariant = {
     /**

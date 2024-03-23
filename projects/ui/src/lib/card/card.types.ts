@@ -2,8 +2,7 @@ export const CardAppearance = {
     Outlined: 'outlined',
     Raised: 'raised',
 } as const;
-export type CardAppearance =
-    (typeof CardAppearance)[keyof typeof CardAppearance];
+export type CardAppearance = (typeof CardAppearance)[keyof typeof CardAppearance];
 
 export const CardVariant = {
     Rounded: 'rounded',

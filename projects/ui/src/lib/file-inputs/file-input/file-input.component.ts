@@ -1,27 +1,10 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    ViewEncapsulation,
-    Input,
-    ContentChild,
-    TemplateRef,
-    forwardRef,
-    Output,
-    EventEmitter,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, Input, ContentChild, TemplateRef, forwardRef, Output, EventEmitter } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ArdColorInputPlaceholderTemplateDirective } from '../../inputs/color-input/color-input.directives';
 import { ComponentColor } from '../../types/colors.types';
-import {
-    FormElementAppearance,
-    FormElementVariant,
-} from '../../types/theming.types';
+import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { _FileInputComponentBase } from '../file-input-base';
-import {
-    FileInputBrowseContext,
-    FileInputFileAmountContext,
-    FileInputFilesContext,
-} from '../file-input-types';
+import { FileInputBrowseContext, FileInputFileAmountContext, FileInputFilesContext } from '../file-input-types';
 import {
     ArdFileInputPrefixTemplateDirective,
     ArdFileInputSuffixTemplateDirective,

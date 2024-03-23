@@ -1,10 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    forwardRef,
-    HostListener,
-    ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef, HostListener, ViewEncapsulation } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { roundToPrecision } from 'more-rounding';
 import { _AbstractSlider } from './abstract-slider';

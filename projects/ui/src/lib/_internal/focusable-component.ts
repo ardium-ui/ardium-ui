@@ -1,12 +1,4 @@
-import {
-    Directive,
-    ElementRef,
-    EventEmitter,
-    Input,
-    Output,
-    QueryList,
-    ViewChildren,
-} from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
 import { coerceNumberProperty } from '../../../../devkit/src/public-api';
 import { _DisablableComponentBase } from './disablable-component';
 
@@ -38,7 +30,7 @@ export abstract class _FocusableComponentBase extends _DisablableComponentBase {
      * Blurs all focusable elements in the component.
      */
     public blur(): void {
-        this._focusableElement?.forEach((el) => el.nativeElement.blur());
+        this._focusableElement?.forEach(el => el.nativeElement.blur());
     }
 
     //! tabindex

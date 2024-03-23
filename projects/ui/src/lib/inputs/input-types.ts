@@ -3,5 +3,4 @@ export const CaseTransformerType = {
     Uppercase: 'uppercase',
     Lowercase: 'lowercase',
 } as const;
-export type CaseTransformerType =
-    (typeof CaseTransformerType)[keyof typeof CaseTransformerType];
+export type CaseTransformerType = (typeof CaseTransformerType)[keyof typeof CaseTransformerType];

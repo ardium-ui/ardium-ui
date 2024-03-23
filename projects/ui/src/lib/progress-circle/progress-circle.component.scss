@@ -17,8 +17,7 @@
         background-image: conic-gradient(
             from 0deg at 50% 50%,
             var(--ard-_progress-circle-fill-color) 0%,
-            var(--ard-_progress-circle-fill-color)
-                var(--ard-_progress-circle-fill-amount),
+            var(--ard-_progress-circle-fill-color) var(--ard-_progress-circle-fill-amount),
             transparent var(--ard-_progress-circle-fill-amount),
             transparent 100%
         );
@@ -29,8 +28,7 @@
                 from 0deg at 50% 50%,
                 transparent 0%,
                 transparent var(--ard-_progress-circle-fill-amount),
-                var(--ard-_progress-circle-fill-color)
-                    var(--ard-_progress-circle-fill-amount),
+                var(--ard-_progress-circle-fill-color) var(--ard-_progress-circle-fill-amount),
                 var(--ard-_progress-circle-fill-color) 100%
             );
         }

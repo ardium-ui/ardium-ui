@@ -1,20 +1,9 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    EventEmitter,
-    Input,
-    OnInit,
-    Output,
-    ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
 import { PaginationModel } from '../_internal/models/pagination.model';
 import { ComponentColor } from '../types/colors.types';
-import {
-    CurrentItemsFormatFn,
-    PaginationAlign,
-} from './table-pagination.types';
+import { CurrentItemsFormatFn, PaginationAlign } from './table-pagination.types';
 
 @Component({
     selector: 'ard-table-pagination',
@@ -23,10 +12,7 @@ import {
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumTablePaginationComponent
-    extends _FocusableComponentBase
-    implements OnInit
-{
+export class ArdiumTablePaginationComponent extends _FocusableComponentBase implements OnInit {
     private readonly _pagination = new PaginationModel();
 
     //! main settings
@@ -59,8 +45,7 @@ export class ArdiumTablePaginationComponent
         this._pagination.setTotalItems(num);
     }
 
-    @Output('itemsPerPageChange') itemsPerPageChangeEvent =
-        new EventEmitter<number>();
+    @Output('itemsPerPageChange') itemsPerPageChangeEvent = new EventEmitter<number>();
     @Output('pageChange') pageChangeEvent = new EventEmitter<number>();
 
     ngOnInit(): void {
@@ -82,11 +67,7 @@ export class ArdiumTablePaginationComponent
     }
 
     get ngClasses(): string {
-        return [
-            `ard-color-${this.color}`,
-            `ard-align-${this.align}`,
-            this.compact ? 'ard-compact' : '',
-        ].join(' ');
+        return [`ard-color-${this.color}`, `ard-align-${this.align}`, this.compact ? 'ard-compact' : ''].join(' ');
     }
 
     //! miscellaneous
@@ -102,11 +83,7 @@ export class ArdiumTablePaginationComponent
     @Input() isLoading?: boolean;
 
     @Input() itemsPerPageText: string = 'Items per page:';
-    @Input() currentItemsFormatFn: CurrentItemsFormatFn = ({
-        currentItemsFirst,
-        currentItemsLast,
-        totalItems,
-    }) => {
+    @Input() currentItemsFormatFn: CurrentItemsFormatFn = ({ currentItemsFirst, currentItemsLast, totalItems }) => {
         return `${currentItemsFirst} – ${currentItemsLast} of ${totalItems}`;
     };
 

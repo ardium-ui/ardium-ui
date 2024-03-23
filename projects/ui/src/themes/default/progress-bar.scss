@@ -1,5 +1,5 @@
-@use "./coloring" as CM;
-@import "../variables";
+@use './coloring' as CM;
+@import '../variables';
 
 .ard-progress-bar {
     @include CM.typeColors();
@@ -57,7 +57,7 @@
 
             &::before,
             &::after {
-                content: "";
+                content: '';
                 position: absolute;
                 background-color: inherit;
                 top: 0;
@@ -65,12 +65,10 @@
                 bottom: 0;
             }
             &::before {
-                animation: indeterminate 2.1s
-                    cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+                animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
             }
             &::after {
-                animation: indeterminate-short 2.1s
-                    cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+                animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
                 animation-delay: 1.15s;
             }
         }
@@ -85,7 +83,7 @@
             overflow: hidden;
 
             &::after {
-                content: "";
+                content: '';
                 position: absolute;
                 right: -0.5rem;
                 top: 0;

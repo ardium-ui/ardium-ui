@@ -1,18 +1,6 @@
-import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    Component,
-    EventEmitter,
-    HostBinding,
-    Input,
-    Output,
-    ViewEncapsulation,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output, ViewEncapsulation } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import {
-    SimpleItemStorage,
-    SimpleItemStorageHost,
-} from '../_internal/item-storages/simple-item-storage';
+import { SimpleItemStorage, SimpleItemStorageHost } from '../_internal/item-storages/simple-item-storage';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ComponentColor } from '../types/colors.types';
 import { ArdOptionSimple, CompareWithFn } from '../types/item-storage.types';
@@ -25,10 +13,7 @@ import { CheckboxListAlignType } from './checkbox-list.types';
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumCheckboxListComponent
-    extends _NgModelComponentBase
-    implements SimpleItemStorageHost, AfterViewInit
-{
+export class ArdiumCheckboxListComponent extends _NgModelComponentBase implements SimpleItemStorageHost, AfterViewInit {
     @HostBinding('attr.id')
     @Input()
     htmlId: string = crypto.randomUUID();
@@ -85,11 +70,7 @@ export class ArdiumCheckboxListComponent
     }
 
     get ngClasses(): string {
-        return [
-            `ard-color-${this.color}`,
-            `ard-align-${this.align}`,
-            this.compact ? 'ard-compact' : '',
-        ].join(' ');
+        return [`ard-color-${this.color}`, `ard-align-${this.align}`, this.compact ? 'ard-compact' : ''].join(' ');
     }
 
     //! value

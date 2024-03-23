@@ -6,9 +6,6 @@ export const PaginationAlign = {
     Right: 'right',
     Split: 'split',
 } as const;
-export type PaginationAlign =
-    (typeof PaginationAlign)[keyof typeof PaginationAlign];
+export type PaginationAlign = (typeof PaginationAlign)[keyof typeof PaginationAlign];
 
-export type CurrentItemsFormatFn = (
-    context: PaginationCurrentItemsContext,
-) => string;
+export type CurrentItemsFormatFn = (context: PaginationCurrentItemsContext) => string;

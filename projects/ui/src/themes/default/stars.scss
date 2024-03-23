@@ -1,5 +1,5 @@
-@use "./mixins" as defaultMixins;
-@use "./coloring" as coloringMixins;
+@use './mixins' as defaultMixins;
+@use './coloring' as coloringMixins;
 
 .ard-star,
 .ard-star-button,
@@ -28,19 +28,19 @@
         transform: translate(-50%, -50%);
     }
     .ard-star-selected::after {
-        content: "star";
+        content: 'star';
         @include defaultMixins.icon(1);
         font-size: 1em;
         line-height: unset;
     }
     .ard-star-half::after {
-        content: "star_half";
+        content: 'star_half';
         @include defaultMixins.icon;
         font-size: 1em;
         line-height: unset;
     }
     .ard-star-unselected::after {
-        content: "star";
+        content: 'star';
         @include defaultMixins.icon;
         font-size: 1em;
         line-height: unset;
