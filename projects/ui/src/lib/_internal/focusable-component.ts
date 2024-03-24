@@ -1,5 +1,5 @@
 import { Directive, ElementRef, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
-import { coerceNumberProperty } from '../../../../devkit/src/public-api';
+import { coerceNumberProperty } from '@ardium-ui/devkit';
 import { _DisablableComponentBase } from './disablable-component';
 
 @Directive()

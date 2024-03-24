@@ -1,5 +1,6 @@
 @use './mixins' as defaultMixins;
 @use './coloring' as coloringMixins;
+@use 'sass:math';
 @import '../variables';
 
 .ard-slider-container-master,
@@ -51,7 +52,7 @@
             &.ard-slider-track-active {
                 width: 0;
                 height: calc(100% + 0.125em);
-                top: (-1em / 16);
+                top: math.div(-1em, 16);
                 opacity: 100%;
                 transition:
                     width var(--_ard-slider-transition) ease,
@@ -114,7 +115,7 @@
 
         .ard-hitbox {
             position: absolute;
-            inset: (-7em / 16);
+            inset: math.div(-7em, 16);
             border-radius: 9999px;
         }
         &:hover {

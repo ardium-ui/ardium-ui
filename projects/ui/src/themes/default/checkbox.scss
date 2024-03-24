@@ -1,6 +1,6 @@
 @use './mixins' as defaultMixins;
 @use './coloring' as coloringMixins;
-@use '../variables';
+@import '../variables';
 
 .ard-checkbox {
     @include coloringMixins.typeColors();

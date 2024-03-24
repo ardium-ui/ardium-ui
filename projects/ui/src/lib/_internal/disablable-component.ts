@@ -1,5 +1,5 @@
 import { Directive, HostBinding, Input } from '@angular/core';
-import { coerceBooleanProperty } from '../../../../devkit/src/public-api';
+import { coerceBooleanProperty } from '@ardium-ui/devkit';
 
 @Directive()
 export abstract class _DisablableComponentBase {

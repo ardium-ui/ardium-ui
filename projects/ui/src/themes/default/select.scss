@@ -1,5 +1,6 @@
 @use './clear-button' as CB;
 @use './mixins' as defaultMixins;
+@import '../variables';
 
 .ard-select {
     box-sizing: border-box;

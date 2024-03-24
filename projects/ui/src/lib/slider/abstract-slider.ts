@@ -14,20 +14,13 @@ import {
     ViewChild,
     ViewContainerRef,
 } from '@angular/core';
+import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { roundToMultiple, roundToPrecision } from 'more-rounding';
-import { coerceBooleanProperty, coerceNumberProperty } from 'projects/devkit/src/public-api';
 import { isDefined, isObject } from 'simple-bool';
-import { SimpleComponentColor } from '../types/colors.types';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
+import { SimpleComponentColor } from '../types/colors.types';
 import { ArdSliderTooltipDirective } from './slider.directive';
-import {
-    SliderLabelObject,
-    SliderDecorationPosition,
-    SliderTooltipContext,
-    SliderTooltipFormatFn,
-    _InternalSliderLabelObject,
-    SliderTooltipBehavior,
-} from './slider.types';
+import { SliderDecorationPosition, SliderLabelObject, SliderTooltipBehavior, SliderTooltipFormatFn, _InternalSliderLabelObject } from './slider.types';
 
 @Directive()
 export abstract class _AbstractSlider<T> extends _NgModelComponentBase {

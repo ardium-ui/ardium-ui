@@ -1,5 +1,6 @@
 @use './shared' as inputMixin;
 @use '../mixins' as defaultMixins;
+@import '../../variables';
 
 .ard-number-input {
     @include inputMixin.genericInput();

@@ -1,6 +1,7 @@
 @use './mixins' as defaultMixins;
 @use './coloring' as coloringMixins;
 @use './clear-button' as clearButton;
+@import '../variables';
 
 //! general css
 .ard-chip-wrapper {
