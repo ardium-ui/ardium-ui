@@ -4,58 +4,28 @@ import { FormElementAppearance } from '@ardium-ui/ui';
 @Component({
   selector: 'app-kbd-shortcut',
   templateUrl: './kbd-shortcut.page.html',
-  styleUrls: ['./kbd-shortcut.page.scss']
+  styleUrls: ['./kbd-shortcut.page.scss'],
 })
 export class KbdShortcutPage implements OnInit, OnDestroy {
+  appearances: FormElementAppearance[] = Object.values(FormElementAppearance);
 
-    appearances: FormElementAppearance[] = Object.values(FormElementAppearance);
+  readonly keys: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+  currentKeyIndex: number = 0;
 
-    readonly keys: string[] = [
-        'A',
-        'B',
-        'C',
-        'D',
-        'E',
-        'F',
-        'G',
-        'H',
-        'I',
-        'J',
-        'K',
-        'L',
-        'M',
-        'N',
-        'O',
-        'P',
-        'Q',
-        'R',
-        'S',
-        'T',
-        'U',
-        'V',
-        'W',
-        'X',
-        'Y',
-        'Z',
-    ];
-    currentKeyIndex: number = 0;
+  get currentKey(): string {
+    return this.keys[this.currentKeyIndex];
+  }
 
-    get currentKey(): string {
-        return this.keys[this.currentKeyIndex];
-    }
+  private _interval?: NodeJS.Timeout;
+  ngOnInit(): void {
+    this._interval = setInterval(() => {
+      if (this.currentKeyIndex == this.keys.length - 1) this.currentKeyIndex = 0;
+      else this.currentKeyIndex++;
+    }, 1000);
+  }
+  ngOnDestroy(): void {
+    if (!this._interval) return;
 
-    private _interval?: NodeJS.Timeout;
-    ngOnInit(): void {
-        this._interval = setInterval(() => {
-            if (this.currentKeyIndex == this.keys.length - 1)
-                this.currentKeyIndex = 0;
-            else
-                this.currentKeyIndex++;
-        }, 1000);
-    }
-    ngOnDestroy(): void {
-        if (!this._interval) return;
-
-        clearInterval(this._interval);
-    }
+    clearInterval(this._interval);
+  }
 }

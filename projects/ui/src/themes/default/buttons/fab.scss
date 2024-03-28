@@ -2,71 +2,71 @@
 @use '../mixins' as CM;
 
 ard-fab {
-    margin: 8px;
-    display: block;
-    width: max-content;
-    height: max-content;
+  margin: 8px;
+  display: block;
+  width: max-content;
+  height: max-content;
 }
 
 .ard-fab {
-    @include shared.button;
-    height: var(--ard-_fab-size);
-    width: var(--ard-_fab-size);
-    font-weight: 900;
-    user-select: none;
-    border-radius: 999px;
-    justify-content: center;
-    margin: 0;
-    padding: 1rem;
+  @include shared.button;
+  height: var(--ard-_fab-size);
+  width: var(--ard-_fab-size);
+  font-weight: 900;
+  user-select: none;
+  border-radius: 999px;
+  justify-content: center;
+  margin: 0;
+  padding: 1rem;
 
-    &.ard-fab-size-standard {
-        --ard-_fab-size: 3.5rem;
-        font-size: 1rem;
-    }
-    &.ard-fab-size-small {
-        --ard-_fab-size: 2.5rem;
-        font-size: 0.875rem;
-        padding: 0.5625rem;
-    }
-    &.ard-fab-extended {
-        min-width: var(--ard-_fab-size);
-        width: max-content;
-        font-weight: unset;
-
-        .ard-button-content {
-            gap: 0.75em;
-            max-width: 10em;
-        }
-    }
+  &.ard-fab-size-standard {
+    --ard-_fab-size: 3.5rem;
+    font-size: 1rem;
+  }
+  &.ard-fab-size-small {
+    --ard-_fab-size: 2.5rem;
+    font-size: 0.875rem;
+    padding: 0.5625rem;
+  }
+  &.ard-fab-extended {
+    min-width: var(--ard-_fab-size);
+    width: max-content;
+    font-weight: unset;
 
     .ard-button-content {
-        gap: 1em;
-        font-weight: 500;
-        justify-content: flex-start !important;
-        max-width: 1.5em;
-        overflow: hidden;
-        transition: max-width 0.5s ease;
+      gap: 0.75em;
+      max-width: 10em;
     }
+  }
 
-    &.ard-appearance-transparent {
-        @include CM.focus-overlay-scale-addon();
-    }
+  .ard-button-content {
+    gap: 1em;
+    font-weight: 500;
+    justify-content: flex-start !important;
+    max-width: 1.5em;
+    overflow: hidden;
+    transition: max-width 0.5s ease;
+  }
+
+  &.ard-appearance-transparent {
+    @include CM.focus-overlay-scale-addon();
+  }
 }
 
 ard-fab.ard-disabled {
-    > .ard-fab {
-        @include shared.button-disabled;
-    }
+  > .ard-fab {
+    @include shared.button-disabled;
+  }
 }
 
 @keyframes maxWidth {
-    0% {
-        max-width: 1.5em;
-    }
-    99% {
-        max-width: 21em;
-    }
-    100% {
-        max-width: unset;
-    }
+  0% {
+    max-width: 1.5em;
+  }
+  99% {
+    max-width: 21em;
+  }
+  100% {
+    max-width: unset;
+  }
 }

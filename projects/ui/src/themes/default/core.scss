@@ -2,95 +2,95 @@
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
 
 :root {
-    --ard-bg: white;
-    --ard-bg-alt: black;
-    --ard-overlay: black;
-    --ard-overlay-rgb: 0, 0, 0;
-    --ard-bg-filled: #ebebeb;
-    --ard-bg-darker: #f7f7f7;
-    --ard-bg-filled-alt: #333;
-    --ard-text: rgba(0, 0, 0, 100%);
-    --ard-text2: rgba(0, 0, 0, 87%);
-    --ard-text3: rgba(0, 0, 0, 75%);
-    --ard-text-alt: rgba(255, 255, 255, 100%);
-    --ard-text2-alt: rgba(255, 255, 255, 87%);
-    --ard-text3-alt: rgba(255, 255, 255, 75%);
-    --ard-border: rgba(0, 0, 0, 40%);
-    --ard-border-dark: rgba(0, 0, 0, 70%);
-    --ard-border-light: rgba(0, 0, 0, 25%);
-    --ard-detail: rgba(0, 0, 0, 60%);
-    --ard-detail-light: rgba(0, 0, 0, 30%);
-    --ard-detail-ultralight: rgba(0, 0, 0, 12%);
-    --ard-detail-ultralight-solid: rgb(204, 204, 204);
-    --ard-lighten-overlay: rgba(255, 255, 255, 12.5%);
-    --ard-lighten-overlay-strong: rgba(255, 255, 255, 20%);
-    --ard-lighten-overlay-medium: rgba(255, 255, 255, 10%);
-    --ard-lighten-overlay-light: rgba(255, 255, 255, 5%);
-    --ard-darken-overlay: rgba(0, 0, 0, 12.5%);
-    --ard-darken-overlay-strong: rgba(0, 0, 0, 20%);
-    --ard-darken-overlay-medium: rgba(0, 0, 0, 10%);
-    --ard-darken-overlay-light: rgba(0, 0, 0, 5%);
-    --ard-darken-overlay-ultralight: rgba(0, 0, 0, 3%);
+  --ard-bg: white;
+  --ard-bg-alt: black;
+  --ard-overlay: black;
+  --ard-overlay-rgb: 0, 0, 0;
+  --ard-bg-filled: #ebebeb;
+  --ard-bg-darker: #f7f7f7;
+  --ard-bg-filled-alt: #333;
+  --ard-text: rgba(0, 0, 0, 100%);
+  --ard-text2: rgba(0, 0, 0, 87%);
+  --ard-text3: rgba(0, 0, 0, 75%);
+  --ard-text-alt: rgba(255, 255, 255, 100%);
+  --ard-text2-alt: rgba(255, 255, 255, 87%);
+  --ard-text3-alt: rgba(255, 255, 255, 75%);
+  --ard-border: rgba(0, 0, 0, 40%);
+  --ard-border-dark: rgba(0, 0, 0, 70%);
+  --ard-border-light: rgba(0, 0, 0, 25%);
+  --ard-detail: rgba(0, 0, 0, 60%);
+  --ard-detail-light: rgba(0, 0, 0, 30%);
+  --ard-detail-ultralight: rgba(0, 0, 0, 12%);
+  --ard-detail-ultralight-solid: rgb(204, 204, 204);
+  --ard-lighten-overlay: rgba(255, 255, 255, 12.5%);
+  --ard-lighten-overlay-strong: rgba(255, 255, 255, 20%);
+  --ard-lighten-overlay-medium: rgba(255, 255, 255, 10%);
+  --ard-lighten-overlay-light: rgba(255, 255, 255, 5%);
+  --ard-darken-overlay: rgba(0, 0, 0, 12.5%);
+  --ard-darken-overlay-strong: rgba(0, 0, 0, 20%);
+  --ard-darken-overlay-medium: rgba(0, 0, 0, 10%);
+  --ard-darken-overlay-light: rgba(0, 0, 0, 5%);
+  --ard-darken-overlay-ultralight: rgba(0, 0, 0, 3%);
 
-    --ard-star: #ffc107;
+  --ard-star: #ffc107;
 
-    --ard-clear-button-size: 0.9rem;
-    --ard-dropdown-button-size: 0.4rem;
+  --ard-clear-button-size: 0.9rem;
+  --ard-dropdown-button-size: 0.4rem;
 
-    --ard-primary-50: 234, 235, 243;
-    --ard-primary-100: 159, 167, 228;
-    --ard-primary-300: 78, 99, 219;
-    --ard-primary-500: 36, 56, 185;
-    --ard-primary-700: 27, 42, 128;
-    --ard-primary-900: 19, 28, 87;
+  --ard-primary-50: 234, 235, 243;
+  --ard-primary-100: 159, 167, 228;
+  --ard-primary-300: 78, 99, 219;
+  --ard-primary-500: 36, 56, 185;
+  --ard-primary-700: 27, 42, 128;
+  --ard-primary-900: 19, 28, 87;
 
-    --ard-secondary-50: 229, 172, 243;
-    --ard-secondary-100: 216, 107, 243;
-    --ard-secondary-300: 195, 38, 238;
-    --ard-secondary-500: 145, 13, 182;
-    --ard-secondary-700: 103, 10, 129;
-    --ard-secondary-900: 69, 7, 85;
+  --ard-secondary-50: 229, 172, 243;
+  --ard-secondary-100: 216, 107, 243;
+  --ard-secondary-300: 195, 38, 238;
+  --ard-secondary-500: 145, 13, 182;
+  --ard-secondary-700: 103, 10, 129;
+  --ard-secondary-900: 69, 7, 85;
 
-    --ard-danger-50: 247, 197, 196;
-    --ard-danger-100: 243, 151, 149;
-    --ard-danger-300: 245, 103, 100;
-    --ard-danger-500: 243, 55, 52;
-    --ard-danger-700: 202, 17, 14;
-    --ard-danger-900: 165, 13, 11;
+  --ard-danger-50: 247, 197, 196;
+  --ard-danger-100: 243, 151, 149;
+  --ard-danger-300: 245, 103, 100;
+  --ard-danger-500: 243, 55, 52;
+  --ard-danger-700: 202, 17, 14;
+  --ard-danger-900: 165, 13, 11;
 
-    --ard-warn-50: 248, 224, 192;
-    --ard-warn-100: 247, 196, 129;
-    --ard-warn-300: 240, 169, 77;
-    --ard-warn-500: 224, 140, 38;
-    --ard-warn-700: 173, 101, 13;
-    --ard-warn-900: 117, 69, 7;
+  --ard-warn-50: 248, 224, 192;
+  --ard-warn-100: 247, 196, 129;
+  --ard-warn-300: 240, 169, 77;
+  --ard-warn-500: 224, 140, 38;
+  --ard-warn-700: 173, 101, 13;
+  --ard-warn-900: 117, 69, 7;
 
-    --ard-success-50: 184, 240, 187;
-    --ard-success-100: 124, 230, 129;
-    --ard-success-300: 73, 223, 80;
-    --ard-success-500: 33, 179, 40;
-    --ard-success-700: 27, 131, 33;
-    --ard-success-900: 14, 82, 17;
+  --ard-success-50: 184, 240, 187;
+  --ard-success-100: 124, 230, 129;
+  --ard-success-300: 73, 223, 80;
+  --ard-success-500: 33, 179, 40;
+  --ard-success-700: 27, 131, 33;
+  --ard-success-900: 14, 82, 17;
 
-    --ard-info-50: 187, 210, 241;
-    --ard-info-100: 131, 180, 243;
-    --ard-info-300: 76, 147, 240;
-    --ard-info-500: 19, 113, 236;
-    --ard-info-700: 13, 81, 172;
-    --ard-info-900: 8, 49, 102;
+  --ard-info-50: 187, 210, 241;
+  --ard-info-100: 131, 180, 243;
+  --ard-info-300: 76, 147, 240;
+  --ard-info-500: 19, 113, 236;
+  --ard-info-700: 13, 81, 172;
+  --ard-info-900: 8, 49, 102;
 
-    --ard-box-shadow: 0 0 13px -3px rgba(0, 0, 0, 0.7);
-    --ard-card-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  --ard-box-shadow: 0 0 13px -3px rgba(0, 0, 0, 0.7);
+  --ard-card-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
 
-    --ard-simple-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
-    --ard-simple-shadow2: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
-    --ard-simple-shadow3: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+  --ard-simple-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  --ard-simple-shadow2: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+  --ard-simple-shadow3: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
 
-    --ard-spinner-color: rgba(0, 0, 0, 50%);
+  --ard-spinner-color: rgba(0, 0, 0, 50%);
 }
 
 .ard-disabled {
-    pointer-events: none;
+  pointer-events: none;
 }
 
 @import '../variables';

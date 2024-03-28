@@ -6,117 +6,117 @@
 .ard-star-button,
 .ard-star-display,
 .ard-star-input {
-    @include coloringMixins.typeColors();
-    color: var(--ard-cmpcl--bg-colored);
+  @include coloringMixins.typeColors();
+  color: var(--ard-cmpcl--bg-colored);
 
-    &.ard-color-star {
-        color: $star;
-    }
+  &.ard-color-star {
+    color: $star;
+  }
 }
 .ard-star {
-    font-size: 1.5em;
-    width: 1em;
-    height: 1em;
-    position: relative;
+  font-size: 1.5em;
+  width: 1em;
+  height: 1em;
+  position: relative;
 
-    .ard-star-icon {
-        display: none;
-    }
-    .ard-star-icon {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-    }
-    .ard-star-selected::after {
-        content: 'star';
-        @include defaultMixins.icon(1);
-        font-size: 1em;
-        line-height: unset;
-    }
-    .ard-star-half::after {
-        content: 'star_half';
-        @include defaultMixins.icon;
-        font-size: 1em;
-        line-height: unset;
-    }
-    .ard-star-unselected::after {
-        content: 'star';
-        @include defaultMixins.icon;
-        font-size: 1em;
-        line-height: unset;
-    }
-    &.ard-star-fill-none .ard-star-unselected {
-        display: block;
-    }
-    &.ard-star-fill-half .ard-star-half {
-        display: block;
-    }
-    &.ard-star-fill-filled .ard-star-selected {
-        display: block;
-    }
+  .ard-star-icon {
+    display: none;
+  }
+  .ard-star-icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .ard-star-selected::after {
+    content: 'star';
+    @include defaultMixins.icon(1);
+    font-size: 1em;
+    line-height: unset;
+  }
+  .ard-star-half::after {
+    content: 'star_half';
+    @include defaultMixins.icon;
+    font-size: 1em;
+    line-height: unset;
+  }
+  .ard-star-unselected::after {
+    content: 'star';
+    @include defaultMixins.icon;
+    font-size: 1em;
+    line-height: unset;
+  }
+  &.ard-star-fill-none .ard-star-unselected {
+    display: block;
+  }
+  &.ard-star-fill-half .ard-star-half {
+    display: block;
+  }
+  &.ard-star-fill-filled .ard-star-selected {
+    display: block;
+  }
 }
 .ard-star-display,
 .ard-star-input {
-    display: flex;
-    user-select: none;
+  display: flex;
+  user-select: none;
 }
 .ard-star-input {
-    cursor: pointer;
+  cursor: pointer;
 
-    .ard-star-not-in-value {
-        opacity: 50%;
-    }
+  .ard-star-not-in-value {
+    opacity: 50%;
+  }
 }
 .ard-star-button {
-    position: relative;
-    cursor: pointer;
-    user-select: none;
-    font-size: inherit;
-    width: max-content;
-    height: max-content;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    outline: none;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  font-size: inherit;
+  width: max-content;
+  height: max-content;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: none;
 
-    .ard-hitbox {
-        position: absolute;
-        left: -4px;
-        right: -4px;
-        bottom: -4px;
-        top: -4px;
-    }
+  .ard-hitbox {
+    position: absolute;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    top: -4px;
+  }
 
+  .ard-focus-overlay {
+    @include defaultMixins.focus-overlay;
+    position: absolute;
+    left: -0.125em;
+    right: -0.125em;
+    bottom: -0.125em;
+    top: -0.125em;
+    border-radius: 999px;
+    background: currentColor;
+  }
+  @include defaultMixins.focus-overlay-scale-addon();
+  &:hover,
+  &:focus {
     .ard-focus-overlay {
-        @include defaultMixins.focus-overlay;
-        position: absolute;
-        left: -0.125em;
-        right: -0.125em;
-        bottom: -0.125em;
-        top: -0.125em;
-        border-radius: 999px;
-        background: currentColor;
+      opacity: 10%;
     }
-    @include defaultMixins.focus-overlay-scale-addon();
-    &:hover,
-    &:focus {
-        .ard-focus-overlay {
-            opacity: 10%;
-        }
+  }
+  &:active {
+    .ard-focus-overlay {
+      opacity: 20%;
     }
-    &:active {
-        .ard-focus-overlay {
-            opacity: 20%;
-        }
-    }
+  }
 }
 //! disabled state for star-button
 .ard-disabled {
-    > .ard-star-button,
-    > .ard-star-input {
-        pointer-events: none;
-        opacity: 50%;
-    }
+  > .ard-star-button,
+  > .ard-star-input {
+    pointer-events: none;
+    opacity: 50%;
+  }
 }

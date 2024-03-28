@@ -5,20 +5,18 @@ import { Logger } from '../../services/logger.service';
 @Component({
   selector: 'app-stars',
   templateUrl: './stars.page.html',
-  styleUrls: ['./stars.page.scss']
+  styleUrls: ['./stars.page.scss'],
 })
 export class StarsPage implements OnInit {
-    colors: SC[] = Object.values(SC);
-    fillModes: SF[] = Object.values(SF);
+  colors: SC[] = Object.values(SC);
+  fillModes: SF[] = Object.values(SF);
 
-    valueFor5: number = 3.5;
-    max: number = 10;
-    valueFor10: number = 6.5;
+  valueFor5: number = 3.5;
+  max: number = 10;
+  valueFor10: number = 6.5;
 
-    constructor(private _logger: Logger) { }
-    log = this._logger.log;
+  constructor(private _logger: Logger) {}
+  log = this._logger.log;
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

@@ -1,35 +1,35 @@
 $offset: 187;
 
 .ard-spinner {
-    animation: rotator var(--ard-_spinner-duration) linear infinite;
+  animation: rotator var(--ard-_spinner-duration) linear infinite;
 }
 
 @keyframes rotator {
-    100% {
-        transform: rotate(360deg);
-    }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .ard-spinner-circle {
-    stroke-dasharray: 1, 200;
-    stroke-dashoffset: 0;
-    animation: dash var(--ard-_spinner-duration) ease-in-out infinite 0s;
-    stroke-linecap: round;
-    fill: none;
-    stroke-width: 3;
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+  animation: dash var(--ard-_spinner-duration) ease-in-out infinite 0s;
+  stroke-linecap: round;
+  fill: none;
+  stroke-width: 3;
 }
 
 @keyframes dash {
-    0% {
-        stroke-dasharray: 1, 200;
-        stroke-dashoffset: 0;
-    }
-    50% {
-        stroke-dasharray: 75, 200;
-        stroke-dashoffset: -35;
-    }
-    100% {
-        stroke-dasharray: 75, 200;
-        stroke-dashoffset: -124;
-    }
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 75, 200;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 75, 200;
+    stroke-dashoffset: -124;
+  }
 }

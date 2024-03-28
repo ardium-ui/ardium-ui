@@ -4,16 +4,8 @@ import { CalendarPage } from './calendar.page';
 import { ArdiumCalendarModule } from '@ardium-ui/ui';
 import { FormsModule } from '@angular/forms';
 
-
-
 @NgModule({
-    declarations: [
-        CalendarPage
-    ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        ArdiumCalendarModule,
-    ]
+  declarations: [CalendarPage],
+  imports: [CommonModule, FormsModule, ArdiumCalendarModule],
 })
-export class CalendarModule { }
+export class CalendarModule {}

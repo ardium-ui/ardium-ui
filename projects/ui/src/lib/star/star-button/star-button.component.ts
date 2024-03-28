@@ -6,36 +6,36 @@ import { StarColor } from '../star.types';
 import { StarFillMode } from './../star.types';
 
 @Component({
-    selector: 'ard-star-button',
-    templateUrl: './star-button.component.html',
-    styleUrls: ['./star-button.component.scss'],
-    encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => ArdiumStarButtonComponent),
-            multi: true,
-        },
-    ],
+  selector: 'ard-star-button',
+  templateUrl: './star-button.component.html',
+  styleUrls: ['./star-button.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => ArdiumStarButtonComponent),
+      multi: true,
+    },
+  ],
 })
 export class ArdiumStarButtonComponent extends _BooleanComponentBase implements ControlValueAccessor {
-    @Input() wrapperClasses: string = '';
-    @Input() clickStrategy: ClickStrategy = ClickStrategy.Default;
+  @Input() wrapperClasses: string = '';
+  @Input() clickStrategy: ClickStrategy = ClickStrategy.Default;
 
-    //* appearance
-    @Input() color: StarColor = StarColor.Star;
+  //* appearance
+  @Input() color: StarColor = StarColor.Star;
 
-    get ngClasses(): string {
-        return [`ard-color-${this.color}`].join(' ');
-    }
+  get ngClasses(): string {
+    return [`ard-color-${this.color}`].join(' ');
+  }
 
-    get starFillState(): StarFillMode {
-        return this.selected ? 'filled' : 'none';
-    }
+  get starFillState(): StarFillMode {
+    return this.selected ? 'filled' : 'none';
+  }
 
-    onClick(): void {
-        if (this.clickStrategy == 'none') return;
-        this.toggleSelected();
-    }
+  onClick(): void {
+    if (this.clickStrategy == 'none') return;
+    this.toggleSelected();
+  }
 }

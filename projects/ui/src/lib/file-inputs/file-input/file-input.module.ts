@@ -6,8 +6,8 @@ import { _ClearButtonModule } from '../../_internal/clear-button/clear-button.mo
 import { ArdiumIconModule } from '../../icon/icon.module';
 
 @NgModule({
-    declarations: [ArdiumFileInputComponent],
-    imports: [CommonModule, ArdiumFormFieldFrameModule, _ClearButtonModule, ArdiumIconModule],
-    exports: [ArdiumFileInputComponent],
+  declarations: [ArdiumFileInputComponent],
+  imports: [CommonModule, ArdiumFormFieldFrameModule, _ClearButtonModule, ArdiumIconModule],
+  exports: [ArdiumFileInputComponent],
 })
 export class ArdiumFileInputModule {}

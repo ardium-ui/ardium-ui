@@ -6,8 +6,8 @@ import { _ClearButtonModule } from '../../_internal/clear-button/clear-button.mo
 import { ArdiumFormFieldFrameModule } from '../../form-field-frame/form-field-frame.module';
 
 @NgModule({
-    declarations: [ArdiumHexInputComponent, ArdHexInputPlaceholderTemplateDirective, ArdHexInputPrefixTemplateDirective, ArdHexInputSuffixTemplateDirective],
-    imports: [CommonModule, ArdiumFormFieldFrameModule, _ClearButtonModule],
-    exports: [ArdiumHexInputComponent, ArdHexInputPlaceholderTemplateDirective, ArdHexInputPrefixTemplateDirective, ArdHexInputSuffixTemplateDirective],
+  declarations: [ArdiumHexInputComponent, ArdHexInputPlaceholderTemplateDirective, ArdHexInputPrefixTemplateDirective, ArdHexInputSuffixTemplateDirective],
+  imports: [CommonModule, ArdiumFormFieldFrameModule, _ClearButtonModule],
+  exports: [ArdiumHexInputComponent, ArdHexInputPlaceholderTemplateDirective, ArdHexInputPrefixTemplateDirective, ArdHexInputSuffixTemplateDirective],
 })
 export class ArdiumHexInputModule {}

@@ -1,13 +1,13 @@
 export type KeyboardShortcut = {
-    keys: string[];
-    event: KeyboardEvent;
-}
+  keys: string[];
+  event: KeyboardEvent;
+};
 export type KeyboardKey = {
-    key: string;
-    event: KeyboardEvent;
-}
+  key: string;
+  event: KeyboardEvent;
+};
 export type KeyboardKeyState = {
-    key: string;
-    isHeld: boolean;
-    event: KeyboardEvent;
-}
+  key: string;
+  isHeld: boolean;
+  event: KeyboardEvent;
+};

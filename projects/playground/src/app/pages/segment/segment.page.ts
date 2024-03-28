@@ -5,31 +5,31 @@ import { Logger } from '../../services/logger.service';
 @Component({
   selector: 'app-segment',
   templateUrl: './segment.page.html',
-  styleUrls: ['./segment.page.scss']
+  styleUrls: ['./segment.page.scss'],
 })
 export class SegmentPage {
-    options = ['Apple', 'Orange', 'Watermelon'];
+  options = ['Apple', 'Orange', 'Watermelon'];
 
-    optionsComplex = [
-        { type: 'bold', label: 'B', active: true },
-        { type: 'italic', label: 'I', active: true },
-        { type: 'underline', label: 'U', active: true },
-        { type: 'strike', label: 'S', active: false },
-    ];
+  optionsComplex = [
+    { type: 'bold', label: 'B', active: true },
+    { type: 'italic', label: 'I', active: true },
+    { type: 'underline', label: 'U', active: true },
+    { type: 'strike', label: 'S', active: false },
+  ];
 
-    optionsAnimals = ['Cat', 'Dog', 'Rat', 'Fox', 'Bee', 'Bat'];
+  optionsAnimals = ['Cat', 'Dog', 'Rat', 'Fox', 'Bee', 'Bat'];
 
-    optionsAlign = [
-        { value: 'left', icon: 'format_align_left' },
-        { value: 'center', icon: 'format_align_center' },
-        { value: 'right', icon: 'format_align_right' },
-        { value: 'justify', icon: 'format_align_justify' },
-    ];
+  optionsAlign = [
+    { value: 'left', icon: 'format_align_left' },
+    { value: 'center', icon: 'format_align_center' },
+    { value: 'right', icon: 'format_align_right' },
+    { value: 'justify', icon: 'format_align_justify' },
+  ];
 
-    appearances = Object.values(SegmentAppearance);
-    variants = Object.values(SegmentVariant);
-    colors = Object.values(ComponentColor);
+  appearances = Object.values(SegmentAppearance);
+  variants = Object.values(SegmentVariant);
+  colors = Object.values(ComponentColor);
 
-    constructor(private _logger: Logger) {}
-    log = this._logger.log;
+  constructor(private _logger: Logger) {}
+  log = this._logger.log;
 }

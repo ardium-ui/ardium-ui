@@ -4,8 +4,8 @@ import { ArdiumRadioGroupComponent } from './radio-group.component';
 import { ArdiumRadioComponent } from './radio/radio.component';
 
 @NgModule({
-    declarations: [ArdiumRadioGroupComponent, ArdiumRadioComponent],
-    imports: [CommonModule],
-    exports: [ArdiumRadioGroupComponent, ArdiumRadioComponent],
+  declarations: [ArdiumRadioGroupComponent, ArdiumRadioComponent],
+  imports: [CommonModule],
+  exports: [ArdiumRadioGroupComponent, ArdiumRadioComponent],
 })
 export class ArdiumRadioModule {}

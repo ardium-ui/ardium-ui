@@ -12,25 +12,20 @@ import { PasswordInputModule } from './password-input/password-input.module';
 import { SimpleInputModule } from './simple-input/simple-input.module';
 import { DigitInputModule } from './digit-input/digit-input.module';
 
-
 @NgModule({
-    declarations: [
-        InputsPage,
-    ],
-    imports: [
-        CommonModule,
-        InputsRoutingModule,
-        InputsHomeModule,
-        SimpleInputModule,
-        InputModule,
-        NumberInputModule,
-        HexInputModule,
-        ColorInputModule,
-        PasswordInputModule,
-        DigitInputModule,
-    ],
-    exports: [
-        InputsPage,
-    ]
+  declarations: [InputsPage],
+  imports: [
+    CommonModule,
+    InputsRoutingModule,
+    InputsHomeModule,
+    SimpleInputModule,
+    InputModule,
+    NumberInputModule,
+    HexInputModule,
+    ColorInputModule,
+    PasswordInputModule,
+    DigitInputModule,
+  ],
+  exports: [InputsPage],
 })
-export class InputsModule { }
+export class InputsModule {}

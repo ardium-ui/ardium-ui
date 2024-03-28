@@ -2,55 +2,55 @@
 @import '../variables';
 
 .ard-progress-circle {
-    @include coloringMixins.typeColors;
-    width: 3em;
+  @include coloringMixins.typeColors;
+  width: 3em;
 
-    --ard-_progress-circle-fill-color: var(--ard-cmpcl--bg-colored);
+  --ard-_progress-circle-fill-color: var(--ard-cmpcl--bg-colored);
 
-    //! appearances
-    &.ard-appearance-transparent {
-        .ard-progress-circle-background {
-            background: transparent;
-        }
+  //! appearances
+  &.ard-appearance-transparent {
+    .ard-progress-circle-background {
+      background: transparent;
     }
-    &.ard-appearance-colorless {
-        .ard-progress-circle-background {
-            background: $darken-overlay-medium;
-        }
+  }
+  &.ard-appearance-colorless {
+    .ard-progress-circle-background {
+      background: $darken-overlay-medium;
     }
-    &.ard-appearance-colored {
-        .ard-progress-circle-background {
-            opacity: 16%;
-            background: var(--ard-cmpcl--bg-colored);
-        }
-        //special case for no coloring
-        &.ard-color-none {
-            .ard-progress-circle-background {
-                opacity: 8%;
-            }
-        }
+  }
+  &.ard-appearance-colored {
+    .ard-progress-circle-background {
+      opacity: 16%;
+      background: var(--ard-cmpcl--bg-colored);
     }
-    //! ring variant
-    &.ard-progress-circle-variant-ring {
-        .ard-progress-circle-background,
-        .ard-progress-circle-overlay {
-            //magic number
-            //don't know why this value specifically looks good
-            mask: radial-gradient(transparent 59%, #000 59%);
-        }
+    //special case for no coloring
+    &.ard-color-none {
+      .ard-progress-circle-background {
+        opacity: 8%;
+      }
     }
-    //! value
+  }
+  //! ring variant
+  &.ard-progress-circle-variant-ring {
+    .ard-progress-circle-background,
+    .ard-progress-circle-overlay {
+      //magic number
+      //don't know why this value specifically looks good
+      mask: radial-gradient(transparent 59%, #000 59%);
+    }
+  }
+  //! value
+  .ard-progress-circle-value {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    font-size: 0.9em;
+  }
+  &.ard-progress-circle-variant-full {
     .ard-progress-circle-value {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        font-weight: bold;
-        font-size: 0.9em;
+      display: none;
     }
-    &.ard-progress-circle-variant-full {
-        .ard-progress-circle-value {
-            display: none;
-        }
-    }
+  }
 }

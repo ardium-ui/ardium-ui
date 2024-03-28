@@ -4,16 +4,8 @@ import { NumberInputPage } from './number-input.page';
 import { FormsModule } from '@angular/forms';
 import { ArdiumNumberInputModule } from '@ardium-ui/ui';
 
-
-
 @NgModule({
-    declarations: [
-        NumberInputPage,
-    ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        ArdiumNumberInputModule,
-    ]
+  declarations: [NumberInputPage],
+  imports: [CommonModule, FormsModule, ArdiumNumberInputModule],
 })
-export class NumberInputModule { }
+export class NumberInputModule {}

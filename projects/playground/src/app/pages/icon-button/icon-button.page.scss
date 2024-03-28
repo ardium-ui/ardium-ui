@@ -1,46 +1,46 @@
 .appearance {
-    font-size: 14px;
-    font-weight: normal;
+  font-size: 14px;
+  font-weight: normal;
 }
 
 .playground {
-    padding: 1rem;
-    padding-top: 0;
+  padding: 1rem;
+  padding-top: 0;
 }
 label {
-    font-weight: 500;
+  font-weight: 500;
 }
 .settings-form {
-    margin-top: 1.5rem;
-    gap: 1rem;
-    display: flex;
-    flex-direction: column;
-    width: max-content;
+  margin-top: 1.5rem;
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  width: max-content;
 }
 .checkboxes {
-    gap: 1rem;
+  gap: 1rem;
 }
 .settings-top {
-    display: flex;
-    gap: 3rem;
+  display: flex;
+  gap: 3rem;
 
-    >* {
-        display: flex;
-        flex-direction: column;
-        gap: 0.6rem;
-    }
-}
-.settings-left {
-    width: 150px;
-}
-.settings-right {
-    justify-content: space-between;
-}
-.button-container {
-    margin: 2rem auto 1rem;
-}
-.settings-bottom {
+  > * {
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
+  }
+}
+.settings-left {
+  width: 150px;
+}
+.settings-right {
+  justify-content: space-between;
+}
+.button-container {
+  margin: 2rem auto 1rem;
+}
+.settings-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
 }

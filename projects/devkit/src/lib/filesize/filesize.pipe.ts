@@ -2,20 +2,19 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { approximate } from 'more-rounding';
 
 const filesizeMap = {
-    k: 'k',
-    M: 'M',
-    B: 'G',
-    T: 'T',
-    Qa: 'P',
-    Qi: 'E',
-}
+  k: 'k',
+  M: 'M',
+  B: 'G',
+  T: 'T',
+  Qa: 'P',
+  Qi: 'E',
+};
 
 @Pipe({
-    name: 'filesize'
+  name: 'filesize',
 })
 export class ArdiumFilesizePipe implements PipeTransform {
-
-    transform(value: number, precision: number = 2): string {
-        return approximate(value, precision, undefined, undefined, filesizeMap) + "B";
-    }
+  transform(value: number, precision: number = 2): string {
+    return approximate(value, precision, undefined, undefined, filesizeMap) + 'B';
+  }
 }

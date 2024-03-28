@@ -8,9 +8,9 @@ interface OptionContext {
 ```
  */
 export interface OptionContext {
-    $implicit: ArdOption;
-    item: ArdOption;
-    itemData: any;
+  $implicit: ArdOption;
+  item: ArdOption;
+  itemData: any;
 }
 
 /**
@@ -26,13 +26,13 @@ interface ArdOption {
 ```
  */
 export interface ArdSimplestStorageItem {
-    readonly itemData: any;
-    readonly index: number;
-    value: any;
-    label: string;
-    disabled?: boolean;
-    selected?: boolean;
-    highlighted?: boolean;
+  readonly itemData: any;
+  readonly index: number;
+  value: any;
+  label: string;
+  disabled?: boolean;
+  selected?: boolean;
+  highlighted?: boolean;
 }
 
 /**
@@ -49,7 +49,7 @@ interface ArdOption {
 ```
  */
 export interface ArdOptionSimple extends ArdSimplestStorageItem {
-    disabled?: boolean;
+  disabled?: boolean;
 }
 /**
 ```typescript
@@ -67,8 +67,8 @@ interface ArdOption {
 ```
  */
 export interface ArdOption extends ArdOptionSimple {
-    readonly group?: any;
-    highlighted_recently?: boolean;
+  readonly group?: any;
+  highlighted_recently?: boolean;
 }
 
 /**
@@ -83,17 +83,17 @@ interface ArdItemGroup {
 ```
  */
 export interface ArdOptionGroup {
-    label: string;
-    disabled?: boolean;
-    highlighted?: boolean;
-    selected?: boolean;
-    children: ArdOption[];
+  label: string;
+  disabled?: boolean;
+  highlighted?: boolean;
+  selected?: boolean;
+  children: ArdOption[];
 }
 
 export const ArdPanelPosition = {
-    Top: 'top',
-    Bottom: 'bottom',
-    Auto: 'auto',
+  Top: 'top',
+  Bottom: 'bottom',
+  Auto: 'auto',
 } as const;
 export type ArdPanelPosition = (typeof ArdPanelPosition)[keyof typeof ArdPanelPosition];
 

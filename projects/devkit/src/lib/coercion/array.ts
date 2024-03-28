@@ -1,5 +1,3 @@
-
-
 /**
  * Type describing the allowed values for a number input
  */
@@ -22,15 +20,12 @@ export type ArrayInput = string | any[] | null | undefined;
  * @param separator split-separator if value isn't an array. Defaults to the string `","`.
  */
 export function coerceArrayProperty(value: any, separator: string | RegExp = ','): string[] {
-    if (Array.isArray(value))
-        return value
-            .map(v => String(v).trim())
-            .filter(v => v.length);
+  if (Array.isArray(value)) return value.map(v => String(v).trim()).filter(v => v.length);
 
-    if (value == null || value === '') return [];
+  if (value == null || value === '') return [];
 
-    return String(value)
-        .split(separator)
-        .map(v => v.trim())
-        .filter(v => v.length);
+  return String(value)
+    .split(separator)
+    .map(v => v.trim())
+    .filter(v => v.length);
 }

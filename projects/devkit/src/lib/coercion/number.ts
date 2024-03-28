@@ -1,5 +1,3 @@
-
-
 /**
  * Type describing the allowed values for a number input
  */
@@ -22,12 +20,12 @@ export function coerceNumberProperty(value: any): number;
  */
 export function coerceNumberProperty<D>(value: any, fallback: D): number | D;
 export function coerceNumberProperty(value: any, fallbackValue = undefined) {
-    return _isNumberValue(value) ? Number(value) : fallbackValue;
+  return _isNumberValue(value) ? Number(value) : fallbackValue;
 }
 
 /**
  * Whether the provided value is considered a number.
  */
 function _isNumberValue(value: any): boolean {
-    return !isNaN(parseFloat(value as any)) && !isNaN(Number(value));
+  return !isNaN(parseFloat(value as any)) && !isNaN(Number(value));
 }

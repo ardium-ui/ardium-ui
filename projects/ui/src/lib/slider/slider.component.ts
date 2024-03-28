@@ -5,82 +5,82 @@ import { _AbstractSlider } from './abstract-slider';
 import { SliderTooltipContext } from './slider.types';
 
 @Component({
-    selector: 'ard-slider',
-    templateUrl: './slider.component.html',
-    styleUrls: ['./slider.component.scss'],
-    encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => ArdiumSliderComponent),
-            multi: true,
-        },
-    ],
+  selector: 'ard-slider',
+  templateUrl: './slider.component.html',
+  styleUrls: ['./slider.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => ArdiumSliderComponent),
+      multi: true,
+    },
+  ],
 })
 export class ArdiumSliderComponent extends _AbstractSlider<number> {
-    //! value input & output
-    protected _value: number = 0;
+  //! value input & output
+  protected _value: number = 0;
 
-    //! tooltip updater
-    _tooltipValue: string = String(this.value);
+  //! tooltip updater
+  _tooltipValue: string = String(this.value);
 
-    protected _updateTooltipValue(): void {
-        let v: string | number = this._value;
-        if (this.tooltipFormat) v = this.tooltipFormat(v);
-        this._tooltipValue = String(v);
-    }
+  protected _updateTooltipValue(): void {
+    let v: string | number = this._value;
+    if (this.tooltipFormat) v = this.tooltipFormat(v);
+    this._tooltipValue = String(v);
+  }
 
-    getTooltipContext(): SliderTooltipContext {
-        return {
-            value: this._tooltipValue,
-            $implicit: this._tooltipValue,
-        };
-    }
+  getTooltipContext(): SliderTooltipContext {
+    return {
+      value: this._tooltipValue,
+      $implicit: this._tooltipValue,
+    };
+  }
 
-    //! writeValue
-    writeValue(v: any): void {
-        v = Number(v);
-        if (isNaN(v)) {
-            this.reset();
-            return;
-        }
-        v = this._clampValue(v);
-        this._value = v;
-        this._positionPercent[0] = this._valueToPercent(v);
-        this._updateTooltipValue();
+  //! writeValue
+  writeValue(v: any): void {
+    v = Number(v);
+    if (isNaN(v)) {
+      this.reset();
+      return;
     }
+    v = this._clampValue(v);
+    this._value = v;
+    this._positionPercent[0] = this._valueToPercent(v);
+    this._updateTooltipValue();
+  }
 
-    //! methods for programmatic manipulation
-    reset(): void {
-        this._value = 0;
-        this._positionPercent[0] = 0;
-    }
-    increment(steps: number = 1): void {
-        this._offset(steps, false);
-    }
-    decrement(steps: number = 1): void {
-        this._offset(-steps, false);
-    }
+  //! methods for programmatic manipulation
+  reset(): void {
+    this._value = 0;
+    this._positionPercent[0] = 0;
+  }
+  increment(steps: number = 1): void {
+    this._offset(steps, false);
+  }
+  decrement(steps: number = 1): void {
+    this._offset(-steps, false);
+  }
 
-    //! event handlers
-    onTrackHitboxPointerDown(event: MouseEvent | TouchEvent): void {
-        this._writeValueFromEvent(event);
-        this.onPointerDownOnHandle(event);
-    }
-    @HostListener('document:mousemove', ['$event'])
-    @HostListener('document:touchmove', ['$event'])
-    onPointerMove(event: MouseEvent | TouchEvent): void {
-        if (!this._shouldCheckForMovement) return;
-        this._writeValueFromEvent(event);
-    }
+  //! event handlers
+  onTrackHitboxPointerDown(event: MouseEvent | TouchEvent): void {
+    this._writeValueFromEvent(event);
+    this.onPointerDownOnHandle(event);
+  }
+  @HostListener('document:mousemove', ['$event'])
+  @HostListener('document:touchmove', ['$event'])
+  onPointerMove(event: MouseEvent | TouchEvent): void {
+    if (!this._shouldCheckForMovement) return;
+    this._writeValueFromEvent(event);
+  }
 
-    //! position calculators
-    protected _percentValueToValue(percent: number): number {
-        const minMaxDifference = Math.abs(this._min - this._max);
-        const newVal = percent * minMaxDifference + this._min;
-        //round to 9 decimal places to avoid floating point arithmetic errors
-        //9 is an arbitrary number that just works well. ¯\_(ツ)_/¯
-        return roundToPrecision(newVal, 9);
-    }
+  //! position calculators
+  protected _percentValueToValue(percent: number): number {
+    const minMaxDifference = Math.abs(this._min - this._max);
+    const newVal = percent * minMaxDifference + this._min;
+    //round to 9 decimal places to avoid floating point arithmetic errors
+    //9 is an arbitrary number that just works well. ¯\_(ツ)_/¯
+    return roundToPrecision(newVal, 9);
+  }
 }

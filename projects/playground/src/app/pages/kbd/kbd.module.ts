@@ -3,15 +3,8 @@ import { CommonModule } from '@angular/common';
 import { KbdPage } from './kbd.page';
 import { ArdiumKbdModule } from '@ardium-ui/ui';
 
-
-
 @NgModule({
-    declarations: [
-        KbdPage
-    ],
-    imports: [
-        CommonModule,
-        ArdiumKbdModule,
-    ]
+  declarations: [KbdPage],
+  imports: [CommonModule, ArdiumKbdModule],
 })
-export class KbdModule { }
+export class KbdModule {}

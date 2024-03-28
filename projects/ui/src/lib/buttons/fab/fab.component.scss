@@ -1,24 +1,24 @@
 .ard-fab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  border-radius: 9999px;
+
+  .ard-button-content {
+    max-height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    overflow: hidden;
-    position: relative;
-    border-radius: 9999px;
+  }
+
+  &:not(.ard-fab-extended) {
+    aspect-ratio: 1;
 
     .ard-button-content {
-        max-height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+      aspect-ratio: 1;
     }
-
-    &:not(.ard-fab-extended) {
-        aspect-ratio: 1;
-
-        .ard-button-content {
-            aspect-ratio: 1;
-        }
-    }
+  }
 }

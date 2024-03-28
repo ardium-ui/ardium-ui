@@ -3,142 +3,142 @@
 @import '../../variables';
 
 @mixin button {
-    @include coloringMixins.typeColors();
-    font-family: 'Roboto', sans-serif;
-    margin: 2px;
-    border: 1px solid transparent;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
-    outline: none;
+  @include coloringMixins.typeColors();
+  font-family: 'Roboto', sans-serif;
+  margin: 2px;
+  border: 1px solid transparent;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  outline: none;
 
-    //! button icon
-    .ard-button-icon {
-        @include defaultMixins.icon(1);
-    }
-    //! button focus inficator
+  //! button icon
+  .ard-button-icon {
+    @include defaultMixins.icon(1);
+  }
+  //! button focus inficator
+  .ard-focus-overlay {
+    @include defaultMixins.focus-overlay;
+    background-color: var(--ard-cmpcl--overlay);
+  }
+  &:hover,
+  &:focus {
     .ard-focus-overlay {
-        @include defaultMixins.focus-overlay;
-        background-color: var(--ard-cmpcl--overlay);
+      opacity: 4%;
     }
+  }
+  &.ard-active,
+  &:active {
+    .ard-focus-overlay {
+      opacity: 12%;
+    }
+  }
+  &:focus-visible {
+    .ard-focus-overlay {
+      opacity: 18%;
+    }
+  }
+  //! button appearances
+  &.ard-appearance-transparent,
+  &.ard-appearance-raised {
+    background: transparent;
+    color: var(--ard-cmpcl--content);
+    border: none;
+
+    .ard-focus-overlay {
+      background: var(--ard-cmpcl--overlay-colored);
+    }
+  }
+  &.ard-appearance-flat,
+  &.ard-appearance-raised-strong {
+    background: var(--ard-cmpcl--bg);
+    color: var(--ard-cmpcl--on-bg);
+    border: none;
+
+    .ard-focus-overlay {
+      background: var(--ard-cmpcl--on-bg);
+    }
+  }
+  &.ard-appearance-raised,
+  &.ard-appearance-raised-strong {
+    transition: box-shadow 0.28s $timing-fn;
+    box-shadow: $simple-shadow;
+
     &:hover,
     &:focus {
-        .ard-focus-overlay {
-            opacity: 4%;
-        }
+      box-shadow: $simple-shadow2;
     }
-    &.ard-active,
     &:active {
-        .ard-focus-overlay {
-            opacity: 12%;
-        }
+      box-shadow: $simple-shadow3;
+    }
+  }
+  &.ard-appearance-outlined {
+    background: $bg;
+    color: var(--ard-cmpcl--content);
+    border: 1px solid $border-light;
+
+    .ard-focus-overlay {
+      background: var(--ard-cmpcl--overlay-colored);
+    }
+  }
+  &.ard-appearance-outlined-strong {
+    background: $bg;
+    color: var(--ard-cmpcl--content);
+    border: 1px solid $border-light;
+
+    .ard-focus-overlay {
+      display: none;
+    }
+
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+    &:hover,
+    &:focus,
+    &:focus-visible {
+      background: var(--ard-cmpcl--bg-colored);
+      color: var(--ard-cmpcl--on-bg-colored);
+    }
+  }
+  &.ard-appearance-raised-strong,
+  &.ard-appearance-flat {
+    .ard-focus-overlay {
+      background: var(--ard-cmpcl--on-bg);
     }
     &:focus-visible {
-        .ard-focus-overlay {
-            opacity: 18%;
-        }
+      outline: solid black;
     }
-    //! button appearances
-    &.ard-appearance-transparent,
-    &.ard-appearance-raised {
-        background: transparent;
-        color: var(--ard-cmpcl--content);
-        border: none;
+  }
+  //! light coloring
+  &.ard-appearance-transparent.ard-light-coloring {
+    color: var(--ard-cmpcl--content-light);
 
-        .ard-focus-overlay {
-            background: var(--ard-cmpcl--overlay-colored);
-        }
+    .ard-focus-overlay {
+      background: var(--ard-cmpcl--overlay-colored-light);
     }
-    &.ard-appearance-flat,
-    &.ard-appearance-raised-strong {
-        background: var(--ard-cmpcl--bg);
-        color: var(--ard-cmpcl--on-bg);
-        border: none;
-
-        .ard-focus-overlay {
-            background: var(--ard-cmpcl--on-bg);
-        }
-    }
-    &.ard-appearance-raised,
-    &.ard-appearance-raised-strong {
-        transition: box-shadow 0.28s $timing-fn;
-        box-shadow: $simple-shadow;
-
-        &:hover,
-        &:focus {
-            box-shadow: $simple-shadow2;
-        }
-        &:active {
-            box-shadow: $simple-shadow3;
-        }
-    }
-    &.ard-appearance-outlined {
-        background: $bg;
-        color: var(--ard-cmpcl--content);
-        border: 1px solid $border-light;
-
-        .ard-focus-overlay {
-            background: var(--ard-cmpcl--overlay-colored);
-        }
-    }
-    &.ard-appearance-outlined-strong {
-        background: $bg;
-        color: var(--ard-cmpcl--content);
-        border: 1px solid $border-light;
-
-        .ard-focus-overlay {
-            display: none;
-        }
-
-        transition:
-            background-color 0.2s ease,
-            color 0.2s ease;
-        &:hover,
-        &:focus,
-        &:focus-visible {
-            background: var(--ard-cmpcl--bg-colored);
-            color: var(--ard-cmpcl--on-bg-colored);
-        }
-    }
-    &.ard-appearance-raised-strong,
-    &.ard-appearance-flat {
-        .ard-focus-overlay {
-            background: var(--ard-cmpcl--on-bg);
-        }
-        &:focus-visible {
-            outline: solid black;
-        }
-    }
-    //! light coloring
-    &.ard-appearance-transparent.ard-light-coloring {
-        color: var(--ard-cmpcl--content-light);
-
-        .ard-focus-overlay {
-            background: var(--ard-cmpcl--overlay-colored-light);
-        }
-    }
+  }
 }
 
 //! disabled state
 @mixin button-disabled {
-    pointer-events: none;
-    opacity: 60%;
+  pointer-events: none;
+  opacity: 60%;
 
+  .ard-focus-overlay {
+    opacity: 20%;
+    transform: scale(1);
+  }
+
+  //edge case for no coloring
+  &.ard-color-none {
+    .ard-button-icon,
+    .ard-button-content {
+      opacity: 60%;
+    }
     .ard-focus-overlay {
-        opacity: 20%;
-        transform: scale(1);
+      background: var(--ard-cmpcl--overlay);
     }
-
-    //edge case for no coloring
-    &.ard-color-none {
-        .ard-button-icon,
-        .ard-button-content {
-            opacity: 60%;
-        }
-        .ard-focus-overlay {
-            background: var(--ard-cmpcl--overlay);
-        }
-    }
+  }
 }

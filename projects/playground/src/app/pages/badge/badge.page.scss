@@ -1,73 +1,73 @@
 .appearance {
-    font-size: 14px;
-    font-weight: normal;
+  font-size: 14px;
+  font-weight: normal;
 }
 
 .playground {
-    padding: 1rem;
-    padding-top: 0;
+  padding: 1rem;
+  padding-top: 0;
 
-    .ard-segment-row {
-        .ard-option-disabled {
-            border-color: transparent;
-        }
-        &:first-child {
-            .ard-option-disabled:nth-of-type(2) {
-                border-top-color: var(--ard-cmpcl--button-border);
-            }
-        }
-        &:nth-child(2) {
-            .ard-option-disabled:first-child {
-                border-left-color: var(--ard-cmpcl--button-border);
-            }
-            .ard-option-disabled:last-child {
-                border-right-color: var(--ard-cmpcl--button-border);
-            }
-        }
-        &:last-child {
-            .ard-option-disabled:nth-of-type(2) {
-                border-bottom-color: var(--ard-cmpcl--button-border);
-            }
-        }
+  .ard-segment-row {
+    .ard-option-disabled {
+      border-color: transparent;
     }
+    &:first-child {
+      .ard-option-disabled:nth-of-type(2) {
+        border-top-color: var(--ard-cmpcl--button-border);
+      }
+    }
+    &:nth-child(2) {
+      .ard-option-disabled:first-child {
+        border-left-color: var(--ard-cmpcl--button-border);
+      }
+      .ard-option-disabled:last-child {
+        border-right-color: var(--ard-cmpcl--button-border);
+      }
+    }
+    &:last-child {
+      .ard-option-disabled:nth-of-type(2) {
+        border-bottom-color: var(--ard-cmpcl--button-border);
+      }
+    }
+  }
 }
 label {
-    font-weight: 500;
+  font-weight: 500;
 }
 .settings-form {
-    margin-top: 1.5rem;
-    gap: 1rem;
-    display: flex;
-    flex-direction: column;
-    width: max-content;
+  margin-top: 1.5rem;
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  width: max-content;
 }
 .checkboxes {
-    gap: 1rem;
+  gap: 1rem;
 }
 .settings-top,
 .settings-bottom {
-    display: flex;
-    gap: 3rem;
+  display: flex;
+  gap: 3rem;
 
-    > * {
-        display: flex;
-        flex-direction: column;
-        gap: 0.6rem;
-    }
+  > * {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
 }
 .settings-top {
-    .settings-right {
-        justify-content: space-between;
-    }
+  .settings-right {
+    justify-content: space-between;
+  }
 }
 .settings-bottom {
-    .settings-right {
-        justify-content: center;
-    }
+  .settings-right {
+    justify-content: center;
+  }
 }
 .settings-left {
-width: 250px;
+  width: 250px;
 }
 .button-container {
-    margin: 2rem auto 1rem;
+  margin: 2rem auto 1rem;
 }

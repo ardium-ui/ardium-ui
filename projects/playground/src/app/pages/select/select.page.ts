@@ -4,42 +4,41 @@ import { Logger } from '../../services/logger.service';
 import { DataService } from './../../services/data.service';
 
 @Component({
-    selector: 'app-select',
-    templateUrl: './select.page.html',
-    styleUrls: ['./select.page.scss']
+  selector: 'app-select',
+  templateUrl: './select.page.html',
+  styleUrls: ['./select.page.scss'],
 })
 export class SelectPage implements OnInit {
+  constructor(
+    private _logger: Logger,
+    private _dataService: DataService
+  ) {}
+  readonly log = this._logger.log;
 
-    constructor(private _logger: Logger, private _dataService: DataService) { }
-    readonly log = this._logger.log;
+  ngOnInit(): void {}
 
+  //* item lists
+  animals = Array.from(this._dataService.animalsArray);
+  fruits = Array.from(this._dataService.fruitArray);
+  colors = Array.from(this._dataService.colorsArray);
 
-    ngOnInit(): void {
-        
-    }
+  //* color search fn
+  readonly colorSearchFn = ArdSearchFunction.byLabelAndGroup;
 
-    //* item lists
-    animals = Array.from(this._dataService.animalsArray);
-    fruits = Array.from(this._dataService.fruitArray);
-    colors = Array.from(this._dataService.colorsArray);
+  //* add custom fn
+  readonly addCustomFn = (search: string) => {
+    return { value: { value: search, custom: true }, label: search };
+  };
 
-    //* color search fn
-    readonly colorSearchFn = ArdSearchFunction.byLabelAndGroup;
+  isFetchingFromBackend: boolean = false;
+  readonly addCustomBackendFn = (search: string) => {
+    return new Promise<any>(resolve => {
+      this.isFetchingFromBackend = true;
 
-    //* add custom fn
-    readonly addCustomFn = (search: string) => {
-        return { value: { value: search, custom: true }, label: search };
-    }
-
-    isFetchingFromBackend: boolean = false;
-    readonly addCustomBackendFn = (search: string) => {
-        return new Promise<any>(resolve => {
-            this.isFetchingFromBackend = true;
-
-            setTimeout(() => {
-                this.isFetchingFromBackend = false;
-                resolve(search);
-            }, 1000);
-        })
-    }
+      setTimeout(() => {
+        this.isFetchingFromBackend = false;
+        resolve(search);
+      }, 1000);
+    });
+  };
 }

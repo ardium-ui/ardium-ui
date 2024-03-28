@@ -3,19 +3,8 @@ import { NgModule } from '@angular/core';
 import { ArdiumButtonModule, ArdiumCheckboxModule, ArdiumRadioModule, ArdiumSelectModule, ArdiumSimpleInputModule } from '@ardium-ui/ui';
 import { ButtonPage } from './button.page';
 
-
-
 @NgModule({
-    declarations: [
-        ButtonPage
-    ],
-    imports: [
-        CommonModule,
-        ArdiumButtonModule,
-        ArdiumRadioModule,
-        ArdiumCheckboxModule,
-        ArdiumSelectModule,
-        ArdiumSimpleInputModule,
-    ]
+  declarations: [ButtonPage],
+  imports: [CommonModule, ArdiumButtonModule, ArdiumRadioModule, ArdiumCheckboxModule, ArdiumSelectModule, ArdiumSimpleInputModule],
 })
-export class ButtonModule { }
+export class ButtonModule {}

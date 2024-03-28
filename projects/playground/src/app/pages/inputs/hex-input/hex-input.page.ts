@@ -5,14 +5,14 @@ import { FormElementAppearance as FA, FormElementVariant as FV } from '@ardium-u
 @Component({
   selector: 'app-hex-input',
   templateUrl: './hex-input.page.html',
-  styleUrls: ['./hex-input.page.scss']
+  styleUrls: ['./hex-input.page.scss'],
 })
 export class HexInputPage {
-    value: string | null = '#000000';
+  value: string | null = '#000000';
 
-    appearances: FA[] = Object.values(FA);
-    variants: FV[] = Object.values(FV);
+  appearances: FA[] = Object.values(FA);
+  variants: FV[] = Object.values(FV);
 
-    constructor(private _logger: Logger) { }
-    log = this._logger.log;
+  constructor(private _logger: Logger) {}
+  log = this._logger.log;
 }

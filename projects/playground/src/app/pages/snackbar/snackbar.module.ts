@@ -4,10 +4,8 @@ import { SnackbarPage } from './snackbar.page';
 import { ArdiumButtonModule, ArdiumSnackbarService } from '@ardium-ui/ui';
 
 @NgModule({
-    declarations: [SnackbarPage],
-    imports: [CommonModule, ArdiumButtonModule],
-    providers: [ArdiumSnackbarService],
+  declarations: [SnackbarPage],
+  imports: [CommonModule, ArdiumButtonModule],
+  providers: [ArdiumSnackbarService],
 })
-export class SnackbarModule {
-    
-}
+export class SnackbarModule {}

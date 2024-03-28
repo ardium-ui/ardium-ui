@@ -3,15 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ColorInputPage } from './color-input.page';
 import { ArdiumColorInputModule } from '@ardium-ui/ui';
 
-
-
 @NgModule({
-    declarations: [
-        ColorInputPage
-    ],
-    imports: [
-        CommonModule,
-        ArdiumColorInputModule,
-    ]
+  declarations: [ColorInputPage],
+  imports: [CommonModule, ArdiumColorInputModule],
 })
-export class ColorInputModule { }
+export class ColorInputModule {}

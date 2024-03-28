@@ -1,12 +1,12 @@
 export interface FileInputBrowseContext {
-    browse: () => void;
+  browse: () => void;
 }
 
 export interface FileInputFileAmountContext {
-    amount: number;
+  amount: number;
 }
 
 export interface FileInputFilesContext extends FileInputFileAmountContext {
-    $implicit: File[];
-    files: File[];
+  $implicit: File[];
+  files: File[];
 }

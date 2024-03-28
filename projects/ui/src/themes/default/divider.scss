@@ -1,13 +1,13 @@
 @import '../variables';
 
 ard-divider {
-    margin: 0;
+  margin: 0;
 
-    &:not(.ard-divider-vertical) {
-        border-top: 1px solid $detail-ultralight;
-    }
+  &:not(.ard-divider-vertical) {
+    border-top: 1px solid $detail-ultralight;
+  }
 
-    &.ard-divider-vertical {
-        border-left: 1px solid $detail-ultralight;
-    }
+  &.ard-divider-vertical {
+    border-left: 1px solid $detail-ultralight;
+  }
 }

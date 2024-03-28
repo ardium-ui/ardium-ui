@@ -4,75 +4,75 @@
 @import '../../variables';
 
 .ard-file-input-form-field-frame {
-    .ard-form-field-overlay {
-        display: none;
-    }
+  .ard-form-field-overlay {
+    display: none;
+  }
 }
 .ard-file-input {
-    @include inputMixin.genericInput();
-    padding: 0 0 0 0.375rem;
-    min-width: 10rem;
-    max-width: 100%;
-    gap: 0.125rem;
-    cursor: default;
+  @include inputMixin.genericInput();
+  padding: 0 0 0 0.375rem;
+  min-width: 10rem;
+  max-width: 100%;
+  gap: 0.125rem;
+  cursor: default;
 
-    *:not(button):not(ard-_clear-button) {
-        pointer-events: none;
-        user-select: none;
+  *:not(button):not(ard-_clear-button) {
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .ard-file-input__value {
+    font-size: 92%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 1.25rem;
+  }
+  .ard-browse-button {
+    cursor: pointer;
+    height: calc(100% - 0.25rem);
+    margin: 0.125rem;
+    aspect-ratio: 1;
+    border: none;
+    background: none;
+    padding: 0;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+
+    .ard-focus-overlay {
+      @include defaultMixins.focus-overlay();
+      background: $overlay;
+      border-radius: 9999px;
     }
-
-    .ard-file-input__value {
-        font-size: 92%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-height: 1.25rem;
+    &:hover {
+      .ard-focus-overlay {
+        opacity: 4%;
+      }
     }
-    .ard-browse-button {
-        cursor: pointer;
-        height: calc(100% - 0.25rem);
-        margin: 0.125rem;
-        aspect-ratio: 1;
-        border: none;
-        background: none;
-        padding: 0;
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        outline: none;
-
-        .ard-focus-overlay {
-            @include defaultMixins.focus-overlay();
-            background: $overlay;
-            border-radius: 9999px;
-        }
-        &:hover {
-            .ard-focus-overlay {
-                opacity: 4%;
-            }
-        }
-        &:focus {
-            .ard-focus-overlay {
-                opacity: 8%;
-            }
-        }
-        &:active {
-            .ard-focus-overlay {
-                opacity: 12%;
-            }
-        }
-        &:focus-visible {
-            .ard-focus-overlay {
-                opacity: 16%;
-            }
-        }
+    &:focus {
+      .ard-focus-overlay {
+        opacity: 8%;
+      }
     }
+    &:active {
+      .ard-focus-overlay {
+        opacity: 12%;
+      }
+    }
+    &:focus-visible {
+      .ard-focus-overlay {
+        opacity: 16%;
+      }
+    }
+  }
 
-    @include CB.clearButton();
+  @include CB.clearButton();
 }
 .ard-disabled {
-    .ard-input {
-        pointer-events: none;
-        opacity: 50%;
-    }
+  .ard-input {
+    pointer-events: none;
+    opacity: 50%;
+  }
 }

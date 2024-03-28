@@ -1,62 +1,60 @@
-
-
 .ard-rounded-selection-container {
-    --ard-rounded-selection-fill: rgba(0, 0, 0, 0.2);
-    --ard-rounded-selection-border-radius: 6px;
+  --ard-rounded-selection-fill: rgba(0, 0, 0, 0.2);
+  --ard-rounded-selection-border-radius: 6px;
 }
 //! fill
 .ard-rounded-selection-filled {
-    background-color: var(--ard-rounded-selection-fill);
+  background-color: var(--ard-rounded-selection-fill);
 }
 .ard-rounded-selection-empty {
-    background: transparent;
+  background: transparent;
 }
 //! corners
 .ard-rounded-selection {
-    border-radius: 0;
+  border-radius: 0;
 }
 .ard-rounded-selection-top-left-rounded {
-    border-top-left-radius: var(--ard-rounded-selection-border-radius);
+  border-top-left-radius: var(--ard-rounded-selection-border-radius);
 }
 .ard-rounded-selection-top-right-rounded {
-    border-top-right-radius: var(--ard-rounded-selection-border-radius);
+  border-top-right-radius: var(--ard-rounded-selection-border-radius);
 }
 .ard-rounded-selection-bottom-left-rounded {
-    border-bottom-left-radius: var(--ard-rounded-selection-border-radius);
+  border-bottom-left-radius: var(--ard-rounded-selection-border-radius);
 }
 .ard-rounded-selection-bottom-right-rounded {
-    border-bottom-right-radius: var(--ard-rounded-selection-border-radius);
+  border-bottom-right-radius: var(--ard-rounded-selection-border-radius);
 }
 //! negative corners
 .ard-rounded-selection-negative {
-    background: none;
-    position: relative;
-    overflow: hidden;
+  background: none;
+  position: relative;
+  overflow: hidden;
 }
 .ard-rounded-selection-negative::before {
-    content: "";
-    background: transparent;
-    position: absolute;
-    width: var(--ard-rounded-selection-border-radius);
-    height: calc(2 * var(--ard-rounded-selection-border-radius));
+  content: '';
+  background: transparent;
+  position: absolute;
+  width: var(--ard-rounded-selection-border-radius);
+  height: calc(2 * var(--ard-rounded-selection-border-radius));
 }
 .ard-rounded-selection-top-left-negative::before {
-    left: 0;
-    border-top-left-radius: var(--ard-rounded-selection-border-radius);
-    box-shadow: 0 calc(-1 * var(--ard-rounded-selection-border-radius)) 0 0 var(--ard-rounded-selection-fill);
+  left: 0;
+  border-top-left-radius: var(--ard-rounded-selection-border-radius);
+  box-shadow: 0 calc(-1 * var(--ard-rounded-selection-border-radius)) 0 0 var(--ard-rounded-selection-fill);
 }
 .ard-rounded-selection-top-right-negative::before {
-    right: 0;
-    border-top-right-radius: var(--ard-rounded-selection-border-radius);
-    box-shadow: 0 calc(-1 * var(--ard-rounded-selection-border-radius)) 0 0 var(--ard-rounded-selection-fill);
+  right: 0;
+  border-top-right-radius: var(--ard-rounded-selection-border-radius);
+  box-shadow: 0 calc(-1 * var(--ard-rounded-selection-border-radius)) 0 0 var(--ard-rounded-selection-fill);
 }
 .ard-rounded-selection-bottom-left-negative::after {
-    border-bottom-left-radius: var(--ard-rounded-selection-border-radius);
-    bottom: 0;
-    box-shadow: 0 var(--ard-rounded-selection-border-radius) 0 0 var(--ard-rounded-selection-fill);
+  border-bottom-left-radius: var(--ard-rounded-selection-border-radius);
+  bottom: 0;
+  box-shadow: 0 var(--ard-rounded-selection-border-radius) 0 0 var(--ard-rounded-selection-fill);
 }
 .ard-rounded-selection-bottom-right-negative::after {
-    border-bottom-right-radius: var(--ard-rounded-selection-border-radius);
-    bottom: 0;
-    box-shadow: 0 var(--ard-rounded-selection-border-radius) 0 0 var(--ard-rounded-selection-fill);
+  border-bottom-right-radius: var(--ard-rounded-selection-border-radius);
+  bottom: 0;
+  box-shadow: 0 var(--ard-rounded-selection-border-radius) 0 0 var(--ard-rounded-selection-fill);
 }

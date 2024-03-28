@@ -5,17 +5,15 @@ import { Logger } from '../../services/logger.service';
 @Component({
   selector: 'app-slide-toggle',
   templateUrl: './slide-toggle.page.html',
-  styleUrls: ['./slide-toggle.page.scss']
+  styleUrls: ['./slide-toggle.page.scss'],
 })
 export class SlideTogglePage implements OnInit {
-    colors: CC[] = Object.values(CC);
+  colors: CC[] = Object.values(CC);
 
-    fontsize: number = 24;
+  fontsize: number = 24;
 
-    constructor(private _logger: Logger) { }
-    log = this._logger.log;
+  constructor(private _logger: Logger) {}
+  log = this._logger.log;
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

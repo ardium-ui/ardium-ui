@@ -3,15 +3,8 @@ import { CommonModule } from '@angular/common';
 import { InputsHomePage } from './inputs-home.page';
 import { RouterModule } from '@angular/router';
 
-
-
 @NgModule({
-    declarations: [
-        InputsHomePage
-    ],
-    imports: [
-        CommonModule,
-        RouterModule,
-    ]
+  declarations: [InputsHomePage],
+  imports: [CommonModule, RouterModule],
 })
-export class InputsHomeModule { }
+export class InputsHomeModule {}

@@ -3,15 +3,8 @@ import { NgModule } from '@angular/core';
 import { ArdiumColorDisplayModule } from '@ardium-ui/ui';
 import { ColorDisplayPage } from './color-display.page';
 
-
-
 @NgModule({
-    declarations: [
-        ColorDisplayPage
-    ],
-    imports: [
-        CommonModule,
-        ArdiumColorDisplayModule,
-    ]
+  declarations: [ColorDisplayPage],
+  imports: [CommonModule, ArdiumColorDisplayModule],
 })
-export class ColorDisplayModule { }
+export class ColorDisplayModule {}

@@ -4,19 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { ArdiumIconModule } from '@ardium-ui/ui';
 import { IconPage } from './icon.page';
 
-
-
 @NgModule({
-    declarations: [
-        IconPage
-    ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        ArdiumIconModule,
-    ],
-    exports: [
-        IconPage,
-    ]
+  declarations: [IconPage],
+  imports: [CommonModule, FormsModule, ArdiumIconModule],
+  exports: [IconPage],
 })
-export class IconModule { }
+export class IconModule {}

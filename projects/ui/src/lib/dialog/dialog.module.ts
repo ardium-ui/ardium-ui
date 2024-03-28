@@ -6,8 +6,8 @@ import { ArdiumModalModule } from '../modal/modal.module';
 import { ArdDialogButtonsTemplateDirective } from './dialog.directives';
 
 @NgModule({
-    declarations: [ArdiumDialogComponent, ArdDialogButtonsTemplateDirective],
-    imports: [CommonModule, ArdiumButtonModule, ArdiumModalModule],
-    exports: [ArdiumDialogComponent, ArdDialogButtonsTemplateDirective],
+  declarations: [ArdiumDialogComponent, ArdDialogButtonsTemplateDirective],
+  imports: [CommonModule, ArdiumButtonModule, ArdiumModalModule],
+  exports: [ArdiumDialogComponent, ArdDialogButtonsTemplateDirective],
 })
 export class ArdiumDialogModule {}

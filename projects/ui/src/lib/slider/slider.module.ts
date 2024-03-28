@@ -5,8 +5,8 @@ import { ArdSliderTooltipDirective } from './slider.directive';
 import { Overlay, OverlayModule } from '@angular/cdk/overlay';
 
 @NgModule({
-    declarations: [ArdiumSliderComponent, ArdSliderTooltipDirective],
-    imports: [CommonModule, OverlayModule],
-    exports: [ArdiumSliderComponent, ArdSliderTooltipDirective],
+  declarations: [ArdiumSliderComponent, ArdSliderTooltipDirective],
+  imports: [CommonModule, OverlayModule],
+  exports: [ArdiumSliderComponent, ArdSliderTooltipDirective],
 })
 export class ArdiumSliderModule {}

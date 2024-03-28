@@ -1,62 +1,62 @@
 @use './button-mixins' as shared;
 
 ard-button {
-    display: block;
-    width: max-content;
-    height: max-content;
+  display: block;
+  width: max-content;
+  height: max-content;
 }
 
 .ard-button {
-    @include shared.button;
-    background: transparent;
-    gap: 6px;
-    font-size: 0.875rem;
-    height: 2.5em;
-    padding: 0 1.2em;
-    letter-spacing: 0.5px;
+  @include shared.button;
+  background: transparent;
+  gap: 6px;
+  font-size: 0.875rem;
+  height: 2.5em;
+  padding: 0 1.2em;
+  letter-spacing: 0.5px;
 
-    //! aligns
-    &.ard-align-left {
-        flex-direction: row;
-    }
-    &.ard-align-right {
-        flex-direction: row-reverse;
-    }
+  //! aligns
+  &.ard-align-left {
+    flex-direction: row;
+  }
+  &.ard-align-right {
+    flex-direction: row-reverse;
+  }
 
-    //! button variants
+  //! button variants
+  &.ard-button-vertical {
+    height: max-content;
+    padding: 0.3em 1em;
+    gap: 2px;
+    flex-direction: column;
+  }
+  &.ard-variant-rounded,
+  &.ard-variant-pill.ard-button-vertical {
+    border-radius: 6px;
+  }
+  &.ard-variant-pill:not(.ard-button-vertical) {
+    border-radius: 9999px;
+  }
+  &.ard-variant-sharp {
+    border-radius: 0;
+  }
+
+  //! compact
+  &.ard-compact {
+    font-size: 0.75rem;
+    height: 2.25em;
+    padding: 0 0.9em;
+
     &.ard-button-vertical {
-        height: max-content;
-        padding: 0.3em 1em;
-        gap: 2px;
-        flex-direction: column;
+      height: max-content;
+      padding: 0.2em 0.8em;
+      gap: 0;
     }
-    &.ard-variant-rounded,
-    &.ard-variant-pill.ard-button-vertical {
-        border-radius: 6px;
-    }
-    &.ard-variant-pill:not(.ard-button-vertical) {
-        border-radius: 9999px;
-    }
-    &.ard-variant-sharp {
-        border-radius: 0;
-    }
-
-    //! compact
-    &.ard-compact {
-        font-size: 0.75rem;
-        height: 2.25em;
-        padding: 0 0.9em;
-
-        &.ard-button-vertical {
-            height: max-content;
-            padding: 0.2em 0.8em;
-            gap: 0;
-        }
-    }
+  }
 }
 
 ard-button.ard-disabled {
-    > .ard-button {
-        @include shared.button-disabled;
-    }
+  > .ard-button {
+    @include shared.button-disabled;
+  }
 }

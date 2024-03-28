@@ -1,13 +1,13 @@
 .route-list {
-    display: flex;
-    gap: 12px;
-    padding: 12px 0;
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
 
-    &:not(:last-of-type) {
-        border-bottom: 1px dashed black;
-    }
+  &:not(:last-of-type) {
+    border-bottom: 1px dashed black;
+  }
 
-    >a {
-        flex-basis: 100px;
-    }
+  > a {
+    flex-basis: 100px;
+  }
 }

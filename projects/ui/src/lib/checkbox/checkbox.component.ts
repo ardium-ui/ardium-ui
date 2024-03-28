@@ -6,54 +6,54 @@ import { CheckboxState } from './checkbox.types';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 
 @Component({
-    selector: 'ard-checkbox',
-    templateUrl: './checkbox.component.html',
-    styleUrls: ['./checkbox.component.scss'],
-    encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => ArdiumCheckboxComponent),
-            multi: true,
-        },
-    ],
+  selector: 'ard-checkbox',
+  templateUrl: './checkbox.component.html',
+  styleUrls: ['./checkbox.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => ArdiumCheckboxComponent),
+      multi: true,
+    },
+  ],
 })
 export class ArdiumCheckboxComponent extends _BooleanComponentBase implements ControlValueAccessor {
-    @Input() wrapperClasses: string = '';
+  @Input() wrapperClasses: string = '';
 
-    @Input() htmlId?: string;
+  @Input() htmlId?: string;
 
-    //* appearance
-    @Input() color: SimpleComponentColor = SimpleComponentColor.Primary;
-    @Input() unselectedColor: SimpleComponentColor = SimpleComponentColor.None;
+  //* appearance
+  @Input() color: SimpleComponentColor = SimpleComponentColor.Primary;
+  @Input() unselectedColor: SimpleComponentColor = SimpleComponentColor.None;
 
-    get ngClasses(): string {
-        return [`ard-color-${this.color}`, `ard-unselected-color-${this.unselectedColor}`, `ard-checkbox-${this.state}`].join(' ');
-    }
+  get ngClasses(): string {
+    return [`ard-color-${this.color}`, `ard-unselected-color-${this.unselectedColor}`, `ard-checkbox-${this.state}`].join(' ');
+  }
 
-    //override the "selected" setter, so it changes the state too.
-    override set selected(v: any) {
-        this._selected = coerceBooleanProperty(v);
-        this.state = this._selected ? 'selected' : 'unselected';
-    }
-    override get selected(): boolean {
-        return this._selected;
-    }
+  //override the "selected" setter, so it changes the state too.
+  override set selected(v: any) {
+    this._selected = coerceBooleanProperty(v);
+    this.state = this._selected ? 'selected' : 'unselected';
+  }
+  override get selected(): boolean {
+    return this._selected;
+  }
 
-    @Input() state: CheckboxState = 'unselected';
-    @Output() stateChange = new EventEmitter<CheckboxState>();
+  @Input() state: CheckboxState = 'unselected';
+  @Output() stateChange = new EventEmitter<CheckboxState>();
 
-    //* click action
-    toggleState() {
-        if (this.state == 'selected' || this.state == 'indeterminate') this.state = 'unselected';
-        else this.state = 'selected';
-        this._selected = this.state == 'selected';
+  //* click action
+  toggleState() {
+    if (this.state == 'selected' || this.state == 'indeterminate') this.state = 'unselected';
+    else this.state = 'selected';
+    this._selected = this.state == 'selected';
 
-        this._emitChange();
-    }
-    protected override _emitChange(): void {
-        super._emitChange();
-        this.stateChange.emit(this.state);
-    }
+    this._emitChange();
+  }
+  protected override _emitChange(): void {
+    super._emitChange();
+    this.stateChange.emit(this.state);
+  }
 }

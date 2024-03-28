@@ -1,45 +1,45 @@
 @import '../variables';
 
 ard-dropdown-panel {
-    width: 100%;
+  width: 100%;
 }
 .ard-dropdown-panel-container {
-    position: relative;
-    background: $bg;
-    margin: 0.375rem 0;
-    z-index: 5;
-    width: 100%;
-    overflow: hidden;
-    box-sizing: border-box;
+  position: relative;
+  background: $bg;
+  margin: 0.375rem 0;
+  z-index: 5;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
 
-    //! variants
+  //! variants
+  &.ard-variant-rounded {
+    border-radius: 0.5rem;
+  }
+  &.ard-variant-sharp {
+    border-radius: 0;
+  }
+
+  //! appearances
+  &.ard-appearance-outlined {
+    border: 1px solid $border;
+  }
+  &.ard-appearance-raised {
+    box-shadow: $box-shadow;
+  }
+
+  //! connected
+  &.ard-connected {
+    margin: 0;
+    border-top: none;
+  }
+
+  //! compact
+  &.ard-compact {
+    margin: 0.25rem 0;
+
     &.ard-variant-rounded {
-        border-radius: 0.5rem;
+      border-radius: 0.4rem;
     }
-    &.ard-variant-sharp {
-        border-radius: 0;
-    }
-
-    //! appearances
-    &.ard-appearance-outlined {
-        border: 1px solid $border;
-    }
-    &.ard-appearance-raised {
-        box-shadow: $box-shadow;
-    }
-
-    //! connected
-    &.ard-connected {
-        margin: 0;
-        border-top: none;
-    }
-
-    //! compact
-    &.ard-compact {
-        margin: 0.25rem 0;
-
-        &.ard-variant-rounded {
-            border-radius: 0.4rem;
-        }
-    }
+  }
 }

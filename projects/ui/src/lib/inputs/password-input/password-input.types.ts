@@ -1,3 +1,3 @@
 export type PasswordInputRevealButtonContext = {
-    $implicit: boolean;
+  $implicit: boolean;
 };

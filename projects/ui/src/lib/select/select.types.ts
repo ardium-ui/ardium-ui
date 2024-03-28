@@ -14,7 +14,7 @@ interface ValueContext {
 ```
  */
 export interface ValueContext extends OptionContext {
-    unselect: () => void;
+  unselect: () => void;
 }
 /**
 ```typescript
@@ -25,8 +25,8 @@ interface PlaceholderContext {
 ```
  */
 export interface PlaceholderContext {
-    placeholder: string;
-    $implicit: string;
+  placeholder: string;
+  $implicit: string;
 }
 /**
 ```typescript
@@ -37,8 +37,8 @@ interface StatsContext {
 ```
  */
 export interface StatsContext {
-    totalItems: number;
-    foundItems?: number;
+  totalItems: number;
+  foundItems?: number;
 }
 /**
 ```typescript
@@ -51,8 +51,8 @@ interface SearchContext {
 ```
  */
 export interface SearchContext extends StatsContext {
-    $implicit: string;
-    searchTerm: string;
+  $implicit: string;
+  searchTerm: string;
 }
 /**
 ```typescript
@@ -63,8 +63,8 @@ interface SearchContext {
 ```
  */
 export interface CustomOptionContext {
-    $implicit: string;
-    searchTerm: string;
+  $implicit: string;
+  searchTerm: string;
 }
 /**
 ```typescript
@@ -77,10 +77,10 @@ interface GroupContext {
 ```
  */
 export interface GroupContext {
-    $implicit: ArdOptionGroup;
-    group: ArdOptionGroup;
-    selectedChildren: number;
-    totalChildren: number;
+  $implicit: ArdOptionGroup;
+  group: ArdOptionGroup;
+  selectedChildren: number;
+  totalChildren: number;
 }
 /**
 ```typescript
@@ -92,9 +92,9 @@ interface ItemLimitContext {
 ```
  */
 export interface ItemLimitContext {
-    totalItems: number;
-    selectedItems: number;
-    itemLimit?: number;
+  totalItems: number;
+  selectedItems: number;
+  itemLimit?: number;
 }
 /**
 ```typescript
@@ -107,5 +107,5 @@ interface ItemDisplayLimitContext {
 ```
  */
 export interface ItemDisplayLimitContext extends ItemLimitContext {
-    overflowCount: number;
+  overflowCount: number;
 }

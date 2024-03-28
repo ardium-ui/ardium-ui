@@ -6,30 +6,30 @@ import { ArdiumFormFieldFrameModule } from '../../form-field-frame/form-field-fr
 import { _ClearButtonModule } from '../../_internal/clear-button/clear-button.module';
 import { ArdiumInputComponent } from './input.component';
 import {
-    ArdInputLoadingTemplateDirective,
-    ArdInputPlaceholderTemplateDirective,
-    ArdInputPrefixTemplateDirective,
-    ArdInputSuffixTemplateDirective,
-    ArdSuggestionTemplateDirective,
+  ArdInputLoadingTemplateDirective,
+  ArdInputPlaceholderTemplateDirective,
+  ArdInputPrefixTemplateDirective,
+  ArdInputSuffixTemplateDirective,
+  ArdSuggestionTemplateDirective,
 } from './input.directives';
 
 @NgModule({
-    declarations: [
-        ArdiumInputComponent,
-        ArdSuggestionTemplateDirective,
-        ArdInputPlaceholderTemplateDirective,
-        ArdInputLoadingTemplateDirective,
-        ArdInputPrefixTemplateDirective,
-        ArdInputSuffixTemplateDirective,
-    ],
-    imports: [CommonModule, ArdiumFormFieldFrameModule, _ClearButtonModule, ArdiumDropdownPanelModule, ArdiumClickOutsideEventModule],
-    exports: [
-        ArdiumInputComponent,
-        ArdSuggestionTemplateDirective,
-        ArdInputPlaceholderTemplateDirective,
-        ArdInputLoadingTemplateDirective,
-        ArdInputPrefixTemplateDirective,
-        ArdInputSuffixTemplateDirective,
-    ],
+  declarations: [
+    ArdiumInputComponent,
+    ArdSuggestionTemplateDirective,
+    ArdInputPlaceholderTemplateDirective,
+    ArdInputLoadingTemplateDirective,
+    ArdInputPrefixTemplateDirective,
+    ArdInputSuffixTemplateDirective,
+  ],
+  imports: [CommonModule, ArdiumFormFieldFrameModule, _ClearButtonModule, ArdiumDropdownPanelModule, ArdiumClickOutsideEventModule],
+  exports: [
+    ArdiumInputComponent,
+    ArdSuggestionTemplateDirective,
+    ArdInputPlaceholderTemplateDirective,
+    ArdInputLoadingTemplateDirective,
+    ArdInputPrefixTemplateDirective,
+    ArdInputSuffixTemplateDirective,
+  ],
 })
 export class ArdiumInputModule {}

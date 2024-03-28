@@ -5,14 +5,14 @@ import { Logger } from '../../services/logger.service';
 @Component({
   selector: 'app-chips',
   templateUrl: './chips.page.html',
-  styleUrls: ['./chips.page.scss']
+  styleUrls: ['./chips.page.scss'],
 })
 export class ChipsPage {
-    variants: FormElementVariant[] = Object.values(FormElementVariant);
-    appearances: DecorationElementAppearance[] = Object.values(DecorationElementAppearance);
-    colors: ComponentColor[] = Object.values(ComponentColor);
-    alignments: SimpleOneAxisAlignment[] = Object.values(SimpleOneAxisAlignment);
+  variants: FormElementVariant[] = Object.values(FormElementVariant);
+  appearances: DecorationElementAppearance[] = Object.values(DecorationElementAppearance);
+  colors: ComponentColor[] = Object.values(ComponentColor);
+  alignments: SimpleOneAxisAlignment[] = Object.values(SimpleOneAxisAlignment);
 
-    constructor(private _logger: Logger) { }
-    log = this._logger.log;
+  constructor(private _logger: Logger) {}
+  log = this._logger.log;
 }

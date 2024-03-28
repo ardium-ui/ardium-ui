@@ -1,94 +1,94 @@
 @use './coloring' as CM;
 
 .ard-badge-host {
-    position: relative;
+  position: relative;
 }
 .ard-badge {
-    @include CM.typeColors();
-    position: absolute;
-    display: flex;
-    align-items: center;
-    pointer-events: none;
+  @include CM.typeColors();
+  position: absolute;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
 
-    //! colors
-    background: var(--ard-cmpcl--bgcolored);
-    color: var(--ard-cmpcl--on-bg-colored);
+  //! colors
+  background: var(--ard-cmpcl--bgcolored);
+  color: var(--ard-cmpcl--on-bg-colored);
 
-    //! variants
-    &.ard-variant-pill {
-        border-radius: 9999px;
-    }
-    &.ard-variant-rounded {
-        border-radius: calc(var(--ard-_badge-size) * 0.25);
-    }
-    &.ard-variant-sharp {
-        border-radius: 0;
-    }
+  //! variants
+  &.ard-variant-pill {
+    border-radius: 9999px;
+  }
+  &.ard-variant-rounded {
+    border-radius: calc(var(--ard-_badge-size) * 0.25);
+  }
+  &.ard-variant-sharp {
+    border-radius: 0;
+  }
 
-    //! hidden
-    &.ard-badge-hidden {
-        display: none;
-    }
+  //! hidden
+  &.ard-badge-hidden {
+    display: none;
+  }
 
-    //! sizes
-    font-size: var(--ard-_badge-size);
-    min-width: calc(var(--ard-_badge-size) * 1.375);
-    height: calc(var(--ard-_badge-size) * 1.375);
+  //! sizes
+  font-size: var(--ard-_badge-size);
+  min-width: calc(var(--ard-_badge-size) * 1.375);
+  height: calc(var(--ard-_badge-size) * 1.375);
 
-    .ard-badge-content {
-        padding: 0 calc(var(--ard-_badge-size) * 0.5);
-    }
+  .ard-badge-content {
+    padding: 0 calc(var(--ard-_badge-size) * 0.5);
+  }
 
-    &.ard-badge-size-small {
-        --ard-_badge-size: 0.55rem;
-        font-weight: 300;
-        letter-spacing: 0.2px;
-    }
-    &.ard-badge-size-medium {
-        --ard-_badge-size: 0.667rem;
-        font-weight: 400;
-        letter-spacing: 0.2px;
-    }
-    &.ard-badge-size-large {
-        --ard-_badge-size: 0.8125rem;
-        font-weight: 500;
-        letter-spacing: 0.2px;
-    }
+  &.ard-badge-size-small {
+    --ard-_badge-size: 0.55rem;
+    font-weight: 300;
+    letter-spacing: 0.2px;
+  }
+  &.ard-badge-size-medium {
+    --ard-_badge-size: 0.667rem;
+    font-weight: 400;
+    letter-spacing: 0.2px;
+  }
+  &.ard-badge-size-large {
+    --ard-_badge-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+  }
 
-    //! overlap
-    --ard-_badge-overlap-offset-x: 0%;
+  //! overlap
+  --ard-_badge-overlap-offset-x: 0%;
 
-    &.ard-badge-overlap {
-        --ard-_badge-overlap-offset-x: 50%;
-    }
-    &.ard-badge-position-above-before {
-        transform: translate(var(--ard-_badge-overlap-offset-x), 50%);
-    }
-    &.ard-badge-position-above-after {
-        transform: translate(calc(-1 * var(--ard-_badge-overlap-offset-x)), 50%);
-    }
-    &.ard-badge-position-below-after {
-        transform: translate(calc(-1 * var(--ard-_badge-overlap-offset-x)), -50%);
-    }
-    &.ard-badge-position-below-before {
-        transform: translate(var(--ard-_badge-overlap-offset-x), -50%);
-    }
+  &.ard-badge-overlap {
+    --ard-_badge-overlap-offset-x: 50%;
+  }
+  &.ard-badge-position-above-before {
+    transform: translate(var(--ard-_badge-overlap-offset-x), 50%);
+  }
+  &.ard-badge-position-above-after {
+    transform: translate(calc(-1 * var(--ard-_badge-overlap-offset-x)), 50%);
+  }
+  &.ard-badge-position-below-after {
+    transform: translate(calc(-1 * var(--ard-_badge-overlap-offset-x)), -50%);
+  }
+  &.ard-badge-position-below-before {
+    transform: translate(var(--ard-_badge-overlap-offset-x), -50%);
+  }
 
-    //! positions
-    &.ard-badge-position-above-before,
-    &.ard-badge-position-below-before {
-        right: 100%;
-    }
-    &.ard-badge-position-above-after,
-    &.ard-badge-position-below-after {
-        left: 100%;
-    }
-    &.ard-badge-position-below-before,
-    &.ard-badge-position-below-after {
-        top: 100%;
-    }
-    &.ard-badge-position-above-before,
-    &.ard-badge-position-above-after {
-        bottom: 100%;
-    }
+  //! positions
+  &.ard-badge-position-above-before,
+  &.ard-badge-position-below-before {
+    right: 100%;
+  }
+  &.ard-badge-position-above-after,
+  &.ard-badge-position-below-after {
+    left: 100%;
+  }
+  &.ard-badge-position-below-before,
+  &.ard-badge-position-below-after {
+    top: 100%;
+  }
+  &.ard-badge-position-above-before,
+  &.ard-badge-position-above-after {
+    bottom: 100%;
+  }
 }

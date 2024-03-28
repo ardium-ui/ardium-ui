@@ -1,21 +1,21 @@
 @use './coloring' as CM;
 
 ard-spinner {
-    display: inline-block;
-    height: 2rem;
-    width: 2rem;
-    position: relative;
-    margin: 0.25rem;
+  display: inline-block;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+  margin: 0.25rem;
 }
 
 .ard-spinner {
-    @include CM.typeColors();
-    --ard-_spinner-duration: 1.4s;
-    position: absolute;
+  @include CM.typeColors();
+  --ard-_spinner-duration: 1.4s;
+  position: absolute;
 
-    scale: 2.3; //magic number
+  scale: 2.3; //magic number
 
-    > circle {
-        stroke: var(--ard-cmpcl--content);
-    }
+  > circle {
+    stroke: var(--ard-cmpcl--content);
+  }
 }

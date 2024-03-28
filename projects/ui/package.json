@@ -1,27 +1,33 @@
 {
-    "name": "@ardium-ui/ui",
-    "version": "1.0.0",
-    "peerDependencies": {
-        "@angular/common": "^17.0.7",
-        "@angular/core": "^17.0.7",
-        "@angular/cdk": "^17.0.7"
+  "name": "@ardium-ui/ui",
+  "version": "1.0.0",
+  "peerDependencies": {
+    "@angular/common": "^17.0.7",
+    "@angular/core": "^17.0.7",
+    "@angular/cdk": "^17.0.7"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0",
+    "first-last": "^1.1.1",
+    "more-rounding": "^4.2.1",
+    "resolve-object-path": "^1.1.0",
+    "simple-bool": "^3.0.1",
+    "color": "^4.2.3",
+    "string-similarity": "^4.0.4"
+  },
+  "devDependencies": {
+    "@types/color": "^3.0.3",
+    "@types/string-similarity": "^4.0.0"
+  },
+  "scripts": {
+    "build-sass": "sass ./src/themes:../../dist/ui/prebuilt-themes/"
+  },
+  "exports": {
+    "./prebuilt-themes/*": {
+      "style": "./prebuilt-themes/*.css"
     },
-    "dependencies": {
-        "tslib": "^2.3.0",
-        "first-last": "^1.1.1",
-        "more-rounding": "^4.2.1",
-        "resolve-object-path": "^1.1.0",
-        "simple-bool": "^3.0.1"
-    },
-    "scripts": {
-        "build-sass": "sass ./src/themes:../../dist/ui/prebuilt-themes/"
-    },
-    "exports": {
-        "./prebuilt-themes/*": {
-            "style": "./prebuilt-themes/*.css"
-        },
-        "./themes/default/*": {
-            "sass": "./themes/*.scss"
-        }
+    "./themes/default/*": {
+      "sass": "./themes/*.scss"
     }
+  }
 }

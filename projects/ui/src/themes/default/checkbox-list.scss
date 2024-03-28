@@ -2,82 +2,82 @@
 @import '../variables';
 
 .ard-checkbox-list {
+  display: flex;
+  flex-direction: column;
+
+  .ard-checkbox-list__item {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 1rem;
+    position: relative;
+    cursor: pointer;
+    height: 3rem;
 
+    > label {
+      pointer-events: none;
+      user-select: none;
+    }
+    > .ard-focus-overlay {
+      @include CM.focus-overlay();
+      background: $overlay;
+    }
+    &.ard-item-highlighted {
+      > .ard-focus-overlay {
+        opacity: 5%;
+      }
+    }
+    &:active {
+      > .ard-focus-overlay {
+        opacity: 15%;
+      }
+    }
+    ard-checkbox {
+      padding: 0.625rem;
+
+      .ard-checkbox {
+        .ard-focus-overlay {
+          display: none;
+        }
+      }
+    }
+    &.ard-item-disabled {
+      pointer-events: none;
+
+      > label {
+        opacity: 50%;
+      }
+    }
+  }
+  &.ard-compact {
     .ard-checkbox-list__item {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0 1rem;
-        position: relative;
-        cursor: pointer;
-        height: 3rem;
-
-        > label {
-            pointer-events: none;
-            user-select: none;
-        }
-        > .ard-focus-overlay {
-            @include CM.focus-overlay();
-            background: $overlay;
-        }
-        &.ard-item-highlighted {
-            > .ard-focus-overlay {
-                opacity: 5%;
-            }
-        }
-        &:active {
-            > .ard-focus-overlay {
-                opacity: 15%;
-            }
-        }
-        ard-checkbox {
-            padding: 0.625rem;
-
-            .ard-checkbox {
-                .ard-focus-overlay {
-                    display: none;
-                }
-            }
-        }
-        &.ard-item-disabled {
-            pointer-events: none;
-
-            > label {
-                opacity: 50%;
-            }
-        }
+      gap: 0.325rem;
+      height: 2rem;
     }
-    &.ard-compact {
-        .ard-checkbox-list__item {
-            gap: 0.325rem;
-            height: 2rem;
-        }
+  }
+  //! ALIGN TYPES
+  &.ard-align-left-clumped,
+  &.ard-align-left-split {
+    .ard-checkbox-list__item {
+      flex-direction: row;
     }
-    //! ALIGN TYPES
-    &.ard-align-left-clumped,
-    &.ard-align-left-split {
-        .ard-checkbox-list__item {
-            flex-direction: row;
-        }
+  }
+  &.ard-align-right-clumped,
+  &.ard-align-right-split {
+    .ard-checkbox-list__item {
+      flex-direction: row-reverse;
     }
-    &.ard-align-right-clumped,
-    &.ard-align-right-split {
-        .ard-checkbox-list__item {
-            flex-direction: row-reverse;
-        }
+  }
+  &.ard-align-left-clumped,
+  &.ard-align-right-clumped {
+    .ard-checkbox-list__item {
+      justify-content: flex-start;
     }
-    &.ard-align-left-clumped,
-    &.ard-align-right-clumped {
-        .ard-checkbox-list__item {
-            justify-content: flex-start;
-        }
+  }
+  &.ard-align-left-split,
+  &.ard-align-right-split {
+    .ard-checkbox-list__item {
+      justify-content: space-between;
     }
-    &.ard-align-left-split,
-    &.ard-align-right-split {
-        .ard-checkbox-list__item {
-            justify-content: space-between;
-        }
-    }
+  }
 }

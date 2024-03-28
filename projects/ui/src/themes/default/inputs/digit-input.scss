@@ -2,55 +2,55 @@
 @import '../../variables';
 
 ard-digit-input {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 500;
-    color: $text;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  color: $text;
 }
 
 .ard-digit-input,
 .ard-digit-input__item,
 .ard-digit-input__input,
 .ard-digit-input__static {
-    font: inherit;
-    color: inherit;
+  font: inherit;
+  color: inherit;
 }
 .ard-digit-input {
+  display: flex;
+  gap: 0.5em;
+
+  .ard-digit-input__item {
+    height: max-content;
     display: flex;
-    gap: 0.5em;
 
+    .ard-digit-input__input {
+      width: 2.0625em;
+      box-sizing: border-box;
+      text-align: center;
+      caret-color: $text3;
+
+      &:not(.ard-digit-input__input-empty) {
+        caret-color: transparent;
+      }
+    }
+    .ard-digit-input__static {
+      width: max-content;
+      white-space: nowrap;
+    }
+  }
+  &.ard-shape-square {
     .ard-digit-input__item {
-        height: max-content;
-        display: flex;
-
-        .ard-digit-input__input {
-            width: 2.0625em;
-            box-sizing: border-box;
-            text-align: center;
-            caret-color: $text3;
-
-            &:not(.ard-digit-input__input-empty) {
-                caret-color: transparent;
-            }
-        }
-        .ard-digit-input__static {
-            width: max-content;
-            white-space: nowrap;
-        }
+      .ard-digit-input__input {
+        height: 2.0625em;
+      }
     }
-    &.ard-shape-square {
-        .ard-digit-input__item {
-            .ard-digit-input__input {
-                height: 2.0625em;
-            }
-        }
+  }
+  &.ard-shape-rectangle {
+    .ard-digit-input__item {
+      .ard-digit-input__input {
+        font-size: 1.2em;
+        width: calc(2.0625em / 1.2);
+        height: calc(2.0625em * 1.5 / 1.2);
+      }
     }
-    &.ard-shape-rectangle {
-        .ard-digit-input__item {
-            .ard-digit-input__input {
-                font-size: 1.2em;
-                width: calc(2.0625em / 1.2);
-                height: calc(2.0625em * 1.5 / 1.2);
-            }
-        }
-    }
+  }
 }

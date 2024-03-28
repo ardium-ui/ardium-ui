@@ -3,15 +3,8 @@ import { NgModule } from '@angular/core';
 import { ArdiumColorPickerModule } from '@ardium-ui/ui';
 import { ColorPickerPage } from './color-picker.page';
 
-
-
 @NgModule({
-    declarations: [
-        ColorPickerPage
-    ],
-    imports: [
-        CommonModule,
-        ArdiumColorPickerModule,
-    ]
+  declarations: [ColorPickerPage],
+  imports: [CommonModule, ArdiumColorPickerModule],
 })
-export class ColorPickerModule { }
+export class ColorPickerModule {}

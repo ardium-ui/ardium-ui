@@ -3,119 +3,119 @@
 @import '../../variables';
 
 .ard-number-input {
-    @include inputMixin.genericInput();
-    @include defaultMixins.formAppearances();
-    gap: 0;
-    width: 100%;
+  @include inputMixin.genericInput();
+  @include defaultMixins.formAppearances();
+  gap: 0;
+  width: 100%;
 
-    .ard-input-container {
-        height: 100%;
-        max-width: 100%;
+  .ard-input-container {
+    height: 100%;
+    max-width: 100%;
 
-        & > input {
-            width: 100%;
-        }
+    & > input {
+      width: 100%;
+    }
+  }
+
+  .ard-quick-change-button {
+    position: relative;
+
+    .ard-button {
+      height: 100%;
+      aspect-ratio: 1;
+      padding: 0;
+      border-color: $border;
+      display: flex;
+      justify-content: center;
+      margin: 0;
+    }
+    &.ard-disabled .ard-focus-overlay {
+      opacity: 0;
     }
 
-    .ard-quick-change-button {
-        position: relative;
+    &.decrement {
+      left: 1px;
 
-        .ard-button {
-            height: 100%;
-            aspect-ratio: 1;
-            padding: 0;
-            border-color: $border;
-            display: flex;
-            justify-content: center;
-            margin: 0;
-        }
-        &.ard-disabled .ard-focus-overlay {
-            opacity: 0;
-        }
-
-        &.decrement {
-            left: 1px;
-
-            .ard-button {
-                border-top-right-radius: 0;
-                border-bottom-right-radius: 0;
-            }
-        }
-        &.increment {
-            right: 1px;
-
-            .ard-button {
-                border-top-left-radius: 0;
-                border-bottom-left-radius: 0;
-            }
-        }
+      .ard-button {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
     }
+    &.increment {
+      right: 1px;
 
-    //! variants
-    &.ard-variant-rounded {
+      .ard-button {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
+  }
+
+  //! variants
+  &.ard-variant-rounded {
+    border-radius: 8px;
+
+    &.ard-quick-change-false {
+      .ard-input-container {
         border-radius: 8px;
-
-        &.ard-quick-change-false {
-            .ard-input-container {
-                border-radius: 8px;
-            }
-        }
+      }
     }
-    &.ard-variant-sharp {
-        border-radius: 0;
-    }
-    &.ard-variant-pill {
-        @include defaultMixins.formAppearances();
+  }
+  &.ard-variant-sharp {
+    border-radius: 0;
+  }
+  &.ard-variant-pill {
+    @include defaultMixins.formAppearances();
 
+    border-radius: 999px;
+
+    .ard-button {
+      border-radius: 999px !important;
+      height: 30px;
+      width: 30px;
+      margin: 0 2px;
+    }
+
+    &.ard-quick-change-false {
+      .ard-input-container {
         border-radius: 999px;
-
-        .ard-button {
-            border-radius: 999px !important;
-            height: 30px;
-            width: 30px;
-            margin: 0 2px;
-        }
-
-        &.ard-quick-change-false {
-            .ard-input-container {
-                border-radius: 999px;
-            }
-        }
+      }
     }
+  }
 
-    //! variant-specific appearances
-    &.ard-variant-rounded,
-    &.ard-variant-sharp {
-        &:not(.ard-appearance-filled) .ard-input-container {
-            box-sizing: border-box;
-            background: var(--ard-appearance-background);
-            border: var(--ard-appearance-border);
-        }
-        &.ard-appearance-filled {
-            background: var(--ard-appearance-background);
-            border: var(--ard-appearance-border);
-        }
+  //! variant-specific appearances
+  &.ard-variant-rounded,
+  &.ard-variant-sharp {
+    &:not(.ard-appearance-filled) .ard-input-container {
+      box-sizing: border-box;
+      background: var(--ard-appearance-background);
+      border: var(--ard-appearance-border);
     }
-    &.ard-variant-pill {
-        background: var(--ard-appearance-background);
-        border: var(--ard-appearance-border);
+    &.ard-appearance-filled {
+      background: var(--ard-appearance-background);
+      border: var(--ard-appearance-border);
     }
+  }
+  &.ard-variant-pill {
+    background: var(--ard-appearance-background);
+    border: var(--ard-appearance-border);
+  }
 
-    //! compact
-    &.ard-compact {
-        font-size: 0.925rem;
-    }
+  //! compact
+  &.ard-compact {
+    font-size: 0.925rem;
+  }
 }
 
 .ard-disabled {
-    > .ard-number-input {
-        pointer-events: none;
-        opacity: 50%;
+  > .ard-number-input {
+    pointer-events: none;
+    opacity: 50%;
 
-        .ard-button .ard-focus-overlay {
-            opacity: 0;
-        }
-
-        background: $bg-f;
+    .ard-button .ard-focus-overlay {
+      opacity: 0;
     }
+
+    background: $bg-f;
+  }
 }

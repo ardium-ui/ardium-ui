@@ -2,37 +2,36 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { BadgeSize as BS, BadgePosition, ComponentColor as CC, FormElementVariant as FEV } from '@ardium-ui/ui';
 
 const nbspString = '\xa0'.repeat(9);
-    
+
 @Component({
-    selector: 'app-badge',
-    templateUrl: './badge.page.html',
-    styleUrls: ['./badge.page.scss'],
-    encapsulation: ViewEncapsulation.None,
+  selector: 'app-badge',
+  templateUrl: './badge.page.html',
+  styleUrls: ['./badge.page.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class BadgePage {
-    variants: FEV[] = [FEV.Rounded, FEV.Pill, FEV.Sharp];
-    colors: CC[] = Object.values(CC);
-    sizes: BS[] = Object.values(BS);
-    positionItems = [
-        { value: BadgePosition.AboveBefore, label: nbspString },
-        { value: null, disabled: true, label: nbspString },
-        { value: BadgePosition.AboveAfter, label: nbspString },
-        { value: null, disabled: true, label: nbspString },
-        { value: null, disabled: true, label: nbspString },
-        { value: null, disabled: true, label: nbspString },
-        { value: BadgePosition.BelowBefore, label: nbspString },
-        { value: null, disabled: true, label: nbspString },
-        { value: BadgePosition.BelowAfter, label: nbspString },
-    ];
+  variants: FEV[] = [FEV.Rounded, FEV.Pill, FEV.Sharp];
+  colors: CC[] = Object.values(CC);
+  sizes: BS[] = Object.values(BS);
+  positionItems = [
+    { value: BadgePosition.AboveBefore, label: nbspString },
+    { value: null, disabled: true, label: nbspString },
+    { value: BadgePosition.AboveAfter, label: nbspString },
+    { value: null, disabled: true, label: nbspString },
+    { value: null, disabled: true, label: nbspString },
+    { value: null, disabled: true, label: nbspString },
+    { value: BadgePosition.BelowBefore, label: nbspString },
+    { value: null, disabled: true, label: nbspString },
+    { value: BadgePosition.BelowAfter, label: nbspString },
+  ];
 
-    variant: FEV[] = [FEV.Pill];
-    color: CC[] = [CC.Primary];
-    size: BS[] = [BS.Medium];
-    position: BadgePosition[] = [BadgePosition.AboveAfter];
-    hidden: boolean = false;
-    overlap: boolean = true;
-    addTo: 'text' | 'button' = 'button';
-    ariaLabel: string | null = "Example badge";
-    text: string | null = "NEW!";
-
+  variant: FEV[] = [FEV.Pill];
+  color: CC[] = [CC.Primary];
+  size: BS[] = [BS.Medium];
+  position: BadgePosition[] = [BadgePosition.AboveAfter];
+  hidden: boolean = false;
+  overlap: boolean = true;
+  addTo: 'text' | 'button' = 'button';
+  ariaLabel: string | null = 'Example badge';
+  text: string | null = 'NEW!';
 }

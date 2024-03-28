@@ -1,70 +1,70 @@
 @import '../variables';
 
 @mixin icon($fill: 0, $wght: 500, $grad: 0, $opsz: 48) {
-    font-family: 'Material Symbols Outlined';
-    font-size: 1.5em;
-    font-variation-settings:
-        'FILL' #{$fill},
-        'wght' #{$wght},
-        'GRAD' #{$grad},
-        'opsz' #{$opsz};
+  font-family: 'Material Symbols Outlined';
+  font-size: 1.5em;
+  font-variation-settings:
+    'FILL' #{$fill},
+    'wght' #{$wght},
+    'GRAD' #{$grad},
+    'opsz' #{$opsz};
 }
 
 @mixin focus-overlay($size: 0) {
-    position: absolute;
-    top: -#{$size};
-    bottom: -#{$size};
-    left: -#{$size};
-    right: -#{$size};
-    opacity: 0;
-    border-radius: inherit;
-    pointer-events: none;
+  position: absolute;
+  top: -#{$size};
+  bottom: -#{$size};
+  left: -#{$size};
+  right: -#{$size};
+  opacity: 0;
+  border-radius: inherit;
+  pointer-events: none;
 
-    transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease;
 }
 @mixin focus-overlay-scale-addon() {
+  > .ard-focus-overlay {
+    transform: scale(0.2);
+
+    transition:
+      opacity 0.2s ease,
+      transform 0.1s ease;
+  }
+
+  &:hover,
+  &:focus {
     > .ard-focus-overlay {
-        transform: scale(0.2);
-
-        transition:
-            opacity 0.2s ease,
-            transform 0.1s ease;
+      transform: scale(1);
     }
-
-    &:hover,
-    &:focus {
-        > .ard-focus-overlay {
-            transform: scale(1);
-        }
-    }
+  }
 }
 
 @mixin formAppearances() {
-    &.ard-appearance-outlined {
-        --ard-appearance-background: #{$bg};
-        --ard-appearance-border: 1px solid #{$border};
-    }
-    &.ard-appearance-filled {
-        --ard-appearance-background: #{$bg-f};
-        --ard-appearance-border: none;
-    }
-    &.ard-appearance-transparent {
-        --ard-appearance-background: transparent;
-        --ard-appearance-border: none;
-    }
+  &.ard-appearance-outlined {
+    --ard-appearance-background: #{$bg};
+    --ard-appearance-border: 1px solid #{$border};
+  }
+  &.ard-appearance-filled {
+    --ard-appearance-background: #{$bg-f};
+    --ard-appearance-border: none;
+  }
+  &.ard-appearance-transparent {
+    --ard-appearance-background: transparent;
+    --ard-appearance-border: none;
+  }
 }
 
 @mixin formVariants() {
-    border-radius: var(--ard-variant-border-radius);
+  border-radius: var(--ard-variant-border-radius);
 
-    &.ard-variant-rounded,
-    &.ard-variant-semirounded {
-        --ard-variant-border-radius: 8px;
-    }
-    &.ard-variant-pill {
-        --ard-variant-border-radius: 9999px;
-    }
-    &.ard-variant-sharp {
-        --ard-variant-border-radius: 0;
-    }
+  &.ard-variant-rounded,
+  &.ard-variant-semirounded {
+    --ard-variant-border-radius: 8px;
+  }
+  &.ard-variant-pill {
+    --ard-variant-border-radius: 9999px;
+  }
+  &.ard-variant-sharp {
+    --ard-variant-border-radius: 0;
+  }
 }

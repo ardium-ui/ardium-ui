@@ -1,39 +1,39 @@
 .ard-number-input {
-    display: flex;
-    max-width: 100%;
+  display: flex;
+  max-width: 100%;
 
-    .ard-input-container {
-        position: relative;
-    }
+  .ard-input-container {
+    position: relative;
+  }
 
-    .ard-placeholder {
-        position: absolute;
-        left: 0;
-        right: 0;
-        pointer-events: none;
-    }
+  .ard-placeholder {
+    position: absolute;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+  }
 }
 
 .ard-text-align-left {
-    input,
-    .ard-placeholder {
-        text-align: left;
-    }
+  input,
+  .ard-placeholder {
+    text-align: left;
+  }
 }
 .ard-text-align-middle {
-    input,
-    .ard-placeholder {
-        text-align: center;
-    }
+  input,
+  .ard-placeholder {
+    text-align: center;
+  }
 }
 .ard-text-align-right {
-    input,
-    .ard-placeholder {
-        text-align: right;
-    }
+  input,
+  .ard-placeholder {
+    text-align: right;
+  }
 }
 
 .ard-quick-change-button {
-    user-select: none;
-    height: 100%;
+  user-select: none;
+  height: 100%;
 }

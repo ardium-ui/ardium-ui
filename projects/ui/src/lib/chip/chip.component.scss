@@ -1,19 +1,19 @@
 .ard-chip-wrapper {
-    display: flex;
-    width: max-content;
+  display: flex;
+  width: max-content;
 }
 .ard-chip-left {
-    flex-direction: row;
+  flex-direction: row;
 }
 .ard-chip-right {
-    flex-direction: row-reverse;
+  flex-direction: row-reverse;
 }
 
 .ard-chip-selectable {
-    .ard-chip-selection-icon {
-        display: none;
-    }
-    &.ard-chip-selected .ard-chip-selection-icon {
-        display: block;
-    }
+  .ard-chip-selection-icon {
+    display: none;
+  }
+  &.ard-chip-selected .ard-chip-selection-icon {
+    display: block;
+  }
 }

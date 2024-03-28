@@ -1,12 +1,12 @@
 .ard-radio {
-    border: none;
-    background: none;
+  border: none;
+  background: none;
 
-    > label {
-        pointer-events: none;
-    }
+  > label {
+    pointer-events: none;
+  }
 }
 
 ard-radio > .ard-radio-input-element {
-    display: none;
+  display: none;
 }

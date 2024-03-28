@@ -4,43 +4,43 @@
  * Should be applied to the first element in the component's template.
  */
 @mixin genericInput() {
-    position: relative;
-    font-family: 'Roboto', sans-serif;
+  position: relative;
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
+  gap: 0.625em;
+  cursor: text;
+  box-sizing: border-box;
+  height: 2.0625em;
+  font-size: 1rem;
+  line-height: 1.25em;
+
+  .ard-input-container {
+    flex-grow: 1;
+    text-size-adjust: 100%;
     display: flex;
     align-items: center;
-    justify-content: stretch;
-    gap: 0.625em;
-    cursor: text;
-    box-sizing: border-box;
-    height: 2.0625em;
-    font-size: 1rem;
-    line-height: 1.25em;
 
-    .ard-input-container {
-        flex-grow: 1;
-        text-size-adjust: 100%;
-        display: flex;
-        align-items: center;
-
-        .ard-placeholder {
-            font: inherit;
-            opacity: 60%;
-        }
-
-        input {
-            border: none;
-            background: transparent;
-            outline: none;
-            font: inherit;
-            padding: 0;
-            display: block;
-            width: 100%;
-        }
+    .ard-placeholder {
+      font: inherit;
+      opacity: 60%;
     }
-    //! compact
-    &.ard-compact {
-        height: 1.5625em;
-        font-size: 0.85em;
-        line-height: 1;
+
+    input {
+      border: none;
+      background: transparent;
+      outline: none;
+      font: inherit;
+      padding: 0;
+      display: block;
+      width: 100%;
     }
+  }
+  //! compact
+  &.ard-compact {
+    height: 1.5625em;
+    font-size: 0.85em;
+    line-height: 1;
+  }
 }

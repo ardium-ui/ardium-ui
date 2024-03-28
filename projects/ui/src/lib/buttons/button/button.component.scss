@@ -1,16 +1,16 @@
 .ard-button {
-    display: flex;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
 
-    &.ard-button-align-left {
-        flex-direction: row;
-    }
-    &.ard-button-align-right {
-        flex-direction: row-reverse;
-    }
-    &.ard-button-vertical {
-        flex-direction: column;
-    }
+  &.ard-button-align-left {
+    flex-direction: row;
+  }
+  &.ard-button-align-right {
+    flex-direction: row-reverse;
+  }
+  &.ard-button-vertical {
+    flex-direction: column;
+  }
 }

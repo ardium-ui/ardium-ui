@@ -1,13 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { escapeHTML } from './escape-html';
 
-
 @Pipe({
-    name: 'escapeHTML'
+  name: 'escapeHTML',
 })
 export class ArdiumEscapeHTMLPipe implements PipeTransform {
-
-    transform(value: string, ...args: any[]): string {
-        return escapeHTML(value);
-    }
+  transform(value: string, ...args: any[]): string {
+    return escapeHTML(value);
+  }
 }

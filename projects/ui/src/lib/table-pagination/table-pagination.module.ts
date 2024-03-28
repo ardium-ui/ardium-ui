@@ -6,8 +6,8 @@ import { ArdiumTablePaginationComponent } from './table-pagination.component';
 import { ArdiumIconModule } from '../icon/icon.module';
 
 @NgModule({
-    declarations: [ArdiumTablePaginationComponent],
-    imports: [CommonModule, ArdiumSelectModule, ArdiumIconButtonModule, ArdiumIconModule],
-    exports: [ArdiumTablePaginationComponent],
+  declarations: [ArdiumTablePaginationComponent],
+  imports: [CommonModule, ArdiumSelectModule, ArdiumIconButtonModule, ArdiumIconModule],
+  exports: [ArdiumTablePaginationComponent],
 })
 export class ArdiumTablePaginationModule {}

@@ -42,48 +42,48 @@
 @import 'projects/ui/src/themes/default/dialog.scss';
 @import 'projects/ui/src/themes/default/snackbar.scss';
 
-@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
 
 * {
-    font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 body {
-    background: var(--ard-bg-darker);
-    height: 100vh;
-    height: 100dvh;
+  background: var(--ard-bg-darker);
+  height: 100vh;
+  height: 100dvh;
 }
 
 .master {
-    width: max-content;
-    --grid-cols: 7;
-    padding: 8px 0;
-    border-bottom: 1px solid #000;
+  width: max-content;
+  --grid-cols: 7;
+  padding: 8px 0;
+  border-bottom: 1px solid #000;
 
-    &.flex,
-    .flex {
-        display: flex;
-        gap: 4px;
-        flex-direction: column;
+  &.flex,
+  .flex {
+    display: flex;
+    gap: 4px;
+    flex-direction: column;
 
-        &.horiz,
-        .horiz {
-            flex-direction: row;
-            align-items: center;
-        }
+    &.horiz,
+    .horiz {
+      flex-direction: row;
+      align-items: center;
     }
-    &.grid,
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(var(--grid-cols), 1fr);
-        gap: 4px 16px;
-    }
+  }
+  &.grid,
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(var(--grid-cols), 1fr);
+    gap: 4px 16px;
+  }
 }
 .title,
 .mono {
-    font-family: monospace;
+  font-family: monospace;
 }
 .title {
-    font-size: 16px;
-    font-weight: 900;
+  font-size: 16px;
+  font-weight: 900;
 }

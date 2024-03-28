@@ -11,21 +11,21 @@ import { SimpleInputPage } from './simple-input/simple-input.page';
 import { DigitInputPage } from './digit-input/digit-input.page';
 
 const routes: Routes = [
-    { path: '', component: InputsHomePage },
-    { path: 'simple-input', component: SimpleInputPage },
-    { path: 'input', component: InputPage },
-    { path: 'number-input', component: NumberInputPage },
-    { path: 'hex-input', component: HexInputPage },
-    { path: 'color-input', component: ColorInputPage },
-    { path: 'password-input', component: PasswordInputPage },
-    { path: 'file-input', component: FileInputPage },
-    { path: 'digit-input', component: DigitInputPage },
-    //redirects
-    { path: '**' , redirectTo: '' },
+  { path: '', component: InputsHomePage },
+  { path: 'simple-input', component: SimpleInputPage },
+  { path: 'input', component: InputPage },
+  { path: 'number-input', component: NumberInputPage },
+  { path: 'hex-input', component: HexInputPage },
+  { path: 'color-input', component: ColorInputPage },
+  { path: 'password-input', component: PasswordInputPage },
+  { path: 'file-input', component: FileInputPage },
+  { path: 'digit-input', component: DigitInputPage },
+  //redirects
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class InputsRoutingModule { }
+export class InputsRoutingModule {}

@@ -7,131 +7,131 @@ import { ArdOptionSimple, CompareWithFn } from '../types/item-storage.types';
 import { CheckboxListAlignType } from './checkbox-list.types';
 
 @Component({
-    selector: 'ard-checkbox-list',
-    templateUrl: './checkbox-list.component.html',
-    styleUrls: ['./checkbox-list.component.scss'],
-    encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'ard-checkbox-list',
+  templateUrl: './checkbox-list.component.html',
+  styleUrls: ['./checkbox-list.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumCheckboxListComponent extends _NgModelComponentBase implements SimpleItemStorageHost, AfterViewInit {
-    @HostBinding('attr.id')
-    @Input()
-    htmlId: string = crypto.randomUUID();
+  @HostBinding('attr.id')
+  @Input()
+  htmlId: string = crypto.randomUUID();
 
-    readonly DEFAULTS = {
-        valueFrom: 'value',
-        labelFrom: 'label',
-        disabledFrom: 'disabled',
-    };
-    readonly multiselectable = true;
-    readonly requireValue = false;
+  readonly DEFAULTS = {
+    valueFrom: 'value',
+    labelFrom: 'label',
+    disabledFrom: 'disabled',
+  };
+  readonly multiselectable = true;
+  readonly requireValue = false;
 
-    private _itemStorage = new SimpleItemStorage(this);
+  private _itemStorage = new SimpleItemStorage(this);
 
-    @Input()
-    set items(v: any[]) {
-        this._itemStorage.setItems(v);
-    }
-    get items(): ArdOptionSimple[] {
-        return this._itemStorage.items;
-    }
+  @Input()
+  set items(v: any[]) {
+    this._itemStorage.setItems(v);
+  }
+  get items(): ArdOptionSimple[] {
+    return this._itemStorage.items;
+  }
 
-    compareWith?: CompareWithFn;
+  compareWith?: CompareWithFn;
 
-    private _invertDisabled: boolean = false;
-    @Input()
-    get invertDisabled(): boolean {
-        return this._invertDisabled;
-    }
-    set invertDisabled(v: any) {
-        this._invertDisabled = coerceBooleanProperty(v);
-    }
+  private _invertDisabled: boolean = false;
+  @Input()
+  get invertDisabled(): boolean {
+    return this._invertDisabled;
+  }
+  set invertDisabled(v: any) {
+    this._invertDisabled = coerceBooleanProperty(v);
+  }
 
-    private _maxSelectedItems?: number;
-    @Input()
-    get maxSelectedItems(): number | undefined {
-        return this._maxSelectedItems;
-    }
-    set maxSelectedItems(v: any) {
-        this._maxSelectedItems = coerceNumberProperty(v);
-    }
+  private _maxSelectedItems?: number;
+  @Input()
+  get maxSelectedItems(): number | undefined {
+    return this._maxSelectedItems;
+  }
+  set maxSelectedItems(v: any) {
+    this._maxSelectedItems = coerceNumberProperty(v);
+  }
 
-    //! appearance
-    @Input() color: ComponentColor = ComponentColor.Primary;
-    @Input() align: CheckboxListAlignType = CheckboxListAlignType.LeftClumped;
+  //! appearance
+  @Input() color: ComponentColor = ComponentColor.Primary;
+  @Input() align: CheckboxListAlignType = CheckboxListAlignType.LeftClumped;
 
-    private _compact: boolean = false;
-    @Input()
-    get compact(): boolean {
-        return this._compact;
-    }
-    set compact(v: any) {
-        this._compact = coerceBooleanProperty(v);
-    }
+  private _compact: boolean = false;
+  @Input()
+  get compact(): boolean {
+    return this._compact;
+  }
+  set compact(v: any) {
+    this._compact = coerceBooleanProperty(v);
+  }
 
-    get ngClasses(): string {
-        return [`ard-color-${this.color}`, `ard-align-${this.align}`, this.compact ? 'ard-compact' : ''].join(' ');
-    }
+  get ngClasses(): string {
+    return [`ard-color-${this.color}`, `ard-align-${this.align}`, this.compact ? 'ard-compact' : ''].join(' ');
+  }
 
-    //! value
-    @Input()
-    get value(): any {
-        return this._itemStorage.value;
-    }
-    set value(v: any) {
-        this.writeValue(v);
-    }
+  //! value
+  @Input()
+  get value(): any {
+    return this._itemStorage.value;
+  }
+  set value(v: any) {
+    this.writeValue(v);
+  }
 
-    @Output() valueChange = new EventEmitter<any>();
-    @Output('change') changeEvent = new EventEmitter<any>();
+  @Output() valueChange = new EventEmitter<any>();
+  @Output('change') changeEvent = new EventEmitter<any>();
 
-    private _valueBeforeInit: any;
-    writeValue(v: any): void {
-        if (!this._isViewInit) {
-            this._valueBeforeInit = v;
-            return;
-        }
-        this._itemStorage.writeValue(v);
+  private _valueBeforeInit: any;
+  writeValue(v: any): void {
+    if (!this._isViewInit) {
+      this._valueBeforeInit = v;
+      return;
     }
+    this._itemStorage.writeValue(v);
+  }
 
-    private _isViewInit: boolean = false;
-    ngAfterViewInit(): void {
-        this._isViewInit = true;
+  private _isViewInit: boolean = false;
+  ngAfterViewInit(): void {
+    this._isViewInit = true;
 
-        if (this._valueBeforeInit) {
-            this.writeValue(this._valueBeforeInit);
-        }
+    if (this._valueBeforeInit) {
+      this.writeValue(this._valueBeforeInit);
     }
+  }
 
-    protected _emitChange(): void {
-        const v = this.value;
-        this._onChangeRegistered?.(v);
-        this.changeEvent.emit(v);
-        this.valueChange.emit(v);
-    }
+  protected _emitChange(): void {
+    const v = this.value;
+    this._onChangeRegistered?.(v);
+    this.changeEvent.emit(v);
+    this.valueChange.emit(v);
+  }
 
-    onItemHighlight(v: ArdOptionSimple): void {
-        this._itemStorage.highlightSingleItem(v);
+  onItemHighlight(v: ArdOptionSimple): void {
+    this._itemStorage.highlightSingleItem(v);
+  }
+  onItemFocus(v: ArdOptionSimple): void {
+    this._itemStorage.highlightSingleItem(v);
+  }
+  onItemBlur(): void {
+    this._itemStorage.unhighlightAll();
+  }
+  selectItem(v: ArdOptionSimple): void {
+    this._itemStorage.selectItem(v);
+    this._emitChange();
+  }
+  unselectItem(v: ArdOptionSimple): void {
+    this._itemStorage.unselectItem(v);
+    this._emitChange();
+  }
+  toggleItem(v: ArdOptionSimple): void {
+    if (v.selected) {
+      this.unselectItem(v);
+      return;
     }
-    onItemFocus(v: ArdOptionSimple): void {
-        this._itemStorage.highlightSingleItem(v);
-    }
-    onItemBlur(): void {
-        this._itemStorage.unhighlightAll();
-    }
-    selectItem(v: ArdOptionSimple): void {
-        this._itemStorage.selectItem(v);
-        this._emitChange();
-    }
-    unselectItem(v: ArdOptionSimple): void {
-        this._itemStorage.unselectItem(v);
-        this._emitChange();
-    }
-    toggleItem(v: ArdOptionSimple): void {
-        if (v.selected) {
-            this.unselectItem(v);
-            return;
-        }
-        this.selectItem(v);
-    }
+    this.selectItem(v);
+  }
 }

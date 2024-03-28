@@ -4,14 +4,13 @@ import { Logger } from '../../services/logger.service';
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.page.html',
-  styleUrls: ['./calendar.page.scss']
+  styleUrls: ['./calendar.page.scss'],
 })
 export class CalendarPage {
+  selectedDate: Date = new Date(2024, 0, 1);
 
-    selectedDate: Date = new Date(2024, 0, 1);
+  eventsCalendarDate: Date | null = null;
 
-    eventsCalendarDate: Date | null = null;
-
-    constructor(private LoggerService: Logger) {}
-    log = this.LoggerService.log;
+  constructor(private LoggerService: Logger) {}
+  log = this.LoggerService.log;
 }
