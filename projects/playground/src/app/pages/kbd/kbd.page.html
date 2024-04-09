@@ -1,40 +1,42 @@
 <div class="master">
-    <span class="title">Basic kbd</span>
-    <div>
-        <ard-kbd>Ctrl</ard-kbd>
-    </div>
+  <span class="title">Basic kbd</span>
+  <div>
+    <ard-kbd>Ctrl</ard-kbd>
+    <ard-kbd>KeyA</ard-kbd>
+    <ard-kbd>Windows</ard-kbd>
+  </div>
 </div>
 <div class="master">
-    <span class="title">Kbd using the [key] property</span>
-    <div>
-        <ard-kbd key="Ctrl"></ard-kbd>
-    </div>
+  <span class="title">Kbd using the [key] property</span>
+  <div>
+    <ard-kbd key="Ctrl"></ard-kbd>
+  </div>
 </div>
 <div class="master">
-    <span class="title">Kbd changing dynamically</span>
-    <div>
-        <ard-kbd [key]="currentKey"></ard-kbd>
-    </div>
+  <span class="title">Kbd changing dynamically</span>
+  <div>
+    <ard-kbd [key]="currentKey"></ard-kbd>
+  </div>
 </div>
 <div class="master">
-    <span class="title">Short vs full kbd name</span>
-    <div class="flex">
-        <ard-kbd>mute</ard-kbd>
-        <ard-kbd full>mute</ard-kbd>
-    </div>
+  <span class="title">Short vs full kbd name</span>
+  <div class="flex">
+    <ard-kbd>mute</ard-kbd>
+    <ard-kbd full>mute</ard-kbd>
+  </div>
 </div>
 <div class="master">
-    <span class="title">Kbd font size</span>
-    <div>
-        <ard-kbd class="large-kbd">Ctrl</ard-kbd>
-    </div>
+  <span class="title">Kbd font size</span>
+  <div>
+    <ard-kbd class="large-kbd">Ctrl</ard-kbd>
+  </div>
 </div>
 <div class="master">
-    <span class="title">Kbd appearances</span>
-    <div class="flex">
-        <div class="flex horiz" *ngFor="let appearance of appearances">
-            <ard-kbd [appearance]="appearance">Ctrl</ard-kbd>
-            <span class="mono">{{ appearance }}</span>
-        </div>
+  <span class="title">Kbd appearances</span>
+  <div class="flex">
+    <div class="flex horiz" *ngFor="let appearance of appearances">
+      <ard-kbd [appearance]="appearance">Ctrl</ard-kbd>
+      <span class="mono">{{ appearance }}</span>
     </div>
+  </div>
 </div>
