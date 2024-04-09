@@ -1,6 +1,6 @@
 {
   "name": "@ardium-ui/ui",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "peerDependencies": {
     "@angular/common": "^17.0.7",
     "@angular/core": "^17.0.7",
@@ -13,9 +13,7 @@
     "resolve-object-path": "^1.1.0",
     "simple-bool": "^3.0.1",
     "color": "^4.2.3",
-    "string-similarity": "^4.0.4"
-  },
-  "devDependencies": {
+    "string-similarity": "^4.0.4",
     "@types/color": "^3.0.3",
     "@types/string-similarity": "^4.0.0"
   },

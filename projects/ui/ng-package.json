@@ -4,5 +4,15 @@
   "lib": {
     "entryFile": "src/public-api.ts"
   },
-  "allowedNonPeerDependencies": ["first-last", "more-rounding", "resolve-object-path", "simple-bool"]
+  "allowedNonPeerDependencies": [
+    "@types/color",
+    "@types/string-similarity",
+    "tslib",
+    "first-last",
+    "more-rounding",
+    "resolve-object-path",
+    "simple-bool",
+    "color",
+    "string-similarity"
+  ]
 }
