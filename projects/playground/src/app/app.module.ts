@@ -37,6 +37,7 @@ import { SpinnerModule } from './pages/spinner/spinner.module';
 import { ModalModule } from './pages/modal/modal.module';
 import { DialogModule } from './pages/dialog/dialog.module';
 import { SnackbarModule } from './pages/snackbar/snackbar.module';
+import { TabberModule } from './pages/tabber/tabber.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -76,6 +77,7 @@ import { SnackbarModule } from './pages/snackbar/snackbar.module';
     ModalModule,
     DialogModule,
     SnackbarModule,
+    TabberModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
