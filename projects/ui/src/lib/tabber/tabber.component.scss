@@ -1,0 +1,11 @@
+
+
+.ard-tabber {
+  ard-tab {
+    display: none;
+
+    &.ard-tab-selected {
+      display: block;
+    }
+  }
+}

@@ -1,5 +1,23 @@
-<div class="ard-tabber">
-  <div class="ard-tabber-tabs">
-    
+<div class="ard-tabber" [ngClass]="ngClasses()">
+  <div class="ard-tabber-tabs" [ngClass]="tabContainerClasses()">
+    @for (tab of tabs(); track tab) {
+    <button
+      role="tab"
+      class="ard-tab-button"
+      [id]="tab.tabId()"
+      [class.ard-tab-active]="tab === currentTab()"
+      [class.ard-tab-focused]="tab === currentFocusedTab()"
+      (click)="!tab.selected && onTabClick(tab)"
+      (focus)="onTabFocus(tab)"
+      (blur)="onTabBlur(tab)"
+      [tabindex]="tabIndex()"
+    >
+      <div class="ard-focus-overlay"></div>
+      {{ tab.label() }}
+    </button>
+    }
+  </div>
+  <div role="tabpanel" class="ard-tabber-content">
+    <ng-content></ng-content>
   </div>
 </div>

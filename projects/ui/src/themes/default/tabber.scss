@@ -1,0 +1,86 @@
+@use './coloring' as CM;
+@use './mixins' as M;
+@import '../variables';
+
+ard-tabber {
+  max-width: 100%;
+}
+
+.ard-tabber {
+  @include CM.typeColors();
+  height: max-content;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  .ard-tabber-tabs {
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid $detail-ultralight;
+
+    &.ard-tab-align-left {
+      justify-content: left;
+    }
+    &.ard-tab-align-middle {
+      justify-content: center;
+    }
+    &.ard-tab-align-right {
+      justify-content: right;
+    }
+    &.ard-stretch-tabs {
+      justify-content: stretch;
+
+      .ard-tab-button {
+        flex-grow: 1;
+      }
+    }
+
+    .ard-tab-button {
+      height: 2.5em;
+      font-size: 0.875rem;
+      position: relative;
+      border: none;
+      background: none;
+      padding: 0 1.5rem;
+      cursor: pointer;
+      outline: none;
+
+      .ard-focus-overlay {
+        @include M.focus-overlay();
+        background: $bg-alt;
+      }
+
+      &:hover,
+      &:focus {
+        .ard-focus-overlay {
+          opacity: 4%;
+        }
+      }
+      &.ard-active,
+      &:active {
+        .ard-focus-overlay {
+          opacity: 12%;
+        }
+      }
+      &:focus-visible {
+        .ard-focus-overlay {
+          opacity: 18%;
+        }
+      }
+
+      &.ard-tab-active {
+        &::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          height: 2px;
+          background: var(--ard-cmpcl--bg-colored);
+        }
+      }
+    }
+  }
+}
