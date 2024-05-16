@@ -59,8 +59,7 @@ export * from './lib/select/select.types';
 export * from './lib/option/option.module';
 export * from './lib/option/option.component';
 //slide-toggle
-export * from './lib/slide-toggle/slide-toggle.module';
-export * from './lib/slide-toggle/slide-toggle.component';
+export * from './lib/slide-toggle';
 //sliders
 export * from './lib/slider/slider.module';
 export * from './lib/slider/slider.component';

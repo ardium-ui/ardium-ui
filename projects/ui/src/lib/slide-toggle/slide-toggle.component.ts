@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, forwardRe
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ComponentColor } from '../types/colors.types';
 import { _BooleanComponentBase } from './../_internal/boolean-component';
+import { ArdSlideToggleAppearance } from './slide-toggle.types';
 
 @Component({
   selector: 'ard-slide-toggle',
@@ -22,6 +23,7 @@ export class ArdiumSlideToggleComponent extends _BooleanComponentBase implements
 
   //* appearance
   @Input() color: ComponentColor = ComponentColor.Primary;
+  @Input() appearance: ArdSlideToggleAppearance = ArdSlideToggleAppearance.Raised;
   @Input() icon?: string;
   @Input() selectedIcon?: string;
   @Input() unselectedIcon?: string;
