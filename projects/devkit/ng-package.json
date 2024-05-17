@@ -3,5 +3,12 @@
   "dest": "../../dist/devkit",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "allowedNonPeerDependencies": [
+    "@types/string-similarity",
+    "tslib",
+    "more-rounding",
+    "string-similarity",
+    "key-display-names"
+  ]
 }
