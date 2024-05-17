@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, forwardRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, computed, forwardRef, input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ComponentColor } from '../types/colors.types';
 import { _BooleanComponentBase } from './../_internal/boolean-component';
@@ -19,16 +19,16 @@ import { ArdSlideToggleAppearance } from './slide-toggle.types';
   ],
 })
 export class ArdiumSlideToggleComponent extends _BooleanComponentBase implements ControlValueAccessor {
-  @Input() wrapperClasses: string = '';
+  readonly wrapperClass = input<string | undefined | null>(undefined);
 
-  //* appearance
-  @Input() color: ComponentColor = ComponentColor.Primary;
-  @Input() appearance: ArdSlideToggleAppearance = ArdSlideToggleAppearance.Raised;
-  @Input() icon?: string;
-  @Input() selectedIcon?: string;
-  @Input() unselectedIcon?: string;
+  //! appearance
+  readonly color = input<ComponentColor>(ComponentColor.Primary);
+  readonly appearance = input<ArdSlideToggleAppearance>(ArdSlideToggleAppearance.Raised);
+  readonly icon = input<string | undefined | null>(undefined);
+  readonly selectedIcon = input<string | undefined | null>(undefined);
+  readonly unselectedIcon = input<string | undefined | null>(undefined);
 
-  get ngClasses(): string {
-    return [`ard-color-${this.color}`].join(' ');
-  }
+  readonly ngClasses = computed(() => {
+    return [`ard-color-${this.color()}`, `ard-appearance-${this.appearance()}`, this.wrapperClass() ?? ''].join(' ');
+  });
 }
