@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input } from '@angular/core';
 import { StarColor, StarFillMode } from './star.types';
 
 @Component({
@@ -9,13 +9,11 @@ import { StarColor, StarFillMode } from './star.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumStarComponent {
-  @Input() wrapperClasses: string = '';
-  @Input() fill: StarFillMode = StarFillMode.Filled;
+  readonly wrapperClasses = input<string>('');
 
-  //* appearance
-  @Input() color: StarColor = StarColor.Star;
+  //! appearance
+  readonly color = input<StarColor>(StarColor.Star);
+  readonly fill = input<StarFillMode>(StarFillMode.Filled);
 
-  get ngClasses(): string {
-    return [`ard-color-${this.color}`, `ard-star-fill-${this.fill}`].join(' ');
-  }
+  readonly ngClasses = computed<string>(() => [this.wrapperClasses(), `ard-color-${this.color}`, `ard-star-fill-${this.fill}`].join(' '));
 }
