@@ -28,6 +28,7 @@ export class ArdiumStarButtonComponent extends _BooleanComponentBase implements 
   readonly color = input<StarColor>(StarColor.Star);
 
   readonly ngClasses = computed<string>(() => [this.wrapperClasses(), `ard-color-${this.color}`].join(' '));
+  
   readonly starFillState = computed<StarFillMode>(() => (this.selected() ? StarFillMode.Filled : StarFillMode.None));
 
   onClick(): void {

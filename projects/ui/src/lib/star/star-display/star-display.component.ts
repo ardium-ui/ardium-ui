@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input } from '@angular/core';
+import { coerceNumberProperty } from '@ardium-ui/devkit';
 import { isArray } from 'simple-bool';
 import { StarColor, StarFillMode } from './../star.types';
 
@@ -9,46 +10,53 @@ import { StarColor, StarFillMode } from './../star.types';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumStarDisplayComponent implements OnChanges {
-  @Input() wrapperClasses: string = '';
+export class ArdiumStarDisplayComponent {
+  readonly wrapperClasses = input<string>('');
 
-  //* appearance
-  @Input() color: StarColor = StarColor.Star;
+  //! appearance
+  readonly color = input<StarColor>(StarColor.Star);
 
-  get ngClasses(): string {
-    return [`ard-color-${this.color}`].join(' ');
-  }
+  readonly ngClasses = computed<string>(() => [this.wrapperClasses(), `ard-color-${this.color}`].join(' '));
 
-  //* stars
-  starArray: StarFillMode[] = this.setStarArrayFromNumber(0);
-  @Input() max: number = 5;
-  @Input() value: number | StarFillMode[] = 0;
+  //! stars
+  readonly max = input<number, any>(5, { transform: v => coerceNumberProperty(v, 0) });
 
-  setStarArrayFromArray(starArr: StarFillMode[]): void {
-    this.starArray = [...starArr];
-    while (this.starArray.length < this.max) {
-      this.starArray.push('none');
-    }
-  }
-  setStarArrayFromNumber(stars: number): StarFillMode[] {
-    this.starArray = [];
-    while (this.starArray.length < this.max) {
-      if (stars >= 1) {
-        this.starArray.push('filled');
-      } else if (Math.round(stars) == 1) {
-        this.starArray.push('half');
-      } else {
-        this.starArray.push('none');
+  readonly value = input<number | StarFillMode[], string | number | StarFillMode[]>(0, {
+    transform: v => {
+      if (isArray(v)) {
+        return v;
       }
-      stars--;
+      return coerceNumberProperty(v, 0);
+    },
+  });
+
+  readonly starArray = computed<StarFillMode[]>(() => {
+    let v = this.value();
+    let newArr: StarFillMode[];
+
+    // pad the array with non-filled stars and return it
+    if (isArray(v)) {
+      newArr = [...v];
+      while (newArr.length < this.max()) {
+        newArr.push(StarFillMode.None);
+      }
+      return newArr;
     }
-    return this.starArray;
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['max'] || changes['value']) {
-      if (isArray(this.value)) {
-        this.setStarArrayFromArray(this.value);
-      } else this.setStarArrayFromNumber(this.value);
+
+    // create an array from a numeric value
+    newArr = [];
+    while (newArr.length < this.max()) {
+      v--;
+      if (v + 1 >= 1) {
+        newArr.push(StarFillMode.Filled);
+        continue;
+      }
+      if (Math.round(v + 1) == 1) {
+        newArr.push(StarFillMode.Half);
+        continue;
+      }
+      newArr.push(StarFillMode.None);
     }
-  }
+    return newArr;
+  });
 }

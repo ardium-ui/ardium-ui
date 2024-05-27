@@ -1,10 +1,10 @@
 <div class="ard-star-display"
-    [ngClass]="ngClasses"
-    [class]="wrapperClasses"
+  [ngClass]="ngClasses()"
 >
-    <ard-star
-        *ngFor="let fillMode of starArray"
-        [fill]="fillMode"
-        [color]="color"
-    ></ard-star>
+  @for (fillMode of starArray(); track $index) {
+  <ard-star
+    [fill]="fillMode"
+    [color]="color()"
+  />
+  }
 </div>
