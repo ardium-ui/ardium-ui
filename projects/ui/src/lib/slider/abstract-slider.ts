@@ -144,7 +144,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
       return;
     }
     this.labelObjects = val.map(this._numberLabelArrayMapFn).map(label => {
-      let v = this._clampValue(label.for);
+      let v = this._clampValue(label.for); //todo dont let users add labels outside the max value
       return {
         label: String(label.label),
         positionPercent: `${this._valueToPercent(v) * 100}%`,

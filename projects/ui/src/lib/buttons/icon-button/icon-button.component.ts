@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, computed, input } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _FocusableComponentBase } from '../../_internal/focusable-component';
 import { ComponentColor } from '../../types/colors.types';
@@ -11,21 +11,20 @@ import { ComponentColor } from '../../types/colors.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumIconButtonComponent extends _FocusableComponentBase {
-  @Input() wrapperClasses: string = '';
+  readonly wrapperClasses = input<string>('');
 
   //! button settings
-  @Input() color: ComponentColor = ComponentColor.Primary;
+  readonly color = input<ComponentColor>(ComponentColor.Primary);
 
-  private _compact: boolean = false;
-  @Input()
-  get compact(): boolean {
-    return this._compact;
-  }
-  set compact(v: any) {
-    this._compact = coerceBooleanProperty(v);
-  }
+  readonly lightColoring = input<any, boolean>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<any, boolean>(false, { transform: v => coerceBooleanProperty(v) });
 
-  get ngClasses(): string {
-    return ['ard-appearance-transparent', `ard-color-${this.disabled ? ComponentColor.None : this.color}`, this.compact ? 'ard-compact' : ''].join(' ');
-  }
+  readonly ngClasses = computed(() =>
+    [
+      'ard-appearance-transparent',
+      `ard-color-${this.disabled() ? ComponentColor.None : this.color()}`,
+      this.lightColoring() ? `ard-light-coloring` : '',
+      this.compact() ? 'ard-compact' : '',
+    ].join(' ')
+  );
 }

@@ -13,7 +13,9 @@
         (click)="focus()"
     >
         <div class="ard-input-container">
-            <div class="ard-autocomplete" *ngIf="shouldDisplayAutocomplete">{{ autocomplete }}</div>
+            @if (shouldDisplayAutocomplete()) {
+            <div class="ard-autocomplete">{{ autocomplete() }}</div>
+            }
 
             <ng-container *ngIf="shouldDisplayPlaceholder">
                 <ng-template #defaultPlaceholderTemplate>
@@ -27,9 +29,9 @@
                 #focusableElement
                 type="text"
                 [attr.id]="inputId"
-                [attr.tabindex]="tabIndex"
-                [readonly]="readonly"
-                [disabled]="disabled"
+                [attr.tabindex]="tabIndex()"
+                [readonly]="readonly()"
+                [disabled]="disabled()"
                 (input)="onInput(textInput.value)"
                 (focus)="onFocus($event)"
                 (blur)="onBlur($event)"
@@ -53,26 +55,24 @@
         aria-label="Suggestions"
         [appearance]="dropdownAppearance"
         [variant]="dropdownVariant"
-        [isOpen]="shouldDisplaySuggestions"
+        [isOpen]="shouldDisplaySuggestions()"
         (ardClickOutside)="handleSuggestionClickOutside($event)"
         (mousemove)="onMouseMove()"
     >
+        @for (item of suggestionItems(); track item.index()) {
         <div
             class="ard-option"
             role="option"
-            *ngFor="let item of suggestionItems"
-            [class.ard-option-disabled]="item.disabled"
-            [class.ard-option-selected]="item.selected"
-            [class.ard-option-highlighted]="item.highlighted"
-            [class.ard-option-highlighted-recent]="item.highlighted_recently"
-            [attr.aria-selected]="item.selected"
+            [class.ard-option-selected]="item.selected()"
+            [class.ard-option-highlighted]="item.highlighted()"
+            [attr.aria-selected]="item.selected()"
             (click)="selectSuggestion(item, $event)"
             (mouseenter)="onSuggestionMouseEnter(item, $event)"
             (mouseleave)="onSuggestionMouseLeave(item, $event)"
         >
             <span class="ard-option-label">
                 <ng-template #defaultOptionTemplate>
-                    {{item.label}}
+                    {{item.label()}}
                 </ng-template>
 
                 <ng-template
@@ -81,13 +81,14 @@
                 ></ng-template>
             </span>
         </div>
+        }
 
-        <ng-container *ngIf="areSuggestionsLoading">
-            <ng-template #defaultLoadingPlaceholderTemplate>
-                <div class="ard-option ard-option-disabled">{{suggestionsLoadingText}}</div>
-            </ng-template>
-        
-            <ng-template [ngTemplateOutlet]="suggestionLoadingTemplate || defaultLoadingPlaceholderTemplate"></ng-template>
-        </ng-container>
+        @if (areSuggestionsLoading()) {
+        <ng-template #defaultLoadingPlaceholderTemplate>
+            <div class="ard-option ard-option-disabled">{{suggestionsLoadingText()}}</div>
+        </ng-template>
+    
+        <ng-template [ngTemplateOutlet]="suggestionLoadingTemplate || defaultLoadingPlaceholderTemplate"></ng-template>
+        }
     </ard-dropdown-panel>
 </ng-template>

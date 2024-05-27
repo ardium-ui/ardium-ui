@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewEncapsulation, ChangeDetectionStrategy, forwardRef } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation, ChangeDetectionStrategy, forwardRef, input, computed, model } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SimpleComponentColor } from '../types/colors.types';
 import { _BooleanComponentBase } from './../_internal/boolean-component';
@@ -20,40 +20,32 @@ import { coerceBooleanProperty } from '@ardium-ui/devkit';
   ],
 })
 export class ArdiumCheckboxComponent extends _BooleanComponentBase implements ControlValueAccessor {
-  @Input() wrapperClasses: string = '';
+  readonly wrapperClasses = input<string>('');
+  readonly htmlId = input<string>('');
 
-  @Input() htmlId?: string;
+  //! appearance
+  readonly color = input<SimpleComponentColor>(SimpleComponentColor.Primary);
+  readonly unselectedColor = input<SimpleComponentColor>(SimpleComponentColor.None);
 
-  //* appearance
-  @Input() color: SimpleComponentColor = SimpleComponentColor.Primary;
-  @Input() unselectedColor: SimpleComponentColor = SimpleComponentColor.None;
-
-  get ngClasses(): string {
-    return [`ard-color-${this.color}`, `ard-unselected-color-${this.unselectedColor}`, `ard-checkbox-${this.state}`].join(' ');
-  }
+  readonly ngClasses = computed(() =>
+    [this.wrapperClasses(), `ard-color-${this.color()}`, `ard-unselected-color-${this.unselectedColor()}`, `ard-checkbox-${this.state}`].join(' ')
+  );
 
   //override the "selected" setter, so it changes the state too.
-  override set selected(v: any) {
+  override set _selected(v: any) {
     this._selected = coerceBooleanProperty(v);
-    this.state = this._selected ? 'selected' : 'unselected';
-  }
-  override get selected(): boolean {
-    return this._selected;
+    this.state.set(this._selected ? CheckboxState.Selected : CheckboxState.Unselected);
   }
 
-  @Input() state: CheckboxState = 'unselected';
-  @Output() stateChange = new EventEmitter<CheckboxState>();
+  readonly state = model<CheckboxState>(CheckboxState.Unselected);
 
-  //* click action
+  //! click action
   toggleState() {
-    if (this.state == 'selected' || this.state == 'indeterminate') this.state = 'unselected';
-    else this.state = 'selected';
-    this._selected = this.state == 'selected';
-
-    this._emitChange();
-  }
-  protected override _emitChange(): void {
-    super._emitChange();
-    this.stateChange.emit(this.state);
+    let newState: CheckboxState = CheckboxState.Unselected;
+    if (this.state() == CheckboxState.Unselected) {
+      newState = CheckboxState.Selected;
+    }
+    this.state.set(newState);
+    this.selected.set(this.state() == CheckboxState.Selected);
   }
 }

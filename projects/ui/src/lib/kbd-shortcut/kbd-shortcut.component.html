@@ -1,10 +1,12 @@
 <div class="ard-kbd-shortcut" [ngClass]="ngClasses">
-    <ng-container *ngFor="let key of keys ?? contentWrapper.innerText.split(splitRegex); let i = index;">
-        <span *ngIf="i != 0">+</span>
-        <ard-kbd [appearance]="appearance" [full]="full" [key]="key"></ard-kbd>
-    </ng-container>
+  @for (key of keys() ?? contentWrapper()?.nativeElement?.innerText?.split(splitRegex); track $index) {
+  @if ($index !== 0) {
+  <span>+</span>
+  }
+  <ard-kbd [appearance]="appearance()" [full]="full()" [key]="key" />
+  }
 </div>
 
-<div #contentWrapper class="ard-kbd-shortcut-content-wrapper">
-    <ng-content></ng-content>
+<div #contentWrapperEl class="ard-kbd-shortcut-content-wrapper">
+  <ng-content></ng-content>
 </div>

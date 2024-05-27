@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Directive, ElementRef, HostBinding, Input, Renderer2, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Directive, ElementRef, HostBinding, Input, Renderer2, ViewEncapsulation, computed, input } from '@angular/core';
 import { OneAxisAlignment } from '../types/alignment.types';
 
 @Component({
@@ -46,12 +46,9 @@ export class ArdiumCardImageDirective {
 
 @Directive({ selector: 'ard-card-action-buttons, [ard-card-action-buttons]' })
 export class ArdiumCardActionButtonsDirective {
-  @Input() align: OneAxisAlignment = OneAxisAlignment.Right;
+  readonly align = input<OneAxisAlignment>(OneAxisAlignment.Right);
 
-  @HostBinding('class')
-  get alignClass(): string {
-    return `ard-card-action-buttons ard-align-${this.align}`;
-  }
+  @HostBinding('class') readonly alignClass = computed(() => `ard-card-action-buttons ard-align-${this.align}`);
 }
 
 @Directive({ selector: 'ard-card-footer, [ard-card-footer]' })

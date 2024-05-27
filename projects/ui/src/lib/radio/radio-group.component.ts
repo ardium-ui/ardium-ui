@@ -10,8 +10,10 @@ import {
   OnDestroy,
   Output,
   QueryList,
+  Signal,
   ViewEncapsulation,
   forwardRef,
+  input,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
@@ -43,12 +45,11 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
   private _radios!: QueryList<ArdiumRadioComponent>;
 
   @HostBinding('attr.id')
-  @Input()
-  htmlId?: string;
+  readonly htmlId = input<string>('');
 
   //! value
   @Input()
-  get value(): any {
+  get value(): Signal<any> | undefined {
     return this._selected?.value;
   }
   set value(v: any) {
@@ -76,7 +77,7 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
   private _findRadioByValue(v: any): void {
     if (!this._radios) return;
 
-    this._selected = this._radios.find(radio => v === radio.value) ?? null;
+    this._selected = this._radios.find(radio => v === radio.value()) ?? null;
   }
 
   /** Updates all child radios depending on the currently selected radio. */
@@ -84,7 +85,7 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
     if (!this._isContentInit) return;
 
     this._radios.forEach(radio => {
-      radio.selected = this.value === radio.value;
+      radio.selected.set(this.value === radio.value());
       radio.markForCheck();
     });
   }
@@ -104,8 +105,8 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
   }
 
   private _checkSelectedRadioButton() {
-    if (this._selected && !this._selected.selected) {
-      this._selected.selected = true;
+    if (this._selected && !this._selected.selected()) {
+      this._selected.selected.set(true);
       this._selected.markForCheck();
     }
   }
@@ -140,7 +141,7 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
   }
   private _handleChangeEvents(selected: ArdiumRadioComponent): void {
     this.selected = selected;
-    this.writeValue(selected.value);
+    this.writeValue(selected.value());
 
     this._emitChange();
   }

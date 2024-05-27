@@ -1,9 +1,11 @@
-import { ChangeDetectorRef, Directive, EventEmitter, HostBinding, HostListener, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Directive, EventEmitter, HostBinding, HostListener, Input, Output, computed, input, signal } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { ArdOptionSimple, OptionContext } from '../types/item-storage.types';
 import { SimpleItemStorage, SimpleItemStorageHost } from './item-storages/simple-item-storage';
 import { _NgModelComponentBase } from './ngmodel-component';
+import { Nullable } from '../types/utility.types';
+import { CompareWithFn } from 'dist/ui';
 
 @Directive()
 export abstract class _SelectableListComponentBase extends _NgModelComponentBase implements ControlValueAccessor, SimpleItemStorageHost {
@@ -17,19 +19,22 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
     disabledFrom: 'disabled',
   };
 
+  abstract readonly _componentId: string;
+
   constructor(private _cd: ChangeDetectorRef) {
     super();
   }
 
   //! binding-related inputs
-  @Input() valueFrom?: string;
-  @Input() labelFrom?: string;
-  @Input() disabledFrom?: string;
+  readonly valueFrom = input<Nullable<string>>(undefined);
+  readonly labelFrom = input<Nullable<string>>(undefined);
+  readonly disabledFrom = input<Nullable<string>>(undefined);
+  readonly compareWith = input<Nullable<CompareWithFn>>(undefined);
 
   //! items setter/getter
   @Input()
   get items(): any[] {
-    return this.itemStorage.items;
+    return this.itemStorage.items();
   }
   set items(value: any) {
     if (!Array.isArray(value)) value = coerceArrayProperty(value);
@@ -43,57 +48,39 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
   private _printPrimitiveWarnings() {
     function makeWarning(str: string): void {
       console.warn(`Skipped using [${str}] property bound to <ard-segment>, as some provided items are of primitive type`);
+      //TODO
     }
-    if (this.valueFrom) {
+    if (this.valueFrom()) {
       makeWarning('valueFrom');
     }
-    if (this.labelFrom) {
+    if (this.labelFrom()) {
       makeWarning('labelFrom');
     }
-    if (this.disabledFrom) {
+    if (this.disabledFrom()) {
       makeWarning('disabledFrom');
     }
-    if (this.invertDisabled) {
+    if (this.invertDisabled()) {
       makeWarning('invertDisabled');
     }
   }
 
   //! multiselectable
-  protected _multiselectable: boolean = false;
-  abstract multiselectable: any;
-  get singleselectable(): boolean {
-    return !this._multiselectable;
-  }
+  readonly multiselectable = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+
+  readonly singleselectable = computed(() => !this.multiselectable());
 
   //! require value
   protected _requireValue: boolean | undefined = undefined;
   abstract requireValue: any;
 
   //! coerced properties
-  //should the value that the "disabledFrom" path lead to be inverted?
-  //useful when the property is e.g. "active", which is the oposite of "disabled"
-  private _invertDisabled: boolean = false;
-  @Input()
-  get invertDisabled(): boolean {
-    return this._invertDisabled;
-  }
-  set invertDisabled(v: any) {
-    this._invertDisabled = coerceBooleanProperty(v);
-  }
-
-  private _maxSelectedItems: number | undefined = undefined;
-  @Input()
-  get maxSelectedItems(): number | undefined {
-    return this._maxSelectedItems;
-  }
-  set maxSelectedItems(v: any) {
-    this._maxSelectedItems = coerceNumberProperty(v);
-  }
+  readonly invertDisabled = input<any, boolean>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly maxSelectedItems = input<any, Nullable<number>>(undefined, { transform: v => coerceNumberProperty(v) });
 
   //! control value accessor
   //override the writeValue and setDisabledState defined in _NgModelComponent
   override setDisabledState(state: boolean): void {
-    this._disabled = state;
+    this.disabled.set(state);
     this._cd.markForCheck();
   }
   writeValue(ngModel: any[]): void {
@@ -102,57 +89,46 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
   }
 
   //! change & touch event emitters
-  private _touched: boolean = false;
   @HostBinding('class.ard-touched')
-  get touched(): boolean {
-    return this._touched;
-  }
-  protected set touched(state: boolean) {
-    this._touched = state;
-  }
+  readonly touched = signal<boolean>(false);
 
   protected _emitChange(): void {
-    let value = this.itemStorage.value;
+    const value = this.itemStorage.value();
     this._onChangeRegistered?.(value);
     this.changeEvent.emit(value);
     this.valueChange.emit(value);
   }
   protected _onTouched(): void {
-    if (this.touched) return;
+    if (this.touched()) return;
 
     this._onTouchedRegistered?.();
-    this.touched = true;
+    this.touched.set(true);
   }
 
   //! focus & blur handlers
-  lastBlurTimestamp: number | null = null;
+  private readonly lastBlurTimestamp = signal<Nullable<number>>(undefined);
   override onFocus(event: FocusEvent): void {
     super.onFocus(event);
 
-    if (this.touched || !this.lastBlurTimestamp || this.lastBlurTimestamp + 1 < Date.now()) return;
-    this.lastBlurTimestamp = null;
+    const lbt = this.lastBlurTimestamp();
+    if (this.touched() || !lbt || lbt + 1 < Date.now()) return;
+    this.lastBlurTimestamp.set(null);
 
     this._onTouched();
   }
   override onBlur(event: FocusEvent): void {
     super.onBlur(event);
 
-    if (!this.touched) this.lastBlurTimestamp = Date.now();
+    if (!this.touched()) this.lastBlurTimestamp.set(Date.now());
   }
 
   //! getters
-  get firstHighlightedItem(): ArdOptionSimple | undefined {
-    return this.itemStorage.highlightedItems?.first();
-  }
-  get highlightedItems(): ArdOptionSimple[] {
-    return this.itemStorage.highlightedItems;
-  }
-  get isItemLimitReached(): boolean {
-    return this.itemStorage.isItemLimitReached;
-  }
+  readonly highlightedItems = computed<ArdOptionSimple[]>(() => this.itemStorage.highlightedItems());
+  readonly firstHighlightedItem = computed<Nullable<ArdOptionSimple>>(() => this.highlightedItems()?.first());
+  readonly isItemLimitReached = computed(() => this.itemStorage.isItemLimitReached());
 
   //! context providers
-  getOptionContext(item: ArdOptionSimple): OptionContext {
+  getOptionContext(item: ArdOptionSimple): OptionContext<ArdOptionSimple> {
     return {
       $implicit: item,
       item,
@@ -175,14 +151,14 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
 
   //! item selection handlers
   toggleItem(item: ArdOptionSimple): void {
-    if (item.selected) {
+    if (item.selected()) {
       this.unselectItem(item);
       return;
     }
     this.selectItem(item);
   }
   selectItem(...items: ArdOptionSimple[]): void {
-    let [selected, unselected] = this.itemStorage.selectItem(...items);
+    const [selected, unselected] = this.itemStorage.selectItem(...items);
 
     if (unselected.length > 0) this.removeEvent.emit(unselected);
 
@@ -192,17 +168,18 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
     }
   }
   unselectItem(...items: ArdOptionSimple[]): void {
-    let unselected = this.itemStorage.unselectItem(...items);
+    const unselected = this.itemStorage.unselectItem(...items);
 
     this.removeEvent.emit(unselected);
     this._emitChange();
   }
 
   //! highligh-related
-  public isMouseBeingUsed: boolean = false;
+
+  readonly isMouseBeingUsed = signal<boolean>(false);
   @HostListener('mousemove')
   onMouseMove() {
-    this.isMouseBeingUsed = true;
+    this.isMouseBeingUsed.set(true);
   }
   onItemMouseEnter(option: ArdOptionSimple, event: MouseEvent): void {
     if (!this.isMouseBeingUsed) return;
@@ -259,7 +236,7 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
 
     event.preventDefault();
 
-    const highlightedItems = this.highlightedItems;
+    const highlightedItems = this.highlightedItems();
 
     if (highlightedItems.every(item => item.selected)) {
       this.unselectItem(...highlightedItems);
@@ -271,7 +248,7 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
     if (!this.isFocused) return;
 
     event.preventDefault();
-    this.isMouseBeingUsed = false;
+    this.isMouseBeingUsed.set(false);
 
     this.itemStorage.highlightNextItem(-1, event.shiftKey);
   }
@@ -279,7 +256,7 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
     if (!this.isFocused) return;
 
     event.preventDefault();
-    this.isMouseBeingUsed = false;
+    this.isMouseBeingUsed.set(false);
 
     this.itemStorage.highlightNextItem(+1, event.shiftKey);
   }
@@ -287,7 +264,7 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
     if (!this.isFocused) return;
 
     event.preventDefault();
-    this.isMouseBeingUsed = false;
+    this.isMouseBeingUsed.set(false);
 
     this.itemStorage.highlightFirstItem();
   }
@@ -295,7 +272,7 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
     if (!this.isFocused) return;
 
     event.preventDefault();
-    this.isMouseBeingUsed = false;
+    this.isMouseBeingUsed.set(false);
 
     this.itemStorage.highlightLastItem();
   }

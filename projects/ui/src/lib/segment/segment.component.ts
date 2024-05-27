@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ContentChild, HostBinding, Input, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ContentChild, HostBinding, Input, TemplateRef, ViewEncapsulation, input } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { ComponentColor } from '../types/colors.types';
 import { ArdOptionSimple } from '../types/item-storage.types';
@@ -21,6 +21,8 @@ type SegmentRow = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumSegmentComponent extends _SelectableListComponentBase implements SimpleItemStorageHost {
+  override readonly _componentId: string = '104';
+
   //! appearance
   @Input() appearance: SegmentAppearance = SegmentAppearance.Outlined;
   @Input() variant: SegmentVariant = SegmentVariant.RoundedConnected;
@@ -57,15 +59,9 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
   }
 
   //! coerced properties
-  @Input()
   @HostBinding('attr.multiple')
   @HostBinding('class.ard-multiselect')
-  get multiselectable(): boolean {
-    return this._multiselectable;
-  }
-  set multiselectable(v: any) {
-    this._multiselectable = coerceBooleanProperty(v);
-  }
+  override readonly multiselectable = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   @Input()
   @HostBinding('class.ard-require-value')
@@ -76,36 +72,18 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
     this._requireValue = coerceBooleanProperty(v);
   }
 
-  private _autoFocus: boolean = false;
-  @Input()
-  get autoFocus(): boolean {
-    return this._autoFocus;
-  }
-  set autoFocus(v: any) {
-    this._autoFocus = coerceBooleanProperty(v);
-  }
+  readonly autoFocus = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly uniformWidths = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
-  private _uniformWidths: boolean = false;
-  @Input()
-  get uniformWidths(): boolean {
-    return this._uniformWidths;
-  }
-  set uniformWidths(v: any) {
-    this._uniformWidths = coerceBooleanProperty(v);
-  }
-
-  private _itemsPerRow: number | undefined = undefined;
-  @Input()
-  get itemsPerRow(): number {
-    return this._itemsPerRow ?? Infinity;
-  }
-  set itemsPerRow(v: any) {
-    const newValue = coerceNumberProperty(v, undefined);
-    if (newValue == 0) throw new Error('Cannot set items per row to 0.');
-    this._itemsPerRow = newValue;
-  }
+  readonly itemsPerRow = input<number, any>(Infinity, {
+    transform: v => {
+      const newValue = coerceNumberProperty(v, Infinity);
+      if (newValue == 0) throw new Error('Cannot set items per row to 0.');
+      return newValue;
+    },
+  });
   get itemsInActualRow(): number {
-    return this._itemsPerRow ?? this.items.length;
+    return this.itemsPerRow() ?? this.items.length;
   }
 
   //! option template
@@ -114,7 +92,7 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
 
   //! lifecycle hooks
   ngAfterContentInit(): void {
-    if (this.autoFocus) {
+    if (this.autoFocus()) {
       this.focus();
     }
   }
@@ -132,7 +110,7 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
       currentRow.push(item);
 
       //push if item amount reached the limit
-      if (this._itemsPerRow && currentRow.length == this.itemsPerRow) {
+      if (this.itemsPerRow() && currentRow.length == this.itemsPerRow()) {
         itemRows.push({ options: currentRow });
         currentRow = [];
       }
@@ -141,7 +119,7 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
     if (currentRow.length != 0) {
       itemRows.push({
         options: currentRow,
-        isNotFull: Boolean(this._itemsPerRow),
+        isNotFull: Boolean(this.itemsPerRow()),
       });
     }
 
@@ -153,7 +131,7 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
   override onFocus(event: FocusEvent): void {
     super.onFocus(event);
 
-    if (this.itemStorage.isAnyItemHighlighted) return;
+    if (this.itemStorage.isAnyItemHighlighted()) return;
 
     this.itemStorage.highlightFirstItem();
   }

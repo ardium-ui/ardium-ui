@@ -4,15 +4,20 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  computed,
   ContentChild,
   ElementRef,
   EventEmitter,
   forwardRef,
   HostListener,
+  input,
   Input,
   OnInit,
+  output,
   Output,
+  signal,
   TemplateRef,
+  viewChild,
   ViewChild,
   ViewContainerRef,
   ViewEncapsulation,
@@ -34,6 +39,7 @@ import {
   ArdInputSuffixTemplateDirective,
   ArdSuggestionTemplateDirective,
 } from './input.directives';
+import { Nullable } from '../../types/utility.types';
 
 @Component({
   selector: 'ard-input',
@@ -52,11 +58,7 @@ import {
 export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements InputModelHost, OnInit, SimplestItemStorageHost, AfterViewInit {
   private readonly element!: HTMLElement;
 
-  constructor(
-    private viewContainerRef: ViewContainerRef,
-    private overlay: Overlay,
-    private scrollStrategyOpts: ScrollStrategyOptions
-  ) {
+  constructor(private viewContainerRef: ViewContainerRef, private overlay: Overlay, private scrollStrategyOpts: ScrollStrategyOptions) {
     super();
 
     this.element = viewContainerRef.element.nativeElement;
@@ -109,20 +111,12 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
   }
 
   //! autocomplete
-  protected _autocomplete?: string | null;
-  @Input()
-  set autocomplete(v: string | null | undefined) {
-    this._autocomplete = v;
-  }
-  get autocomplete(): string | null | undefined {
-    return this._autocomplete ?? '';
-  }
-  //should show autocomplete
-  get shouldDisplayAutocomplete(): boolean {
-    return !this.disabled && Boolean(this.autocomplete);
-  }
+  readonly autocomplete = input<Nullable<string>>(undefined);
+
+  readonly shouldDisplayAutocomplete = computed<boolean>(() => !this.disabled() && Boolean(this.autocomplete()));
+
   //autocomplete event
-  @Output('acceptAutocomplete') acceptAutocompleteEvent = new EventEmitter();
+  readonly acceptAutocompleteEvent = output({ alias: 'acceptAutocomplete' });
 
   //! prefix & suffix
   @ContentChild(ArdInputPrefixTemplateDirective, { read: TemplateRef })
@@ -135,49 +129,50 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
   override placeholderTemplate?: TemplateRef<any>;
 
   //! suggestions
-  suggestionStorage = new SimplestItemStorage(this);
+  readonly suggestionStorage = new SimplestItemStorage(this);
 
-  @Input('suggValueFrom') valueFrom?: string;
-  @Input('suggLabelFrom') labelFrom?: string;
+  readonly valueFrom = input<Nullable<string>>(undefined, { alias: 'suggValueFrom' });
+  readonly labelFrom = input<Nullable<string>>(undefined, { alias: 'suggLabelFrom' });
 
   @Output('acceptSuggestion') acceptSuggestionEvent = new EventEmitter<any>();
 
-  get suggestionItems(): any[] {
-    return this.suggestionStorage.items;
-  }
+  readonly suggestionItems = this.suggestionStorage.items;
+
   @Input()
   set suggestions(value: any) {
     if (!Array.isArray(value)) value = coerceArrayProperty(value);
 
     let shouldPrintErrors = this.suggestionStorage.setItems(value);
 
-    this._suggestionDropdowOpen = true;
+    this._suggestionDropdowOpen.set(true);
     this.suggestionStorage.highlightFirstItem();
 
     if (shouldPrintErrors) {
       this._printPrimitiveWarnings();
     }
   }
+
   private _printPrimitiveWarnings() {
     function makeWarning(str: string): void {
       console.warn(`Skipped using [${str}] property bound to <ard-input>, as some provided suggestion items are of primitive type`);
+      //TODO error
     }
-    if (this.valueFrom) {
+    if (this.valueFrom()) {
       makeWarning('valueFrom');
     }
-    if (this.labelFrom) {
+    if (this.labelFrom()) {
       makeWarning('labelFrom');
     }
   }
 
-  private _suggestionDropdowOpen: boolean = false;
+  private readonly _suggestionDropdowOpen = signal<boolean>(false);
 
-  get shouldDisplaySuggestions(): boolean {
-    return !this.disabled && (this.suggestionItems.length > 0 || this.areSuggestionsLoading) && this._suggestionDropdowOpen;
-  }
+  readonly shouldDisplaySuggestions = computed(
+    () => !this.disabled() && (this.suggestionItems().length > 0 || this.areSuggestionsLoading()) && this._suggestionDropdowOpen()
+  );
 
-  @Input() areSuggestionsLoading: boolean = false;
-  @Input() suggestionsLoadingText: string = this.DEFAULTS.suggestionsLoadingText;
+  readonly areSuggestionsLoading = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly suggestionsLoadingText = input<string>(this.DEFAULTS.suggestionsLoadingText);
 
   @ContentChild(ArdSuggestionTemplateDirective, { read: TemplateRef })
   suggestionTemplate?: TemplateRef<any>;
@@ -185,17 +180,15 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
   suggestionLoadingTemplate?: TemplateRef<any>;
 
   //! suggestions overlay
-  @ViewChild('suggestionsHost', { read: ElementRef })
-  dropdownHost!: ElementRef<HTMLDivElement>;
-  @ViewChild('suggestionsTemplate', { read: TemplateRef })
-  dropdownTemplate!: TemplateRef<any>;
+  readonly dropdownHost = viewChild<ElementRef<HTMLDivElement>>('suggestionsHost');
+  readonly dropdownTemplate = viewChild('suggestionsTemplate', { read: TemplateRef });
 
   private dropdownOverlay!: OverlayRef;
 
   ngAfterViewInit(): void {
     const strategy = this.overlay
       .position()
-      .flexibleConnectedTo(this.dropdownHost)
+      .flexibleConnectedTo(this.dropdownHost()!)
       .withPositions([
         {
           originX: 'start',
@@ -216,15 +209,15 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
 
     this.dropdownOverlay;
 
-    const portal = new TemplatePortal(this.dropdownTemplate, this.viewContainerRef);
+    const portal = new TemplatePortal(this.dropdownTemplate()!, this.viewContainerRef);
     this.dropdownOverlay.attach(portal);
 
     this.setOverlaySize();
   }
 
   setOverlaySize(): void {
-    const rect = this.dropdownHost.nativeElement.getBoundingClientRect();
-    this.dropdownOverlay.updateSize({ width: rect.width });
+    const rect = this.dropdownHost()?.nativeElement.getBoundingClientRect();
+    this.dropdownOverlay.updateSize({ width: rect?.width });
   }
 
   @HostListener('window:resize')
@@ -232,7 +225,7 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
     this.setOverlaySize();
   }
 
-  getOptionContext(item: ArdSimplestStorageItem): OptionContext {
+  getOptionContext(item: ArdSimplestStorageItem): OptionContext<ArdSimplestStorageItem> {
     return {
       $implicit: item,
       item,
@@ -273,7 +266,7 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
 
     //important to do those two things in this exact order
     this.focus();
-    this._suggestionDropdowOpen = false;
+    this._suggestionDropdowOpen.set(false);
   }
   handleSuggestionClickOutside(event: MouseEvent): void {
     if (!this.shouldDisplaySuggestions) return;
@@ -281,7 +274,7 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
     const target = event.target as HTMLElement;
     if (this.element.contains(target)) return;
 
-    this._suggestionDropdowOpen = false;
+    this._suggestionDropdowOpen.set(false);
   }
   //! suggestion appearance
   private _dropdownAppearance?: DropdownPanelAppearance = undefined;
@@ -307,7 +300,7 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
 
   //! focus override
   override onFocus(event: FocusEvent): void {
-    this._suggestionDropdowOpen = true;
+    this._suggestionDropdowOpen.set(true);
     if (!this.suggestionStorage.highlightedItem) this.suggestionStorage.highlightFirstItem();
 
     super.onFocus(event);
@@ -340,15 +333,16 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
     if (!this.shouldDisplayAutocomplete) return;
     event.preventDefault();
 
-    this.onInput(this.autocomplete ?? '');
+    this.onInput(this.autocomplete() ?? '');
     this.acceptAutocompleteEvent.emit();
   }
   private _onEnterPress(event: KeyboardEvent): void {
-    if (!this.shouldDisplaySuggestions) return;
-    if (!this.suggestionStorage.highlightedItem) return;
+    if (!this.shouldDisplaySuggestions()) return;
+    const item = this.suggestionStorage.highlightedItem();
+    if (!item) return;
 
     event.preventDefault();
-    this._selectSuggestion(this.suggestionStorage.highlightedItem);
+    this._selectSuggestion(item);
   }
   private _onArrowDownPress(event: KeyboardEvent): void {
     if (!this.shouldDisplaySuggestions) return;

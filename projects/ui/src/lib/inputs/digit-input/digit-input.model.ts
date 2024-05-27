@@ -67,7 +67,7 @@ export class DigitInputModel {
   writeValue(v: any): boolean {
     if (!isArray(v) && !isAnyString(v) && !isNull(v)) {
       //warn when using non-string/non-null value
-      console.warn(new Error(`ARD-WA041: Trying to set <ard-digit-input>'s value to ${typeof v}, expected string or array strings.`));
+      console.warn(new Error(`ARD-WA0041: Trying to set <ard-digit-input>'s value to ${typeof v}, expected string or array strings.`));
       //normalize the value
       v = v?.toString?.() ?? String(v);
     }
@@ -75,7 +75,7 @@ export class DigitInputModel {
     const problemIndex = vArray.findIndex(el => !isAnyString(el) || el.length > 1);
     if (problemIndex != -1) {
       throw new Error(
-        `ARD-FT042: Array passed to <ard-digit-input>'s value must only contain strings of length 1 or 0. Element at index ${problemIndex} does not match those requirements.`
+        `ARD-FT0042: Array passed to <ard-digit-input>'s value must only contain strings of length 1 or 0. Element at index ${problemIndex} does not match those requirements.`
       );
     }
     return this._writeValue(vArray);
@@ -142,9 +142,9 @@ export class DigitInputModel {
 
         default:
           if (configArr.length == 1) {
-            throw new Error(`ARD-NF043S: <ard-digit-input>'s config is invalid. Expected number or array, got "${v}"`);
+            throw new Error(`ARD-NF0043S: <ard-digit-input>'s config is invalid. Expected number or array, got "${v}"`);
           }
-          throw new Error(`ARD-NF043B: Found invalid string in <ard-digit-input>'s config: "${v}" at index ${i}`);
+          throw new Error(`ARD-NF0043B: Found invalid string in <ard-digit-input>'s config: "${v}" at index ${i}`);
       }
     });
   }
@@ -178,7 +178,7 @@ export class DigitInputModel {
     const inputEl = this._ardHost.inputs.get(index);
     if (!inputEl) {
       throw new Error(
-        "ARD-IS048: <ard-digit-input>'s value changed, but its corresponding input element could not be found. This is error is fatal to the functioning of Ardium UI. Please report this issue to the creators."
+        "ARD-IS0048: <ard-digit-input>'s value changed, but its corresponding input element could not be found. This is error is fatal to the functioning of Ardium UI. Please report this issue to the creators."
       );
     }
     //update the input element and value array
@@ -213,14 +213,14 @@ export class DigitInputModel {
   private _validateSingleChar(char: string | null, before: string, config: DigitInputAcceptObject): string | null {
     if (config.readonly) {
       throw new Error(
-        `ARD-IS049R: trying to set value of a digit-input's readonly field. This is error is fatal to the functioning of Ardium UI. Please report this issue to the creators.`
+        `ARD-IS0049R: trying to set value of a digit-input's readonly field. This is error is fatal to the functioning of Ardium UI. Please report this issue to the creators.`
       );
     }
     if (!isFunction(config.accept)) {
       const regExp = isRegExp(config.accept) ? config.accept : new RegExp(`[${_sanitizeRegExpString(config.accept)}]`);
       config.accept = str => regExp.test(str);
       console.warn(
-        `ARD-IS049A: digit-input's value validator encountered an unexpected value of the config's "accept" property. Ardium UI was able to handle this issue, but please report it to the creators.`
+        `ARD-IS0049A: digit-input's value validator encountered an unexpected value of the config's "accept" property. Ardium UI was able to handle this issue, but please report it to the creators.`
       );
     }
     if (!char) return char;
@@ -236,7 +236,7 @@ export class DigitInputModel {
         return char.toUpperCase();
       }
       console.warn(
-        `ARD-IS049T: digit-input's value validator encountered an unexpected value of the config's "transform" property. Ardium UI was able to handle this issue, but please report it to the creators.`
+        `ARD-IS0049T: digit-input's value validator encountered an unexpected value of the config's "transform" property. Ardium UI was able to handle this issue, but please report it to the creators.`
       );
     }
     return char;

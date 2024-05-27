@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, ViewEncapsulation, computed, inject, input } from '@angular/core';
 import { _BooleanComponentBase } from '../../_internal/boolean-component';
 import { ComponentColor } from '../../types/colors.types';
 
@@ -10,20 +10,16 @@ import { ComponentColor } from '../../types/colors.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumRadioComponent extends _BooleanComponentBase {
-  constructor(protected _changeDetector: ChangeDetectorRef) {
-    super();
-  }
+  protected _changeDetector = inject(ChangeDetectorRef);
 
-  @Input() htmlId: string = crypto.randomUUID();
+  readonly htmlId = input<string>(crypto.randomUUID());
 
-  @Input() value: any;
+  readonly value = input<any>();
 
   //! appearance
-  @Input() color: ComponentColor = ComponentColor.Primary;
+  readonly color = input<ComponentColor>(ComponentColor.Primary);
 
-  get ngClasses(): string {
-    return [`ard-color-${this.color}`, `ard-radio-${this.selected ? 'selected' : 'unselected'}`].join(' ');
-  }
+  readonly ngClasses = computed<string>(() => [`ard-color-${this.color}`, `ard-radio-${this.selected() ? 'selected' : 'unselected'}`].join(' '));
 
   //! event handlers
   onMousedown(): void {
@@ -31,11 +27,7 @@ export class ArdiumRadioComponent extends _BooleanComponentBase {
   }
   onMouseup(): void {
     this.focus();
-
-    if (this.selected) return;
-    this.selected = true;
-
-    this._emitChange();
+    this.selected.set(true);
   }
 
   //! radio-group access points

@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, AfterViewInit, ViewChild, ElementRef, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, AfterViewInit, ViewChild, ElementRef, Input, input, computed, viewChild } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { FormElementAppearance } from '../types/theming.types';
+import { Nullable } from '../types/utility.types';
 
 @Component({
   selector: 'ard-kbd-shortcut',
@@ -10,42 +11,32 @@ import { FormElementAppearance } from '../types/theming.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumKbdShortcutComponent implements AfterViewInit {
-  @ViewChild('contentWrapper') contentWrapper!: ElementRef<HTMLElement>;
+  readonly contentWrapper = viewChild<ElementRef<HTMLElement>>('contentWrapperEl');
 
   ngAfterViewInit(): void {
-    if (!this.keys && !this.contentWrapper.nativeElement.innerText) console.warn(`Using <ard-kbd-shortcut> without specifying the [keys] field.`);
+    if (!this.keys && !this.contentWrapper()?.nativeElement.innerText) {
+      console.warn(`Using <ard-kbd-shortcut> without specifying the [keys] field.`);
+      //TODO error
+    }
   }
 
   readonly splitRegex = /[+ ]/;
 
-  private _keys?: string[];
-  @Input()
-  set keys(v: string | string[] | undefined) {
-    //assign from string
-    if (typeof v == 'string') {
-      this._keys = v.split(this.splitRegex);
-      return;
-    }
-    //assign undefined or array
-    this._keys = v && [...v];
-  }
-  get keys(): string[] | undefined {
-    return this._keys;
-  }
+  readonly keys = input<Nullable<string[]>, Nullable<string | string[]>>(undefined, {
+    transform: v => {
+      //assign from string
+      if (typeof v == 'string') {
+        return v.split(this.splitRegex);
+      }
+      //assign undefined or array
+      return v && [...v];
+    },
+  });
 
-  private _full: boolean = false;
-  @Input()
-  get full(): boolean {
-    return this._full;
-  }
-  set full(v: any) {
-    this._full = coerceBooleanProperty(v);
-  }
+  readonly full = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! appearance
-  @Input() appearance: FormElementAppearance = FormElementAppearance.Filled;
+  readonly appearance = input<FormElementAppearance>(FormElementAppearance.Filled);
 
-  get ngClasses(): string {
-    return [`ard-appearance-${this.appearance}`].join(' ');
-  }
+  readonly ngClasses = computed<string>(() => [`ard-appearance-${this.appearance}`].join(' '));
 }

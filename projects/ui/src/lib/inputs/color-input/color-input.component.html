@@ -12,13 +12,13 @@
         (mouseup)="onMouseup()"
     >
         <div class="ard-input-container">
-            <ng-container *ngIf="shouldDisplayPlaceholder">
-                <ng-template #defaultPlaceholderTemplate>
-                    <div class="ard-placeholder">{{ placeholder }}</div>
-                </ng-template>
-
-                <ng-template [ngTemplateOutlet]="placeholderTemplate || defaultPlaceholderTemplate"></ng-template>
-            </ng-container>
+            @if (shouldDisplayPlaceholder) {
+            <ng-template #defaultPlaceholderTemplate>
+              <div class="ard-placeholder">{{ placeholder }}</div>
+            </ng-template>
+            
+            <ng-template [ngTemplateOutlet]="placeholderTemplate || defaultPlaceholderTemplate"></ng-template>
+            }
 
             <input #textInput
                 [attr.id]="inputId"

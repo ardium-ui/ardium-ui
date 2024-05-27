@@ -23,7 +23,7 @@
         </div>
         <button #focusableElement
             class="ard-slider-handle"
-            [tabindex]="tabIndex"
+            [tabindex]="tabIndex()"
             [class.ard-grabbed]="isSliderHandleGrabbed && currentHandle == 1"
             (pointerdown)="onPointerDownOnHandle($event, 1)"
             (focus)="onHandleFocus($event, 1)"
@@ -48,7 +48,7 @@
         </div>
         <button
             class="ard-slider-handle"
-            [tabindex]="tabIndex"
+            [tabindex]="tabIndex()"
             [class.ard-grabbed]="isSliderHandleGrabbed && currentHandle == 2"
             (pointerdown)="onPointerDownOnHandle($event, 2)"
             (focus)="onHandleFocus($event, 2)"
@@ -82,5 +82,5 @@
 </div>
 
 <ng-template #handleThumbBase>
-    <div class="ard-slide-thumb">Test</div>
+    <div class="ard-slide-thumb"></div>
 </ng-template>

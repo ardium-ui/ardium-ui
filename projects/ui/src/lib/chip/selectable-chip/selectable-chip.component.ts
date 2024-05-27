@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, forwardRef, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, forwardRef, input, Input, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { SimpleOneAxisAlignment } from '../../types/alignment.types';
@@ -25,33 +25,27 @@ export class ArdiumSelectableChipComponent extends _BooleanComponentBase impleme
     chipTitle: 'Select',
   };
 
-  @Input() chipTitle: string = this.DEFAULTS.chipTitle;
-  @Input() useSelectionIcon: boolean = true;
-  @Input() contentAlignment: SimpleOneAxisAlignment = SimpleOneAxisAlignment.Left;
+  readonly chipTitle = input<string>(this.DEFAULTS.chipTitle);
+  readonly hideSelectionIcon = input<any, boolean>(false, { transform: v => coerceBooleanProperty(v) });
 
-  //* appearance
-  @Input() appearance: DecorationElementAppearance = DecorationElementAppearance.Outlined;
-  @Input() variant: FormElementVariant = FormElementVariant.Rounded;
-  @Input() color: ComponentColor = ComponentColor.Primary;
+  //! appearance
+  readonly contentAlignment = input<SimpleOneAxisAlignment>(SimpleOneAxisAlignment.Left);
+  readonly appearance = input<DecorationElementAppearance>(DecorationElementAppearance.Outlined);
+  readonly variant = input<FormElementVariant>(FormElementVariant.Rounded);
+  readonly color = input<ComponentColor>(ComponentColor.Primary);
 
-  private _compact: boolean = false;
-  @Input()
-  get compact(): boolean {
-    return this._compact;
-  }
-  set compact(v: any) {
-    this._compact = coerceBooleanProperty(v);
-  }
+  readonly compact = input<any, boolean>(false, { transform: v => coerceBooleanProperty(v) });
 
-  @Input() wrapperClasses: string = '';
-  get ngClasses(): string {
-    return [
-      this.wrapperClasses,
-      `ard-chip-align-${this.contentAlignment}`,
-      `ard-variant-${this.variant}`,
-      `ard-appearance-${this.appearance}`,
-      `ard-color-${this.color}`,
-      this.compact ? 'ard-compact' : '',
-    ].join(' ');
-  }
+  readonly wrapperClasses = input<string>('');
+
+  readonly ngClasses = computed(() =>
+    [
+      this.wrapperClasses(),
+      `ard-chip-align-${this.contentAlignment()}`,
+      `ard-variant-${this.variant()}`,
+      `ard-appearance-${this.appearance()}`,
+      `ard-color-${this.color()}`,
+      this.compact() ? 'ard-compact' : '',
+    ].join(' ')
+  );
 }

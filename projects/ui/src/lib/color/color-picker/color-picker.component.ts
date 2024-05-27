@@ -6,11 +6,19 @@ import {
   EventEmitter,
   HostListener,
   Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  computed,
+  input,
+  model,
+  output,
+  signal,
+  viewChild,
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty, getEventRelativePos } from '@ardium-ui/devkit';
 import * as Color from 'color';
@@ -39,50 +47,30 @@ type TripleInputObject = {
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumColorPickerComponent extends _NgModelComponentBase implements OnInit {
-  private _withOpacity: boolean = false;
-  @Input()
-  get withOpacity(): boolean {
-    return this._withOpacity;
-  }
-  set withOpacity(v: any) {
-    this._withOpacity = coerceBooleanProperty(v);
+export class ArdiumColorPickerComponent extends _NgModelComponentBase implements OnInit, OnChanges {
+  readonly withOpacity = input<any, boolean>(false, { transform: v => coerceBooleanProperty(v) });
+  // if (this.focusedArea == 'opacity') this.focusedArea = null; // TODO
 
-    if (this.focusedArea == 'opacity') this.focusedArea = null;
-  }
+  readonly referenceColor = model<Color>(Color('transparent'));
 
-  private _referenceColor: Color = Color('transparent');
-  private _wasReferenceColorSet: boolean = false;
-  @Input()
-  set referenceColor(v: any) {
-    this._referenceColor = Color(v);
-    this._wasReferenceColorSet = true;
-  }
-  get referenceColor(): Color {
-    return this._referenceColor;
+  private _wasReferenceColorSet = false;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['referenceColor']?.firstChange) {
+      this._wasReferenceColorSet = true;
+    }
   }
 
   //! appearance
-  @Input() wrapperClasses: string = '';
+  readonly wrapperClasses = input<string>('');
 
-  @Input() variant: ColorPickerVariant = ColorPickerVariant.Rounded;
+  readonly variant = input<ColorPickerVariant>(ColorPickerVariant.Rounded);
 
-  private _vertical: boolean = false; //TODO implement in CSS
-  @Input()
-  get vertical(): boolean {
-    return this._vertical;
-  }
-  set vertical(v: any) {
-    this._vertical = coerceBooleanProperty(v);
-  }
+  readonly vertical = input<any, boolean>(false, { transform: v => coerceBooleanProperty(v) }); //TODO implement in CSS
 
-  get ngClasses(): string {
-    return [this.wrapperClasses, `ard-variant-${this.variant}`, this.vertical ? 'ard-vertical' : ''].join(' ');
-  }
+  readonly ngClasses = computed(() => [this.wrapperClasses(), `ard-variant-${this.variant()}`, this.vertical() ? 'ard-vertical' : ''].join(' '));
 
   //! value-related
   private _value: Color = Color('red');
-  private _exactHue: number = 0;
   @Input()
   set value(v: any) {
     this.writeValue(v);
@@ -127,11 +115,11 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
     return this.value.alpha();
   }
 
-  @Output() valueChange = new EventEmitter<Color>();
-  @Output() colorHueChange = new EventEmitter<number>();
-  @Output() colorSaturationChange = new EventEmitter<number>();
-  @Output() colorValueChange = new EventEmitter<number>();
-  @Output() colorOpacityChange = new EventEmitter<number>();
+  readonly valueChange = output<Color>();
+  readonly colorHueChange = output<number>();
+  readonly colorSaturationChange = output<number>();
+  readonly colorValueChange = output<number>();
+  readonly colorOpacityChange = output<number>();
 
   writeValue(v: any) {
     this._value = Color(v);
@@ -146,20 +134,17 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
     if (this._wasReferenceColorSet) return;
 
     this._wasReferenceColorSet = true;
-    this.referenceColor = Color(this.value);
+    this.referenceColor.set(Color(this.value));
 
     this._updateHexInputValue();
   }
 
   //! creating new value from interactions
-  @ViewChild('shadeMap', { read: ElementRef })
-  shadeMapEl!: ElementRef<HTMLDivElement>;
-  @ViewChild('hueMap', { read: ElementRef })
-  hueMapEl!: ElementRef<HTMLDivElement>;
-  @ViewChild('opacityMap', { read: ElementRef })
-  opacityMapEl!: ElementRef<HTMLDivElement>;
+  readonly shadeMapEl = viewChild<ElementRef<HTMLDivElement>>('shadeMap');
+  readonly hueMapEl = viewChild<ElementRef<HTMLDivElement>>('hueMap');
+  readonly opacityMapEl = viewChild<ElementRef<HTMLDivElement>>('opacityMap');
 
-  focusedArea: 'shade' | 'hue' | 'opacity' | null = null;
+  readonly focusedArea = signal<'shade' | 'hue' | 'opacity' | null>(null);
 
   onShadeAreaMouseDown(event: MouseEvent): void {
     this._isMouseDown = true;
@@ -184,15 +169,15 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
   @HostListener('document:pointermove', ['$event'])
   @HostListener('document:touchmove', ['$event'])
   onDocumentMousemove(event: MouseEvent | TouchEvent): void {
-    if (!this.focusedArea || !this._isMouseDown) return;
+    if (!this.focusedArea() || !this._isMouseDown) return;
 
     if (!(event instanceof TouchEvent)) event.preventDefault();
 
-    if (this.focusedArea == 'shade') {
+    if (this.focusedArea() === 'shade') {
       this._updateShadeFromEvent(event);
       return;
     }
-    if (this.focusedArea == 'hue') {
+    if (this.focusedArea() === 'hue') {
       this._updateHueFromEvent(event);
       return;
     }
@@ -200,7 +185,9 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
   }
 
   private _updateShadeFromEvent(event: MouseEvent | TouchEvent): void {
-    const { left, right, top, bottom } = getEventRelativePos(event, this.shadeMapEl);
+    const shadeMapEl = this.shadeMapEl();
+    if (!shadeMapEl) return;
+    const { left, right, top, bottom } = getEventRelativePos(event, shadeMapEl);
 
     const shadeMapWidth = left + right;
     const newSaturationRaw = (left / shadeMapWidth) * 100;
@@ -220,11 +207,13 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
     this._emitChange();
     this._updateCurrentOpacityMapColor();
     //emit specific events
-    if (oldSaturation != this.value.saturationv()) this.colorSaturationChange.next(this.value.saturationv());
-    if (oldValue != this.value.value()) this.colorValueChange.next(this.value.value());
+    if (oldSaturation != this.value.saturationv()) this.colorSaturationChange.emit(this.value.saturationv());
+    if (oldValue != this.value.value()) this.colorValueChange.emit(this.value.value());
   }
   private _updateHueFromEvent(event: MouseEvent | TouchEvent): void {
-    const { top, bottom } = getEventRelativePos(event, this.hueMapEl);
+    const hueMapEl = this.hueMapEl();
+    if (!hueMapEl) return;
+    const { top, bottom } = getEventRelativePos(event, hueMapEl);
 
     const hueMapHeight = top + bottom;
     const newHueRaw = (top / hueMapHeight) * 360;
@@ -236,14 +225,16 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
     this.value = Color(this.value).hue(newHueExact);
 
     this._emitChange();
-    this.colorHueChange.next(this.value.hue());
+    this.colorHueChange.emit(this.value.hue());
     this._updateCurrentShadeMapColor();
     this._updateCurrentOpacityMapColor();
   }
   private _updateOpacityFromEvent(event: MouseEvent | TouchEvent): void {
     if (!this.withOpacity) return;
 
-    const { top, bottom } = getEventRelativePos(event, this.opacityMapEl);
+    const opacityMapEl = this.opacityMapEl();
+    if (!opacityMapEl) return;
+    const { top, bottom } = getEventRelativePos(event, opacityMapEl);
 
     const hueMapHeight = top + bottom;
     const newOpacityRaw = bottom / hueMapHeight;
@@ -254,7 +245,7 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
     this.value = Color(this.value).alpha(newOpacity);
 
     this._emitChange();
-    this.colorOpacityChange.next(this.value.alpha());
+    this.colorOpacityChange.emit(this.value.alpha());
   }
 
   //! displaying the maps correctly
@@ -360,20 +351,20 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
   }
 
   onHexInputChange(value: string): void {
-    if (this.withOpacity) {
+    if (this.withOpacity()) {
       if (!value.match(validHexAlphaColorRegex)) return;
     } else if (!value.match(validHexColorRegex)) return;
 
     this.value = value;
   }
 
-  onTripleInputChange(value: number | null, index: number): void {}
+  onTripleInputChange(value: number | null, index: number): void {} //TODO
 
   //! events
   protected _emitChange() {
     const v = this.value;
     this._onChangeRegistered?.(v);
-    this.valueChange.next(v);
+    this.valueChange.emit(v);
   }
 
   //! template customization
@@ -407,7 +398,7 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
     return {
       color: this.value,
       $implicit: this.value,
-      referenceColor: this.referenceColor,
+      referenceColor: this.referenceColor(),
     };
   }
 
@@ -417,13 +408,13 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
     switch (event.key) {
       case 'ArrowRight':
       case 'ArrowLeft':
-        if (this.focusedArea != 'shade') return;
+        if (this.focusedArea() !== 'shade') return;
         this.nudgeColorSaturation(event.key == 'ArrowRight' ? 1 : -1, hasShift);
         break;
 
       case 'ArrowUp':
       case 'ArrowDown':
-        switch (this.focusedArea) {
+        switch (this.focusedArea()) {
           case 'shade':
             this.nudgeColorValue(event.key == 'ArrowUp' ? 1 : -1, hasShift);
             break;
@@ -435,7 +426,7 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
             break;
 
           default:
-            console.error(new Error(`Unexpected ard-color-picker._focusedArea state "${this.focusedArea}"`));
+            console.error(new Error(`Unexpected ard-color-picker._focusedArea state "${this.focusedArea()}"`));
             break;
         }
         break;
@@ -481,7 +472,6 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
       newVal = v.hue() + diff;
     }
     const newValClamped = Math.max(0, Math.min(359.99, newVal));
-    console.log(newValClamped);
     this.value = Color(v).hue(newValClamped);
   }
   nudgeColorOpacity(direction: 1 | -1, hasShift?: boolean): void {

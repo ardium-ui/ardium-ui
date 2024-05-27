@@ -148,7 +148,7 @@ export class ArdiumSnackbarService implements OnDestroy {
 
     const origin = options.placement!.origin;
     if (!origin) {
-      throw new Error(`ARD-NF8011: trying to open a snackbar, but the origin is undefined. Using "document.body" instead.`);
+      throw new Error(`ARD-NF7021: trying to open a snackbar, but the origin is undefined. Using "document.body" instead.`);
     }
 
     const isInside = options.placement?.originRelation === ArdSnackbarOriginRelation.Inside;
@@ -183,7 +183,7 @@ export class ArdiumSnackbarService implements OnDestroy {
   dismissCurrent(withAction?: boolean) {
     const sb = this._openedSnackbar;
     if (!sb) {
-      console.warn(new Error(`ARD-WA8010: trying to dismiss the current snackbar, but no snackbar is currently opened.`));
+      console.warn(new Error(`ARD-WA7020: trying to dismiss the current snackbar, but no snackbar is currently opened.`));
       return;
     }
 

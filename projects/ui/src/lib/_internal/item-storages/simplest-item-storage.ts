@@ -1,40 +1,37 @@
+import { Signal, computed, signal } from '@angular/core';
 import resolvePath from 'resolve-object-path';
-import { any, isPrimitive } from 'simple-bool';
+import { any, isDefined, isPrimitive } from 'simple-bool';
 import { ArdSimplestStorageItem } from '../../types/item-storage.types';
+import { Nullable } from '../../types/utility.types';
 
 export interface SimplestItemStorageHostDefaults {
   valueFrom: string;
   labelFrom: string;
 }
 export interface SimplestItemStorageHost {
-  valueFrom?: string;
-  labelFrom?: string;
+  readonly valueFrom: Signal<Nullable<string>>;
+  readonly labelFrom: Signal<Nullable<string>>;
   readonly DEFAULTS: SimplestItemStorageHostDefaults;
 }
 
 export class SimplestItemStorage {
-  private _items: ArdSimplestStorageItem[] = [];
-  private _highlightedItem: ArdSimplestStorageItem | null = null;
+  private readonly _items = signal<ArdSimplestStorageItem[]>([]);
+  private readonly _highlightedItem = signal<Nullable<ArdSimplestStorageItem>>(null);
 
-  get highlightedItem(): ArdSimplestStorageItem | null {
-    return this._highlightedItem;
-  }
-
-  constructor(private _ardParentComp: SimplestItemStorageHost) {}
+  constructor(private readonly _ardParentComp: SimplestItemStorageHost) {}
 
   /**
    * Gets all items.
    */
-  get items(): ArdSimplestStorageItem[] {
-    return this._items;
-  }
-
+  readonly items = computed(() => this._items());
   /**
-   * Returns true if at least one item is highlighted, otherwise false.
+   * The currently highlighted item.
    */
-  get isAnyItemHighlighted(): boolean {
-    return this._highlightedItem != null;
-  }
+  readonly highlightedItem = computed(() => this._highlightedItem());
+  /**
+   * True if at least one item is highlighted, otherwise false.
+   */
+  readonly isAnyItemHighlighted = computed(() => isDefined(this._highlightedItem()));
 
   /**
    * Sets the component's items. Takes into account the values defined by the parent component for `suggValueFrom` and `suggLabelFrom`.
@@ -48,9 +45,11 @@ export class SimplestItemStorage {
       areItemsPrimitive = true;
     }
 
-    this._items = items.map((item, index) => {
-      return this._setItemsMapFn(item, index, areItemsPrimitive);
-    });
+    this._items.set(
+      items.map((item, index) => {
+        return this._setItemsMapFn(item, index, areItemsPrimitive);
+      })
+    );
 
     return areItemsPrimitive;
   }
@@ -60,28 +59,30 @@ export class SimplestItemStorage {
   private _setItemsMapFn(rawItemData: any, index: number, areItemsPrimitive: boolean): ArdSimplestStorageItem {
     if (areItemsPrimitive) {
       return {
-        itemData: rawItemData,
-        index,
-        value: rawItemData.value,
-        label: rawItemData.value?.toString?.() ?? String(rawItemData.value),
+        itemData: signal(rawItemData),
+        index: signal(index),
+        value: signal(rawItemData.value),
+        label: signal(rawItemData.value?.toString?.() ?? String(rawItemData.value)),
+        selected: signal(false),
+        highlighted: signal(false),
       };
     }
     //get value
-    const valuePath = this._ardParentComp.valueFrom ?? this._ardParentComp.labelFrom ?? this._ardParentComp.DEFAULTS.valueFrom;
+    const valuePath = this._ardParentComp.valueFrom() ?? this._ardParentComp.labelFrom() ?? this._ardParentComp.DEFAULTS.valueFrom;
     const value = resolvePath(rawItemData, valuePath);
 
     //get label
-    const labelPath = this._ardParentComp.labelFrom ?? this._ardParentComp.valueFrom ?? this._ardParentComp.DEFAULTS.labelFrom;
+    const labelPath = this._ardParentComp.labelFrom() ?? this._ardParentComp.valueFrom() ?? this._ardParentComp.DEFAULTS.labelFrom;
     const label = resolvePath(rawItemData, labelPath) ?? value;
-
-    const itemData = areItemsPrimitive ? rawItemData.value : rawItemData;
 
     //return
     return {
-      itemData,
-      index,
-      value,
-      label: label?.toString?.() ?? String(label),
+      itemData: signal(rawItemData),
+      index: signal(index),
+      value: signal(value),
+      label: signal(label?.toString?.() ?? String(label)),
+      selected: signal(false),
+      highlighted: signal(false),
     };
   }
 
@@ -94,18 +95,20 @@ export class SimplestItemStorage {
     return item.value;
   }
   selectCurrent(): any {
-    if (!this._highlightedItem) return undefined;
-    return this.selectItem(this._highlightedItem);
+    const hi = this._highlightedItem();
+    if (!hi) return undefined;
+    return this.selectItem(hi);
   }
 
   /**
    * Unhighlights all currently highlighted items.
    */
   unhighlightCurrent(): void {
-    if (this._highlightedItem) {
-      this._highlightedItem.highlighted = false;
+    const hi = this._highlightedItem();
+    if (hi) {
+      hi.highlighted.set(false);
     }
-    this._highlightedItem = null;
+    this._highlightedItem.set(null);
   }
   /**
    * Highlights a given item.
@@ -114,29 +117,29 @@ export class SimplestItemStorage {
   highlightItem(item: ArdSimplestStorageItem): void {
     this.unhighlightCurrent();
 
-    item.highlighted = true;
+    item.highlighted.set(true);
 
-    this._highlightedItem = item;
+    this._highlightedItem.set(item);
   }
   /**
    * Unhighlights a given item.
    * @param item The item to be unhighlighted.
    */
   unhighlightItem(item: ArdSimplestStorageItem): void {
-    item.highlighted = false;
+    item.highlighted.set(false);
 
-    if (this._highlightedItem?.index == item.index) this._highlightedItem = null;
+    if (this._highlightedItem()?.index() == item.index()) this._highlightedItem.set(null);
   }
   /**
    * Highlights the first item out of all items.
    * @returns The highlighted item.
    */
   highlightFirstItem(): ArdSimplestStorageItem | null {
-    if (!this.items.length) return null;
+    if (!this._items().length) return null;
 
     this.unhighlightCurrent();
 
-    let itemToHighlight = this.items.first();
+    const itemToHighlight = this._items().first();
     this.highlightItem(itemToHighlight);
 
     return itemToHighlight;
@@ -146,11 +149,11 @@ export class SimplestItemStorage {
    * @returns The highlighted item.
    */
   highlightLastItem(): ArdSimplestStorageItem | null {
-    if (!this.items.length) return null;
+    if (!this._items().length) return null;
 
     this.unhighlightCurrent();
 
-    let itemToHighlight = this.items.last();
+    const itemToHighlight = this._items().last();
     this.highlightItem(itemToHighlight);
 
     return itemToHighlight;
@@ -161,20 +164,20 @@ export class SimplestItemStorage {
    * @returns The item highlighted.
    */
   highlightNextItem(offset: number): ArdSimplestStorageItem | null {
-    const currentItem = this._highlightedItem;
+    const currentItem = this._highlightedItem();
     if (!currentItem) {
       return this.highlightFirstItem();
     }
-    const itemsWithoutDisabled = this._items.filter(item => !item.disabled);
-    const currentIndexInItems = itemsWithoutDisabled.findIndex(item => item.index == currentItem.index);
+    const items = this._items();
+    const currentIndexInItems = items.findIndex(item => item.index() == currentItem.index());
 
     let nextItemIndex = currentIndexInItems + offset;
-    if (nextItemIndex >= itemsWithoutDisabled.length) {
-      nextItemIndex -= itemsWithoutDisabled.length;
+    if (nextItemIndex >= items.length) {
+      nextItemIndex -= items.length;
     } else if (nextItemIndex < 0) {
-      nextItemIndex += itemsWithoutDisabled.length;
+      nextItemIndex += items.length;
     }
-    const itemToHighlight = itemsWithoutDisabled[nextItemIndex];
+    const itemToHighlight = items[nextItemIndex];
 
     this.highlightItem(itemToHighlight);
 

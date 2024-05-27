@@ -1,4 +1,4 @@
-import { Directive, ElementRef, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Input, Output, QueryList, ViewChildren, computed, input, signal } from '@angular/core';
 import { coerceNumberProperty } from '@ardium-ui/devkit';
 import { _DisablableComponentBase } from './disablable-component';
 
@@ -34,17 +34,11 @@ export abstract class _FocusableComponentBase extends _DisablableComponentBase {
   }
 
   //! tabindex
-  protected _tabIndex: number = 0;
   /**
    * The component's overall tab index. If the component is disabled, it is always `-1`. Coercible into a number, defaults to `0`.
    */
-  @Input()
-  get tabIndex(): number {
-    return this.disabled ? -1 : this._tabIndex;
-  }
-  set tabIndex(v: any) {
-    this._tabIndex = coerceNumberProperty(v, 0);
-  }
+  readonly tabIndex = computed(() => (this.disabled() ? -1 : this._tabIndex()));
+  readonly _tabIndex = input<any, number>(0, { alias: 'tabIndex', transform: v => coerceNumberProperty(v) });
 
   //! events
   /**

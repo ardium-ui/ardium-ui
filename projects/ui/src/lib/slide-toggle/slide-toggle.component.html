@@ -1,5 +1,13 @@
-<button class="ard-slide-toggle" role="checkbox" [tabindex]="tabIndex" [class.ard-slide-toggle-selected]="selected"
-  [ngClass]="ngClasses()" (click)="toggleSelected()" (focus)="onFocus($event)" (blur)="onBlur($event)">
+<button
+  role="checkbox"
+  class="ard-slide-toggle"
+  [class.ard-slide-toggle-selected]="selected()"
+  [ngClass]="ngClasses()"
+  [tabindex]="tabIndex()"
+  (click)="toggleSelected()"
+  (focus)="onFocus($event)"
+  (blur)="onBlur($event)"
+>
   <div class="ard-hitbox"></div>
   <div class="ard-slide-toggle-track">
     <div class="ard-slide-toggle-track-overlay"></div>

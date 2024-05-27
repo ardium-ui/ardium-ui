@@ -62,7 +62,7 @@ export class SimpleInputModel {
   set caretPos(pos: number) {
     this.inputEl.setSelectionRange(pos, pos);
   }
-  //* constraints
+  //! constraints
   protected _applyLengthTransformer(v: string | null): string | null {
     //exit if max length not specified
     if (this._hostComp.maxLength == undefined) return v;

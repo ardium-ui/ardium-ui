@@ -1,4 +1,17 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, Input, ContentChild, TemplateRef, forwardRef, Output, EventEmitter } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  Input,
+  ContentChild,
+  TemplateRef,
+  forwardRef,
+  Output,
+  EventEmitter,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ArdColorInputPlaceholderTemplateDirective } from '../../inputs/color-input/color-input.directives';
 import { ComponentColor } from '../../types/colors.types';
@@ -35,15 +48,15 @@ export class ArdiumFileInputComponent extends _FileInputComponentBase {
 
   //! appearance
   //all handled in ard-form-field-frame component
-  @Input() appearance: FormElementAppearance = FormElementAppearance.Outlined;
-  @Input() variant: FormElementVariant = FormElementVariant.Rounded;
-  @Input() color: ComponentColor = ComponentColor.Primary;
+  readonly appearance = input<FormElementAppearance>(FormElementAppearance.Outlined);
+  readonly variant = input<FormElementVariant>(FormElementVariant.Rounded);
+  readonly color = input<ComponentColor>(ComponentColor.Primary);
 
   //! other inputs
-  @Input() inputAttrs: { [key: string]: any } = {};
+  readonly inputAttrs = input<{ [key: string]: any }>({});
 
   //! placeholder
-  @Input() placeholder: string = '';
+  readonly placeholder = input<string>('');
 
   @ContentChild(ArdColorInputPlaceholderTemplateDirective, {
     read: TemplateRef,
@@ -51,23 +64,16 @@ export class ArdiumFileInputComponent extends _FileInputComponentBase {
   placeholderTemplate?: TemplateRef<any>;
 
   get shouldDisplayPlaceholder(): boolean {
-    return Boolean(this.placeholder) && !this.value;
+    return Boolean(this.placeholder()) && !this.value;
   }
 
   //! clear button
-  private _clearable: boolean = true;
-  @Input()
-  get clearable(): boolean {
-    return this._clearable;
-  }
-  set clearable(v: any) {
-    this._clearable = coerceBooleanProperty(v);
-  }
+  readonly clearable = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
-  @Input() clearButtonTitle: string = this.DEFAULTS.clearButtonTitle;
+  readonly clearButtonTitle = input<string>(this.DEFAULTS.clearButtonTitle);
 
   get shouldShowClearButton(): boolean {
-    return this._clearable && !this.disabled && Boolean(this.value);
+    return this.clearable() && !this.disabled() && Boolean(this.value);
   }
   onClearButtonClick(event: MouseEvent): void {
     event.stopPropagation();
@@ -77,23 +83,17 @@ export class ArdiumFileInputComponent extends _FileInputComponentBase {
 
   //! clear function
   clear(): void {
-    if (!this.clearable) return;
+    if (!this.clearable()) return;
 
     this.writeValue(null);
     this._emitChange();
     this.clearEvent.emit();
   }
 
-  @Output('clear') clearEvent = new EventEmitter<any>();
+  readonly clearEvent = output();
 
   //! state
-  private _touched: boolean = false;
-  get touched(): boolean {
-    return this._touched;
-  }
-  private set touched(state: boolean) {
-    this._touched = state;
-  }
+  readonly touched = signal<boolean>(false);
 
   //! prefix & suffix
   @ContentChild(ArdFileInputPrefixTemplateDirective, { read: TemplateRef })

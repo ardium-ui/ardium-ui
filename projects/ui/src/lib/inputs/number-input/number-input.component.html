@@ -10,7 +10,7 @@
         [appearance]="buttonAppearance"
         color="none"
         [disabled]="!canDecrement()"
-        [tabIndex]="!canDecrement() ? -1 : tabIndex"
+        [tabIndex]="!canDecrement() ? -1 : tabIndex()"
         (click)="onQuickChangeButtonClick(-1, $event)"
         (ardHold)="onQuickChangeButtonClick(-1)"
         ardHoldSpaceKey
@@ -28,9 +28,9 @@
             #focusableElement
             type="text"
             [attr.id]="inputId"
-            [attr.tabindex]="tabIndex"
-            [readonly]="readonly"
-            [disabled]="disabled"
+            [attr.tabindex]="tabIndex()"
+            [readonly]="readonly()"
+            [disabled]="disabled()"
             (input)="onInput(textInput.value)"
             (focus)="onFocusMaster($event)"
             (blur)="onBlurMaster($event)"
@@ -46,7 +46,7 @@
         [appearance]="buttonAppearance"
         color="none"
         [disabled]="!canIncrement()"
-        [tabIndex]="!canIncrement() ? -1 : tabIndex"
+        [tabIndex]="!canIncrement() ? -1 : tabIndex()"
         (click)="onQuickChangeButtonClick(1, $event)"
         (ardHold)="onQuickChangeButtonClick(1)"
         ardHoldSpaceKey

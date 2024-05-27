@@ -1,18 +1,18 @@
-import { Directive, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, AfterViewInit } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, AfterViewInit, viewChild, input, signal } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { isDefined } from 'simple-bool';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 
 @Directive()
 export abstract class _FileInputComponentBase extends _NgModelComponentBase implements OnInit, AfterViewInit {
-  @ViewChild('fileInput') fileInputEl!: ElementRef<HTMLInputElement>;
+  readonly fileInputEl = viewChild<ElementRef<HTMLInputElement>>('fileInput');
 
-  @Input() htmlId: string = crypto.randomUUID();
-  @Input() name?: string;
+  readonly htmlId = input<string>(crypto.randomUUID());
+  readonly name = input<string>('');
 
   ngOnInit(): void {
     if (!(window.File && window.FileReader && window.Blob)) {
-      console.error(new Error('Cannot use Ardium UI file features because this browser does not support them!'));
+      console.error(new Error('Cannot use Ardium UI file features because this browser does not support them!')); //TODO error
     }
   }
   protected _wasViewInit: boolean = false;
@@ -23,36 +23,14 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
   }
 
   //! appearance
-  private _compact: boolean = false;
-  @Input()
-  get compact(): boolean {
-    return this._compact;
-  }
-  set compact(v: any) {
-    this._compact = coerceBooleanProperty(v);
-  }
+  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! settings
-  private _multiple: boolean = false;
-  @Input()
-  get multiple(): boolean {
-    return this._multiple;
-  }
-  set multiple(v: any) {
-    this._multiple = coerceBooleanProperty(v);
-  }
-
-  private _blockAfterUpload: boolean = false;
-  @Input()
-  get blockAfterUpload(): boolean {
-    return this._blockAfterUpload;
-  }
-  set blockAfterUpload(v: any) {
-    this._blockAfterUpload = coerceBooleanProperty(v);
-  }
+  readonly multiple = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly blockAfterUpload = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   get shouldBeBlocked(): boolean {
-    return this.blockAfterUpload && isDefined(this.value);
+    return this.blockAfterUpload() && isDefined(this.value);
   }
 
   //! value
@@ -78,7 +56,7 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
       v = [v];
     }
 
-    this.currentViewState = 'uploaded';
+    this.currentViewState.set('uploaded');
     this._value = v;
 
     if (this._wasViewInit) this._updateElementValue();
@@ -96,7 +74,7 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
   }
 
   openBrowseDialog(): void {
-    this.fileInputEl.nativeElement.click();
+    this.fileInputEl()?.nativeElement.click();
   }
 
   //! temporary value
@@ -104,7 +82,7 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
   protected _draggedFiles: number | null = null;
 
   //! view state
-  currentViewState: 'idle' | 'dragover' | 'uploaded' = 'idle';
+  readonly currentViewState = signal<'idle' | 'dragover' | 'uploaded'>('idle');
   private _beforeDragoverState: 'idle' | 'uploaded' = 'idle';
 
   //! event handlers
@@ -116,20 +94,20 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
       event.dataTransfer.dropEffect = 'none';
       return;
     }
-    if (this.currentViewState == 'dragover') return;
+    if (this.currentViewState() === 'dragover') return;
 
     this._draggedFiles = this._countDragenterFiles(event.dataTransfer);
 
     if (!this._draggedFiles) return;
 
-    this._beforeDragoverState = this.currentViewState;
-    this.currentViewState = 'dragover';
+    this._beforeDragoverState = this.currentViewState() as 'idle' | 'uploaded';
+    this.currentViewState.set('dragover');
   }
   onDragleave(): void {
     if (this.shouldBeBlocked) return;
-    if (this.currentViewState != 'dragover') return;
+    if (this.currentViewState() !== 'dragover') return;
 
-    this.currentViewState = this._beforeDragoverState;
+    this.currentViewState.set(this._beforeDragoverState);
   }
   onDrop(event: DragEvent): void {
     event.preventDefault();
@@ -138,27 +116,27 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
 
     const filelist = event.dataTransfer?.files;
     if (!filelist) {
-      this.currentViewState = 'idle';
+      this.currentViewState.set('idle');
       return;
     }
     const files = Array.from(filelist);
     if (!files) {
-      this.currentViewState = 'idle';
+      this.currentViewState.set('idle');
       return;
     }
 
-    this.currentViewState = 'uploaded';
+    this.currentViewState.set('uploaded');
     this._writeValue(files);
   }
   onInputChange(): void {
-    const files = Array.from(this.fileInputEl.nativeElement.files ?? []);
+    const files = Array.from(this.fileInputEl()?.nativeElement.files ?? []);
     if (files.length == 0) {
       this._writeValue(null);
-      this.currentViewState = 'idle';
+      this.currentViewState.set('idle');
       return;
     }
     this._writeValue(files);
-    this.currentViewState = 'uploaded';
+    this.currentViewState.set('uploaded');
   }
 
   //! helpers
@@ -171,8 +149,10 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
   protected _updateElementValue(): void {
     const v = this.value;
 
+    const inputEl = this.fileInputEl()?.nativeElement;
+    if (!inputEl) return;
     if (!v) {
-      this.fileInputEl.nativeElement.files = null;
+      inputEl.files = null;
       return;
     }
 
@@ -180,6 +160,6 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
     for (const file of v) {
       dataTransfer.items.add(file);
     }
-    this.fileInputEl.nativeElement.files = dataTransfer.files;
+    inputEl.files = dataTransfer.files;
   }
 }

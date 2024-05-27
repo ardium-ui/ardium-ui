@@ -31,7 +31,7 @@ export abstract class _NgModelComponentBase extends _FocusableComponentBase impl
    * @param isDisabled the new disabled state.
    */
   setDisabledState(isDisabled: boolean): void {
-    this._disabled = isDisabled;
+    this.disabled.set(isDisabled);
   }
 
   /**

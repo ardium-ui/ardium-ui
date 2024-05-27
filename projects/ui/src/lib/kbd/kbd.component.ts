@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild, ViewEncapsulation, computed, input, viewChild } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { FormElementAppearance } from './../types/theming.types';
 
@@ -10,27 +10,19 @@ import { FormElementAppearance } from './../types/theming.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumKbdComponent implements AfterViewInit {
-  @ViewChild('contentWrapper') contentWrapper!: ElementRef<HTMLElement>;
+  readonly contentWrapper = viewChild<ElementRef<HTMLElement>>('contentWrapperEl');
 
   ngAfterViewInit(): void {
-    if (!this.key && !this.contentWrapper.nativeElement.innerText) console.warn(`Using <ard-kbd> without specifying the [key] field.`);
+    if (!this.key() && !this.contentWrapper()!.nativeElement.innerText) {
+      console.warn(`Using <ard-kbd> without specifying the [key] field.`); //TODO error
+    }
   }
 
-  @Input() key?: string;
-
-  private _full: boolean = false;
-  @Input()
-  get full(): boolean {
-    return this._full;
-  }
-  set full(v: any) {
-    this._full = coerceBooleanProperty(v);
-  }
+  readonly key = input<string>('');
+  readonly full = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! appearance
-  @Input() appearance: FormElementAppearance = FormElementAppearance.Filled;
+  readonly appearance = input<FormElementAppearance>(FormElementAppearance.Filled);
 
-  get ngClasses(): string {
-    return [`ard-appearance-${this.appearance}`].join(' ');
-  }
+  readonly ngClasses = computed<string>(() => [`ard-appearance-${this.appearance}`].join(' '));
 }

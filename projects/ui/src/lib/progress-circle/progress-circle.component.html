@@ -1,6 +1,6 @@
-<div class="ard-progress-circle" [ngClass]="ngClasses">
+<div class="ard-progress-circle" [ngClass]="ngClasses()">
     <div class="ard-progress-circle-background"></div>
-    <div class="ard-progress-circle-overlay" [style]="fillPercentVariable"></div>
+    <div class="ard-progress-circle-overlay" [style]="fillPercentVariable()"></div>
     <div class="ard-progress-circle-value">
         <ng-template #defaultValueTemplate let-value>
             {{ value }}%

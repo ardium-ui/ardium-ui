@@ -1,101 +1,115 @@
 <ard-form-field-frame
-    class="ard-file-input-form-field-frame"
-    [appearance]="appearance"
-    [variant]="variant"
-    [compact]="compact"
-    [isFocused]="isFocused"
-    [prefixTemplate]="prefixTemplate"
-    [suffixTemplate]="suffixTemplate"
-    (dragover)="onDragover($event)"
-    (dragleave)="onDragleave()"
-    (drop)="onDrop($event)"
-    (ardClickOutside)="onDragleave()"
->
-    <div class="ard-file-input"
-        [class.ard-has-value]="value"
-    >
-        <div class="ard-input-container">
-            <ng-container *ngIf="shouldDisplayPlaceholder">
-                <ng-template #defaultPlaceholderTemplate>
-                    <div class="ard-placeholder">{{ placeholder }}</div>
-                </ng-template>
+  class="ard-file-input-form-field-frame"
+  [appearance]="appearance()"
+  [variant]="variant()"
+  [compact]="compact()"
+  [isFocused]="isFocused()"
+  [prefixTemplate]="prefixTemplate"
+  [suffixTemplate]="suffixTemplate"
+  (dragover)="onDragover($event)"
+  (dragleave)="onDragleave()"
+  (drop)="onDrop($event)"
+  (ardClickOutside)="onDragleave()">
+  <div class="ard-file-input" [class.ard-has-value]="value">
+    <div class="ard-input-container">
+      @if (shouldDisplayPlaceholder) {
+      <ng-template #defaultPlaceholderTemplate>
+        <div class="ard-placeholder">{{ placeholder() }}</div>
+      </ng-template>
 
-                <ng-template [ngTemplateOutlet]="placeholderTemplate || defaultPlaceholderTemplate"></ng-template>
-            </ng-container>
+      <ng-template [ngTemplateOutlet]="placeholderTemplate || defaultPlaceholderTemplate" />
+      }
 
-            <div class="ard-file-input__value">
-                <ng-template *ngIf="currentViewState == 'idle'" [ngTemplateOutlet]="idleTemplate ?? defaultIdleTemplate"
-                    [ngTemplateOutletContext]="getIdleContext()"></ng-template>
-                <ng-template *ngIf="currentViewState == 'dragover'" [ngTemplateOutlet]="dragoverTemplate ?? defaultDragoverTemplate"
-                    [ngTemplateOutletContext]="getDragoverContext()"></ng-template>
-                <ng-template *ngIf="currentViewState == 'uploaded'" [ngTemplateOutlet]="uploadedTemplate ?? defaultUploadedTemplate"
-                    [ngTemplateOutletContext]="getUploadedContext()"></ng-template>
-            </div>
-        </div>
-
-        <ard-_clear-button
-            *ngIf="shouldShowClearButton"
-            #focusableElement
-            [title]="clearButtonTitle"
-            (mouseup)="onClearButtonClick($event)"
-        ></ard-_clear-button>
-
-        <button
-            *ngIf="!shouldBeBlocked"
-            class="ard-browse-button"
-            #focusableElement
-            (focus)="onFocus($event)"
-            (blur)="onBlur($event)"
-            (click)="openBrowseDialog()"
-        >
-            <div class="ard-focus-overlay"></div>
-            <ard-icon>folder</ard-icon>
-        </button>
+      <div class="ard-file-input__value">
+        @if (currentViewState() == 'idle') {
+        <ng-template [ngTemplateOutlet]="idleTemplate ?? defaultIdleTemplate"
+          [ngTemplateOutletContext]="getIdleContext()" />
+        }
+        @if (currentViewState() == 'dragover') {
+          <ng-template
+          [ngTemplateOutlet]="dragoverTemplate ?? defaultDragoverTemplate"
+          [ngTemplateOutletContext]="getDragoverContext()" />
+        }
+        @if (currentViewState() == 'uploaded') {
+          <ng-template
+          [ngTemplateOutlet]="uploadedTemplate ?? defaultUploadedTemplate"
+          [ngTemplateOutletContext]="getUploadedContext()" />
+        }
+      </div>
     </div>
+
+    @if (shouldShowClearButton) {
+    <ard-_clear-button
+      #focusableElement
+      [title]="clearButtonTitle"
+      (mouseup)="onClearButtonClick($event)"
+    />
+    }
+
+    @if (!shouldBeBlocked) {
+    <button
+      #focusableElement
+      class="ard-browse-button"
+      (focus)="onFocus($event)"
+      (blur)="onBlur($event)"
+      (click)="openBrowseDialog()"
+    >
+      <div class="ard-focus-overlay"></div>
+      <ard-icon>folder</ard-icon>
+    </button>
+    }
+  </div>
 </ard-form-field-frame>
 
-<input #fileInput
-    class="ard-file-input__input"
-    type="file"
-    [name]="name"
-    [multiple]="multiple"
-    [attr.id]="htmlId"
-    (change)="onInputChange()"
+<input
+  #fileInput 
+  class="ard-file-input__input" 
+  type="file"
+  [name]="name()"
+  [multiple]="multiple()"
+  [attr.id]="htmlId()"
+  (change)="onInputChange()"
 >
 
 <ng-template #defaultIdleTemplate let-browse="browse">
-    <span class="ard-file-input__idle">
-        <span *ngIf="!multiple">Upload a file</span>
-        <span *ngIf="multiple">Upload files</span>
-    </span>
+  <span class="ard-file-input__idle">
+    @if (multiple()) {
+      <span>Upload a file</span>
+    } @else {
+      <span>Upload files</span>
+    }
+  </span>
 </ng-template>
 
 <ng-template #defaultDragoverTemplate let-amount="amount">
-    <span class="ard-file-input__dragover-text">Drop </span>
-    <span class="ard-file-input__dragover-amount" *ngIf="multiple">
-        {{ amount }} 
-        <ng-container [ngPlural]="amount">
-            <ng-template ngPluralCase="=1">file</ng-template>
-            <ng-template ngPluralCase="other">files</ng-template>
-        </ng-container>
-    </span>
-    <span class="ard-file-input__dragover-amount" *ngIf="!multiple">
-        a file
-    </span>
-    <span class="ard-file-input__dragover-text">
-        here to upload
-    </span>
+  <span class="ard-file-input__dragover-text">Drop </span>
+  @if (multiple()) {
+  <span class="ard-file-input__dragover-amount">
+    {{ amount }}
+    <ng-container [ngPlural]="amount">
+      <ng-template ngPluralCase="=1">file</ng-template>
+      <ng-template ngPluralCase="other">files</ng-template>
+    </ng-container>
+  </span>
+  } @else {
+  <span class="ard-file-input__dragover-amount">
+    a file
+  </span>
+  }
+  <span class="ard-file-input__dragover-text">
+    here to upload
+  </span>
 </ng-template>
 
 <ng-template #defaultUploadedTemplate let-amount="amount">
-    <div class="ard-file-input__uploaded">
-        <span class="ard-file-input__uploaded-amount">
-            {{ amount }}
-            <ng-container [ngPlural]="amount">
-                <ng-template ngPluralCase="=1">file</ng-template>
-                <ng-template ngPluralCase="other">files</ng-template>
-            </ng-container>
-        </span>
-        <span class="ard-file-input__uploaded-text"> uploaded.</span>
-    </div>
+  <div class="ard-file-input__uploaded">
+    <span class="ard-file-input__uploaded-amount">
+      {{ amount }}
+      <ng-container [ngPlural]="amount">
+        <ng-template ngPluralCase="=1">file</ng-template>
+        <ng-template ngPluralCase="other">files</ng-template>
+      </ng-container>
+    </span>
+    <span class="ard-file-input__uploaded-text"> uploaded.</span>
+  </div>
 </ng-template>

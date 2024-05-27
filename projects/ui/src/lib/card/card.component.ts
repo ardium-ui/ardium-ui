@@ -1,16 +1,14 @@
-import { ChangeDetectionStrategy, Component, Directive, HostBinding, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Directive, HostBinding, Input, ViewEncapsulation, computed, input } from '@angular/core';
 import { CardAppearance, CardVariant } from './card.types';
 
 @Directive({ selector: '[ard-card]' })
 export class ArdiumCardDirective {
   //! appearance
-  @Input() appearance: CardAppearance = CardAppearance.Raised;
-  @Input() variant: CardVariant = CardVariant.Rounded;
+  readonly appearance = input<CardAppearance>(CardAppearance.Raised);
+  readonly variant = input<CardVariant>(CardVariant.Rounded);
 
   @HostBinding('class')
-  get ngClasses(): string {
-    return ['ard-card', `ard-appearance-${this.appearance}`, `ard-variant-${this.variant}`].join(' ');
-  }
+  readonly ngClasses = computed(() => ['ard-card', `ard-appearance-${this.appearance()}`, `ard-variant-${this.variant()}`].join(' '));
 }
 
 @Component({

@@ -1,10 +1,11 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output, ViewEncapsulation, computed, input } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { SimpleItemStorage, SimpleItemStorageHost } from '../_internal/item-storages/simple-item-storage';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ComponentColor } from '../types/colors.types';
 import { ArdOptionSimple, CompareWithFn } from '../types/item-storage.types';
 import { CheckboxListAlignType } from './checkbox-list.types';
+import { Nullable } from '../types/utility.types';
 
 @Component({
   selector: 'ard-checkbox-list',
@@ -15,8 +16,7 @@ import { CheckboxListAlignType } from './checkbox-list.types';
 })
 export class ArdiumCheckboxListComponent extends _NgModelComponentBase implements SimpleItemStorageHost, AfterViewInit {
   @HostBinding('attr.id')
-  @Input()
-  htmlId: string = crypto.randomUUID();
+  readonly htmlId = input<string>(crypto.randomUUID());
 
   readonly DEFAULTS = {
     valueFrom: 'value',
@@ -25,58 +25,40 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
   };
   readonly multiselectable = true;
   readonly requireValue = false;
+  readonly _componentId = '300';
 
-  private _itemStorage = new SimpleItemStorage(this);
+  private readonly _itemStorage = new SimpleItemStorage(this);
+
+  readonly valueFrom = input<string>(this.DEFAULTS.valueFrom);
+  readonly labelFrom = input<string>(this.DEFAULTS.labelFrom);
+  readonly disabledFrom = input<string>(this.DEFAULTS.disabledFrom);
 
   @Input()
   set items(v: any[]) {
     this._itemStorage.setItems(v);
   }
   get items(): ArdOptionSimple[] {
-    return this._itemStorage.items;
+    return this._itemStorage.items();
   }
 
-  compareWith?: CompareWithFn;
+  readonly compareWith = input<Nullable<CompareWithFn>>(undefined);
 
-  private _invertDisabled: boolean = false;
-  @Input()
-  get invertDisabled(): boolean {
-    return this._invertDisabled;
-  }
-  set invertDisabled(v: any) {
-    this._invertDisabled = coerceBooleanProperty(v);
-  }
+  readonly invertDisabled = input<any, boolean>(false, { transform: v => coerceBooleanProperty(v) });
 
-  private _maxSelectedItems?: number;
-  @Input()
-  get maxSelectedItems(): number | undefined {
-    return this._maxSelectedItems;
-  }
-  set maxSelectedItems(v: any) {
-    this._maxSelectedItems = coerceNumberProperty(v);
-  }
+  readonly maxSelectedItems = input<any, number>(false, { transform: v => coerceNumberProperty(v) });
 
   //! appearance
-  @Input() color: ComponentColor = ComponentColor.Primary;
-  @Input() align: CheckboxListAlignType = CheckboxListAlignType.LeftClumped;
+  readonly color = input<ComponentColor>(ComponentColor.Primary);
+  readonly align = input<CheckboxListAlignType>(CheckboxListAlignType.LeftClumped);
 
-  private _compact: boolean = false;
-  @Input()
-  get compact(): boolean {
-    return this._compact;
-  }
-  set compact(v: any) {
-    this._compact = coerceBooleanProperty(v);
-  }
+  readonly compact = input<any, boolean>(false, { transform: v => coerceBooleanProperty(v) });
 
-  get ngClasses(): string {
-    return [`ard-color-${this.color}`, `ard-align-${this.align}`, this.compact ? 'ard-compact' : ''].join(' ');
-  }
+  readonly ngClasses = computed(() => [`ard-color-${this.color()}`, `ard-align-${this.align()}`, this.compact() ? 'ard-compact' : ''].join(' '));
 
   //! value
   @Input()
   get value(): any {
-    return this._itemStorage.value;
+    return this._itemStorage.value();
   }
   set value(v: any) {
     this.writeValue(v);
@@ -128,7 +110,7 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
     this._emitChange();
   }
   toggleItem(v: ArdOptionSimple): void {
-    if (v.selected) {
+    if (v.selected()) {
       this.unselectItem(v);
       return;
     }

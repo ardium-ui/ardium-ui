@@ -1,112 +1,113 @@
-import { ComponentRef, Directive, ElementRef, Input, OnChanges, OnDestroy, AfterViewInit, Renderer2, TemplateRef } from '@angular/core';
+import {
+  ComponentRef,
+  Directive,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnDestroy,
+  AfterViewInit,
+  Renderer2,
+  TemplateRef,
+  signal,
+  input,
+  computed,
+} from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ComponentColor } from '../types/colors.types';
 import { BadgePosition, BadgeSize } from './badge.types';
 import { FormElementVariant } from '../types/theming.types';
+import { Nullable } from '../types/utility.types';
 
 @Directive({
   selector: '[ardBadge]',
 })
 export class ArdiumBadgeDirective implements OnChanges, AfterViewInit, OnDestroy {
-  constructor(
-    private _el: ElementRef,
-    private _renderer: Renderer2
-  ) {}
+  constructor(private _elRef: ElementRef, private _renderer: Renderer2) {}
 
-  @Input('ardBadge') text?: string;
+  readonly text = input<string>('', { alias: 'ardBadge' });
 
-  @Input('ardBadgeColor') color: ComponentColor = ComponentColor.Primary;
-  @Input('ardBadgeVariant') variant: FormElementVariant = FormElementVariant.Pill;
-  @Input('ardBadgeSize') size: BadgeSize = BadgeSize.Medium;
+  readonly color = input<ComponentColor>(ComponentColor.Primary, { alias: 'ardBadgeColor' });
+  readonly variant = input<FormElementVariant>(FormElementVariant.Pill, { alias: 'ardBadgeVariant' });
+  readonly size = input<BadgeSize>(BadgeSize.Medium, { alias: 'ardBadgeSize' });
 
-  private _position: BadgePosition = BadgePosition.AboveAfter;
-  @Input('ardBadgePosition')
-  get position(): BadgePosition {
-    return this._position;
-  }
-  set position(v: BadgePosition) {
-    switch (v) {
-      case BadgePosition.Before:
-        this._position = BadgePosition.AboveBefore;
-        return;
-      case BadgePosition.After:
-      case BadgePosition.Above:
-        this._position = BadgePosition.AboveAfter;
-        return;
-      case BadgePosition.Below:
-        this._position = BadgePosition.BelowAfter;
-        return;
+  readonly position = input<BadgePosition, BadgePosition>(BadgePosition.AboveAfter, {
+    alias: 'ardBadgePosition',
+    transform: v => {
+      switch (v) {
+        case BadgePosition.Before:
+          return BadgePosition.AboveBefore;
+        case BadgePosition.After:
+        case BadgePosition.Above:
+          return BadgePosition.AboveAfter;
+        case BadgePosition.Below:
+          return BadgePosition.BelowAfter;
 
-      default:
-        this._position = v;
-        return;
-    }
-  }
+        default:
+          return v;
+      }
+    },
+  });
 
-  @Input('ardBadgeAriaLabel') ariaLabel?: string;
+  readonly ariaLabel = input<string>('', { alias: 'ardBadgeAriaLabel' });
 
-  private _hidden: boolean = false;
-  @Input('ardBadgeHidden')
-  get hidden(): boolean {
-    return this._hidden;
-  }
-  set hidden(v: any) {
-    this._hidden = coerceBooleanProperty(v);
-  }
+  readonly hidden = input<any, boolean>(false, { alias: 'ardBadgeHidden', transform: v => coerceBooleanProperty(v) });
+  readonly overlap = input<any, boolean>(false, { alias: 'ardBadgeOverlap', transform: v => coerceBooleanProperty(v) });
 
-  private _overlap: boolean = true;
-  @Input('ardBadgeOverlap')
-  get overlap(): boolean {
-    return this._overlap;
-  }
-  set overlap(v: any) {
-    this._overlap = coerceBooleanProperty(v);
-  }
+  private readonly _elementClasses = computed(() =>
+    [
+      'ard-badge',
+      `ard-color-${this.color()}`,
+      `ard-variant-${this.variant()}`,
+      `ard-badge-size-${this.size()}`,
+      `ard-badge-position-${this.position()}`,
+      this.hidden() ? 'ard-badge-hidden' : '',
+      this.overlap() ? 'ard-badge-overlap' : 'ard-badge-no-overlap',
+    ].join(' ')
+  );
 
   private _createBadgeElement(): HTMLElement {
-    const R = this._renderer;
-    const elementClasses = [
-      'ard-badge',
-      `ard-color-${this.color}`,
-      `ard-variant-${this.variant}`,
-      `ard-badge-size-${this.size}`,
-      `ard-badge-position-${this.position}`,
-      this.hidden ? 'ard-badge-hidden' : '',
-      this.overlap ? 'ard-badge-overlap' : 'ard-badge-no-overlap',
-    ].join(' ');
-    const element = R.createElement('div') as HTMLDivElement;
-    R.setAttribute(element, 'class', elementClasses);
-    R.setAttribute(element, 'aria-label', this.ariaLabel ?? '');
+    try {
+      const R = this._renderer;
+      const element = R.createElement('div') as HTMLDivElement;
+      R.setAttribute(element, 'class', this._elementClasses());
+      R.setAttribute(element, 'aria-label', this.ariaLabel());
 
-    if (this.text) {
-      const textHost = R.createElement('div') as HTMLDivElement;
-      R.addClass(textHost, 'ard-badge-content');
+      if (this.text) {
+        const textHost = R.createElement('div') as HTMLDivElement;
+        R.addClass(textHost, 'ard-badge-content');
 
-      const text = R.createText(this.text ?? '');
-      R.appendChild(textHost, text);
-      R.appendChild(element, textHost);
+        const text = R.createText(this.text());
+        R.appendChild(textHost, text);
+        R.appendChild(element, textHost);
+      }
+
+      return element;
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        error.message = 'ARD-FT4030: An unknown error has occured while rendering ardBadge: ' + error.message;
+        throw error;
+      }
+      throw new Error(`ARD-FT4030: An unknown error has occured while rendering ardBadge: ` + error);
     }
-
-    return element;
   }
 
-  private _badgeElement?: HTMLElement;
+  private readonly _badgeElement = signal<Nullable<HTMLElement>>(undefined);
   ngOnChanges(): void {
-    if (this._badgeElement) {
-      this._renderer.removeChild(this._el.nativeElement, this._badgeElement);
+    if (this._badgeElement()) {
+      this._renderer.removeChild(this._elRef.nativeElement, this._badgeElement());
     }
     const element = this._createBadgeElement();
-    this._badgeElement = element;
-    this._renderer.appendChild(this._el.nativeElement, this._badgeElement);
+    this._badgeElement.set(element);
+    this._renderer.appendChild(this._elRef.nativeElement, element);
   }
 
   ngAfterViewInit(): void {
-    this._renderer.addClass(this._el.nativeElement, 'ard-badge-host');
+    this._renderer.addClass(this._elRef.nativeElement, 'ard-badge-host');
   }
   ngOnDestroy(): void {
-    if (this._badgeElement) {
-      this._renderer.removeChild(this._el.nativeElement, this._badgeElement);
+    if (this._badgeElement()) {
+      this._renderer.removeChild(this._elRef.nativeElement, this._badgeElement());
     }
-    this._renderer.removeClass(this._el.nativeElement, 'ard-badge-host');
+    this._renderer.removeClass(this._elRef.nativeElement, 'ard-badge-host');
   }
 }

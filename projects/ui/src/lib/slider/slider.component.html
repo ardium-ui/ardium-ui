@@ -17,7 +17,7 @@
         </div>
         <button #focusableElement
             class="ard-slider-handle"
-            [tabindex]="tabIndex"
+            [tabindex]="tabIndex()"
             [class.ard-grabbed]="isSliderHandleGrabbed"
             (pointerdown)="onPointerDownOnHandle($event)"
             (touchstart)="onPointerDownOnHandle($event)"

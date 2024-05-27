@@ -1,12 +1,12 @@
 <span class="ard-icon material-symbols-outlined"
     [attr.aria-hidden]="ariaLabel != undefined"
     [attr.aria-label]="ariaLabel"
-    [style]="fontVariationSettings"
+    [style]="fontVariationSettings()"
 >
-    {{ icon ?? contentWrapper.innerText | icon }}
+    {{ icon() ?? contentWrapper()?.nativeElement?.innerText ?? '' | icon }}
 </span>
 
 
-<div #contentWrapper class="ard-icon-content-wrapper">
+<div #contentWrapperEl class="ard-icon-content-wrapper">
     <ng-content></ng-content>
 </div>

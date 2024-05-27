@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ContentChild, Input, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ContentChild, TemplateRef, ViewEncapsulation, computed, input } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { SimpleComponentColor } from '../types/colors.types';
 import { ArdProgressCircleValueTemplateDirective } from './progress-circle.directive';
@@ -12,65 +12,33 @@ import { ProgressCircleAppearance, ProgressCircleValueContext, ProgressCircleVar
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumProgressCircleComponent {
-  private _value: number = 0;
-  @Input()
-  get value(): number {
-    return this._value;
-  }
-  set value(v: any) {
-    this._value = coerceNumberProperty(v, 0);
-  }
+  readonly value = input<number, any>(0, { transform: v => coerceNumberProperty(v, 0) });
+  readonly max = input<number, any>(100, { transform: v => coerceNumberProperty(v, 100) });
 
-  private _max: number = 100;
-  @Input()
-  get max(): number {
-    return this._max;
-  }
-  set max(v: any) {
-    this._max = coerceNumberProperty(v, 100);
-  }
-
-  get percentValue(): number {
-    return (this.value / this.max) * 100;
-  }
+  readonly percentValue = computed<number>(() => (this.value() / this.max()) * 100);
 
   //! appearance
-  @Input() appearance: ProgressCircleAppearance = ProgressCircleAppearance.Transparent;
-  @Input() variant: ProgressCircleVariant = ProgressCircleVariant.Full;
-  @Input() color: SimpleComponentColor = SimpleComponentColor.Primary;
+  readonly appearance = input<ProgressCircleAppearance>(ProgressCircleAppearance.Transparent);
+  readonly color = input<SimpleComponentColor>(SimpleComponentColor.Primary);
+  readonly variant = input<ProgressCircleVariant>(ProgressCircleVariant.Full);
 
-  private _hideValue: boolean = false;
-  @Input()
-  get hideValue(): boolean {
-    return this._hideValue;
-  }
-  set hideValue(v: any) {
-    this._hideValue = coerceBooleanProperty(v);
-  }
+  readonly hideValue = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly reverse = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
-  private _reverse: boolean = false;
-  @Input()
-  get reverse(): boolean {
-    return this._reverse;
-  }
-  set reverse(v: any) {
-    this._reverse = coerceBooleanProperty(v);
-  }
+  readonly ngClasses = computed<string>(() =>
+    [
+      `ard-appearance-${this.appearance()}`,
+      `ard-progress-circle-variant-${this.variant()}`,
+      `ard-color-${this.color()}`,
+      this.hideValue() ? 'ard-progress-circle-hide-value' : '',
+      this.reverse() ? 'ard-progress-circle-reversed' : '',
+    ].join(' ')
+  );
 
-  get ngClasses(): string {
-    return [
-      `ard-appearance-${this.appearance}`,
-      `ard-progress-circle-variant-${this.variant}`,
-      `ard-color-${this.color}`,
-      this.hideValue ? 'ard-progress-circle-hide-value' : '',
-      this.reverse ? 'ard-progress-circle-reversed' : '',
-    ].join(' ');
-  }
-
-  get fillPercentVariable(): string {
-    const fillAmount = this.reverse ? 100 - this.percentValue : this.percentValue;
+  readonly fillPercentVariable = computed<string>(() => {
+    const fillAmount = this.reverse() ? 100 - this.percentValue() : this.percentValue();
     return `--ard-_progress-circle-fill-amount: ${fillAmount}%`;
-  }
+  });
 
   //! templates
   @ContentChild(ArdProgressCircleValueTemplateDirective, {
@@ -78,13 +46,10 @@ export class ArdiumProgressCircleComponent {
   })
   valueTemplate?: TemplateRef<any>;
 
-  getValueContext(): ProgressCircleValueContext {
-    const percentValue = Math.round(this.percentValue);
-    return {
-      value: this.value,
-      percentValue,
-      max: this.max,
-      $implicit: percentValue,
-    };
-  }
+  readonly getValueContext = computed<ProgressCircleValueContext>(() => ({
+    value: this.value(),
+    percentValue: Math.round(this.percentValue()),
+    max: this.max(),
+    $implicit: Math.round(this.percentValue()),
+  }));
 }

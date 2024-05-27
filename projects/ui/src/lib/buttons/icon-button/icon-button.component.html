@@ -1,8 +1,7 @@
 <button
     class="ard-icon-button"
-    [ngClass]="ngClasses"
-    [tabindex]="tabIndex"
-    [class]="wrapperClasses"
+    [ngClass]="ngClasses()"
+    [tabindex]="tabIndex()"
     (focus)="focusEvent.emit($event)"
     (blur)="blurEvent.emit($event)"
 >

@@ -10,8 +10,13 @@ import {
   ViewChild,
   ViewContainerRef,
   ViewEncapsulation,
+  computed,
   effect,
+  inject,
+  input,
+  output,
   signal,
+  viewChild,
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { PanelAppearance, PanelVariant } from '../types/theming.types';
@@ -24,71 +29,46 @@ import { PanelAppearance, PanelVariant } from '../types/theming.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumModalComponent {
-  constructor(
-    private overlay: Overlay,
-    private scrollStrategyOpts: ScrollStrategyOptions,
-    private viewContainerRef: ViewContainerRef
-  ) {}
+  private readonly overlay = inject(Overlay);
+  private readonly scrollStrategyOpts = inject(ScrollStrategyOptions);
+  private readonly viewContainerRef = inject(ViewContainerRef);
 
   //! appearance
-  @Input() appearance: PanelAppearance = PanelAppearance.Raised;
-  @Input() variant: PanelVariant = PanelVariant.Rounded;
+  readonly appearance = input<PanelAppearance>(PanelAppearance.Raised);
+  readonly variant = input<PanelVariant>(PanelVariant.Rounded);
 
-  private _compact: boolean = false;
-  @Input()
-  get compact(): boolean {
-    return this._compact;
-  }
-  set compact(v: any) {
-    this._compact = coerceBooleanProperty(v);
-  }
+  readonly compact = input<any, boolean>(false, { transform: v => coerceBooleanProperty(v) });
 
-  get ngClasses(): string {
-    return [`ard-appearance-${this.appearance}`, `ard-variant-${this.variant}`, this.compact ? 'ard-compact' : ''].join(' ');
-  }
+  readonly ngClasses = computed(() => [`ard-variant-${this.variant()}`, `ard-appearance-${this.appearance()}`, this.compact() ? 'ard-compact' : ''].join(' '));
 
   //! heading
-  @Input() heading?: string;
+  readonly heading = input<string>('');
 
-  readonly noCloseButton = signal<boolean>(false);
-  @Input('noCloseButton')
-  set _noCloseButton(v: any) {
-    this.noCloseButton.set(coerceBooleanProperty(v));
-  }
+  readonly noCloseButton = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! options
-  readonly noBackdrop = signal<boolean>(false);
-  @Input('noBackdrop')
-  set _noBackdrop(v: any) {
-    this.noBackdrop.set(coerceBooleanProperty(v));
-  }
-
-  readonly disableBackdropClose = signal<boolean>(false);
-  @Input('disableBackdropClose')
-  set _disableBackdropClose(v: any) {
-    this.disableBackdropClose.set(coerceBooleanProperty(v));
-  }
+  readonly noBackdrop = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly disableBackdropClose = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! open state handling
-  private _open: boolean = false;
-  @Input()
-  get open(): boolean {
+  private readonly open = signal<boolean>(false);
+  @Input({ alias: 'open' })
+  get _open(): boolean {
     return this._open;
   }
-  set open(v: any) {
-    this._open = coerceBooleanProperty(v);
-    if (this._open) this._openOverlay();
+  set _open(v: any) {
+    this.open.set(coerceBooleanProperty(v));
+    if (this.open()) this._openOverlay();
     else this._destroyOverlay();
   }
 
-  @Output() openChange = new EventEmitter<boolean>();
-  @Output('close') closeEvent = new EventEmitter<null>();
+  readonly openChange = output<boolean>();
+  readonly closeEvent = output<void>({ alias: 'close' });
 
   //! overlay handling
-  @ViewChild('modalTemplate', { read: TemplateRef })
-  modalTemplate!: TemplateRef<any>;
+  readonly modalTemplate = viewChild('modalTemplate', { read: TemplateRef });
 
-  private modalOverlay?: OverlayRef;
+  private _modalOverlay?: OverlayRef;
 
   private _openOverlay(): void {
     const strategy = this.overlay.position().global();
@@ -99,26 +79,26 @@ export class ArdiumModalComponent {
       hasBackdrop: false,
     });
 
-    this.modalOverlay = this.overlay.create(config);
+    this._modalOverlay = this.overlay.create(config);
 
-    const portal = new TemplatePortal(this.modalTemplate, this.viewContainerRef);
-    this.modalOverlay.attach(portal);
+    const portal = new TemplatePortal(this.modalTemplate()!, this.viewContainerRef);
+    this._modalOverlay.attach(portal);
   }
   private _destroyOverlay(): void {
-    if (!this.modalOverlay) return;
+    if (!this._modalOverlay) return;
 
     this.openChange.emit(false);
     this.closeEvent.emit();
-    this.modalOverlay.dispose();
-    delete this.modalOverlay;
+    this._modalOverlay.dispose();
+    delete this._modalOverlay;
   }
 
   //! events
-  onBackdropClick(event: MouseEvent): void {
+  onBackdropClick(): void {
     if (this.disableBackdropClose()) return;
     this._destroyOverlay();
   }
-  onCloseButtonClick(event: MouseEvent): void {
+  onCloseButtonClick(): void {
     this._destroyOverlay();
   }
 }

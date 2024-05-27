@@ -116,7 +116,7 @@ export class PaginationModel {
 
   //! context
   getCurrentItemsContext(): PaginationCurrentItemsContext {
-    if (!isDefined(this._totalItems)) throw new Error('Cannot use pagination model without defining total items first.');
+    if (!isDefined(this._totalItems)) throw new Error('Cannot use pagination model without defining total items first.'); //todo
 
     const pageItems = this.itemsOnCurrentPage!;
     return {

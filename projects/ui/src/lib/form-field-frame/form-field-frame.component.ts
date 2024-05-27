@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, ContentChild, TemplateRef, Input, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, ContentChild, TemplateRef, Input, HostBinding, input, computed } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { FormElementAppearance, FormElementVariant } from '../types/theming.types';
 import { _DisablableComponentBase } from '../_internal/disablable-component';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
 import { ArdFormFieldPrefixTemplateDirective, ArdFormFieldSuffixTemplateDirective } from './form-field-frame.directives';
+import { Nullable } from '../types/utility.types';
 
 @Component({
   selector: 'ard-form-field-frame',
@@ -20,43 +21,29 @@ export class ArdiumFormFieldFrameComponent extends _FocusableComponentBase {
   /**
    * The appearance of the component, aka the styling.
    */
-  @Input() appearance: FormElementAppearance = FormElementAppearance.Outlined;
+  readonly appearance = input<FormElementAppearance>(FormElementAppearance.Outlined);
   /**
    * The variant of the component, aka the shape.
    */
-  @Input() variant: FormElementVariant = FormElementVariant.Rounded;
+  readonly variant = input<FormElementVariant>(FormElementVariant.Rounded);
 
   /**
-   * @private
    * Whether to use the compact styling or not.
    */
-  private _compact: boolean = false;
-  @Input()
-  /**
-   * Whether to use the compact styling or not.
-   */
-  get compact(): boolean {
-    return this._compact;
-  }
-  /**
-   * Whether to use the compact styling or not.
-   */
-  set compact(v: any) {
-    this._compact = coerceBooleanProperty(v);
-  }
+  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
-  get ngClasses(): string {
-    return [
-      `ard-appearance-${this.appearance}`,
-      `ard-variant-${this.variant}`,
-      this.compact ? 'ard-compact' : '',
-      this.isFocused ? 'ard-focused' : 'ard-unfocused',
-    ].join(' ');
-  }
+  readonly ngClasses = computed<string>(() =>
+    [
+      `ard-appearance-${this.appearance()}`,
+      `ard-variant-${this.variant()}`,
+      this.compact() ? 'ard-compact' : '',
+      this.isFocused() ? 'ard-focused' : 'ard-unfocused',
+    ].join(' ')
+  );
 
   //! prefix & suffix
-  @Input('prefixTemplate') prefixTemplateInput?: TemplateRef<any>;
-  @Input('suffixTemplate') suffixTemplateInput?: TemplateRef<any>;
+  readonly prefixTemplateInput = input<Nullable<TemplateRef<any>>>(undefined, { alias: 'prefixTemplate' });
+  readonly suffixTemplateInput = input<Nullable<TemplateRef<any>>>(undefined, { alias: 'suffixTemplate' });
   @ContentChild(ArdFormFieldPrefixTemplateDirective)
   prefixTemplate: TemplateRef<any> | null = null;
   @ContentChild(ArdFormFieldSuffixTemplateDirective)

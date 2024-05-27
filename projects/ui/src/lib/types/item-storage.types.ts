@@ -1,3 +1,6 @@
+import { Signal, WritableSignal } from "@angular/core";
+import { Nullable } from "./utility.types";
+
 /**
 ```typescript
 interface OptionContext {
@@ -7,9 +10,9 @@ interface OptionContext {
 }
 ```
  */
-export interface OptionContext {
-  $implicit: ArdOption;
-  item: ArdOption;
+export interface OptionContext<T extends ArdSimplestStorageItem> {
+  $implicit: T;
+  item: T;
   itemData: any;
 }
 
@@ -26,13 +29,12 @@ interface ArdOption {
 ```
  */
 export interface ArdSimplestStorageItem {
-  readonly itemData: any;
-  readonly index: number;
-  value: any;
-  label: string;
-  disabled?: boolean;
-  selected?: boolean;
-  highlighted?: boolean;
+  readonly itemData: WritableSignal<any>;
+  readonly index: Signal<number>;
+  readonly value: WritableSignal<any>;
+  readonly label: WritableSignal<string>;
+  readonly selected: WritableSignal<Nullable<boolean>>;
+  readonly highlighted: WritableSignal<Nullable<boolean>>;
 }
 
 /**
@@ -49,7 +51,7 @@ interface ArdOption {
 ```
  */
 export interface ArdOptionSimple extends ArdSimplestStorageItem {
-  disabled?: boolean;
+  readonly disabled: WritableSignal<Nullable<boolean>>;
 }
 /**
 ```typescript
@@ -67,8 +69,8 @@ interface ArdOption {
 ```
  */
 export interface ArdOption extends ArdOptionSimple {
-  readonly group?: any;
-  highlighted_recently?: boolean;
+  readonly group: Signal<any>;
+  readonly highlighted_recently: WritableSignal<Nullable<boolean>>;
 }
 
 /**
@@ -83,11 +85,11 @@ interface ArdItemGroup {
 ```
  */
 export interface ArdOptionGroup {
-  label: string;
-  disabled?: boolean;
-  highlighted?: boolean;
-  selected?: boolean;
-  children: ArdOption[];
+  readonly label: WritableSignal<string>;
+  readonly disabled: WritableSignal<Nullable<boolean>>;
+  readonly highlighted: WritableSignal<Nullable<boolean>>;
+  readonly selected: WritableSignal<Nullable<boolean>>;
+  readonly children: WritableSignal<ArdOption[]>;
 }
 
 export const ArdPanelPosition = {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input } from '@angular/core';
 import { SimpleComponentColor } from '../types/colors.types';
 
 @Component({
@@ -10,9 +10,7 @@ import { SimpleComponentColor } from '../types/colors.types';
 })
 export class ArdiumSpinnerComponent {
   //! appearance
-  @Input() color: SimpleComponentColor = SimpleComponentColor.Primary;
+  readonly color = input<SimpleComponentColor>(SimpleComponentColor.Primary);
 
-  get ngClasses(): string {
-    return [`ard-color-${this.color}`].join(' ');
-  }
+  readonly ngClasses = computed((): string => [`ard-color-${this.color()}`].join(' '));
 }

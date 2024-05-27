@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, forwardRef, Input, Output, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, EventEmitter, forwardRef, input, Input, output, Output, ViewEncapsulation } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SimpleOneAxisAlignment } from '../../types/alignment.types';
 import { ComponentColor } from '../../types/colors.types';
@@ -25,34 +25,29 @@ export class ArdiumDeletableChipComponent extends _FocusableComponentBase {
     deleteButtonTitle: 'Delete',
   };
 
-  @Input() deleteButtonTitle: string = this.DEFAULTS.deleteButtonTitle;
-  @Input() contentAlignment: SimpleOneAxisAlignment = SimpleOneAxisAlignment.Left;
+  readonly deleteButtonTitle = input<string>(this.DEFAULTS.deleteButtonTitle);
 
-  //* appearance
-  @Input() appearance: DecorationElementAppearance = DecorationElementAppearance.Outlined;
-  @Input() variant: FormElementVariant = FormElementVariant.Rounded;
-  @Input() color: ComponentColor = ComponentColor.Primary;
+  //! appearance
+  readonly contentAlignment = input<SimpleOneAxisAlignment>(SimpleOneAxisAlignment.Left);
+  readonly appearance = input<DecorationElementAppearance>(DecorationElementAppearance.Outlined);
+  readonly variant = input<FormElementVariant>(FormElementVariant.Rounded);
+  readonly color = input<ComponentColor>(ComponentColor.Primary);
 
-  private _compact: boolean = false;
-  @Input()
-  get compact(): boolean {
-    return this._compact;
-  }
-  set compact(v: any) {
-    this._compact = coerceBooleanProperty(v);
-  }
+  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
-  @Input() wrapperClasses: string = '';
-  get ngClasses(): string {
-    return [
-      this.wrapperClasses,
-      `ard-chip-align-${this.contentAlignment}`,
-      `ard-variant-${this.variant}`,
-      `ard-appearance-${this.appearance}`,
-      `ard-color-${this.color}`,
-      this.compact ? 'ard-compact' : '',
-    ].join(' ');
-  }
-  //* events
-  @Output('delete') deleteEvent = new EventEmitter<MouseEvent>();
+  readonly wrapperClasses = input<string>('');
+
+  readonly ngClasses = computed(() =>
+    [
+      this.wrapperClasses(),
+      `ard-chip-align-${this.contentAlignment()}`,
+      `ard-variant-${this.variant()}`,
+      `ard-appearance-${this.appearance()}`,
+      `ard-color-${this.color()}`,
+      this.compact() ? 'ard-compact' : '',
+    ].join(' ')
+  );
+
+  //! events
+  readonly deleteEvent = output<MouseEvent>({ alias: 'delete' });
 }

@@ -1,4 +1,4 @@
-import { ArdOption, OptionContext } from '../types/item-storage.types';
+import { ArdOption, ArdSimplestStorageItem, OptionContext } from '../types/item-storage.types';
 import { ArdOptionGroup } from '../types/item-storage.types';
 
 export type AddCustomFn<T> = (value: string) => T;
@@ -13,7 +13,7 @@ interface ValueContext {
 }
 ```
  */
-export interface ValueContext extends OptionContext {
+export interface ValueContext extends OptionContext<ArdOption> {
   unselect: () => void;
 }
 /**

@@ -6,12 +6,12 @@
         }"
     >
         <div #shadeMap
-            [tabIndex]="tabIndex"
+            [tabIndex]="tabIndex()"
             class="ard-color-picker-shade-map"
             (focus)="onFocus($event)"
-            (focus)="focusedArea = 'shade'"
+            (focus)="focusedArea.set('shade')"
             (blur)="onBlur($event)"
-            (blur)="focusedArea = null"
+            (blur)="focusedArea.set(null)"
             (mousedown)="onShadeAreaMouseDown($event)"
             (pointerdown)="onShadeAreaMouseDown($event)"
         >
@@ -26,12 +26,12 @@
             </div>
         </div>
         <div #hueMap
-            [tabIndex]="tabIndex"
+            [tabIndex]="tabIndex()"
             class="ard-color-picker-hue-map"
             (focus)="onFocus($event)"
-            (focus)="focusedArea = 'hue'"
+            (focus)="focusedArea.set('hue')"
             (blur)="onBlur($event)"
-            (blur)="focusedArea = null"
+            (blur)="focusedArea.set(null)"
             (mousedown)="onHueAreaMouseDown($event)"
             (pointerdown)="onHueAreaMouseDown($event)"
         >
@@ -45,14 +45,14 @@
                 ></ng-template>
             </div>
         </div>
+        @if (withOpacity()) {
         <div #opacityMap
-            *ngIf="withOpacity"
-            [tabIndex]="tabIndex"
+            [tabIndex]="tabIndex()"
             class="ard-color-picker-opacity-map"
             (focus)="onFocus($event)"
-            (focus)="focusedArea = 'opacity'"
+            (focus)="focusedArea.set('opacity')"
             (blur)="onBlur($event)"
-            (blur)="focusedArea = null"
+            (blur)="focusedArea.set(null)"
             (mousedown)="onOpacityAreaMouseDown($event)"
             (pointerdown)="onOpacityAreaMouseDown($event)"
         >
@@ -66,6 +66,7 @@
                 ></ng-template>
             </div>
         </div>
+        }
     </div>
     <div class="ard-color-picker-input-panel">
         <div class="ard-color-picker-inputs">
@@ -95,7 +96,7 @@
                 [ngClass]="{
                     'ard-mode-hex': currentInputType == 'HEX',
                     'ard-mode-triple': currentInputType != 'HEX',
-                    'ard-mode-opacity': withOpacity
+                    'ard-mode-opacity': withOpacity()
                 }"
             >
                 <ng-template

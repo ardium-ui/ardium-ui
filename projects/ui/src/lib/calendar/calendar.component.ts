@@ -212,7 +212,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
       this._selected = null;
       return;
     }
-    console.warn(`Could not parse [selected] value on <ard-calendar>, as it is not a valid value. Provided value: "${v}"`);
+    console.warn(`ARD-NF2000: Could not parse [selected] value on <ard-calendar>, as it is not a valid value. Provided value: "${v}"`);
     this._selected = null;
   }
 
