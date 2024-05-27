@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, forwardRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, computed, forwardRef, input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ClickStrategy } from '../../types/utility.types';
 import { _BooleanComponentBase } from '../../_internal/boolean-component';
@@ -20,22 +20,18 @@ import { StarFillMode } from './../star.types';
   ],
 })
 export class ArdiumStarButtonComponent extends _BooleanComponentBase implements ControlValueAccessor {
-  @Input() wrapperClasses: string = '';
-  @Input() clickStrategy: ClickStrategy = ClickStrategy.Default;
+  readonly wrapperClasses = input<string>('');
 
-  //* appearance
-  @Input() color: StarColor = StarColor.Star;
+  readonly clickStrategy = input<ClickStrategy>(ClickStrategy.Default);
 
-  get ngClasses(): string {
-    return [`ard-color-${this.color}`].join(' ');
-  }
+  //! appearance
+  readonly color = input<StarColor>(StarColor.Star);
 
-  get starFillState(): StarFillMode {
-    return this.selected ? 'filled' : 'none';
-  }
+  readonly ngClasses = computed<string>(() => [this.wrapperClasses(), `ard-color-${this.color}`].join(' '));
+  readonly starFillState = computed<StarFillMode>(() => (this.selected() ? StarFillMode.Filled : StarFillMode.None));
 
   onClick(): void {
-    if (this.clickStrategy == 'none') return;
+    if (this.clickStrategy() == ClickStrategy.Noop) return;
     this.toggleSelected();
   }
 }

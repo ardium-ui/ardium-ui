@@ -1,5 +1,5 @@
 export const ClickStrategy = {
-  None: 'none',
+  Noop: 'noop',
   Default: 'default',
 } as const;
 export type ClickStrategy = (typeof ClickStrategy)[keyof typeof ClickStrategy];
