@@ -12,11 +12,19 @@ import {
   ElementRef,
   QueryList,
   forwardRef,
+  input,
+  computed,
+  viewChildren,
+  model,
+  output,
+  signal,
+  effect,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ArdiumStarButtonComponent } from '../star-button/star-button.component';
 import { _NgModelComponentBase } from './../../_internal/ngmodel-component';
 import { StarColor } from './../star.types';
+import { coerceNumberProperty } from '@ardium-ui/devkit';
 
 type StarInputObject = {
   filled: boolean;
@@ -37,94 +45,84 @@ type StarInputObject = {
     },
   ],
 })
-export class ArdiumStarInputComponent extends _NgModelComponentBase implements OnChanges, ControlValueAccessor {
-  @Input() wrapperClasses: string = '';
+export class ArdiumStarInputComponent extends _NgModelComponentBase implements ControlValueAccessor {
+  readonly wrapperClasses = input<string>('');
 
-  //* appearance
-  @Input() color: StarColor = StarColor.Star;
+  //! appearance
+  readonly color = input<StarColor>(StarColor.Star);
 
-  get ngClasses(): string {
-    return [`ard-color-${this.color}`].join(' ');
-  }
+  readonly ngClasses = computed<string>(() => [this.wrapperClasses(), `ard-color-${this.color()}`].join(' '));
 
-  @ViewChildren('starButton')
-  starButtonInstances!: QueryList<ArdiumStarButtonComponent>;
+  //! events
+  readonly changeEvent = output<number>({ alias: 'change' });
+  readonly highlightEvent = output<number>({ alias: 'highlight' });
 
-  //* events
-  @Output('change') changeEvent = new EventEmitter<number>();
-  @Output('highlight') highlightEvent = new EventEmitter<number>();
+  readonly value = model<number>(0);
 
-  @Input() value: number = 0;
-  @Output() valueChange = new EventEmitter<number>();
-
-  //* stars
-  @Input() max: number = 5;
-  starArray: StarInputObject[] = this.createFirstStarArray();
-
-  setStarArrayFromNumber(targetIndex: number): void {
-    targetIndex = Math.round(targetIndex);
-    this.starArray.forEach((v, i) => {
-      if (i < targetIndex) {
-        v.filled = true;
-        v.isInValue = true;
-      } else if (i < this.value) {
-        v.filled = false;
-        v.isInValue = true;
-      } else {
-        v.filled = false;
-        v.isInValue = false;
+  constructor() {
+    super();
+    effect(() => {
+      const hi = this._highlightedStarIndex();
+      if (hi !== null) {
+        this.highlightEvent.emit(hi);
       }
     });
+    effect(() => {
+      this.value(); // let the effect know when to fire
+      this._emitChange();
+    });
   }
-  createFirstStarArray(): StarInputObject[] {
-    let arr = new Array(this.max);
-    for (let i = 0; i < this.max; i++) {
+
+  //! stars
+  readonly max = input<number, any>(0, { transform: v => coerceNumberProperty(v, 0) });
+
+  readonly starButtonInstances = viewChildren<ArdiumStarButtonComponent>('starButton');
+  private readonly _highlightedStarIndex = signal<number | null>(null);
+
+  readonly starArray = computed<StarInputObject[]>(() => {
+    const v = this.value();
+    const max = this.max();
+    const hi = Math.round(this._highlightedStarIndex() ?? -1);
+
+    const arr = new Array(max);
+    for (let i = 0; i < max; i++) {
+      if (i < hi) {
+        arr[i] = { filled: true, isInValue: true };
+        continue;
+      }
+      if (i < v) {
+        arr[i] = { filled: false, isInValue: true };
+        continue;
+      }
       arr[i] = { filled: false, isInValue: false };
     }
     return arr;
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['max']) {
-      this.starArray = this.createFirstStarArray();
-    }
-    if (changes['value']) {
-      this.setStarArrayFromNumber(this.value);
-    }
-  }
-  //* implement ControlValueAccessor's writeValue
+  });
+
+  //! ControlValueAccessor's writeValue
   writeValue(v: number): void {
-    this.setStarArrayFromNumber(v);
+    this.value.set(v);
   }
   onStarClick(index: number): void {
-    this.value = index + 1;
-    this.setStarArrayFromNumber(this.value);
-    this._emitChange();
+    this.value.set(index + 1);
   }
-  private _currentHoverIndex: number | null = null;
   onStarHighlight(index: number): void {
-    if (this._currentHoverIndex == index) return;
-    this._currentHoverIndex = index;
-    this.setStarArrayFromNumber(index + 1);
-    this.highlightEvent.emit(index + 1);
+    this._highlightedStarIndex.set(index);
   }
   setDisplayToValue() {
-    this._currentHoverIndex = null;
-    this.setStarArrayFromNumber(this.value);
+    this._highlightedStarIndex.set(null);
   }
   protected _emitChange(): void {
-    this._onChangeRegistered?.(this.value);
-    this.changeEvent.emit(this.value);
-    this.valueChange.emit(this.value);
+    this._onChangeRegistered?.(this.value());
+    this.changeEvent.emit(this.value());
   }
 
   //* focus handlers
   private _isFocusEventSuppressed: boolean = false;
   private _isBlurEventSuppressed: boolean = false;
-  private _wasComponentBlurred: boolean = true;
   private _currentFocusIndex: number | null = null;
   onStarButtonFocus(index: number) {
     this._currentFocusIndex = index;
-    this._wasComponentBlurred = false;
     if (this._isFocusEventSuppressed) {
       this._isFocusEventSuppressed = false;
       return;
@@ -137,18 +135,17 @@ export class ArdiumStarInputComponent extends _NgModelComponentBase implements O
       this._isBlurEventSuppressed = false;
       return;
     }
-    this._wasComponentBlurred = true;
     this.blurEvent.emit();
   }
   focusStarButtonByIndex(index: number): void {
-    if (!this.starButtonInstances) return;
-    this.starButtonInstances.get(index)!.focus();
+    if (!this.starButtonInstances()) return;
+    this.starButtonInstances()[index]!.focus();
   }
   focusNextStarButton(offset: number): void {
-    if (!this.starButtonInstances || this._currentFocusIndex == null) return;
+    if (!this.starButtonInstances() || this._currentFocusIndex == null) return;
 
     let nextIndex = this._currentFocusIndex + offset;
-    nextIndex = Math.min(nextIndex, this.max - 1);
+    nextIndex = Math.min(nextIndex, this.max() - 1);
     nextIndex = Math.max(nextIndex, 0);
 
     this.focusStarButtonByIndex(nextIndex);
@@ -162,11 +159,11 @@ export class ArdiumStarInputComponent extends _NgModelComponentBase implements O
     this.focusStarButtonByIndex(0);
   }
   override blur(): void {
-    if (!this.starButtonInstances || this._currentFocusIndex == null) return;
-    this.starButtonInstances.get(this._currentFocusIndex)!.blur();
+    if (!this.starButtonInstances() || this._currentFocusIndex == null) return;
+    this.starButtonInstances()[this._currentFocusIndex]!.blur();
   }
 
-  //* key press handlers
+  //! key press handlers
   @HostListener('keydown', ['$event'])
   onKeyPress(event: KeyboardEvent): void {
     switch (event.code) {
@@ -212,7 +209,7 @@ export class ArdiumStarInputComponent extends _NgModelComponentBase implements O
     this._suppressFocusEvents();
     this._onTabPress(event);
   }
-  private _onTabPress(event: KeyboardEvent): void {
-    this.focusStarButtonByIndex(this.max - 1);
+  private _onTabPress(_: KeyboardEvent): void {
+    this.focusStarButtonByIndex(this.max() - 1);
   }
 }
