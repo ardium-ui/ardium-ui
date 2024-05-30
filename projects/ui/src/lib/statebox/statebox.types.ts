@@ -22,3 +22,8 @@ export type _StateboxInternalState = {
   fillMode: boolean;
   keepFrame: boolean;
 };
+
+export type _StateboxInternalStateData = {
+  state: _StateboxInternalState;
+  index: number;
+}
