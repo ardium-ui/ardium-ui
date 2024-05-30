@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewEncapsulation, computed, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewEncapsulation, computed, effect, input, model, output, signal } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 
 @Component({
@@ -9,22 +9,15 @@ import { coerceBooleanProperty } from '@ardium-ui/devkit';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumTabComponent {
-  protected _disabled: boolean = false;
-  @Input()
-  get disabled(): boolean {
-    return this._disabled;
-  }
-  set disabled(v: any) {
-    this._disabled = coerceBooleanProperty(v);
-  }
-  protected _selected: boolean = false;
-  @Input()
+  readonly disabled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+
   @HostBinding('class.ard-tab-selected')
-  get selected(): boolean {
-    return this._selected;
-  }
-  set selected(v: any) {
-    this._selected = coerceBooleanProperty(v);
+  readonly selected = model<any>(false);
+  
+  constructor() {
+    effect(() => {
+      this.selected.set(coerceBooleanProperty(this.selected()))
+    }, { allowSignalWrites: true });
   }
 
   readonly focused = signal<boolean>(false);

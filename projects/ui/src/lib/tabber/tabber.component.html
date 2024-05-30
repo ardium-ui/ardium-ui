@@ -7,7 +7,7 @@
       [id]="tab.tabId()"
       [class.ard-tab-active]="tab === currentTab()"
       [class.ard-tab-focused]="tab === currentFocusedTab()"
-      (click)="!tab.selected && onTabClick(tab)"
+      (click)="!tab.selected() && onTabClick(tab)"
       (focus)="onTabFocus(tab)"
       (blur)="onTabBlur(tab)"
       [tabindex]="tabIndex()"

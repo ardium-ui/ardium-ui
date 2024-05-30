@@ -31,10 +31,10 @@ export class ArdiumTabberComponent implements AfterContentInit {
   ngAfterContentInit(): void {
     let selectedCmp: ArdiumTabComponent | null = null;
     for (const cmp of this.tabs()) {
-      if (cmp.selected) {
+      if (cmp.selected()) {
         // ensure only one tab is selected
         if (selectedCmp) {
-          cmp.selected = false;
+          cmp.selected.set(false);
         }
 
         selectedCmp = cmp;
@@ -55,7 +55,7 @@ export class ArdiumTabberComponent implements AfterContentInit {
       selectedCmp = this.tabs()[0] ?? null;
       
       if (selectedCmp) {
-        selectedCmp.selected = true;
+        selectedCmp.selected.set(true);
       }
     }
 
@@ -65,12 +65,12 @@ export class ArdiumTabberComponent implements AfterContentInit {
   onTabClick(tab: ArdiumTabComponent): void {
     const curr = this.currentTab();
     if (curr) {
-      curr.selected = false;
+      curr.selected.set(false);
       curr.selectedChange.emit(false);
     }
     this.currentTab.set(tab);
 
-    tab.selected = true;
+    tab.selected.set(true);
     tab.selectedChange.emit(true);
   }
   onTabFocus(tab: ArdiumTabComponent): void {
