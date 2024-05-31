@@ -27,6 +27,7 @@
         <input #textInput
             #focusableElement
             type="text"
+            inputmode="numeric"
             [attr.id]="inputId"
             [attr.tabindex]="tabIndex"
             [readonly]="readonly"
@@ -38,6 +39,7 @@
             (mousedown)="$event.stopPropagation()"
             (mouseup)="$event.stopPropagation()"
             (copy)="onCopy($event)"
+            input
         >
     </div>
     <ard-button *ngIf="allowQuickChange"
