@@ -1,176 +1,192 @@
+import { Signal, WritableSignal, computed, signal } from '@angular/core';
 import resolvePath from 'resolve-object-path';
 import { evaluate, isDefined, isNull } from 'simple-bool';
-import { CompareWithFn } from '../types/item-storage.types';
 import { SortType, TableDataColumn, TablePaginationStrategy, TableSubheader } from './table.types';
 import { areAllDataColumns, isTableSubheader, merge2dArrays } from './utils';
+import { Nullable } from '../types/utility.types';
 
-export interface ArdTableRow {
-  readonly itemData: any;
-  readonly index: number;
-  readonly isEmpty?: boolean;
-  data: any[];
-  dataColumns: TableDataColumn[];
-  class?: string;
-  disabled?: boolean;
-  bold?: boolean;
-  selected?: boolean;
-  highlighted?: boolean;
+export class ArdTableRow {
+  private readonly _itemData = signal<any>(undefined);
+  readonly itemData = computed(() => this._itemData());
+
+  private readonly _index = signal<number>(-1);
+  readonly index = computed(() => this._index());
+
+  private readonly _isEmpty = signal<boolean>(false);
+  readonly isEmpty = computed(() => this._isEmpty());
+
+  private readonly _data = signal<any[]>([]);
+  readonly data = computed(() => this._data());
+
+  private readonly _dataColumns = signal<TableDataColumn[]>([]);
+  readonly dataColumns = computed(() => this._dataColumns());
+
+  private readonly _class = signal<string>('');
+  readonly class = computed(() => this._class());
+
+  readonly disabled = signal<boolean>(false);
+  readonly bold = signal<boolean>(false);
+  readonly selected = signal<boolean>(false);
+  readonly highlighted = signal<boolean>(false);
+
+  constructor(itemData: any, index: number, data: any[], dataColumns: TableDataColumn[], disabled: boolean, bold: boolean, isEmpty: boolean = false) {
+    this._itemData.set(itemData);
+    this._index.set(index);
+    this._data.set(data);
+    this._dataColumns.set(dataColumns);
+    this.disabled.set(disabled);
+    this.bold.set(bold);
+    this._isEmpty.set(isEmpty);
+  }
+  static newEmptyCell(index: number) {
+    return new ArdTableRow(null, index, [], [], false, false, true);
+  }
 }
 export interface TableItemStorageHostDefaults {
-  rowDisabledFrom: string;
-  rowBoldFrom: string;
+  readonly rowDisabledFrom: string;
+  readonly rowBoldFrom: string;
 }
 export interface TableItemStorageHost {
-  rowDisabledFrom?: string;
-  rowBoldFrom?: string;
-  invertRowDisabled?: boolean;
-  invertRowBold?: boolean;
-  data?: any[];
+  readonly rowDisabledFrom: Signal<Nullable<string>>;
+  readonly rowBoldFrom: Signal<Nullable<string>>;
+  readonly invertRowDisabled: Signal<Nullable<boolean>>;
+  readonly invertRowBold: Signal<Nullable<boolean>>;
+  readonly data: Signal<Nullable<any>>[];
   readonly DEFAULTS: TableItemStorageHostDefaults;
-  maxSelectedItems?: number;
-  treatDataSourceAsString?: boolean;
+  readonly maxSelectedItems: Signal<Nullable<number>>;
+  readonly treatDataSourceAsString: Signal<Nullable<boolean>>;
 
-  paginated: boolean;
-  paginationStrategy: TablePaginationStrategy;
-  itemsPerPage: number;
-  page: number;
+  readonly paginated: Signal<boolean>;
+  readonly paginationStrategy: Signal<TablePaginationStrategy>;
+  readonly itemsPerPage: Signal<number>;
+  readonly page: Signal<number>;
 }
 export class HeaderCell {
-  colspan!: number;
-  rowspan!: number;
-  cell!: TableDataColumn | TableSubheader;
+  readonly cell = signal<TableDataColumn | TableSubheader>(undefined as any);
+  readonly colspan = signal<number>(1);
+  readonly rowspan = signal<number>(1);
+
+  constructor(cell: TableDataColumn | TableSubheader, colspan: number = 1, rowspan: number = 1) {
+    this.cell.set(cell);
+    this.colspan.set(colspan);
+    this.rowspan.set(rowspan);
+  }
 
   get width(): string | null {
-    if (isTableSubheader(this.cell)) return null;
-    return this._getWidth(this.cell.width);
+    const cell = this.cell();
+    if (isTableSubheader(cell)) return null;
+    return this._getWidth(cell.width);
   }
   get minWidth(): string | null {
-    if (isTableSubheader(this.cell)) return null;
-    return this._getWidth(this.cell.minWidth);
+    const cell = this.cell();
+    if (isTableSubheader(cell)) return null;
+    return this._getWidth(cell.minWidth);
   }
+  /**
+   * Thransforms a numeric width into a CSS string if needed. Pure function.
+   * @param width the width to be converted.
+   * @returns The width expressed as a CSS-compatible string or null.
+   */
   private _getWidth(width: string | number | undefined): string | null {
     if (!width) return null;
     if (typeof width == 'number') return `${width}px`;
     return width;
   }
-
-  constructor(cell: TableDataColumn | TableSubheader, colspan: number = 1, rowspan: number = 1) {
-    this.cell = cell;
-    this.colspan = colspan;
-    this.rowspan = rowspan;
-  }
 }
 
 export class TableItemStorage {
-  private _items: ArdTableRow[] = [];
-  private _sortedItems: ArdTableRow[] = [];
-  private _highlightedItems: ArdTableRow[] = [];
-  private _selectedItems: ArdTableRow[] = [];
+  private readonly _items = signal<ArdTableRow[]>([]);
+  private readonly _sortedItems = signal<ArdTableRow[]>([]);
 
-  private _dataColumns: TableDataColumn[] = [];
-  private _headerCells: HeaderCell[][] = [];
+  private readonly _dataColumns = signal<TableDataColumn[]>([]);
+  private readonly _headerCells = signal<HeaderCell[][]>([]);
 
-  constructor(private _ardParentComp: TableItemStorageHost) {}
+  constructor(private readonly _ardParentComp: TableItemStorageHost) {}
 
   /**
    * Gets all items.
    */
-  get items(): ArdTableRow[] {
-    return this._items;
-  }
-  get sortedItems(): ArdTableRow[] {
-    return this._sortedItems;
-  }
+  readonly items = computed(() => this._items());
+  readonly sortedItems = computed(() => this._sortedItems());
   /**
    * Gets items based on the current pagination state.
    */
-  get paginatedItems(): ArdTableRow[] {
+  readonly paginatedItems = computed(() => {
     //prettier-ignore
     if (
-            !this._ardParentComp.paginated
-            || this._ardParentComp.paginationStrategy == TablePaginationStrategy.Noop
+            !this._ardParentComp.paginated()
+            || this._ardParentComp.paginationStrategy() == TablePaginationStrategy.Noop
         ) {
-            return this.sortedItems;
+            return this.sortedItems();
         }
-    const page = this._ardParentComp.page;
-    const IPP = this._ardParentComp.itemsPerPage;
+    const page = this._ardParentComp.page();
+    const IPP = this._ardParentComp.itemsPerPage();
     const itemsStart = (page - 1) * IPP;
     const itemsEnd = page * IPP;
-    return this.sortedItems.slice(itemsStart, itemsEnd);
-  }
+    return this.sortedItems().slice(itemsStart, itemsEnd);
+  });
   /**
    * Gets all currently selected items.
    */
-  get selectedItems(): ArdTableRow[] {
-    return this._selectedItems;
-  }
+  readonly selectedItems = computed<ArdTableRow[]>(() => this.items().filter(item => item.selected()));
   /**
    * Gets all currently highlighted items.
    */
-  get highlightedItems(): ArdTableRow[] {
-    return this._highlightedItems;
-  }
+  readonly highlightedItems = computed<ArdTableRow[]>(() => this.items().filter(item => item.highlighted()));
+  /**
+   * Gets all highlightable items. An item is considered highlightable if it is **not** disabled.
+   */
+  readonly highlightableItems = computed<ArdTableRow[]>(() => this._items().filter(item => !item.disabled()));
   /**
    * Gets the values of the currently selected items.
    */
-  get value(): any[] {
-    return this._itemsToValue(this.selectedItems);
-  }
+  readonly value = computed(() => this._itemsToValue(this.selectedItems()));
   /**
    * Maps an array of items into their values.
    * @param items The items to convert to value.
    * @returns An array of item values.
    */
   private _itemsToValue(items: ArdTableRow[]): any[] {
-    return items.map(item => item.itemData);
+    return items.map(item => item.itemData());
   }
 
   /**
    * Returns true if at least one item is highlighted, otherwise false.
    */
-  get isAnyItemHighlighted(): boolean {
-    return this._highlightedItems.length > 0;
-  }
+  readonly isAnyItemHighlighted = computed(() => this.highlightedItems().length > 0);
   /**
    * Checks if any item in the table is selected.
    * @returns A boolean value indicating if any item is selected.
    */
-  get isAnyItemSelected(): boolean {
-    return this._selectedItems.length > 0;
-  }
+  readonly isAnyItemSelected = computed(() => this.selectedItems().length > 0);
   /**
    * Checks if all items in the table are selected.
    * @returns A boolean value indicating if all items are selected.
    */
-  get areAllSelected(): boolean {
-    return this._selectedItems.length == this._items.filter(item => !item.disabled).length;
-  }
+  readonly areAllSelected = computed(() => this.selectedItems().length == this._items().filter(item => !item.disabled()).length);
   /**
    * Returns true if the parent component defines the limit of concurrently selectable items and the amount of currently selected items matches that limit. Otherwise returns false.
    *
    * **TLDR**: true if `maxSelectedItems` is defined and the number of selected items matches that value.
    */
-  get isItemLimitReached(): boolean {
-    if (!isDefined(this._ardParentComp.maxSelectedItems)) {
+  readonly isItemLimitReached = computed(() => {
+    const max = this._ardParentComp.maxSelectedItems();
+    if (!isDefined(max)) {
       return false;
     }
-    return this._ardParentComp.maxSelectedItems <= this.selectedItems.length;
-  }
+    return max <= this.selectedItems().length;
+  });
 
   /**
    * Gets the header cells of the table.
    * @returns a 2D array of header cells.
    */
-  get headerCells(): HeaderCell[][] {
-    return this._headerCells;
-  }
+  readonly headerCells = computed(() => this._headerCells());
   /**
    * Checks if the table has defined columns.
    * @returns a boolean value indicating if the table has defined columns.
    */
-  get hasDefinedColumns(): boolean {
-    return this._dataColumns.length > 0;
-  }
+  readonly hasDefinedColumns = computed(() => this._dataColumns().length > 0);
 
   //! setting columns
   /**
@@ -180,11 +196,11 @@ export class TableItemStorage {
   setColumns(cols: (TableDataColumn | TableSubheader)[]): void {
     const maxNestingLevel = this._getHeaderMaxNesting(cols);
     const headerCells = this._mapColumnsToArray(cols, maxNestingLevel, 0);
-    this._headerCells = this._filterHeaderCells(headerCells);
-    this._dataColumns = this._extractDataSources(cols);
+    this._headerCells.set(this._filterHeaderCells(headerCells));
+    this._dataColumns.set(this._extractDataSources(cols));
   }
   /**
-   * Filters out null values from the header cells array.
+   * Filters out null values from the header cells array. Pure function.
    * @param cells a 2D array of header cells or null values.
    * @returns a 2D array of header cells without null values and empty arrays.
    */
@@ -195,12 +211,12 @@ export class TableItemStorage {
     return cells.filter(row => row.length) as HeaderCell[][];
   }
   /**
-   * Extracts the data sources from the columns array.
+   * Extracts the data sources from the columns array. Pure function.
    * @param cols an array of table data columns or table subheaders.
    * @returns an array of table data columns.
    */
   private _extractDataSources(cols: (TableDataColumn | TableSubheader)[]): TableDataColumn[] {
-    let dataColumns: TableDataColumn[] = [];
+    const dataColumns: TableDataColumn[] = [];
 
     for (const col of cols) {
       if (!isTableSubheader(col)) {
@@ -213,7 +229,7 @@ export class TableItemStorage {
     return dataColumns;
   }
   /**
-   * Gets the maximum nesting level of the columns array.
+   * Gets the maximum nesting level of the columns array. Pure function.
    * @param cols an array of table data columns or table subheaders.
    * @returns the maximum nesting level as a number.
    */
@@ -227,7 +243,7 @@ export class TableItemStorage {
     return max;
   }
   /**
-   * Maps the columns tree to a 2D array of header cells or null values.
+   * Maps the columns tree to a 2D array of header cells or null values. Pure function.
    * @param cols an array of table data columns or table subheaders.
    * @param maxNesting the maximum nesting level of the columns array.
    * @param currentNesting the current nesting level of the columns array.
@@ -239,8 +255,8 @@ export class TableItemStorage {
     }
     const headerCells: (HeaderCell | null)[][] = [[]];
     for (const col of cols) {
+      headerCells[0].push(new HeaderCell(col, 1, maxNesting - currentNesting));
       if (!isTableSubheader(col)) {
-        headerCells[0].push(new HeaderCell(col, 1, maxNesting - currentNesting));
         continue;
       }
       const childCells: (HeaderCell | null)[][] = [[], ...this._mapColumnsToArray(col.children, maxNesting, currentNesting + 1)];
@@ -264,12 +280,11 @@ export class TableItemStorage {
    * @param items An array of items to be set as the component's items.
    */
   setItems(items: any[]): void {
-    if (!this.hasDefinedColumns) return;
+    if (!this.hasDefinedColumns()) return;
 
-    this._items = items.map((item, index) => {
-      return this._setItemsMapFn(item, index);
-    });
-    this._sortedItems = this._items;
+    const mappedItems = items.map((item, i) => this._setItemsMapFn(item, i));
+    this._items.set(mappedItems);
+    this._sortedItems.set(mappedItems);
   }
   /**
    * Maps raw item data to an {@link ArdTableRow} object.
@@ -284,28 +299,20 @@ export class TableItemStorage {
     const [data, dataColumns] = this._getRowData(rawItemData, index);
 
     //get bold
-    const rowBoldFromPath = this._ardParentComp.rowBoldFrom ?? this._ardParentComp.DEFAULTS.rowBoldFrom;
+    const rowBoldFromPath = this._ardParentComp.rowBoldFrom() ?? this._ardParentComp.DEFAULTS.rowBoldFrom;
     let bold = resolvePath(rawItemData, rowBoldFromPath);
-    if (this._ardParentComp.invertRowBold) {
+    if (this._ardParentComp.invertRowBold()) {
       bold = !bold;
     }
 
     //get disabled
-    const disabledPath = this._ardParentComp.rowDisabledFrom ?? this._ardParentComp.DEFAULTS.rowDisabledFrom;
+    const disabledPath = this._ardParentComp.rowDisabledFrom() ?? this._ardParentComp.DEFAULTS.rowDisabledFrom;
     let disabled = evaluate(resolvePath(rawItemData, disabledPath));
-    if (this._ardParentComp.invertRowDisabled) {
+    if (this._ardParentComp.invertRowDisabled()) {
       disabled = !disabled;
     }
 
-    //return
-    return {
-      itemData: rawItemData,
-      index,
-      data,
-      dataColumns,
-      disabled,
-      bold,
-    };
+    return new ArdTableRow(rawItemData, index, data, dataColumns, disabled, bold);
   }
   /**
    * Retrieves data for a row based on data columns configuration.
@@ -317,11 +324,11 @@ export class TableItemStorage {
    */
   private _getRowData(rawItemData: any, index: number): [any[], TableDataColumn[]] {
     let data: any[] = [];
-    for (const dataColumn of this._dataColumns) {
+    for (const dataColumn of this._dataColumns()) {
       const sourcePath = dataColumn.dataSource;
 
       if (typeof sourcePath == 'string') {
-        if (this._ardParentComp.treatDataSourceAsString) {
+        if (this._ardParentComp.treatDataSourceAsString()) {
           data.push(rawItemData[sourcePath]);
           continue;
         }
@@ -337,9 +344,9 @@ export class TableItemStorage {
         continue;
       }
       const sourceString = typeof sourcePath == 'object' ? JSON.stringify(sourcePath) : sourcePath;
-      console.error(new Error(`Unexpected data source "${sourceString}".`));
+      console.error(new Error(`Unexpected data source "${sourceString}".`)); //TODO
     }
-    return [data, this._dataColumns];
+    return [data, this._dataColumns()];
   }
   /**
    * Writes a new value to the item storage. Selects the correct items based on the provided values, warning the user if the value is not found.
@@ -358,7 +365,7 @@ export class TableItemStorage {
    * @returns {boolean} _true_ if the item is selected, otherwise _false_.
    */
   isItemSelected(index: number): boolean {
-    return this._selectedItems.some(item => item.index == index);
+    return this.selectedItems().some(item => item.index() == index);
   }
   /**
    * Selects all items.
@@ -369,7 +376,7 @@ export class TableItemStorage {
    * * An array of items failed to select.
    */
   selectAll(): [any[], any[]] {
-    return this.selectItem(...this._items.map(v => v.index));
+    return this.selectItem(...this._items().map(v => v.index()));
   }
   /**
    * Unselects all selected items.
@@ -378,30 +385,24 @@ export class TableItemStorage {
    * @returns An array of items cleared, mapped to only their values.
    */
   unselectAll(): any[] {
-    for (const item of this._selectedItems) {
-      item.selected = false;
+    const selected = this.selectedItems();
+    for (const item of selected) {
+      item.selected.set(false);
     }
 
-    const ret = this._itemsToValue(this._selectedItems);
-
-    this._selectedItems = [];
-
-    return ret;
+    return this._itemsToValue(selected);
   }
   /**
    * Unselects all selected items, no matter what the component settings are.
    * @returns An array of items cleared, mapped to only their values.
    */
   private _forceUnselectAll(): any[] {
-    for (const item of this._selectedItems) {
-      item.selected = false;
+    const selected = this.selectedItems();
+    for (const item of selected) {
+      item.selected.set(false);
     }
 
-    const ret = this._itemsToValue(this._selectedItems);
-
-    this._selectedItems = [];
-
-    return ret;
+    return this._itemsToValue(selected);
   }
   /**
    * Selects one or multiple items.
@@ -410,25 +411,26 @@ export class TableItemStorage {
    *
    * @param indexes A rest operator array of item indexes to be selected.
    * @returns a tuple containing two arrays:
-   * * An array of items selected.
-   * * An array of items failed to select.
+   * - An array of items selected.
+   * - An array of items failed to select.
    */
   selectItem(...indexes: number[]): [any[], any[]] {
-    const itemsToBeSelected = this._items.filter(item => !item.disabled && indexes.includes(item.index));
-    if (this.isItemLimitReached) {
+    const itemsToBeSelected = this._items().filter(item => !item.disabled() && indexes.includes(item.index()));
+    if (this.isItemLimitReached()) {
       return [[], this._itemsToValue(itemsToBeSelected)];
     }
 
     let itemsSelectedCount = 0;
     const itemsSelected = [];
+    let itemsLeftUntilLimit = (this._ardParentComp.maxSelectedItems() ?? Infinity) + this.selectedItems().length;
     for (const item of itemsToBeSelected) {
       itemsSelectedCount++;
-      if (item.selected) continue;
-      if (this.isItemLimitReached) {
+      if (item.selected()) continue;
+      if (itemsLeftUntilLimit <= 0) {
         break;
       }
-      item.selected = true;
-      this._selectedItems.push(item);
+      itemsLeftUntilLimit--;
+      item.selected.set(true);
       itemsSelected.push(item);
     }
 
@@ -441,13 +443,12 @@ export class TableItemStorage {
    * @returns An array of items unselected, mapped to only their values.
    */
   unselectItem(...indexes: number[]): any[] {
-    const itemsToBeSelected = this._items.filter(item => indexes.includes(item.index));
-    for (const item of itemsToBeSelected) {
-      item.selected = false;
+    const itemsToBeUnselected = this._items().filter(item => indexes.includes(item.index()));
+    for (const item of itemsToBeUnselected) {
+      item.selected.set(false);
     }
-    this._selectedItems = this._selectedItems.filter(v => v.selected);
 
-    return this._itemsToValue(itemsToBeSelected);
+    return this._itemsToValue(itemsToBeUnselected);
   }
 
   //! highlighting items
@@ -455,10 +456,10 @@ export class TableItemStorage {
    * Unhighlights all currently highlighted items.
    */
   unhighlightAll(): void {
-    for (const item of this._highlightedItems) {
-      item.highlighted = false;
+    const highlighted = this.highlightedItems();
+    for (const item of highlighted) {
+      item.highlighted.set(false);
     }
-    this._highlightedItems = [];
   }
   /**
    * Highlights the given item, while unhighlighting all other items. Does nothing when the item is disabled.
@@ -475,11 +476,10 @@ export class TableItemStorage {
    * @returns The last highlighted item.
    */
   highlightItem(...indexes: number[]): ArdTableRow {
-    const items = this._items.filter(item => indexes.includes(item.index));
+    const items = this._items().filter(item => indexes.includes(item.index()));
     for (const item of items) {
-      item.highlighted = true;
+      item.highlighted.set(true);
     }
-    this._highlightedItems.push(...items);
     return items.last();
   }
   /**
@@ -487,13 +487,12 @@ export class TableItemStorage {
    * @param items A rest operator array of item indexes to be unhighlighted.
    */
   unhighlightItem(...indexes: number[]): void {
-    const items = this._items.filter(item => indexes.includes(item.index));
+    const items = this._items().filter(item => indexes.includes(item.index()));
     for (const item of items) {
-      if (!item || !item.highlighted) return;
+      if (!item || !item.highlighted()) return;
 
-      item.highlighted = false;
+      item.highlighted.set(false);
     }
-    this._highlightedItems = this._highlightedItems.filter(v => v.highlighted);
   }
   /**
    * Highlights the first item out of all items.
@@ -502,7 +501,7 @@ export class TableItemStorage {
   highlightFirstItem(): ArdTableRow | null {
     this.unhighlightAll();
 
-    let itemToHighlight = this._getHiglightableItems().first().index;
+    const itemToHighlight = this.highlightableItems().first().index();
     return this.highlightItem(itemToHighlight);
   }
   /**
@@ -512,15 +511,14 @@ export class TableItemStorage {
   highlightLastItem(): ArdTableRow | null {
     this.unhighlightAll();
 
-    let itemToHighlight = this._getHiglightableItems().last().index;
+    const itemToHighlight = this.highlightableItems().last().index();
     return this.highlightItem(itemToHighlight);
   }
   /**
    * Highlights all non-disabled items.
    */
   highlightAllItems(): void {
-    let itemsToHighlight = this._getHiglightableItems().map(v => v.index);
-
+    const itemsToHighlight = this.highlightableItems().map(v => v.index());
     this.highlightItem(...itemsToHighlight);
   }
   /**
@@ -532,12 +530,12 @@ export class TableItemStorage {
    * @returns The item highlighted.
    */
   highlightNextItem(offset: number, hasShift?: boolean): ArdTableRow | null {
-    if (!this.isAnyItemHighlighted) {
+    if (!this.isAnyItemHighlighted()) {
       return this.highlightFirstItem();
     }
-    const currentItem = this.highlightedItems.last();
-    const itemsWithoutDisabled = this._items.filter(item => !item.disabled && (!this.isItemLimitReached || item.selected));
-    const currentIndexInItems = itemsWithoutDisabled.findIndex(item => item.index == currentItem.index);
+    const currentItem = this.highlightedItems().last();
+    const itemsWithoutDisabled = this._items().filter(item => !item.disabled() && (!this.isItemLimitReached() || item.selected()));
+    const currentIndexInItems = itemsWithoutDisabled.findIndex(item => item.index() == currentItem.index());
 
     let nextItemIndex = currentIndexInItems + offset;
     if (nextItemIndex >= itemsWithoutDisabled.length) {
@@ -549,19 +547,12 @@ export class TableItemStorage {
     const itemToHighlight = itemsWithoutDisabled[nextItemIndex];
 
     if (hasShift) {
-      if (itemToHighlight.highlighted) {
+      if (itemToHighlight.highlighted()) {
         this.unhighlightItem(nextItemIndex);
       }
       return this.highlightItem(nextItemIndex);
     }
     return this.highlightSingleItem(nextItemIndex);
-  }
-  /**
-   * Finds all highlightable items. An item is considered highlightable if it is **not** disabled.
-   * @returns An array of all highlightable items.
-   */
-  private _getHiglightableItems(): ArdTableRow[] {
-    return this._items.filter(item => !item.disabled);
   }
 
   //! sorting
@@ -585,7 +576,7 @@ export class TableItemStorage {
   resetSort(): void {
     this._currentSortColumn = null;
     this._currentSortType = null;
-    this._sortedItems = [...this.items];
+    this._sortedItems.set([...this.items()]);
   }
   getColumnSortType(column: number): SortType | null {
     if (this._currentSortColumn == column) {
@@ -595,19 +586,19 @@ export class TableItemStorage {
   }
   private _generateSortedRows(justReverse?: boolean): void {
     if (justReverse) {
-      this._sortedItems.reverse();
+      this._sortedItems().reverse();
       return;
     }
     const sortColumnIndex = this._currentSortColumn;
     if (isNull(sortColumnIndex) || !this._currentSortType) {
-      this._sortedItems = this.items;
+      this._sortedItems.set(this.items());
       return;
     }
-    const sortColumn = this._dataColumns[sortColumnIndex];
+    const sortColumn = this._dataColumns()[sortColumnIndex];
     if (!sortColumn) {
       throw new Error(
         `Encountered an issue in <ard-table>: could not find the column with index ${sortColumnIndex}. This is most likely an Ardium bug, please report it on GitHub.`
-      );
+      ); //TODO
     }
 
     const direction = this._currentSortType == SortType.Ascending ? 1 : -1;
@@ -619,6 +610,6 @@ export class TableItemStorage {
         return 0;
       });
 
-    this._sortedItems = [...this.items].sort((a, b) => sortFn(a.data[sortColumnIndex], b.data[sortColumnIndex]));
+    this._sortedItems.set([...this.items()].sort((a, b) => sortFn(a.data()[sortColumnIndex], b.data()[sortColumnIndex])));
   }
 }

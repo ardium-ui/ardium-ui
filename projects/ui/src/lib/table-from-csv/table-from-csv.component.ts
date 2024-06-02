@@ -30,7 +30,7 @@ export class ArdiumTableFromCsvComponent implements AfterContentInit {
 
   ngAfterContentInit(): void {
     if (!this._isDataOkay) {
-      console.error(new Error('<ard-table-from-csv> error: must provide non-empty data'));
+      console.error(new Error('<ard-table-from-csv> error: must provide non-empty data')); //TODO
     }
   }
 

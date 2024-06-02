@@ -1,10 +1,11 @@
-import { Directive, Input, TemplateRef } from '@angular/core';
+import { Directive, Input, TemplateRef, input } from '@angular/core';
 import { TableCaptionContext, TableCheckboxContext } from './table.types';
 import { PaginationContext } from '../_internal/models/pagination.model';
+import { Nullable } from '../types/utility.types';
 
 @Directive({ selector: 'ard-table > ng-template[ard-table-tmp]' })
 export class ArdiumTableTemplateDirective {
-  @Input('ard-table-tmp') name?: string;
+  readonly name = input.required<Nullable<string>>({ alias: 'ard-table-tmp' });
 
   constructor(public template: TemplateRef<any>) {}
 }

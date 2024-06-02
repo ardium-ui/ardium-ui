@@ -10,6 +10,12 @@ import {
   QueryList,
   TemplateRef,
   ViewEncapsulation,
+  computed,
+  contentChild,
+  contentChildren,
+  input,
+  model,
+  output,
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { isDefined } from 'simple-bool';
@@ -39,6 +45,7 @@ import {
   TableSubheaderContext,
 } from './table.types';
 import { isTableSubheader } from './utils';
+import { Nullable } from '../types/utility.types';
 
 @Component({
   selector: 'ard-table',
@@ -55,189 +62,87 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     rowBoldFrom: 'bold',
   };
 
-  @Input() rowDisabledFrom?: string;
-  @Input() rowBoldFrom?: string;
+  readonly rowDisabledFrom = input<Nullable<string>>(undefined);
+  readonly rowBoldFrom = input<Nullable<string>>(undefined);
 
-  private _invertRowDisabled: boolean = false;
-  @Input()
-  get invertRowDisabled(): boolean {
-    return this._invertRowDisabled;
-  }
-  set invertRowDisabled(v: any) {
-    this._invertRowDisabled = coerceBooleanProperty(v);
-  }
+  readonly invertRowDisabled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly invertRowBold = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly selectableRows = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly maxSelectedItems = input<number, any>(0, { transform: v => coerceNumberProperty(v, 0) });
 
-  private _invertRowBold: boolean = false;
-  @Input()
-  get invertRowBold(): boolean {
-    return this._invertRowBold;
-  }
-  set invertRowBold(v: any) {
-    this._invertRowBold = coerceBooleanProperty(v);
-  }
+  readonly caption = input<Nullable<string>>(undefined);
 
-  private _selectableRows: boolean = false;
-  @Input()
-  get selectableRows(): boolean {
-    return this._selectableRows;
-  }
-  set selectableRows(v: any) {
-    this._selectableRows = coerceBooleanProperty(v);
-  }
-
-  @Input() caption?: string;
-
-  @Input() isLoading?: boolean;
-  @Input() loadingProgress?: number; //TODO add progress bar
+  readonly isLoading = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly loadingProgress = input<number, any>(0, { transform: v => coerceNumberProperty(v, 0) }); //TODO add progress bar
 
   //! appearance
-  @Input() appearance: TableAppearance = TableAppearance.Strong;
-  @Input() variant: TableVariant = TableVariant.Rounded;
-  @Input() color: ComponentColor = ComponentColor.Primary;
-  @Input() align: TableAlignType = TableAlignType.CenterLeft;
-  @Input() headerAlign: TableAlignType = TableAlignType.CenterLeft;
+  readonly appearance = input<TableAppearance>(TableAppearance.Strong);
+  readonly variant = input<TableVariant>(TableVariant.Rounded);
+  readonly color = input<ComponentColor>(ComponentColor.Primary);
+  readonly align = input<TableAlignType>(TableAlignType.CenterLeft);
+  readonly headerAlign = input<TableAlignType>(TableAlignType.CenterLeft);
 
-  private _compact: boolean = false;
-  @Input()
-  get compact(): boolean {
-    return this._compact;
-  }
-  set compact(v: any) {
-    this._compact = coerceBooleanProperty(v);
-  }
+  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly zebra = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly stickyHeader = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
-  private _zebra: boolean = false;
-  @Input()
-  get zebra(): boolean {
-    return this._zebra;
-  }
-  set zebra(v: any) {
-    this._zebra = coerceBooleanProperty(v);
-  }
-
-  private _stickyHeader: boolean = false;
-  @Input()
-  get stickyHeader(): boolean {
-    return this._stickyHeader;
-  }
-  set stickyHeader(v: any) {
-    this._stickyHeader = coerceBooleanProperty(v);
-  }
-
-  get ngClasses(): string {
-    return [
-      `ard-appearance-${this.appearance}`,
-      `ard-variant-${this.variant}`,
-      `ard-color-${this.color}`,
-      `ard-align-${this.align}`,
-      `ard-header-align-${this.headerAlign}`,
-      this.compact ? 'ard-compact' : '',
-      this.zebra ? 'ard-zebra-table' : '',
-      this.selectableRows ? 'ard-selectable-rows' : '',
-      this.stickyHeader ? 'ard-sticky-header' : '',
-      this.isLoading ? 'ard-table-loading' : '',
-    ].join(' ');
-  }
+  readonly ngClasses = computed(() =>
+    [
+      `ard-appearance-${this.appearance()}`,
+      `ard-variant-${this.variant()}`,
+      `ard-color-${this.color()}`,
+      `ard-align-${this.align()}`,
+      `ard-header-align-${this.headerAlign()}`,
+      this.compact() ? 'ard-compact' : '',
+      this.zebra() ? 'ard-zebra-table' : '',
+      this.selectableRows() ? 'ard-selectable-rows' : '',
+      this.stickyHeader() ? 'ard-sticky-header' : '',
+      this.isLoading() ? 'ard-table-loading' : '',
+    ].join(' ')
+  );
 
   //! pagination
-  private _paginated: boolean = false;
-  @Input()
-  get paginated(): boolean {
-    return this._paginated;
-  }
-  set paginated(v: any) {
-    this._paginated = coerceBooleanProperty(v);
-  }
+  readonly paginated = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
-  @Input() paginationStrategy: TablePaginationStrategy = TablePaginationStrategy.Noop;
+  readonly paginationStrategy = input<TablePaginationStrategy>(TablePaginationStrategy.Noop);
 
-  @Input() paginationOptions: number[] | { value: number; label: string }[] = [10, 25, 50];
-  @Input() totalItems?: number;
-  @Input() paginationColor: ComponentColor = ComponentColor.None;
-  @Input() paginationAlign: PaginationAlign = PaginationAlign.Split;
-  @Input() itemsPerPageText: string = 'Items per page:';
-  @Input() currentItemsFormatFn: CurrentItemsFormatFn = ({ currentItemsFirst, currentItemsLast, totalItems }) => {
-    return `${currentItemsFirst} – ${currentItemsLast} of ${totalItems}`;
-  };
+  readonly paginationOptions = input<number[] | { value: number; label: string }[]>([10, 25, 50]);
+  readonly totalItems = input<Nullable<number>, any>(undefined, { transform: v => coerceNumberProperty(v, undefined) });
+  readonly paginationColor = input<ComponentColor>(ComponentColor.None);
+  readonly paginationAlign = input<PaginationAlign>(PaginationAlign.Split);
+  readonly itemsPerPageText = input<string>('Items per page:');
+  readonly currentItemsFormatFn = input<CurrentItemsFormatFn>(
+    ({ currentItemsFirst, currentItemsLast, totalItems }) => `${currentItemsFirst} – ${currentItemsLast} of ${totalItems}`
+  );
 
-  private _pageFillRemaining: boolean = false;
-  @Input()
-  get pageFillRemaining(): boolean {
-    return this._pageFillRemaining;
-  }
-  set pageFillRemaining(v: any) {
-    this._pageFillRemaining = coerceBooleanProperty(v);
-  }
+  readonly pageFillRemaining = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly paginationDisabled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly useFirstLastButtons = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
-  private _paginationDisabled: boolean = false;
-  @Input()
-  get paginationDisabled(): boolean {
-    return this._paginationDisabled;
-  }
-  set paginationDisabled(v: any) {
-    this._paginationDisabled = coerceBooleanProperty(v);
-  }
+  readonly itemsPerPage = model<number>(50);
+  readonly page = model<number>(50);
 
-  private _useFirstLastButtons: boolean = false;
-  @Input()
-  get useFirstLastButtons(): boolean {
-    return this._useFirstLastButtons;
-  }
-  set useFirstLastButtons(v: any) {
-    this._useFirstLastButtons = coerceBooleanProperty(v);
-  }
-
-  private _itemsPerPage: number = 50;
-  @Input()
-  get itemsPerPage(): number {
-    return this._itemsPerPage;
-  }
-  set itemsPerPage(v: any) {
-    this._itemsPerPage = coerceNumberProperty(v);
-  }
-  @Output() itemsPerPageChange = new EventEmitter<number>();
-
-  private _page: number = 1;
-  @Input()
-  get page(): number {
-    return this._page;
-  }
-  set page(v: any) {
-    this._page = coerceNumberProperty(v);
-  }
-  @Output() pageChange = new EventEmitter<number>();
-
-  get isDefinedTotalItems(): boolean {
-    return (this.paginationStrategy == TablePaginationStrategy.Noop && isDefined(this.totalItems)) || this.paginationStrategy != TablePaginationStrategy.Noop;
-  }
-  get canDisplayPagination(): boolean {
-    //prettier-ignore
-    return this.paginated && this.isDefinedTotalItems;
-  }
+  readonly isDefinedTotalItems = computed(() => this.paginationStrategy() != TablePaginationStrategy.Noop || isDefined(this.totalItems()));
+  readonly canDisplayPagination = computed(() => this.paginated() && this.isDefinedTotalItems());
 
   //! item storage getters
-  get headerCells(): HeaderCell[][] {
-    return this._itemStorage.headerCells;
-  }
-  get dataRows(): ArdTableRow[] {
-    const items: ArdTableRow[] = this._itemStorage.paginatedItems;
+  readonly headerCells = computed(() => this._itemStorage.headerCells());
 
-    if (!this.pageFillRemaining) return items;
-    if (!this.isDefinedTotalItems) {
-      throw new Error('<ard-table> requires [totalItems] to be defined.');
+  readonly dataRows = computed(() => {
+    const items: ArdTableRow[] = this._itemStorage.paginatedItems();
+
+    if (!this.pageFillRemaining()) return items;
+    if (!this.isDefinedTotalItems()) {
+      throw new Error('<ard-table> requires [totalItems] to be defined when using "slice" pagination strategy.'); //TODO error
     }
-    if (this.page == 1) return items;
-    for (let i = items.length; i < this.itemsPerPage; i++) {
-      items.push({
-        itemData: null,
-        index: i,
-        data: [],
-        dataColumns: [],
-        isEmpty: true,
-      });
+    if (this.page() == 1) return items;
+
+    const ipp = this.itemsPerPage();
+    for (let i = items.length; i < ipp; i++) {
+      items.push(ArdTableRow.newEmptyCell(i));
     }
     return items;
-  }
+  });
 
   //! columns/data setters
   @Input()
@@ -254,37 +159,34 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     return this._data;
   }
 
-  private _treatDataSourceAsString: boolean = false;
-  @Input()
-  get treatDataSourceAsString(): boolean {
-    return this._treatDataSourceAsString;
-  }
-  set treatDataSourceAsString(v: any) {
-    this._treatDataSourceAsString = coerceBooleanProperty(v);
-  }
+  readonly treatDataSourceAsString = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! templates
-  @ContentChild(ArdiumTableCheckboxTemplateDirective, { read: TemplateRef })
-  checkboxTemplate?: TemplateRef<TableCheckboxContext>;
-  @ContentChild(ArdiumTableHeaderCheckboxTemplateDirective, {
-    read: TemplateRef,
-  })
-  headerCheckboxTemplate?: TemplateRef<TableHeaderCheckboxContext>;
-  @ContentChild(ArdiumTableCaptionTemplateDirective, { read: TemplateRef })
-  captionTemplate?: TemplateRef<TableCaptionContext>;
+  readonly checkboxTemplate = contentChild<ArdiumTableCheckboxTemplateDirective, TemplateRef<TableCheckboxContext>>(ArdiumTableCheckboxTemplateDirective, {
+    read: TemplateRef<TableCheckboxContext>,
+  });
+  readonly headerCheckboxTemplate = contentChild<ArdiumTableHeaderCheckboxTemplateDirective, TemplateRef<TableHeaderCheckboxContext>>(
+    ArdiumTableHeaderCheckboxTemplateDirective,
+    {
+      read: TemplateRef<TableHeaderCheckboxContext>,
+    }
+  );
+  readonly captionTemplate = contentChild<ArdiumTableCaptionTemplateDirective, TemplateRef<TableCaptionContext>>(ArdiumTableCaptionTemplateDirective, {
+    read: TemplateRef<TableCaptionContext>,
+  });
 
   private _itemTemplates: { [key: string]: TemplateRef<any> } = {};
-  @ContentChildren(ArdiumTableTemplateDirective)
-  templateChildren!: QueryList<ArdiumTableTemplateDirective>;
+  readonly templateChildren = contentChildren<ArdiumTableTemplateDirective>(ArdiumTableTemplateDirective);
 
   ngAfterContentInit(): void {
-    const templates = Array.from(this.templateChildren);
+    const templates = Array.from(this.templateChildren());
     for (const instance of templates) {
-      if (!instance.name) {
-        console.error(new Error('[ard-table-tmp] requires a value to be specified.'));
+      const name = instance.name();
+      if (!name) {
+        console.error(new Error('[ard-table-tmp] requires a value to be specified.')); //TODO
         continue;
       }
-      this._itemTemplates[instance.name] = instance.template;
+      this._itemTemplates[name] = instance.template;
     }
   }
 
@@ -293,8 +195,8 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     return this.getCellTemplate(tmp.template);
   }
   getHeaderCheckboxColor(): SimpleComponentColor {
-    if (this.appearance == TableAppearance.Strong) return SimpleComponentColor.CurrentColor;
-    return this.color;
+    if (this.appearance() == TableAppearance.Strong) return SimpleComponentColor.CurrentColor;
+    return this.color();
   }
   getCellTemplate(tmp?: string | TemplateRef<any>): TemplateRef<any> | undefined {
     //return undefined
@@ -303,7 +205,7 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     if (tmp instanceof TemplateRef) return tmp;
     //check if the name can be found
     if (!(tmp in this._itemTemplates)) {
-      console.error(new Error(`<ard-table> error: cannot find template named "${tmp}"`));
+      console.error(new Error(`<ard-table> error: cannot find template named "${tmp}"`)); //TODO
       return undefined;
     }
     //return the template
@@ -348,11 +250,11 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
   toggleRowSelected(index: number): void {
     if (this._itemStorage.isItemSelected(index)) {
       const unselected = this._itemStorage.unselectItem(index);
-      this.unselectRowEvent.emit(unselected);
+      if (unselected.length) this.unselectRowEvent.emit(unselected);
     } else {
       const [selected, failed] = this._itemStorage.selectItem(index);
-      this.selectRowEvent.emit(selected);
-      this.failedSelectRowEvent.emit(failed);
+      if (selected.length) this.selectRowEvent.emit(selected);
+      if (failed.length) this.failedSelectRowEvent.emit(failed);
     }
     this._emitSelect();
   }
@@ -360,39 +262,39 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
    * Toggles the selection state of all rows in the table.
    */
   toggleAllRowsSelected(): void {
-    if (this._itemStorage.areAllSelected) {
+    if (this._itemStorage.areAllSelected()) {
       const unselected = this._itemStorage.unselectAll();
-      this.unselectRowEvent.emit(unselected);
+      if (unselected.length) this.unselectRowEvent.emit(unselected);
     } else {
       const [selected, failed] = this._itemStorage.selectAll();
-      this.selectRowEvent.emit(selected);
-      this.failedSelectRowEvent.emit(failed);
+      if (selected.length) this.selectRowEvent.emit(selected);
+      if (failed.length) this.failedSelectRowEvent.emit(failed);
     }
     this._emitSelect();
   }
   private _emitSelect(): void {
-    const v = this._itemStorage.value;
+    const v = this._itemStorage.value();
     this.selectedRowsChangeEvent.emit(v);
   }
   isCellCheckbox(cell: any): boolean {
     return typeof cell == 'object' && '_ardCheckbox' in cell && 'index' in cell;
   }
   isHeaderCellCheckbox(cell: HeaderCell): boolean {
-    const dataCell = cell.cell;
+    const dataCell = cell.cell();
     if (isTableSubheader(dataCell)) return false;
     if (typeof dataCell.dataSource == 'string') return false;
     return dataCell.dataSource.type == 'checkbox';
   }
   isHeaderCellSortable(cell: HeaderCell): boolean {
-    const dataCell = cell.cell;
+    const dataCell = cell.cell();
     if (isTableSubheader(dataCell)) return false;
     return dataCell.sortable ?? false;
   }
 
-  @Output('selectedRowsChange') selectedRowsChangeEvent = new EventEmitter<any[]>();
-  @Output('failedSelectRow') failedSelectRowEvent = new EventEmitter<any[]>();
-  @Output('selectRow') selectRowEvent = new EventEmitter<any[]>();
-  @Output('unselectRow') unselectRowEvent = new EventEmitter<any[]>();
+  readonly selectedRowsChangeEvent = output<any[]>({ alias: 'selectedRowsChange' });
+  readonly failedSelectRowEvent = output<any[]>({ alias: 'failedSelectRow' });
+  readonly selectRowEvent = output<any[]>({ alias: 'selectRow' });
+  readonly unselectRowEvent = output<any[]>({ alias: 'unselectRow' });
 
   //! contexts
   getHeaderContext(cell: TableDataColumn, index: number): TableHeaderContext | null;
@@ -418,11 +320,11 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
       },
     };
   }
-  getHeaderCheckboxContext(): TableHeaderCheckboxContext {
+  readonly getHeaderCheckboxContext = computed<TableHeaderCheckboxContext>(() => {
     let state: CheckboxState = CheckboxState.Unselected;
-    if (this._itemStorage.isAnyItemSelected) {
+    if (this._itemStorage.isAnyItemSelected()) {
       state = CheckboxState.Indeterminate;
-      if (this._itemStorage.areAllSelected) {
+      if (this._itemStorage.areAllSelected()) {
         state = CheckboxState.Selected;
       }
     }
@@ -433,15 +335,14 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
         this.toggleAllRowsSelected();
       },
     };
-  }
+  });
   getCheckboxContext(index: number): TableCheckboxContext {
-    const item = this._itemStorage.items.find(v => v.index == index)!;
-    const selected = item.selected ?? false;
-    const disabled = item.disabled ?? false;
+    const item = this._itemStorage.items().find(v => v.index() == index)!;
+    const selected = item.selected();
     return {
       $implicit: selected,
-      selected,
-      disabled,
+      selected: selected,
+      disabled: item.disabled(),
       onChange: () => {
         this.onCheckboxClick(index);
       },
