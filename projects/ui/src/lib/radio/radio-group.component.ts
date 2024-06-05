@@ -53,8 +53,8 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
 
   //! value
   @Input()
-  get value(): Signal<any> | undefined {
-    return this._selected?.value;
+  get value(): any | undefined {
+    return this._selected?.value();
   }
   set value(v: any) {
     this.writeValue(v);
@@ -130,7 +130,7 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
   private _updateRadioButtonNames(): void {
     if (this._radios) {
       this._radios.forEach(radio => {
-        radio.name = this.name;
+        radio.name.set(this.name);
         radio.markForCheck();
       });
     }
@@ -144,7 +144,6 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
     this.onFocus(event);
   }
   private _handleChangeEvents(selected: ArdiumRadioComponent): void {
-    this.selected = selected;
     this.writeValue(selected.value());
 
     this._emitChange();
@@ -172,7 +171,8 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
       this._updateRadioButtonNames();
     }, 0);
 
-    this._radios.forEach(radio => {
+    //sub to child component events
+    for (const radio of this._radios) {
       this._childEventSubs.push(
         radio.blurEvent.subscribe(v => {
           this._handleBlurEvents(v);
@@ -184,11 +184,12 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
         })
       );
       this._childEventSubs.push(
-        radio.selectedChange.subscribe(() => {
+        radio.selectedChange.subscribe((v: boolean) => {
+          if (!v) return;
           this._handleChangeEvents(radio);
         })
       );
-    });
+    }
   }
   ngAfterViewInit(): void {
     const sub = (this._radios.changes as Observable<ArdiumRadioComponent[]>).subscribe(radios => {
@@ -211,7 +212,8 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
           })
         );
         this._childEventSubs.push(
-          radio.selectedChange.subscribe(() => {
+          radio.selectedChange.subscribe((v: boolean) => {
+            if (!v) return;
             this._handleChangeEvents(radio);
           })
         );

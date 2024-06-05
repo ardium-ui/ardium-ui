@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, ViewEncapsulation, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation, computed, effect, inject, input, signal } from '@angular/core';
 import { _BooleanComponentBase } from '../../_internal/boolean-component';
 import { ComponentColor } from '../../types/colors.types';
 
@@ -10,7 +10,7 @@ import { ComponentColor } from '../../types/colors.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumRadioComponent extends _BooleanComponentBase {
-  protected _changeDetector = inject(ChangeDetectorRef);
+  protected readonly _changeDetector = inject(ChangeDetectorRef);
 
   readonly htmlId = input<string>(crypto.randomUUID());
 
@@ -19,7 +19,7 @@ export class ArdiumRadioComponent extends _BooleanComponentBase {
   //! appearance
   readonly color = input<ComponentColor>(ComponentColor.Primary);
 
-  readonly ngClasses = computed<string>(() => [`ard-color-${this.color}`, `ard-radio-${this.selected() ? 'selected' : 'unselected'}`].join(' '));
+  readonly ngClasses = computed<string>(() => [`ard-color-${this.color()}`, `ard-radio-${this.selected() ? 'selected' : 'unselected'}`].join(' '));
 
   //! event handlers
   onMousedown(): void {
@@ -31,7 +31,7 @@ export class ArdiumRadioComponent extends _BooleanComponentBase {
   }
 
   //! radio-group access points
-  name: string | null = null;
+  readonly name = signal<string | null>(null);
 
   /**
    * Marks the radio button as needing checking for change detection.
