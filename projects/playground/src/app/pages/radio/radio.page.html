@@ -39,6 +39,17 @@
     </ard-radio-group>
 </div>
 <div class="master">
+    <span class="title">Radio events</span>
+    <ard-radio-group
+      (valueChange)="log('valueChange', $event)"
+      (change)="log('change', $event)"
+    >
+        <ard-radio value="value1">Option 1</ard-radio>
+        <ard-radio value="value2">Option 2</ard-radio>
+        <ard-radio value="value3">Option 3</ard-radio>
+    </ard-radio-group>
+</div>
+<div class="master">
     <span class="title">Styling the radio group</span>
     <ard-radio-group class="styled-group">
         <ard-radio value="value1">Option 1</ard-radio>

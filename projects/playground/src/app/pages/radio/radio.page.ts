@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Logger } from '../../services/logger.service';
 
 @Component({
   selector: 'app-radio',
@@ -11,6 +12,8 @@ export class RadioPage {
       this.addMore = true;
     }, 3000);
   }
+
+  readonly log = inject(Logger).log;
 
   addMore: boolean = false;
 }
