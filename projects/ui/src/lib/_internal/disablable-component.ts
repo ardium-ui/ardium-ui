@@ -4,15 +4,11 @@ import { coerceBooleanProperty } from '@ardium-ui/devkit';
 @Directive()
 export abstract class _DisablableComponentBase {
   //! no value arguments
-  @HostBinding('attr.readonly')
-  @HostBinding('class.ard-readonly')
   /**
    * Whether the component is read-only. Defines the `readonly` host attribute and `ard-readonly` host class. Coearcible into a boolean.
    */
-  readonly readonly = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly readonly = input<any, boolean>(false, { transform: v => coerceBooleanProperty(v) });
 
-  @HostBinding('attr.disabled')
-  @HostBinding('class.ard-disabled')
   /**
    * Whether the component is disabled. Defines the `disabled` host attribute and `ard-disabled` host class. Coearcible into a boolean.
    */
@@ -20,5 +16,16 @@ export abstract class _DisablableComponentBase {
   @Input('disabled')
   set _disabled(v: any) {
     this.disabled.set(coerceBooleanProperty(v));
+  }
+
+  @HostBinding('attr.readonly')
+  @HostBinding('class.ard-readonly')
+  get _readonlyHostAttribute(): boolean {
+    return this.readonly();
+  }
+  @HostBinding('attr.disabled')
+  @HostBinding('class.ard-disabled')
+  get _disabledHostAttribute(): boolean {
+    return this.disabled();
   }
 }

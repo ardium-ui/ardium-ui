@@ -212,8 +212,12 @@ export class ArdiumSelectComponent
   }
 
   //! class-based inputs
-  @HostBinding('class.ard-group-items')
   readonly groupItems = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  
+  @HostBinding('class.ard-group-items')
+  get _groupItemsHostAttribute() {
+    return this.groupItems();
+  }
 
   //! items setter/getter
   @Input()

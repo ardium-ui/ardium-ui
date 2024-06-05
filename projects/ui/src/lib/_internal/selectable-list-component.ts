@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Directive, EventEmitter, HostBinding, HostListener, Input, Output, computed, input, signal } from '@angular/core';
+import { ChangeDetectorRef, Directive, EventEmitter, HostBinding, HostListener, Input, Output, Signal, computed, input, signal } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { ArdOptionSimple, CompareWithFn, OptionContext } from '../types/item-storage.types';
@@ -66,11 +66,23 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
   //! multiselectable
   readonly multiselectable = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
+  @HostBinding('attr.multiple')
+  @HostBinding('class.ard-multiselect')
+  get _multiselectableHostAttribute() {
+    return this.multiselectable();
+  }
+
   readonly singleselectable = computed(() => !this.multiselectable());
 
   //! require value
-  protected _requireValue: boolean | undefined = undefined;
-  abstract requireValue: any;
+  readonly requireValue = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+
+  readonly isValueRequired = computed(() => this.requireValue() || !this.multiselectable());
+
+  @HostBinding('class.ard-require-value')
+  get _requireValueHostAttribute() {
+    return this.requireValue();
+  }
 
   //! coerced properties
   readonly invertDisabled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
@@ -88,8 +100,12 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
   }
 
   //! change & touch event emitters
-  @HostBinding('class.ard-touched')
   readonly touched = signal<boolean>(false);
+
+  @HostBinding('class.ard-touched')
+  get _touchedHostAttribute(): boolean {
+    return this.touched();
+  }
 
   protected _emitChange(): void {
     const value = this.itemStorage.value();

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewEncapsulation, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation, input } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 
 @Component({
@@ -9,6 +9,10 @@ import { coerceBooleanProperty } from '@ardium-ui/devkit';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumDividerComponent {
-  @HostBinding('class.ard-divider-vertical')
   readonly vertical = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+
+  @HostBinding('class.ard-divider-vertical')
+  get _verticalHostAttribute() {
+    return this.vertical();
+  }
 }

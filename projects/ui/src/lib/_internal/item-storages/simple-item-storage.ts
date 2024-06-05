@@ -17,7 +17,7 @@ export interface SimpleItemStorageHost {
   readonly DEFAULTS: ItemStorageHostDefaults;
   readonly compareWith: Signal<Nullable<CompareWithFn>>;
   readonly multiselectable: Signal<boolean>;
-  readonly requireValue: boolean;
+  readonly isValueRequired: Signal<boolean>;
   readonly maxSelectedItems: Signal<Nullable<number>>;
   readonly _componentId: string;
 }
@@ -199,7 +199,7 @@ export class SimpleItemStorage {
 
     const ret = this.value();
 
-    if (this._ardParentComp.requireValue && this._selectedItems().length > 0) {
+    if (this._ardParentComp.isValueRequired() && this._selectedItems().length > 0) {
       this._selectedItems().first().selected.set(true);
       ret.splice(0, 1);
     }
@@ -266,7 +266,7 @@ export class SimpleItemStorage {
   unselectItem(...items: ArdOptionSimple[]): any[] {
     let skippedItem = false;
     for (const item of items) {
-      if (this._ardParentComp.requireValue && !skippedItem) {
+      if (this._ardParentComp.isValueRequired() && !skippedItem) {
         skippedItem = true;
         continue;
       }

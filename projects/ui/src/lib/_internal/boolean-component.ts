@@ -1,4 +1,4 @@
-import { EventEmitter, HostBinding, Input, Output, Directive, signal, effect } from '@angular/core';
+import { Directive, EventEmitter, HostBinding, Input, Output, effect, signal } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _NgModelComponentBase } from './ngmodel-component';
@@ -47,10 +47,13 @@ export abstract class _BooleanComponentBase extends _NgModelComponentBase implem
    * The selection state of the component. Coercible into a boolean.
    */
   @Input('selected')
-  @HostBinding('attr.selected')
-  @HostBinding('class.ard-selected')
   set _selected(v: any) {
     this.selected.set(coerceBooleanProperty(v));
+  }
+  @HostBinding('attr.selected')
+  @HostBinding('class.ard-selected')
+  get _selectedHostAttribute(): boolean {
+    return this.selected();
   }
   /**
    * The event emitter responsible for firing `selectedChange` events. Fired when the `selected` state is changed.
@@ -63,7 +66,7 @@ export abstract class _BooleanComponentBase extends _NgModelComponentBase implem
     effect(() => {
       this.selected(); // call the signal to let the effect know when to update
       this._emitChange();
-    })
+    });
   }
 
   /**

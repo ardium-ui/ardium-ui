@@ -15,16 +15,21 @@ import { Nullable } from '../types/utility.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumCheckboxListComponent extends _NgModelComponentBase implements SimpleItemStorageHost, AfterViewInit {
-  @HostBinding('attr.id')
   readonly htmlId = input<string>(crypto.randomUUID());
+
+  @HostBinding('attr.id')
+  get _htmlIdHostAttribute() {
+    return this.htmlId();
+  }
 
   readonly DEFAULTS = {
     valueFrom: 'value',
     labelFrom: 'label',
     disabledFrom: 'disabled',
   };
+  // static values. Not meant to be changed.
   readonly multiselectable = signal<true>(true);
-  readonly requireValue = false;
+  readonly isValueRequired = signal<false>(false);
   readonly _componentId = '300';
 
   private readonly _itemStorage = new SimpleItemStorage(this);

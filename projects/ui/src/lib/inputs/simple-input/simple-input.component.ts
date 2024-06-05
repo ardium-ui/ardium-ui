@@ -39,6 +39,7 @@ import {
     },
   ],
 })
+  // TODO convert to signals
 export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements SimpleInputModelHost, ControlValueAccessor, OnInit {
   readonly DEFAULTS = {
     clearButtonTitle: 'Clear',

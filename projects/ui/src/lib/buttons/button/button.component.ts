@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { SimpleOneAxisAlignment } from '../../types/alignment.types';
 import { _ButtonBase } from '../_button-base';
@@ -13,7 +13,7 @@ import { ButtonVariant } from '../general-button.types';
 })
 export class ArdiumButtonComponent extends _ButtonBase {
   readonly icon = input<string>('');
-  
+
   //! button settings
   readonly variant = input<ButtonVariant>(ButtonVariant.Rounded);
   readonly alignIcon = input<SimpleOneAxisAlignment>(SimpleOneAxisAlignment.Left);

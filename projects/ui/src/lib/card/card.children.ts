@@ -48,7 +48,12 @@ export class ArdiumCardImageDirective {
 export class ArdiumCardActionButtonsDirective {
   readonly align = input<OneAxisAlignment>(OneAxisAlignment.Right);
 
-  @HostBinding('class') readonly alignClass = computed(() => `ard-card-action-buttons ard-align-${this.align}`);
+  readonly alignClass = computed(() => `ard-card-action-buttons ard-align-${this.align}`);
+
+  @HostBinding('class')
+  get _alignClassHostAttribute() {
+    return this.alignClass();
+  }
 }
 
 @Directive({ selector: 'ard-card-footer, [ard-card-footer]' })

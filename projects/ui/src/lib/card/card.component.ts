@@ -7,8 +7,12 @@ export class ArdiumCardDirective {
   readonly appearance = input<CardAppearance>(CardAppearance.Raised);
   readonly variant = input<CardVariant>(CardVariant.Rounded);
 
-  @HostBinding('class')
   readonly ngClasses = computed(() => ['ard-card', `ard-appearance-${this.appearance()}`, `ard-variant-${this.variant()}`].join(' '));
+
+  @HostBinding('class')
+  get _ngClassesHostAttribute() {
+    return this.ngClasses();
+  }
 }
 
 @Component({

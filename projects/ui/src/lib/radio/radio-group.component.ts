@@ -44,8 +44,12 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
   @ContentChildren(ArdiumRadioComponent, { descendants: true })
   private _radios!: QueryList<ArdiumRadioComponent>;
 
-  @HostBinding('attr.id')
   readonly htmlId = input<string>('');
+
+  @HostBinding('attr.id')
+  get _htmlIdHostAttribute() {
+    return this.htmlId();
+  }
 
   //! value
   @Input()

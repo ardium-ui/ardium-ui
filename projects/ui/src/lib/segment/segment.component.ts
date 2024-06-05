@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ContentChild, HostBinding, Input, TemplateRef, ViewEncapsulation, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ContentChild, HostBinding, Input, TemplateRef, ViewEncapsulation, computed, input } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { ComponentColor } from '../types/colors.types';
 import { ArdOptionSimple } from '../types/item-storage.types';
@@ -59,19 +59,6 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
   }
 
   //! coerced properties
-  @HostBinding('attr.multiple')
-  @HostBinding('class.ard-multiselect')
-  override readonly multiselectable = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-
-  @Input()
-  @HostBinding('class.ard-require-value')
-  get requireValue(): boolean {
-    return this._requireValue ?? !this.multiselectable;
-  }
-  set requireValue(v: any) {
-    this._requireValue = coerceBooleanProperty(v);
-  }
-
   readonly autoFocus = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
   readonly uniformWidths = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
