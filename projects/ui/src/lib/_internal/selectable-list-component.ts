@@ -1,11 +1,10 @@
 import { ChangeDetectorRef, Directive, EventEmitter, HostBinding, HostListener, Input, Output, computed, input, signal } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import { ArdOptionSimple, OptionContext } from '../types/item-storage.types';
+import { ArdOptionSimple, CompareWithFn, OptionContext } from '../types/item-storage.types';
 import { SimpleItemStorage, SimpleItemStorageHost } from './item-storages/simple-item-storage';
 import { _NgModelComponentBase } from './ngmodel-component';
 import { Nullable } from '../types/utility.types';
-import { CompareWithFn } from 'dist/ui';
 
 @Directive()
 export abstract class _SelectableListComponentBase extends _NgModelComponentBase implements ControlValueAccessor, SimpleItemStorageHost {
