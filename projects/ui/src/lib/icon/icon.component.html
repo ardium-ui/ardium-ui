@@ -3,7 +3,7 @@
     [attr.aria-label]="ariaLabel"
     [style]="fontVariationSettings()"
 >
-    {{ icon() ?? contentWrapper()?.nativeElement?.innerText ?? '' | icon }}
+    {{ icon() ?? contentWrapperEl.innerText ?? '' | icon }}
 </span>
 
 

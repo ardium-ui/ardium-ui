@@ -21,7 +21,7 @@ type OpticalSizeString = '20' | '24' | '40' | '48';
 })
 export class ArdiumIconComponent implements AfterViewInit {
   readonly ariaLabel = input<string>('');
-  readonly icon = input<Nullable<string>>('');
+  readonly icon = input<Nullable<string>>(undefined);
 
   readonly filled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
   readonly weight = input<WeightNumber | undefined, Nullable<WeightNumber | WeightString>>(400, {

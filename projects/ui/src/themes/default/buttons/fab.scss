@@ -17,16 +17,16 @@ ard-fab {
   border-radius: 999px;
   justify-content: center;
   margin: 0;
-  padding: 1rem;
 
   &.ard-fab-size-standard {
     --ard-_fab-size: 3.5rem;
     font-size: 1rem;
+    padding: calc(1rem - 1px);
   }
   &.ard-fab-size-small {
     --ard-_fab-size: 2.5rem;
     font-size: 0.875rem;
-    padding: 0.5625rem;
+    padding: calc(0.5625rem - 1px);
   }
   &.ard-fab-extended {
     min-width: var(--ard-_fab-size);
