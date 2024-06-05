@@ -33,8 +33,9 @@ export class ArdiumCheckboxComponent extends _BooleanComponentBase implements Co
 
   //override the "selected" setter, so it changes the state too.
   override set _selected(v: any) {
-    this._selected = coerceBooleanProperty(v);
-    this.state.set(this._selected ? CheckboxState.Selected : CheckboxState.Unselected);
+    const selected = coerceBooleanProperty(v);
+    this.selected.set(selected);
+    this.state.set(selected ? CheckboxState.Selected : CheckboxState.Unselected);
   }
 
   readonly state = model<CheckboxState>(CheckboxState.Unselected);
