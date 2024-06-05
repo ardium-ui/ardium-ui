@@ -1,55 +1,57 @@
 <div class="ard-pagination" [ngClass]="ngClasses">
-    <div class="ard-pagination__items-per-page">
-        <div class="ard-pagination__text">{{ itemsPerPageText }}</div>
-        <ard-select
-            [items]="options"
-            [compact]="compact"
-            [value]="itemsPerPage"
-            autoHighlightFirst="false"
-            [disabled]="disabled"
-            (valueChange)="onItemsPerPageChange($event[0])"
-            clearable="false"
-        />
+  <div class="ard-pagination__items-per-page">
+    <div class="ard-pagination__text">{{ itemsPerPageText() }}</div>
+    <ard-select
+      [items]="options()"
+      [compact]="compact()"
+      [value]="itemsPerPage()"
+      autoHighlightFirst="false"
+      [disabled]="disabled()"
+      (valueChange)="onItemsPerPageChange($event[0])"
+      clearable="false"
+    />
+  </div>
+  <div class="ard-pagination__current-page">
+    <div class="ard-pagination__text">
+      {{ currentItemsFormatFn()(getCurrentItemsContext()) }}
     </div>
-    <div class="ard-pagination__current-page">
-        <div class="ard-pagination__text">
-            {{ currentItemsFormatFn(getCurrentItemsContext()) }}
-        </div>
-        <div class="ard-pagination__buttons">
-            <ard-icon-button
-                *ngIf="useFirstLastButtons"
-                [color]="color"
-                [compact]="compact"
-                [disabled]="disabled || firstPageDisabled"
-                (click)="onFirstPage()"
-            >
-                <ard-icon>first page</ard-icon>
-            </ard-icon-button>
-            <ard-icon-button
-                [color]="color"
-                [compact]="compact"
-                [disabled]="disabled || firstPageDisabled"
-                (click)="onPrevPage()"
-            >
-                <ard-icon>navigate before</ard-icon>
-            </ard-icon-button>
-            <ard-icon-button
-                [color]="color"
-                [compact]="compact"
-                [disabled]="disabled || lastPageDisabled"
-                (click)="onNextPage()"
-            >
-                <ard-icon>navigate next</ard-icon>
-            </ard-icon-button>
-            <ard-icon-button
-                *ngIf="useFirstLastButtons"
-                [color]="color"
-                [compact]="compact"
-                [disabled]="disabled || lastPageDisabled"
-                (click)="onLastPage()"
-            >
-                <ard-icon>last page</ard-icon>
-            </ard-icon-button>
-        </div>
+    <div class="ard-pagination__buttons">
+      @if (useFirstLastButtons()) {
+        <ard-icon-button
+          [color]="color()"
+          [compact]="compact()"
+          [disabled]="disabled() || firstPageDisabled()"
+          (click)="onFirstPage()"
+        >
+          <ard-icon>first page</ard-icon>
+        </ard-icon-button>
+      }
+      <ard-icon-button
+        [color]="color()"
+        [compact]="compact()"
+        [disabled]="disabled() || firstPageDisabled()"
+        (click)="onPrevPage()"
+      >
+        <ard-icon>navigate before</ard-icon>
+      </ard-icon-button>
+      <ard-icon-button
+        [color]="color()"
+        [compact]="compact()"
+        [disabled]="disabled() || lastPageDisabled()"
+        (click)="onNextPage()"
+      >
+        <ard-icon>navigate next</ard-icon>
+      </ard-icon-button>
+      @if (useFirstLastButtons()) {
+        <ard-icon-button
+          [color]="color()"
+          [compact]="compact()"
+          [disabled]="disabled() || lastPageDisabled()"
+          (click)="onLastPage()"
+        >
+          <ard-icon>last page</ard-icon>
+        </ard-icon-button>
+      }
     </div>
+  </div>
 </div>

@@ -1,141 +1,113 @@
+import { ModelSignal, Signal, computed } from '@angular/core';
 import { isDefined } from 'simple-bool';
 
+export interface PaginationModelHost {
+  readonly totalItems: Signal<number>;
+  readonly options: Signal<number[] | { value: number; label: string }[]>;
+  readonly itemsPerPage: ModelSignal<number>;
+  readonly page: ModelSignal<number>;
+}
+
 export interface PaginationCurrentItemsContext {
-  currentItemsFirst: number;
-  currentItemsLast: number;
-  totalItems: number;
-  totalPages: number;
-  page: number;
+  readonly currentItemsFirst: number;
+  readonly currentItemsLast: number;
+  readonly totalItems: number;
+  readonly totalPages: number;
+  readonly page: number;
 }
 
 export interface PaginationContext extends PaginationCurrentItemsContext {
-  itemsPerPageOptions: number[] | { value: number; label: string }[];
-  itemsPerPage: number;
-  onItemsPerPageChange: (newValue: number) => void;
-  firstPageDisabled: boolean;
-  prevPageDisabled: boolean;
-  nextPageDisabled: boolean;
-  lastPageDisabled: boolean;
-  onPageChange: (newPage: number) => void;
+  readonly itemsPerPageOptions: number[] | { value: number; label: string }[];
+  readonly itemsPerPage: number;
+  readonly onItemsPerPageChange: (newValue: number) => void;
+  readonly firstPageDisabled: boolean;
+  readonly prevPageDisabled: boolean;
+  readonly nextPageDisabled: boolean;
+  readonly lastPageDisabled: boolean;
+  readonly onPageChange: (newPage: number) => void;
 }
 
 export class PaginationModel {
-  private _totalItems?: number;
-  private _itemsPerPageOptions: number[] | { value: number; label: string }[] = [10, 25, 50];
-  private _itemsPerPage: number = 50;
-  private _page: number = 1;
+  constructor(private readonly _ardHostCmp: PaginationModelHost) {}
 
-  //! total items
-  setTotalItems(v: number): void {
-    this._totalItems = v;
-    this._lastPageNumMemo = null;
-    this._itemsOnCurrentPageMemo = null;
-  }
-  get isTotalItemsDefined(): boolean {
-    return isDefined(this._totalItems);
-  }
+  readonly isTotalItemsDefined = computed<boolean>(() => isDefined(this._ardHostCmp.totalItems()));
 
-  //! items per page
-  setItemsPerPageOptions(v: number[] | { value: number; label: string }[]): void {
-    this._itemsPerPageOptions = v;
-  }
-  getItemsPerPageOptions(): number[] | { value: number; label: string }[] {
-    return this._itemsPerPageOptions;
-  }
-  setItemsPerPage(v: number): void {
-    this._itemsPerPage = v;
-    this._lastPageNumMemo = null;
-    this._itemsOnCurrentPageMemo = null;
-    this.setPage(1);
-  }
-  getItemsPerPage(): number {
-    return this._itemsPerPage;
-  }
-
-  private _itemsOnCurrentPageMemo: [number, number] | null = null;
-  get itemsOnCurrentPage(): [number, number] | null {
-    if (!isDefined(this._totalItems)) return null;
-    if (!isDefined(this._itemsOnCurrentPageMemo))
-      [
-        (this._itemsOnCurrentPageMemo = [
-          Math.min(this._totalItems, (this._page - 1) * this._itemsPerPage + 1),
-          Math.min(this._totalItems, this._page * this._itemsPerPage),
-        ]),
-      ];
-    return this._itemsOnCurrentPageMemo;
-  }
+  readonly lastPageNum = computed<number | null>(() => {
+    const total = this._ardHostCmp.totalItems();
+    if (!total) return null;
+    return Math.ceil(total / this._ardHostCmp.itemsPerPage());
+  });
+  readonly isLastPage = computed<boolean>(() => {
+    return !isDefined(this._ardHostCmp.totalItems()) || this.lastPageNum() === this._ardHostCmp.page();
+  });
+  readonly itemsOnCurrentPage = computed<[number, number] | null>(() => {
+    const total = this._ardHostCmp.totalItems();
+    if (!total) return null;
+    return [
+      Math.min(total, (this._ardHostCmp.page() - 1) * this._ardHostCmp.itemsPerPage() + 1),
+      Math.min(total, this._ardHostCmp.page() * this._ardHostCmp.itemsPerPage()),
+    ];
+  });
 
   //! action disabled states
-  get firstPageDisabled(): boolean {
-    return !isDefined(this._totalItems) || this._page == 1;
-  }
-  get lastPageDisabled(): boolean {
-    return !isDefined(this._totalItems) || this._page == this.lastPageNum;
-  }
+  readonly firstPageDisabled = computed<boolean>(() => {
+    return !isDefined(this._ardHostCmp.totalItems()) || this._ardHostCmp.page() == 1;
+  });
+  readonly lastPageDisabled = computed<boolean>(() => {
+    return !isDefined(this._ardHostCmp.totalItems()) || this._ardHostCmp.page() == this.lastPageNum();
+  });
 
   //! current page
-  private _lastPageNumMemo: number | null = null;
-  get lastPageNum(): number | null {
-    if (!isDefined(this._totalItems)) return null;
-    if (!isDefined(this._lastPageNumMemo)) {
-      this._lastPageNumMemo = Math.ceil(this._totalItems / this._itemsPerPage);
-    }
-    return this._lastPageNumMemo;
-  }
-  get isLastPage(): boolean {
-    if (!isDefined(this._totalItems)) return true;
-    return this.lastPageNum === this._page;
-  }
   setPage(v: number): void {
-    this._page = v;
-    this._itemsOnCurrentPageMemo = null;
+    this._ardHostCmp.page.set(v);
   }
   getPage(): number {
-    return this._page;
+    return this._ardHostCmp.page();
   }
-  firstPage(): number | null {
-    if (this.firstPageDisabled) return null;
+  goToFirstPage(): number | null {
+    if (this.firstPageDisabled()) return null;
     this.setPage(1);
     return 1;
   }
-  prevPage(): number | null {
-    if (this.firstPageDisabled) return null;
-    this.setPage(this._page - 1);
-    return this._page;
+  goToPrevPage(): number | null {
+    if (this.firstPageDisabled()) return null;
+    this.setPage(this._ardHostCmp.page() - 1);
+    return this._ardHostCmp.page();
   }
-  nextPage(): number | null {
-    if (this.lastPageDisabled) return null;
-    this.setPage(this._page + 1);
-    return this._page;
+  goToNextPage(): number | null {
+    if (this.lastPageDisabled()) return null;
+    this.setPage(this._ardHostCmp.page() + 1);
+    return this._ardHostCmp.page();
   }
-  lastPage(): number | null {
-    if (this.lastPageDisabled) return null;
-    this.setPage(this.lastPageNum!);
-    return this._page;
+  goToLastPage(): number | null {
+    if (this.lastPageDisabled()) return null;
+    this.setPage(this.lastPageNum()!);
+    return this._ardHostCmp.page();
   }
 
   //! context
-  getCurrentItemsContext(): PaginationCurrentItemsContext {
-    if (!isDefined(this._totalItems)) throw new Error('Cannot use pagination model without defining total items first.'); //todo
+  readonly getCurrentItemsContext = computed<PaginationCurrentItemsContext>(() => {
+    const total = this._ardHostCmp.totalItems();
+    if (!total) throw new Error('Cannot use pagination model without defining total items first.'); //todo
 
-    const pageItems = this.itemsOnCurrentPage!;
+    const pageItems = this.itemsOnCurrentPage()!;
     return {
-      totalPages: this.lastPageNum!,
-      totalItems: this._totalItems,
-      page: this._page,
+      totalPages: this.lastPageNum()!,
+      totalItems: total,
+      page: this._ardHostCmp.page(),
       currentItemsFirst: pageItems[0],
       currentItemsLast: pageItems[1],
     };
-  }
-  getPartialContext(): Omit<PaginationContext, 'onItemsPerPageChange' | 'onPageChange'> {
+  });
+  readonly getPartialContext = computed<Omit<PaginationContext, 'onItemsPerPageChange' | 'onPageChange'>>(() => {
     return {
       ...this.getCurrentItemsContext(),
-      itemsPerPageOptions: this._itemsPerPageOptions,
-      itemsPerPage: this._itemsPerPage,
-      firstPageDisabled: this.firstPageDisabled,
-      prevPageDisabled: this.firstPageDisabled,
-      nextPageDisabled: this.lastPageDisabled,
-      lastPageDisabled: this.lastPageDisabled,
+      itemsPerPageOptions: this._ardHostCmp.options(),
+      itemsPerPage: this._ardHostCmp.itemsPerPage(),
+      firstPageDisabled: this.firstPageDisabled(),
+      prevPageDisabled: this.firstPageDisabled(),
+      nextPageDisabled: this.lastPageDisabled(),
+      lastPageDisabled: this.lastPageDisabled(),
     };
-  }
+  });
 }
