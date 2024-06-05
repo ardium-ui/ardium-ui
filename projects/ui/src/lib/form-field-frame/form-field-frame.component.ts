@@ -37,7 +37,7 @@ export class ArdiumFormFieldFrameComponent extends _FocusableComponentBase {
       `ard-appearance-${this.appearance()}`,
       `ard-variant-${this.variant()}`,
       this.compact() ? 'ard-compact' : '',
-      this.isFocused() ? 'ard-focused' : 'ard-unfocused',
+      this.isFocused ? 'ard-focused' : 'ard-unfocused',
     ].join(' ')
   );
 

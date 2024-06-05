@@ -50,8 +50,8 @@ export class ArdiumBadgeDirective implements OnChanges, AfterViewInit, OnDestroy
 
   readonly ariaLabel = input<string>('', { alias: 'ardBadgeAriaLabel' });
 
-  readonly hidden = input<any, boolean>(false, { alias: 'ardBadgeHidden', transform: v => coerceBooleanProperty(v) });
-  readonly overlap = input<any, boolean>(false, { alias: 'ardBadgeOverlap', transform: v => coerceBooleanProperty(v) });
+  readonly hidden = input<boolean, any>(false, { alias: 'ardBadgeHidden', transform: v => coerceBooleanProperty(v) });
+  readonly overlap = input<boolean, any>(false, { alias: 'ardBadgeOverlap', transform: v => coerceBooleanProperty(v) });
 
   private readonly _elementClasses = computed(() =>
     [

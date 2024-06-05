@@ -74,8 +74,8 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
   abstract requireValue: any;
 
   //! coerced properties
-  readonly invertDisabled = input<any, boolean>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly maxSelectedItems = input<any, Nullable<number>>(undefined, { transform: v => coerceNumberProperty(v) });
+  readonly invertDisabled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly maxSelectedItems = input<Nullable<number>, any>(undefined, { transform: v => coerceNumberProperty(v, undefined) });
 
   //! control value accessor
   //override the writeValue and setDisabledState defined in _NgModelComponent

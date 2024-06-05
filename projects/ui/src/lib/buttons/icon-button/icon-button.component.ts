@@ -16,8 +16,8 @@ export class ArdiumIconButtonComponent extends _FocusableComponentBase {
   //! button settings
   readonly color = input<ComponentColor>(ComponentColor.Primary);
 
-  readonly lightColoring = input<any, boolean>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly compact = input<any, boolean>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly lightColoring = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed(() =>
     [

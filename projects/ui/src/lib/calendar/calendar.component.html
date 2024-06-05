@@ -10,7 +10,7 @@
                     class="ard-calendar-header-button"
                     appearance="transparent"
                     color="none"
-                    [tabIndex]="tabIndex"
+                    [tabIndex]="tabIndex()"
                     (click)="openDaysView()"
                 >
                     {{ currRange.low | date: 'YYYY' }}
@@ -19,10 +19,10 @@
                     <div class="ard-dropdown-arrow"></div>
                 </ard-button>
                 <div class="ard-calendar-arrows">
-                    <ard-icon-button size="small" appearance="transparent" color="none" (click)="prevPage()" [tabIndex]="tabIndex">
+                    <ard-icon-button size="small" appearance="transparent" color="none" (click)="prevPage()" [tabIndex]="tabIndex()">
                         <ard-icon>chevron_left</ard-icon>
                     </ard-icon-button>
-                    <ard-icon-button size="small" appearance="transparent" color="none" (click)="nextPage()" [tabIndex]="tabIndex">
+                    <ard-icon-button size="small" appearance="transparent" color="none" (click)="nextPage()" [tabIndex]="tabIndex()">
                         <ard-icon>chevron_right</ard-icon>
                     </ard-icon-button>
                 </div>
@@ -37,7 +37,7 @@
     <div class="ard-calendar-main-container">
         <div #focusableElement
             class="ard-calendar-simple-grid"
-            [tabindex]="tabIndex"
+            [tabindex]="tabIndex()"
             [ariaLabel]="currentAriaLabel"
             (focus)="onFocus($event)"
             (focus)="onYearGridFocus()"
@@ -83,7 +83,7 @@
                     class="ard-calendar-header-button"
                     appearance="transparent"
                     [color]="color"
-                    [tabIndex]="tabIndex"
+                    [tabIndex]="tabIndex()"
                     (click)="openDaysView()"
                 >
                     {{ year }}
@@ -100,7 +100,7 @@
     <div class="ard-calendar-main-container">
         <div #focusableElement
             class="ard-calendar-simple-grid"
-            [tabindex]="tabIndex"
+            [tabindex]="tabIndex()"
             [ariaLabel]="currentAriaLabel"
             (focus)="onFocus($event)"
             (focus)="onMonthGridFocus()"
@@ -146,17 +146,17 @@
                     class="ard-calendar-header-button"
                     appearance="transparent"
                     color="none"
-                    [tabIndex]="tabIndex"
+                    [tabIndex]="tabIndex()"
                     (click)="openYearsView()"
                 >
                     {{ currDate | date: 'MMM YYYY' | uppercase }}
                     <div class="ard-dropdown-arrow"></div>
                 </ard-button>
                 <div class="ard-calendar-arrows">
-                    <ard-icon-button size="small" appearance="transparent" color="none" (click)="prevMonth()" [tabIndex]="tabIndex">
+                    <ard-icon-button size="small" appearance="transparent" color="none" (click)="prevMonth()" [tabIndex]="tabIndex()">
                         <ard-icon>chevron_left</ard-icon>
                     </ard-icon-button>
-                    <ard-icon-button size="small" appearance="transparent" color="none" (click)="nextMonth()" [tabIndex]="tabIndex">
+                    <ard-icon-button size="small" appearance="transparent" color="none" (click)="nextMonth()" [tabIndex]="tabIndex()">
                         <ard-icon>chevron_right</ard-icon>
                     </ard-icon-button>
                 </div>
@@ -183,7 +183,7 @@
         <div #focusableElement
             class="ard-calendar-main-grid ard-calendar-grid"
             [class.ard-reserve-top-row]="reserveTopRow"
-            [tabindex]="tabIndex"
+            [tabindex]="tabIndex()"
             [ariaLabel]="currentAriaLabel"
             (focus)="onFocus($event)"
             (focus)="onDayGridFocus()"

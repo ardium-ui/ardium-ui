@@ -14,7 +14,7 @@ import { Nullable } from '../../types/utility.types';
 export class ArdiumColorDisplayComponent implements AfterViewInit {
   readonly ariaLabel = input<string>('');
 
-  readonly withLabel = input<any, boolean>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly withLabel = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! appearance
   readonly appearance = input<ColorDisplayAppearance>(ColorDisplayAppearance.Rounded);

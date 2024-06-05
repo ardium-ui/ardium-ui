@@ -1,5 +1,5 @@
 import { Directive, TemplateRef } from '@angular/core';
-import { OptionContext } from '../types/item-storage.types';
+import { ArdOption, OptionContext } from '../types/item-storage.types';
 import {
   CustomOptionContext,
   GroupContext,
@@ -35,7 +35,7 @@ export class ArdValueChipTemplateDirective {
 
 @Directive({ selector: 'ard-select > ng-template[ard-option-tmp]' })
 export class ArdOptionTemplateDirective {
-  constructor(public template: TemplateRef<OptionContext>) {}
+  constructor(public template: TemplateRef<OptionContext<ArdOption>>) {}
 }
 
 @Directive({ selector: 'ard-select > ng-template[ard-optgroup-tmp]' })

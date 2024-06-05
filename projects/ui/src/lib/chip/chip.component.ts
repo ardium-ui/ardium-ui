@@ -19,7 +19,7 @@ export class ArdiumChipComponent extends _DisablableComponentBase {
   readonly variant = input<FormElementVariant>(FormElementVariant.Rounded);
   readonly color = input<ComponentColor>(ComponentColor.Primary);
 
-  readonly compact = input<any, boolean>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   readonly wrapperClasses = input<string>('');
 

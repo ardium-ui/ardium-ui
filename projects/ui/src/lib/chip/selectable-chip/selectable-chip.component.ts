@@ -26,7 +26,7 @@ export class ArdiumSelectableChipComponent extends _BooleanComponentBase impleme
   };
 
   readonly chipTitle = input<string>(this.DEFAULTS.chipTitle);
-  readonly hideSelectionIcon = input<any, boolean>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly hideSelectionIcon = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! appearance
   readonly contentAlignment = input<SimpleOneAxisAlignment>(SimpleOneAxisAlignment.Left);
@@ -34,7 +34,7 @@ export class ArdiumSelectableChipComponent extends _BooleanComponentBase impleme
   readonly variant = input<FormElementVariant>(FormElementVariant.Rounded);
   readonly color = input<ComponentColor>(ComponentColor.Primary);
 
-  readonly compact = input<any, boolean>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   readonly wrapperClasses = input<string>('');
 

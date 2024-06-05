@@ -48,7 +48,7 @@ type TripleInputObject = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumColorPickerComponent extends _NgModelComponentBase implements OnInit, OnChanges {
-  readonly withOpacity = input<any, boolean>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly withOpacity = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
   // if (this.focusedArea == 'opacity') this.focusedArea = null; // TODO
 
   readonly referenceColor = model<Color>(Color('transparent'));
@@ -65,7 +65,7 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
 
   readonly variant = input<ColorPickerVariant>(ColorPickerVariant.Rounded);
 
-  readonly vertical = input<any, boolean>(false, { transform: v => coerceBooleanProperty(v) }); //TODO implement in CSS
+  readonly vertical = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) }); //TODO implement in CSS
 
   readonly ngClasses = computed(() => [this.wrapperClasses(), `ard-variant-${this.variant()}`, this.vertical() ? 'ard-vertical' : ''].join(' '));
 

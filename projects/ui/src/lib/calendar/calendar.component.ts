@@ -796,7 +796,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
   protected _nointeract: boolean = false;
   @Input()
   get nointeract(): boolean {
-    return this._nointeract || this.disabled;
+    return this._nointeract || this.disabled();
   }
   set nointeract(v: any) {
     this._nointeract = coerceBooleanProperty(v);

@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output, ViewEncapsulation, computed, input } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output, ViewEncapsulation, computed, input, signal } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { SimpleItemStorage, SimpleItemStorageHost } from '../_internal/item-storages/simple-item-storage';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
@@ -23,7 +23,7 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
     labelFrom: 'label',
     disabledFrom: 'disabled',
   };
-  readonly multiselectable = true;
+  readonly multiselectable = signal<true>(true);
   readonly requireValue = false;
   readonly _componentId = '300';
 
@@ -43,7 +43,7 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
 
   readonly compareWith = input<Nullable<CompareWithFn>>(undefined);
 
-  readonly invertDisabled = input<any, boolean>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly invertDisabled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   readonly maxSelectedItems = input<any, number>(false, { transform: v => coerceNumberProperty(v) });
 
@@ -51,7 +51,7 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
   readonly color = input<ComponentColor>(ComponentColor.Primary);
   readonly align = input<CheckboxListAlignType>(CheckboxListAlignType.LeftClumped);
 
-  readonly compact = input<any, boolean>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed(() => [`ard-color-${this.color()}`, `ard-align-${this.align()}`, this.compact() ? 'ard-compact' : ''].join(' '));
 

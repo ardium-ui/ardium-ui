@@ -33,7 +33,7 @@ export class ArdiumDialogComponent {
   readonly appearance = input<PanelAppearance>(PanelAppearance.Raised);
   readonly variant = input<PanelVariant>(PanelVariant.Rounded);
 
-  readonly compact = input<any, boolean>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! heading
   //all handled by modal component

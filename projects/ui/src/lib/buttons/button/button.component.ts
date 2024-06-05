@@ -18,7 +18,7 @@ export class ArdiumButtonComponent extends _ButtonBase {
   readonly variant = input<ButtonVariant>(ButtonVariant.Rounded);
   readonly alignIcon = input<SimpleOneAxisAlignment>(SimpleOneAxisAlignment.Left);
 
-  readonly vertical = input<any, boolean>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly vertical = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed(() =>
     [

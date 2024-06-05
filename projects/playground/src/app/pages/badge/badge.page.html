@@ -56,26 +56,26 @@
     <div class="button-container">
         <p
             *ngIf="addTo == 'text'"
-            [ardBadge]="text ?? undefined"
+            [ardBadge]="text ?? ''"
             [ardBadgeVariant]="variant[0]"
             [ardBadgeColor]="color[0]"
             [ardBadgeSize]="size[0]"
             [ardBadgePosition]="position[0]"
             [ardBadgeHidden]="hidden"
             [ardBadgeOverlap]="overlap"
-            [ardBadgeAriaLabel]="ariaLabel ?? undefined"
+            [ardBadgeAriaLabel]="ariaLabel ?? ''"
         >Lorem, ipsum.</p>
         <ard-button
             *ngIf="addTo == 'button'"
             color="none"
-            [ardBadge]="text ?? undefined"
+            [ardBadge]="text ?? ''"
             [ardBadgeVariant]="variant[0]"
             [ardBadgeColor]="color[0]"
             [ardBadgeSize]="size[0]"
             [ardBadgePosition]="position[0]"
             [ardBadgeHidden]="hidden"
             [ardBadgeOverlap]="overlap"
-            [ardBadgeAriaLabel]="ariaLabel ?? undefined"
+            [ardBadgeAriaLabel]="ariaLabel ?? ''"
         >Action</ard-button>
     </div>
 </div>

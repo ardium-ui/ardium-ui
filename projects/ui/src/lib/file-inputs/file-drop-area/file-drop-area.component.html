@@ -7,15 +7,15 @@
 >
     <div class="ard-file-drop-area-outline">
         <div class="ard-file-drop-area-content">
-            <ng-template *ngIf="currentViewState == 'idle'"
+            <ng-template *ngIf="currentViewState() == 'idle'"
                 [ngTemplateOutlet]="idleTemplate ?? defaultIdleTemplate"
                 [ngTemplateOutletContext]="getIdleContext()"
             ></ng-template>
-            <ng-template *ngIf="currentViewState == 'dragover'"
+            <ng-template *ngIf="currentViewState() == 'dragover'"
                 [ngTemplateOutlet]="dragoverTemplate ?? defaultDragoverTemplate"
                 [ngTemplateOutletContext]="getDragoverContext()"
             ></ng-template>
-            <ng-template *ngIf="currentViewState == 'uploaded'"
+            <ng-template *ngIf="currentViewState() == 'uploaded'"
                 [ngTemplateOutlet]="uploadedTemplate ?? defaultUploadedTemplate"
                 [ngTemplateOutletContext]="getUploadedContext()"
             ></ng-template>
@@ -42,9 +42,9 @@
     <ard-button
         class="ard-file-drop-area-browse-button"
         appearance="transparent"
-        [compact]="compact"
-        [variant]="variant"
-        [color]="color"
+        [compact]="compact()"
+        [variant]="variant()"
+        [color]="color()"
         (click)="browse()"
     >Browse files</ard-button>
 </ng-template>

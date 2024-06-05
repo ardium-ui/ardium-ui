@@ -298,7 +298,7 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
     this.open();
   }
   open(): void {
-    if (this.disabled || this._isOverlayOpen) return;
+    if (this.disabled() || this._isOverlayOpen) return;
 
     this._isOverlayOpen = true;
 
