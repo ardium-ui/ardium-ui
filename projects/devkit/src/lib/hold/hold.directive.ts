@@ -37,8 +37,8 @@ export class HoldDirective {
     this._allowEnterKey = coerceBooleanProperty(v);
   }
 
-  interval: NodeJS.Timeout | null = null;
-  timeout: NodeJS.Timeout | null = null;
+  interval: any = null;
+  timeout: any = null;
 
   @HostListener('mousedown')
   @HostListener('touchstart')
