@@ -3,11 +3,11 @@
   [ngClass]="ngClasses()"
 >
   <div class="ard-focus-overlay"></div>
-  <ard-_clear-button
+  <ard-clear-button
     [title]="deleteButtonTitle()"
     (click)="deleteEvent.emit($event)"
     [tabIndex]="tabIndex()"
-  ></ard-_clear-button>
+  ></ard-clear-button>
   <div class="ard-chip-content-wrapper">
     <ng-content></ng-content>
   </div>

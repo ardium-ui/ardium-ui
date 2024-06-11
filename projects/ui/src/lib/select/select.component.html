@@ -124,11 +124,11 @@
         <ng-template [ngTemplateOutlet]="loadingSpinnerTemplate || defaultLoadingSpinnerTemplate"> </ng-template>
       </ng-container>
 
-      <ard-_clear-button
+      <ard-clear-button
         *ngIf="shouldShowClearButton"
         [title]="clearButtonTitle()"
         (click)="handleClearButtonClick($event)"
-      ></ard-_clear-button>
+      ></ard-clear-button>
 
       <button
         class="ard-dropdown-arrow-wrapper"
