@@ -20,7 +20,12 @@
     "module": "es2020",
     "lib": ["ES2022", "dom"],
     "useDefineForClassFields": false,
-    "types": ["node"]
+    "types": ["node"],
+    "paths": {
+      "@ardium-ui/ui": [
+        "./projects/ui/src/public-api"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

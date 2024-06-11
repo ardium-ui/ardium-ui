@@ -19,7 +19,7 @@ export abstract class _BooleanComponentBase extends _NgModelComponentBase implem
   protected _emitChange() {
     this._onChangeRegistered?.(this.selected());
 
-    if (this._selected) this.selectEvent.emit(null);
+    if (this.selected()) this.selectEvent.emit(null);
     else this.unselectEvent.emit(null);
 
     this.selectedChange.emit(this.selected());
