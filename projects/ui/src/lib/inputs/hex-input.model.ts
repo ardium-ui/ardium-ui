@@ -40,7 +40,7 @@ export class HexInputModel {
     }
     //normalize the value
     v = v ?? '';
-    if (typeof v == 'string') v = v.replace('#', '');
+    if (typeof v === 'string') v = v.replace('#', '');
 
     return this._writeValue(v);
   }
@@ -93,7 +93,7 @@ export class HexInputModel {
     let firstChangeIndex = 0;
     while (
       firstChangeIndex < v.length &&
-      (!prev.charAt(firstChangeIndex) || v.charAt(firstChangeIndex) == prev.charAt(firstChangeIndex)) &&
+      (!prev.charAt(firstChangeIndex) || v.charAt(firstChangeIndex) === prev.charAt(firstChangeIndex)) &&
       firstChangeIndex <= maxLength
     ) {
       firstChangeIndex++;
@@ -105,8 +105,8 @@ export class HexInputModel {
     return v.substring(0, firstChangeIndex) + v.substring(firstChangeIndex + overflow);
   }
   private _applyCaseTransformer(v: string): string {
-    if (this._hostComp.case == CaseTransformerType.Uppercase) return v.toUpperCase();
-    if (this._hostComp.case == CaseTransformerType.Lowercase) return v.toLowerCase();
+    if (this._hostComp.case === CaseTransformerType.Uppercase) return v.toUpperCase();
+    if (this._hostComp.case === CaseTransformerType.Lowercase) return v.toLowerCase();
     return v;
   }
 }

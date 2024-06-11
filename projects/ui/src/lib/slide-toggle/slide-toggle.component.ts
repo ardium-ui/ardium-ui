@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, computed, forwardRef, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, forwardRef, input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ComponentColor } from '../types/colors.types';
 import { _BooleanComponentBase } from './../_internal/boolean-component';

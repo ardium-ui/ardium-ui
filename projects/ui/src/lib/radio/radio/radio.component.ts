@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation, computed, effect, inject, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ViewEncapsulation,
+  computed,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { _BooleanComponentBase } from '../../_internal/boolean-component';
 import { ComponentColor } from '../../types/colors.types';
 
@@ -19,7 +28,9 @@ export class ArdiumRadioComponent extends _BooleanComponentBase {
   //! appearance
   readonly color = input<ComponentColor>(ComponentColor.Primary);
 
-  readonly ngClasses = computed<string>(() => [`ard-color-${this.color()}`, `ard-radio-${this.selected() ? 'selected' : 'unselected'}`].join(' '));
+  readonly ngClasses = computed<string>(() =>
+    [`ard-color-${this.color()}`, `ard-radio-${this.selected() ? 'selected' : 'unselected'}`].join(' ')
+  );
 
   //! event handlers
   onMousedown(): void {

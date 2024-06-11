@@ -3,15 +3,11 @@ import { TemplatePortal } from '@angular/cdk/portal';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
-  Output,
   TemplateRef,
-  ViewChild,
   ViewContainerRef,
   ViewEncapsulation,
   computed,
-  effect,
   inject,
   input,
   output,
@@ -39,7 +35,9 @@ export class ArdiumModalComponent {
 
   readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
-  readonly ngClasses = computed(() => [`ard-variant-${this.variant()}`, `ard-appearance-${this.appearance()}`, this.compact() ? 'ard-compact' : ''].join(' '));
+  readonly ngClasses = computed(() =>
+    [`ard-variant-${this.variant()}`, `ard-appearance-${this.appearance()}`, this.compact() ? 'ard-compact' : ''].join(' ')
+  );
 
   //! heading
   readonly heading = input<string>('');

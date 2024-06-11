@@ -1,12 +1,16 @@
-<button #focusableElement
-    class="ard-star-button"
-    [ngClass]="ngClasses()"
-    (click)="onClick()"
-    (focus)="onFocus($event)"
-    (blur)="onBlur($event)"
-    [tabindex]="tabIndex()"
+<button
+  #focusableElement
+  class="ard-star-button"
+  [ngClass]="ngClasses()"
+  (click)="onClick()"
+  (focus)="onFocus($event)"
+  (blur)="onBlur($event)"
+  [tabindex]="tabIndex()"
 >
-    <div class="ard-hitbox"></div>
-    <div class="ard-focus-overlay"></div>
-    <ard-star [fill]="starFillState()" [color]="color()"></ard-star>
+  <div class="ard-hitbox"></div>
+  <div class="ard-focus-overlay"></div>
+  <ard-star
+    [fill]="starFillState()"
+    [color]="color()"
+  ></ard-star>
 </button>

@@ -1,4 +1,8 @@
-export type ArdTransformerFn = (currentText: string, previousText: string, caretPos: number) => { text: string; caretPos: number };
+export type ArdTransformerFn = (
+  currentText: string,
+  previousText: string,
+  caretPos: number
+) => { text: string; caretPos: number };
 
 interface IRegExpTransformer {
   apply: ArdTransformerFn;
@@ -6,8 +10,8 @@ interface IRegExpTransformer {
 export class RegExpTransformer implements IRegExpTransformer {
   constructor(
     public regex: RegExp,
-    public replace: string = '',
-    public caretModif: number = 0
+    public replace = '',
+    public caretModif = 0
   ) {}
 
   apply(currentText: string, previousText: string, caretPos: number): { text: string; caretPos: number } {
@@ -21,9 +25,9 @@ export class RegExpTransformer implements IRegExpTransformer {
           break;
         }
         //apply regex
-        let lengthBefore = text.length;
+        const lengthBefore = text.length;
         text = text.replace(this.regex, this.replace);
-        let lengthAfter = text.length;
+        const lengthAfter = text.length;
         //fix caret pos
         caretPos = caretPos + (lengthAfter - lengthBefore);
         //for infinite loop prevention
@@ -44,14 +48,14 @@ const int: ArdTransformerFn = (currentText: string, previousText: string, caretP
   const regexes: ([RegExp] | [RegExp, string] | [RegExp, string, number])[] = [[/[^0-9-]/], [/(.+)-/, '$1']];
   let obj = { text: currentText, caretPos };
   for (const arr of regexes) {
-    let [regex, replace, caretModif] = arr;
+    const [regex, replace, caretModif] = arr;
     obj = new RegExpTransformer(regex, replace, caretModif).apply(obj.text, previousText, obj.caretPos);
   }
   return obj;
 };
 const float: ArdTransformerFn = (currentText: string, previousText: string, caretPos: number) => {
   const regexes: ([RegExp] | [RegExp, string] | [RegExp, string, number])[] = [
-    [/[^0-9,\.\-]/],
+    [/[^0-9,.-]/],
     [/,/, '.'],
     [/(.+)-/, '$1'],
     [/\.(.*)\./, '$1.'],
@@ -59,7 +63,7 @@ const float: ArdTransformerFn = (currentText: string, previousText: string, care
   ];
   let obj = { text: currentText, caretPos };
   for (const arr of regexes) {
-    let [regex, replace, caretModif] = arr;
+    const [regex, replace, caretModif] = arr;
     obj = new RegExpTransformer(regex, replace, caretModif).apply(obj.text, previousText, obj.caretPos);
   }
   return obj;

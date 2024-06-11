@@ -1,24 +1,23 @@
 import {
+  AfterContentInit,
   ChangeDetectionStrategy,
   Component,
-  ViewEncapsulation,
-  forwardRef,
-  Output,
+  ElementRef,
   EventEmitter,
   Input,
-  ViewChildren,
+  Output,
   QueryList,
-  AfterViewInit,
-  AfterContentInit,
-  ElementRef,
+  ViewChildren,
+  ViewEncapsulation,
+  forwardRef,
 } from '@angular/core';
-import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { DigitInputModel } from './digit-input.model';
-import { DigitInputConfigData, DigitInputModelHost } from './digit-input.utils';
 import { DigitInputConfig, DigitInputShape } from './digit-input.types';
+import { DigitInputConfigData, DigitInputModelHost } from './digit-input.utils';
 
 @Component({
   selector: 'ard-digit-input',
@@ -34,7 +33,10 @@ import { DigitInputConfig, DigitInputShape } from './digit-input.types';
     },
   ],
 })
-export class ArdiumDigitInputComponent extends _NgModelComponentBase implements ControlValueAccessor, DigitInputModelHost, AfterContentInit {
+export class ArdiumDigitInputComponent
+  extends _NgModelComponentBase
+  implements ControlValueAccessor, DigitInputModelHost, AfterContentInit
+{
   private readonly model = new DigitInputModel(this);
 
   //! appearance
@@ -42,7 +44,7 @@ export class ArdiumDigitInputComponent extends _NgModelComponentBase implements 
   @Input() variant: FormElementVariant = FormElementVariant.Rounded;
   @Input() shape: DigitInputShape = DigitInputShape.Square;
 
-  private _compact: boolean = false;
+  private _compact = false;
   @Input()
   get compact(): boolean {
     return this._compact;
@@ -52,7 +54,12 @@ export class ArdiumDigitInputComponent extends _NgModelComponentBase implements 
   }
 
   get ngClasses(): string {
-    return [`ard-appearance-${this.appearance}`, `ard-variant-${this.variant}`, `ard-shape-${this.shape}`, this.compact ? 'ard-compact' : ''].join(' ');
+    return [
+      `ard-appearance-${this.appearance}`,
+      `ard-variant-${this.variant}`,
+      `ard-shape-${this.shape}`,
+      this.compact ? 'ard-compact' : '',
+    ].join(' ');
   }
 
   //! model access points
@@ -79,7 +86,7 @@ export class ArdiumDigitInputComponent extends _NgModelComponentBase implements 
   }
 
   //! value two-way binding
-  private _outputAsString: boolean = false;
+  private _outputAsString = false;
   @Input()
   get outputAsString(): boolean {
     return this._outputAsString;
@@ -150,10 +157,10 @@ export class ArdiumDigitInputComponent extends _NgModelComponentBase implements 
     if (!nextEl) return false;
 
     nextEl.focus();
-    if (tryFocusingNext && direction && document.activeElement != nextEl) {
+    if (tryFocusingNext && direction && document.activeElement !== nextEl) {
       return this.focusByIndex(index + direction);
     }
-    return document.activeElement == nextEl;
+    return document.activeElement === nextEl;
   }
   private _emitInput(): void {
     this._onChangeRegistered?.(this.value);

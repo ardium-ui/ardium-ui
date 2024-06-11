@@ -23,7 +23,7 @@ export abstract class _NgModelComponentBase extends _FocusableComponentBase impl
    * Registers a function to handle value change. Required by ControlValueAccessor.
    * @param fn The function to register.
    */
-  registerOnChange(fn: (_: any) => {}): void {
+  registerOnChange(fn: (_: any) => void): void {
     this._onChangeRegistered = fn;
   }
   /**

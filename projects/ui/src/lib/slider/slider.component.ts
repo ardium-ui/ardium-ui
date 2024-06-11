@@ -20,10 +20,10 @@ import { SliderTooltipContext } from './slider.types';
 })
 export class ArdiumSliderComponent extends _AbstractSlider<number> {
   //! value input & output
-  protected _value: number = 0;
+  protected _value = 0;
 
   //! tooltip updater
-  _tooltipValue: string = String(this.value);
+  _tooltipValue = String(this.value);
 
   protected _updateTooltipValue(): void {
     let v: string | number = this._value;
@@ -56,10 +56,10 @@ export class ArdiumSliderComponent extends _AbstractSlider<number> {
     this._value = 0;
     this._positionPercent[0] = 0;
   }
-  increment(steps: number = 1): void {
+  increment(steps = 1): void {
     this._offset(steps, false);
   }
-  decrement(steps: number = 1): void {
+  decrement(steps = 1): void {
     this._offset(-steps, false);
   }
 

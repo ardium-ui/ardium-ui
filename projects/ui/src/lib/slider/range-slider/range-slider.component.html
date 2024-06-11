@@ -1,86 +1,113 @@
-<div class="ard-range-slider-container-master"
-    [ngClass]="ngClasses"
-    [class.ard-slider-handle-grabbed]="isSliderHandleGrabbed"
-    [style]="{'--_ard-slider-transition': sliderTransition }"
+<div
+  class="ard-range-slider-container-master"
+  [ngClass]="ngClasses"
+  [class.ard-slider-handle-grabbed]="isSliderHandleGrabbed"
+  [style]="{ '--_ard-slider-transition': sliderTransition }"
 >
-    <div class="ard-slider-container">
-        <div #track
-            class="ard-slider-track"
-            (pointerdown)="onTrackHitboxPointerDown($event)"
-        >
-            <div class="ard-hitbox"></div>
-            <div class="ard-slider-track-overlay ard-slider-track-inactive"></div>
-            <div 
-                class="ard-slider-track-overlay ard-slider-track-active"
-                [style]="{
-                    left: trackOverlayLeft,
-                    width: trackOverlayWidth
-                }"
-            ></div>
-            <div class="ard-value-tick-container" *ngIf="showValueTicks">
-                <div class="ard-value-tick" *ngFor="let left of tickArray" [style]="{left: left}"></div>
-            </div>
-        </div>
-        <button #focusableElement
-            class="ard-slider-handle"
-            [tabindex]="tabIndex()"
-            [class.ard-grabbed]="isSliderHandleGrabbed && currentHandle == 1"
-            (pointerdown)="onPointerDownOnHandle($event, 1)"
-            (focus)="onHandleFocus($event, 1)"
-            (blur)="onBlur($event)"
-            [style]="{left: getHandlePosition(1)}"
-        >
-            <div class="ard-focus-overlay"></div>
-            <div class="ard-hitbox"></div>
-        </button>
-        <div class="ard-slider-tooltip-wrapper"
-            *ngIf="tooltipBehavior != 'never'"
-            [class.ard-tooltip-always]="tooltipBehavior == 'always'"
-            [style]="{left: getHandlePosition(1)}"
-        >
-            <ng-template #defaultTooltipTemplate let-value>
-                <div class="ard-slider-tooltip">{{ value }}</div>
-            </ng-template>
-        
-            <ng-template [ngTemplateOutlet]="tooltipTemplate || defaultTooltipTemplate"
-                [ngTemplateOutletContext]="getTooltipContext('low')">
-            </ng-template>
-        </div>
-        <button
-            class="ard-slider-handle"
-            [tabindex]="tabIndex()"
-            [class.ard-grabbed]="isSliderHandleGrabbed && currentHandle == 2"
-            (pointerdown)="onPointerDownOnHandle($event, 2)"
-            (focus)="onHandleFocus($event, 2)"
-            (blur)="onBlur($event)"
-            [style]="{left: getHandlePosition(2)}"
-        >
-            <div class="ard-focus-overlay"></div>
-            <div class="ard-hitbox"></div>
-        </button>
-        <div class="ard-slider-tooltip-wrapper"
-            *ngIf="tooltipBehavior != 'never'"
-            [class.ard-tooltip-always]="tooltipBehavior == 'always'"
-            [style]="{left: getHandlePosition(2)}"
-        >
-            <ng-template #defaultTooltipTemplate let-value>
-                <div class="ard-slider-tooltip">{{ value }}</div>
-            </ng-template>
-        
-            <ng-template [ngTemplateOutlet]="tooltipTemplate || defaultTooltipTemplate"
-                [ngTemplateOutletContext]="getTooltipContext('high')">
-            </ng-template>
-        </div>
-    </div>
-    <div class="ard-slider-label-container" *ngIf="labelObjects.length">
+  <div class="ard-slider-container">
+    <div
+      #track
+      class="ard-slider-track"
+      (pointerdown)="onTrackHitboxPointerDown($event)"
+    >
+      <div class="ard-hitbox"></div>
+      <div class="ard-slider-track-overlay ard-slider-track-inactive"></div>
+      <div
+        class="ard-slider-track-overlay ard-slider-track-active"
+        [style]="{
+          left: trackOverlayLeft,
+          width: trackOverlayWidth
+        }"
+      ></div>
+      <div
+        class="ard-value-tick-container"
+        *ngIf="showValueTicks"
+      >
         <div
-            *ngFor="let label of labelObjects"
-            class="ard-slider-label"
-            [style]="{left: label.positionPercent}"
-        >{{ label.label }}</div>
+          class="ard-value-tick"
+          *ngFor="let left of tickArray"
+          [style]="{ left: left }"
+        ></div>
+      </div>
     </div>
+    <button
+      #focusableElement
+      class="ard-slider-handle"
+      [tabindex]="tabIndex()"
+      [class.ard-grabbed]="isSliderHandleGrabbed && currentHandle === 1"
+      (pointerdown)="onPointerDownOnHandle($event, 1)"
+      (focus)="onHandleFocus($event, 1)"
+      (blur)="onBlur($event)"
+      [style]="{ left: getHandlePosition(1) }"
+    >
+      <div class="ard-focus-overlay"></div>
+      <div class="ard-hitbox"></div>
+    </button>
+    <div
+      class="ard-slider-tooltip-wrapper"
+      *ngIf="tooltipBehavior !== 'never'"
+      [class.ard-tooltip-always]="tooltipBehavior === 'always'"
+      [style]="{ left: getHandlePosition(1) }"
+    >
+      <ng-template
+        #defaultTooltipTemplate
+        let-value
+      >
+        <div class="ard-slider-tooltip">{{ value }}</div>
+      </ng-template>
+
+      <ng-template
+        [ngTemplateOutlet]="tooltipTemplate || defaultTooltipTemplate"
+        [ngTemplateOutletContext]="getTooltipContext('low')"
+      >
+      </ng-template>
+    </div>
+    <button
+      class="ard-slider-handle"
+      [tabindex]="tabIndex()"
+      [class.ard-grabbed]="isSliderHandleGrabbed && currentHandle === 2"
+      (pointerdown)="onPointerDownOnHandle($event, 2)"
+      (focus)="onHandleFocus($event, 2)"
+      (blur)="onBlur($event)"
+      [style]="{ left: getHandlePosition(2) }"
+    >
+      <div class="ard-focus-overlay"></div>
+      <div class="ard-hitbox"></div>
+    </button>
+    <div
+      class="ard-slider-tooltip-wrapper"
+      *ngIf="tooltipBehavior !== 'never'"
+      [class.ard-tooltip-always]="tooltipBehavior === 'always'"
+      [style]="{ left: getHandlePosition(2) }"
+    >
+      <ng-template
+        #defaultTooltipTemplate
+        let-value
+      >
+        <div class="ard-slider-tooltip">{{ value }}</div>
+      </ng-template>
+
+      <ng-template
+        [ngTemplateOutlet]="tooltipTemplate || defaultTooltipTemplate"
+        [ngTemplateOutletContext]="getTooltipContext('high')"
+      >
+      </ng-template>
+    </div>
+  </div>
+  <div
+    class="ard-slider-label-container"
+    *ngIf="labelObjects.length"
+  >
+    <div
+      *ngFor="let label of labelObjects"
+      class="ard-slider-label"
+      [style]="{ left: label.positionPercent }"
+    >
+      {{ label.label }}
+    </div>
+  </div>
 </div>
 
 <ng-template #handleThumbBase>
-    <div class="ard-slide-thumb"></div>
+  <div class="ard-slide-thumb"></div>
 </ng-template>

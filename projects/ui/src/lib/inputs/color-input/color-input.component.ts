@@ -67,7 +67,7 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
   }
   //! ChangeDetectorRef
   detectChanges(): void {
-    if (!(<any>this._cd).destroyed) {
+    if (!(this._cd as any).destroyed) {
       this._cd.detectChanges();
     }
   }
@@ -92,7 +92,7 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
   suffixTemplate?: TemplateRef<any>;
 
   //! placeholder
-  @Input() placeholder: string = '';
+  @Input() placeholder = '';
 
   @ContentChild(ArdColorInputPlaceholderTemplateDirective, {
     read: TemplateRef,
@@ -108,7 +108,7 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
   @Input() appearance: FormElementAppearance = FormElementAppearance.Outlined;
   @Input() variant: FormElementVariant = FormElementVariant.Rounded;
 
-  private _compact: boolean = false;
+  private _compact = false;
   @Input()
   get compact(): boolean {
     return this._compact;
@@ -120,7 +120,7 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
   //! settings
   @Input() case: CaseTransformerType = CaseTransformerType.NoChange;
 
-  private _withActionButtons: boolean = false;
+  private _withActionButtons = false;
   @Input()
   get withActionButtons(): boolean {
     return this._withActionButtons;
@@ -130,14 +130,14 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
   }
 
   //! clear button
-  private _clearable: boolean = true;
+  private _clearable = true;
   @Input()
   get clearable(): boolean {
     return this._clearable;
   }
   set clearable(v: any) {
     this._clearable = coerceBooleanProperty(v);
-    if (this.value == null) {
+    if (this.value === null) {
       this.value = Color('red');
     }
   }
@@ -154,7 +154,7 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
   }
 
   //! other inputs
-  @Input() inputAttrs: { [key: string]: any } = {};
+  @Input() inputAttrs: Record<string, any> = {};
 
   //! control value accessor's write value implementation
   writeValue(v: Color | null) {
@@ -219,7 +219,7 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
   }
 
   //! state
-  private _touched: boolean = false;
+  private _touched = false;
   get touched(): boolean {
     return this._touched;
   }
@@ -285,7 +285,7 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
   }
 
   //! overlay state handlers
-  private _isOverlayOpen: boolean = false;
+  private _isOverlayOpen = false;
 
   @Output('open') openEvent = new EventEmitter<any>();
   @Output('close') closeEvent = new EventEmitter<any>();
@@ -326,7 +326,7 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
   }
   get overlayAppearance(): CardAppearance {
     if (this._overlayAppearance) return this._overlayAppearance;
-    if (this.appearance == FormElementAppearance.Outlined) return DropdownPanelAppearance.Outlined;
+    if (this.appearance === FormElementAppearance.Outlined) return DropdownPanelAppearance.Outlined;
     return DropdownPanelAppearance.Raised;
   }
   private _overlayVariant?: CardVariant = undefined;
@@ -336,7 +336,7 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
   }
   get overlayVariant(): CardVariant {
     if (this._overlayVariant) return this._overlayVariant;
-    if (this.variant == FormElementVariant.Pill) return DropdownPanelVariant.Rounded;
+    if (this.variant === FormElementVariant.Pill) return DropdownPanelVariant.Rounded;
     return this.variant;
   }
 
@@ -394,7 +394,7 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
   actionButtonsTemplate?: TemplateRef<any>;
 
   get actionButtonVariant(): ButtonVariant {
-    if (this.variant == FormElementVariant.Sharp) return ButtonVariant.Sharp;
+    if (this.variant === FormElementVariant.Sharp) return ButtonVariant.Sharp;
     return ButtonVariant.Rounded;
   }
   getActionButtonsContext(): ColorInputActionButtonsContext {
@@ -417,7 +417,7 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
   }
   protected _setInputAttributes() {
     const input = this.textInputEl.nativeElement;
-    const attributes: { [key: string]: string } = {
+    const attributes: Record<string, string> = {
       type: 'text',
       autocorrect: 'off',
       autocapitalize: 'off',

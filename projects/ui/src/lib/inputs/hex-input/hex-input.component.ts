@@ -18,7 +18,11 @@ import { FormElementAppearance, FormElementVariant } from '../../types/theming.t
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { HexInputModel, HexInputModelHost } from '../hex-input.model';
 import { CaseTransformerType } from '../input-types';
-import { ArdHexInputPlaceholderTemplateDirective, ArdHexInputPrefixTemplateDirective, ArdHexInputSuffixTemplateDirective } from './hex-input.directives';
+import {
+  ArdHexInputPlaceholderTemplateDirective,
+  ArdHexInputPrefixTemplateDirective,
+  ArdHexInputSuffixTemplateDirective,
+} from './hex-input.directives';
 
 @Component({
   selector: 'ard-hex-input',
@@ -34,7 +38,10 @@ import { ArdHexInputPlaceholderTemplateDirective, ArdHexInputPrefixTemplateDirec
     },
   ],
 })
-export class ArdiumHexInputComponent extends _NgModelComponentBase implements ControlValueAccessor, HexInputModelHost, AfterViewInit {
+export class ArdiumHexInputComponent
+  extends _NgModelComponentBase
+  implements ControlValueAccessor, HexInputModelHost, AfterViewInit
+{
   //! input view
   @ViewChild('textInput', { static: true })
   textInputEl!: ElementRef<HTMLInputElement>;
@@ -62,7 +69,7 @@ export class ArdiumHexInputComponent extends _NgModelComponentBase implements Co
   suffixTemplate?: TemplateRef<any>;
 
   //! placeholder
-  @Input() placeholder: string = '';
+  @Input() placeholder = '';
 
   @ContentChild(ArdHexInputPlaceholderTemplateDirective, {
     read: TemplateRef,
@@ -78,7 +85,7 @@ export class ArdiumHexInputComponent extends _NgModelComponentBase implements Co
   @Input() appearance: FormElementAppearance = FormElementAppearance.Outlined;
   @Input() variant: FormElementVariant = FormElementVariant.Rounded;
 
-  private _compact: boolean = false;
+  private _compact = false;
   @Input()
   get compact(): boolean {
     return this._compact;
@@ -99,7 +106,7 @@ export class ArdiumHexInputComponent extends _NgModelComponentBase implements Co
     this._maxDigits = coerceNumberProperty(v, undefined);
   }
 
-  private _hideHash: boolean = false;
+  private _hideHash = false;
   @Input()
   get hideHash(): boolean {
     return this._hideHash;
@@ -113,7 +120,7 @@ export class ArdiumHexInputComponent extends _NgModelComponentBase implements Co
   }
 
   //! clear button
-  private _clearable: boolean = true;
+  private _clearable = true;
   @Input()
   get clearable(): boolean {
     return this._clearable;
@@ -137,7 +144,7 @@ export class ArdiumHexInputComponent extends _NgModelComponentBase implements Co
   }
 
   //! other inputs
-  @Input() inputAttrs: { [key: string]: any } = {};
+  @Input() inputAttrs: Record<string, any> = {};
 
   //! control value accessor's write value implementation
   writeValue(v: any) {
@@ -170,7 +177,7 @@ export class ArdiumHexInputComponent extends _NgModelComponentBase implements Co
 
   //! event handlers
   onInput(newVal: string): void {
-    let valueHasChanged = this.inputModel.writeValue(newVal);
+    const valueHasChanged = this.inputModel.writeValue(newVal);
     if (!valueHasChanged) return;
     this._emitInput();
   }
@@ -192,7 +199,7 @@ export class ArdiumHexInputComponent extends _NgModelComponentBase implements Co
   }
 
   //smart focus
-  onMouseup(event: MouseEvent): void {
+  onMouseup(): void {
     const selection = window.getSelection();
     if (selection && selection.type === 'Range') return;
 
@@ -203,9 +210,10 @@ export class ArdiumHexInputComponent extends _NgModelComponentBase implements Co
     if (
       this.value &&
       //does the selection cover the entire input
-      ((this.textInputEl.nativeElement.selectionStart == 0 && this.textInputEl.nativeElement.selectionEnd == this.textInputEl.nativeElement.value.length) ||
+      ((this.textInputEl.nativeElement.selectionStart === 0 &&
+        this.textInputEl.nativeElement.selectionEnd === this.textInputEl.nativeElement.value.length) ||
         //or is zero-wide
-        this.textInputEl.nativeElement.selectionStart == this.textInputEl.nativeElement.selectionEnd)
+        this.textInputEl.nativeElement.selectionStart === this.textInputEl.nativeElement.selectionEnd)
     ) {
       event.clipboardData?.setData('text/plain', this.value);
       event.preventDefault();
@@ -215,7 +223,7 @@ export class ArdiumHexInputComponent extends _NgModelComponentBase implements Co
   //! helpers
   protected _setInputAttributes() {
     const input = this.textInputEl.nativeElement;
-    const attributes: { [key: string]: string } = {
+    const attributes: Record<string, string> = {
       type: 'text',
       autocorrect: 'off',
       autocapitalize: 'off',

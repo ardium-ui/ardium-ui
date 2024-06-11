@@ -10,7 +10,6 @@ import {
   OnDestroy,
   Output,
   QueryList,
-  Signal,
   ViewEncapsulation,
   forwardRef,
   input,
@@ -159,7 +158,7 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
   //! hooks
   private readonly _subscriptions: Subscription[] = [];
   private _childEventSubs: Subscription[] = [];
-  private _isContentInit: boolean = false;
+  private _isContentInit = false;
   ngAfterContentInit(): void {
     this._isContentInit = true;
 

@@ -2,7 +2,7 @@ import { ArdOption, SearchFn } from './types/item-storage.types';
 
 export function searchInString(searchTerm: string, toSearch: any) {
   if (toSearch === undefined) return false;
-  return String(toSearch).toLocaleLowerCase().indexOf(searchTerm) != -1;
+  return String(toSearch).toLocaleLowerCase().indexOf(searchTerm) !== -1;
 }
 export const searchFunctions: {
   byLabel: SearchFn;

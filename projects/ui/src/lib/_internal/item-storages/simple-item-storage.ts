@@ -107,11 +107,13 @@ export class SimpleItemStorage {
       };
     }
     //get value
-    const valuePath = this._ardParentComp.valueFrom() ?? this._ardParentComp.labelFrom() ?? this._ardParentComp.DEFAULTS.valueFrom;
+    const valuePath =
+      this._ardParentComp.valueFrom() ?? this._ardParentComp.labelFrom() ?? this._ardParentComp.DEFAULTS.valueFrom;
     const value = resolvePath(rawItemData, valuePath);
 
     //get label
-    const labelPath = this._ardParentComp.labelFrom() ?? this._ardParentComp.valueFrom() ?? this._ardParentComp.DEFAULTS.labelFrom;
+    const labelPath =
+      this._ardParentComp.labelFrom() ?? this._ardParentComp.valueFrom() ?? this._ardParentComp.DEFAULTS.labelFrom;
     const label = resolvePath(rawItemData, labelPath) ?? value;
 
     //get disabled
@@ -142,13 +144,15 @@ export class SimpleItemStorage {
     if (!this._validateWriteValue(ngModel)) return;
 
     const selectItemByValue = (value: any) => {
-      let item = this.findItemByValue(value);
+      const item = this.findItemByValue(value);
 
       if (item) {
         this.selectItem(item);
         return;
       }
-      console.warn(`ARD-WA${this._ardParentComp._componentId}1: Couldn't find an item with value ${value?.toString?.() || String(value)}.`);
+      console.warn(
+        `ARD-WA${this._ardParentComp._componentId}1: Couldn't find an item with value ${value?.toString?.() || String(value)}.`
+      );
     };
 
     for (const modelValue of ngModel) {
@@ -367,8 +371,10 @@ export class SimpleItemStorage {
       return this.highlightFirstItem();
     }
     const currentItem = this.highlightedItems().last();
-    const itemsWithoutDisabled = this._items().filter(item => !item.disabled() && (!this.isItemLimitReached() || item.selected()));
-    const currentIndexInItems = itemsWithoutDisabled.findIndex(item => item.index() == currentItem.index());
+    const itemsWithoutDisabled = this._items().filter(
+      item => !item.disabled() && (!this.isItemLimitReached() || item.selected())
+    );
+    const currentIndexInItems = itemsWithoutDisabled.findIndex(item => item.index() === currentItem.index());
 
     let nextItemIndex = currentIndexInItems + offset;
     if (nextItemIndex >= itemsWithoutDisabled.length) {

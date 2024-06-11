@@ -1,4 +1,13 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild, ViewEncapsulation, computed, input, viewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  ViewEncapsulation,
+  computed,
+  input,
+  viewChild,
+} from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { FormElementAppearance } from './../types/theming.types';
 

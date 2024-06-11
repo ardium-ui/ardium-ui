@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, EventEmitter, forwardRef, input, Input, output, Output, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, forwardRef, input, output, ViewEncapsulation } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { _FocusableComponentBase } from '../../_internal/focusable-component';
 import { SimpleOneAxisAlignment } from '../../types/alignment.types';
 import { ComponentColor } from '../../types/colors.types';
 import { DecorationElementAppearance, FormElementVariant } from '../../types/theming.types';
-import { _FocusableComponentBase } from '../../_internal/focusable-component';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
 
 @Component({
   selector: 'ard-deletable-chip',

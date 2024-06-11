@@ -1,11 +1,17 @@
-<table class="ard-table" [ngClass]="ngClasses">
+<table
+  class="ard-table"
+  [ngClass]="ngClasses"
+>
   @if (caption()) {
     <caption class="ard-table__caption">
       <div class="ard-table__caption-container">
-        <ng-template #defaultCaptionTemplate let-captionText>
+        <ng-template
+          #defaultCaptionTemplate
+          let-captionText
+        >
           {{ captionText }}
         </ng-template>
-    
+
         <ng-template
           [ngTemplateOutlet]="captionTemplate() ?? defaultCaptionTemplate"
           [ngTemplateOutletContext]="{ $implicit: caption() }"
@@ -32,7 +38,11 @@
               [style.minWidth]="cell.minWidth"
             >
               @if (isHeaderCellCheckbox(cell)) {
-                <ng-template #defaultHeaderCheckboxTemplate let-state let-onChange="onChange">
+                <ng-template
+                  #defaultHeaderCheckboxTemplate
+                  let-state
+                  let-onChange="onChange"
+                >
                   <ard-checkbox
                     [tabIndex]="isLoading() ? -1 : tabIndex()"
                     [state]="state"
@@ -41,7 +51,7 @@
                     (change)="onChange()"
                   />
                 </ng-template>
-            
+
                 <ng-template
                   [ngTemplateOutlet]="headerCheckboxTemplate() ?? defaultHeaderCheckboxTemplate"
                   [ngTemplateOutletContext]="getHeaderCheckboxContext()"
@@ -70,9 +80,9 @@
                         <div class="ard-table__header-content">{{ content }}</div>
                         @if (sortType !== null) {
                           <div class="ard-table__header-sort-icon">
-                            @if (sortType == 'ascending') {
+                            @if (sortType === 'ascending') {
                               <ard-icon>south</ard-icon>
-                            } @else if (sortType == 'descending') {
+                            } @else if (sortType === 'descending') {
                               <ard-icon>north</ard-icon>
                             }
                           </div>
@@ -85,8 +95,8 @@
                     }
                   </div>
                 </ng-template>
-            
-                <ng-template 
+
+                <ng-template
                   [ngTemplateOutlet]="getHeaderTemplate(cell.cell().header) ?? defaultHeaderCellTemplate"
                   [ngTemplateOutletContext]="getHeaderContext(cell.cell(), $index)"
                 />
@@ -101,7 +111,10 @@
     @for (row of dataRows(); track $index) {
       @if (row.isEmpty()) {
         <tr class="ard-table__empty-row">
-          <td class="ard-table__empty-cell" colspan="9999"></td>
+          <td
+            class="ard-table__empty-cell"
+            colspan="9999"
+          ></td>
         </tr>
       } @else {
         <tr
@@ -122,7 +135,12 @@
                 [style]="getCellStyle(row.dataColumns()[$index])"
               >
                 @if (isCellCheckbox(cell)) {
-                  <ng-template #defaultCheckboxTemplate let-isChecked let-onChange="onChange" let-disabled="disabled">
+                  <ng-template
+                    #defaultCheckboxTemplate
+                    let-isChecked
+                    let-onChange="onChange"
+                    let-disabled="disabled"
+                  >
                     <ard-checkbox
                       [tabIndex]="isLoading() ? -1 : tabIndex()"
                       [selected]="isChecked"
@@ -138,7 +156,10 @@
                     [ngTemplateOutletContext]="getCheckboxContext(row.index())"
                   />
                 } @else {
-                  <ng-template #defaultCellTemplate let-content>
+                  <ng-template
+                    #defaultCellTemplate
+                    let-content
+                  >
                     {{ content }}
                   </ng-template>
 
@@ -170,12 +191,15 @@
           }
         </tr>
       }
-      }
+    }
   </tbody>
   @if (canDisplayPagination()) {
     <tfoot class="ard-table__foot">
       <tr class="ard-table__foot-row">
-        <td class="ard-table__pagination-cell" colspan="9999">
+        <td
+          class="ard-table__pagination-cell"
+          colspan="9999"
+        >
           <ard-table-pagination
             [options]="paginationOptions()"
             [totalItems]="totalItems()!"

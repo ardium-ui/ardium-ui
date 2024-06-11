@@ -1,9 +1,9 @@
-export type ProgressCircleValueContext = {
+export interface ProgressCircleValueContext {
   value: number;
   percentValue: number;
   max: number;
   $implicit: number;
-};
+}
 
 export const ProgressCircleAppearance = {
   Transparent: 'transparent',

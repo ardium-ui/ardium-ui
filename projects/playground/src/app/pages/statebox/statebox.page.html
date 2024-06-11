@@ -1,17 +1,17 @@
 <div class="grid master">
-    <ard-statebox
-        *ngFor="let disabled of [false, true]"
-        [disabled]="disabled"
-        (focus)="log('focus', $event)"
-        (blur)="log('blur', $event)"
-        (stateChange)="log('stateChange', $event)"
-    ></ard-statebox>
-    <ard-statebox
-        *ngFor="let disabled of [false, true]"
-        [states]="states"
-        [disabled]="disabled"
-        (focus)="log('focus', $event)"
-        (blur)="log('blur', $event)"
-        (stateChange)="log('stateChange', $event)"
-    ></ard-statebox>
+  <ard-statebox
+    *ngFor="let disabled of [false, true]"
+    [disabled]="disabled"
+    (focus)="log('focus', $event)"
+    (blur)="log('blur', $event)"
+    (stateChange)="log('stateChange', $event)"
+  ></ard-statebox>
+  <ard-statebox
+    *ngFor="let disabled of [false, true]"
+    [states]="states"
+    [disabled]="disabled"
+    (focus)="log('focus', $event)"
+    (blur)="log('blur', $event)"
+    (stateChange)="log('stateChange', $event)"
+  ></ard-statebox>
 </div>

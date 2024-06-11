@@ -12,10 +12,7 @@
   @if (internalState().keepFrame) {
     <div class="ard-statebox-frame"></div>
   }
-  <div [class]="
-    internalState().displayAsIcon
-      ? 'ard-statebox-icon'
-      : 'ard-statebox-character'
-    "
-  >{{ internalState().display }}</div>
+  <div [class]="internalState().displayAsIcon ? 'ard-statebox-icon' : 'ard-statebox-character'">
+    {{ internalState().display }}
+  </div>
 </button>

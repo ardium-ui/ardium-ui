@@ -18,12 +18,14 @@ export const DigitInputPrimitiveOption = {
 } as const;
 export type DigitInputPrimitiveOption = (typeof DigitInputPrimitiveOption)[keyof typeof DigitInputPrimitiveOption];
 
-export type DigitInputAcceptObject = {
+export interface DigitInputAcceptObject {
   accept: string | RegExp | ((char: string, charsBefore: string) => boolean);
   transform?: TransformType | null;
   readonly?: boolean;
-};
-export type DigitInputStaticObject = { static: string };
+}
+export interface DigitInputStaticObject {
+  static: string;
+}
 
 export type DigitInputOption = DigitInputAcceptObject | DigitInputStaticObject;
 

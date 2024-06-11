@@ -1,8 +1,13 @@
-import { ElementRef, QueryList } from '@angular/core';
 import { coerceArrayProperty } from '@ardium-ui/devkit';
 import { isAnyString, isArray, isDefined, isFunction, isNull, isNumber, isRegExp } from 'simple-bool';
+import {
+  DigitInputAcceptObject,
+  DigitInputConfig,
+  DigitInputOption,
+  DigitInputPrimitiveOption,
+  TransformType,
+} from './digit-input.types';
 import { DigitInputConfigDataType, DigitInputModelHost, _sanitizeRegExpString } from './digit-input.utils';
-import { DigitInputAcceptObject, DigitInputConfig, DigitInputOption, DigitInputPrimitiveOption, TransformType } from './digit-input.types';
 
 export class DigitInputModel {
   constructor(private _ardHost: DigitInputModelHost) {}
@@ -67,13 +72,15 @@ export class DigitInputModel {
   writeValue(v: any): boolean {
     if (!isArray(v) && !isAnyString(v) && !isNull(v)) {
       //warn when using non-string/non-null value
-      console.warn(new Error(`ARD-WA0041: Trying to set <ard-digit-input>'s value to ${typeof v}, expected string or array strings.`));
+      console.warn(
+        new Error(`ARD-WA0041: Trying to set <ard-digit-input>'s value to ${typeof v}, expected string or array strings.`)
+      );
       //normalize the value
       v = v?.toString?.() ?? String(v);
     }
     const vArray = coerceArrayProperty(v);
     const problemIndex = vArray.findIndex(el => !isAnyString(el) || el.length > 1);
-    if (problemIndex != -1) {
+    if (problemIndex !== -1) {
       throw new Error(
         `ARD-FT0042: Array passed to <ard-digit-input>'s value must only contain strings of length 1 or 0. Element at index ${problemIndex} does not match those requirements.`
       );
@@ -81,7 +88,7 @@ export class DigitInputModel {
     return this._writeValue(vArray);
   }
   private _writeValue(v: string[] | null): boolean {
-    let oldVal = this.value;
+    const oldVal = this.value;
     this.value = v && v.map(el => el || null);
     this.validateValueAndUpdate();
     this._updateInputElements();
@@ -141,7 +148,7 @@ export class DigitInputModel {
           return { accept: str => /[!@#$%^&*-_=+/\\.,]/.test(str) };
 
         default:
-          if (configArr.length == 1) {
+          if (configArr.length === 1) {
             throw new Error(`ARD-NF0043S: <ard-digit-input>'s config is invalid. Expected number or array, got "${v}"`);
           }
           throw new Error(`ARD-NF0043B: Found invalid string in <ard-digit-input>'s config: "${v}" at index ${i}`);
@@ -229,10 +236,10 @@ export class DigitInputModel {
     if (!canAccept) return null;
 
     if (config.transform) {
-      if (config.transform == TransformType.Lowercase) {
+      if (config.transform === TransformType.Lowercase) {
         return char.toLowerCase();
       }
-      if (config.transform == TransformType.Uppercase) {
+      if (config.transform === TransformType.Uppercase) {
         return char.toUpperCase();
       }
       console.warn(

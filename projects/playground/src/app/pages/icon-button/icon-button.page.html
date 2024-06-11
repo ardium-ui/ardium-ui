@@ -1,61 +1,89 @@
 <div class="master flex playground">
-    <span class="title">Button playground</span>
-    <div class="settings-form">
-        <div class="settings-top">
-            <div class="settings-left">
-                <div class="form-field flex">
-                    <label for="color">Color</label>
-                    <ard-select htmlId="color" [items]="colors" [(value)]="color"/>
-                </div>
-            </div>
-            <div class="settings-right">
-                <div class="form-field flex checkboxes">
-                    <div class="list-item flex horiz">
-                        <ard-checkbox [(selected)]="compact" htmlId="compact"/>
-                        <label for="compact">Compact</label>
-                    </div>
-                    <div class="list-item flex horiz">
-                        <ard-checkbox [(selected)]="disabled" htmlId="disabled"/>
-                        <label for="disabled">Disabled</label>
-                    </div>
-                </div>
-            </div>
+  <span class="title">Button playground</span>
+  <div class="settings-form">
+    <div class="settings-top">
+      <div class="settings-left">
+        <div class="form-field flex">
+          <label for="color">Color</label>
+          <ard-select
+            htmlId="color"
+            [items]="colors"
+            [(value)]="color"
+          />
         </div>
-        <div class="settings-bottom">
-            <div class="form-field flex">
-                <label for="text">Text</label>
-                <ard-simple-input htmlId="text" [(value)]="text"/>
-            </div>
-            <div class="form-field flex">
-                <label for="icon">Icon</label>
-                <ard-simple-input htmlId="icon" [(value)]="icon"/>
-            </div>
+      </div>
+      <div class="settings-right">
+        <div class="form-field flex checkboxes">
+          <div class="list-item flex horiz">
+            <ard-checkbox
+              [(selected)]="compact"
+              htmlId="compact"
+            />
+            <label for="compact">Compact</label>
+          </div>
+          <div class="list-item flex horiz">
+            <ard-checkbox
+              [(selected)]="disabled"
+              htmlId="disabled"
+            />
+            <label for="disabled">Disabled</label>
+          </div>
         </div>
+      </div>
     </div>
-    <div class="button-container">
-        <ard-icon-button
-            [color]="color[0]"
-            [disabled]="disabled"
-            [compact]="compact"
-        >
-            <ng-container *ngIf="icon"><ard-icon [icon]="icon" filled></ard-icon></ng-container>
-            {{ text }}
-        </ard-icon-button>
+    <div class="settings-bottom">
+      <div class="form-field flex">
+        <label for="text">Text</label>
+        <ard-simple-input
+          htmlId="text"
+          [(value)]="text"
+        />
+      </div>
+      <div class="form-field flex">
+        <label for="icon">Icon</label>
+        <ard-simple-input
+          htmlId="icon"
+          [(value)]="icon"
+        />
+      </div>
     </div>
+  </div>
+  <div class="button-container">
+    <ard-icon-button
+      [color]="color[0]"
+      [disabled]="disabled"
+      [compact]="compact"
+    >
+      <ng-container *ngIf="icon"
+        ><ard-icon
+          [icon]="icon"
+          filled
+        ></ard-icon
+      ></ng-container>
+      {{ text }}
+    </ard-icon-button>
+  </div>
 </div>
-<div class="flex" *ngFor="let compact of [false, true]">
-    <div class="flex">
-        <div class="grid" *ngFor="let disabled of [false, true]">
-            <ard-icon-button
-                *ngFor="let color of colors"
-                icon="close"
-                [color]="color"
-                [disabled]="disabled"
-                [compact]="compact"
-                (focus)="log('focus', $event)"
-                (blur)="log('blur', $event)"
-                (click)="log('click', $event)"
-            ><ard-icon>home</ard-icon></ard-icon-button>
-        </div>
+<div
+  class="flex"
+  *ngFor="let compact of [false, true]"
+>
+  <div class="flex">
+    <div
+      class="grid"
+      *ngFor="let disabled of [false, true]"
+    >
+      <ard-icon-button
+        *ngFor="let color of colors"
+        icon="close"
+        [color]="color"
+        [disabled]="disabled"
+        [compact]="compact"
+        (focus)="log('focus', $event)"
+        (blur)="log('blur', $event)"
+        (click)="log('click', $event)"
+        ><ard-icon>home</ard-icon></ard-icon-button
+      >
     </div>
+  </div>
 </div>

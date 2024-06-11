@@ -1,120 +1,130 @@
 <span class="title">Empty element</span>
 <div class="grid master">
-    <ard-select></ard-select>
+  <ard-select></ard-select>
 </div>
 <span class="title">Primitive options, searchable</span>
 <div class="grid master">
-    <ard-select
-        [items]="fruits"
-        searchable
-    ></ard-select>
+  <ard-select
+    [items]="fruits"
+    searchable
+  ></ard-select>
 </div>
 <span class="title">Prefix template, primitive options</span>
 <div class="grid master">
-    <ard-select
-        [items]="fruits"
-    >
-        <ng-template ard-prefix-tmp>
-            <ard-icon>restaurant</ard-icon>
-        </ng-template>
-    </ard-select>
+  <ard-select [items]="fruits">
+    <ng-template ard-prefix-tmp>
+      <ard-icon>restaurant</ard-icon>
+    </ng-template>
+  </ard-select>
 </div>
 <span class="title">Select events</span>
 <div class="grid master">
-    <ard-select
-        [items]="fruits"
-        searchable
-        (focus)="log('focus', $event)"
-        (blur)="log('blur', $event)"
-        (add)="log('add', $event)"
-        (remove)="log('remove', $event)"
-        (valueChange)="log('valueChange', $event)"
-        (clear)="log('clear', $event)"
-        (open)="log('open', $event)"
-        (close)="log('close', $event)"
-        (scroll)="log('scroll', $event)"
-        (scrollToEnd)="log('scrollToEnd', $event)"
-        (search)="log('search', $event)"
-    ></ard-select>
+  <ard-select
+    [items]="fruits"
+    searchable
+    (focus)="log('focus', $event)"
+    (blur)="log('blur', $event)"
+    (add)="log('add', $event)"
+    (remove)="log('remove', $event)"
+    (valueChange)="log('valueChange', $event)"
+    (clear)="log('clear', $event)"
+    (open)="log('open', $event)"
+    (close)="log('close', $event)"
+    (scroll)="log('scroll', $event)"
+    (scrollToEnd)="log('scrollToEnd', $event)"
+    (search)="log('search', $event)"
+  ></ard-select>
 </div>
 <span class="title">Object options, property binding, groups, searchable</span>
 <div class="grid master">
-    <ard-select
-        [items]="animals"
-        valueFrom="name"
-        labelFrom="name"
-        groupLabelFrom="classification"
-    ></ard-select>
+  <ard-select
+    [items]="animals"
+    valueFrom="name"
+    labelFrom="name"
+    groupLabelFrom="classification"
+  ></ard-select>
 </div>
 <span class="title">Object options, property binding, groups, customized with templates</span>
 <div class="grid master">
-    <ard-select
-        [items]="animals"
-        valueFrom="name"
-        labelFrom="name"
-        multiselectable
-        keepOpen
-        groupLabelFrom="classification"
+  <ard-select
+    [items]="animals"
+    valueFrom="name"
+    labelFrom="name"
+    multiselectable
+    keepOpen
+    groupLabelFrom="classification"
+  >
+    <ng-template
+      ard-optgroup-tmp
+      let-group
+      let-total="totalChildren"
+      let-selected="selectedChildren"
     >
-        <ng-template ard-optgroup-tmp let-group let-total="totalChildren" let-selected="selectedChildren">
-            <span class="ard-optgroup-label">
-                {{ group.label }}
-                <span class="count-display">{{selected}} / {{total}}</span>
-            </span>
-        </ng-template>
-    </ard-select>
+      <span class="ard-optgroup-label">
+        {{ group.label }}
+        <span class="count-display">{{selected}} / {{total}}</span>
+      </span>
+    </ng-template>
+  </ard-select>
 </div>
 <span class="title">Object options, customized with templates, custom search function (search by name or HEX)</span>
 <div class="grid master">
-    <ard-select
-        [items]="colors"
-        clearable="false"
-        labelFrom="name"
-        valueFrom="hex"
-        searchable
-        [searchFn]="colorSearchFn"
+  <ard-select
+    [items]="colors"
+    clearable="false"
+    labelFrom="name"
+    valueFrom="hex"
+    searchable
+    [searchFn]="colorSearchFn"
+  >
+    <ng-template
+      ard-option-tmp
+      ard-value-tmp
+      let-option
     >
-        <ng-template ard-option-tmp ard-value-tmp let-option>
-            <div class="option-wrapper">
-                <div class="color-display" [style]="'background: ' + option.value"></div>
-                <span>{{ option.label }}</span>
-            </div>
-        </ng-template>
-    </ard-select>
+      <div class="option-wrapper">
+        <div
+          class="color-display"
+          [style]="'background: ' + option.value"
+        ></div>
+        <span>{{ option.label }}</span>
+      </div>
+    </ng-template>
+  </ard-select>
 </div>
 <div class="master flex">
-    <span class="title">Using ard-option components</span>
-    <ard-select>
-        <ard-option>Pear</ard-option>
-        <ard-option disabled>Banana</ard-option>
-        <ard-option value="Tasty Apple">Apple</ard-option>
-        <ard-option>Cherry</ard-option>
-    </ard-select>
+  <span class="title">Using ard-option components</span>
+  <ard-select>
+    <ard-option>Pear</ard-option>
+    <ard-option disabled>Banana</ard-option>
+    <ard-option value="Tasty Apple">Apple</ard-option>
+    <ard-option>Cherry</ard-option>
+  </ard-select>
 </div>
 <div class="master flex">
-    <span class="title">Adding custom options</span>
-    <ard-select addCustom></ard-select>
+  <span class="title">Adding custom options</span>
+  <ard-select addCustom></ard-select>
 </div>
 <div class="master flex">
-    <span class="title">Adding custom options, with some predefined</span>
-    <ard-select addCustom>
-        <ard-option>Uber</ard-option>
-        <ard-option>KFC</ard-option>
-        <ard-option>Google</ard-option>
-    </ard-select>
+  <span class="title">Adding custom options, with some predefined</span>
+  <ard-select addCustom>
+    <ard-option>Uber</ard-option>
+    <ard-option>KFC</ard-option>
+    <ard-option>Google</ard-option>
+  </ard-select>
 </div>
 <div class="master flex">
-    <span class="title">Adding custom options, with custom function</span>
-    <ard-select
-        [addCustom]="addCustomFn"
-        (valueChange)="log('valueChange', $event)"
-    ></ard-select>
+  <span class="title">Adding custom options, with custom function</span>
+  <ard-select
+    [addCustom]="addCustomFn"
+    (valueChange)="log('valueChange', $event)"
+  ></ard-select>
 </div>
 <div class="master flex">
-    <span class="title">Adding custom options, with backend validation</span>
-    <ard-select
-        [addCustom]="addCustomBackendFn"
-        [isLoading]="isFetchingFromBackend"
-        (valueChange)="log('valueChange', $event)"
-    ></ard-select>
+  <span class="title">Adding custom options, with backend validation</span>
+  <ard-select
+    [addCustom]="addCustomBackendFn"
+    [isLoading]="isFetchingFromBackend"
+    (valueChange)="log('valueChange', $event)"
+  ></ard-select>
 </div>

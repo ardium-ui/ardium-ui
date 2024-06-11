@@ -1,8 +1,8 @@
 <header>
-    <a routerLink="/">Home</a>
-    <span *ngFor="let page of currentPath">
-        &lt;
-        <a [routerLink]="page.url">{{page.name}}</a>
-    </span>
+  <a routerLink="/">Home</a>
+  <span *ngFor="let page of currentPath">
+    &lt;
+    <a [routerLink]="page.url">{{ page.name }}</a>
+  </span>
 </header>
 <router-outlet></router-outlet>

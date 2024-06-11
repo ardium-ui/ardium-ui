@@ -1,14 +1,14 @@
 import * as Color from 'color';
 
-export type ColorPickerIndicatorContext = {
+export interface ColorPickerIndicatorContext {
   $implicit: Color;
-};
+}
 
-export type ColorPickerColorReferenceContext = {
+export interface ColorPickerColorReferenceContext {
   color: Color;
   $implicit: Color;
   referenceColor: Color;
-};
+}
 
 export const _ColorPickerInputsSectionType = {
   HEX: 'HEX',

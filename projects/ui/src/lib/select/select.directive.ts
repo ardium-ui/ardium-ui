@@ -7,7 +7,6 @@ import {
   ItemLimitContext,
   PlaceholderContext,
   SearchContext,
-  StatsContext,
   ValueContext,
 } from './select.types';
 

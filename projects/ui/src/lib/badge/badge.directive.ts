@@ -1,28 +1,18 @@
-import {
-  ComponentRef,
-  Directive,
-  ElementRef,
-  Input,
-  OnChanges,
-  OnDestroy,
-  AfterViewInit,
-  Renderer2,
-  TemplateRef,
-  signal,
-  input,
-  computed,
-} from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, OnChanges, OnDestroy, Renderer2, computed, input, signal } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ComponentColor } from '../types/colors.types';
-import { BadgePosition, BadgeSize } from './badge.types';
 import { FormElementVariant } from '../types/theming.types';
 import { Nullable } from '../types/utility.types';
+import { BadgePosition, BadgeSize } from './badge.types';
 
 @Directive({
   selector: '[ardBadge]',
 })
 export class ArdiumBadgeDirective implements OnChanges, AfterViewInit, OnDestroy {
-  constructor(private _elRef: ElementRef, private _renderer: Renderer2) {}
+  constructor(
+    private _elRef: ElementRef,
+    private _renderer: Renderer2
+  ) {}
 
   readonly text = input<string>('', { alias: 'ardBadge' });
 

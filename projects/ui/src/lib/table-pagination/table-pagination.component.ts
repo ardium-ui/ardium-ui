@@ -35,7 +35,9 @@ export class ArdiumTablePaginationComponent extends _FocusableComponentBase impl
 
   readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
-  readonly ngClasses = computed(() => [`ard-color-${this.color()}`, `ard-align-${this.align()}`, this.compact() ? 'ard-compact' : ''].join(' '));
+  readonly ngClasses = computed(() =>
+    [`ard-color-${this.color()}`, `ard-align-${this.align()}`, this.compact() ? 'ard-compact' : ''].join(' ')
+  );
 
   //! miscellaneous
   readonly useFirstLastButtons = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
@@ -57,7 +59,7 @@ export class ArdiumTablePaginationComponent extends _FocusableComponentBase impl
   //! methods
   onItemsPerPageChange(newValue: number): void {
     if (this.isLoading()) return;
-    if (newValue == this.itemsPerPage()) return;
+    if (newValue === this.itemsPerPage()) return;
     this.itemsPerPage.set(newValue);
     this.itemsPerPageChangeEvent.emit(this.itemsPerPage());
     this._emitPageEvent();
@@ -68,7 +70,7 @@ export class ArdiumTablePaginationComponent extends _FocusableComponentBase impl
   }
   onPageChange(newPage: number): void {
     if (this.isLoading()) return;
-    if (newPage == this.page()) return;
+    if (newPage === this.page()) return;
     this._pagination.setPage(newPage);
     this._emitPageEvent();
   }

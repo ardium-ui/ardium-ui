@@ -1,11 +1,22 @@
-<div class="ard-snackbar" [class.ard-snackbar-closing]="snackbarRef.onCloseStart | async" [class]="colorClass">
-    <div class="ard-snackbar-content">
-        @if (typeIcon) {
-            <ard-icon filled>{{ typeIcon }}</ard-icon>
-        }
-        <div class="ard-snackbar-message">{{ data.message }}</div>
-    </div>
-    @if (data.action) {
-        <ard-button class="ard-snackbar-action" appearance="transparent" lightColoring [color]="color" (click)="closeWithAction()">{{ data.action }}</ard-button>
+<div
+  class="ard-snackbar"
+  [class.ard-snackbar-closing]="snackbarRef.onCloseStart | async"
+  [class]="colorClass"
+>
+  <div class="ard-snackbar-content">
+    @if (typeIcon) {
+      <ard-icon filled>{{ typeIcon }}</ard-icon>
     }
+    <div class="ard-snackbar-message">{{ data.message }}</div>
+  </div>
+  @if (data.action) {
+    <ard-button
+      class="ard-snackbar-action"
+      appearance="transparent"
+      lightColoring
+      [color]="color"
+      (click)="closeWithAction()"
+      >{{ data.action }}</ard-button
+    >
+  }
 </div>

@@ -1,4 +1,15 @@
-import { Directive, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, AfterViewInit, viewChild, input, signal } from '@angular/core';
+import {
+  AfterViewInit,
+  Directive,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  input,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { isDefined } from 'simple-bool';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
@@ -15,7 +26,7 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
       console.error(new Error('Cannot use Ardium UI file features because this browser does not support them!')); //TODO error
     }
   }
-  protected _wasViewInit: boolean = false;
+  protected _wasViewInit = false;
   ngAfterViewInit(): void {
     this._wasViewInit = true;
 
@@ -51,7 +62,7 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
   writeValue(v: File | File[] | null): void {
     this._writeValue(v, false);
   }
-  protected _writeValue(v: File | File[] | null, emitEvents: boolean = true): void {
+  protected _writeValue(v: File | File[] | null, emitEvents = true): void {
     if (v instanceof File) {
       v = [v];
     }
@@ -130,7 +141,7 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
   }
   onInputChange(): void {
     const files = Array.from(this.fileInputEl()?.nativeElement.files ?? []);
-    if (files.length == 0) {
+    if (files.length === 0) {
       this._writeValue(null);
       this.currentViewState.set('idle');
       return;
@@ -143,7 +154,7 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
   protected _countDragenterFiles(data: DataTransfer | null): number | null {
     if (!data) return null;
 
-    return Array.from(data.items).filter(item => item.kind == 'file').length;
+    return Array.from(data.items).filter(item => item.kind === 'file').length;
   }
 
   protected _updateElementValue(): void {

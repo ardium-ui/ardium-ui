@@ -1,11 +1,11 @@
 import { ElementRef, QueryList } from '@angular/core';
 
-export type DigitInputConfigData = {
+export interface DigitInputConfigData {
   type: DigitInputConfigDataType;
   char?: string;
   index?: number;
   readonly?: boolean;
-};
+}
 export interface DigitInputModelHost {
   inputs: QueryList<ElementRef<HTMLInputElement>>;
   configArrayData: DigitInputConfigData[];

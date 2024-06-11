@@ -1,4 +1,4 @@
-import { Directive, ElementRef, EventEmitter, Input, Output, QueryList, ViewChildren, computed, input, signal } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Output, QueryList, ViewChildren, computed, input } from '@angular/core';
 import { coerceNumberProperty } from '@ardium-ui/devkit';
 import { _DisablableComponentBase } from './disablable-component';
 
@@ -54,7 +54,7 @@ export abstract class _FocusableComponentBase extends _DisablableComponentBase {
   /**
    * Whether the component is currently focused.
    */
-  public isFocused: boolean = false;
+  public isFocused = false;
 
   /**
    * Function to handle when an element is focused. Sets `isFocused` and fires the `focus` event.

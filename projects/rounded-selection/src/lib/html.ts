@@ -14,7 +14,7 @@ export function getRoundedSelectionHTMLData(cellData: RoundedSelectionCell): { c
   };
 }
 function getCornerClass(value: RSS | undefined, corner: string): string {
-  if (value == RSS.Negative) return `ard-rounded-selection-negative ard-rounded-selection-${corner}-negative`;
-  if (value == RSS.Rounded) return `ard-rounded-selection-${corner}-rounded`;
+  if (value === RSS.Negative) return `ard-rounded-selection-negative ard-rounded-selection-${corner}-negative`;
+  if (value === RSS.Rounded) return `ard-rounded-selection-${corner}-rounded`;
   return `ard-rounded-selection-${corner}-none`;
 }

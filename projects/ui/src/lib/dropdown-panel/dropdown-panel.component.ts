@@ -23,8 +23,6 @@ import { DropdownPanelAppearance, DropdownPanelVariant, ScrollAlignment } from '
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumDropdownPanelComponent implements AfterViewInit, AfterViewChecked {
-  constructor() {}
-
   @ViewChild('scroll', { static: true }) private _scrollRef!: ElementRef;
   private _scrollElement!: HTMLElement;
 
@@ -38,7 +36,7 @@ export class ArdiumDropdownPanelComponent implements AfterViewInit, AfterViewChe
   @Input() appearance: DropdownPanelAppearance = DropdownPanelAppearance.Raised;
   @Input() variant: DropdownPanelVariant = DropdownPanelVariant.Rounded;
 
-  private _compact: boolean = false;
+  private _compact = false;
   @Input()
   get compact(): boolean {
     return this._compact;
@@ -67,7 +65,7 @@ export class ArdiumDropdownPanelComponent implements AfterViewInit, AfterViewChe
     const end = this._scrollBottom;
     this.scrollEvent.emit({ start, end });
 
-    if (end == this._scrollElement.scrollHeight) {
+    if (end === this._scrollElement.scrollHeight) {
       this.scrollToEndEvent.emit();
     }
   }
@@ -136,6 +134,11 @@ export class ArdiumDropdownPanelComponent implements AfterViewInit, AfterViewChe
     const rightPadd = paddings[1] ?? topPadd;
     const bottomPadd = paddings[2] ?? topPadd;
     const leftPadd = paddings[3] ?? rightPadd ?? topPadd;
-    return new DOMRect(elRect.x + leftPadd, elRect.y + topPadd, elRect.width - leftPadd - rightPadd, elRect.height - topPadd - bottomPadd);
+    return new DOMRect(
+      elRect.x + leftPadd,
+      elRect.y + topPadd,
+      elRect.width - leftPadd - rightPadd,
+      elRect.height - topPadd - bottomPadd
+    );
   }
 }

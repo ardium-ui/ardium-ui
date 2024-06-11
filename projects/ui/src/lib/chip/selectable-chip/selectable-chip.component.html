@@ -1,16 +1,19 @@
 <button
-    class="ard-chip-wrapper ard-chip-selectable"
-    [class.ard-chip-selected]="selected()"
-    [ngClass]="ngClasses()"
-    [title]="chipTitle()"
-    [tabindex]="tabIndex()"
-    (click)="toggleSelected()"
-    (focus)="onFocus($event)"
-    (blur)="onBlur($event)"
+  class="ard-chip-wrapper ard-chip-selectable"
+  [class.ard-chip-selected]="selected()"
+  [ngClass]="ngClasses()"
+  [title]="chipTitle()"
+  [tabindex]="tabIndex()"
+  (click)="toggleSelected()"
+  (focus)="onFocus($event)"
+  (blur)="onBlur($event)"
 >
-    <div class="ard-focus-overlay"></div>
-    <div class="ard-chip-selection-icon" role="img"></div>
-    <div class="ard-chip-content-wrapper">
-        <ng-content></ng-content>
-    </div>
+  <div class="ard-focus-overlay"></div>
+  <div
+    class="ard-chip-selection-icon"
+    role="img"
+  ></div>
+  <div class="ard-chip-content-wrapper">
+    <ng-content></ng-content>
+  </div>
 </button>

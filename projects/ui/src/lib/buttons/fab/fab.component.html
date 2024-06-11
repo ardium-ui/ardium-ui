@@ -1,13 +1,16 @@
 <button
-    class="ard-fab"
-    [ngClass]="ngClasses()"
-    [tabindex]="tabIndex()"
-    [style]="'--ard-_fab-content-size:'+content.clientWidth+'px'"
-    (focus)="focusEvent.emit($event)"
-    (blur)="blurEvent.emit($event)"
+  class="ard-fab"
+  [ngClass]="ngClasses()"
+  [tabindex]="tabIndex()"
+  [style]="'--ard-_fab-content-size:' + content.clientWidth + 'px'"
+  (focus)="focusEvent.emit($event)"
+  (blur)="blurEvent.emit($event)"
 >
-    <div class="ard-focus-overlay"></div>
-    <div class="ard-button-content" #content>
-        <ng-content></ng-content>
-    </div>
+  <div class="ard-focus-overlay"></div>
+  <div
+    class="ard-button-content"
+    #content
+  >
+    <ng-content></ng-content>
+  </div>
 </button>

@@ -1,3 +1,3 @@
-export type PasswordInputRevealButtonContext = {
+export interface PasswordInputRevealButtonContext {
   $implicit: boolean;
-};
+}

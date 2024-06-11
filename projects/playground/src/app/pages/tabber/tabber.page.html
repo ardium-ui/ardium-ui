@@ -1,72 +1,57 @@
 <div class="master">
   <div class="title">Simplest tabber</div>
   <ard-tabber>
-    <ard-tab tabId="tab1">
-      This is tab 1
-    </ard-tab>
-    <ard-tab tabId="tab2">
-      This is tab 2
-    </ard-tab>
+    <ard-tab tabId="tab1"> This is tab 1 </ard-tab>
+    <ard-tab tabId="tab2"> This is tab 2 </ard-tab>
   </ard-tabber>
 </div>
 <div class="master">
   <div class="title">Tabber events</div>
-  <ard-tabber (selectedChange)="log('selectedChange', $event)" (focus)="log('focus', $event)"
-    (blur)="log('blur', $event)">
-    <ard-tab tabId="tab1">
-      This is tab 1
-    </ard-tab>
-    <ard-tab tabId="tab2">
-      This is tab 2
-    </ard-tab>
+  <ard-tabber
+    (selectedChange)="log('selectedChange', $event)"
+    (focus)="log('focus', $event)"
+    (blur)="log('blur', $event)"
+  >
+    <ard-tab tabId="tab1"> This is tab 1 </ard-tab>
+    <ard-tab tabId="tab2"> This is tab 2 </ard-tab>
   </ard-tabber>
 </div>
 <div class="master">
   <div class="title">Tabber alignments</div>
-  <ard-tabber stretchTabs="false" tabAlignment="left">
-    <ard-tab tabId="tab1">
-      This is tab 1
-    </ard-tab>
-    <ard-tab tabId="tab2">
-      This is tab 2
-    </ard-tab>
-    <ard-tab tabId="tab3">
-      This is tab 3
-    </ard-tab>
+  <ard-tabber
+    stretchTabs="false"
+    tabAlignment="left"
+  >
+    <ard-tab tabId="tab1"> This is tab 1 </ard-tab>
+    <ard-tab tabId="tab2"> This is tab 2 </ard-tab>
+    <ard-tab tabId="tab3"> This is tab 3 </ard-tab>
   </ard-tabber>
-  <ard-tabber stretchTabs="false" tabAlignment="middle">
-    <ard-tab tabId="tab1">
-      This is tab 1
-    </ard-tab>
-    <ard-tab tabId="tab2">
-      This is tab 2
-    </ard-tab>
-    <ard-tab tabId="tab3">
-      This is tab 3
-    </ard-tab>
+  <ard-tabber
+    stretchTabs="false"
+    tabAlignment="middle"
+  >
+    <ard-tab tabId="tab1"> This is tab 1 </ard-tab>
+    <ard-tab tabId="tab2"> This is tab 2 </ard-tab>
+    <ard-tab tabId="tab3"> This is tab 3 </ard-tab>
   </ard-tabber>
-  <ard-tabber stretchTabs="false" tabAlignment="right">
-    <ard-tab tabId="tab1">
-      This is tab 1
-    </ard-tab>
-    <ard-tab tabId="tab2">
-      This is tab 2
-    </ard-tab>
-    <ard-tab tabId="tab3">
-      This is tab 3
-    </ard-tab>
+  <ard-tabber
+    stretchTabs="false"
+    tabAlignment="right"
+  >
+    <ard-tab tabId="tab1"> This is tab 1 </ard-tab>
+    <ard-tab tabId="tab2"> This is tab 2 </ard-tab>
+    <ard-tab tabId="tab3"> This is tab 3 </ard-tab>
   </ard-tabber>
 </div>
 <div class="master">
   <div class="title">Tabber with preselected tab</div>
   <ard-tabber>
-    <ard-tab tabId="tab1">
-      This is tab 1
-    </ard-tab>
-    <ard-tab tabId="tab2">
-      This is tab 2
-    </ard-tab>
-    <ard-tab tabId="tab3" selected>
+    <ard-tab tabId="tab1"> This is tab 1 </ard-tab>
+    <ard-tab tabId="tab2"> This is tab 2 </ard-tab>
+    <ard-tab
+      tabId="tab3"
+      selected
+    >
       This is tab 3
     </ard-tab>
   </ard-tabber>
@@ -74,104 +59,38 @@
 <div class="master">
   <div class="title">Tabber with a lot of tabs</div>
   <ard-tabber>
-    <ard-tab tabId="tab1">
-      This is tab 1
-    </ard-tab>
-    <ard-tab tabId="tab2">
-      This is tab 2
-    </ard-tab>
-    <ard-tab tabId="tab3">
-      This is tab 3
-    </ard-tab>
-    <ard-tab tabId="tab4">
-      This is tab 4
-    </ard-tab>
-    <ard-tab tabId="tab5">
-      This is tab 5
-    </ard-tab>
-    <ard-tab tabId="tab6">
-      This is tab 6
-    </ard-tab>
-    <ard-tab tabId="tab6">
-      This is tab 6
-    </ard-tab>
-    <ard-tab tabId="tab7">
-      This is tab 7
-    </ard-tab>
-    <ard-tab tabId="tab8">
-      This is tab 8
-    </ard-tab>
-    <ard-tab tabId="tab9">
-      This is tab 9
-    </ard-tab>
-    <ard-tab tabId="tab10">
-      This is tab 10
-    </ard-tab>
-    <ard-tab tabId="tab11">
-      This is tab 11
-    </ard-tab>
-    <ard-tab tabId="tab12">
-      This is tab 12
-    </ard-tab>
-    <ard-tab tabId="tab13">
-      This is tab 13
-    </ard-tab>
-    <ard-tab tabId="tab14">
-      This is tab 14
-    </ard-tab>
-    <ard-tab tabId="tab15">
-      This is tab 15
-    </ard-tab>
-    <ard-tab tabId="tab16">
-      This is tab 16
-    </ard-tab>
-    <ard-tab tabId="tab16">
-      This is tab 16
-    </ard-tab>
-    <ard-tab tabId="tab17">
-      This is tab 17
-    </ard-tab>
-    <ard-tab tabId="tab18">
-      This is tab 18
-    </ard-tab>
-    <ard-tab tabId="tab19">
-      This is tab 19
-    </ard-tab>
-    <ard-tab tabId="tab20">
-      This is tab 20
-    </ard-tab>
-    <ard-tab tabId="tab21">
-      This is tab 21
-    </ard-tab>
-    <ard-tab tabId="tab22">
-      This is tab 22
-    </ard-tab>
-    <ard-tab tabId="tab23">
-      This is tab 23
-    </ard-tab>
-    <ard-tab tabId="tab24">
-      This is tab 24
-    </ard-tab>
-    <ard-tab tabId="tab25">
-      This is tab 25
-    </ard-tab>
-    <ard-tab tabId="tab26">
-      This is tab 26
-    </ard-tab>
-    <ard-tab tabId="tab26">
-      This is tab 26
-    </ard-tab>
-    <ard-tab tabId="tab27">
-      This is tab 27
-    </ard-tab>
-    <ard-tab tabId="tab28">
-      This is tab 28
-    </ard-tab>
-    <ard-tab tabId="tab29">
-      This is tab 29
-    </ard-tab>
-    <ard-tab tabId="tab30">
-      This is tab 30
-    </ard-tab>
+    <ard-tab tabId="tab1"> This is tab 1 </ard-tab>
+    <ard-tab tabId="tab2"> This is tab 2 </ard-tab>
+    <ard-tab tabId="tab3"> This is tab 3 </ard-tab>
+    <ard-tab tabId="tab4"> This is tab 4 </ard-tab>
+    <ard-tab tabId="tab5"> This is tab 5 </ard-tab>
+    <ard-tab tabId="tab6"> This is tab 6 </ard-tab>
+    <ard-tab tabId="tab6"> This is tab 6 </ard-tab>
+    <ard-tab tabId="tab7"> This is tab 7 </ard-tab>
+    <ard-tab tabId="tab8"> This is tab 8 </ard-tab>
+    <ard-tab tabId="tab9"> This is tab 9 </ard-tab>
+    <ard-tab tabId="tab10"> This is tab 10 </ard-tab>
+    <ard-tab tabId="tab11"> This is tab 11 </ard-tab>
+    <ard-tab tabId="tab12"> This is tab 12 </ard-tab>
+    <ard-tab tabId="tab13"> This is tab 13 </ard-tab>
+    <ard-tab tabId="tab14"> This is tab 14 </ard-tab>
+    <ard-tab tabId="tab15"> This is tab 15 </ard-tab>
+    <ard-tab tabId="tab16"> This is tab 16 </ard-tab>
+    <ard-tab tabId="tab16"> This is tab 16 </ard-tab>
+    <ard-tab tabId="tab17"> This is tab 17 </ard-tab>
+    <ard-tab tabId="tab18"> This is tab 18 </ard-tab>
+    <ard-tab tabId="tab19"> This is tab 19 </ard-tab>
+    <ard-tab tabId="tab20"> This is tab 20 </ard-tab>
+    <ard-tab tabId="tab21"> This is tab 21 </ard-tab>
+    <ard-tab tabId="tab22"> This is tab 22 </ard-tab>
+    <ard-tab tabId="tab23"> This is tab 23 </ard-tab>
+    <ard-tab tabId="tab24"> This is tab 24 </ard-tab>
+    <ard-tab tabId="tab25"> This is tab 25 </ard-tab>
+    <ard-tab tabId="tab26"> This is tab 26 </ard-tab>
+    <ard-tab tabId="tab26"> This is tab 26 </ard-tab>
+    <ard-tab tabId="tab27"> This is tab 27 </ard-tab>
+    <ard-tab tabId="tab28"> This is tab 28 </ard-tab>
+    <ard-tab tabId="tab29"> This is tab 29 </ard-tab>
+    <ard-tab tabId="tab30"> This is tab 30 </ard-tab>
   </ard-tabber>
 </div>

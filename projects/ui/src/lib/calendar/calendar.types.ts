@@ -5,15 +5,15 @@ export const CalendarRangeVariant = {
 } as const;
 export type CalendarRangeVariant = (typeof CalendarRangeVariant)[keyof typeof CalendarRangeVariant];
 
-export type DateRange = {
+export interface DateRange {
   low: Date;
   high: Date;
-};
+}
 
-export type YearRange = {
+export interface YearRange {
   low: number;
   high: number;
-};
+}
 
 export const CalendarView = {
   Years: 'years',
@@ -23,24 +23,24 @@ export const CalendarView = {
 export type CalendarView = (typeof CalendarView)[keyof typeof CalendarView];
 
 //! template contexts
-export type CalendarYearsViewHeaderContext = {
+export interface CalendarYearsViewHeaderContext {
   nextPage: () => void;
   prevPage: () => void;
   openDaysView: () => void;
   yearRange: YearRange;
   dateRange: DateRange;
   $implicit: DateRange;
-};
+}
 
-export type CalendarMonthsViewHeaderContext = {
+export interface CalendarMonthsViewHeaderContext {
   openDaysView: () => void;
   openYearsView: () => void;
   year: number;
   date: Date;
   $implicit: number;
-};
+}
 
-export type CalendarDaysViewHeaderContext = {
+export interface CalendarDaysViewHeaderContext {
   nextMonth: () => void;
   prevMonth: () => void;
   nextYear: () => void;
@@ -51,43 +51,43 @@ export type CalendarDaysViewHeaderContext = {
   month: number;
   date: Date;
   $implicit: Date;
-};
+}
 
-export type CalendarWeekdayContext = {
+export interface CalendarWeekdayContext {
   dayIndex: number;
   date: Date;
   $implicit: Date;
-};
+}
 
-export type CalendarFloatingMonthContext = {
+export interface CalendarFloatingMonthContext {
   month: number;
   date: Date;
   $implicit: Date;
-};
+}
 
-export type CalendarYearContext = {
+export interface CalendarYearContext {
   value: number;
   date: Date;
   $implicit: number;
   select: (year: number) => void;
-};
+}
 
-export type CalendarMonthContext = {
+export interface CalendarMonthContext {
   month: number;
   date: Date;
   $implicit: Date;
   select: (month: number | Date) => void;
-};
+}
 
-export type CalendarDayContext = {
+export interface CalendarDayContext {
   value: number;
   date: Date;
   $implicit: number;
   select: (day: number | Date) => void;
-};
+}
 
-export type CalendarActionButtonsContext = {
+export interface CalendarActionButtonsContext {
   cancel: () => void;
   apply: () => void;
   reset: () => void;
-};
+}

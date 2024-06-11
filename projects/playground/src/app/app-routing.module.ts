@@ -66,7 +66,11 @@ const routes: Routes = [
   { path: 'dialog', component: DialogPage },
   { path: 'snackbar', component: SnackbarPage },
   { path: 'tabber', component: TabberPage },
-  { path: 'sliders', component: SlidersPage, loadChildren: () => import('./pages/sliders/sliders.module').then(m => m.SlidersModule) },
+  {
+    path: 'sliders',
+    component: SlidersPage,
+    loadChildren: () => import('./pages/sliders/sliders.module').then(m => m.SlidersModule),
+  },
   { path: 'inputs', component: InputsPage, loadChildren: () => import('./pages/inputs/inputs.module').then(m => m.InputsModule) },
   //redirects
   { path: '**', redirectTo: '/' },

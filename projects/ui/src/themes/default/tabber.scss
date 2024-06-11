@@ -72,7 +72,7 @@ ard-tabber {
 
       &.ard-tab-active {
         &::after {
-          content: "";
+          content: '';
           position: absolute;
           left: 0;
           right: 0;

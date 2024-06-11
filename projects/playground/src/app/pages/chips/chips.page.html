@@ -1,65 +1,87 @@
 <span class="title">Chips</span>
-<div class="flex" *ngFor="let compact of [false, true]">
-    <div class="grid master" *ngFor="let variant of variants">
-        <ng-container *ngFor="let appearance of appearances">
-            <ng-container *ngFor="let disabled of [false, true]">
-                <ard-chip
-                    *ngFor="let color of colors"
-                    [variant]="variant"
-                    [appearance]="appearance"
-                    [color]="color"
-                    [disabled]="disabled"
-                    [compact]="compact"
-                    (focus)="log('focus', $event)"
-                    (blur)="log('blur', $event)"
-                >Foo</ard-chip>
-            </ng-container>
-        </ng-container>
-    </div>
+<div
+  class="flex"
+  *ngFor="let compact of [false, true]"
+>
+  <div
+    class="grid master"
+    *ngFor="let variant of variants"
+  >
+    <ng-container *ngFor="let appearance of appearances">
+      <ng-container *ngFor="let disabled of [false, true]">
+        <ard-chip
+          *ngFor="let color of colors"
+          [variant]="variant"
+          [appearance]="appearance"
+          [color]="color"
+          [disabled]="disabled"
+          [compact]="compact"
+          (focus)="log('focus', $event)"
+          (blur)="log('blur', $event)"
+          >Foo</ard-chip
+        >
+      </ng-container>
+    </ng-container>
+  </div>
 </div>
 <span class="title">Deletable Chips</span>
-<div class="flex" *ngFor="let compact of [false, true]">
-    <div class="grid master" *ngFor="let variant of variants" [title]="variant">
-        <ng-container *ngFor="let appearance of appearances">
-            <ng-container *ngFor="let align of alignments">
-                <ng-container *ngFor="let disabled of [false, true]">
-                    <ard-deletable-chip
-                        *ngFor="let color of colors"
-                        [variant]="variant"
-                        [appearance]="appearance"
-                        [color]="color"
-                        [disabled]="disabled"
-                        [contentAlignment]="align"
-                        [compact]="compact"
-                        (focus)="log('focus', $event)"
-                        (blur)="log('blur', $event)"
-                        (delete)="log('delete', $event)"
-                    >Foo</ard-deletable-chip>
-                </ng-container>
-            </ng-container>
+<div
+  class="flex"
+  *ngFor="let compact of [false, true]"
+>
+  <div
+    class="grid master"
+    *ngFor="let variant of variants"
+    [title]="variant"
+  >
+    <ng-container *ngFor="let appearance of appearances">
+      <ng-container *ngFor="let align of alignments">
+        <ng-container *ngFor="let disabled of [false, true]">
+          <ard-deletable-chip
+            *ngFor="let color of colors"
+            [variant]="variant"
+            [appearance]="appearance"
+            [color]="color"
+            [disabled]="disabled"
+            [contentAlignment]="align"
+            [compact]="compact"
+            (focus)="log('focus', $event)"
+            (blur)="log('blur', $event)"
+            (delete)="log('delete', $event)"
+            >Foo</ard-deletable-chip
+          >
         </ng-container>
-    </div>
+      </ng-container>
+    </ng-container>
+  </div>
 </div>
 <span class="title">Selectable Chips</span>
-<div class="flex" *ngFor="let compact of [false, true]">
-    <div class="grid master" *ngFor="let variant of variants">
-        <ng-container *ngFor="let appearance of appearances">
-            <ng-container *ngFor="let selected of [false, true]">
-                <ng-container *ngFor="let disabled of [false, true]">
-                    <ard-selectable-chip
-                        *ngFor="let color of colors"
-                        [variant]="variant"
-                        [appearance]="appearance"
-                        [color]="color"
-                        [disabled]="disabled"
-                        [selected]="selected"
-                        [compact]="compact"
-                        (focus)="log('focus', $event)"
-                        (blur)="log('blur', $event)"
-                        (selectedChange)="log('delete', $event)"
-                    >Foo</ard-selectable-chip>
-                </ng-container>
-            </ng-container>
+<div
+  class="flex"
+  *ngFor="let compact of [false, true]"
+>
+  <div
+    class="grid master"
+    *ngFor="let variant of variants"
+  >
+    <ng-container *ngFor="let appearance of appearances">
+      <ng-container *ngFor="let selected of [false, true]">
+        <ng-container *ngFor="let disabled of [false, true]">
+          <ard-selectable-chip
+            *ngFor="let color of colors"
+            [variant]="variant"
+            [appearance]="appearance"
+            [color]="color"
+            [disabled]="disabled"
+            [selected]="selected"
+            [compact]="compact"
+            (focus)="log('focus', $event)"
+            (blur)="log('blur', $event)"
+            (selectedChange)="log('delete', $event)"
+            >Foo</ard-selectable-chip
+          >
         </ng-container>
-    </div>
+      </ng-container>
+    </ng-container>
+  </div>
 </div>

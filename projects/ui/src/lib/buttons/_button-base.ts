@@ -1,8 +1,8 @@
-import { Directive, Input, Signal, input } from '@angular/core';
+import { Directive, Signal, input } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
-import { ButtonAppearance } from './general-button.types';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
 import { ComponentColor } from '../types/colors.types';
+import { ButtonAppearance } from './general-button.types';
 
 @Directive()
 export abstract class _ButtonBase extends _FocusableComponentBase {

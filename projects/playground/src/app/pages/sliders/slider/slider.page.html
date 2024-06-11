@@ -1,45 +1,52 @@
 <div class="master flex">
-    <span class="title">Most basic slider</span>
-    <ard-slider></ard-slider>
+  <span class="title">Most basic slider</span>
+  <ard-slider></ard-slider>
 </div>
 <div class="master flex">
-    <span class="title">Slider with set value, custom min, max, and step</span>
-    <ard-slider
-        min="-100"
-        max="100"
-        step="50"
-        [value]="70"
-    ></ard-slider>
+  <span class="title">Slider with set value, custom min, max, and step</span>
+  <ard-slider
+    min="-100"
+    max="100"
+    step="50"
+    [value]="70"
+  ></ard-slider>
 </div>
 <div class="master flex">
-    <span class="title">Slider with value ticks and label</span>
-    <ard-slider
-        step="10"
-        showValueTicks
-        [labels]="[0, 20, 40, 60, 80, 100]"
-    ></ard-slider>
+  <span class="title">Slider with value ticks and label</span>
+  <ard-slider
+    step="10"
+    showValueTicks
+    [labels]="[0, 20, 40, 60, 80, 100]"
+  ></ard-slider>
 </div>
 <div class="master flex">
-    <span class="title">Slider events</span>
-    <ard-slider
-        (valueChange)="log('valueChange', $event)"
-        (focus)="log('focus', $event)"
-        (blur)="log('blur', $event)"
-    ></ard-slider>
+  <span class="title">Slider events</span>
+  <ard-slider
+    (valueChange)="log('valueChange', $event)"
+    (focus)="log('focus', $event)"
+    (blur)="log('blur', $event)"
+  ></ard-slider>
 </div>
 <div class="master flex">
-    <span class="title">Slider with custom tooltip format function</span>
-    <ard-slider
-        max="1e5"
-        step="1e3"
-        [tooltipFormat]="tooltipFormatFn"    
-    ></ard-slider>
+  <span class="title">Slider with custom tooltip format function</span>
+  <ard-slider
+    max="1e5"
+    step="1e3"
+    [tooltipFormat]="tooltipFormatFn"
+  ></ard-slider>
 </div>
 <div class="master flex">
-    <span class="title">Slider with custom tooltip template</span>
-    <ard-slider>
-        <ng-template ard-slider-tooltip-tmp let-value>
-            <span class="ard-slider-tooltip" [style]="'--ard-background: salmon'">{{ value }}</span>
-        </ng-template>
-    </ard-slider>
+  <span class="title">Slider with custom tooltip template</span>
+  <ard-slider>
+    <ng-template
+      ard-slider-tooltip-tmp
+      let-value
+    >
+      <span
+        class="ard-slider-tooltip"
+        [style]="'--ard-background: salmon'"
+        >{{ value }}</span
+      >
+    </ng-template>
+  </ard-slider>
 </div>

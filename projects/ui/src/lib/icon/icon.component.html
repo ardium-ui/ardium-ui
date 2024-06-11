@@ -1,12 +1,15 @@
-<span class="ard-icon material-symbols-outlined"
-    [attr.aria-hidden]="ariaLabel != undefined"
-    [attr.aria-label]="ariaLabel"
-    [style]="fontVariationSettings()"
+<span
+  class="ard-icon material-symbols-outlined"
+  [attr.aria-hidden]="ariaLabel() !== undefined"
+  [attr.aria-label]="ariaLabel()"
+  [style]="fontVariationSettings()"
 >
-    {{ icon() ?? contentWrapperEl.innerText | icon }}
+  {{ icon() ?? contentWrapperEl.innerText | icon }}
 </span>
 
-
-<div #contentWrapperEl class="ard-icon-content-wrapper">
-    <ng-content></ng-content>
+<div
+  #contentWrapperEl
+  class="ard-icon-content-wrapper"
+>
+  <ng-content></ng-content>
 </div>

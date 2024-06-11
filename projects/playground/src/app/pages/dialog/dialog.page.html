@@ -1,75 +1,112 @@
 <div class="master flex playground">
-    <span class="title">Dialog playground</span>
-    <div class="settings-form flex horiz">
-        <div class="settings-left flex">
-            <div class="form-field flex">
-                <label for="appearance">Appearance</label>
-                <ard-select htmlId="appearance" [items]="appearances" [value]="appearance" />
-            </div>
-            <div class="form-field flex">
-                <label for="variant">Variant</label>
-                <ard-select htmlId="variant" [items]="variants" [value]="variant" />
-            </div>
-        </div>
-        <div class="settings-right flex">
-            <div class="list-item flex horiz">
-                <ard-slide-toggle [selected]="compact()" (selectedChange)="compact.set($event)" htmlId="compact" />
-                <label for="compact">Compact</label>
-            </div>
-            <div class="list-item flex horiz">
-                <ard-slide-toggle [selected]="noCloseButton()" (selectedChange)="noCloseButton.set($event)"
-                    htmlId="noCloseButton" />
-                <label for="noCloseButton">No close button?</label>
-            </div>
-            <div class="list-item flex horiz">
-                <ard-slide-toggle [selected]="noBackdrop()" (selectedChange)="noBackdrop.set($event)"
-                    htmlId="noBackdrop" />
-                <label for="noBackdrop">No backdrop?</label>
-            </div>
-            <div class="list-item flex horiz">
-                <ard-slide-toggle [selected]="disableBackdropClose()"
-                    (selectedChange)="disableBackdropClose.set($event)" htmlId="disableBackdropClose" />
-                <label for="disableBackdropClose">Disable backdrop close?</label>
-            </div>
-        </div>
+  <span class="title">Dialog playground</span>
+  <div class="settings-form flex horiz">
+    <div class="settings-left flex">
+      <div class="form-field flex">
+        <label for="appearance">Appearance</label>
+        <ard-select
+          htmlId="appearance"
+          [items]="appearances"
+          [value]="appearance"
+        />
+      </div>
+      <div class="form-field flex">
+        <label for="variant">Variant</label>
+        <ard-select
+          htmlId="variant"
+          [items]="variants"
+          [value]="variant"
+        />
+      </div>
     </div>
-    <div class="button-container">
-        <button (click)="isOpenMain.set(true)">Open</button>
+    <div class="settings-right flex">
+      <div class="list-item flex horiz">
+        <ard-slide-toggle
+          [selected]="compact()"
+          (selectedChange)="compact.set($event)"
+          htmlId="compact"
+        />
+        <label for="compact">Compact</label>
+      </div>
+      <div class="list-item flex horiz">
+        <ard-slide-toggle
+          [selected]="noCloseButton()"
+          (selectedChange)="noCloseButton.set($event)"
+          htmlId="noCloseButton"
+        />
+        <label for="noCloseButton">No close button?</label>
+      </div>
+      <div class="list-item flex horiz">
+        <ard-slide-toggle
+          [selected]="noBackdrop()"
+          (selectedChange)="noBackdrop.set($event)"
+          htmlId="noBackdrop"
+        />
+        <label for="noBackdrop">No backdrop?</label>
+      </div>
+      <div class="list-item flex horiz">
+        <ard-slide-toggle
+          [selected]="disableBackdropClose()"
+          (selectedChange)="disableBackdropClose.set($event)"
+          htmlId="disableBackdropClose"
+        />
+        <label for="disableBackdropClose">Disable backdrop close?</label>
+      </div>
     </div>
-    <ard-dialog [open]="isOpenMain()" (openChange)="isOpenMain.set($event)" [appearance]="appearance" [variant]="variant" [compact]="compact()" [noCloseButton]="noCloseButton()"
-        [noBackdrop]="noBackdrop()" [disableBackdropClose]="disableBackdropClose()">Dialog content</ard-dialog>
+  </div>
+  <div class="button-container">
+    <button (click)="isOpenMain.set(true)">Open</button>
+  </div>
+  <ard-dialog
+    [open]="isOpenMain()"
+    (openChange)="isOpenMain.set($event)"
+    [appearance]="appearance"
+    [variant]="variant"
+    [compact]="compact()"
+    [noCloseButton]="noCloseButton()"
+    [noBackdrop]="noBackdrop()"
+    [disableBackdropClose]="disableBackdropClose()"
+    >Dialog content</ard-dialog
+  >
 </div>
 <div class="master">
-    <div class="title">Simplest dialog</div>
-    <button (click)="isOpen1.set(true)">Open</button>
-    <ard-dialog [open]="isOpen1()" (openChange)="isOpen1.set($event)">
-        Dialog content
-    </ard-dialog>
+  <div class="title">Simplest dialog</div>
+  <button (click)="isOpen1.set(true)">Open</button>
+  <ard-dialog
+    [open]="isOpen1()"
+    (openChange)="isOpen1.set($event)"
+  >
+    Dialog content
+  </ard-dialog>
 </div>
 <div class="master">
-    <div class="title">Simple dialog with a title</div>
-    <button (click)="isOpen2.set(true)">Open</button>
-    <ard-dialog [open]="isOpen2()" (openChange)="isOpen2.set($event)" heading="Dialog heading">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, laboriosam?
-    </ard-dialog>
+  <div class="title">Simple dialog with a title</div>
+  <button (click)="isOpen2.set(true)">Open</button>
+  <ard-dialog
+    [open]="isOpen2()"
+    (openChange)="isOpen2.set($event)"
+    heading="Dialog heading"
+  >
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, laboriosam?
+  </ard-dialog>
 </div>
 <div class="master">
-    <div class="title">Dialog with changed buttons</div>
-    <button (click)="openDeleteConfirmationDialog()">Open</button>
-    <ard-dialog
-        [open]="isOpen3()"
-        (openChange)="isOpen3.set($event)"
-        heading="Are you sure you want to delete?"
-        confirmButtonText="Delete"
-        confirmButtonColor="danger"
-        confirmButtonAppearance="outlined-strong"
-        rejectButtonText="Keep"
-        rejectButtonColor="none"
-        rejectButtonAppearance="transparent"
-        [canConfirm]="canConfirmDelete()"
-        (confirm)="onDeleteConfirm()"
-        (close)="clearDeleteConfirmationTimeout()"
-    >
-        This action is irreversible.
-    </ard-dialog>
+  <div class="title">Dialog with changed buttons</div>
+  <button (click)="openDeleteConfirmationDialog()">Open</button>
+  <ard-dialog
+    [open]="isOpen3()"
+    (openChange)="isOpen3.set($event)"
+    heading="Are you sure you want to delete?"
+    confirmButtonText="Delete"
+    confirmButtonColor="danger"
+    confirmButtonAppearance="outlined-strong"
+    rejectButtonText="Keep"
+    rejectButtonColor="none"
+    rejectButtonAppearance="transparent"
+    [canConfirm]="canConfirmDelete()"
+    (confirm)="onDeleteConfirm()"
+    (close)="clearDeleteConfirmationTimeout()"
+  >
+    This action is irreversible.
+  </ard-dialog>
 </div>

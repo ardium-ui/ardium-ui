@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, AfterViewInit, ViewChild, ElementRef, Input, input, computed, viewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  ViewEncapsulation,
+  computed,
+  input,
+  viewChild,
+} from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { FormElementAppearance } from '../types/theming.types';
 import { Nullable } from '../types/utility.types';
@@ -25,7 +34,7 @@ export class ArdiumKbdShortcutComponent implements AfterViewInit {
   readonly keys = input<Nullable<string[]>, Nullable<string | string[]>>(undefined, {
     transform: v => {
       //assign from string
-      if (typeof v == 'string') {
+      if (typeof v === 'string') {
         return v.split(this.splitRegex);
       }
       //assign undefined or array

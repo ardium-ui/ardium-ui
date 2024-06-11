@@ -1,12 +1,21 @@
-import { ChangeDetectionStrategy, Component, ContentChild, OnInit, TemplateRef, ViewEncapsulation, Input, input, computed } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ContentChild,
+  OnInit,
+  TemplateRef,
+  ViewEncapsulation,
+  computed,
+  input,
+} from '@angular/core';
 import { ComponentColor } from '../../types/colors.types';
 import { FormElementVariant } from '../../types/theming.types';
 import { _FileInputComponentBase } from '../file-input-base';
 import { FileInputBrowseContext, FileInputFileAmountContext, FileInputFilesContext } from '../file-input-types';
 import {
   ArdiumFileDropAreaDragoverContentTemplateDirective,
-  ArdiumFileDropAreaUploadedContentTemplateDirective,
   ArdiumFileDropAreaIdleContentTemplateDirective,
+  ArdiumFileDropAreaUploadedContentTemplateDirective,
 } from './file-drop-area.directives';
 
 @Component({
@@ -21,7 +30,9 @@ export class ArdiumFileDropAreaComponent extends _FileInputComponentBase impleme
   readonly variant = input<FormElementVariant>(FormElementVariant.Rounded);
   readonly color = input<ComponentColor>(ComponentColor.Primary);
 
-  readonly ngClasses = computed<string>(() => [`ard-variant-${this.variant()}`, `ard-color-${this.color()}`, this.compact() ? 'ard-compact' : ''].join(' '));
+  readonly ngClasses = computed<string>(() =>
+    [`ard-variant-${this.variant()}`, `ard-color-${this.color()}`, this.compact() ? 'ard-compact' : ''].join(' ')
+  );
 
   //! triggering file dialog
   protected _wasMousedownOnElement: true | null = null;

@@ -49,7 +49,7 @@ export class ItemStorage {
 
   readonly groups = computed(() =>
     Array.from(this._groups().entries())
-      .map(([_, group]) => group)
+      .map(([, group]) => group)
       .filter(group => group.children().length)
   );
   readonly items = computed(() => this._items());
@@ -73,8 +73,8 @@ export class ItemStorage {
     return items.map(item => item.value);
   }
 
-  readonly isNoItemsToSelect = computed(() => this._items().length == this._selectedItems().length);
-  readonly isNoItemsFound = computed(() => this._filteredItems().length == 0);
+  readonly isNoItemsToSelect = computed(() => this._items().length === this._selectedItems().length);
+  readonly isNoItemsFound = computed(() => this._filteredItems().length === 0);
   readonly isAnyItemSelected = computed(() => this._selectedItems().length > 0);
   readonly isAnyItemHighlighted = computed(() => this._highlightedItems().length > 0);
   readonly isItemLimitReached = computed(
@@ -87,7 +87,7 @@ export class ItemStorage {
   setItems(items: any[]): boolean {
     let areItemsPrimitive = false;
     if (this._ardParentComp.groupItems() && this._ardParentComp.itemsAlreadyGrouped()) {
-      let newItems = [];
+      const newItems = [];
       for (const group of items) {
         let children: any[];
         [children, areItemsPrimitive] = this._ungroupAlreadyGroupedItems(group);
@@ -146,7 +146,7 @@ export class ItemStorage {
 
     //get group label from object
     let groupName: any;
-    if (typeof groupBy == 'string') {
+    if (typeof groupBy === 'string') {
       groupName = resolvePath(group, groupBy);
     } else {
       groupName = groupBy(group);
@@ -159,7 +159,7 @@ export class ItemStorage {
     let groupItems: any = resolvePath(group, childrenPath);
 
     //return empty array if groupItems is not an array or is empty
-    if (!isArray(groupItems) || groupItems.length == 0) return [[], false];
+    if (!isArray(groupItems) || groupItems.length === 0) return [[], false];
 
     //check if the array is an array of primitives, and map it if needed
     const areItemsPrimitive = false;
@@ -189,11 +189,13 @@ export class ItemStorage {
       };
     }
     //get value
-    const valuePath = this._ardParentComp.valueFrom() ?? this._ardParentComp.labelFrom() ?? this._ardParentComp.DEFAULTS.valueFrom;
+    const valuePath =
+      this._ardParentComp.valueFrom() ?? this._ardParentComp.labelFrom() ?? this._ardParentComp.DEFAULTS.valueFrom;
     const value = resolvePath(rawItemData, valuePath);
 
     //get label
-    const labelPath = this._ardParentComp.labelFrom() ?? this._ardParentComp.valueFrom() ?? this._ardParentComp.DEFAULTS.labelFrom;
+    const labelPath =
+      this._ardParentComp.labelFrom() ?? this._ardParentComp.valueFrom() ?? this._ardParentComp.DEFAULTS.labelFrom;
     const label = resolvePath(rawItemData, labelPath) ?? value;
 
     //get disabled
@@ -209,8 +211,8 @@ export class ItemStorage {
       if (rawItemData.$ardgroup) {
         group = rawItemData.$ardgroup;
       } else {
-        let groupBy = this._ardParentComp.groupLabelFrom() ?? this._ardParentComp.DEFAULTS.groupLabelFrom;
-        if (typeof groupBy == 'string') {
+        const groupBy = this._ardParentComp.groupLabelFrom() ?? this._ardParentComp.DEFAULTS.groupLabelFrom;
+        if (typeof groupBy === 'string') {
           group = resolvePath(rawItemData, groupBy);
         } else {
           group = (groupBy as GroupByFn)(rawItemData);
@@ -242,7 +244,7 @@ export class ItemStorage {
   }
   private _addToGroup(item: ArdOption): void {
     const groupKey = item.group;
-    let targetGroup = this._groups().get(groupKey);
+    const targetGroup = this._groups().get(groupKey);
     //create new group if needed
     if (!targetGroup) {
       this._groups.update(v => {
@@ -291,7 +293,7 @@ export class ItemStorage {
   private readonly _wasValueWriteDeferred = signal<boolean>(false);
   handleWriteValue(ngModel: any[]): void {
     //defer writing the value if no options are yet loaded
-    if (!this._wasValueWriteDeferred() && this._items().length == 0) {
+    if (!this._wasValueWriteDeferred() && this._items().length === 0) {
       this._valueToWriteAfterItemsLoad.set(ngModel);
       return;
     }
@@ -303,13 +305,15 @@ export class ItemStorage {
     }
 
     const selectItemByValue = (value: any) => {
-      let item = this.findItemByValue(value);
+      const item = this.findItemByValue(value);
 
       if (item) {
         this.selectItem(item);
         return;
       }
-      console.warn(`ARD-WA${this._ardParentComp._componentId}1: Couldn't find an item with value ${value?.toString?.() || String(value)}.`);
+      console.warn(
+        `ARD-WA${this._ardParentComp._componentId}1: Couldn't find an item with value ${value?.toString?.() || String(value)}.`
+      );
     };
 
     for (const modelValue of ngModel) {
@@ -336,7 +340,7 @@ export class ItemStorage {
     return newOptionObj;
   }
 
-  clearAllSelected(repopulateGroups: boolean = false): any[] {
+  clearAllSelected(repopulateGroups = false): any[] {
     for (const item of this._selectedItems()) {
       item.selected.set(false);
     }
@@ -468,7 +472,7 @@ export class ItemStorage {
     }
     const currentItem = this.highlightedItems().last();
     const highlightableItems = this._getHiglightableItems();
-    const currentIndexInFiltered = highlightableItems.findIndex(item => item.index() == currentItem.index());
+    const currentIndexInFiltered = highlightableItems.findIndex(item => item.index() === currentItem.index());
 
     let nextItemIndex = currentIndexInFiltered + offset;
     if (nextItemIndex >= highlightableItems.length) {
@@ -507,7 +511,7 @@ export class ItemStorage {
     return this._itemsToValue(newFilteredItems);
   }
   resetFiltered(): ArdOption[] {
-    if (this._filteredItems().length == this._items().length) return this._items();
+    if (this._filteredItems().length === this._items().length) return this._items();
 
     let newFilteredItems = this._items();
     if (this._ardParentComp.hideSelected() && this.isAnyItemSelected()) {

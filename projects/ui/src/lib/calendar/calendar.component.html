@@ -1,242 +1,314 @@
-<div class="ard-calendar" [ngClass]="ngClasses">
-    <ng-template [ngTemplateOutlet]="activeView == 'days' ? daysView : activeView == 'months' ? monthsView : yearsView"/>
+<div
+  class="ard-calendar"
+  [ngClass]="ngClasses"
+>
+  <ng-template [ngTemplateOutlet]="activeView === 'days' ? daysView : activeView === 'months' ? monthsView : yearsView" />
 </div>
 
 <ng-template #yearsView>
-    <div class="ard-calendar-header-container">
-        <ng-template #defaultYearsViewHeaderTemplate let-currRange let-nextPage="nextPage" let-prevPage="prevPage" let-openDaysView="openDaysView">
-            <div class="ard-calendar-days-view-header">
-                <ard-button
-                    class="ard-calendar-header-button"
-                    appearance="transparent"
-                    color="none"
-                    [tabIndex]="tabIndex()"
-                    (click)="openDaysView()"
-                >
-                    {{ currRange.low | date: 'YYYY' }}
-                    &mdash;
-                    {{ currRange.high | date: 'YYYY' }}
-                    <div class="ard-dropdown-arrow"></div>
-                </ard-button>
-                <div class="ard-calendar-arrows">
-                    <ard-icon-button size="small" appearance="transparent" color="none" (click)="prevPage()" [tabIndex]="tabIndex()">
-                        <ard-icon>chevron_left</ard-icon>
-                    </ard-icon-button>
-                    <ard-icon-button size="small" appearance="transparent" color="none" (click)="nextPage()" [tabIndex]="tabIndex()">
-                        <ard-icon>chevron_right</ard-icon>
-                    </ard-icon-button>
-                </div>
-            </div>
-        </ng-template>
-
-        <ng-template
-            [ngTemplateOutlet]="yearsViewHeaderTemplate || defaultYearsViewHeaderTemplate"
-            [ngTemplateOutletContext]="getYearsViewHeaderContext()"
-        />
-    </div>
-    <div class="ard-calendar-main-container">
-        <div #focusableElement
-            class="ard-calendar-simple-grid"
-            [tabindex]="tabIndex()"
-            [ariaLabel]="currentAriaLabel"
-            (focus)="onFocus($event)"
-            (focus)="onYearGridFocus()"
-            (blur)="onBlur($event)"
-            (blur)="onYearGridBlur()"
-            (click)="onYearGridClick()"
-            (keydown)="onMainGridKeydown($event)"
-            role="grid"
+  <div class="ard-calendar-header-container">
+    <ng-template
+      #defaultYearsViewHeaderTemplate
+      let-currRange
+      let-nextPage="nextPage"
+      let-prevPage="prevPage"
+      let-openDaysView="openDaysView"
+    >
+      <div class="ard-calendar-days-view-header">
+        <ard-button
+          class="ard-calendar-header-button"
+          appearance="transparent"
+          color="none"
+          [tabIndex]="tabIndex()"
+          (click)="openDaysView()"
         >
-            <ng-container *ngFor="let year of getYearsArray()">
-                <div class="ard-calendar-entry"
-                    [class.ard-calendar-entry-highlighted]="highlightedYear == year || activeYear == year"
-                    [class.ard-calendar-entry-selected]="isYearSelected(year)"
-                    [class.ard-calendar-today]="isYearToday(year)"
-                    (click)="onCalendarYearClick(year)"
-                    (mousemove)="$event.stopPropagation()"
-                    (mouseover)="onCalendarYearMouseover(year)"
-                    role="gridcell"
-                >
-                    <button class="ard-calendar-entry-button" tabindex="-1">
-                        <div class="ard-focus-overlay"></div>
-                        <div class="ard-button-content">
-                            <ng-template #defaultYearTemplate let-year>
-                                {{ year }}
-                            </ng-template>
-                            <ng-template
-                                [ngTemplateOutlet]="yearTemplate || defaultYearTemplate"
-                                [ngTemplateOutletContext]="getYearContext(year)"
-                            ></ng-template>
-                        </div>
-                    </button>
-                </div>
-            </ng-container>
+          {{ currRange.low | date: 'YYYY' }}
+          &mdash;
+          {{ currRange.high | date: 'YYYY' }}
+          <div class="ard-dropdown-arrow"></div>
+        </ard-button>
+        <div class="ard-calendar-arrows">
+          <ard-icon-button
+            size="small"
+            appearance="transparent"
+            color="none"
+            (click)="prevPage()"
+            [tabIndex]="tabIndex()"
+          >
+            <ard-icon>chevron_left</ard-icon>
+          </ard-icon-button>
+          <ard-icon-button
+            size="small"
+            appearance="transparent"
+            color="none"
+            (click)="nextPage()"
+            [tabIndex]="tabIndex()"
+          >
+            <ard-icon>chevron_right</ard-icon>
+          </ard-icon-button>
         </div>
+      </div>
+    </ng-template>
+
+    <ng-template
+      [ngTemplateOutlet]="yearsViewHeaderTemplate || defaultYearsViewHeaderTemplate"
+      [ngTemplateOutletContext]="getYearsViewHeaderContext()"
+    />
+  </div>
+  <div class="ard-calendar-main-container">
+    <div
+      #focusableElement
+      class="ard-calendar-simple-grid"
+      [tabindex]="tabIndex()"
+      [ariaLabel]="currentAriaLabel"
+      (focus)="onFocus($event)"
+      (focus)="onYearGridFocus()"
+      (blur)="onBlur($event)"
+      (blur)="onYearGridBlur()"
+      (click)="onYearGridClick()"
+      (keydown)="onMainGridKeydown($event)"
+      role="grid"
+    >
+      <ng-container *ngFor="let year of getYearsArray()">
+        <div
+          class="ard-calendar-entry"
+          [class.ard-calendar-entry-highlighted]="highlightedYear === year || activeYear === year"
+          [class.ard-calendar-entry-selected]="isYearSelected(year)"
+          [class.ard-calendar-today]="isYearToday(year)"
+          (click)="onCalendarYearClick(year)"
+          (mousemove)="$event.stopPropagation()"
+          (mouseover)="onCalendarYearMouseover(year)"
+          role="gridcell"
+        >
+          <button
+            class="ard-calendar-entry-button"
+            tabindex="-1"
+          >
+            <div class="ard-focus-overlay"></div>
+            <div class="ard-button-content">
+              <ng-template
+                #defaultYearTemplate
+                let-year
+              >
+                {{ year }}
+              </ng-template>
+              <ng-template
+                [ngTemplateOutlet]="yearTemplate || defaultYearTemplate"
+                [ngTemplateOutletContext]="getYearContext(year)"
+              ></ng-template>
+            </div>
+          </button>
+        </div>
+      </ng-container>
     </div>
+  </div>
 </ng-template>
 
 <ng-template #monthsView>
-    <div class="ard-calendar-header-container">
-        <ng-template #defaultMonthsViewHeaderTemplate let-year let-nextPage="nextPage" let-prevPage="prevPage" let-openDaysView="openDaysView">
-            <div class="ard-calendar-days-view-header">
-                <ard-button
-                    class="ard-calendar-header-button"
-                    appearance="transparent"
-                    [color]="color"
-                    [tabIndex]="tabIndex()"
-                    (click)="openDaysView()"
-                >
-                    {{ year }}
-                    <div class="ard-dropdown-arrow"></div>
-                </ard-button>
-            </div>
-        </ng-template>
-
-        <ng-template
-            [ngTemplateOutlet]="monthsViewHeaderTemplate || defaultMonthsViewHeaderTemplate"
-            [ngTemplateOutletContext]="getMonthsViewHeaderContext()"
-        />
-    </div>
-    <div class="ard-calendar-main-container">
-        <div #focusableElement
-            class="ard-calendar-simple-grid"
-            [tabindex]="tabIndex()"
-            [ariaLabel]="currentAriaLabel"
-            (focus)="onFocus($event)"
-            (focus)="onMonthGridFocus()"
-            (blur)="onBlur($event)"
-            (blur)="onMonthGridBlur()"
-            (click)="onMonthGridClick()"
-            (keydown)="onMainGridKeydown($event)"
-            role="grid"
+  <div class="ard-calendar-header-container">
+    <ng-template
+      #defaultMonthsViewHeaderTemplate
+      let-year
+      let-nextPage="nextPage"
+      let-prevPage="prevPage"
+      let-openDaysView="openDaysView"
+    >
+      <div class="ard-calendar-days-view-header">
+        <ard-button
+          class="ard-calendar-header-button"
+          appearance="transparent"
+          [color]="color"
+          [tabIndex]="tabIndex()"
+          (click)="openDaysView()"
         >
-            <ng-container *ngFor="let month of monthsArray">
-                <div class="ard-calendar-entry"
-                    [class.ard-calendar-entry-highlighted]="highlightedMonth == month || activeMonth == month"
-                    [class.ard-calendar-entry-selected]="isMonthSelected(month)"
-                    [class.ard-calendar-today]="isMonthToday(month)"
-                    (click)="onCalendarMonthClick(month)"
-                    (mousemove)="$event.stopPropagation()"
-                    (mouseover)="onCalendarMonthMouseover(month)"
-                    role="gridcell"
-                >
-                    <button class="ard-calendar-entry-button" tabindex="-1">
-                        <div class="ard-focus-overlay"></div>
-                        <div class="ard-button-content">
-                            <ng-template #defaultMonthTemplate let-month>
-                                {{ month | date: "MMM" | uppercase }}
-                            </ng-template>
-                            <ng-template
-                                [ngTemplateOutlet]="monthTemplate || defaultMonthTemplate"
-                                [ngTemplateOutletContext]="getMonthContext(month)"
-                            ></ng-template>
-                        </div>
-                    </button>
-                </div>
-            </ng-container>
+          {{ year }}
+          <div class="ard-dropdown-arrow"></div>
+        </ard-button>
+      </div>
+    </ng-template>
+
+    <ng-template
+      [ngTemplateOutlet]="monthsViewHeaderTemplate || defaultMonthsViewHeaderTemplate"
+      [ngTemplateOutletContext]="getMonthsViewHeaderContext()"
+    />
+  </div>
+  <div class="ard-calendar-main-container">
+    <div
+      #focusableElement
+      class="ard-calendar-simple-grid"
+      [tabindex]="tabIndex()"
+      [ariaLabel]="currentAriaLabel"
+      (focus)="onFocus($event)"
+      (focus)="onMonthGridFocus()"
+      (blur)="onBlur($event)"
+      (blur)="onMonthGridBlur()"
+      (click)="onMonthGridClick()"
+      (keydown)="onMainGridKeydown($event)"
+      role="grid"
+    >
+      <ng-container *ngFor="let month of monthsArray">
+        <div
+          class="ard-calendar-entry"
+          [class.ard-calendar-entry-highlighted]="highlightedMonth === month || activeMonth === month"
+          [class.ard-calendar-entry-selected]="isMonthSelected(month)"
+          [class.ard-calendar-today]="isMonthToday(month)"
+          (click)="onCalendarMonthClick(month)"
+          (mousemove)="$event.stopPropagation()"
+          (mouseover)="onCalendarMonthMouseover(month)"
+          role="gridcell"
+        >
+          <button
+            class="ard-calendar-entry-button"
+            tabindex="-1"
+          >
+            <div class="ard-focus-overlay"></div>
+            <div class="ard-button-content">
+              <ng-template
+                #defaultMonthTemplate
+                let-month
+              >
+                {{ month | date: 'MMM' | uppercase }}
+              </ng-template>
+              <ng-template
+                [ngTemplateOutlet]="monthTemplate || defaultMonthTemplate"
+                [ngTemplateOutletContext]="getMonthContext(month)"
+              ></ng-template>
+            </div>
+          </button>
         </div>
+      </ng-container>
     </div>
+  </div>
 </ng-template>
 
 <ng-template #daysView>
-    <div class="ard-calendar-header-container">
-        <ng-template #defaultDaysViewHeaderTemplate let-currDate let-nextMonth="nextMonth" let-prevMonth="prevMonth" let-openYearsView="openYearsView">
-            <div class="ard-calendar-days-view-header">
-                <ard-button
-                    class="ard-calendar-header-button"
-                    appearance="transparent"
-                    color="none"
-                    [tabIndex]="tabIndex()"
-                    (click)="openYearsView()"
-                >
-                    {{ currDate | date: 'MMM YYYY' | uppercase }}
-                    <div class="ard-dropdown-arrow"></div>
-                </ard-button>
-                <div class="ard-calendar-arrows">
-                    <ard-icon-button size="small" appearance="transparent" color="none" (click)="prevMonth()" [tabIndex]="tabIndex()">
-                        <ard-icon>chevron_left</ard-icon>
-                    </ard-icon-button>
-                    <ard-icon-button size="small" appearance="transparent" color="none" (click)="nextMonth()" [tabIndex]="tabIndex()">
-                        <ard-icon>chevron_right</ard-icon>
-                    </ard-icon-button>
-                </div>
-            </div>
+  <div class="ard-calendar-header-container">
+    <ng-template
+      #defaultDaysViewHeaderTemplate
+      let-currDate
+      let-nextMonth="nextMonth"
+      let-prevMonth="prevMonth"
+      let-openYearsView="openYearsView"
+    >
+      <div class="ard-calendar-days-view-header">
+        <ard-button
+          class="ard-calendar-header-button"
+          appearance="transparent"
+          color="none"
+          [tabIndex]="tabIndex()"
+          (click)="openYearsView()"
+        >
+          {{ currDate | date: 'MMM YYYY' | uppercase }}
+          <div class="ard-dropdown-arrow"></div>
+        </ard-button>
+        <div class="ard-calendar-arrows">
+          <ard-icon-button
+            size="small"
+            appearance="transparent"
+            color="none"
+            (click)="prevMonth()"
+            [tabIndex]="tabIndex()"
+          >
+            <ard-icon>chevron_left</ard-icon>
+          </ard-icon-button>
+          <ard-icon-button
+            size="small"
+            appearance="transparent"
+            color="none"
+            (click)="nextMonth()"
+            [tabIndex]="tabIndex()"
+          >
+            <ard-icon>chevron_right</ard-icon>
+          </ard-icon-button>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template
+      [ngTemplateOutlet]="daysViewHeaderTemplate || defaultDaysViewHeaderTemplate"
+      [ngTemplateOutletContext]="getDaysViewHeaderContext()"
+    />
+  </div>
+  <div class="ard-calendar-main-container">
+    <div class="ard-calendar-day-labels ard-calendar-grid">
+      <ng-template
+        #defaultWeekdayTemplate
+        let-date
+      >
+        <div class="ard-calendar-weekday">{{ date | date: 'EEEEE' }}</div>
+      </ng-template>
+      <ng-container *ngFor="let weekdayIndex of weekdayArray">
+        <ng-template
+          [ngTemplateOutlet]="weekdayTemplate || defaultWeekdayTemplate"
+          [ngTemplateOutletContext]="getWeekdayContext(weekdayIndex)"
+        ></ng-template>
+      </ng-container>
+    </div>
+    <div
+      #focusableElement
+      class="ard-calendar-main-grid ard-calendar-grid"
+      [class.ard-reserve-top-row]="reserveTopRow"
+      [tabindex]="tabIndex()"
+      [ariaLabel]="currentAriaLabel"
+      (focus)="onFocus($event)"
+      (focus)="onDayGridFocus()"
+      (blur)="onBlur($event)"
+      (blur)="onDayGridBlur()"
+      (click)="onDayGridClick()"
+      (keydown)="onMainGridKeydown($event)"
+      role="grid"
+    >
+      <div class="ard-calendar-floating-month">
+        <ng-template
+          #defaultFloatingMonthTemplate
+          let-date
+        >
+          {{ date | date: 'LLL' | uppercase }}
         </ng-template>
 
         <ng-template
-            [ngTemplateOutlet]="daysViewHeaderTemplate || defaultDaysViewHeaderTemplate"
-            [ngTemplateOutletContext]="getDaysViewHeaderContext()"
-        />
-    </div>
-    <div class="ard-calendar-main-container">
-        <div class="ard-calendar-day-labels ard-calendar-grid">
-            <ng-template #defaultWeekdayTemplate let-date>
-                <div class="ard-calendar-weekday">{{ date | date: 'EEEEE' }}</div>
-            </ng-template>
-            <ng-container *ngFor="let weekdayIndex of weekdayArray">
+          [ngTemplateOutlet]="floatingMonthTemplate || defaultFloatingMonthTemplate"
+          [ngTemplateOutletContext]="getFloatingMonthContext()"
+        ></ng-template>
+      </div>
+      <ng-container *ngFor="let week of calendarArray">
+        <ng-container *ngFor="let day of week">
+          <div
+            class="ard-calendar-entry"
+            [class.ard-calendar-entry-empty]="day === null"
+            [class.ard-calendar-entry-highlighted]="highlightedDay === day"
+            [class.ard-calendar-entry-selected]="isDaySelected(day)"
+            [class.ard-calendar-today]="isDayToday(day)"
+            (click)="onCalendarDayClick(day)"
+            (mousemove)="$event.stopPropagation()"
+            (mouseover)="onCalendarDayMouseover(day)"
+            role="gridcell"
+          >
+            <button
+              class="ard-calendar-entry-button"
+              *ngIf="day !== null"
+              tabindex="-1"
+            >
+              <div class="ard-focus-overlay"></div>
+              <div class="ard-button-content">
                 <ng-template
-                    [ngTemplateOutlet]="weekdayTemplate || defaultWeekdayTemplate"
-                    [ngTemplateOutletContext]="getWeekdayContext(weekdayIndex)"
-                ></ng-template>
-            </ng-container>
-        </div>
-        <div #focusableElement
-            class="ard-calendar-main-grid ard-calendar-grid"
-            [class.ard-reserve-top-row]="reserveTopRow"
-            [tabindex]="tabIndex()"
-            [ariaLabel]="currentAriaLabel"
-            (focus)="onFocus($event)"
-            (focus)="onDayGridFocus()"
-            (blur)="onBlur($event)"
-            (blur)="onDayGridBlur()"
-            (click)="onDayGridClick()"
-            (keydown)="onMainGridKeydown($event)"
-            role="grid"
-        >
-            <div class="ard-calendar-floating-month">
-                <ng-template #defaultFloatingMonthTemplate let-date>
-                    {{ date | date: 'LLL' | uppercase }}
+                  #defaultDayTemplate
+                  let-day
+                >
+                  {{ day }}
                 </ng-template>
-
                 <ng-template
-                    [ngTemplateOutlet]="floatingMonthTemplate || defaultFloatingMonthTemplate"
-                    [ngTemplateOutletContext]="getFloatingMonthContext()"
+                  [ngTemplateOutlet]="dayTemplate || defaultDayTemplate"
+                  [ngTemplateOutletContext]="getDayContext(day)"
                 ></ng-template>
-            </div>
-            <ng-container *ngFor="let week of calendarArray">
-                <ng-container *ngFor="let day of week">
-                    <div class="ard-calendar-entry"
-                        [class.ard-calendar-entry-empty]="day == null"
-                        [class.ard-calendar-entry-highlighted]="highlightedDay == day"
-                        [class.ard-calendar-entry-selected]="isDaySelected(day)"
-                        [class.ard-calendar-today]="isDayToday(day)"
-                        (click)="onCalendarDayClick(day)"
-                        (mousemove)="$event.stopPropagation()"
-                        (mouseover)="onCalendarDayMouseover(day)"
-                        role="gridcell"
-                    >
-                        <button class="ard-calendar-entry-button"
-                            *ngIf="day != null"
-                            tabindex="-1"
-                        >
-                            <div class="ard-focus-overlay"></div>
-                            <div class="ard-button-content">
-                                <ng-template #defaultDayTemplate let-day>
-                                    {{ day }}
-                                </ng-template>
-                                <ng-template
-                                    [ngTemplateOutlet]="dayTemplate || defaultDayTemplate"
-                                    [ngTemplateOutletContext]="getDayContext(day)"
-                                ></ng-template>
-                            </div>
-                        </button>
-                    </div>
-                </ng-container>
-            </ng-container>
-        </div>
+              </div>
+            </button>
+          </div>
+        </ng-container>
+      </ng-container>
     </div>
+  </div>
 </ng-template>
-
 
 <!-- <ng-container *ngIf="isLoading">
     <ng-template #defaultLoadingSpinnerTemplate>

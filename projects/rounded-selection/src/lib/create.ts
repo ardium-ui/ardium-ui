@@ -1,4 +1,11 @@
-import { RoundedSelectionCell, RoundedSelectionData, RoundedSelectionLine, RoundedSelectionState as RSS, SelectionData, SelectionLineData } from './types';
+import {
+  RoundedSelectionCell,
+  RoundedSelectionData,
+  RoundedSelectionLine,
+  RoundedSelectionState as RSS,
+  SelectionData,
+  SelectionLineData,
+} from './types';
 import { isDefined } from 'simple-bool';
 
 export function createRoundedLines(selection: SelectionData): RoundedSelectionData {
@@ -17,7 +24,11 @@ export function createRoundedLines(selection: SelectionData): RoundedSelectionDa
   return roundedSelection;
 }
 
-function getLineObjects(line: SelectionLineData, prevLine?: SelectionLineData, nextLine?: SelectionLineData): RoundedSelectionLine {
+function getLineObjects(
+  line: SelectionLineData,
+  prevLine?: SelectionLineData,
+  nextLine?: SelectionLineData
+): RoundedSelectionLine {
   if (!isFilledLine(line)) return [];
 
   const lineData: RoundedSelectionCell[] = [];
@@ -26,20 +37,26 @@ function getLineObjects(line: SelectionLineData, prevLine?: SelectionLineData, n
 
   //* check for errors
   if (start < 0 || end < 0) {
-    throw new Error(`Selection start and end values cannot be negative. The faulty line object: ${JSON.stringify(line, null, 4)}`);
+    throw new Error(
+      `Selection start and end values cannot be negative. The faulty line object: ${JSON.stringify(line, null, 4)}`
+    );
   }
   if (start > end) {
-    throw new Error(`Selection start index cannot be greater than the end index. The faulty line object: ${JSON.stringify(line, null, 4)}`);
+    throw new Error(
+      `Selection start index cannot be greater than the end index. The faulty line object: ${JSON.stringify(line, null, 4)}`
+    );
   }
   if (end > length - 1) {
-    throw new Error(`Selection end index cannot be greater than the line length. The faulty line object: ${JSON.stringify(line, null, 4)}`);
+    throw new Error(
+      `Selection end index cannot be greater than the line length. The faulty line object: ${JSON.stringify(line, null, 4)}`
+    );
   }
 
   //* add before
   lineData.push(...getBeforeStartSelection(line, prevLine, nextLine));
 
   //* add main
-  if (start == end) {
+  if (start === end) {
     lineData.push(...getOneWideSelection(line, prevLine, nextLine));
   } else {
     lineData.push(...getStandardSelectionBody(line, prevLine, nextLine));
@@ -65,8 +82,8 @@ function getBeforeStartSelection(
   const isAtStartPrev = prevLine && isSelectionAt(start, prevLine);
   const isAtStartNext = nextLine && isSelectionAt(start, nextLine);
 
-  if (start != 0 && ((isBeforeStartPrev && isAtStartPrev) || (isBeforeStartNext && isAtStartNext))) {
-    if (start != 1) lineData.push({ span: start - 1, filled: false });
+  if (start !== 0 && ((isBeforeStartPrev && isAtStartPrev) || (isBeforeStartNext && isAtStartNext))) {
+    if (start !== 1) lineData.push({ span: start - 1, filled: false });
 
     lineData.push({
       span: 1,
@@ -74,7 +91,7 @@ function getBeforeStartSelection(
       topRight: isBeforeStartPrev && isAtStartPrev ? RSS.Negative : RSS.None,
       bottomRight: isBeforeStartNext && isAtStartNext ? RSS.Negative : RSS.None,
     });
-  } else if (start != 0) {
+  } else if (start !== 0) {
     lineData.push({ span: start, filled: false });
   }
 
@@ -101,7 +118,7 @@ function getAfterEndSelection(
       topLeft: isAfterEndPrev && isAtEndPrev ? RSS.Negative : RSS.None,
       bottomLeft: isAfterEndNext && isAtEndNext ? RSS.Negative : RSS.None,
     });
-    if (end != length - 1) lineData.push({ span: length - end - 1, filled: false });
+    if (end !== length - 1) lineData.push({ span: length - end - 1, filled: false });
   } else if (end < length - 1) {
     lineData.push({ span: length - end, filled: false });
   }

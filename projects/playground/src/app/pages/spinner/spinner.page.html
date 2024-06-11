@@ -1,18 +1,21 @@
 <div class="master">
-    <span class="title">Spinner</span>
-    <div>
-        <ard-spinner></ard-spinner>
-    </div>
+  <span class="title">Spinner</span>
+  <div>
+    <ard-spinner></ard-spinner>
+  </div>
 </div>
 <div class="master">
-    <span class="title">Big spinner</span>
-    <div>
-        <ard-spinner style="width:200px; height:200px"></ard-spinner>
-    </div>
+  <span class="title">Big spinner</span>
+  <div>
+    <ard-spinner style="width: 200px; height: 200px"></ard-spinner>
+  </div>
 </div>
 <div class="master">
-    <div class="title">Spinner rainbow table</div>
-    <div>
-        <ard-spinner *ngFor="let color of colors" [color]="color"></ard-spinner>
-    </div>
+  <div class="title">Spinner rainbow table</div>
+  <div>
+    <ard-spinner
+      *ngFor="let color of colors"
+      [color]="color"
+    ></ard-spinner>
+  </div>
 </div>

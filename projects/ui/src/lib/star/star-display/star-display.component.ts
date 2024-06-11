@@ -51,7 +51,7 @@ export class ArdiumStarDisplayComponent {
         newArr.push(StarFillMode.Filled);
         continue;
       }
-      if (Math.round(v + 1) == 1) {
+      if (Math.round(v + 1) === 1) {
         newArr.push(StarFillMode.Half);
         continue;
       }

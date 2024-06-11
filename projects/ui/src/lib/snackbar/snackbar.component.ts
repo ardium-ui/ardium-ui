@@ -1,13 +1,13 @@
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@angular/core';
 import { isDefined } from 'simple-bool';
 import { ArdiumButtonModule } from '../buttons/button/button.module';
-import { ARD_SNACKBAR_COLOR, ARD_SNACKBAR_DATA, ARD_SNACKBAR_TYPE, ArdSnackbarRef } from './snackbar-ref';
-import { AsyncPipe } from '@angular/common';
-import { ArdSnackbarType } from './snackbar.types';
 import { ArdiumIconModule } from '../icon/icon.module';
+import { ARD_SNACKBAR_COLOR, ARD_SNACKBAR_DATA, ARD_SNACKBAR_TYPE, ArdSnackbarRef } from './snackbar-ref';
+import { ArdSnackbarType } from './snackbar.types';
 
 @Component({
-  selector: '_ard-simple-snackbar',
+  selector: 'ard-simple-snackbar',
   templateUrl: './snackbar.component.html',
   styles: ``,
   encapsulation: ViewEncapsulation.None,
@@ -15,7 +15,7 @@ import { ArdiumIconModule } from '../icon/icon.module';
   imports: [ArdiumButtonModule, AsyncPipe, ArdiumIconModule],
   standalone: true,
 })
-export class _ArdSimpleSnackbar {
+export class _ArdSimpleSnackbarComponent {
   public readonly snackbarRef = inject(ArdSnackbarRef);
   public readonly data = inject(ARD_SNACKBAR_DATA);
   public readonly color = inject(ARD_SNACKBAR_COLOR);

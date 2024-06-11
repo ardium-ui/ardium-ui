@@ -1,26 +1,32 @@
-<div class="ard-digit-input" [ngClass]="ngClasses">
-    <div class="ard-digit-input__item" *ngFor="let data of configArrayData">
-        <input
-            #input
-            #focusableElement
-            *ngIf="data.type == 'input'"
-            class="ard-digit-input__input"
-            type="text"
-            autocomplete="off"
-            [readonly]="data.readonly"
-            [class.ard-digit-input__input-readonly]="data.readonly"
-            [class.ard-digit-input__input-empty]="isInputEmpty(data.index!)"
-            (paste)="onPaste($event, data.index!)"
-            (input)="onInput($event, data.index!)"
-            (focus)="onFocusMaster($event, data.index!)"
-            (blur)="onBlurMaster($event, data.index!)"
-            (keydown)="onKeydown($event, data.index!)"
-        />
-        <div
-            *ngIf="data.type == 'static'"
-            class="ard-digit-input__static"
-        >
-            {{ data.char }}
-        </div>
+<div
+  class="ard-digit-input"
+  [ngClass]="ngClasses"
+>
+  <div
+    class="ard-digit-input__item"
+    *ngFor="let data of configArrayData"
+  >
+    <input
+      #input
+      #focusableElement
+      *ngIf="data.type === 'input'"
+      class="ard-digit-input__input"
+      type="text"
+      autocomplete="off"
+      [readonly]="data.readonly"
+      [class.ard-digit-input__input-readonly]="data.readonly"
+      [class.ard-digit-input__input-empty]="isInputEmpty(data.index!)"
+      (paste)="onPaste($event, data.index!)"
+      (input)="onInput($event, data.index!)"
+      (focus)="onFocusMaster($event, data.index!)"
+      (blur)="onBlurMaster($event, data.index!)"
+      (keydown)="onKeydown($event, data.index!)"
+    />
+    <div
+      *ngIf="data.type === 'static'"
+      class="ard-digit-input__static"
+    >
+      {{ data.char }}
     </div>
+  </div>
 </div>

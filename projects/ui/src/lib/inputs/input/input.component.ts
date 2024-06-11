@@ -4,34 +4,34 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  computed,
   ContentChild,
   ElementRef,
   EventEmitter,
-  forwardRef,
   HostListener,
-  input,
   Input,
   OnInit,
-  output,
   Output,
-  signal,
   TemplateRef,
-  viewChild,
-  ViewChild,
   ViewContainerRef,
   ViewEncapsulation,
+  computed,
+  forwardRef,
+  input,
+  output,
+  signal,
+  viewChild,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { isString } from 'simple-bool';
+import { SimplestItemStorage, SimplestItemStorageHost } from '../../_internal/item-storages/simplest-item-storage';
 import { DropdownPanelAppearance, DropdownPanelVariant } from '../../dropdown-panel/dropdown-panel.types';
 import { ArdSimplestStorageItem } from '../../types/item-storage.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
-import { SimplestItemStorage, SimplestItemStorageHost } from '../../_internal/item-storages/simplest-item-storage';
+import { Nullable } from '../../types/utility.types';
 import { ArdiumSimpleInputComponent } from '../simple-input/simple-input.component';
 import { OptionContext } from './../../types/item-storage.types';
-import { escapeAndCreateRegex, InputModel, InputModelHost } from './../input-utils';
+import { InputModel, InputModelHost, escapeAndCreateRegex } from './../input-utils';
 import {
   ArdInputLoadingTemplateDirective,
   ArdInputPlaceholderTemplateDirective,
@@ -39,7 +39,6 @@ import {
   ArdInputSuffixTemplateDirective,
   ArdSuggestionTemplateDirective,
 } from './input.directives';
-import { Nullable } from '../../types/utility.types';
 
 @Component({
   selector: 'ard-input',
@@ -55,10 +54,17 @@ import { Nullable } from '../../types/utility.types';
     },
   ],
 })
-export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements InputModelHost, OnInit, SimplestItemStorageHost, AfterViewInit {
+export class ArdiumInputComponent
+  extends ArdiumSimpleInputComponent
+  implements InputModelHost, OnInit, SimplestItemStorageHost, AfterViewInit
+{
   private readonly element!: HTMLElement;
 
-  constructor(private viewContainerRef: ViewContainerRef, private overlay: Overlay, private scrollStrategyOpts: ScrollStrategyOptions) {
+  constructor(
+    private viewContainerRef: ViewContainerRef,
+    private overlay: Overlay,
+    private scrollStrategyOpts: ScrollStrategyOptions
+  ) {
     super();
 
     this.element = viewContainerRef.element.nativeElement;
@@ -93,11 +99,11 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
     if (!isString(v)) {
       throw new Error('charlistRegExp must be a non-empty string.');
     }
-    let flags = this._charlistCaseInsensitive ? 'i' : '';
-    let negated = v.startsWith('^');
+    const flags = this._charlistCaseInsensitive ? 'i' : '';
+    const negated = v.startsWith('^');
     this._charlistRegExp = escapeAndCreateRegex(v, flags, !negated);
   }
-  protected _charlistCaseInsensitive: boolean = false;
+  protected _charlistCaseInsensitive = false;
   @Input()
   get charlistCaseInsensitive(): boolean {
     return this._charlistCaseInsensitive;
@@ -105,7 +111,7 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
   set charlistCaseInsensitive(v: any) {
     this._charlistCaseInsensitive = coerceBooleanProperty(v);
     if (this._charlistRegExp) {
-      let flags = this._charlistCaseInsensitive ? 'i' : '';
+      const flags = this._charlistCaseInsensitive ? 'i' : '';
       this._charlistRegExp = new RegExp(this._charlistRegExp.source, flags);
     }
   }
@@ -142,7 +148,7 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
   set suggestions(value: any) {
     if (!Array.isArray(value)) value = coerceArrayProperty(value);
 
-    let shouldPrintErrors = this.suggestionStorage.setItems(value);
+    const shouldPrintErrors = this.suggestionStorage.setItems(value);
 
     this._suggestionDropdowOpen.set(true);
     this.suggestionStorage.highlightFirstItem();
@@ -154,7 +160,9 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
 
   private _printPrimitiveWarnings() {
     function makeWarning(str: string): void {
-      console.warn(`Skipped using [${str}] property bound to <ard-input>, as some provided suggestion items are of primitive type`);
+      console.warn(
+        `Skipped using [${str}] property bound to <ard-input>, as some provided suggestion items are of primitive type`
+      );
       //TODO error
     }
     if (this.valueFrom()) {
@@ -207,8 +215,6 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
 
     this.dropdownOverlay = this.overlay.create(config);
 
-    this.dropdownOverlay;
-
     const portal = new TemplatePortal(this.dropdownTemplate()!, this.viewContainerRef);
     this.dropdownOverlay.attach(portal);
 
@@ -234,7 +240,7 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
   }
 
   //! suggestion-highligh-related
-  private _isMouseBeingUsed: boolean = false;
+  private _isMouseBeingUsed = false;
   @HostListener('mousemove')
   onMouseMove() {
     this._isMouseBeingUsed = true;
@@ -284,7 +290,7 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
   }
   get dropdownAppearance(): DropdownPanelAppearance {
     if (this._dropdownAppearance) return this._dropdownAppearance;
-    if (this.appearance == FormElementAppearance.Outlined) return DropdownPanelAppearance.Outlined;
+    if (this.appearance === FormElementAppearance.Outlined) return DropdownPanelAppearance.Outlined;
     return DropdownPanelAppearance.Raised;
   }
   private _dropdownVariant?: DropdownPanelVariant = undefined;
@@ -294,7 +300,7 @@ export class ArdiumInputComponent extends ArdiumSimpleInputComponent implements 
   }
   get dropdownVariant(): DropdownPanelVariant {
     if (this._dropdownVariant) return this._dropdownVariant;
-    if (this.variant == FormElementVariant.Pill) return DropdownPanelVariant.Rounded;
+    if (this.variant === FormElementVariant.Pill) return DropdownPanelVariant.Rounded;
     return this.variant;
   }
 

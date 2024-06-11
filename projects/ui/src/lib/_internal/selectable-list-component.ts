@@ -1,13 +1,27 @@
-import { ChangeDetectorRef, Directive, EventEmitter, HostBinding, HostListener, Input, Output, Signal, computed, input, signal } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Directive,
+  EventEmitter,
+  HostBinding,
+  HostListener,
+  Input,
+  Output,
+  computed,
+  input,
+  signal,
+} from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { ArdOptionSimple, CompareWithFn, OptionContext } from '../types/item-storage.types';
+import { Nullable } from '../types/utility.types';
 import { SimpleItemStorage, SimpleItemStorageHost } from './item-storages/simple-item-storage';
 import { _NgModelComponentBase } from './ngmodel-component';
-import { Nullable } from '../types/utility.types';
 
 @Directive()
-export abstract class _SelectableListComponentBase extends _NgModelComponentBase implements ControlValueAccessor, SimpleItemStorageHost {
+export abstract class _SelectableListComponentBase
+  extends _NgModelComponentBase
+  implements ControlValueAccessor, SimpleItemStorageHost
+{
   //! public constants
   readonly itemStorage = new SimpleItemStorage(this);
   readonly htmlId = crypto.randomUUID();
@@ -38,7 +52,7 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
   set items(value: any) {
     if (!Array.isArray(value)) value = coerceArrayProperty(value);
 
-    let shouldPrintErrors = this.itemStorage.setItems(value);
+    const shouldPrintErrors = this.itemStorage.setItems(value);
 
     if (shouldPrintErrors) {
       this._printPrimitiveWarnings();
@@ -240,7 +254,7 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
       }
       case 'KeyA': {
         if (event.ctrlKey) {
-          this._highlightAll(event);
+          this._highlightAll();
           return;
         }
       }
@@ -291,7 +305,7 @@ export abstract class _SelectableListComponentBase extends _NgModelComponentBase
 
     this.itemStorage.highlightLastItem();
   }
-  private _highlightAll(event: KeyboardEvent): void {
+  private _highlightAll(): void {
     this.itemStorage.highlightAllItems();
   }
 }

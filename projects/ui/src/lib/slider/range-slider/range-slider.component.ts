@@ -3,7 +3,6 @@ import { roundToPrecision } from 'more-rounding';
 import { isNumber, isObject } from 'simple-bool';
 import { _AbstractSlider } from '../abstract-slider';
 import { SliderRange, SliderTooltipContext } from '../slider.types';
-import { isDefined } from 'simple-bool';
 
 @Component({
   selector: 'ard-range-slider',
@@ -16,7 +15,7 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
   protected _value: SliderRange = { low: -Infinity, high: Infinity };
 
   ngOnInit(): void {
-    if (this._value.low != -Infinity && this._value.high != Infinity) return;
+    if (this._value.low !== -Infinity && this._value.high !== Infinity) return;
 
     this.writeValue({ low: this._min, high: this._max });
   }
@@ -26,7 +25,7 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
     return isObject(v) && isNumber(v['low']) && isNumber(v['high']);
   }
   private _isValidTuple(v: any): v is [number, number] {
-    return Array.isArray(v) && isNumber(v[0]) && isNumber(v[1]) && v.length == 2;
+    return Array.isArray(v) && isNumber(v[0]) && isNumber(v[1]) && v.length === 2;
   }
   private _arrayValueToObjectValue(v: [number, number]): SliderRange {
     return { low: v[0], high: v[1] };
@@ -40,8 +39,8 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
       this.reset();
       return;
     }
-    let low: number = -Infinity;
-    let high: number = Infinity;
+    let low = -Infinity;
+    let high = Infinity;
     if (this._isValidObject(v)) {
       low = v.low;
       high = v.high;
@@ -49,9 +48,9 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
       low = v[0];
       high = v[1];
     }
-    let lowClamped = this._clampValue(low);
-    let highClamped = this._clampValue(high);
-    let value: SliderRange = this._arrayValueToObjectValue([lowClamped, highClamped]);
+    const lowClamped = this._clampValue(low);
+    const highClamped = this._clampValue(high);
+    const value: SliderRange = this._arrayValueToObjectValue([lowClamped, highClamped]);
     this._value = value;
     this._positionPercent[0] = this._valueToPercent(lowClamped);
     this._positionPercent[1] = this._valueToPercent(highClamped);
@@ -68,7 +67,7 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
   _tooltipValue: SliderRange<string | number> = this.value;
 
   protected _updateTooltipValue(): void {
-    let v: SliderRange<string | number> = Object.create(this._value);
+    const v: SliderRange<string | number> = Object.create(this._value);
     if (this.tooltipFormat) {
       v.low = this.tooltipFormat(v.low as number);
       v.high = this.tooltipFormat(v.high as number);
@@ -123,7 +122,7 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
     newVal = roundToPrecision(newVal, 9);
 
     const newValObj = { low: this._value.low, high: this._value.high };
-    if (handleId == 1) {
+    if (handleId === 1) {
       newValObj.low = newVal;
     } else {
       newValObj.high = newVal;

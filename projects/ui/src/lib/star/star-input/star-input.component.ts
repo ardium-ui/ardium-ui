@@ -1,35 +1,27 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
   HostListener,
   ViewEncapsulation,
-  ViewChildren,
-  ElementRef,
-  QueryList,
+  computed,
+  effect,
   forwardRef,
   input,
-  computed,
-  viewChildren,
   model,
   output,
   signal,
-  effect,
+  viewChildren,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { coerceNumberProperty } from '@ardium-ui/devkit';
 import { ArdiumStarButtonComponent } from '../star-button/star-button.component';
 import { _NgModelComponentBase } from './../../_internal/ngmodel-component';
 import { StarColor } from './../star.types';
-import { coerceNumberProperty } from '@ardium-ui/devkit';
 
-type StarInputObject = {
+interface StarInputObject {
   filled: boolean;
   isInValue: boolean;
-};
+}
 
 @Component({
   selector: 'ard-star-input',
@@ -118,8 +110,8 @@ export class ArdiumStarInputComponent extends _NgModelComponentBase implements C
   }
 
   //* focus handlers
-  private _isFocusEventSuppressed: boolean = false;
-  private _isBlurEventSuppressed: boolean = false;
+  private _isFocusEventSuppressed = false;
+  private _isBlurEventSuppressed = false;
   private _currentFocusIndex: number | null = null;
   onStarButtonFocus(index: number) {
     this._currentFocusIndex = index;
@@ -142,7 +134,7 @@ export class ArdiumStarInputComponent extends _NgModelComponentBase implements C
     this.starButtonInstances()[index]!.focus();
   }
   focusNextStarButton(offset: number): void {
-    if (!this.starButtonInstances() || this._currentFocusIndex == null) return;
+    if (!this.starButtonInstances() || this._currentFocusIndex === null) return;
 
     let nextIndex = this._currentFocusIndex + offset;
     nextIndex = Math.min(nextIndex, this.max() - 1);
@@ -159,7 +151,7 @@ export class ArdiumStarInputComponent extends _NgModelComponentBase implements C
     this.focusStarButtonByIndex(0);
   }
   override blur(): void {
-    if (!this.starButtonInstances() || this._currentFocusIndex == null) return;
+    if (!this.starButtonInstances() || this._currentFocusIndex === null) return;
     this.starButtonInstances()[this._currentFocusIndex]!.blur();
   }
 
@@ -168,7 +160,7 @@ export class ArdiumStarInputComponent extends _NgModelComponentBase implements C
   onKeyPress(event: KeyboardEvent): void {
     switch (event.code) {
       case 'Tab': {
-        this._onTabPress(event);
+        this._onTabPress();
         return;
       }
       case 'ArrowRight': {
@@ -207,9 +199,9 @@ export class ArdiumStarInputComponent extends _NgModelComponentBase implements C
   private _onEndPress(event: KeyboardEvent): void {
     event.preventDefault();
     this._suppressFocusEvents();
-    this._onTabPress(event);
+    this._onTabPress();
   }
-  private _onTabPress(_: KeyboardEvent): void {
+  private _onTabPress(): void {
     this.focusStarButtonByIndex(this.max() - 1);
   }
 }

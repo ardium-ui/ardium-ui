@@ -1,8 +1,8 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, ViewEncapsulation, input } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import * as Color from 'color';
-import { ColorDisplayAppearance } from './color-display.types';
 import { Nullable } from '../../types/utility.types';
+import { ColorDisplayAppearance } from './color-display.types';
 
 @Component({
   selector: 'ard-color-display',

@@ -1,83 +1,117 @@
 <div class="master">
-    <span class="title">Basic progress circle</span>
-    <ard-progress-circle></ard-progress-circle>
+  <span class="title">Basic progress circle</span>
+  <ard-progress-circle></ard-progress-circle>
 </div>
 <div class="master">
-    <span class="title">Progress circle with value</span>
-    <ard-progress-circle value="40"></ard-progress-circle>
+  <span class="title">Progress circle with value</span>
+  <ard-progress-circle value="40"></ard-progress-circle>
 </div>
 <div class="master">
-    <span class="title">Progress circle with value and custom appearance</span>
-    <ard-progress-circle value="40" appearance="colored"></ard-progress-circle>
+  <span class="title">Progress circle with value and custom appearance</span>
+  <ard-progress-circle
+    value="40"
+    appearance="colored"
+  ></ard-progress-circle>
 </div>
 <div class="master">
-    <span class="title">Progress circle with value and custom appearance and color</span>
-    <ard-progress-circle value="40" appearance="colored" color="danger"></ard-progress-circle>
+  <span class="title">Progress circle with value and custom appearance and color</span>
+  <ard-progress-circle
+    value="40"
+    appearance="colored"
+    color="danger"
+  ></ard-progress-circle>
 </div>
 <div class="master">
-    <span class="title">Progress circle with changing value</span>
-    <ard-progress-circle [value]="currentTimerValue / 0.3"></ard-progress-circle>
+  <span class="title">Progress circle with changing value</span>
+  <ard-progress-circle [value]="currentTimerValue / 0.3"></ard-progress-circle>
 </div>
 <div class="master">
-    <span class="title">Progress circle with changing value (reverse mode)</span>
-    <ard-progress-circle [value]="100 - currentTimerValue / 0.3" reverse></ard-progress-circle>
+  <span class="title">Progress circle with changing value (reverse mode)</span>
+  <ard-progress-circle
+    [value]="100 - currentTimerValue / 0.3"
+    reverse
+  ></ard-progress-circle>
 </div>
 <div class="master">
-    <span class="title">Basic progress circle ring variant</span>
-    <ard-progress-circle variant="ring"></ard-progress-circle>
+  <span class="title">Basic progress circle ring variant</span>
+  <ard-progress-circle variant="ring"></ard-progress-circle>
 </div>
 <div class="master">
-    <span class="title">Progress circle with value ring variant</span>
-    <ard-progress-circle variant="ring" value="40"></ard-progress-circle>
+  <span class="title">Progress circle with value ring variant</span>
+  <ard-progress-circle
+    variant="ring"
+    value="40"
+  ></ard-progress-circle>
 </div>
 <div class="master">
-    <span class="title">Progress circle with hidden value ring variant</span>
-    <ard-progress-circle variant="ring" value="40" hideValue></ard-progress-circle>
+  <span class="title">Progress circle with hidden value ring variant</span>
+  <ard-progress-circle
+    variant="ring"
+    value="40"
+    hideValue
+  ></ard-progress-circle>
 </div>
 <div class="master">
-    <span class="title">Progress circle with value and custom appearance ring variant</span>
-    <ard-progress-circle variant="ring" value="40" appearance="colored"></ard-progress-circle>
+  <span class="title">Progress circle with value and custom appearance ring variant</span>
+  <ard-progress-circle
+    variant="ring"
+    value="40"
+    appearance="colored"
+  ></ard-progress-circle>
 </div>
 <div class="master">
-    <span class="title">Progress circle with changing value ring variant</span>
-    <ard-progress-circle variant="ring" [value]="currentTimerValue / 0.3"></ard-progress-circle>
+  <span class="title">Progress circle with changing value ring variant</span>
+  <ard-progress-circle
+    variant="ring"
+    [value]="currentTimerValue / 0.3"
+  ></ard-progress-circle>
 </div>
 <div class="master">
-    <span class="title">Progress circle with changing value ring variant (reverse mode)</span>
-    <ard-progress-circle variant="ring" [value]="100 - currentTimerValue / 0.3" reverse></ard-progress-circle>
+  <span class="title">Progress circle with changing value ring variant (reverse mode)</span>
+  <ard-progress-circle
+    variant="ring"
+    [value]="100 - currentTimerValue / 0.3"
+    reverse
+  ></ard-progress-circle>
 </div>
 <div class="master">
-    <span class="title">Progress circle acting as a timer</span>
-    <ard-progress-circle
-        variant="ring"
-        [value]="30 - currentTimerValue"
-        max="30"
-        reverse
+  <span class="title">Progress circle acting as a timer</span>
+  <ard-progress-circle
+    variant="ring"
+    [value]="30 - currentTimerValue"
+    max="30"
+    reverse
+  >
+    <ng-template
+      ard-value-tmp
+      let-value="value"
     >
-        <ng-template ard-value-tmp let-value="value">
-            0:{{ value | number : '2.0-0' }}
-        </ng-template>
-    </ard-progress-circle>
+      0:{{ value | number : '2.0-0' }}
+    </ng-template>
+  </ard-progress-circle>
 </div>
 <div class="master">
-    <span class="title">Rainbow table</span>
-    <div class="flex" *ngFor="let variant of variants">
-        <span class="title">Variant: {{ variant }}</span>
-        <div class="grid rainbow">
-            <ng-container *ngFor="let appearance of appearances">
-                <ng-container *ngFor="let hideValue of [false, true]">
-                    <ard-progress-circle
-                        *ngFor="let color of colors"
-                        value="65"
-                        [variant]="variant"
-                        [appearance]="appearance"
-                        [color]="color"
-                        [hideValue]="hideValue"
-                    ></ard-progress-circle>
-                    <span class="mono">{{ appearance }}{{ hideValue ? ' + hidden value' : '' }}</span>
-                </ng-container>
-            </ng-container>
-        </div>
+  <span class="title">Rainbow table</span>
+  <div
+    class="flex"
+    *ngFor="let variant of variants"
+  >
+    <span class="title">Variant: {{ variant }}</span>
+    <div class="grid rainbow">
+      <ng-container *ngFor="let appearance of appearances">
+        <ng-container *ngFor="let hideValue of [false, true]">
+          <ard-progress-circle
+            *ngFor="let color of colors"
+            value="65"
+            [variant]="variant"
+            [appearance]="appearance"
+            [color]="color"
+            [hideValue]="hideValue"
+          ></ard-progress-circle>
+          <span class="mono">{{ appearance }}{{ hideValue ? ' + hidden value' : '' }}</span>
+        </ng-container>
+      </ng-container>
     </div>
-    <ard-progress-circle></ard-progress-circle>
+  </div>
+  <ard-progress-circle></ard-progress-circle>
 </div>

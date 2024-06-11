@@ -1,17 +1,33 @@
-<div class="ard-dropdown-panel-container" [ngClass]="ngClasses">
-    <div *ngIf="headerTemplate" class="ard-dropdown-header">
-        <ng-template [ngTemplateOutlet]="headerTemplate" [ngTemplateOutletContext]="{ searchTerm: filterValue }">
-        </ng-template>
-    </div>
-    <div #scroll
-        class="ard-dropdown-panel-content"
-        [attr.id]="panelId"
-        (scroll)="onScroll()"
+<div
+  class="ard-dropdown-panel-container"
+  [ngClass]="ngClasses"
+>
+  <div
+    *ngIf="headerTemplate"
+    class="ard-dropdown-header"
+  >
+    <ng-template
+      [ngTemplateOutlet]="headerTemplate"
+      [ngTemplateOutletContext]="{ searchTerm: filterValue }"
     >
-        <ng-content></ng-content>
-    </div>
-    <div *ngIf="footerTemplate" class="ard-dropdown-footer">
-        <ng-template [ngTemplateOutlet]="footerTemplate"  [ngTemplateOutletContext]="{ searchTerm: filterValue }">
-        </ng-template>
-    </div>
+    </ng-template>
+  </div>
+  <div
+    #scroll
+    class="ard-dropdown-panel-content"
+    [attr.id]="panelId"
+    (scroll)="onScroll()"
+  >
+    <ng-content></ng-content>
+  </div>
+  <div
+    *ngIf="footerTemplate"
+    class="ard-dropdown-footer"
+  >
+    <ng-template
+      [ngTemplateOutlet]="footerTemplate"
+      [ngTemplateOutletContext]="{ searchTerm: filterValue }"
+    >
+    </ng-template>
+  </div>
 </div>

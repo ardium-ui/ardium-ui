@@ -40,7 +40,7 @@ export class SimpleInputModel {
     //constraints
     v = this._applyLengthTransformer(v);
     //update view
-    let oldVal = this.value;
+    const oldVal = this.value;
     this.value = v;
     this._updateInputElement();
     return oldVal !== v;
@@ -65,7 +65,7 @@ export class SimpleInputModel {
   //! constraints
   protected _applyLengthTransformer(v: string | null): string | null {
     //exit if max length not specified
-    if (this._hostComp.maxLength == undefined) return v;
+    if (this._hostComp.maxLength === undefined) return v;
     //exit if not value
     //exit if value length is less than specified max length
     if (!v || v.length <= this._hostComp.maxLength) return v;
@@ -91,7 +91,7 @@ export class InputModel extends SimpleInputModel {
       prev = this.stringValue;
       v = this._applyLengthTransformer(v);
     }
-    let oldVal = this.value;
+    const oldVal = this.value;
     //update view
     this.value = v;
     this._updateInputElement();
@@ -106,7 +106,7 @@ export class InputModel extends SimpleInputModel {
   //* constraints
   protected _applyAllowOrDenylistTransformer(v: string, prev: string): string {
     if (!this._hostComp.charlist || !v) return v;
-    let { text, caretPos } = new RegExpTransformer(this._hostComp.charlist).apply(v, prev, this.caretPos);
+    const { text, caretPos } = new RegExpTransformer(this._hostComp.charlist).apply(v, prev, this.caretPos);
     this.caretPos = caretPos;
     return text;
   }
@@ -143,10 +143,10 @@ export class NumberInputModel {
   }
   //value as number
   get numberValue(): number | null {
-    return (this._value == null && null) || Number(this._value);
+    return this._value === null ? null : Number(this._value);
   }
   set numberValue(v: number | null) {
-    this._value = v == null ? null : v.toString();
+    this._value = v === null ? null : v.toString();
   }
 
   //! write value handlers
@@ -168,7 +168,7 @@ export class NumberInputModel {
       v = this._applyMinMaxConstraints(v);
     }
     //update view
-    let oldVal = this.value;
+    const oldVal = this.value;
     this.value = v;
     this._updateInputElement();
     return oldVal !== v;
@@ -221,7 +221,7 @@ export class NumberInputModel {
   }
 }
 
-export function escapeAndCreateRegex(str: string, flags?: string, negated: boolean = true): RegExp {
+export function escapeAndCreateRegex(str: string, flags?: string, negated = true): RegExp {
   str = str.replace(/([\]]+)/g, '\\$1');
   return new RegExp(`[${negated ? '^' : ''}${str}]`, flags);
 }

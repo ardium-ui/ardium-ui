@@ -9,7 +9,7 @@ export const DialogResult = {
 } as const;
 export type DialogResult = (typeof DialogResult)[keyof typeof DialogResult];
 
-export type DialogButtonsContext = {
+export interface DialogButtonsContext {
   confirmButton: {
     text: string;
     color: ComponentColor;
@@ -27,4 +27,4 @@ export type DialogButtonsContext = {
   dialogAppearance: PanelAppearance;
   dialogVariant: PanelVariant;
   dialogCompact: boolean;
-};
+}

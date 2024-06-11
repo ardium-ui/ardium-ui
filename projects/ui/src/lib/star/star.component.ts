@@ -15,5 +15,7 @@ export class ArdiumStarComponent {
   readonly color = input<StarColor>(StarColor.Star);
   readonly fill = input<StarFillMode>(StarFillMode.Filled);
 
-  readonly ngClasses = computed<string>(() => [this.wrapperClasses(), `ard-color-${this.color}`, `ard-star-fill-${this.fill}`].join(' '));
+  readonly ngClasses = computed<string>(() =>
+    [this.wrapperClasses(), `ard-color-${this.color}`, `ard-star-fill-${this.fill}`].join(' ')
+  );
 }

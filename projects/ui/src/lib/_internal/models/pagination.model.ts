@@ -51,10 +51,10 @@ export class PaginationModel {
 
   //! action disabled states
   readonly firstPageDisabled = computed<boolean>(() => {
-    return !isDefined(this._ardHostCmp.totalItems()) || this._ardHostCmp.page() == 1;
+    return !isDefined(this._ardHostCmp.totalItems()) || this._ardHostCmp.page() === 1;
   });
   readonly lastPageDisabled = computed<boolean>(() => {
-    return !isDefined(this._ardHostCmp.totalItems()) || this._ardHostCmp.page() == this.lastPageNum();
+    return !isDefined(this._ardHostCmp.totalItems()) || this._ardHostCmp.page() === this.lastPageNum();
   });
 
   //! current page

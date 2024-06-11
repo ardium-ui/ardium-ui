@@ -3,15 +3,12 @@ import {
   Component,
   ContentChild,
   ElementRef,
-  EventEmitter,
   HostListener,
   Input,
   OnChanges,
   OnInit,
-  Output,
   SimpleChanges,
   TemplateRef,
-  ViewChild,
   ViewEncapsulation,
   computed,
   input,
@@ -30,15 +27,20 @@ import {
   ArdColorPickerOpacityIndicatorTemplateDirective,
   ArdColorPickerShadeIndicatorTemplateDirective,
 } from './color-picker.directives';
-import { ColorPickerColorReferenceContext, ColorPickerIndicatorContext, ColorPickerVariant, _ColorPickerInputsSectionType } from './color-picker.types';
+import {
+  ColorPickerColorReferenceContext,
+  ColorPickerIndicatorContext,
+  ColorPickerVariant,
+  _ColorPickerInputsSectionType,
+} from './color-picker.types';
 
 const validHexColorRegex = /^#[0-9a-f]{3}(?:[0-9a-f]{3})?$/i;
 const validHexAlphaColorRegex = /^#[0-9a-f]{4}(?:[0-9a-f]{4})?$/i;
 
-type TripleInputObject = {
+interface TripleInputObject {
   value: number;
   max: number;
-};
+}
 
 @Component({
   selector: 'ard-color-picker',
@@ -49,7 +51,7 @@ type TripleInputObject = {
 })
 export class ArdiumColorPickerComponent extends _NgModelComponentBase implements OnInit, OnChanges {
   readonly withOpacity = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  // if (this.focusedArea == 'opacity') this.focusedArea = null; // TODO
+  // if (this.focusedArea === 'opacity') this.focusedArea = null; // TODO
 
   readonly referenceColor = model<Color>(Color('transparent'));
 
@@ -67,7 +69,9 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
 
   readonly vertical = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) }); //TODO implement in CSS
 
-  readonly ngClasses = computed(() => [this.wrapperClasses(), `ard-variant-${this.variant()}`, this.vertical() ? 'ard-vertical' : ''].join(' '));
+  readonly ngClasses = computed(() =>
+    [this.wrapperClasses(), `ard-variant-${this.variant()}`, this.vertical() ? 'ard-vertical' : ''].join(' ')
+  );
 
   //! value-related
   private _value: Color = Color('red');
@@ -159,7 +163,7 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
     this._updateOpacityFromEvent(event);
   }
 
-  private _isMouseDown: boolean = false;
+  private _isMouseDown = false;
   @HostListener('document:pointerup')
   @HostListener('document:touchend')
   onDocumentMouseUp(): void {
@@ -200,15 +204,15 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
     const oldSaturation = this.value.saturationv();
     const oldValue = this.value.value();
 
-    if (oldSaturation == newSaturation && oldValue == newValue) return;
+    if (oldSaturation === newSaturation && oldValue === newValue) return;
 
     this.value = Color(this.value).saturationv(newSaturation).value(newValue);
 
     this._emitChange();
     this._updateCurrentOpacityMapColor();
     //emit specific events
-    if (oldSaturation != this.value.saturationv()) this.colorSaturationChange.emit(this.value.saturationv());
-    if (oldValue != this.value.value()) this.colorValueChange.emit(this.value.value());
+    if (oldSaturation !== this.value.saturationv()) this.colorSaturationChange.emit(this.value.saturationv());
+    if (oldValue !== this.value.value()) this.colorValueChange.emit(this.value.value());
   }
   private _updateHueFromEvent(event: MouseEvent | TouchEvent): void {
     const hueMapEl = this.hueMapEl();
@@ -218,9 +222,9 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
     const hueMapHeight = top + bottom;
     const newHueRaw = (top / hueMapHeight) * 360;
     const newHue = round(Math.max(0, Math.min(360, newHueRaw)));
-    const newHueExact = newHue == 360 ? 359.99 : newHue;
+    const newHueExact = newHue === 360 ? 359.99 : newHue;
 
-    if (this.value.hue() == newHueExact) return;
+    if (this.value.hue() === newHueExact) return;
 
     this.value = Color(this.value).hue(newHueExact);
 
@@ -240,7 +244,7 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
     const newOpacityRaw = bottom / hueMapHeight;
     const newOpacity = roundToPrecision(Math.max(0, Math.min(1, newOpacityRaw)), 2);
 
-    if (this.value.alpha() == newOpacity) return;
+    if (this.value.alpha() === newOpacity) return;
 
     this.value = Color(this.value).alpha(newOpacity);
 
@@ -283,14 +287,14 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
   onCurrentInputTypeChange(value: _ColorPickerInputsSectionType[]): void {
     this.currentInputType = value[0];
 
-    if (this.currentInputType != _ColorPickerInputsSectionType.HEX) {
+    if (this.currentInputType !== _ColorPickerInputsSectionType.HEX) {
       this._updateTripleInputValues();
     }
   }
 
   hexInputValue: string = this.value.hex();
   private _updateHexInputValue(): void {
-    if (this.currentInputType != _ColorPickerInputsSectionType.HEX) return;
+    if (this.currentInputType !== _ColorPickerInputsSectionType.HEX) return;
 
     const HEX = this.value;
     this.hexInputValue = HEX.hex().replace('#', '');
@@ -311,10 +315,10 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
   };
   tripleInputData4: TripleInputObject = { value: 0, max: 100 };
   private _updateTripleInputValues(): void {
-    if (this.currentInputType == _ColorPickerInputsSectionType.HEX) return;
+    if (this.currentInputType === _ColorPickerInputsSectionType.HEX) return;
 
     switch (this.currentInputType) {
-      case _ColorPickerInputsSectionType.RGB:
+      case _ColorPickerInputsSectionType.RGB: {
         const RGB = this.value.rgb();
         this.tripleInputData1.value = RGB.red();
         this.tripleInputData1.max = 255;
@@ -324,7 +328,8 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
         this.tripleInputData3.max = 255;
         this.tripleInputData4.value = RGB.alpha() * 100;
         break;
-      case _ColorPickerInputsSectionType.HSL:
+      }
+      case _ColorPickerInputsSectionType.HSL: {
         const HSL = this.value.hsl();
         this.tripleInputData1.value = HSL.hue();
         this.tripleInputData1.max = 360;
@@ -334,7 +339,8 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
         this.tripleInputData3.max = 100;
         this.tripleInputData4.value = HSL.alpha() * 100;
         break;
-      case _ColorPickerInputsSectionType.HSV:
+      }
+      case _ColorPickerInputsSectionType.HSV: {
         const HSV = this.value.hsv();
         this.tripleInputData1.value = HSV.hue();
         this.tripleInputData1.max = 360;
@@ -344,6 +350,7 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
         this.tripleInputData3.max = 100;
         this.tripleInputData4.value = HSV.alpha() * 100;
         break;
+      }
 
       default:
         break;
@@ -358,6 +365,7 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
     this.value = value;
   }
 
+  // eslint-disable-next-line
   onTripleInputChange(value: number | null, index: number): void {} //TODO
 
   //! events
@@ -409,20 +417,20 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
       case 'ArrowRight':
       case 'ArrowLeft':
         if (this.focusedArea() !== 'shade') return;
-        this.nudgeColorSaturation(event.key == 'ArrowRight' ? 1 : -1, hasShift);
+        this.nudgeColorSaturation(event.key === 'ArrowRight' ? 1 : -1, hasShift);
         break;
 
       case 'ArrowUp':
       case 'ArrowDown':
         switch (this.focusedArea()) {
           case 'shade':
-            this.nudgeColorValue(event.key == 'ArrowUp' ? 1 : -1, hasShift);
+            this.nudgeColorValue(event.key === 'ArrowUp' ? 1 : -1, hasShift);
             break;
           case 'hue':
-            this.nudgeColorHue(event.key == 'ArrowDown' ? 1 : -1, hasShift);
+            this.nudgeColorHue(event.key === 'ArrowDown' ? 1 : -1, hasShift);
             break;
           case 'opacity':
-            this.nudgeColorOpacity(event.key == 'ArrowUp' ? 1 : -1, hasShift);
+            this.nudgeColorOpacity(event.key === 'ArrowUp' ? 1 : -1, hasShift);
             break;
 
           default:

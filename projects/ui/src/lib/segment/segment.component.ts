@@ -1,17 +1,26 @@
-import { ChangeDetectionStrategy, Component, ContentChild, HostBinding, Input, TemplateRef, ViewEncapsulation, computed, input } from '@angular/core';
+import {
+  AfterContentInit,
+  ChangeDetectionStrategy,
+  Component,
+  ContentChild,
+  Input,
+  TemplateRef,
+  ViewEncapsulation,
+  input,
+} from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { _SelectableListComponentBase } from '../_internal/selectable-list-component';
+import { OneAxisAlignment } from '../types/alignment.types';
 import { ComponentColor } from '../types/colors.types';
 import { ArdOptionSimple } from '../types/item-storage.types';
-import { _SelectableListComponentBase } from '../_internal/selectable-list-component';
 import { SimpleItemStorageHost } from './../_internal/item-storages/simple-item-storage';
 import { ArdSegmentOptionTemplateDirective } from './segment.directives';
 import { SegmentAppearance, SegmentVariant } from './segment.types';
-import { OneAxisAlignment } from '../types/alignment.types';
 
-type SegmentRow = {
+interface SegmentRow {
   options: ArdOptionSimple[];
   isNotFull?: boolean;
-};
+}
 
 @Component({
   selector: 'ard-segment',
@@ -20,7 +29,7 @@ type SegmentRow = {
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumSegmentComponent extends _SelectableListComponentBase implements SimpleItemStorageHost {
+export class ArdiumSegmentComponent extends _SelectableListComponentBase implements SimpleItemStorageHost, AfterContentInit {
   override readonly _componentId: string = '104';
 
   //! appearance
@@ -29,7 +38,7 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
   @Input() color: ComponentColor = ComponentColor.Primary;
   @Input() align: OneAxisAlignment = OneAxisAlignment.Middle;
 
-  private _iconBased: boolean = false;
+  private _iconBased = false;
   @Input()
   get iconBased(): boolean {
     return this._iconBased;
@@ -38,7 +47,7 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
     this._iconBased = coerceBooleanProperty(v);
   }
 
-  private _compact: boolean = false;
+  private _compact = false;
   @Input()
   get compact(): boolean {
     return this._compact;
@@ -65,7 +74,7 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
   readonly itemsPerRow = input<number, any>(Infinity, {
     transform: v => {
       const newValue = coerceNumberProperty(v, Infinity);
-      if (newValue == 0) throw new Error('Cannot set items per row to 0.');
+      if (newValue === 0) throw new Error('Cannot set items per row to 0.');
       return newValue;
     },
   });
@@ -97,13 +106,13 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
       currentRow.push(item);
 
       //push if item amount reached the limit
-      if (this.itemsPerRow() && currentRow.length == this.itemsPerRow()) {
+      if (this.itemsPerRow() && currentRow.length === this.itemsPerRow()) {
         itemRows.push({ options: currentRow });
         currentRow = [];
       }
     }
     //push the last row if it is not full
-    if (currentRow.length != 0) {
+    if (currentRow.length !== 0) {
       itemRows.push({
         options: currentRow,
         isNotFull: Boolean(this.itemsPerRow()),

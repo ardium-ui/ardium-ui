@@ -3,8 +3,14 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { Injectable, Injector, OnDestroy, inject } from '@angular/core';
 import { isArray, isDefined } from 'simple-bool';
 import { Queue } from '../_internal/queue';
-import { ARD_SNACKBAR_COLOR, ARD_SNACKBAR_DATA, ARD_SNACKBAR_TYPE, ArdSnackbarRef, _ArdSnackbarRefInternal } from './snackbar-ref';
-import { _ArdSimpleSnackbar } from './snackbar.component';
+import {
+  ARD_SNACKBAR_COLOR,
+  ARD_SNACKBAR_DATA,
+  ARD_SNACKBAR_TYPE,
+  ArdSnackbarRef,
+  _ArdSnackbarRefInternal,
+} from './snackbar-ref';
+import { _ArdSimpleSnackbarComponent } from './snackbar.component';
 import { ARD_SNACKBAR_ANIMATION_LENGTH, ARD_SNACKBAR_DEFAULT_OPTIONS, _DEFAULT_OPTIONS_STATIC } from './snackbar.token';
 import { ArdSnackbarOptions, ArdSnackbarOriginRelation, ArdSnackbarQueueHandling, ArdSnackbarType } from './snackbar.types';
 import { ComponentColor } from '../types/colors.types';
@@ -23,7 +29,7 @@ export class ArdiumSnackbarService implements OnDestroy {
   private readonly _injector = inject(Injector);
 
   //! public methods for creating new snackbars
-  open(message: string, action?: string, options: ArdSnackbarOptions = {}): ArdSnackbarRef<_ArdSimpleSnackbar> {
+  open(message: string, action?: string, options: ArdSnackbarOptions = {}): ArdSnackbarRef<_ArdSimpleSnackbarComponent> {
     options.data = {
       message,
       action: action ?? options.data?.action,
@@ -35,7 +41,9 @@ export class ArdiumSnackbarService implements OnDestroy {
       mergedOptions.data.action = action;
     }
 
-    const internalRef = new _ArdSnackbarRefInternal(_ArdSimpleSnackbar, mergedOptions, (withAction?: boolean) => this.dismissCurrent(withAction));
+    const internalRef = new _ArdSnackbarRefInternal(_ArdSimpleSnackbarComponent, mergedOptions, (withAction?: boolean) =>
+      this.dismissCurrent(withAction)
+    );
 
     this._handleQueue(mergedOptions.queueHandling!, internalRef);
     return internalRef.publicRef;
@@ -43,7 +51,9 @@ export class ArdiumSnackbarService implements OnDestroy {
   openFromComponent<T>(component: ComponentType<T>, options: ArdSnackbarOptions): ArdSnackbarRef<T> {
     const mergedOptions = this._mergeOptions(options);
 
-    const internalRef = new _ArdSnackbarRefInternal(component, mergedOptions, (withAction?: boolean) => this.dismissCurrent(withAction));
+    const internalRef = new _ArdSnackbarRefInternal(component, mergedOptions, (withAction?: boolean) =>
+      this.dismissCurrent(withAction)
+    );
 
     this._handleQueue(options.queueHandling!, internalRef);
     return internalRef.publicRef;

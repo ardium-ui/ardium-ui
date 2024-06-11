@@ -68,11 +68,13 @@ export class SimplestItemStorage {
       };
     }
     //get value
-    const valuePath = this._ardParentComp.valueFrom() ?? this._ardParentComp.labelFrom() ?? this._ardParentComp.DEFAULTS.valueFrom;
+    const valuePath =
+      this._ardParentComp.valueFrom() ?? this._ardParentComp.labelFrom() ?? this._ardParentComp.DEFAULTS.valueFrom;
     const value = resolvePath(rawItemData, valuePath);
 
     //get label
-    const labelPath = this._ardParentComp.labelFrom() ?? this._ardParentComp.valueFrom() ?? this._ardParentComp.DEFAULTS.labelFrom;
+    const labelPath =
+      this._ardParentComp.labelFrom() ?? this._ardParentComp.valueFrom() ?? this._ardParentComp.DEFAULTS.labelFrom;
     const label = resolvePath(rawItemData, labelPath) ?? value;
 
     //return
@@ -128,7 +130,7 @@ export class SimplestItemStorage {
   unhighlightItem(item: ArdSimplestStorageItem): void {
     item.highlighted.set(false);
 
-    if (this._highlightedItem()?.index() == item.index()) this._highlightedItem.set(null);
+    if (this._highlightedItem()?.index() === item.index()) this._highlightedItem.set(null);
   }
   /**
    * Highlights the first item out of all items.
@@ -169,7 +171,7 @@ export class SimplestItemStorage {
       return this.highlightFirstItem();
     }
     const items = this._items();
-    const currentIndexInItems = items.findIndex(item => item.index() == currentItem.index());
+    const currentIndexInItems = items.findIndex(item => item.index() === currentItem.index());
 
     let nextItemIndex = currentIndexInItems + offset;
     if (nextItemIndex >= items.length) {

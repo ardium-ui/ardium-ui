@@ -41,8 +41,9 @@ import { ArdiumDropdownPanelComponent } from '../dropdown-panel/dropdown-panel.c
 import { DropdownPanelAppearance, DropdownPanelVariant } from '../dropdown-panel/dropdown-panel.types';
 import { ArdiumOptionComponent } from '../option/option.component';
 import { searchFunctions } from '../search-functions';
-import { ArdOption, ArdOptionGroup, ArdPanelPosition, CompareWithFn, GroupByFn, OptionContext, SearchFn } from '../types/item-storage.types';
+import { ArdOption, ArdOptionGroup, ArdPanelPosition, GroupByFn, OptionContext, SearchFn } from '../types/item-storage.types';
 import { FormElementAppearance } from '../types/theming.types';
+import { Nullable } from '../types/utility.types';
 import { FormElementVariant } from './../types/theming.types';
 import {
   ArdAddCustomTemplateDirective,
@@ -71,7 +72,6 @@ import {
   StatsContext,
   ValueContext,
 } from './select.types';
-import { Nullable } from '../types/utility.types';
 
 @Component({
   selector: 'ard-select',
@@ -116,7 +116,7 @@ export class ArdiumSelectComponent
 
   //! publics
   readonly searchTerm = signal<string>('');
-  isItemsInputUsed: boolean = false;
+  isItemsInputUsed = false;
 
   //! binding-related inputs
   //value/label/disabled/group/pre-grouped children paths
@@ -140,7 +140,7 @@ export class ArdiumSelectComponent
   readonly searchInputId = input<Nullable<string>>(undefined);
   //! other inputs
   readonly isLoading = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly inputProps = input<{ [key: string]: any }>({});
+  readonly inputProps = input<Record<string, any>>({});
   readonly htmlId = input<string>(crypto.randomUUID());
 
   //! boolean settings
@@ -196,7 +196,7 @@ export class ArdiumSelectComponent
   }
   get dropdownAppearance(): DropdownPanelAppearance {
     if (this._dropdownAppearance) return this._dropdownAppearance;
-    if (this.appearance() == FormElementAppearance.Outlined) return DropdownPanelAppearance.Outlined;
+    if (this.appearance() === FormElementAppearance.Outlined) return DropdownPanelAppearance.Outlined;
     return DropdownPanelAppearance.Raised;
   }
   private _dropdownVariant?: DropdownPanelVariant = undefined;
@@ -207,13 +207,13 @@ export class ArdiumSelectComponent
   get dropdownVariant(): DropdownPanelVariant {
     if (this._dropdownVariant) return this._dropdownVariant;
     const variant = this.variant();
-    if (variant == FormElementVariant.Pill) return DropdownPanelVariant.Rounded;
+    if (variant === FormElementVariant.Pill) return DropdownPanelVariant.Rounded;
     return variant;
   }
 
   //! class-based inputs
   readonly groupItems = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  
+
   @HostBinding('class.ard-group-items')
   get _groupItemsHostAttribute() {
     return this.groupItems();
@@ -232,7 +232,7 @@ export class ArdiumSelectComponent
     } else if (isAnyString(value)) {
       value = coerceArrayProperty(value);
     }
-    let printErrors = this.itemStorage.setItems(value);
+    const printErrors = this.itemStorage.setItems(value);
     if (printErrors) {
       this._printPrimitiveWarnings();
     }
@@ -263,18 +263,20 @@ export class ArdiumSelectComponent
           }, 0);
         });
     };
-    this.optionComponents.changes.pipe(startWith(this.optionComponents), takeUntil(this._destroy$)).subscribe((options: QueryList<ArdiumOptionComponent>) => {
-      if (options.length == 0) return;
-      setTimeout(() => {
-        this.items = options.map(option => ({
-          value: option.value,
-          label: option.label,
-          disabled: option.disabled,
-        }));
-        handleOptionChange();
-        this.detectChanges();
-      }, 0);
-    });
+    this.optionComponents.changes
+      .pipe(startWith(this.optionComponents), takeUntil(this._destroy$))
+      .subscribe((options: QueryList<ArdiumOptionComponent>) => {
+        if (options.length === 0) return;
+        setTimeout(() => {
+          this.items = options.map(option => ({
+            value: option.value,
+            label: option.label,
+            disabled: option.disabled,
+          }));
+          handleOptionChange();
+          this.detectChanges();
+        }, 0);
+      });
   }
 
   //! attribute and/or class setters/getters
@@ -289,7 +291,10 @@ export class ArdiumSelectComponent
   //! custom options
   private _defaultAddCustomFn: AddCustomFn<any> = (value: string) => value;
 
-  readonly addCustom = input<false | AddCustomFn<any> | AddCustomFn<Promise<any>>, string | boolean | AddCustomFn<any> | AddCustomFn<Promise<any>>>(false, {
+  readonly addCustom = input<
+    false | AddCustomFn<any> | AddCustomFn<Promise<any>>,
+    string | boolean | AddCustomFn<any> | AddCustomFn<Promise<any>>
+  >(false, {
     transform: v => {
       if (isFunction(v)) {
         return v;
@@ -299,7 +304,9 @@ export class ArdiumSelectComponent
       return coerceBooleanProperty(v) && this._defaultAddCustomFn;
     },
   });
-  readonly shouldShowAddCustom = computed<boolean>(() => this.addCustom() !== false && this.searchTerm().length > 0 && this.itemStorage.isNoItemsFound());
+  readonly shouldShowAddCustom = computed<boolean>(
+    () => this.addCustom() !== false && this.searchTerm().length > 0 && this.itemStorage.isNoItemsFound()
+  );
 
   async addCustomOption(value: string) {
     const ac = this.addCustom();
@@ -406,13 +413,12 @@ export class ArdiumSelectComponent
 
   //! context providers
   getValueContext(item: ArdOption): ValueContext {
-    const $this = this;
     return {
       $implicit: item,
       item,
       itemData: item.itemData(),
-      unselect() {
-        $this.unselectItem(item);
+      unselect: () => {
+        this.unselectItem(item);
       },
     };
   }
@@ -472,7 +478,7 @@ export class ArdiumSelectComponent
   }
   getItemDisplayLimitContext(): ItemDisplayLimitContext {
     //TODO computed
-    let selectedItems = this.itemStorage.selectedItems().length;
+    const selectedItems = this.itemStorage.selectedItems().length;
     return {
       totalItems: this.totalItems(),
       selectedItems,
@@ -571,7 +577,7 @@ export class ArdiumSelectComponent
   ngOnChanges(changes: SimpleChanges): void {
     //fire items load handler when loading is set to false
     if (changes['loading']) {
-      if (changes['loading'].currentValue == false) {
+      if (changes['loading'].currentValue === false) {
         this._onItemsLoad();
       }
     }
@@ -611,38 +617,50 @@ export class ArdiumSelectComponent
   //! getters
   readonly firstHighlightedItem = computed<ArdOption | undefined>(() => this.itemStorage.highlightedItems()?.first());
   readonly shouldDisplayPlaceholder = computed<boolean>(() => !this.itemStorage.isAnyItemSelected() && !this.searchTerm());
-  readonly shouldDisplayValue = computed<boolean>(() => this.itemStorage.isAnyItemSelected() && (!this.searchTerm() || this.multiselectable()));
+  readonly shouldDisplayValue = computed<boolean>(
+    () => this.itemStorage.isAnyItemSelected() && (!this.searchTerm() || this.multiselectable())
+  );
   readonly shouldShowClearButton = computed<boolean>(
-    () => this.clearable() && !this.disabled() && (this.itemStorage.isAnyItemSelected() || this.searchTerm() != '')
+    () => this.clearable() && !this.disabled() && (this.itemStorage.isAnyItemSelected() || this.searchTerm() !== '')
   );
   readonly itemsToDisplay = computed<IterableIterator<ArdOptionGroup>>(() => this.itemStorage.groups().values());
-  readonly shouldShowNoItemsFound = computed<boolean>(() => this.itemStorage.isNoItemsFound() && !this.isLoading() && !this.shouldShowAddCustom());
-  readonly totalItems = computed<number>(() => this.itemStorage.items().length);
-  readonly foundItems = computed<number | undefined>(() => (this.searchable() ? this.itemStorage.filteredItems().length : undefined));
-  readonly shouldShowItemDisplayLimit = computed<boolean>(
-    () => this.multiselectable() && this.itemDisplayLimit() != Infinity && this.itemStorage.selectedItems().length > this.itemDisplayLimit()
+  readonly shouldShowNoItemsFound = computed<boolean>(
+    () => this.itemStorage.isNoItemsFound() && !this.isLoading() && !this.shouldShowAddCustom()
   );
-  readonly isInputElementReadonly = computed<boolean>(() => !this.addCustom() && (!this.searchable() || this.itemStorage.isItemLimitReached()));
+  readonly totalItems = computed<number>(() => this.itemStorage.items().length);
+  readonly foundItems = computed<number | undefined>(() =>
+    this.searchable() ? this.itemStorage.filteredItems().length : undefined
+  );
+  readonly shouldShowItemDisplayLimit = computed<boolean>(
+    () =>
+      this.multiselectable() &&
+      this.itemDisplayLimit() !== Infinity &&
+      this.itemStorage.selectedItems().length > this.itemDisplayLimit()
+  );
+  readonly isInputElementReadonly = computed<boolean>(
+    () => !this.addCustom() && (!this.searchable() || this.itemStorage.isItemLimitReached())
+  );
 
   isValueWithinDisplayLimit(i: number): boolean {
-    return !this.multiselectable() || this.itemDisplayLimit() == Infinity || i < this.itemDisplayLimit();
+    return !this.multiselectable() || this.itemDisplayLimit() === Infinity || i < this.itemDisplayLimit();
   }
   readonly placeholderForCurrentContext = computed<string>(() => {
-    if (this.searchPlaceholder() && this.searchable() && (this._searchBarFocused() || this._isClickedWithin())) return this.searchPlaceholder();
+    if (this.searchPlaceholder() && this.searchable() && (this._searchBarFocused() || this._isClickedWithin()))
+      return this.searchPlaceholder();
     return this.placeholder();
   });
 
   //! search input event handlers
-  filter(filterTerm: string, suppressSearchEvent: boolean = false): void {
+  filter(filterTerm: string, suppressSearchEvent = false): void {
     this.searchTerm.set(filterTerm);
-    let matching = this.itemStorage.filter(filterTerm);
+    const matching = this.itemStorage.filter(filterTerm);
     if (!suppressSearchEvent) this.searchEvent.emit({ search: filterTerm, matching });
     this.open();
   }
-  onSearchInputFocus(event: FocusEvent): void {
+  onSearchInputFocus(): void {
     this._searchBarFocused.set(true);
   }
-  onSearchInputBlur(event: FocusEvent): void {
+  onSearchInputBlur(): void {
     if (!this._searchBarFocused()) return;
 
     this._onTouched();
@@ -658,7 +676,7 @@ export class ArdiumSelectComponent
     this.selectItem(item);
   }
   selectItem(...items: ArdOption[]): void {
-    let [selected, unselected, failedToSelect] = this.itemStorage.selectItem(...items);
+    const [selected, unselected, failedToSelect] = this.itemStorage.selectItem(...items);
 
     if (unselected.length > 0) this.removeEvent.emit(unselected);
 
@@ -679,7 +697,7 @@ export class ArdiumSelectComponent
     }
   }
   unselectItem(...items: ArdOption[]): void {
-    let unselected = this.itemStorage.unselectItem(...items);
+    const unselected = this.itemStorage.unselectItem(...items);
 
     this.removeEvent.emit(unselected);
     this._emitChange();
@@ -692,7 +710,7 @@ export class ArdiumSelectComponent
     }
   }
   private _clearAllItems(): void {
-    let cleared = this.itemStorage.clearAllSelected(true);
+    const cleared = this.itemStorage.clearAllSelected(true);
 
     this.focus();
 
@@ -701,7 +719,7 @@ export class ArdiumSelectComponent
     this._emitChange();
   }
   private _clearLastItem(): void {
-    let clearedValue = this.itemStorage.clearLastSelected().value();
+    const clearedValue = this.itemStorage.clearLastSelected().value();
 
     this.focus();
 
@@ -772,7 +790,7 @@ export class ArdiumSelectComponent
   }
   handleAnywhereClick(event: MouseEvent): void {
     const target = event.target as HTMLElement;
-    if (target.tagName != 'INPUT') {
+    if (target.tagName !== 'INPUT') {
       event.preventDefault();
     }
 
@@ -825,21 +843,21 @@ export class ArdiumSelectComponent
   }
   //! ChangeDetectorRef
   detectChanges(): void {
-    if (!(<any>this._cd).destroyed) {
+    if (!(this._cd as any).destroyed) {
       this._cd.detectChanges();
     }
   }
   //! search
-  private _clearSearch(suppressSearchEvent: boolean = false): void {
+  private _clearSearch(suppressSearchEvent = false): void {
     this._setSearch('', suppressSearchEvent);
   }
-  private _setSearch(searchTerm: string, suppressSearchEvent: boolean = false): void {
+  private _setSearch(searchTerm: string, suppressSearchEvent = false): void {
     this.searchTerm.set(searchTerm);
     this.filter(searchTerm, suppressSearchEvent);
   }
   private _setSearchInputAttributes() {
     const input = this.searchInput.nativeElement;
-    const attributes: { [key: string]: string } = {
+    const attributes: Record<string, string> = {
       type: 'text',
       autocorrect: 'off',
       autocapitalize: 'off',
@@ -887,7 +905,7 @@ export class ArdiumSelectComponent
       }
       case 'KeyA': {
         if (event.ctrlKey) {
-          this._onCtrlAPress(event);
+          this._onCtrlAPress();
           return;
         }
       }
@@ -952,7 +970,11 @@ export class ArdiumSelectComponent
     this.dropdownPanel.scrollToRecentlyHighlighted('top');
   }
   private _onHomePress(event: KeyboardEvent): void {
-    if (!this.isOpen() || (this.searchInput.nativeElement.selectionEnd != 0 && this.searchInput.nativeElement.selectionStart != 0)) return;
+    if (
+      !this.isOpen() ||
+      (this.searchInput.nativeElement.selectionEnd !== 0 && this.searchInput.nativeElement.selectionStart !== 0)
+    )
+      return;
     event.preventDefault();
 
     this._isMouseBeingUsed.set(false);
@@ -966,7 +988,8 @@ export class ArdiumSelectComponent
   private _onEndPress(event: KeyboardEvent): void {
     if (
       !this.isOpen() ||
-      (this.searchInput.nativeElement.selectionEnd != this.searchTerm().length && this.searchInput.nativeElement.selectionStart != this.searchTerm().length)
+      (this.searchInput.nativeElement.selectionEnd !== this.searchTerm().length &&
+        this.searchInput.nativeElement.selectionStart !== this.searchTerm().length)
     )
       return;
     event.preventDefault();
@@ -989,7 +1012,7 @@ export class ArdiumSelectComponent
     }
     this._clearAllItems();
   }
-  private _onCtrlAPress(event: KeyboardEvent): void {
+  private _onCtrlAPress(): void {
     this.itemStorage.highlightAllItems();
   }
 }

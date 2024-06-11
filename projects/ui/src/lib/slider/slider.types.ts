@@ -1,7 +1,7 @@
-export type SliderTooltipContext = {
+export interface SliderTooltipContext {
   value: string | number;
   $implicit: string | number;
-};
+}
 
 export const SliderTooltipBehavior = {
   Always: 'always',
@@ -16,18 +16,18 @@ export const SliderDecorationPosition = {
 } as const;
 export type SliderDecorationPosition = (typeof SliderDecorationPosition)[keyof typeof SliderDecorationPosition];
 
-export type SliderLabelObject = {
+export interface SliderLabelObject {
   label: string | number;
   for: number;
-};
-export type _InternalSliderLabelObject = {
+}
+export interface _InternalSliderLabelObject {
   label: string;
   positionPercent: string;
-};
+}
 
-export type SliderRange<T = number> = {
+export interface SliderRange<T = number> {
   low: T;
   high: T;
-};
+}
 
 export type SliderTooltipFormatFn = (value: number) => string | number;

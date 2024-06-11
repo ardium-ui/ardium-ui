@@ -1,5 +1,3 @@
-import { ThisReceiver } from '@angular/compiler';
-import { OnChanges, SimpleChanges, forwardRef } from '@angular/core';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,43 +5,46 @@ import {
   EventEmitter,
   HostListener,
   Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
   TemplateRef,
   ViewEncapsulation,
+  forwardRef,
 } from '@angular/core';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { roundToMultiple } from 'more-rounding';
 import { isDefined, isNull } from 'simple-bool';
-import { ComponentColor } from '../types/colors.types';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
+import { ComponentColor } from '../types/colors.types';
 import {
-  ArdDaysViewHeaderTemplateDirective,
   ArdDayTemplateDirective,
+  ArdDaysViewHeaderTemplateDirective,
   ArdFloatingMonthTemplateDirective,
-  ArdMonthsViewHeaderTemplateDirective,
   ArdMonthTemplateDirective,
+  ArdMonthsViewHeaderTemplateDirective,
   ArdWeekdayTemplateDirective,
-  ArdYearsViewHeaderTemplateDirective,
   ArdYearTemplateDirective,
+  ArdYearsViewHeaderTemplateDirective,
 } from './calendar.directives';
 import { getMonthLayout } from './calendar.helpers';
 import {
-  CalendarView,
   CalendarDayContext,
   CalendarDaysViewHeaderContext,
   CalendarFloatingMonthContext,
   CalendarMonthContext,
   CalendarMonthsViewHeaderContext,
+  CalendarView,
   CalendarWeekdayContext,
   CalendarYearContext,
   CalendarYearsViewHeaderContext,
   DateRange,
 } from './calendar.types';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 function isLeapYear(year: number): boolean {
-  return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
+  return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
 }
 
 @Component({
@@ -66,7 +67,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     this._updateWeekdayArray();
     this._updateDisplayedYearRangeStart();
   }
-  private _wasSelectedChecked: boolean = false;
+  private _wasSelectedChecked = false;
   ngOnChanges(changes: SimpleChanges): void {
     if (this._wasSelectedChecked) return;
     this._wasSelectedChecked = true;
@@ -83,36 +84,47 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
   todayDate: Date = new Date();
 
   isDayToday(day: number | null): boolean {
-    return this.activeYear == this.todayDate.getFullYear() && this.activeMonth == this.todayDate.getMonth() && day == this.todayDate.getDate();
+    return (
+      this.activeYear === this.todayDate.getFullYear() &&
+      this.activeMonth === this.todayDate.getMonth() &&
+      day === this.todayDate.getDate()
+    );
   }
   isMonthToday(month: number): boolean {
-    return this.activeYear == this.todayDate.getFullYear() && month == this.todayDate.getMonth();
+    return this.activeYear === this.todayDate.getFullYear() && month === this.todayDate.getMonth();
   }
   isYearToday(year: number): boolean {
-    return year == this.todayDate.getFullYear();
+    return year === this.todayDate.getFullYear();
   }
 
   //! determining if an entry is selected
   isDaySelected(day: number | Date | null): boolean {
     if (day instanceof Date) day = day.getDate();
     return (
-      this.selected != null && this.activeYear == this.selected.getFullYear() && this.activeMonth == this.selected.getMonth() && day == this.selected.getDate()
+      this.selected !== null &&
+      this.activeYear === this.selected.getFullYear() &&
+      this.activeMonth === this.selected.getMonth() &&
+      day === this.selected.getDate()
     );
   }
   isMonthSelected(month: number | Date): boolean {
     if (month instanceof Date) month = month.getMonth();
-    return this.selected != null && this.activeYear == this.selected.getFullYear() && month == this.selected.getMonth();
+    return this.selected !== null && this.activeYear === this.selected.getFullYear() && month === this.selected.getMonth();
   }
   isYearSelected(year: number | Date): boolean {
     if (year instanceof Date) year = year.getFullYear();
-    return this.selected != null && year == this.selected.getFullYear();
+    return this.selected !== null && year === this.selected.getFullYear();
   }
 
   //! color & wrapper classes
   @Input() color: ComponentColor = ComponentColor.Primary;
 
   get ngClasses(): string {
-    return [`ard-color-${this.color}`, this.nointeract ? 'ard-calendar-nointeract' : '', this.staticHeight ? 'ard-calendar-static-height' : ''].join(' ');
+    return [
+      `ard-color-${this.color}`,
+      this.nointeract ? 'ard-calendar-nointeract' : '',
+      this.staticHeight ? 'ard-calendar-static-height' : '',
+    ].join(' ');
   }
 
   //! open year & month setters
@@ -127,7 +139,8 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     //add the difference between the active year and the start of the range for the current year
     //rounded to a multiple of 24, towards the number zero
     //the difference may be negative, if the active year is before todayYearRangeStart
-    this.displayedYearRangeStart = this.todayYearRangeStart + roundToMultiple(this.activeYear - this.todayYearRangeStart, 24, 'to_zero');
+    this.displayedYearRangeStart =
+      this.todayYearRangeStart + roundToMultiple(this.activeYear - this.todayYearRangeStart, 24, 'to_zero');
   }
 
   yearRangeArrayCache: number[] | null = null;
@@ -143,7 +156,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
   protected _activeDate: Date = new Date(this.todayDate.getFullYear(), this.todayDate.getMonth(), this.todayDate.getDate());
   set activeDate(v: Date | string | number) {
     const newDate = new Date(v);
-    if (this.activeYear != newDate.getFullYear()) this.yearRangeArrayCache = null;
+    if (this.activeYear !== newDate.getFullYear()) this.yearRangeArrayCache = null;
     this._activeDate = newDate;
 
     this._updateCalendarArray();
@@ -173,7 +186,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     const month = coerceNumberProperty(v, new Date().getMonth());
     const oldDateYear = this.activeYear;
     this.activeDate = new Date(this.activeYear, month, 1);
-    if (oldDateYear != this.activeYear) this.yearRangeArrayCache = null;
+    if (oldDateYear !== this.activeYear) this.yearRangeArrayCache = null;
 
     this._updateCalendarArray();
   }
@@ -188,7 +201,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
   }
 
   writeValue(v: any): void {
-    if (typeof v == 'string') {
+    if (typeof v === 'string') {
       //try to see if it is an array of numbers separated by a comma
       const vAsArray1 = v.split(',').map(v => Number(v));
       if (vAsArray1.length >= 1 && vAsArray1.length <= 3 && vAsArray1.every(v => !isNaN(v))) {
@@ -208,11 +221,13 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
       this._selected = v;
       return;
     }
-    if (v == null) {
+    if (v === null) {
       this._selected = null;
       return;
     }
-    console.warn(`ARD-NF2000: Could not parse [selected] value on <ard-calendar>, as it is not a valid value. Provided value: "${v}"`);
+    console.warn(
+      `ARD-NF2000: Could not parse [selected] value on <ard-calendar>, as it is not a valid value. Provided value: "${v}"`
+    );
     this._selected = null;
   }
 
@@ -254,9 +269,9 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
 
     const date = new Date(this.activeYear, this.activeMonth, day);
 
-    if (this.activeYear != date.getFullYear()) this.activeYear = date.getFullYear();
+    if (this.activeYear !== date.getFullYear()) this.activeYear = date.getFullYear();
 
-    if (this.activeMonth != date.getMonth()) this.activeMonth = date.getMonth();
+    if (this.activeMonth !== date.getMonth()) this.activeMonth = date.getMonth();
   }
 
   private _highlightedMonth: number | null = null;
@@ -277,7 +292,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
 
     const date = new Date(this.activeYear, month, 1);
 
-    if (this.activeYear != date.getFullYear()) this.activeYear = date.getFullYear();
+    if (this.activeYear !== date.getFullYear()) this.activeYear = date.getFullYear();
   }
 
   private _highlightedYear: number | null = null;
@@ -309,7 +324,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
   }
 
   onCalendarDayMouseover(day: number | null): void {
-    if (day == null) return;
+    if (day === null) return;
     if (this._isUsingKeyboard) return;
 
     this.highlightedDay = day;
@@ -325,7 +340,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     this.highlightedYear = year;
   }
 
-  private _isUsingKeyboard: boolean = false;
+  private _isUsingKeyboard = false;
   @HostListener('document:mousemove')
   onDocumentMousemove(): void {
     if (!this._isUsingKeyboard) this.highlightedDay = null;
@@ -338,7 +353,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
   }
 
   onCalendarDayClick(day: number | null): void {
-    if (day == null) return;
+    if (day === null) return;
 
     this.selectDay(day);
 
@@ -616,7 +631,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     const oldyear = this.activeYear;
     this.activeMonth += offset;
 
-    if (this.activeYear != oldyear) this.activeYearChange.emit(this.activeYear);
+    if (this.activeYear !== oldyear) this.activeYearChange.emit(this.activeYear);
     this.activeMonthChange.emit(this.activeMonth);
   }
   changeYear(offset: number): void {
@@ -629,7 +644,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     this.displayedYearRangeStart += 24 * pages;
   }
   //next/prev highlighting
-  highlightNextDay(offset: number = 1): void {
+  highlightNextDay(offset = 1): void {
     const currentDay = this.highlightedDay;
     if (!isDefined(currentDay)) {
       this.highlightedDay = 1;
@@ -637,10 +652,10 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     }
     this.setHighlightedDayAdjustDate(currentDay + offset);
   }
-  highlightPreviousDay(offset: number = 1): void {
+  highlightPreviousDay(offset = 1): void {
     this.highlightNextDay(offset * -1);
   }
-  highlightNextMonth(offset: number = 1): void {
+  highlightNextMonth(offset = 1): void {
     const currentMonth = this.highlightedMonth;
     if (!isDefined(currentMonth)) {
       this.highlightedMonth = 0;
@@ -648,10 +663,10 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     }
     this.setHighlightedMonthAdjustDate(currentMonth + offset);
   }
-  highlightPreviousMonth(offset: number = 1): void {
+  highlightPreviousMonth(offset = 1): void {
     this.highlightNextMonth(offset * -1);
   }
-  highlightNextYear(offset: number = 1): void {
+  highlightNextYear(offset = 1): void {
     const currentYear = this.highlightedYear;
     if (!isDefined(currentYear)) {
       this.highlightedYear = 0;
@@ -659,7 +674,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     }
     this.setHighlightedYearAdjustPage(currentYear + offset);
   }
-  highlightPreviousYear(offset: number = 1): void {
+  highlightPreviousYear(offset = 1): void {
     this.highlightNextYear(offset * -1);
   }
   //first/last highlighting
@@ -727,7 +742,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
       case 9:
       case 11:
         //only do if day is 31
-        if (this.highlightedDay == 31) this.highlightedDay = 30;
+        if (this.highlightedDay === 31) this.highlightedDay = 30;
         break;
       case 2: {
         //skip if below 29 or null
@@ -749,9 +764,9 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     this._fixDateAfterYearChange();
   }
   private _fixDateAfterYearChange(): void {
-    if (this.highlightedDay != 29) return; //skip if not 29th day is selected
+    if (this.highlightedDay !== 29) return; //skip if not 29th day is selected
     if (isLeapYear(this.activeYear)) return; //skip if nea year is a leap year
-    if (this.activeMonth != 1) return; //skip if not february
+    if (this.activeMonth !== 1) return; //skip if not february
 
     this.highlightedDay = 28;
   }
@@ -781,7 +796,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
   }
 
   //! settings
-  protected _firstWeekday: number = 1;
+  protected _firstWeekday = 1;
   @Input()
   get firstWeekday(): number {
     return this._firstWeekday;
@@ -793,7 +808,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     this._updateWeekdayArray();
   }
 
-  protected _nointeract: boolean = false;
+  protected _nointeract = false;
   @Input()
   get nointeract(): boolean {
     return this._nointeract || this.disabled();
@@ -802,7 +817,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
     this._nointeract = coerceBooleanProperty(v);
   }
 
-  protected _staticHeight: boolean = false;
+  protected _staticHeight = false;
   @Input()
   get staticHeight(): boolean {
     return this._staticHeight;
@@ -833,7 +848,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
   getYearsArray(): number[] {
     const year = this.displayedYearRangeStart;
 
-    if (this._yearsArrayCacheStartYear == year && isDefined(this._yearsArrayCache)) return this._yearsArrayCache;
+    if (this._yearsArrayCacheStartYear === year && isDefined(this._yearsArrayCache)) return this._yearsArrayCache;
 
     const newArray: number[] = [];
 
@@ -876,7 +891,8 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
 
     //emit events
     this.viewChange.emit(this.activeView);
-    if (oldYear != this.activeYear && this.activeYear == this.todayDate.getFullYear()) this.activeYearChange.emit(this.activeYear);
+    if (oldYear !== this.activeYear && this.activeYear === this.todayDate.getFullYear())
+      this.activeYearChange.emit(this.activeYear);
   }
   openDaysView(): void {
     this.activeView = CalendarView.Days;
@@ -888,8 +904,10 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
 
     //emit events
     this.viewChange.emit(this.activeView);
-    if (oldYear != this.activeYear && this.activeYear == this.todayDate.getFullYear()) this.activeYearChange.emit(this.activeYear);
-    if (oldMonth != this.activeMonth && this.activeMonth == this.todayDate.getMonth()) this.activeMonthChange.emit(this.activeMonth);
+    if (oldYear !== this.activeYear && this.activeYear === this.todayDate.getFullYear())
+      this.activeYearChange.emit(this.activeYear);
+    if (oldMonth !== this.activeMonth && this.activeMonth === this.todayDate.getMonth())
+      this.activeMonthChange.emit(this.activeMonth);
   }
 
   //! template customization

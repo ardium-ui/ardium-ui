@@ -34,7 +34,10 @@
 <div class="master">
   <span class="title">Kbd appearances</span>
   <div class="flex">
-    <div class="flex horiz" *ngFor="let appearance of appearances">
+    <div
+      class="flex horiz"
+      *ngFor="let appearance of appearances"
+    >
       <ard-kbd [appearance]="appearance">Ctrl</ard-kbd>
       <span class="mono">{{ appearance }}</span>
     </div>

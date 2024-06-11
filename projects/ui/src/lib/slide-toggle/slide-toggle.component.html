@@ -1,5 +1,6 @@
 <button
   role="checkbox"
+  [ariaChecked]="selected()"
   class="ard-slide-toggle"
   [class.ard-slide-toggle-selected]="selected()"
   [ngClass]="ngClasses()"
@@ -15,10 +16,10 @@
   <div class="ard-slide-toggle-handle">
     <div class="ard-focus-overlay"></div>
     @if (selectedIcon() ?? icon()) {
-    <div class="ard-slide-toggle-icon ard-icon-for-selected">{{selectedIcon() ?? icon()}}</div>
+      <div class="ard-slide-toggle-icon ard-icon-for-selected">{{ selectedIcon() ?? icon() }}</div>
     }
     @if (unselectedIcon() ?? icon()) {
-    <div class="ard-slide-toggle-icon ard-icon-for-unselected">{{unselectedIcon() ?? icon()}}</div>
+      <div class="ard-slide-toggle-icon ard-icon-for-unselected">{{ unselectedIcon() ?? icon() }}</div>
     }
   </div>
 </button>

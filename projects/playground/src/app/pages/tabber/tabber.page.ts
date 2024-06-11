@@ -4,10 +4,9 @@ import { Logger } from '../../services/logger.service';
 @Component({
   selector: 'app-tabber',
   templateUrl: './tabber.page.html',
-  styleUrl: './tabber.page.scss'
+  styleUrl: './tabber.page.scss',
 })
 export class TabberPage {
-
   private readonly _logger = inject(Logger);
   public log = this._logger.log;
 }

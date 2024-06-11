@@ -2,12 +2,7 @@ import {
   AfterContentInit,
   ChangeDetectionStrategy,
   Component,
-  ContentChild,
-  ContentChildren,
-  EventEmitter,
   Input,
-  Output,
-  QueryList,
   TemplateRef,
   ViewEncapsulation,
   computed,
@@ -23,6 +18,7 @@ import { _FocusableComponentBase } from '../_internal/focusable-component';
 import { CheckboxState } from '../checkbox/checkbox.types';
 import { CurrentItemsFormatFn, PaginationAlign } from '../table-pagination/table-pagination.types';
 import { ComponentColor, SimpleComponentColor } from '../types/colors.types';
+import { Nullable } from '../types/utility.types';
 import { ArdTableRow, HeaderCell, TableItemStorage, TableItemStorageHost } from './table-item-storage';
 import {
   ArdiumTableCaptionTemplateDirective,
@@ -31,7 +27,6 @@ import {
   ArdiumTableTemplateDirective,
 } from './table.directives';
 import {
-  SortType,
   TableAlignType,
   TableAppearance,
   TableCaptionContext,
@@ -41,11 +36,10 @@ import {
   TableHeaderContext,
   TablePaginationStrategy,
   TableSubheader,
-  TableVariant,
   TableSubheaderContext,
+  TableVariant,
 } from './table.types';
 import { isTableSubheader } from './utils';
-import { Nullable } from '../types/utility.types';
 
 @Component({
   selector: 'ard-table',
@@ -122,7 +116,9 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
   readonly itemsPerPage = model<number>(50);
   readonly page = model<number>(50);
 
-  readonly isDefinedTotalItems = computed(() => this.paginationStrategy() != TablePaginationStrategy.Noop || isDefined(this.totalItems()));
+  readonly isDefinedTotalItems = computed(
+    () => this.paginationStrategy() !== TablePaginationStrategy.Noop || isDefined(this.totalItems())
+  );
   readonly canDisplayPagination = computed(() => this.paginated() && this.isDefinedTotalItems());
 
   //! item storage getters
@@ -135,7 +131,7 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     if (!this.isDefinedTotalItems()) {
       throw new Error('<ard-table> requires [totalItems] to be defined when using "slice" pagination strategy.'); //TODO error
     }
-    if (this.page() == 1) return items;
+    if (this.page() === 1) return items;
 
     const ipp = this.itemsPerPage();
     for (let i = items.length; i < ipp; i++) {
@@ -162,20 +158,26 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
   readonly treatDataSourceAsString = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! templates
-  readonly checkboxTemplate = contentChild<ArdiumTableCheckboxTemplateDirective, TemplateRef<TableCheckboxContext>>(ArdiumTableCheckboxTemplateDirective, {
-    read: TemplateRef<TableCheckboxContext>,
-  });
-  readonly headerCheckboxTemplate = contentChild<ArdiumTableHeaderCheckboxTemplateDirective, TemplateRef<TableHeaderCheckboxContext>>(
-    ArdiumTableHeaderCheckboxTemplateDirective,
+  readonly checkboxTemplate = contentChild<ArdiumTableCheckboxTemplateDirective, TemplateRef<TableCheckboxContext>>(
+    ArdiumTableCheckboxTemplateDirective,
     {
-      read: TemplateRef<TableHeaderCheckboxContext>,
+      read: TemplateRef<TableCheckboxContext>,
     }
   );
-  readonly captionTemplate = contentChild<ArdiumTableCaptionTemplateDirective, TemplateRef<TableCaptionContext>>(ArdiumTableCaptionTemplateDirective, {
-    read: TemplateRef<TableCaptionContext>,
+  readonly headerCheckboxTemplate = contentChild<
+    ArdiumTableHeaderCheckboxTemplateDirective,
+    TemplateRef<TableHeaderCheckboxContext>
+  >(ArdiumTableHeaderCheckboxTemplateDirective, {
+    read: TemplateRef<TableHeaderCheckboxContext>,
   });
+  readonly captionTemplate = contentChild<ArdiumTableCaptionTemplateDirective, TemplateRef<TableCaptionContext>>(
+    ArdiumTableCaptionTemplateDirective,
+    {
+      read: TemplateRef<TableCaptionContext>,
+    }
+  );
 
-  private _itemTemplates: { [key: string]: TemplateRef<any> } = {};
+  private _itemTemplates: Record<string, TemplateRef<any>> = {};
   readonly templateChildren = contentChildren<ArdiumTableTemplateDirective>(ArdiumTableTemplateDirective);
 
   ngAfterContentInit(): void {
@@ -191,11 +193,11 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
   }
 
   getHeaderTemplate(tmp: string | { template: string | TemplateRef<any> }): TemplateRef<any> | undefined {
-    if (typeof tmp == 'string') return undefined;
+    if (typeof tmp === 'string') return undefined;
     return this.getCellTemplate(tmp.template);
   }
   getHeaderCheckboxColor(): SimpleComponentColor {
-    if (this.appearance() == TableAppearance.Strong) return SimpleComponentColor.CurrentColor;
+    if (this.appearance() === TableAppearance.Strong) return SimpleComponentColor.CurrentColor;
     return this.color();
   }
   getCellTemplate(tmp?: string | TemplateRef<any>): TemplateRef<any> | undefined {
@@ -213,8 +215,8 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
   }
   getCellStyle(cell: TableDataColumn | TableSubheader): string {
     if (isTableSubheader(cell)) return 'width:unset;min-width:unset';
-    const width = typeof cell.width == 'number' ? `${cell.width}px` : cell.width;
-    const minWidth = typeof cell.minWidth == 'number' ? `${cell.minWidth}px` : cell.minWidth;
+    const width = typeof cell.width === 'number' ? `${cell.width}px` : cell.width;
+    const minWidth = typeof cell.minWidth === 'number' ? `${cell.minWidth}px` : cell.minWidth;
     return [`width:${width ?? 'unset'}`, `min-width:${minWidth ?? 'unset'}`].join(';');
   }
 
@@ -277,13 +279,13 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     this.selectedRowsChangeEvent.emit(v);
   }
   isCellCheckbox(cell: any): boolean {
-    return typeof cell == 'object' && '_ardCheckbox' in cell && 'index' in cell;
+    return typeof cell === 'object' && '_ardCheckbox' in cell && 'index' in cell;
   }
   isHeaderCellCheckbox(cell: HeaderCell): boolean {
     const dataCell = cell.cell();
     if (isTableSubheader(dataCell)) return false;
-    if (typeof dataCell.dataSource == 'string') return false;
-    return dataCell.dataSource.type == 'checkbox';
+    if (typeof dataCell.dataSource === 'string') return false;
+    return dataCell.dataSource.type === 'checkbox';
   }
   isHeaderCellSortable(cell: HeaderCell): boolean {
     const dataCell = cell.cell();
@@ -301,7 +303,7 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
   getHeaderContext(cell: TableSubheader, index: number): TableSubheaderContext | null;
   getHeaderContext(cell: TableDataColumn | TableSubheader, index: number): TableHeaderContext | TableSubheaderContext | null;
   getHeaderContext(cell: TableDataColumn | TableSubheader, index: number): TableHeaderContext | TableSubheaderContext | null {
-    if (typeof cell.header != 'string') return null;
+    if (typeof cell.header !== 'string') return null;
     if (isTableSubheader(cell))
       return {
         $implicit: cell.header,
@@ -312,7 +314,7 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
       header: cell.header,
       sortable: cell.sortable ?? false,
       sortType: this._itemStorage.getColumnSortType(index),
-      onTriggerSort: (event?: Event) => this._itemStorage.toggleCurrentSortColumn(index),
+      onTriggerSort: () => this._itemStorage.toggleCurrentSortColumn(index),
       onTriggerResetSort: (event?: Event) => {
         this._itemStorage.resetSort();
         event?.preventDefault();
@@ -337,7 +339,7 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     };
   });
   getCheckboxContext(index: number): TableCheckboxContext {
-    const item = this._itemStorage.items().find(v => v.index() == index)!;
+    const item = this._itemStorage.items().find(v => v.index() === index)!;
     const selected = item.selected();
     return {
       $implicit: selected,

@@ -1,4 +1,16 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output, ViewEncapsulation, computed, input, signal } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  HostBinding,
+  Input,
+  Output,
+  ViewEncapsulation,
+  computed,
+  input,
+  signal,
+} from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { SimpleItemStorage, SimpleItemStorageHost } from '../_internal/item-storages/simple-item-storage';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
@@ -58,7 +70,9 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
 
   readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
-  readonly ngClasses = computed(() => [`ard-color-${this.color()}`, `ard-align-${this.align()}`, this.compact() ? 'ard-compact' : ''].join(' '));
+  readonly ngClasses = computed(() =>
+    [`ard-color-${this.color()}`, `ard-align-${this.align()}`, this.compact() ? 'ard-compact' : ''].join(' ')
+  );
 
   //! value
   @Input()
@@ -81,7 +95,7 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
     this._itemStorage.writeValue(v);
   }
 
-  private _isViewInit: boolean = false;
+  private _isViewInit = false;
   ngAfterViewInit(): void {
     this._isViewInit = true;
 

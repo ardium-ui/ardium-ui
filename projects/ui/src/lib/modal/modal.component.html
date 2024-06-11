@@ -1,12 +1,20 @@
 <ng-template #modalTemplate>
   @if (noBackdrop()) {
-  <div class="ard-modal" [ngClass]="ngClasses" (click)="onBackdropClick()">
-    <ng-template [ngTemplateOutlet]="_modalInsidePanel"></ng-template>
-  </div>
+    <div
+      class="ard-modal"
+      [ngClass]="ngClasses"
+      (click)="onBackdropClick()"
+    >
+      <ng-template [ngTemplateOutlet]="_modalInsidePanel"></ng-template>
+    </div>
   } @else {
-  <div class="ard-modal ard-modal-backdrop" [ngClass]="ngClasses" (click)="onBackdropClick()">
-    <ng-template [ngTemplateOutlet]="_modalInsidePanel"></ng-template>
-  </div>
+    <div
+      class="ard-modal ard-modal-backdrop"
+      [ngClass]="ngClasses"
+      (click)="onBackdropClick()"
+    >
+      <ng-template [ngTemplateOutlet]="_modalInsidePanel"></ng-template>
+    </div>
   }
 </ng-template>
 
@@ -19,11 +27,16 @@
     (click)="$event.stopPropagation()"
   >
     <div class="ard-modal-heading">
-      <div class="ard-modal-heading-text">{{heading()}}</div>
+      <div class="ard-modal-heading-text">{{ heading() }}</div>
       @if (!noCloseButton()) {
-      <ard-icon-button class="ard-modal-close-button" color="none" [compact]="compact()" (click)="onCloseButtonClick()">
-        <ard-icon>close</ard-icon>
-      </ard-icon-button>
+        <ard-icon-button
+          class="ard-modal-close-button"
+          color="none"
+          [compact]="compact()"
+          (click)="onCloseButtonClick()"
+        >
+          <ard-icon>close</ard-icon>
+        </ard-icon-button>
       }
     </div>
     <div class="ard-modal-content">

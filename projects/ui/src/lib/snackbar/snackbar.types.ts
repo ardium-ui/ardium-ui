@@ -1,4 +1,4 @@
-import { ComponentRef, ElementRef } from '@angular/core';
+import { ElementRef } from '@angular/core';
 import { ComponentColor } from '../types/colors.types';
 
 export const ArdSnackbarAlignment = {
@@ -35,9 +35,12 @@ export const ArdSnackbarType = {
 } as const;
 export type ArdSnackbarType = (typeof ArdSnackbarType)[keyof typeof ArdSnackbarType];
 
-export type ArdSnackbarData = { message: string; action?: string };
+export interface ArdSnackbarData {
+  message: string;
+  action?: string;
+}
 
-export type ArdSnackbarOptions = {
+export interface ArdSnackbarOptions {
   data?: ArdSnackbarData;
   placement?: {
     align?: ArdSnackbarAlignment;
@@ -49,4 +52,4 @@ export type ArdSnackbarOptions = {
   type?: ArdSnackbarType;
   queueHandling?: ArdSnackbarQueueHandling;
   panelClass?: string | string[];
-};
+}

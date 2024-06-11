@@ -15,8 +15,8 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
+import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { SimpleOneAxisAlignment } from './../../types/alignment.types';
 import { SimpleInputModel, SimpleInputModelHost } from './../input-utils';
 import {
@@ -39,8 +39,11 @@ import {
     },
   ],
 })
-  // TODO convert to signals
-export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements SimpleInputModelHost, ControlValueAccessor, OnInit {
+// TODO convert to signals
+export class ArdiumSimpleInputComponent
+  extends _NgModelComponentBase
+  implements SimpleInputModelHost, ControlValueAccessor, OnInit
+{
   readonly DEFAULTS = {
     clearButtonTitle: 'Clear',
   };
@@ -58,7 +61,7 @@ export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements
     }
   }
 
-  @Input() placeholder: string = '';
+  @Input() placeholder = '';
   @Input() inputId?: string;
   @Input() clearButtonTitle: string = this.DEFAULTS.clearButtonTitle;
 
@@ -83,7 +86,7 @@ export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements
   @Input() variant: FormElementVariant = FormElementVariant.Rounded;
   @Input() alignText: SimpleOneAxisAlignment = SimpleOneAxisAlignment.Left;
 
-  private _compact: boolean = false;
+  private _compact = false;
   @Input()
   get compact(): boolean {
     return this._compact;
@@ -93,13 +96,16 @@ export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements
   }
 
   get ngClasses(): string {
-    return [`ard-appearance-${this.appearance}`, `ard-variant-${this.variant}`, `ard-text-align-${this.alignText}`, this.compact ? 'ard-compact' : ''].join(
-      ' '
-    );
+    return [
+      `ard-appearance-${this.appearance}`,
+      `ard-variant-${this.variant}`,
+      `ard-text-align-${this.alignText}`,
+      this.compact ? 'ard-compact' : '',
+    ].join(' ');
   }
 
   //! other inputs
-  @Input() inputAttrs: { [key: string]: any } = {};
+  @Input() inputAttrs: Record<string, any> = {};
 
   //! number attribute setters/getters
   protected _maxLength?: number;
@@ -112,7 +118,7 @@ export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements
   }
 
   //! no-value attribute setters/getters
-  protected _clearable: boolean = true;
+  protected _clearable = true;
   @Input()
   @HostBinding('class.ard-clearable')
   get clearable(): boolean {
@@ -148,7 +154,7 @@ export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements
 
   //! event handlers
   onInput(newVal: string): void {
-    let valueHasChanged = this.inputModel.writeValue(newVal);
+    const valueHasChanged = this.inputModel.writeValue(newVal);
     if (!valueHasChanged) return;
     this._emitInput();
   }
@@ -189,9 +195,10 @@ export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements
     if (
       this.value &&
       //does the selection cover the entire input
-      ((this.textInputEl.nativeElement.selectionStart == 0 && this.textInputEl.nativeElement.selectionEnd == this.textInputEl.nativeElement.value.length) ||
+      ((this.textInputEl.nativeElement.selectionStart === 0 &&
+        this.textInputEl.nativeElement.selectionEnd === this.textInputEl.nativeElement.value.length) ||
         //or is zero-wide
-        this.textInputEl.nativeElement.selectionStart == this.textInputEl.nativeElement.selectionEnd)
+        this.textInputEl.nativeElement.selectionStart === this.textInputEl.nativeElement.selectionEnd)
     ) {
       event.clipboardData?.setData('text/plain', this.value);
       event.preventDefault();
@@ -200,7 +207,7 @@ export class ArdiumSimpleInputComponent extends _NgModelComponentBase implements
   //! helpers
   protected _setInputAttributes() {
     const input = this.textInputEl.nativeElement;
-    const attributes: { [key: string]: string } = {
+    const attributes: Record<string, string> = {
       type: 'text',
       autocorrect: 'off',
       autocapitalize: 'off',

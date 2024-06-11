@@ -16,7 +16,7 @@ export class ArdiumTableFromCsvComponent implements AfterContentInit {
       const lines = v.split('\n');
       const headers = this._convertCsvToHeaders(lines.shift()!);
       const dataRows = this._convertCsvToArray(lines, headers);
-      return { headers, dataRows }
+      return { headers, dataRows };
     },
   });
   private readonly _isDataOkay = computed(() => this.data() !== null);
@@ -44,12 +44,12 @@ export class ArdiumTableFromCsvComponent implements AfterContentInit {
     });
   }
   private _convertCsvToArray(lines: string[], headers: TableDataColumn[]): any[] {
-    const dataRows: { [key: string]: any }[] = [];
+    const dataRows: Record<string, any>[] = [];
 
     for (const line of lines) {
       const lineArr = line.split(this.separator());
 
-      const obj: { [key: string]: any } = {};
+      const obj: Record<string, any> = {};
       for (let i = 0; i < headers.length; i++) {
         const source = headers[i].dataSource as string;
         obj[source] = lineArr[i]?.trim() ?? '';

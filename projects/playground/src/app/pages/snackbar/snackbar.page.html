@@ -1,32 +1,85 @@
 <div class="master">
-    <span class="title">Simplest snackbar</span>
-    <ard-button appearance="outlined" color="none" (click)="openSnackbar1()">Open</ard-button>
+  <span class="title">Simplest snackbar</span>
+  <ard-button
+    appearance="outlined"
+    color="none"
+    (click)="openSnackbar1()"
+    >Open</ard-button
+  >
 </div>
 <div class="master">
-    <span class="title">Snackbar with action</span>
-    <ard-button appearance="outlined" color="none" (click)="openSnackbar2()">Open</ard-button>
+  <span class="title">Snackbar with action</span>
+  <ard-button
+    appearance="outlined"
+    color="none"
+    (click)="openSnackbar2()"
+    >Open</ard-button
+  >
 </div>
 <div class="master">
-    <span class="title">Snackbar types</span>
-    <div class="flex horiz">
-        <ard-button appearance="outlined" color="none" (click)="openSnackbar3('none')">Open (standard)</ard-button>
-        <ard-button appearance="outlined" color="none" (click)="openSnackbar3('danger')">Open (danger)</ard-button>
-        <ard-button appearance="outlined" color="none" (click)="openSnackbar3('warn')">Open (warn)</ard-button>
-        <ard-button appearance="outlined" color="none" (click)="openSnackbar3('success')">Open (success)</ard-button>
-        <ard-button appearance="outlined" color="none" (click)="openSnackbar3('info')">Open (info)</ard-button>
-    </div>
+  <span class="title">Snackbar types</span>
+  <div class="flex horiz">
+    <ard-button
+      appearance="outlined"
+      color="none"
+      (click)="openSnackbar3('none')"
+      >Open (standard)</ard-button
+    >
+    <ard-button
+      appearance="outlined"
+      color="none"
+      (click)="openSnackbar3('danger')"
+      >Open (danger)</ard-button
+    >
+    <ard-button
+      appearance="outlined"
+      color="none"
+      (click)="openSnackbar3('warn')"
+      >Open (warn)</ard-button
+    >
+    <ard-button
+      appearance="outlined"
+      color="none"
+      (click)="openSnackbar3('success')"
+      >Open (success)</ard-button
+    >
+    <ard-button
+      appearance="outlined"
+      color="none"
+      (click)="openSnackbar3('info')"
+      >Open (info)</ard-button
+    >
+  </div>
 </div>
 <div class="master">
-    <span class="title">Snackbar with infinite duration</span>
-    <div class="flex horiz">
-        <ard-button appearance="outlined" color="none" (click)="openSnackbar4()">Open</ard-button>
-        <ard-button appearance="outlined" color="none" (click)="closeSnackbar4()">Close</ard-button>
-    </div>
+  <span class="title">Snackbar with infinite duration</span>
+  <div class="flex horiz">
+    <ard-button
+      appearance="outlined"
+      color="none"
+      (click)="openSnackbar4()"
+      >Open</ard-button
+    >
+    <ard-button
+      appearance="outlined"
+      color="none"
+      (click)="closeSnackbar4()"
+      >Close</ard-button
+    >
+  </div>
 </div>
 <div class="master origin-host">
-    <span class="title">Snackbars with custom origin and alignments</span>
-    <div class="flex horiz">
-        <ard-button appearance="outlined" color="none" (click)="openSnackbar5()">Open</ard-button>
-    </div>
-    <div class="origin-element" #originEl></div>
+  <span class="title">Snackbars with custom origin and alignments</span>
+  <div class="flex horiz">
+    <ard-button
+      appearance="outlined"
+      color="none"
+      (click)="openSnackbar5()"
+      >Open</ard-button
+    >
+  </div>
+  <div
+    class="origin-element"
+    #originEl
+  ></div>
 </div>

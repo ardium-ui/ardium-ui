@@ -1,54 +1,60 @@
-<div class="ard-number-input"
-    [ngClass]="ngClasses"
-    [class.ard-has-value]="value"
-    (mousedown)="$event.preventDefault()"
-    (mouseup)="onMouseup($event)"
+<div
+  class="ard-number-input"
+  [ngClass]="ngClasses"
+  [class.ard-has-value]="value"
+  (mousedown)="$event.preventDefault()"
+  (mouseup)="onMouseup()"
 >
-    <ard-button *ngIf="allowQuickChange"
-        class="ard-quick-change-button decrement"
-        [variant]="buttonVariant"
-        [appearance]="buttonAppearance"
-        color="none"
-        [disabled]="!canDecrement()"
-        [tabIndex]="!canDecrement() ? -1 : tabIndex()"
-        (click)="onQuickChangeButtonClick(-1, $event)"
-        (ardHold)="onQuickChangeButtonClick(-1)"
-        ardHoldSpaceKey
-    >-</ard-button>
-    <div class="ard-input-container">
-        <ng-container *ngIf="shouldDisplayPlaceholder">
-            <ng-template #defaultPlaceholderTemplate>
-                <div class="ard-placeholder">{{ placeholder }}</div>
-            </ng-template>
+  <ard-button
+    *ngIf="allowQuickChange"
+    class="ard-quick-change-button decrement"
+    [variant]="buttonVariant"
+    [appearance]="buttonAppearance"
+    color="none"
+    [disabled]="!canDecrement()"
+    [tabIndex]="!canDecrement() ? -1 : tabIndex()"
+    (click)="onQuickChangeButtonClick(-1, $event)"
+    (ardHold)="onQuickChangeButtonClick(-1)"
+    ardHoldSpaceKey
+    >-</ard-button
+  >
+  <div class="ard-input-container">
+    <ng-container *ngIf="shouldDisplayPlaceholder">
+      <ng-template #defaultPlaceholderTemplate>
+        <div class="ard-placeholder">{{ placeholder }}</div>
+      </ng-template>
 
-            <ng-template [ngTemplateOutlet]="placeholderTemplate || defaultPlaceholderTemplate"></ng-template>
-        </ng-container>
+      <ng-template [ngTemplateOutlet]="placeholderTemplate || defaultPlaceholderTemplate"></ng-template>
+    </ng-container>
 
-        <input #textInput
-            #focusableElement
-            type="text"
-            [attr.id]="inputId"
-            [attr.tabindex]="tabIndex()"
-            [readonly]="readonly()"
-            [disabled]="disabled()"
-            (input)="onInput(textInput.value)"
-            (focus)="onFocusMaster($event)"
-            (blur)="onBlurMaster($event)"
-            (change)="onChange($event)"
-            (mousedown)="$event.stopPropagation()"
-            (mouseup)="$event.stopPropagation()"
-            (copy)="onCopy($event)"
-        >
-    </div>
-    <ard-button *ngIf="allowQuickChange"
-        class="ard-quick-change-button increment"
-        [variant]="buttonVariant"
-        [appearance]="buttonAppearance"
-        color="none"
-        [disabled]="!canIncrement()"
-        [tabIndex]="!canIncrement() ? -1 : tabIndex()"
-        (click)="onQuickChangeButtonClick(1, $event)"
-        (ardHold)="onQuickChangeButtonClick(1)"
-        ardHoldSpaceKey
-    >+</ard-button>
+    <input
+      #textInput
+      #focusableElement
+      type="text"
+      [attr.id]="inputId"
+      [attr.tabindex]="tabIndex()"
+      [readonly]="readonly()"
+      [disabled]="disabled()"
+      (input)="onInput(textInput.value)"
+      (focus)="onFocusMaster($event)"
+      (blur)="onBlurMaster($event)"
+      (change)="onChange($event)"
+      (mousedown)="$event.stopPropagation()"
+      (mouseup)="$event.stopPropagation()"
+      (copy)="onCopy($event)"
+    />
+  </div>
+  <ard-button
+    *ngIf="allowQuickChange"
+    class="ard-quick-change-button increment"
+    [variant]="buttonVariant"
+    [appearance]="buttonAppearance"
+    color="none"
+    [disabled]="!canIncrement()"
+    [tabIndex]="!canIncrement() ? -1 : tabIndex()"
+    (click)="onQuickChangeButtonClick(1, $event)"
+    (ardHold)="onQuickChangeButtonClick(1)"
+    ardHoldSpaceKey
+    >+</ard-button
+  >
 </div>

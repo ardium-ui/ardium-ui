@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, ContentChild, TemplateRef, ViewEncapsulation, computed, effect, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ContentChild,
+  TemplateRef,
+  ViewEncapsulation,
+  computed,
+  effect,
+  input,
+} from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { SimpleComponentColor } from '../types/colors.types';
 import { ArdProgressBarValueTemplateDirective } from './progress-bar.directive';
@@ -37,7 +46,9 @@ export class ArdiumProgressBarComponent {
   constructor() {
     effect(() => {
       if (this.mode() === ProgressBarMode.Buffer && this.size() === ProgressBarSize.Auto) {
-        console.error(`Forbidden param combination in <ard-progress-bar>: cannot use 'mode="buffer"' and 'size="auto"' at the same time.`);
+        console.error(
+          `Forbidden param combination in <ard-progress-bar>: cannot use 'mode="buffer"' and 'size="auto"' at the same time.`
+        );
         //TODO error
       }
     });
@@ -45,11 +56,11 @@ export class ArdiumProgressBarComponent {
 
   //! bar styling
   readonly cssVariables = computed<string>(() => {
-    if (this.mode() == ProgressBarMode.Indeterminate || this.mode() == ProgressBarMode.Query) {
+    if (this.mode() === ProgressBarMode.Indeterminate || this.mode() === ProgressBarMode.Query) {
       return '--ard-_progress-bar-main: 0;';
     }
     const mainVariable = `--ard-_progress-bar-main: ${this.value()}%;`;
-    if (this.mode() == ProgressBarMode.Buffer) {
+    if (this.mode() === ProgressBarMode.Buffer) {
       return mainVariable + `--ard-_progress-bar-buffer: ${this.bufferValue()}%;`;
     }
     return mainVariable;

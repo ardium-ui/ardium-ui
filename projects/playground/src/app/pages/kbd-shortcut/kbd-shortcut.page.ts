@@ -9,7 +9,34 @@ import { FormElementAppearance } from '@ardium-ui/ui';
 export class KbdShortcutPage implements OnInit, OnDestroy {
   appearances: FormElementAppearance[] = Object.values(FormElementAppearance);
 
-  readonly keys: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+  readonly keys: string[] = [
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
+    'I',
+    'J',
+    'K',
+    'L',
+    'M',
+    'N',
+    'O',
+    'P',
+    'Q',
+    'R',
+    'S',
+    'T',
+    'U',
+    'V',
+    'W',
+    'X',
+    'Y',
+    'Z',
+  ];
   currentKeyIndex: number = 0;
 
   get currentKey(): string {
@@ -19,7 +46,7 @@ export class KbdShortcutPage implements OnInit, OnDestroy {
   private _interval?: NodeJS.Timeout;
   ngOnInit(): void {
     this._interval = setInterval(() => {
-      if (this.currentKeyIndex == this.keys.length - 1) this.currentKeyIndex = 0;
+      if (this.currentKeyIndex === this.keys.length - 1) this.currentKeyIndex = 0;
       else this.currentKeyIndex++;
     }, 1000);
   }

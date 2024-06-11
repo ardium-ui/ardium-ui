@@ -2,23 +2,19 @@ import {
   ChangeDetectionStrategy,
   Component,
   ContentChild,
-  EventEmitter,
   Input,
-  Output,
   TemplateRef,
   ViewEncapsulation,
   computed,
-  contentChild,
   input,
   output,
-  signal,
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { ButtonAppearance } from '../buttons/general-button.types';
 import { ComponentColor } from '../types/colors.types';
 import { PanelAppearance, PanelVariant } from '../types/theming.types';
 import { ArdDialogButtonsTemplateDirective } from './dialog.directives';
 import { DialogButtonsContext, DialogResult } from './dialog.types';
-import { ButtonAppearance } from '../buttons/general-button.types';
 
 @Component({
   selector: 'ard-dialog',
@@ -48,7 +44,7 @@ export class ArdiumDialogComponent {
 
   //! open state handling
   //all handled by modal component  private _open: boolean = false;
-  private _open: boolean = false;
+  private _open = false;
   @Input()
   get open(): boolean {
     return this._open;

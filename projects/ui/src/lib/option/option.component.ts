@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, OnChanges, AfterViewChecked, OnDestroy, ElementRef, Input, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  OnChanges,
+  AfterViewChecked,
+  OnDestroy,
+  ElementRef,
+  Input,
+  SimpleChanges,
+} from '@angular/core';
 import { Subject } from 'rxjs';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 
@@ -32,7 +42,7 @@ export class ArdiumOptionComponent implements OnChanges, AfterViewChecked, OnDes
     return this._label ?? (this.elementRef.nativeElement.innerHTML || '').trim();
   }
 
-  private _disabled: boolean = false;
+  private _disabled = false;
   @Input()
   get disabled(): boolean {
     return this._disabled;

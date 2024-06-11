@@ -1,44 +1,46 @@
 <ard-form-field-frame
-    [appearance]="appearance"
-    [variant]="variant"
-    [compact]="compact"
-    [isFocused]="isFocused"
-    [prefixTemplate]="prefixTemplate"
-    [suffixTemplate]="suffixTemplate"
+  [appearance]="appearance"
+  [variant]="variant"
+  [compact]="compact"
+  [isFocused]="isFocused"
+  [prefixTemplate]="prefixTemplate"
+  [suffixTemplate]="suffixTemplate"
 >
-    <div class="ard-simple-input"
-        [ngClass]="ngClasses"
-        [class.ard-has-value]="value"
-        (click)="focus()"
-    >
-        <div class="ard-input-container">
-            <ng-container *ngIf="shouldDisplayPlaceholder">
-                <ng-template #defaultPlaceholderTemplate>
-                    <div class="ard-placeholder">{{ placeholder }}</div>
-                </ng-template>
+  <div
+    class="ard-simple-input"
+    [ngClass]="ngClasses"
+    [class.ard-has-value]="value"
+    (click)="focus()"
+  >
+    <div class="ard-input-container">
+      <ng-container *ngIf="shouldDisplayPlaceholder">
+        <ng-template #defaultPlaceholderTemplate>
+          <div class="ard-placeholder">{{ placeholder }}</div>
+        </ng-template>
 
-                <ng-template [ngTemplateOutlet]="placeholderTemplate || defaultPlaceholderTemplate"></ng-template>
-            </ng-container>
-            
-            <input #textInput
-                #focusableElement
-                type="text"
-                [attr.id]="inputId"
-                [attr.tabindex]="tabIndex()"
-                [readonly]="readonly()"
-                [disabled]="disabled()"
-                (input)="onInput(textInput.value)"
-                (focus)="onFocusMaster($event)"
-                (blur)="onBlurMaster($event)"
-                (change)="onChange($event)"
-                (copy)="onCopy($event)"
-            >
-        </div>
+        <ng-template [ngTemplateOutlet]="placeholderTemplate || defaultPlaceholderTemplate"></ng-template>
+      </ng-container>
 
-        <ard-_clear-button
-            *ngIf="shouldShowClearButton"
-            [title]="clearButtonTitle"
-            (click)="onClearButtonClick($event)"
-        ></ard-_clear-button>
+      <input
+        #textInput
+        #focusableElement
+        type="text"
+        [attr.id]="inputId"
+        [attr.tabindex]="tabIndex()"
+        [readonly]="readonly()"
+        [disabled]="disabled()"
+        (input)="onInput(textInput.value)"
+        (focus)="onFocusMaster($event)"
+        (blur)="onBlurMaster($event)"
+        (change)="onChange($event)"
+        (copy)="onCopy($event)"
+      />
     </div>
+
+    <ard-_clear-button
+      *ngIf="shouldShowClearButton"
+      [title]="clearButtonTitle"
+      (click)="onClearButtonClick($event)"
+    ></ard-_clear-button>
+  </div>
 </ard-form-field-frame>

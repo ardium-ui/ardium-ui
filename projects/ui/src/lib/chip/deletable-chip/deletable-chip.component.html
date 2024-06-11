@@ -1,14 +1,14 @@
 <div
-    class="ard-chip-wrapper ard-chip-deletable"
-    [ngClass]="ngClasses()"
+  class="ard-chip-wrapper ard-chip-deletable"
+  [ngClass]="ngClasses()"
 >
-    <div class="ard-focus-overlay"></div>
-    <ard-_clear-button
-        [title]="deleteButtonTitle()"
-        (click)="deleteEvent.emit($event)"
-        [tabIndex]="tabIndex()"
-    ></ard-_clear-button>
-    <div class="ard-chip-content-wrapper">
-        <ng-content></ng-content>
-    </div>
+  <div class="ard-focus-overlay"></div>
+  <ard-_clear-button
+    [title]="deleteButtonTitle()"
+    (click)="deleteEvent.emit($event)"
+    [tabIndex]="tabIndex()"
+  ></ard-_clear-button>
+  <div class="ard-chip-content-wrapper">
+    <ng-content></ng-content>
+  </div>
 </div>

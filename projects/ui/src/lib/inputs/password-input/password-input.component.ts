@@ -47,7 +47,7 @@ export class ArdiumPasswordInputComponent extends _NgModelComponentBase implemen
     this._setInputAttributes();
   }
 
-  @Input() placeholder: string = '';
+  @Input() placeholder = '';
   @Input() inputId?: string;
 
   //! prefix & suffix
@@ -71,7 +71,7 @@ export class ArdiumPasswordInputComponent extends _NgModelComponentBase implemen
   }
 
   //! revealing
-  private _revealable: boolean = true;
+  private _revealable = true;
   @Input()
   get revealable(): boolean {
     return this._revealable;
@@ -80,7 +80,7 @@ export class ArdiumPasswordInputComponent extends _NgModelComponentBase implemen
     this._revealable = coerceBooleanProperty(v);
   }
 
-  private _revealed: boolean = false;
+  private _revealed = false;
   @Input()
   get revealed(): boolean {
     return this._revealed;
@@ -95,7 +95,7 @@ export class ArdiumPasswordInputComponent extends _NgModelComponentBase implemen
     const oldState = this.revealed;
     this.revealed = v ?? !this.revealed;
 
-    if (oldState != this.revealed) {
+    if (oldState !== this.revealed) {
       this.revealedChange.emit(this.revealed);
     }
   }
@@ -115,7 +115,7 @@ export class ArdiumPasswordInputComponent extends _NgModelComponentBase implemen
   @Input() appearance: FormElementAppearance = FormElementAppearance.Outlined;
   @Input() variant: FormElementVariant = FormElementVariant.Rounded;
 
-  private _compact: boolean = false;
+  private _compact = false;
   @Input()
   get compact(): boolean {
     return this._compact;
@@ -134,7 +134,7 @@ export class ArdiumPasswordInputComponent extends _NgModelComponentBase implemen
   }
 
   //! other inputs
-  @Input() inputAttrs: { [key: string]: any } = {};
+  @Input() inputAttrs: Record<string, any> = {};
 
   //! number attribute setters/getters
   protected _maxLength?: number;
@@ -157,7 +157,7 @@ export class ArdiumPasswordInputComponent extends _NgModelComponentBase implemen
   protected _writeValue(v: string | null | undefined): boolean {
     const oldVal = this.value;
     this._value = v;
-    return oldVal != v;
+    return oldVal !== v;
   }
   //! value two-way binding
   protected _value?: string | null = null;
@@ -176,7 +176,7 @@ export class ArdiumPasswordInputComponent extends _NgModelComponentBase implemen
 
   //! event handlers
   onInput(newVal: string): void {
-    let valueHasChanged = this._writeValue(newVal);
+    const valueHasChanged = this._writeValue(newVal);
     if (!valueHasChanged) return;
     this._emitInput();
   }
@@ -200,9 +200,10 @@ export class ArdiumPasswordInputComponent extends _NgModelComponentBase implemen
     if (
       this.value &&
       //does the selection cover the entire input
-      ((this.textInputEl.nativeElement.selectionStart == 0 && this.textInputEl.nativeElement.selectionEnd == this.textInputEl.nativeElement.value.length) ||
+      ((this.textInputEl.nativeElement.selectionStart === 0 &&
+        this.textInputEl.nativeElement.selectionEnd === this.textInputEl.nativeElement.value.length) ||
         //or is zero-wide
-        this.textInputEl.nativeElement.selectionStart == this.textInputEl.nativeElement.selectionEnd)
+        this.textInputEl.nativeElement.selectionStart === this.textInputEl.nativeElement.selectionEnd)
     ) {
       event.clipboardData?.setData('text/plain', this.value);
       event.preventDefault();
@@ -211,7 +212,7 @@ export class ArdiumPasswordInputComponent extends _NgModelComponentBase implemen
   //! helpers
   protected _setInputAttributes() {
     const input = this.textInputEl.nativeElement;
-    const attributes: { [key: string]: string } = {
+    const attributes: Record<string, string> = {
       type: 'text',
       autocorrect: 'off',
       autocapitalize: 'off',

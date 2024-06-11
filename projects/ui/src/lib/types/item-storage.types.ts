@@ -1,5 +1,5 @@
-import { Signal, WritableSignal } from "@angular/core";
-import { Nullable } from "./utility.types";
+import { Signal, WritableSignal } from '@angular/core';
+import { Nullable } from './utility.types';
 
 /**
 ```typescript

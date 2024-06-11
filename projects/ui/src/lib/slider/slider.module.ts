@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
+import { OverlayModule } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { ArdiumSliderComponent } from './slider.component';
 import { ArdSliderTooltipDirective } from './slider.directive';
-import { Overlay, OverlayModule } from '@angular/cdk/overlay';
 
 @NgModule({
   declarations: [ArdiumSliderComponent, ArdSliderTooltipDirective],

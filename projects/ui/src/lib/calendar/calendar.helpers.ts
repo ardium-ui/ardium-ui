@@ -1,9 +1,9 @@
-export type CalendarArray = {
+export interface CalendarArray {
   array: (number | null)[][];
   leadingSpaces: number;
   trailingSpaces: number;
   weeks: number;
-};
+}
 
 /**
  * Generates a layout array to be used to create a calendar page for the given date's month.
@@ -13,7 +13,7 @@ export type CalendarArray = {
  * @param firstWeekday The index of the first weekday in the calendar layout. Starts at Sunday, with the index 0. Defaults to 1.
  * @returns A {@link CalendarArray} object.
  */
-export function getMonthLayout(date: Date, firstWeekday: number = 1): CalendarArray {
+export function getMonthLayout(date: Date, firstWeekday = 1): CalendarArray {
   firstWeekday %= 7;
 
   const firstDayDate = new Date(date);

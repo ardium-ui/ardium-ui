@@ -37,7 +37,10 @@ import { roundToPrecision } from 'more-rounding';
     },
   ],
 })
-export class ArdiumNumberInputComponent extends _NgModelComponentBase implements ControlValueAccessor, NumberInputModelHost, OnInit {
+export class ArdiumNumberInputComponent
+  extends _NgModelComponentBase
+  implements ControlValueAccessor, NumberInputModelHost, OnInit
+{
   //! input view
   @ViewChild('textInput', { static: true })
   textInputEl!: ElementRef<HTMLInputElement>;
@@ -55,7 +58,7 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
   @Input() inputId?: string;
 
   //! placeholder
-  @Input() placeholder: string = '';
+  @Input() placeholder = '';
 
   @ContentChild(ArdNumberInputPlaceholderTemplateDirective, {
     read: TemplateRef,
@@ -71,7 +74,7 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
   @Input() variant: FormElementVariant = FormElementVariant.Rounded;
   @Input() alignText: OneAxisAlignment = OneAxisAlignment.Middle;
 
-  private _compact: boolean = false;
+  private _compact = false;
   @Input()
   get compact(): boolean {
     return this._compact;
@@ -91,18 +94,19 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
   }
 
   get buttonVariant(): ButtonVariant {
-    if (this.variant == FormElementVariant.Rounded) return ButtonVariant.Rounded;
-    if (this.variant == FormElementVariant.Pill) return ButtonVariant.Pill;
-    if (this.variant == FormElementVariant.Sharp) return ButtonVariant.Sharp;
+    if (this.variant === FormElementVariant.Rounded) return ButtonVariant.Rounded;
+    if (this.variant === FormElementVariant.Pill) return ButtonVariant.Pill;
+    if (this.variant === FormElementVariant.Sharp) return ButtonVariant.Sharp;
     return ButtonVariant.Rounded;
   }
   get buttonAppearance(): ButtonAppearance {
-    if (this.appearance == FormElementAppearance.Outlined && this.variant != FormElementVariant.Pill) return ButtonAppearance.Outlined;
+    if (this.appearance === FormElementAppearance.Outlined && this.variant !== FormElementVariant.Pill)
+      return ButtonAppearance.Outlined;
     return ButtonAppearance.Transparent;
   }
 
   //! other inputs
-  @Input() inputAttrs: { [key: string]: any } = {};
+  @Input() inputAttrs: Record<string, any> = {};
 
   //! control value accessor's write value implementation
   writeValue(v: any) {
@@ -113,7 +117,7 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
   protected _valueBeforeInit?: string | null = '0';
   @Input()
   set value(v: string | number | null) {
-    if (typeof v == 'number') v = v.toString();
+    if (typeof v === 'number') v = v.toString();
     if (!this.inputModel) {
       this._valueBeforeInit = v;
       return;
@@ -132,7 +136,7 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
   }>();
 
   //! min/max and number type
-  private _min: number = 0;
+  private _min = 0;
   @Input()
   get min(): number {
     return this._min;
@@ -141,7 +145,7 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
     this._min = coerceNumberProperty(v);
   }
 
-  private _max: number = 999;
+  private _max = 999;
   @Input()
   get max(): number {
     return this._max;
@@ -160,7 +164,7 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
   }
 
   //! incerement/decrement buttons
-  private _allowQuickChange: boolean = true;
+  private _allowQuickChange = true;
   @Input()
   get allowQuickChange(): boolean {
     return this._allowQuickChange;
@@ -169,7 +173,7 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
     this._allowQuickChange = coerceBooleanProperty(v);
   }
 
-  private _stepSize: number = 1;
+  private _stepSize = 1;
   @Input()
   get stepSize(): number {
     return this._stepSize;
@@ -182,8 +186,8 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
     let num = this.inputModel.numberValue;
     if (!num) num = 0;
 
-    if (direction == 1 && num >= this.max) return;
-    if (direction == -1 && num <= this.min) return;
+    if (direction === 1 && num >= this.max) return;
+    if (direction === -1 && num <= this.min) return;
 
     if (event) event.stopPropagation();
 
@@ -213,7 +217,7 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
 
   //! event handlers
   onInput(newVal: string): void {
-    let valueHasChanged = this.inputModel.writeValue(newVal);
+    const valueHasChanged = this.inputModel.writeValue(newVal);
     if (!valueHasChanged) return;
     this._emitInput();
   }
@@ -242,7 +246,7 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
   }
 
   //smart focus
-  onMouseup(event: MouseEvent): void {
+  onMouseup(): void {
     const selection = window.getSelection();
     if (selection && selection.type === 'Range') return;
 
@@ -254,9 +258,10 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
     if (
       this.value &&
       //does the selection cover the entire input
-      ((this.textInputEl.nativeElement.selectionStart == 0 && this.textInputEl.nativeElement.selectionEnd == this.textInputEl.nativeElement.value.length) ||
+      ((this.textInputEl.nativeElement.selectionStart === 0 &&
+        this.textInputEl.nativeElement.selectionEnd === this.textInputEl.nativeElement.value.length) ||
         //or is zero-wide
-        this.textInputEl.nativeElement.selectionStart == this.textInputEl.nativeElement.selectionEnd)
+        this.textInputEl.nativeElement.selectionStart === this.textInputEl.nativeElement.selectionEnd)
     ) {
       event.clipboardData?.setData('text/plain', String(this.value));
       event.preventDefault();
@@ -266,7 +271,7 @@ export class ArdiumNumberInputComponent extends _NgModelComponentBase implements
   //! helpers
   protected _setInputAttributes() {
     const input = this.textInputEl.nativeElement;
-    const attributes: { [key: string]: string } = {
+    const attributes: Record<string, string> = {
       type: 'text',
       autocorrect: 'off',
       autocapitalize: 'off',

@@ -1,18 +1,16 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ViewEncapsulation,
-  Input,
   ContentChild,
   TemplateRef,
+  ViewEncapsulation,
   forwardRef,
-  Output,
-  EventEmitter,
   input,
   output,
   signal,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ArdColorInputPlaceholderTemplateDirective } from '../../inputs/color-input/color-input.directives';
 import { ComponentColor } from '../../types/colors.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
@@ -25,7 +23,6 @@ import {
   ArdiumFileInputIdleContentTemplateDirective,
   ArdiumFileInputUploadedContentTemplateDirective,
 } from './file-input.directives';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
 
 @Component({
   selector: 'ard-file-input',
@@ -53,7 +50,7 @@ export class ArdiumFileInputComponent extends _FileInputComponentBase {
   readonly color = input<ComponentColor>(ComponentColor.Primary);
 
   //! other inputs
-  readonly inputAttrs = input<{ [key: string]: any }>({});
+  readonly inputAttrs = input<Record<string, any>>({});
 
   //! placeholder
   readonly placeholder = input<string>('');

@@ -1,75 +1,86 @@
-
 <span class="title">star</span>
 <div class="master star">
-    <div class="flex horiz" *ngFor="let color of colors">
-        <div class="grid red">
-            <ard-star
-                *ngFor="let state of fillModes"
-                [fill]="state"
-                [color]="color"
-            ></ard-star>
-        </div>
-        <span class="mono">{{ color }}</span>
+  <div
+    class="flex horiz"
+    *ngFor="let color of colors"
+  >
+    <div class="grid red">
+      <ard-star
+        *ngFor="let state of fillModes"
+        [fill]="state"
+        [color]="color"
+      ></ard-star>
     </div>
+    <span class="mono">{{ color }}</span>
+  </div>
 </div>
 <span class="title">star-button</span>
 <div class="master star-button">
-    <div class="flex horiz" *ngFor="let color of colors">
-        <div class="grid red">
-            <ng-container *ngFor="let state of [false, true]">
-                <ard-star-button
-                    *ngFor="let disabled of [false, true]"
-                    [selected]="state"
-                    [color]="color"
-                    [disabled]="disabled"
-                    (focus)="log('focus', $event)"
-                    (blur)="log('blur', $event)"
-                    (select)="log('select', $event)"
-                    (unselect)="log('unselect', $event)"
-                    (selectedChange)="log('selectedChange', $event)"
-                ></ard-star-button>
-            </ng-container>
-        </div>
-        <span class="mono">{{ color }}</span>
+  <div
+    class="flex horiz"
+    *ngFor="let color of colors"
+  >
+    <div class="grid red">
+      <ng-container *ngFor="let state of [false, true]">
+        <ard-star-button
+          *ngFor="let disabled of [false, true]"
+          [selected]="state"
+          [color]="color"
+          [disabled]="disabled"
+          (focus)="log('focus', $event)"
+          (blur)="log('blur', $event)"
+          (select)="log('select', $event)"
+          (unselect)="log('unselect', $event)"
+          (selectedChange)="log('selectedChange', $event)"
+        ></ard-star-button>
+      </ng-container>
     </div>
+    <span class="mono">{{ color }}</span>
+  </div>
 </div>
 <span class="title">star-display</span>
 <div class="master star-display">
-    <div class="flex horiz red" *ngFor="let color of colors">
-        <ard-star-display
-            [color]="color"
-            [value]="valueFor5"
-        ></ard-star-display>
-        <ard-star-display
-            [color]="color"
-            [max]="max"
-            [value]="valueFor10"
-        ></ard-star-display>
-        <span class="mono black">{{ color }}</span>
-    </div>
+  <div
+    class="flex horiz red"
+    *ngFor="let color of colors"
+  >
+    <ard-star-display
+      [color]="color"
+      [value]="valueFor5"
+    ></ard-star-display>
+    <ard-star-display
+      [color]="color"
+      [max]="max"
+      [value]="valueFor10"
+    ></ard-star-display>
+    <span class="mono black">{{ color }}</span>
+  </div>
 </div>
 <span class="title">star-input</span>
 <div class="master star-input">
-    <div class="flex horiz red" *ngFor="let color of colors">
-        <ard-star-input
-            *ngFor="let disabled of [false, true]"
-            [value]="valueFor5"
-            [color]="color"
-            [disabled]="disabled"
-            (focus)="log('focus', $event)"
-            (blur)="log('blur', $event)"
-            (valueChange)="log('valueChange', $event)"
-        ></ard-star-input>
-        <ard-star-input
-            *ngFor="let disabled of [false, true]"
-            [max]="max"
-            [value]="valueFor10"
-            [color]="color"
-            [disabled]="disabled"
-            (focus)="log('focus', $event)"
-            (blur)="log('blur', $event)"
-            (valueChange)="log('valueChange', $event)"
-        ></ard-star-input>
-        <span class="mono black">{{ color }}</span>
-    </div>
+  <div
+    class="flex horiz red"
+    *ngFor="let color of colors"
+  >
+    <ard-star-input
+      *ngFor="let disabled of [false, true]"
+      [value]="valueFor5"
+      [color]="color"
+      [disabled]="disabled"
+      (focus)="log('focus', $event)"
+      (blur)="log('blur', $event)"
+      (valueChange)="log('valueChange', $event)"
+    ></ard-star-input>
+    <ard-star-input
+      *ngFor="let disabled of [false, true]"
+      [max]="max"
+      [value]="valueFor10"
+      [color]="color"
+      [disabled]="disabled"
+      (focus)="log('focus', $event)"
+      (blur)="log('blur', $event)"
+      (valueChange)="log('valueChange', $event)"
+    ></ard-star-input>
+    <span class="mono black">{{ color }}</span>
+  </div>
 </div>

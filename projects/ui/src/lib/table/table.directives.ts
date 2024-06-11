@@ -1,7 +1,7 @@
-import { Directive, Input, TemplateRef, input } from '@angular/core';
-import { TableCaptionContext, TableCheckboxContext } from './table.types';
+import { Directive, TemplateRef, input } from '@angular/core';
 import { PaginationContext } from '../_internal/models/pagination.model';
 import { Nullable } from '../types/utility.types';
+import { TableCaptionContext, TableCheckboxContext } from './table.types';
 
 @Directive({ selector: 'ard-table > ng-template[ard-table-tmp]' })
 export class ArdiumTableTemplateDirective {

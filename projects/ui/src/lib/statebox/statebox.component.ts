@@ -1,11 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
   ViewEncapsulation,
   computed,
   effect,
@@ -15,10 +10,10 @@ import {
   output,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { _NgModelComponentBase } from './../_internal/ngmodel-component';
-import { StateboxState, StateboxValue, _StateboxInternalState, _StateboxInternalStateData } from './statebox.types';
-import { ArdiumStarButtonComponent } from './../star/star-button/star-button.component';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { _NgModelComponentBase } from './../_internal/ngmodel-component';
+import { ArdiumStarButtonComponent } from './../star/star-button/star-button.component';
+import { StateboxState, StateboxValue, _StateboxInternalState } from './statebox.types';
 
 const defaultStateboxStates: StateboxState[] = [
   { value: false, color: 'none' },
@@ -131,7 +126,7 @@ export class ArdiumStateboxComponent extends _NgModelComponentBase implements Co
     this.changeEvent.emit(s);
   }
 
-  readonly ngStyle = computed<{ [cls: string]: any }>(() => {
+  readonly ngStyle = computed<Record<string, any>>(() => {
     let customColor = null;
     const state = this.internalState();
     if (state.useCustomColor) {
@@ -141,5 +136,5 @@ export class ArdiumStateboxComponent extends _NgModelComponentBase implements Co
       '--ard-custom-color': customColor,
       '--ard-on-custom-color': state.colorOnCustomColor ?? '#fff',
     };
-  })
+  });
 }

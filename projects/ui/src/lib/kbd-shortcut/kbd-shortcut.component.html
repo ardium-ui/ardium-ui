@@ -1,12 +1,22 @@
-<div class="ard-kbd-shortcut" [ngClass]="ngClasses">
+<div
+  class="ard-kbd-shortcut"
+  [ngClass]="ngClasses"
+>
   @for (key of keys() ?? contentWrapper()?.nativeElement?.innerText?.split(splitRegex); track $index) {
-  @if ($index !== 0) {
-  <span>+</span>
-  }
-  <ard-kbd [appearance]="appearance()" [full]="full()" [key]="key" />
+    @if ($index !== 0) {
+      <span>+</span>
+    }
+    <ard-kbd
+      [appearance]="appearance()"
+      [full]="full()"
+      [key]="key"
+    />
   }
 </div>
 
-<div #contentWrapperEl class="ard-kbd-shortcut-content-wrapper">
+<div
+  #contentWrapperEl
+  class="ard-kbd-shortcut-content-wrapper"
+>
   <ng-content></ng-content>
 </div>

@@ -49,13 +49,13 @@ export class ArdSnackbarRef<T = unknown> {
 
   public instance!: T;
 
-  close(withAction: boolean = false): void {
+  close(withAction = false): void {
     if (this.isClosed) return;
     this.dismiss(withAction);
     this.markAsClosed();
   }
 
-  markAsClosed(withAction: boolean = false): void {
+  markAsClosed(withAction = false): void {
     if (this.isClosed) return;
     this._onClose.next(withAction);
     this._onClose.complete();

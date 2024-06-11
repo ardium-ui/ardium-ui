@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, ContentChild, Input, TemplateRef, ViewEncapsulation, computed, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ContentChild,
+  Input,
+  TemplateRef,
+  ViewEncapsulation,
+  computed,
+  input,
+} from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
 import { FormElementAppearance, FormElementVariant } from '../types/theming.types';
@@ -14,7 +23,7 @@ import { ArdFormFieldPrefixTemplateDirective, ArdFormFieldSuffixTemplateDirectiv
 })
 export class ArdiumFormFieldFrameComponent extends _FocusableComponentBase {
   //! focused state
-  @Input() override isFocused: boolean = false;
+  @Input() override isFocused = false;
 
   //! appearance
   /**

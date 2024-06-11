@@ -3,24 +3,27 @@
     <ard-table [columns]="simpleColumns"></ard-table>
 </div> -->
 <div class="master">
-    <span class="title">People table</span>
-    <ard-table
-        [columns]="peopleColumns"
-        [data]="peopleData"
-        appearance="strong"
-        paginated
-        paginationStrategy="slice"
-        [totalItems]="peopleData.length"
-        (selectRow)="log('selectRow', $event)"
-        (unselectRow)="log('unselectRow', $event)"
-        (selectedRowsChange)="log('selectedRowsChange', $event)"
-        (pageChange)="log('pageChange', $event)"
-        (itemsPerPageChange)="log('itemsPerPageChange', $event)"
+  <span class="title">People table</span>
+  <ard-table
+    [columns]="peopleColumns"
+    [data]="peopleData"
+    appearance="strong"
+    paginated
+    paginationStrategy="slice"
+    [totalItems]="peopleData.length"
+    (selectRow)="log('selectRow', $event)"
+    (unselectRow)="log('unselectRow', $event)"
+    (selectedRowsChange)="log('selectedRowsChange', $event)"
+    (pageChange)="log('pageChange', $event)"
+    (itemsPerPageChange)="log('itemsPerPageChange', $event)"
+  >
+    <ng-template
+      ard-table-tmp="salary"
+      let-amount
     >
-        <ng-template ard-table-tmp="salary" let-amount>
-            ${{ amount.replace('$', '') | number: '1.0-0' }}
-        </ng-template>
-    </ard-table>
+      ${{ amount.replace('$', '') | number: '1.0-0' }}
+    </ng-template>
+  </ard-table>
 </div>
 <!-- <div class="master">
     <span class="title">Pagination</span>

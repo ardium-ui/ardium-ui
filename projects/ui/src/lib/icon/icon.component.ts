@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, AfterViewInit, ViewChild, ElementRef, input, computed, viewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  ViewEncapsulation,
+  computed,
+  input,
+  viewChild,
+} from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { isDefined } from 'simple-bool';
 import { Nullable } from '../types/utility.types';

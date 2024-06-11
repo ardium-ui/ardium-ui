@@ -4,90 +4,100 @@
 <ard-segment [items]="options" variant="sharp"></ard-segment> -->
 
 <div class="master">
-    <span class="title">Most basic segment</span>
-    <ard-segment [items]="options"></ard-segment>
+  <span class="title">Most basic segment</span>
+  <ard-segment [items]="options"></ard-segment>
 </div>
 <div class="master">
-    <span class="title">Multiselectable segment (max 3 items, one option pre-selected)</span>
-    <ard-segment
-        [items]="optionsAnimals"
-        [value]="optionsAnimals[1]"
-        multiselectable
-        maxSelectedItems="3"
-    ></ard-segment>
+  <span class="title">Multiselectable segment (max 3 items, one option pre-selected)</span>
+  <ard-segment
+    [items]="optionsAnimals"
+    [value]="optionsAnimals[1]"
+    multiselectable
+    maxSelectedItems="3"
+  ></ard-segment>
 </div>
 <div class="master">
-    <span class="title">Segment events, uniform widths</span>
-    <ard-segment
-        [items]="options"
-        multiselectable
-        uniformWidths
-        (valueChange)="log('valueChange', $event)"
-        (add)="log('add', $event)"
-        (remove)="log('remove', $event)"
-        (focus)="log('focus', $event)"
-        (blur)="log('blur', $event)"
-        (change)="log('change', $event)"
-    ></ard-segment>
+  <span class="title">Segment events, uniform widths</span>
+  <ard-segment
+    [items]="options"
+    multiselectable
+    uniformWidths
+    (valueChange)="log('valueChange', $event)"
+    (add)="log('add', $event)"
+    (remove)="log('remove', $event)"
+    (focus)="log('focus', $event)"
+    (blur)="log('blur', $event)"
+    (change)="log('change', $event)"
+  ></ard-segment>
 </div>
 <div class="master">
-    <span class="title">Custom segment data bindings</span>
-    <ard-segment
-        [items]="optionsComplex"
-        multiselectable
-        labelFrom="label"
-        valueFrom="type"
-        disabledFrom="active"
-        invertDisabled
-    ></ard-segment>
+  <span class="title">Custom segment data bindings</span>
+  <ard-segment
+    [items]="optionsComplex"
+    multiselectable
+    labelFrom="label"
+    valueFrom="type"
+    disabledFrom="active"
+    invertDisabled
+  ></ard-segment>
 </div>
 <div class="master">
-    <span class="title">Custom option template (using iconBased)</span>
-    <ard-segment
-        [items]="optionsAlign"
-        labelFrom="icon"
-        valueFrom="value"
-        [value]="['left']"
-        variant="rounded"
-        appearance="transparent"
-        iconBased
+  <span class="title">Custom option template (using iconBased)</span>
+  <ard-segment
+    [items]="optionsAlign"
+    labelFrom="icon"
+    valueFrom="value"
+    [value]="['left']"
+    variant="rounded"
+    appearance="transparent"
+    iconBased
+  >
+    <ng-template
+      ard-segm-option-tmp
+      let-option
     >
-        <ng-template ard-segm-option-tmp let-option>
-            <span class="material-symbols-outlined">
-                {{ option.label }}
-            </span>
-        </ng-template>
-    </ard-segment>
+      <span class="material-symbols-outlined"> {{ option.label }} </span>
+    </ng-template>
+  </ard-segment>
 </div>
 <div class="master">
-    <span class="title">Multiselectable segment (multirow)</span>
-    <ard-segment
-        [items]="optionsAnimals"
-        itemsPerRow="3"
-        multiselectable
-    ></ard-segment>
+  <span class="title">Multiselectable segment (multirow)</span>
+  <ard-segment
+    [items]="optionsAnimals"
+    itemsPerRow="3"
+    multiselectable
+  ></ard-segment>
 </div>
 <div class="div flex master">
-    <h2 class="title">Rainbow table</h2>
-    <div class="flex master" *ngFor="let variant of variants">
-        <p class="title">{{ variant }}</p>
-        <div class="flex horiz" *ngFor="let appearance of appearances">
-            <div class="flex">
-                <div class="grid" *ngFor="let disabled of [false, true]">
-                    <ard-segment
-                        *ngFor="let color of colors"
-                        icon="close"
-                        [variant]="variant"
-                        [appearance]="appearance"
-                        [color]="color"
-                        [disabled]="disabled"
-                        [items]="optionsComplex"
-                        valueFrom="type"
-                        labelFrom="label"
-                    ></ard-segment>
-                </div>
-            </div>
-            <span class="title appearance">{{ appearance }}</span>
+  <h2 class="title">Rainbow table</h2>
+  <div
+    class="flex master"
+    *ngFor="let variant of variants"
+  >
+    <p class="title">{{ variant }}</p>
+    <div
+      class="flex horiz"
+      *ngFor="let appearance of appearances"
+    >
+      <div class="flex">
+        <div
+          class="grid"
+          *ngFor="let disabled of [false, true]"
+        >
+          <ard-segment
+            *ngFor="let color of colors"
+            icon="close"
+            [variant]="variant"
+            [appearance]="appearance"
+            [color]="color"
+            [disabled]="disabled"
+            [items]="optionsComplex"
+            valueFrom="type"
+            labelFrom="label"
+          ></ard-segment>
         </div>
+      </div>
+      <span class="title appearance">{{ appearance }}</span>
     </div>
+  </div>
 </div>

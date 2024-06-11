@@ -1,19 +1,20 @@
-<div class="ard-star-input"
-    [ngClass]="ngClasses()"
-    (mouseleave)="setDisplayToValue()"
+<div
+  class="ard-star-input"
+  [ngClass]="ngClasses()"
+  (mouseleave)="setDisplayToValue()"
 >
-    @for (object of starArray(); track $index) {
+  @for (object of starArray(); track $index) {
     <ard-star-button
-        #starButton
-        [class.ard-star-not-in-value]="!(object.isInValue)"
-        [color]="object.isInValue ? color() : 'none'"
-        clickStrategy="noop"
-        [selected]="object.filled"
-        (click)="onStarClick($index)"
-        (focus)="onStarButtonFocus($index)"
-        (blur)="onStarButtonBlur()"
-        (mouseenter)="onStarHighlight($index)"
-        [tabIndex]="tabIndex()"
+      #starButton
+      [class.ard-star-not-in-value]="!object.isInValue"
+      [color]="object.isInValue ? color() : 'none'"
+      clickStrategy="noop"
+      [selected]="object.filled"
+      (click)="onStarClick($index)"
+      (focus)="onStarButtonFocus($index)"
+      (blur)="onStarButtonBlur()"
+      (mouseenter)="onStarHighlight($index)"
+      [tabIndex]="tabIndex()"
     />
-    }
+  }
 </div>
