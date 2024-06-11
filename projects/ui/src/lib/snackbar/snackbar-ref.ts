@@ -20,7 +20,7 @@ export class _ArdSnackbarRefInternal<T> {
 
   readonly publicRef!: ArdSnackbarRef<T>;
 
-  timeout!: NodeJS.Timeout;
+  timeout!: any;
   overlay!: OverlayRef;
 
   private readonly _onOpen = new Subject<void>();

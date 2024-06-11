@@ -1,8 +1,6 @@
 @use './coloring' as C;
 @import '../variables';
 
-@import '@angular/cdk/overlay-prebuilt.css';
-
 .ard-snackbar {
   @include C.typeColors();
   min-width: min(21rem, 90vw);

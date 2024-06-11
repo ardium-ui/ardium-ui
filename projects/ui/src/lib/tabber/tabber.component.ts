@@ -2,18 +2,17 @@ import {
   AfterContentInit,
   ChangeDetectionStrategy,
   Component,
-  Signal,
   ViewEncapsulation,
   computed,
   contentChildren,
-  effect,
   input,
   output,
-  signal,
+  signal
 } from '@angular/core';
-import { ArdiumTabComponent } from './tab/tab.component';
-import { ComponentColor, OneAxisAlignment } from '@ardium-ui/ui';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { OneAxisAlignment } from '../types/alignment.types';
+import { ComponentColor } from '../types/colors.types';
+import { ArdiumTabComponent } from './tab/tab.component';
 
 @Component({
   selector: 'ard-tabber',

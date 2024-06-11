@@ -11,13 +11,13 @@
     "ngg-uc": "ng g c --project=ui --change-detection=OnPush --export --view-encapsulation=None",
     "ngg-pm": "ng g m --project=playground",
     "ngg-pc": "ng g c --type=page --project=playground",
-    "publish-devkit": "rmdir /s /Q dist & ng build --project=devkit && cd dist/devkit && npm publish --access public && cd ../../",
     "publish-ui": "rmdir /s /Q dist & cd projects/ui && ng build --configuration=production && npm run build-sass && cd ../../ && node copy-scss.js && cd dist/ui && npm publish --access=public && cd ../../",
     "version-ui": "cd projects/ui && npm version",
     "prettier": "prettier --write ."
   },
   "dependencies": {
     "@angular/animations": "^18.0.0",
+    "@angular/cdk": "^18.0.2",
     "@angular/common": "^18.0.0",
     "@angular/compiler": "^18.0.0",
     "@angular/core": "^18.0.0",
@@ -25,6 +25,7 @@
     "@angular/platform-browser": "^18.0.0",
     "@angular/platform-browser-dynamic": "^18.0.0",
     "@angular/router": "^18.0.0",
+    "@ardium-ui/devkit": "^1.3.11",
     "color": "^4.2.3",
     "first-last": "^1.1.1",
     "key-display-names": "^1.2.0",
