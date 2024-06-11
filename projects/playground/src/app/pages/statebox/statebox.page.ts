@@ -10,9 +10,9 @@ import { Logger } from '../../services/logger.service';
 export class StateboxPage implements OnInit {
   states: StateboxState[] = [
     { value: 0, color: 'none' },
-    { value: 1, customColor: 'red', character: 'R', fillMode: true },
+    { value: 1, customColor: 'red', character: 'R', filled: true },
     { value: 2, customColor: 'green', character: 'G' },
-    { value: 3, color: 'info', icon: 'settings', keepFrame: true, fillMode: true },
+    { value: 3, color: 'info', icon: 'settings', keepFrame: true, filled: true },
   ];
 
   constructor(private _logger: Logger) {}

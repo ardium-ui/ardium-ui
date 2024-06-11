@@ -8,8 +8,8 @@ export interface StateboxState {
   character?: string;
   color?: ComponentColor;
   customColor?: string;
-  colorOnCustomColor?: string;
-  fillMode?: boolean;
+  colorOnCustom?: string;
+  filled?: boolean;
   keepFrame?: boolean;
 }
 export interface _StateboxInternalState {
@@ -18,8 +18,8 @@ export interface _StateboxInternalState {
   displayAsIcon: boolean;
   color: string;
   useCustomColor: boolean;
-  colorOnCustomColor?: string;
-  fillMode: boolean;
+  colorOnCustom?: string;
+  filled: boolean;
   keepFrame: boolean;
 }
 

@@ -15,9 +15,9 @@ import { _NgModelComponentBase } from './../_internal/ngmodel-component';
 import { ArdiumStarButtonComponent } from './../star/star-button/star-button.component';
 import { StateboxState, StateboxValue, _StateboxInternalState } from './statebox.types';
 
-const defaultStateboxStates: StateboxState[] = [
+const DEFAULT_STATES: StateboxState[] = [
   { value: false, color: 'none' },
-  { value: true, color: 'secondary', icon: 'check', fillMode: true },
+  { value: true, color: 'secondary', icon: 'check_box', filled: true },
 ];
 
 @Component({
@@ -35,7 +35,7 @@ const defaultStateboxStates: StateboxState[] = [
   ],
 })
 export class ArdiumStateboxComponent extends _NgModelComponentBase implements ControlValueAccessor {
-  readonly states = input<StateboxState[]>(defaultStateboxStates);
+  readonly states = input<StateboxState[]>(DEFAULT_STATES);
   readonly _states = computed(() => this.states().map(this._stateMapFn));
   readonly _defaultState = computed(() => this._states()[0]);
 
@@ -49,7 +49,7 @@ export class ArdiumStateboxComponent extends _NgModelComponentBase implements Co
     [
       this.wrapperClasses(),
       this.internalState().useCustomColor ? 'ard-color-custom' : `ard-color-${this.internalState().color}`,
-      this.internalState().fillMode ? 'ard-statebox-filled' : '',
+      this.internalState().filled ? 'ard-statebox-filled' : '',
       this.internalState().keepFrame ? 'ard-statebox-keep-frame' : '',
     ].join(' ')
   );
@@ -100,8 +100,8 @@ export class ArdiumStateboxComponent extends _NgModelComponentBase implements Co
       displayAsIcon,
       color: state.color ?? state.customColor ?? 'none',
       useCustomColor: state.color ? false : true,
-      colorOnCustomColor: state.colorOnCustomColor,
-      fillMode: state.fillMode ?? false,
+      colorOnCustom: state.colorOnCustom,
+      filled: state.filled ?? false,
       keepFrame: state.keepFrame ?? keepFrame,
     };
   }
@@ -134,7 +134,7 @@ export class ArdiumStateboxComponent extends _NgModelComponentBase implements Co
     }
     return {
       '--ard-custom-color': customColor,
-      '--ard-on-custom-color': state.colorOnCustomColor ?? '#fff',
+      '--ard-on-custom-color': state.colorOnCustom ?? '#fff',
     };
   });
 }
