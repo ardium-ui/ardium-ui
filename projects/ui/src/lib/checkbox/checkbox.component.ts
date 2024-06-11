@@ -32,7 +32,7 @@ export class ArdiumCheckboxComponent extends _BooleanComponentBase implements Co
       this.wrapperClasses(),
       `ard-color-${this.color()}`,
       `ard-unselected-color-${this.unselectedColor()}`,
-      `ard-checkbox-${this.state}`,
+      `ard-checkbox-${this.state()}`,
     ].join(' ')
   );
 
