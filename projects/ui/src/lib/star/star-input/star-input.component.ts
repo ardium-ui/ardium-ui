@@ -78,12 +78,12 @@ export class ArdiumStarInputComponent extends _NgModelComponentBase implements C
 
     const arr = new Array(max);
     for (let i = 0; i < max; i++) {
-      if (i < hi) {
+      if (i <= hi) {
         arr[i] = { filled: true, isInValue: true };
         continue;
       }
       if (i < v) {
-        arr[i] = { filled: false, isInValue: true };
+        arr[i] = { filled: hi === -1, isInValue: true };
         continue;
       }
       arr[i] = { filled: false, isInValue: false };

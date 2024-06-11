@@ -60,20 +60,12 @@ export abstract class _BooleanComponentBase extends _NgModelComponentBase implem
    */
   @Output() selectedChange = new EventEmitter<boolean>();
 
-  constructor() {
-    super();
-
-    effect(() => {
-      this.selected(); // call the signal to let the effect know when to update
-      this._emitChange();
-    });
-  }
-
   /**
    * Toggles the selected state. Emits all appropriate events.
    */
   toggleSelected() {
     this.selected.update(v => !v);
+    this._emitChange();
   }
 
   /**
@@ -81,11 +73,13 @@ export abstract class _BooleanComponentBase extends _NgModelComponentBase implem
    */
   select() {
     this.selected.set(true);
+    this._emitChange();
   }
   /**
    * Sets the state to "unselected". Emits all appropriate events only if the state changes.
    */
   unselect() {
     this.selected.set(false);
+    this._emitChange();
   }
 }
