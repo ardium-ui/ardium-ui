@@ -62,7 +62,7 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
 
   readonly invertDisabled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
-  readonly maxSelectedItems = input<any, number>(false, { transform: v => coerceNumberProperty(v) });
+  readonly maxSelectedItems = input<number, any>(Infinity, { transform: v => coerceNumberProperty(v) });
 
   //! appearance
   readonly color = input<ComponentColor>(ComponentColor.Primary);

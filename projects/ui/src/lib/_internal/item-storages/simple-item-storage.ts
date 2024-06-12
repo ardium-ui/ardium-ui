@@ -65,7 +65,7 @@ export class SimpleItemStorage {
    */
   readonly isItemLimitReached = computed(() => {
     const msi = this._ardParentComp.maxSelectedItems();
-    if (!this._ardParentComp.multiselectable || !isDefined(msi)) {
+    if (!this._ardParentComp.multiselectable() || !isDefined(msi)) {
       return false;
     }
     return msi <= this.selectedItems().length;
@@ -242,7 +242,7 @@ export class SimpleItemStorage {
       return [[], [], this._itemsToValue(items)];
     }
     let unselected = [];
-    if (!this._ardParentComp.multiselectable) {
+    if (!this._ardParentComp.multiselectable()) {
       unselected = this._forceUnselectAll();
     }
 
