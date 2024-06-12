@@ -12,7 +12,7 @@
   font-family: 'Roboto', sans-serif;
   color: $text2;
   background: $bg;
-  border-radius: var(--ard-_chip-border-radius);
+  border-radius: var(--ard-variant-border-radius);
   padding: 0;
   margin: 6px;
   vertical-align: middle;
@@ -59,13 +59,6 @@
       }
     }
   }
-  //! variants
-  &.ard-variant-rounded {
-    --ard-_chip-border-radius: 6px;
-  }
-  &.ard-chip-variant-pill {
-    --ard-_chip-border-radius: 9999px;
-  }
   //! appearances
   &.ard-appearance-filled {
     background: var(--ard-cmpcl--bg-colored);
@@ -91,6 +84,7 @@
     background: transparent;
     color: var(--ard-cmpcl--content);
     border: 1px solid var(--ard-cmpcl--bg-colored);
+    border-radius: var(--ard-variant-border-radius);
     font-weight: 600;
 
     &.ard-chip-selectable {
