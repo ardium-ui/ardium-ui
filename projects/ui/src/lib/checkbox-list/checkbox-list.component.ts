@@ -9,6 +9,7 @@ import {
   ViewEncapsulation,
   computed,
   input,
+  output,
   signal,
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
@@ -83,8 +84,8 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
     this.writeValue(v);
   }
 
-  @Output() valueChange = new EventEmitter<any>();
-  @Output('change') changeEvent = new EventEmitter<any>();
+  readonly valueChange = output<any>();
+  readonly changeEvent = output<any>({ alias: 'change' });
 
   private _valueBeforeInit: any;
   writeValue(v: any): void {

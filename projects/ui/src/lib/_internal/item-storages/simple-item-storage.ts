@@ -1,4 +1,4 @@
-import { Signal, computed, signal } from '@angular/core';
+import { Signal, computed, effect, signal } from '@angular/core';
 import resolvePath from 'resolve-object-path';
 import { evaluate, isDefined, isObject, isPrimitive } from 'simple-bool';
 import { ArdOptionSimple, CompareWithFn } from '../../types/item-storage.types';
@@ -51,7 +51,7 @@ export class SimpleItemStorage {
    * @returns An array of item values.
    */
   private _itemsToValue(items: ArdOptionSimple[]): any[] {
-    return items.map(item => item.value);
+    return items.map(item => item.value());
   }
 
   /**
@@ -171,9 +171,11 @@ export class SimpleItemStorage {
    */
   private _validateWriteValue(ngModel: any[]): boolean {
     return ngModel.every(item => {
-      if (!isDefined(this._ardParentComp.compareWith) && isObject(item) && this._ardParentComp.valueFrom()) {
+      if (!isDefined(this._ardParentComp.compareWith()) && isObject(item) && this._ardParentComp.valueFrom()) {
         console.warn(
-          `ARD-FT${this._ardParentComp._componentId}0: Setting object(${JSON.stringify(item)}) as your model with [valueFrom] is not allowed unless [compareWith] is used.`
+          `ARD-FT${this._ardParentComp._componentId}0: Setting object(${JSON.stringify(
+            item
+          )}) as your model with [valueFrom] is not allowed unless [compareWith] is used.`
         );
         return false;
       }
@@ -182,10 +184,11 @@ export class SimpleItemStorage {
   }
   findItemByValue(valueToFind: any): ArdOptionSimple | undefined {
     let findBy: (item: ArdOptionSimple) => boolean;
-    if (isDefined(this._ardParentComp.compareWith)) {
-      findBy = item => this._ardParentComp.compareWith()!(valueToFind, item.value);
+    const cmpFn = this._ardParentComp.compareWith();
+    if (isDefined(cmpFn)) {
+      findBy = item => cmpFn(valueToFind, item.value());
     } else {
-      findBy = item => item.value === valueToFind;
+      findBy = item => item.value() === valueToFind;
     }
     return this._items().find(item => findBy(item));
   }
@@ -233,9 +236,9 @@ export class SimpleItemStorage {
    * Accounts for the limit of concurrently selected items defined by the parent component.
    * @param items A rest operator array of item objects to be selected.
    * @returns A tuple containing three arrays, all mapped to only their values:
-   * * An array of items selected,
-   * * An array of items unselected,
-   * * An array of items failed to select due to the limit.
+   * - An array of items selected,
+   * - An array of items unselected,
+   * - An array of items failed to select due to the limit.
    */
   selectItem(...items: ArdOptionSimple[]): [any[], any[], any[]] {
     if (this.isItemLimitReached()) {
@@ -247,7 +250,7 @@ export class SimpleItemStorage {
     }
 
     let itemsSelectedCount = 0;
-    const itemsSelected = [];
+    const itemsSelected: ArdOptionSimple[] = [];
     for (const item of items) {
       itemsSelectedCount++;
       if (item.selected()) continue;
@@ -255,9 +258,9 @@ export class SimpleItemStorage {
         break;
       }
       item.selected.set(true);
-      this._selectedItems().push(item);
       itemsSelected.push(item);
     }
+    this._selectedItems.update(v => [...v, ...itemsSelected]);
 
     const itemsFailedToSelect = items.slice(itemsSelectedCount - 1);
     return [this._itemsToValue(itemsSelected), unselected, this._itemsToValue(itemsFailedToSelect)];
@@ -278,9 +281,7 @@ export class SimpleItemStorage {
       if (!item.selected()) continue;
       item.selected.set(false);
     }
-    setTimeout(() => {
-      this._selectedItems.update(v => v.filter(v => v.selected()));
-    }, 0);
+    this._selectedItems.update(v => v.filter(v => v.selected()));
 
     return this._itemsToValue(items);
   }
@@ -313,7 +314,7 @@ export class SimpleItemStorage {
     for (const item of items) {
       item.highlighted.set(true);
     }
-    this._highlightedItems().push(...items);
+    this._highlightedItems.update(v => [...v, ...items]);
     return items.last();
   }
   /**
@@ -326,9 +327,7 @@ export class SimpleItemStorage {
 
       item.highlighted.set(false);
     }
-    setTimeout(() => {
-      this._highlightedItems.update(v => v.filter(v => v.highlighted()));
-    }, 0);
+    this._highlightedItems.update(v => v.filter(v => v.highlighted()));
   }
   /**
    * Highlights the first item out of all items.
