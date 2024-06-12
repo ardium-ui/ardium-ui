@@ -3,17 +3,27 @@
   <ard-checkbox-list
     [items]="fruitItems"
     align="left-clumped"
-  ></ard-checkbox-list>
+  />
   <ard-checkbox-list
     [items]="fruitItems"
     align="left-split"
-  ></ard-checkbox-list>
+  />
   <ard-checkbox-list
     [items]="fruitItems"
     align="right-split"
-  ></ard-checkbox-list>
+  />
   <ard-checkbox-list
     [items]="fruitItems"
     align="right-clumped"
-  ></ard-checkbox-list>
+  />
+</div>
+<div class="master">
+  <span class="title">Checkbox list events</span>
+  <ard-checkbox-list
+    [items]="fruitItems"
+    (focus)="log('focus', $event)"
+    (blur)="log('blur', $event)"
+    (valueChange)="log('valueChange', $event)"
+    (change)="log('change', $event)"
+  />
 </div>

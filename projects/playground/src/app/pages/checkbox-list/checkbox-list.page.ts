@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Logger } from '../../services/logger.service';
 
 @Component({
   selector: 'app-checkbox-list',
@@ -7,4 +8,6 @@ import { Component } from '@angular/core';
 })
 export class CheckboxListPage {
   readonly fruitItems = ['Apple', 'Banana', 'Pear', 'Starfruit'];
+
+  readonly log = inject(Logger).log
 }
