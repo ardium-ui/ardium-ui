@@ -11,7 +11,7 @@ ard-card,
 
   //! appearances
   &.ard-appearance-outlined {
-    border: 1px solid $border;
+    border: 1px solid $border-light;
   }
   &.ard-appearance-raised {
     box-shadow: $card-shadow;
@@ -49,20 +49,20 @@ ard-card-header {
   font-weight: 500;
 }
 .ard-card-title {
-  font-size: 1.25em;
+  font-size: 1.375em;
   letter-spacing: 0.0125em;
   color: $text;
 }
 .ard-card-subtitle {
-  font-size: 0.875em;
-  letter-spacing: 0.0078125;
+  font-size: 1em;
+  letter-spacing: 0.0078125em;
   color: $text3;
-  opacity: 80%;
+  margin-top: 0.125rem;
 }
 .ard-card-avatar {
   display: block;
-  width: 2.5em;
-  height: 2.5em;
+  width: 3em;
+  height: 3em;
   border-radius: 9999px;
   flex-shrink: 0;
   object-fit: cover;

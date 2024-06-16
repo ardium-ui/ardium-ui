@@ -46,10 +46,10 @@ export class ArdiumIconComponent implements AfterViewInit {
   readonly fontVariationSettings = computed<string>(() => {
     //map values to different properties defined by google icons
     const propObject = {
-      FILL: isDefined(this.filled) ? Number(this.filled) : undefined,
-      wght: this.weight,
-      GRAD: this.grade,
-      opsz: this.opticalSize,
+      FILL: isDefined(this.filled()) ? Number(this.filled()) : undefined,
+      wght: this.weight(),
+      GRAD: this.grade(),
+      opsz: this.opticalSize(),
     };
     //map the object to an array of strings
     const propObjectAsArray = Object.entries(propObject) //object to array
@@ -58,7 +58,8 @@ export class ArdiumIconComponent implements AfterViewInit {
       .flat(); //flatten
 
     //create the final string only if any of the properties are defined
-    return propObjectAsArray.length === 0 ? '' : ['font-variation-settings: ', ...propObjectAsArray].join('');
+    console.log(propObjectAsArray.length === 0 ? '' : ['font-variation-settings: ', propObjectAsArray.join(', ')].join(''));
+    return propObjectAsArray.length === 0 ? '' : ['font-variation-settings: ', propObjectAsArray.join(', ')].join('');
   });
 
   readonly contentWrapper = viewChild<ElementRef<HTMLElement>>('contentWrapperEl');
