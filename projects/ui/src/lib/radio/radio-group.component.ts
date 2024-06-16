@@ -185,7 +185,6 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
       console.log(radio);
       this._childEventSubs.push(
         radio.selectedChange.subscribe((v: boolean) => {
-          console.log(radio, 'radio change');
           if (!v) return;
           this._handleChangeEvents(radio);
         })
@@ -197,7 +196,6 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
       setTimeout(() => {
         this._updateRadioButtonNames();
       }, 0);
-      console.log(radios);
 
       this._destroyChildSubscriptions();
 
