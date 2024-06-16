@@ -123,7 +123,7 @@
           [class.ard-table__highlighted-row]="row.highlighted()"
           [class.ard-table__disabled-row]="row.disabled()"
           [class.ard-table__bold-row]="row.bold()"
-          (click)="onRowClick(row.index(), $event)"
+          (click)="onRowClick(row, $event)"
           (mouseover)="onRowMouseOver($event)"
           (mouseenter)="onRowMouseEnter(row.index(), $event)"
           (mouseleave)="onRowMouseLeave(row.index(), $event)"

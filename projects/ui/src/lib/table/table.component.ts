@@ -58,11 +58,13 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
 
   readonly rowDisabledFrom = input<Nullable<string>>(undefined);
   readonly rowBoldFrom = input<Nullable<string>>(undefined);
-
   readonly invertRowDisabled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
   readonly invertRowBold = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+
   readonly selectableRows = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
   readonly maxSelectedItems = input<Nullable<number>, any>(undefined, { transform: v => coerceNumberProperty(v, undefined) });
+
+  readonly clickableRows = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   readonly caption = input<Nullable<string>>(undefined);
 
@@ -224,21 +226,29 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
   onCheckboxClick(index: number): void {
     this.toggleRowSelected(index);
   }
-  onRowClick(index: number, event: MouseEvent): void {
-    if (!this.selectableRows) return;
-    event.stopPropagation();
-    this.toggleRowSelected(index);
+  onRowClick(row: ArdTableRow, event: MouseEvent): void {
+    if (this.clickableRows()) {
+      event.stopPropagation();
+      this.clickRowEvent.emit(row.itemData());
+      return;
+    }
+    if (this.selectableRows()) {
+      event.stopPropagation();
+      this.toggleRowSelected(row.index());
+      return;
+    }
   }
   onRowMouseOver(event: MouseEvent): void {
     event.stopPropagation();
   }
   onRowMouseEnter(index: number, event: MouseEvent): void {
-    if (!this.selectableRows) return;
+    console.log(!this.selectableRows(), !this.clickableRows());
+    if (!this.selectableRows() && !this.clickableRows()) return;
     event.stopPropagation();
     this._itemStorage.highlightSingleItem(index);
   }
   onRowMouseLeave(index: number, event: MouseEvent): void {
-    if (!this.selectableRows) return;
+    if (!this.selectableRows() && !this.clickableRows()) return;
     event.stopPropagation();
     this._itemStorage.unhighlightItem(index);
   }
@@ -297,6 +307,7 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
   readonly failedSelectRowEvent = output<any[]>({ alias: 'failedSelectRow' });
   readonly selectRowEvent = output<any[]>({ alias: 'selectRow' });
   readonly unselectRowEvent = output<any[]>({ alias: 'unselectRow' });
+  readonly clickRowEvent = output<any>({ alias: 'clickRow' });
 
   //! contexts
   getHeaderContext(cell: TableDataColumn, index: number): TableHeaderContext | null;
