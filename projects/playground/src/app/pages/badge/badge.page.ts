@@ -1,5 +1,6 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { BadgeSize as BS, BadgePosition, ComponentColor as CC, FormElementVariant as FEV } from '@ardium-ui/ui';
+import { Logger } from '../../services/logger.service';
 
 const nbspString = '\xa0'.repeat(9);
 
@@ -24,6 +25,8 @@ export class BadgePage {
     { value: null, disabled: true, label: nbspString },
     { value: BadgePosition.BelowAfter, label: nbspString },
   ];
+
+  log = inject(Logger).log
 
   variant: FEV[] = [FEV.Pill];
   color: CC[] = [CC.Primary];

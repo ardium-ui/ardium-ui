@@ -49,6 +49,7 @@
             <ard-checkbox
               [(selected)]="overlap"
               htmlId="overlap"
+              (selectedChange)="log('selectedChange', $event)"
             />
             <label for="overlap">Overlap</label>
           </div>
