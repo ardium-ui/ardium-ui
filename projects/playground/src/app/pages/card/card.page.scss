@@ -6,7 +6,7 @@
 }
 
 .bear-card {
-  max-width: 400px;
+  max-width: 334px;
 }
 
 .align-cards-container {
@@ -19,16 +19,13 @@
   position: absolute;
   right: 0.25em;
   top: 0.25em;
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(5px);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 9999px;
+}
 
-  .ard-button-icon {
-    font-variation-settings: 'FILL' 0;
-  }
-  &.bear-likes {
-    .ard-button-icon {
-      font-variation-settings: 'FILL' 1;
-    }
-  }
+.rainbow-grid {
+  display: grid;
+  grid-template-columns: 344px 344px;
+  gap: 1rem;
 }

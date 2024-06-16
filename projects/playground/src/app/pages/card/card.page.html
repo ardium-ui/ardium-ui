@@ -58,19 +58,22 @@
     </ard-card-action-buttons>
     <ard-fab
       appearance="transparent"
-      icon="favorite"
       class="bear-favorite-btn"
-      size="small"
-      [color]="likesBear ? 'danger' : 'none'"
-      [class.bear-likes]="likesBear"
-      (click)="likesBear = !likesBear"
-    />
+      [color]="likesBear() ? 'danger' : 'none'"
+      (click)="toggleLikesBear()"
+    >
+      <ard-icon
+        icon="favorite"
+        [filled]="likesBear()"
+      />
+    </ard-fab>
   </ard-card>
 </div>
 <div class="master full-width">
   <span class="title">Card action buttons alignments</span>
   <div class="align-cards-container">
-    <ard-card *ngFor="let align of aligns">
+    @for (align of aligns; track $index) {
+    <ard-card>
       <ard-card-header>
         <ard-card-title>Action buttons alignment</ard-card-title>
         <ard-card-subtitle>{{ align | titlecase }}</ard-card-subtitle>
@@ -88,5 +91,24 @@
         >
       </ard-card-action-buttons>
     </ard-card>
+    }
+  </div>
+</div>
+<div class="master full-width">
+  <span class="title">Rainbow table</span>
+  <div class="rainbow-grid">
+    @for (variant of variants; track $index) {
+      @for (appearance of appearances; track $index) {
+        <ard-card
+          [appearance]="appearance"
+          [variant]="variant"
+        >
+          <ard-card-content>
+            [variant]="{{ variant }}"
+            <br />
+            [appearance]="{{ appearance }}"
+          </ard-card-content>
+        </ard-card>
+    } }
   </div>
 </div>
