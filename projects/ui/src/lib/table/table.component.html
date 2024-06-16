@@ -1,6 +1,6 @@
 <table
   class="ard-table"
-  [ngClass]="ngClasses"
+  [ngClass]="ngClasses()"
 >
   @if (caption()) {
     <caption class="ard-table__caption">
@@ -70,7 +70,7 @@
                     [class.ard-sortable]="sortable"
                     [class.ard-nonsortable]="!sortable"
                   >
-                    @if (sortable()) {
+                    @if (sortable) {
                       <button
                         class="ard-table__header-content-container"
                         (click)="onTriggerSort($event)"
@@ -145,7 +145,7 @@
                       [tabIndex]="isLoading() ? -1 : tabIndex()"
                       [selected]="isChecked"
                       [color]="color()"
-                      [disabled]="disabled()"
+                      [disabled]="disabled"
                       (change)="onChange()"
                       (click)="$event.stopPropagation()"
                     />

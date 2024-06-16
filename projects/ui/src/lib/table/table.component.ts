@@ -62,7 +62,7 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
   readonly invertRowDisabled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
   readonly invertRowBold = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
   readonly selectableRows = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly maxSelectedItems = input<number, any>(0, { transform: v => coerceNumberProperty(v, 0) });
+  readonly maxSelectedItems = input<Nullable<number>, any>(undefined, { transform: v => coerceNumberProperty(v, undefined) });
 
   readonly caption = input<Nullable<string>>(undefined);
 
@@ -114,7 +114,7 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
   readonly useFirstLastButtons = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   readonly itemsPerPage = model<number>(50);
-  readonly page = model<number>(50);
+  readonly page = model<number>(1);
 
   readonly isDefinedTotalItems = computed(
     () => this.paginationStrategy() !== TablePaginationStrategy.Noop || isDefined(this.totalItems())

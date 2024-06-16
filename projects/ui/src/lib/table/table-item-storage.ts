@@ -120,13 +120,9 @@ export class TableItemStorage {
    * Gets items based on the current pagination state.
    */
   readonly paginatedItems = computed(() => {
-    //prettier-ignore
-    if (
-            !this._ardParentComp.paginated()
-            || this._ardParentComp.paginationStrategy() === TablePaginationStrategy.Noop
-        ) {
-            return this.sortedItems();
-        }
+    if (!this._ardParentComp.paginated() || this._ardParentComp.paginationStrategy() === TablePaginationStrategy.Noop) {
+      return this.sortedItems();
+    }
     const page = this._ardParentComp.page();
     const IPP = this._ardParentComp.itemsPerPage();
     const itemsStart = (page - 1) * IPP;
@@ -267,8 +263,8 @@ export class TableItemStorage {
     }
     const headerCells: (HeaderCell | null)[][] = [[]];
     for (const col of cols) {
-      headerCells[0].push(new HeaderCell(col, 1, maxNesting - currentNesting));
       if (!isTableSubheader(col)) {
+        headerCells[0].push(new HeaderCell(col, 1, maxNesting - currentNesting));
         continue;
       }
       const childCells: (HeaderCell | null)[][] = [[], ...this._mapColumnsToArray(col.children, maxNesting, currentNesting + 1)];
@@ -434,7 +430,7 @@ export class TableItemStorage {
 
     let itemsSelectedCount = 0;
     const itemsSelected = [];
-    let itemsLeftUntilLimit = (this._ardParentComp.maxSelectedItems() ?? Infinity) + this.selectedItems().length;
+    let itemsLeftUntilLimit = (this._ardParentComp.maxSelectedItems() ?? Infinity) - this.selectedItems().length;
     for (const item of itemsToBeSelected) {
       itemsSelectedCount++;
       if (item.selected()) continue;
