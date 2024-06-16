@@ -39,6 +39,7 @@ export class ArdiumRadioComponent extends _BooleanComponentBase {
   onMouseup(): void {
     this.focus();
     this.selected.set(true);
+    this._emitChange();
   }
 
   //! radio-group access points

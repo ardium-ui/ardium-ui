@@ -11,7 +11,7 @@
   pointer-events: none;
 
   //! colors
-  background: var(--ard-cmpcl--bgcolored);
+  background: var(--ard-cmpcl--bg-colored);
   color: var(--ard-cmpcl--on-bg-colored);
 
   //! variants
@@ -41,22 +41,22 @@
 
   &.ard-badge-size-small {
     --ard-_badge-size: 0.55rem;
-    font-weight: 300;
+    font-weight: 400;
     letter-spacing: 0.2px;
   }
   &.ard-badge-size-medium {
     --ard-_badge-size: 0.667rem;
-    font-weight: 400;
+    font-weight: 500;
     letter-spacing: 0.2px;
   }
   &.ard-badge-size-large {
     --ard-_badge-size: 0.8125rem;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0.2px;
   }
 
   //! overlap
-  --ard-_badge-overlap-offset-x: 0%;
+  --ard-_badge-overlap-offset-x: 0.3em;
 
   &.ard-badge-overlap {
     --ard-_badge-overlap-offset-x: 50%;

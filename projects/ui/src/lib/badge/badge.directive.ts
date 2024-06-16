@@ -62,7 +62,7 @@ export class ArdiumBadgeDirective implements OnChanges, AfterViewInit, OnDestroy
       R.setAttribute(element, 'class', this._elementClasses());
       R.setAttribute(element, 'aria-label', this.ariaLabel());
 
-      if (this.text) {
+      if (this.text()) {
         const textHost = R.createElement('div') as HTMLDivElement;
         R.addClass(textHost, 'ard-badge-content');
 
