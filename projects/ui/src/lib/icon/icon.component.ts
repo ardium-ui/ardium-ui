@@ -58,7 +58,6 @@ export class ArdiumIconComponent implements AfterViewInit {
       .flat(); //flatten
 
     //create the final string only if any of the properties are defined
-    console.log(propObjectAsArray.length === 0 ? '' : ['font-variation-settings: ', propObjectAsArray.join(', ')].join(''));
     return propObjectAsArray.length === 0 ? '' : ['font-variation-settings: ', propObjectAsArray.join(', ')].join('');
   });
 
