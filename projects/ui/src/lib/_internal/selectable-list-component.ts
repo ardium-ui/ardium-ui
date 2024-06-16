@@ -161,7 +161,7 @@ export abstract class _SelectableListComponentBase
     return {
       $implicit: item,
       item,
-      itemData: item.itemData,
+      itemData: item.itemData(),
     };
   }
 

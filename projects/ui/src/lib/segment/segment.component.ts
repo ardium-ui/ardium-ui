@@ -74,12 +74,12 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
   readonly itemsPerRow = input<number, any>(Infinity, {
     transform: v => {
       const newValue = coerceNumberProperty(v, Infinity);
-      if (newValue === 0) throw new Error('Cannot set items per row to 0.');
+      if (newValue === 0) throw new Error('Cannot set items per row to 0.'); // TODO
       return newValue;
     },
   });
   get itemsInActualRow(): number {
-    return this.itemsPerRow() ?? this.items.length;
+    return this.itemsPerRow() === Infinity ? this.items.length : this.itemsPerRow();
   }
 
   //! option template

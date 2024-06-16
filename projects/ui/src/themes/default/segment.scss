@@ -43,6 +43,7 @@
       cursor: pointer;
       transition:
         color 0.1s $timing-fn,
+        opacity 0.1s $timing-fn,
         border-color 0.1s $timing-fn,
         background-color 0.1s $timing-fn;
       outline: none;
@@ -55,7 +56,7 @@
       }
 
       &.ard-option-disabled {
-        opacity: 60%;
+        opacity: 50%;
         pointer-events: none;
       }
 
