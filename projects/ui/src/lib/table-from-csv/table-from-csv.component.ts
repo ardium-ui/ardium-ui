@@ -1,5 +1,18 @@
-import { AfterContentInit, ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input } from '@angular/core';
-import { TableDataColumn } from '../table/table.types';
+import {
+  AfterContentInit,
+  ChangeDetectionStrategy,
+  Component,
+  OnChanges,
+  SimpleChanges,
+  ViewEncapsulation,
+  computed,
+  input,
+  model,
+} from '@angular/core';
+import { TableDataColumn, TablePaginationStrategy } from '../table/table.types';
+import { Nullable } from '../types/utility.types';
+import { ComponentColor } from '../types/colors.types';
+import { CurrentItemsFormatFn, PaginationAlign } from '../table-pagination/table-pagination.types';
 
 @Component({
   selector: 'ard-table-from-csv',
@@ -7,7 +20,90 @@ import { TableDataColumn } from '../table/table.types';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumTableFromCsvComponent implements AfterContentInit {
+export class ArdiumTableFromCsvComponent implements AfterContentInit, OnChanges {
+  readonly selectableRows = input<any>();
+  readonly maxSelectedItems = input<any>();
+  readonly clickableRows = input<any>();
+
+  readonly isLoading = input<any>();
+  readonly loadingProgress = input<any>();
+
+  readonly caption = input<Nullable<string>>(undefined);
+
+  readonly appearance = input<any>();
+  readonly variant = input<any>();
+  readonly color = input<any>();
+  readonly align = input<any>();
+  readonly headerAlign = input<any>();
+
+  readonly compact = input<any>();
+  readonly zebra = input<any>();
+  readonly stickyHeader = input<any>();
+
+  //! pagination
+  readonly paginated = input<any>();
+
+  readonly paginationStrategy = input<TablePaginationStrategy>(TablePaginationStrategy.Slice);
+
+  readonly paginationOptions = input<number[] | { value: number; label: string }[]>([10, 25, 50]);
+  readonly totalItems = input<any>();
+  readonly paginationColor = input<ComponentColor>(ComponentColor.None);
+  readonly paginationAlign = input<PaginationAlign>(PaginationAlign.Split);
+  readonly itemsPerPageText = input<string>('Items per page:');
+  readonly currentItemsFormatFn = input<CurrentItemsFormatFn>(
+    ({ currentItemsFirst, currentItemsLast, totalItems }) => `${currentItemsFirst} – ${currentItemsLast} of ${totalItems}`
+  );
+
+  readonly pageFillRemaining = input<any>();
+  readonly paginationDisabled = input<any>();
+  readonly useFirstLastButtons = input<any>();
+
+  readonly itemsPerPage = model<number>(50);
+  readonly page = model<number>(1);
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['itemsPerPage']) {
+      const ipp = changes['itemsPerPage'].currentValue;
+      const options =
+        (changes['paginationOptions']?.currentValue as number[] | { value: number; label: string }[]) ||
+        (this.paginationOptions() as number[] | { value: number; label: string }[]);
+      if (!options.find(v => (typeof v === 'number' ? v === ipp : v.value === ipp))) {
+        console.error(
+          new Error(
+            `<ard-table-from-csv> warning: value of "${ipp}" in [itemsPerPage] does not appear in [paginationOptions] array [${options
+              .map(v => (typeof v === 'number' ? v : v.value))
+              .join(', ')}]`
+          )
+        ); //TODO
+      }
+    }
+    if (changes['paginationOptions']) {
+      const options = changes['paginationOptions'].currentValue.map((v: number | { value: number; label: string }) =>
+        typeof v === 'number' ? v : v.value
+      ) as number[];
+      for (const opt of options) {
+        if (opt <= 0 || opt % 1 !== 0) {
+          console.error(
+            new Error(
+              `<ard-table-from-csv> error: value of [paginationOptions] must be a positive integer. The "${opt}" option will be ignored.` //TODO implement
+            )
+          ); //TODO
+        }
+      }
+    }
+    if (changes['page']) {
+      const page = changes['page'].currentValue as number;
+      if (page === 0) {
+        console.error(
+          new Error(`<ard-table-from-csv> error: [page] uses 1-indexed numbering system. The value 0 is not accepted.`)
+        ); //TODO
+      } else if (page < 0 || page % 1 !== 0) {
+        console.error(new Error(`<ard-table-from-csv> error: value of [page] must be a positive integer. Got "${page}".`)); //TODO
+      }
+    }
+  }
+
+  //! data
   readonly separator = input<string>(',');
 
   readonly data = input<{ headers: TableDataColumn[]; dataRows: any[] } | null, string>(null, {

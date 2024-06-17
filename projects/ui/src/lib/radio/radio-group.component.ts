@@ -182,7 +182,6 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
           this._handleFocusEvents(v);
         })
       );
-      console.log(radio);
       this._childEventSubs.push(
         radio.selectedChange.subscribe((v: boolean) => {
           if (!v) return;

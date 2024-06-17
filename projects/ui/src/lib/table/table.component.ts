@@ -158,6 +158,7 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
   }
 
   readonly treatDataSourceAsString = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly _suppressErrors = input<boolean>(false);
 
   //! templates
   readonly checkboxTemplate = contentChild<ArdiumTableCheckboxTemplateDirective, TemplateRef<TableCheckboxContext>>(
@@ -242,7 +243,6 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     event.stopPropagation();
   }
   onRowMouseEnter(index: number, event: MouseEvent): void {
-    console.log(!this.selectableRows(), !this.clickableRows());
     if (!this.selectableRows() && !this.clickableRows()) return;
     event.stopPropagation();
     this._itemStorage.highlightSingleItem(index);
