@@ -3,6 +3,14 @@
     <ard-table [columns]="simpleColumns"></ard-table>
 </div>
 <div class="master">
+  <span class="title">Fruit table</span>
+  <ard-table
+    [columns]="fruitColumns"
+    [data]="fruitData"
+    clickableRows
+    (clickRow)="log('clickRow', $event)"
+  />
+<div class="master">
   <span class="title">People table</span>
   <ard-table
     [columns]="peopleColumns"
@@ -10,6 +18,7 @@
     appearance="strong"
     paginated
     paginationStrategy="slice"
+    selectableRows
     [totalItems]="peopleData.length"
     (selectRow)="log('selectRow', $event)"
     (unselectRow)="log('unselectRow', $event)"

@@ -219,6 +219,28 @@ Nine Miles from the White City, 2013, -`;
     },
   ];
 
+  fruitColumns: TableDataColumn[] = [
+    {
+      header: 'No.',
+      dataSource: { type: 'autocount' },
+    },
+    {
+      header: 'Fruit',
+      dataSource: 'fruit',
+    },
+    {
+      header: 'kcal/100g',
+      dataSource: 'calories',
+    }, {
+      header: 'Primary color',
+      dataSource: 'color',
+    },
+    {
+      header: 'Harvest season',
+      dataSource: 'season',
+    }
+  ];
+
   peopleData = [
     {
       name: 'Nathanial Cordrey',
@@ -1020,5 +1042,38 @@ Nine Miles from the White City, 2013, -`;
       extn: 6079,
       email: 'mbrouncker2r@comcast.net',
     },
+  ];
+
+  fruitData = [
+    { fruit: 'Apple', calories: 52, color: 'Red', season: 'Fall' },
+    { fruit: 'Banana', calories: 89, color: 'Yellow', season: 'Year-round' },
+    { fruit: 'Cherry', calories: 50, color: 'Red', season: 'Summer' },
+    { fruit: 'Orange', calories: 47, color: 'Orange', season: 'Winter' },
+    { fruit: 'Pineapple', calories: 50, color: 'Brown', season: 'Summer' },
+    { fruit: 'Kiwi', calories: 61, color: 'Green', season: 'Winter' },
+    { fruit: 'Grapes', calories: 69, color: 'Purple', season: 'Fall' },
+    { fruit: 'Mango', calories: 60, color: 'Orange', season: 'Summer' },
+    { fruit: 'Blueberry', calories: 57, color: 'Blue', season: 'Summer' },
+    { fruit: 'Strawberry', calories: 32, color: 'Red', season: 'Spring' },
+    { fruit: 'Peach', calories: 39, color: 'Pink', season: 'Summer' },
+    { fruit: 'Pear', calories: 57, color: 'Green', season: 'Fall' },
+    { fruit: 'Watermelon', calories: 30, color: 'Green', season: 'Summer' },
+    { fruit: 'Papaya', calories: 43, color: 'Orange', season: 'Year-round' },
+    { fruit: 'Blackberry', calories: 43, color: 'Black', season: 'Summer' },
+    { fruit: 'Cantaloupe', calories: 34, color: 'Orange', season: 'Summer' },
+    { fruit: 'Plum', calories: 46, color: 'Purple', season: 'Summer' },
+    { fruit: 'Raspberry', calories: 52, color: 'Red', season: 'Summer' },
+    { fruit: 'Lemon', calories: 29, color: 'Yellow', season: 'Winter' },
+    { fruit: 'Apricot', calories: 48, color: 'Orange', season: 'Summer' },
+    { fruit: 'Grapefruit', calories: 42, color: 'Pink', season: 'Winter' },
+    { fruit: 'Lychee', calories: 66, color: 'Red', season: 'Summer' },
+    { fruit: 'Fig', calories: 74, color: 'Purple', season: 'Summer' },
+    { fruit: 'Coconut', calories: 354, color: 'Brown', season: 'Year-round' },
+    { fruit: 'Avocado', calories: 160, color: 'Green', season: 'Spring' },
+    { fruit: 'Pomegranate', calories: 83, color: 'Red', season: 'Fall' },
+    { fruit: 'Guava', calories: 68, color: 'Green', season: 'Year-round' },
+    { fruit: 'Dragonfruit', calories: 60, color: 'Pink', season: 'Summer' },
+    { fruit: 'Starfruit', calories: 31, color: 'Yellow', season: 'Fall' },
+    { fruit: 'Passion Fruit', calories: 97, color: 'Purple', season: 'Summer' },
   ];
 }

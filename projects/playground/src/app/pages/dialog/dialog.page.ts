@@ -36,7 +36,6 @@ export class DialogPage {
     }
   }
   openDeleteConfirmationDialog() {
-    console.log('openDeleteConfirmationDialog');
     this.isOpen3.set(true);
     this.canConfirmDelete.set(false);
     const newTimeout = setTimeout(() => {
