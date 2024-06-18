@@ -13,7 +13,7 @@
 >
   <div
     class="ard-file-input"
-    [class.ard-has-value]="value"
+    [ngClass]="ngClasses()"
   >
     <div class="ard-input-container">
       @if (shouldDisplayPlaceholder) {

@@ -4,6 +4,7 @@ import {
   ContentChild,
   TemplateRef,
   ViewEncapsulation,
+  computed,
   forwardRef,
   input,
   output,
@@ -54,6 +55,11 @@ export class ArdiumFileInputComponent extends _FileInputComponentBase {
 
   //! placeholder
   readonly placeholder = input<string>('');
+
+  //! root element classes
+  readonly ngClasses = computed<string>(() =>
+    [`ard-color-${this.color()}`,`ard-state-${this.currentViewState()}`, this.value ? 'ard-has-value' : ''].join(' ')
+  );
 
   @ContentChild(ArdColorInputPlaceholderTemplateDirective, {
     read: TemplateRef,
