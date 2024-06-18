@@ -114,8 +114,6 @@ export class ArdiumDigitInputComponent
   }
 
   //! event emitters
-  @Output('input') inputEvent = new EventEmitter<string | (string | null)[] | null>();
-  @Output('change') changeEvent = new EventEmitter<string | (string | null)[] | null>();
   @Output() finishedValue = new EventEmitter<string | (string | null)[] | null>();
 
   @Output('focusIndex') focusIndexEvent = new EventEmitter<number>();
@@ -147,7 +145,7 @@ export class ArdiumDigitInputComponent
     if (valueChanged[1]) {
       this.focusByIndex(index + 1);
     }
-    this._emitInput();
+    this._emitChange();
   }
   focusByIndex(index: number): boolean;
   focusByIndex(index: number, tryFocusingNext: boolean, direction: 1 | -1): boolean;
@@ -162,26 +160,21 @@ export class ArdiumDigitInputComponent
     }
     return document.activeElement === nextEl;
   }
-  private _emitInput(): void {
-    this._onChangeRegistered?.(this.value);
-    this.inputEvent.emit(this.emittableValue);
-    this.valueChange.emit(this.emittableValue);
-    if (this.model.isValueFull) {
-      this.finishedValue.emit(this.emittableValue);
-    }
-  }
   //focus, blur, change
   onFocusMaster(event: FocusEvent, index: number): void {
     this.focusIndexEvent.emit(index);
     this.onFocus(event);
   }
   onBlurMaster(event: FocusEvent, index: number): void {
-    this._emitChange();
     this.blurIndexEvent.emit(index);
     this.onBlur(event);
   }
   protected _emitChange(): void {
-    this.changeEvent.emit(this.emittableValue);
+    this._onChangeRegistered?.(this.value);
+    this.valueChange.emit(this.emittableValue);
+    if (this.model.isValueFull) {
+      this.finishedValue.emit(this.emittableValue);
+    }
   }
   onKeydown(event: KeyboardEvent, index: number): void {
     switch (event.key) {
