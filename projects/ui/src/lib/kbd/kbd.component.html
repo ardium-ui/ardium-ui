@@ -2,7 +2,7 @@
   class="ard-kbd"
   [ngClass]="ngClasses()"
 >
-  {{ key() || contentWrapper()?.nativeElement?.innerText || '' | kbd: !full }}
+  {{ key() || contentWrapper()?.nativeElement?.innerText || '' | kbd: !full() }}
 </kbd>
 
 <div
