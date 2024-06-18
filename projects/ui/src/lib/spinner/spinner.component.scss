@@ -2,6 +2,7 @@ $offset: 187;
 
 .ard-spinner {
   animation: rotator var(--ard-_spinner-duration) linear infinite;
+  pointer-events: none;
 }
 
 @keyframes rotator {
