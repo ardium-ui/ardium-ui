@@ -33,5 +33,5 @@ export class ArdiumKbdComponent implements AfterViewInit {
   //! appearance
   readonly appearance = input<FormElementAppearance>(FormElementAppearance.Filled);
 
-  readonly ngClasses = computed<string>(() => [`ard-appearance-${this.appearance}`].join(' '));
+  readonly ngClasses = computed<string>(() => [`ard-appearance-${this.appearance()}`].join(' '));
 }
