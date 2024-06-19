@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-@import 'projects/ui/src/themes/default/core.scss';
 
+@import '@angular/cdk/overlay-prebuilt.css';
+
+@import 'projects/ui/src/themes/default/core.scss';
 @import 'projects/ui/src/themes/default/buttons/button.scss';
 @import 'projects/ui/src/themes/default/buttons/fab.scss';
 @import 'projects/ui/src/themes/default/buttons/icon-button.scss';
