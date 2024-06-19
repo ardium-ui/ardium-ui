@@ -45,8 +45,9 @@ export class ArdiumTabberComponent implements AfterContentInit {
       cmp.blurEvent.subscribe(() => {
         this.blurEvent.emit(cmp.tabId());
       });
-      cmp.selectedChange.subscribe(state => {
-        this.selectedChange.emit({ selected: state, tabId: cmp.tabId() });
+      cmp.selectedChange.subscribe(isSelected => {
+        if (!isSelected) return;
+        this.changeTab.emit(cmp.tabId());
       });
     }
 
@@ -87,7 +88,7 @@ export class ArdiumTabberComponent implements AfterContentInit {
 
   readonly focusEvent = output<string>({ alias: 'focus' });
   readonly blurEvent = output<string>({ alias: 'blur' });
-  readonly selectedChange = output<{ tabId: string; selected: boolean }>();
+  readonly changeTab = output<string>();
 
   //! appearance
   readonly color = input<ComponentColor>(ComponentColor.Primary);
