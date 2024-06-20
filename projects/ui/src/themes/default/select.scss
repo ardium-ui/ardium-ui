@@ -121,11 +121,13 @@
     align-items: center;
     height: max-content;
     width: max-content;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
 
     .ard-dropdown-arrow {
       border: calc($dropdown-button-size / 2) solid transparent;
       position: relative;
-      cursor: pointer;
       border-bottom-color: $detail;
       border-right-color: $detail;
       transform: rotate(45deg) translate(-17.67771%, -17.67771%);
