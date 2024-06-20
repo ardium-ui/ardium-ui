@@ -63,9 +63,9 @@
       <div class="option-wrapper">
         <div
           class="color-display"
-          [style]="'background: ' + itemData.hex"
+          [style]="'background: ' + itemData().hex"
         ></div>
-        <span>{{ item.label }}</span>
+        <span>{{ item.label() }}</span>
       </div>
     </ng-template>
   </ard-input>
