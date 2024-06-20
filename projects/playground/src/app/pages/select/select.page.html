@@ -1,13 +1,13 @@
 <span class="title">Empty element</span>
 <div class="grid master">
-  <ard-select></ard-select>
+  <ard-select/>
 </div>
 <span class="title">Primitive options, searchable</span>
 <div class="grid master">
   <ard-select
     [items]="fruits"
     searchable
-  ></ard-select>
+  />
 </div>
 <span class="title">Prefix template, primitive options</span>
 <div class="grid master">
@@ -33,7 +33,7 @@
     (scroll)="log('scroll', $event)"
     (scrollToEnd)="log('scrollToEnd', $event)"
     (search)="log('search', $event)"
-  ></ard-select>
+  />
 </div>
 <span class="title">Object options, property binding, groups, searchable</span>
 <div class="grid master">
@@ -42,7 +42,7 @@
     valueFrom="name"
     labelFrom="name"
     groupLabelFrom="classification"
-  ></ard-select>
+  />
 </div>
 <span class="title">Object options, property binding, groups, customized with templates</span>
 <div class="grid master">
@@ -103,7 +103,7 @@
 </div>
 <div class="master flex">
   <span class="title">Adding custom options</span>
-  <ard-select addCustom></ard-select>
+  <ard-select addCustom/>
 </div>
 <div class="master flex">
   <span class="title">Adding custom options, with some predefined</span>
@@ -118,7 +118,7 @@
   <ard-select
     [addCustom]="addCustomFn"
     (valueChange)="log('valueChange', $event)"
-  ></ard-select>
+  />
 </div>
 <div class="master flex">
   <span class="title">Adding custom options, with backend validation</span>
@@ -126,5 +126,5 @@
     [addCustom]="addCustomBackendFn"
     [isLoading]="isFetchingFromBackend"
     (valueChange)="log('valueChange', $event)"
-  ></ard-select>
+  />
 </div>
