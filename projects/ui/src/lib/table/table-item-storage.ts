@@ -7,22 +7,22 @@ import { areAllDataColumns, isTableSubheader, merge2dArrays } from './utils';
 
 export class ArdTableRow {
   private readonly _itemData = signal<any>(undefined);
-  readonly itemData = computed(() => this._itemData());
+  readonly itemData = this._itemData.asReadonly();
 
   private readonly _index = signal<number>(-1);
-  readonly index = computed(() => this._index());
+  readonly index = this._index.asReadonly();
 
   private readonly _isEmpty = signal<boolean>(false);
-  readonly isEmpty = computed(() => this._isEmpty());
+  readonly isEmpty = this._isEmpty.asReadonly();
 
   private readonly _data = signal<any[]>([]);
-  readonly data = computed(() => this._data());
+  readonly data = this._data.asReadonly();
 
   private readonly _dataColumns = signal<TableDataColumn[]>([]);
-  readonly dataColumns = computed(() => this._dataColumns());
+  readonly dataColumns = this._dataColumns.asReadonly();
 
   private readonly _class = signal<string>('');
-  readonly class = computed(() => this._class());
+  readonly class = this._class.asReadonly();
 
   readonly disabled = signal<boolean>(false);
   readonly bold = signal<boolean>(false);
@@ -114,8 +114,8 @@ export class TableItemStorage {
   /**
    * Gets all items.
    */
-  readonly items = computed(() => this._items());
-  readonly sortedItems = computed(() => this._sortedItems());
+  readonly items = this._items.asReadonly();
+  readonly sortedItems = this._sortedItems.asReadonly();
   /**
    * Gets items based on the current pagination state.
    */
@@ -185,7 +185,7 @@ export class TableItemStorage {
    * Gets the header cells of the table.
    * @returns a 2D array of header cells.
    */
-  readonly headerCells = computed(() => this._headerCells());
+  readonly headerCells = this._headerCells.asReadonly();
   /**
    * Checks if the table has defined columns.
    * @returns a boolean value indicating if the table has defined columns.

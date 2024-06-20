@@ -23,7 +23,6 @@ export interface ItemStorageHost {
   readonly groupDisabledFrom: Signal<Nullable<string>>;
   readonly childrenFrom: Signal<Nullable<string>>;
   readonly DEFAULTS: ItemStorageHostDefaults;
-  readonly groupItems: Signal<Nullable<boolean>>;
   readonly itemsAlreadyGrouped: Signal<Nullable<boolean>>;
   readonly hideSelected: Signal<boolean>;
   readonly searchCaseSensitive: Signal<boolean>;
@@ -52,9 +51,9 @@ export class ItemStorage {
       .map(([, group]) => group)
       .filter(group => group.children().length)
   );
-  readonly items = computed(() => this._items());
-
-  readonly filteredItems = computed(() => this._filteredItems());
+  readonly items = this._items.asReadonly();
+  readonly filteredItems = this._filteredItems.asReadonly();
+  readonly highlightedItems = this._highlightedItems.asReadonly();
 
   readonly selectedItems = computed(() => {
     if (this._ardParentComp.sortMultipleValues()) {
@@ -64,13 +63,11 @@ export class ItemStorage {
     }
     return this._selectedItems();
   });
-  readonly highlightedItems = computed(() => this._highlightedItems());
-
   readonly lastSelectedItem = computed(() => this._filteredItems().last(1, item => !item.disabled()));
 
   readonly value = computed(() => this._itemsToValue(this.selectedItems()));
   private _itemsToValue(items: ArdOption[]): any[] {
-    return items.map(item => item.value);
+    return items.map(item => item.value());
   }
 
   readonly isNoItemsToSelect = computed(() => this._items().length === this._selectedItems().length);
@@ -86,7 +83,7 @@ export class ItemStorage {
 
   setItems(items: any[]): boolean {
     let areItemsPrimitive = false;
-    if (this._ardParentComp.groupItems() && this._ardParentComp.itemsAlreadyGrouped()) {
+    if (this._ardParentComp.groupLabelFrom() && this._ardParentComp.itemsAlreadyGrouped()) {
       const newItems = [];
       for (const group of items) {
         let children: any[];
@@ -127,7 +124,7 @@ export class ItemStorage {
       item = this._primitiveItemsMapFn(item);
     }
     //map the item to create data bindings
-    const ardOption = this._setItemsMapFn(item, this._items().last()?.index() + 1, isItemPrimitive);
+    const ardOption = this._setItemsMapFn(item, (this._items().last()?.index() ?? 0) + 1, isItemPrimitive);
 
     //push the item into all items
     this._items.update(v => [...v, ardOption]);
@@ -207,15 +204,15 @@ export class ItemStorage {
 
     //get groups
     let group: any = undefined;
-    if (this._ardParentComp.groupItems()) {
+    const groupBy = this._ardParentComp.groupLabelFrom();
+    if (groupBy) {
       if (rawItemData.$ardgroup) {
         group = rawItemData.$ardgroup;
       } else {
-        const groupBy = this._ardParentComp.groupLabelFrom() ?? this._ardParentComp.DEFAULTS.groupLabelFrom;
         if (typeof groupBy === 'string') {
           group = resolvePath(rawItemData, groupBy);
         } else {
-          group = (groupBy as GroupByFn)(rawItemData);
+          group = groupBy(rawItemData);
         }
       }
     }
@@ -243,7 +240,7 @@ export class ItemStorage {
     }
   }
   private _addToGroup(item: ArdOption): void {
-    const groupKey = item.group;
+    const groupKey = item.group();
     const targetGroup = this._groups().get(groupKey);
     //create new group if needed
     if (!targetGroup) {

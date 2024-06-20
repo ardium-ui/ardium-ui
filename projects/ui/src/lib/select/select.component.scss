@@ -23,7 +23,10 @@
     pointer-events: none;
   }
 
-  .ard-value[hidden] {
+  .ard-select-value {
+    display: block;
+  }
+  .ard-select-value[hidden="true"] {
     display: none;
   }
   .ard-searchable {

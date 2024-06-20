@@ -211,12 +211,9 @@ export class ArdiumSelectComponent
     return variant;
   }
 
-  //! class-based inputs
-  readonly groupItems = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-
   @HostBinding('class.ard-group-items')
   get _groupItemsHostAttribute() {
-    return this.groupItems();
+    return this.groupLabelFrom();
   }
 
   //! items setter/getter
@@ -327,7 +324,7 @@ export class ArdiumSelectComponent
     this.itemStorage.handleWriteValue(ngModel);
     this._cd.markForCheck();
   }
-  //* change & touch event emitters
+  //! change & touch event emitters
   protected _emitChange(): void {
     const value = this.itemStorage.value();
     this._onChangeRegistered?.(value);
@@ -678,15 +675,14 @@ export class ArdiumSelectComponent
   selectItem(...items: ArdOption[]): void {
     const [selected, unselected, failedToSelect] = this.itemStorage.selectItem(...items);
 
-    if (unselected.length > 0) this.removeEvent.emit(unselected);
-
+    if (unselected.length > 0) {
+      this.removeEvent.emit(unselected);
+    }
     if (failedToSelect.length > 0) {
       this.failedToAddEvent.emit(failedToSelect);
     }
-
     if (selected.length > 0) {
       this.addEvent.emit(selected);
-      this._emitChange();
 
       this.focus();
       if (!this.keepSearchAfterSelect()) this._clearSearch(true);
@@ -694,6 +690,9 @@ export class ArdiumSelectComponent
       if (!this.keepOpen() || this.itemStorage.isNoItemsToSelect()) {
         this.close();
       }
+    }
+    if (unselected.length > 0 || selected.length > 0) {
+      this._emitChange();
     }
   }
   unselectItem(...items: ArdOption[]): void {

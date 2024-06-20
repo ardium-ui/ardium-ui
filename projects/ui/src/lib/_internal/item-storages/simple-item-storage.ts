@@ -1,4 +1,4 @@
-import { Signal, computed, effect, signal } from '@angular/core';
+import { Signal, computed, signal } from '@angular/core';
 import resolvePath from 'resolve-object-path';
 import { evaluate, isDefined, isObject, isPrimitive } from 'simple-bool';
 import { ArdOptionSimple, CompareWithFn } from '../../types/item-storage.types';
@@ -32,15 +32,15 @@ export class SimpleItemStorage {
   /**
    * Gets all items.
    */
-  readonly items = computed(() => this._items());
+  readonly items = this._items.asReadonly();
   /**
    * Gets all currently highlighted items.
    */
-  readonly highlightedItems = computed(() => this._highlightedItems());
+  readonly highlightedItems = this._highlightedItems.asReadonly();
   /**
    * Gets all currently selected items.
    */
-  readonly selectedItems = computed(() => this._selectedItems());
+  readonly selectedItems = this._selectedItems.asReadonly();
   /**
    * Gets the values of the currently selected items.
    */

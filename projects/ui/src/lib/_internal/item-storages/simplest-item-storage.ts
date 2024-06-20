@@ -23,11 +23,11 @@ export class SimplestItemStorage {
   /**
    * Gets all items.
    */
-  readonly items = computed(() => this._items());
+  readonly items = this._items.asReadonly();
   /**
    * The currently highlighted item.
    */
-  readonly highlightedItem = computed(() => this._highlightedItem());
+  readonly highlightedItem = this._highlightedItem.asReadonly();
   /**
    * True if at least one item is highlighted, otherwise false.
    */
