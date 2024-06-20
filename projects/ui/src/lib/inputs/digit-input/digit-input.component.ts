@@ -180,25 +180,34 @@ export class ArdiumDigitInputComponent
     switch (event.key) {
       case 'ArrowLeft':
         this.focusByIndex(index - 1, true, -1);
-        break;
+        return;
       case 'ArrowRight':
         this.focusByIndex(index + 1, true, +1);
-        break;
+        return;
       case 'Home':
         this.focusByIndex(0, true, 1);
-        break;
+        return;
       case 'End':
         this.focusByIndex(this.inputs.length - 1, true, -1);
-        break;
+        return;
       case 'Backspace':
       case 'Delete':
         this._updateSingleInputValue('', index);
         this.focusByIndex(index - 1, true, -1);
         event.preventDefault();
-        break;
+        return;
 
       default:
-        break;
+        if (event.key.length !== 1) return;
+
+        this._handlePotentialSameDigitClick(index, event.key);
+        return;
+    }
+  }
+
+  private _handlePotentialSameDigitClick(index: number, key: string): void {
+    if (key === this.value?.[index]) {
+      this.focusByIndex(index + 1, true, +1);
     }
   }
 
