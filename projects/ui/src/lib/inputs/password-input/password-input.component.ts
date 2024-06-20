@@ -1,22 +1,24 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ContentChild,
   ElementRef,
-  EventEmitter,
-  Input,
+  OnDestroy,
   OnInit,
-  Output,
   TemplateRef,
-  ViewChild,
   ViewEncapsulation,
+  computed,
+  contentChild,
   forwardRef,
+  input,
+  model,
+  viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { isAnyString, isDefined } from 'simple-bool';
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
+import { Nullable } from '../../types/utility.types';
 import {
   ArdPasswordInputPlaceholderTemplateDirective,
   ArdPasswordInputPrefixTemplateDirective,
@@ -39,186 +41,148 @@ import { PasswordInputRevealButtonContext } from './password-input.types';
     },
   ],
 })
-export class ArdiumPasswordInputComponent extends _NgModelComponentBase implements ControlValueAccessor, OnInit {
+export class ArdiumPasswordInputComponent extends _NgModelComponentBase implements ControlValueAccessor, OnInit, OnDestroy {
   //! input view
-  @ViewChild('textInput', { static: true })
-  textInputEl!: ElementRef<HTMLInputElement>;
+  readonly textInputEl = viewChild<ElementRef<HTMLInputElement>>('textInput');
+
   ngOnInit(): void {
     this._setInputAttributes();
   }
 
-  @Input() placeholder = '';
-  @Input() inputId?: string;
+  readonly placeholder = input<string>('');
+  readonly inputId = input<Nullable<string>>();
 
   //! prefix & suffix
-  @ContentChild(ArdPasswordInputPrefixTemplateDirective, {
-    read: TemplateRef,
-  })
-  prefixTemplate?: TemplateRef<any>;
-  @ContentChild(ArdPasswordInputSuffixTemplateDirective, {
-    read: TemplateRef,
-  })
-  suffixTemplate?: TemplateRef<any>;
+  readonly prefixTemplate = contentChild<TemplateRef<ArdPasswordInputPrefixTemplateDirective>>(
+    TemplateRef<ArdPasswordInputPrefixTemplateDirective>
+  );
+  readonly suffixTemplate = contentChild<TemplateRef<ArdPasswordInputSuffixTemplateDirective>>(
+    TemplateRef<ArdPasswordInputSuffixTemplateDirective>
+  );
 
   //! placeholder
-  @ContentChild(ArdPasswordInputPlaceholderTemplateDirective, {
-    read: TemplateRef,
-  })
-  placeholderTemplate?: TemplateRef<any>;
+  readonly placeholderTemplate = contentChild<TemplateRef<ArdPasswordInputPlaceholderTemplateDirective>>(
+    TemplateRef<ArdPasswordInputPlaceholderTemplateDirective>
+  );
 
-  get shouldDisplayPlaceholder(): boolean {
-    return Boolean(this.placeholder) && !this.value;
-  }
+  readonly shouldDisplayPlaceholder = computed(() => !!this.placeholder() && !this.value());
 
   //! revealing
-  private _revealable = true;
-  @Input()
-  get revealable(): boolean {
-    return this._revealable;
-  }
-  set revealable(v: any) {
-    this._revealable = coerceBooleanProperty(v);
-  }
+  readonly revealable = input<boolean, any>(true, { transform: v => coerceBooleanProperty(v) });
+  readonly holdToReveal = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
-  private _revealed = false;
-  @Input()
-  get revealed(): boolean {
-    return this._revealed;
-  }
-  set revealed(v: any) {
-    this._revealed = coerceBooleanProperty(v);
-  }
+  readonly autoHideTimeoutMs = input<Nullable<number>, any>(undefined, { transform: v => coerceNumberProperty(v, undefined) });
 
-  @Output() revealedChange = new EventEmitter<boolean>();
+  readonly revealed = model<boolean>(false);
 
-  toggleReveal(v?: boolean): void {
-    const oldState = this.revealed;
-    this.revealed = v ?? !this.revealed;
+  private _hideTimeout: NodeJS.Timeout | null = null;
+  toggleReveal(newState = !this.revealed()): void {
+    this.revealed.set(newState);
 
-    if (oldState !== this.revealed) {
-      this.revealedChange.emit(this.revealed);
+    if (this._hideTimeout) {
+      clearTimeout(this._hideTimeout);
+    }
+    const timeout = this.autoHideTimeoutMs();
+    if (timeout && newState) {
+      this._hideTimeout = setTimeout(() => this.revealed.set(false), timeout);
     }
   }
 
-  @ContentChild(ArdPasswordInputRevealButtonTemplateDirective, {
-    read: TemplateRef,
-  })
-  revealTemplate?: TemplateRef<any>;
-
-  getRevealButtonContext(): PasswordInputRevealButtonContext {
-    return {
-      $implicit: this.revealed,
-    };
+  ngOnDestroy(): void {
+    if (this._hideTimeout) {
+      clearTimeout(this._hideTimeout);
+    }
   }
+
+  readonly revealTemplate = contentChild<TemplateRef<ArdPasswordInputRevealButtonTemplateDirective>>(
+    TemplateRef<ArdPasswordInputRevealButtonTemplateDirective>
+  );
+
+  readonly revealButtonContext = computed(
+    (): PasswordInputRevealButtonContext => ({
+      $implicit: this.revealed(),
+    })
+  );
 
   //! appearance
-  @Input() appearance: FormElementAppearance = FormElementAppearance.Outlined;
-  @Input() variant: FormElementVariant = FormElementVariant.Rounded;
+  readonly appearance = input<FormElementAppearance>(FormElementAppearance.Outlined);
+  readonly variant = input<FormElementVariant>(FormElementVariant.Rounded);
 
-  private _compact = false;
-  @Input()
-  get compact(): boolean {
-    return this._compact;
-  }
-  set compact(v: any) {
-    this._compact = coerceBooleanProperty(v);
-  }
+  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
-  get ngClasses(): string {
-    return [
-      `ard-appearance-${this.appearance}`,
-      `ard-variant-${this.variant}`,
-      this.compact ? 'ard-compact' : '',
-      this.revealable ? 'ard-revealable' : '',
-    ].join(' ');
-  }
+  readonly ngClasses = computed(() =>
+    [
+      `ard-appearance-${this.appearance()}`,
+      `ard-variant-${this.variant()}`,
+      this.compact() ? 'ard-compact' : '',
+      this.revealable() ? 'ard-revealable' : '',
+    ].join(' ')
+  );
 
   //! other inputs
-  @Input() inputAttrs: Record<string, any> = {};
-
-  //! number attribute setters/getters
-  protected _maxLength?: number;
-  @Input()
-  get maxLength(): number | undefined {
-    return this._maxLength;
-  }
-  set maxLength(v: any) {
-    this._maxLength = coerceNumberProperty(v);
-  }
+  readonly inputAttrs = input<Record<string, any>>({});
 
   //! control value accessor's write value implementation
   writeValue(v: any) {
     if (!isAnyString(v) && isDefined(v)) {
-      console.error(new Error(`Error using <ard-password-input>: Unexpected value type ${typeof v}.`));
+      console.error(new Error(`Error using <ard-password-input>: Unexpected value type ${typeof v}.`)); //TODO error
       return;
     }
     this._writeValue(v);
   }
   protected _writeValue(v: string | null | undefined): boolean {
-    const oldVal = this.value;
-    this._value = v;
+    const oldVal = this.value();
+    this.value.set(v);
     return oldVal !== v;
   }
   //! value two-way binding
-  protected _value?: string | null = null;
-  @Input()
-  set value(v: string | null) {
-    this.writeValue(v);
-  }
-  get value(): string | null {
-    return this._value ?? null;
-  }
-  @Output() valueChange = new EventEmitter<string | null>();
-
-  //! event emitters
-  @Output('input') inputEvent = new EventEmitter<string | null>();
-  @Output('change') changeEvent = new EventEmitter<string | null>();
+  readonly value = model<Nullable<string>>();
 
   //! event handlers
   onInput(newVal: string): void {
     const valueHasChanged = this._writeValue(newVal);
     if (!valueHasChanged) return;
-    this._emitInput();
+    this._emitChange();
   }
-  protected _emitInput(): void {
-    const v = this.value;
+  protected _emitChange(): void {
+    const v = this.value();
     this._onChangeRegistered?.(v);
-    this.inputEvent.emit(v);
-    this.valueChange.emit(v);
   }
   //focus, blur, change
   onChange(event: Event): void {
     event.stopPropagation();
     this._emitChange();
   }
-  protected _emitChange(): void {
-    this.changeEvent.emit(this.value);
-  }
 
   // copy
   onCopy(event: ClipboardEvent): void {
+    const textInputEl = this.textInputEl();
+    const v = this.value();
     if (
-      this.value &&
+      v &&
+      textInputEl &&
       //does the selection cover the entire input
-      ((this.textInputEl.nativeElement.selectionStart === 0 &&
-        this.textInputEl.nativeElement.selectionEnd === this.textInputEl.nativeElement.value.length) ||
+      ((textInputEl.nativeElement.selectionStart === 0 &&
+        textInputEl.nativeElement.selectionEnd === textInputEl.nativeElement.value.length) ||
         //or is zero-wide
-        this.textInputEl.nativeElement.selectionStart === this.textInputEl.nativeElement.selectionEnd)
+        textInputEl.nativeElement.selectionStart === textInputEl.nativeElement.selectionEnd)
     ) {
-      event.clipboardData?.setData('text/plain', this.value);
+      event.clipboardData?.setData('text/plain', v);
       event.preventDefault();
     }
   }
   //! helpers
   protected _setInputAttributes() {
-    const input = this.textInputEl.nativeElement;
+    const input = this.textInputEl()?.nativeElement;
+    if (!input) return;
+
     const attributes: Record<string, string> = {
       type: 'text',
       autocorrect: 'off',
       autocapitalize: 'off',
       autocomplete: 'off',
-      tabindex: String(this.tabIndex),
-      ...this.inputAttrs,
+      tabindex: String(this.tabIndex()),
+      ...this.inputAttrs(),
     };
 
     for (const key of Object.keys(attributes)) {

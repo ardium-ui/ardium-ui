@@ -21,6 +21,7 @@ module.exports = tseslint.config(
       '@angular-eslint/no-output-rename': 'off',
       '@angular-eslint/no-output-native': 'off',
       '@angular-eslint/component-class-suffix': 'off',
+      "@typescript-eslint/no-inferrable-types": 'off',
       '@angular-eslint/component-selector': [
         'error',
         {
