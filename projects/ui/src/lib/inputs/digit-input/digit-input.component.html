@@ -1,15 +1,13 @@
 <div
   class="ard-digit-input"
-  [ngClass]="ngClasses"
+  [ngClass]="ngClasses()"
 >
-  <div
-    class="ard-digit-input__item"
-    *ngFor="let data of configArrayData"
-  >
+  @for (data of configArrayData(); track $index) {
+  <div class="ard-digit-input__item">
+    @if (data.type === 'input') {
     <input
       #input
       #focusableElement
-      *ngIf="data.type === 'input'"
       class="ard-digit-input__input"
       type="text"
       autocomplete="off"
@@ -22,11 +20,11 @@
       (blur)="onBlurMaster($event, data.index!)"
       (keydown)="onKeydown($event, data.index!)"
     />
-    <div
-      *ngIf="data.type === 'static'"
-      class="ard-digit-input__static"
-    >
+    } @else {
+    <div class="ard-digit-input__static">
       {{ data.char }}
     </div>
+    }
   </div>
+  }
 </div>

@@ -1,4 +1,4 @@
-import { ElementRef, QueryList } from '@angular/core';
+import { ElementRef, Signal } from '@angular/core';
 
 export interface DigitInputConfigData {
   type: DigitInputConfigDataType;
@@ -7,8 +7,7 @@ export interface DigitInputConfigData {
   readonly?: boolean;
 }
 export interface DigitInputModelHost {
-  inputs: QueryList<ElementRef<HTMLInputElement>>;
-  configArrayData: DigitInputConfigData[];
+  readonly inputs: Signal<readonly ElementRef<HTMLInputElement>[]>;
 }
 
 export const DigitInputConfigDataType = {
