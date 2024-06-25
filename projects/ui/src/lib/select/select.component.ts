@@ -584,30 +584,30 @@ export class ArdiumSelectComponent
     this.open();
   }
   private _printPrimitiveWarnings() {
-    function makeWarning(str: string): void {
-      console.warn(`Skipped using [${str}] property bound to <ard-select>, as some provided items are of primitive type`); //todo
+    function makeWarning(str: string, errorCode: string): void {
+      console.warn(`ARD-WA000${errorCode}: Skipped using [${str}] property bound to <ard-select>, as some provided items are of primitive type`); //todo
       //TODO error
     }
     if (this.valueFrom()) {
-      makeWarning('valueFrom');
+      makeWarning('valueFrom', '5a');
     }
     if (this.labelFrom()) {
-      makeWarning('labelFrom');
+      makeWarning('labelFrom', '5b');
     }
     if (this.disabledFrom()) {
-      makeWarning('disabledFrom');
+      makeWarning('disabledFrom', '5c');
     }
     if (this.groupLabelFrom()) {
-      makeWarning('groupLabelFrom');
+      makeWarning('groupLabelFrom', '5d');
     }
     if (this.groupDisabledFrom()) {
-      makeWarning('groupDisabledFrom');
+      makeWarning('groupDisabledFrom', '5e');
     }
     if (this.childrenFrom()) {
-      makeWarning('childrenFrom');
+      makeWarning('childrenFrom', '5f');
     }
     if (this.invertDisabled()) {
-      makeWarning('invertDisabled');
+      makeWarning('invertDisabled', '5g');
     }
   }
 

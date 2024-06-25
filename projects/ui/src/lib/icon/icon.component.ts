@@ -65,7 +65,7 @@ export class ArdiumIconComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     if (!this.icon() && !this.contentWrapper()?.nativeElement.innerText) {
-      console.warn(`Using <ard-icon> without specifying the [icon] field.`); //TODO error
+      console.warn(`ARD-FT9000: Using <ard-icon> without specifying the [icon] field.`);
     }
   }
 }

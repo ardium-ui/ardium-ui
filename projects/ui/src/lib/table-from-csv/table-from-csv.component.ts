@@ -70,11 +70,11 @@ export class ArdiumTableFromCsvComponent implements AfterContentInit, OnChanges 
       if (!options.find(v => (typeof v === 'number' ? v === ipp : v.value === ipp))) {
         console.error(
           new Error(
-            `<ard-table-from-csv> warning: value of "${ipp}" in [itemsPerPage] does not appear in [paginationOptions] array [${options
+            `ARD-NF5071: value of "${ipp}" in <ard-table-from-csv>'s [itemsPerPage] does not appear in [paginationOptions] array [${options
               .map(v => (typeof v === 'number' ? v : v.value))
               .join(', ')}]`
           )
-        ); //TODO
+        );
       }
     }
     if (changes['paginationOptions']) {
@@ -85,20 +85,18 @@ export class ArdiumTableFromCsvComponent implements AfterContentInit, OnChanges 
         if (opt <= 0 || opt % 1 !== 0) {
           console.error(
             new Error(
-              `<ard-table-from-csv> error: value of [paginationOptions] must be a positive integer. The "${opt}" option will be ignored.` //TODO implement
+              `ARD-NF5072: each item of <ard-table-from-csv>'s [paginationOptions] must be a positive integer. The "${opt}" option will be ignored.` //TODO implement
             )
-          ); //TODO
+          );
         }
       }
     }
     if (changes['page']) {
       const page = changes['page'].currentValue as number;
       if (page === 0) {
-        console.error(
-          new Error(`<ard-table-from-csv> error: [page] uses 1-indexed numbering system. The value 0 is not accepted.`)
-        ); //TODO
+        throw new Error(`ARD-FT5073a: <ard-table-from-csv>'s [page] uses 1-indexed numbering system. The value 0 is not accepted.`);
       } else if (page < 0 || page % 1 !== 0) {
-        console.error(new Error(`<ard-table-from-csv> error: value of [page] must be a positive integer. Got "${page}".`)); //TODO
+        throw new Error(`ARD-FT5073b: value of <ard-table-from-csv>'s [page] must be a positive integer, got "${page}".`);
       }
     }
   }
@@ -122,7 +120,7 @@ export class ArdiumTableFromCsvComponent implements AfterContentInit, OnChanges 
 
   ngAfterContentInit(): void {
     if (!this._isDataOkay()) {
-      console.error(new Error('<ard-table-from-csv> error: must provide non-empty data')); //TODO
+      console.error(new Error(`ARD-FT5070: Expected <ard-table-from-csv>'s [data] attribute to be a non-empty string, got "".`));
     }
   }
 

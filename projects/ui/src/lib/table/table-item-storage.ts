@@ -332,7 +332,9 @@ export class TableItemStorage {
    */
   private _getRowData(rawItemData: any, index: number): [any[], TableDataColumn[]] {
     const data: any[] = [];
-    for (const dataColumn of this._dataColumns()) {
+    const _cols = this._dataColumns();
+    for (let i = 0; i < _cols.length; i++) {
+      const dataColumn = _cols[i];
       const sourcePath = dataColumn.dataSource;
 
       if (typeof sourcePath === 'string') {
@@ -352,7 +354,7 @@ export class TableItemStorage {
         continue;
       }
       const sourceString = typeof sourcePath === 'object' ? JSON.stringify(sourcePath) : sourcePath;
-      console.error(new Error(`Unexpected data source "${sourceString}".`)); //TODO
+      throw new Error(`ARD-FT5052: Unexpected data source "${sourceString}" at index ${i}.`);
     }
     return [data, this._dataColumns()];
   }
@@ -607,8 +609,8 @@ export class TableItemStorage {
     const sortColumn = this._dataColumns()[sortColumnIndex];
     if (!sortColumn) {
       throw new Error(
-        `Encountered an issue in <ard-table>: could not find the column with index ${sortColumnIndex}. This is most likely an Ardium bug, please report it on GitHub.`
-      ); //TODO
+        `ARD-IS5059: Encountered an issue in <ard-table>: could not find the column with index ${sortColumnIndex}. This is most likely an Ardium UI bug, please report it to the creators.`
+      );
     }
 
     const direction = this._currentSortType === SortType.Ascending ? 1 : -1;

@@ -277,7 +277,7 @@ export class ItemStorage {
     return ngModel.every(item => {
       if (!isDefined(this._ardParentComp.compareWith) && isObject(item) && this._ardParentComp.valueFrom()) {
         console.warn(
-          `ARD-FT${this._ardParentComp._componentId}0: Setting object(${JSON.stringify(
+          `ARD-WA${this._ardParentComp._componentId}0: Setting object(${JSON.stringify(
             item
           )}) as your model with [valueFrom] is not allowed unless [compareWith] is used.`
         );

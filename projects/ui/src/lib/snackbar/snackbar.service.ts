@@ -156,15 +156,16 @@ export class ArdiumSnackbarService implements OnDestroy {
       overlayY2 = 'bottom';
     }
 
-    const origin = options.placement!.origin;
+    let origin = options.placement!.origin;
     if (!origin) {
-      throw new Error(`ARD-NF7021: trying to open a snackbar, but the origin is undefined. Using "document.body" instead.`); //TODO
+      console.error(new Error(`ARD-NF7021: trying to open a snackbar, but the origin is undefined. Using "document.body" instead.`));
+      origin = document.body;
     }
 
     const isInside = options.placement?.originRelation === ArdSnackbarOriginRelation.Inside;
     const strategy = this._overlay
       .position()
-      .flexibleConnectedTo(options.placement!.origin!)
+      .flexibleConnectedTo(origin)
       .withPositions([
         {
           originX: x,

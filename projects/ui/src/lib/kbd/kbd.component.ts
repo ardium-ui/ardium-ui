@@ -23,7 +23,7 @@ export class ArdiumKbdComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     if (!this.key() && !this.contentWrapper()!.nativeElement.innerText) {
-      console.warn(`Using <ard-kbd> without specifying the [key] field.`); //TODO error
+      throw new Error(`ARD-FT5030: Using <ard-kbd> without specifying the [key] field is not allowed.`);
     }
   }
 

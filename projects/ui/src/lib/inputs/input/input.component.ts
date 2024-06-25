@@ -97,7 +97,7 @@ export class ArdiumInputComponent
   }
   set charlist(v: any) {
     if (!isString(v)) {
-      throw new Error('charlistRegExp must be a non-empty string.');
+      throw new Error('ARD-FT0033: [charlist] must be a non-empty string, got "".');
     }
     const flags = this._charlistCaseInsensitive ? 'i' : '';
     const negated = v.startsWith('^');
@@ -161,9 +161,8 @@ export class ArdiumInputComponent
   private _printPrimitiveWarnings() {
     function makeWarning(str: string): void {
       console.warn(
-        `Skipped using [${str}] property bound to <ard-input>, as some provided suggestion items are of primitive type`
+        `ARD-WA0031: Skipped using [${str}] property bound to <ard-input>, as some provided suggestion items are of primitive type`
       );
-      //TODO error
     }
     if (this.valueFrom()) {
       makeWarning('valueFrom');

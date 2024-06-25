@@ -6,10 +6,7 @@ export interface SimpleInputModelHost {
 }
 export class SimpleInputModel {
   protected _hostComp!: SimpleInputModelHost;
-  constructor(
-    protected inputEl: HTMLInputElement,
-    hostComp: SimpleInputModelHost
-  ) {
+  constructor(protected inputEl: HTMLInputElement, hostComp: SimpleInputModelHost) {
     this._hostComp = hostComp;
   }
 
@@ -30,7 +27,9 @@ export class SimpleInputModel {
   writeValue(v: any): boolean {
     if (!isAnyString(v) && !isNull(v)) {
       //warn when using non-string/non-null value
-      console.warn(new Error(`Trying to set simple-input's value to ${typeof v}, expected string.`));
+      console.warn(
+        new Error(`ARD-WA0020: Trying to set <ard-simple-input>'s value to "${v}" (of type ${typeof v}), expected string or null.`)
+      );
       //normalize the value
       v = v?.toString?.() ?? String(v);
     }
@@ -119,10 +118,7 @@ export interface NumberInputModelHost {
 }
 export class NumberInputModel {
   protected _hostComp!: NumberInputModelHost;
-  constructor(
-    protected inputEl: HTMLInputElement,
-    hostComp: NumberInputModelHost
-  ) {
+  constructor(protected inputEl: HTMLInputElement, hostComp: NumberInputModelHost) {
     this._hostComp = hostComp;
   }
 

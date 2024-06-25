@@ -2,6 +2,7 @@ import { ModelSignal, Signal, computed } from '@angular/core';
 import { isDefined } from 'simple-bool';
 
 export interface PaginationModelHost {
+  readonly componentId: string;
   readonly totalItems: Signal<number>;
   readonly options: Signal<number[] | { value: number; label: string }[]>;
   readonly itemsPerPage: ModelSignal<number>;
@@ -88,7 +89,7 @@ export class PaginationModel {
   //! context
   readonly getCurrentItemsContext = computed<PaginationCurrentItemsContext>(() => {
     const total = this._ardHostCmp.totalItems();
-    if (!total) throw new Error('Cannot use pagination model without defining total items first.'); //todo
+    if (!total) throw new Error(`ARD-FT${this._ardHostCmp.componentId}90: Cannot use pagination model without defining total items first.`);
 
     const pageItems = this.itemsOnCurrentPage()!;
     return {

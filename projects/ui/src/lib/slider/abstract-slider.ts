@@ -30,6 +30,9 @@ import {
 
 @Directive()
 export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
+  abstract readonly componentId: string;
+  abstract readonly componentName: string;
+
   @ViewChild('track')
   public readonly element!: ElementRef<HTMLElement>;
 
@@ -85,7 +88,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   set step(v: any) {
     this._step = coerceNumberProperty(v, 0.5);
     if (this._step <= 0) {
-      throw new Error('Cannot use negative or zero step size for a slider.');
+      throw new Error(`ARD-FT${this.componentId}0: Cannot set <ard-${this.componentName}>'s [step] to 0.`);
     }
     this._updateComputedStepSizes();
     this._updateTickArray();

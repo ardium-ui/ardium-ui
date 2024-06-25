@@ -31,6 +31,7 @@ interface SegmentRow {
 })
 export class ArdiumSegmentComponent extends _SelectableListComponentBase implements SimpleItemStorageHost, AfterContentInit {
   override readonly _componentId: string = '104';
+  override readonly _componentName: string = 'segment';
 
   //! appearance
   @Input() appearance: SegmentAppearance = SegmentAppearance.Outlined;
@@ -74,7 +75,17 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
   readonly itemsPerRow = input<number, any>(Infinity, {
     transform: v => {
       const newValue = coerceNumberProperty(v, Infinity);
-      if (newValue === 0) throw new Error('Cannot set items per row to 0.'); // TODO
+      if (newValue === 0) throw new Error(`ARD-FT1040a: Cannot set <ard-segment>'s [itemsPerRow] to 0.`);
+      if (newValue < 0) throw new Error(`ARD-FT1040b: Cannot set <ard-segment>'s [itemsPerRow] to a negative value, got "${newValue}".`);
+      if (newValue < 0) {
+        const roundedValue = Math.round(newValue) || 1; // round to nearest int, but never round to zero
+        console.warn(
+          new Error(
+            `ARD-WA1040c: Cannot set <ard-segment>'s [itemsPerRow] to a non-interger value, got "${newValue}". The value was rounded to "${roundedValue}".`
+          )
+        );
+        return Math.ceil(newValue);
+      }
       return newValue;
     },
   });

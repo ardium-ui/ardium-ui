@@ -12,6 +12,9 @@ import { SliderRange, SliderTooltipContext } from '../slider.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> implements OnInit {
+  readonly componentId = '106';
+  readonly componentName = 'range-slider';
+
   protected _value: SliderRange = { low: -Infinity, high: Infinity };
 
   ngOnInit(): void {

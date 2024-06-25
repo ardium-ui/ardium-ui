@@ -434,7 +434,7 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
             break;
 
           default:
-            console.error(new Error(`Unexpected ard-color-picker._focusedArea state "${this.focusedArea()}"`));
+            console.error(new Error(`ARD-IS2026: <ard-color-picker> encountered an unexpected value of focusedArea: "${this.focusedArea()}". Please report this issue to the creators.`));
             break;
         }
         break;

@@ -23,9 +23,8 @@ export class ArdiumKbdShortcutComponent implements AfterViewInit {
   readonly contentWrapper = viewChild<ElementRef<HTMLElement>>('contentWrapperEl');
 
   ngAfterViewInit(): void {
-    if (!this.keys && !this.contentWrapper()?.nativeElement.innerText) {
-      console.warn(`Using <ard-kbd-shortcut> without specifying the [keys] field.`);
-      //TODO error
+    if (!this.keys() && !this.contentWrapper()?.nativeElement.innerText) {
+      throw new Error(`ARD-FT5040: Using <ard-kbd-shortcut> without specifying the [keys] field is not allowed.`);
     }
   }
 

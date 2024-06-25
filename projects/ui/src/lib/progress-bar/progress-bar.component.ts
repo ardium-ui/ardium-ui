@@ -47,9 +47,10 @@ export class ArdiumProgressBarComponent {
     effect(() => {
       if (this.mode() === ProgressBarMode.Buffer && this.size() === ProgressBarSize.Auto) {
         console.error(
-          `Forbidden param combination in <ard-progress-bar>: cannot use 'mode="buffer"' and 'size="auto"' at the same time.`
+          new Error(
+            `ARD-NF4010: Forbidden param combination in <ard-progress-bar>: cannot use 'mode="buffer"' and 'size="auto"' at the same time.`
+          )
         );
-        //TODO error
       }
     });
   }

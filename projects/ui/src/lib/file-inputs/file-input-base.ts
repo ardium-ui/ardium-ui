@@ -16,6 +16,8 @@ import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 
 @Directive()
 export abstract class _FileInputComponentBase extends _NgModelComponentBase implements OnInit, AfterViewInit {
+  abstract readonly componentId: string;
+
   readonly fileInputEl = viewChild<ElementRef<HTMLInputElement>>('fileInput');
 
   readonly htmlId = input<string>(crypto.randomUUID());
@@ -23,7 +25,7 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
 
   ngOnInit(): void {
     if (!(window.File && window.FileReader && window.Blob)) {
-      console.error(new Error('Cannot use Ardium UI file features because this browser does not support them!')); //TODO error
+      console.error(new Error(`ARD-${this.componentId}0: Cannot use Ardium UI file features because this browser does not support them!`));
     }
   }
   protected _wasViewInit = false;

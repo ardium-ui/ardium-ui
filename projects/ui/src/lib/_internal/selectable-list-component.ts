@@ -33,6 +33,7 @@ export abstract class _SelectableListComponentBase
   };
 
   abstract readonly _componentId: string;
+  abstract readonly _componentName: string;
 
   constructor(private _cd: ChangeDetectorRef) {
     super();
@@ -59,9 +60,8 @@ export abstract class _SelectableListComponentBase
     }
   }
   private _printPrimitiveWarnings() {
-    function makeWarning(str: string): void {
-      console.warn(`Skipped using [${str}] property bound to <ard-segment>, as some provided items are of primitive type`);
-      //TODO
+    const makeWarning = (str: string): void => {
+      console.warn(`ARD-WA${this._componentId} Skipped using [${str}] property bound to <ard-${this._componentName}>, as some provided items are of primitive type`);
     }
     if (this.valueFrom()) {
       makeWarning('valueFrom');

@@ -44,6 +44,8 @@ export class ArdiumFileInputComponent extends _FileInputComponentBase {
     clearButtonTitle: 'Clear',
   };
 
+  readonly componentId = '011';
+
   //! appearance
   //all handled in ard-form-field-frame component
   readonly appearance = input<FormElementAppearance>(FormElementAppearance.Outlined);
@@ -58,7 +60,7 @@ export class ArdiumFileInputComponent extends _FileInputComponentBase {
 
   //! root element classes
   readonly ngClasses = computed<string>(() =>
-    [`ard-color-${this.color()}`,`ard-state-${this.currentViewState()}`, this.value ? 'ard-has-value' : ''].join(' ')
+    [`ard-color-${this.color()}`, `ard-state-${this.currentViewState()}`, this.value ? 'ard-has-value' : ''].join(' ')
   );
 
   @ContentChild(ArdColorInputPlaceholderTemplateDirective, {

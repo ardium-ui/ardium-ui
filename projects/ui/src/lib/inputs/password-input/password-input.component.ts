@@ -125,7 +125,12 @@ export class ArdiumPasswordInputComponent extends _NgModelComponentBase implemen
   //! control value accessor's write value implementation
   writeValue(v: any) {
     if (!isAnyString(v) && isDefined(v)) {
-      console.error(new Error(`Error using <ard-password-input>: Unexpected value type ${typeof v}.`)); //TODO error
+      //warn when using non-string/non-null value
+      console.warn(
+        new Error(`ARD-WA0020: Trying to set <ard-password-input>'s value to "${v}" (of type ${typeof v}), expected string or null.`)
+      );
+      //normalize the value
+      v = v?.toString?.() ?? String(v);
       return;
     }
     this._writeValue(v);

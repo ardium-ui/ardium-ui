@@ -36,7 +36,11 @@ export class HexInputModel {
   writeValue(v: any): boolean {
     if (!isAnyString(v) && !isNull(v)) {
       //warn when using non-string/non-null value
-      console.warn(new Error(`Trying to set ard-hex-input's value to type ${typeof v}, expected string, or null.`));
+      console.warn(
+        new Error(`ARD-WA0160: Trying to set <ard-hex-input>'s value to "${v}" (of type ${typeof v}), expected string or null.`)
+      );
+      //normalize the value
+      v = v?.toString?.() ?? String(v);
     }
     //normalize the value
     v = v ?? '';

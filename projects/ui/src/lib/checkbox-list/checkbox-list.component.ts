@@ -2,23 +2,21 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   HostBinding,
   Input,
-  Output,
   ViewEncapsulation,
   computed,
   input,
   output,
-  signal,
+  signal
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { SimpleItemStorage, SimpleItemStorageHost } from '../_internal/item-storages/simple-item-storage';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ComponentColor } from '../types/colors.types';
 import { ArdOptionSimple, CompareWithFn } from '../types/item-storage.types';
-import { CheckboxListAlignType } from './checkbox-list.types';
 import { Nullable } from '../types/utility.types';
+import { CheckboxListAlignType } from './checkbox-list.types';
 
 @Component({
   selector: 'ard-checkbox-list',
@@ -44,6 +42,7 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
   readonly multiselectable = signal<true>(true);
   readonly isValueRequired = signal<false>(false);
   readonly _componentId = '300';
+  readonly _componentName = 'checkbox-list';
 
   private readonly _itemStorage = new SimpleItemStorage(this);
 

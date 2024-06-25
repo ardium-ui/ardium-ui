@@ -13,6 +13,8 @@ import { CurrentItemsFormatFn, PaginationAlign } from './table-pagination.types'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumTablePaginationComponent extends _FocusableComponentBase implements OnInit {
+  readonly componentId = "506";
+
   private readonly _pagination = new PaginationModel(this);
 
   //! main settings
@@ -26,7 +28,7 @@ export class ArdiumTablePaginationComponent extends _FocusableComponentBase impl
 
   ngOnInit(): void {
     if (this._pagination.isTotalItemsDefined()) return;
-    throw new Error('Table pagination requires [totalItems] to be defined'); // TODO
+    throw new Error('ARD-FT5060: Table pagination requires [totalItems] to be defined.');
   }
 
   //! appearance

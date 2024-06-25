@@ -131,7 +131,7 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
 
     if (!this.pageFillRemaining()) return items;
     if (!this.isDefinedTotalItems()) {
-      throw new Error('<ard-table> requires [totalItems] to be defined when using "slice" pagination strategy.'); //TODO error
+      throw new Error('ARD-FT5050: <ard-table> requires [totalItems] to be defined when using "slice" pagination strategy.');
     }
     if (this.page() === 1) return items;
 
@@ -188,7 +188,7 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     for (const instance of templates) {
       const name = instance.name();
       if (!name) {
-        console.error(new Error('[ard-table-tmp] requires a value to be specified.')); //TODO
+        console.error(new Error('ARD-FT5054: [ard-table-tmp] requires a value to be specified.')); //TODO
         continue;
       }
       this._itemTemplates[name] = instance.template;
@@ -210,7 +210,7 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     if (tmp instanceof TemplateRef) return tmp;
     //check if the name can be found
     if (!(tmp in this._itemTemplates)) {
-      console.error(new Error(`<ard-table> error: cannot find template named "${tmp}"`)); //TODO
+      console.error(new Error(`ARD-NF5051: <ard-table> error: cannot find template named "${tmp}"`));
       return undefined;
     }
     //return the template
