@@ -1,5 +1,6 @@
-import { isAnyString, isNull, isNumber } from 'simple-bool';
+import { isAnyString, isDefined, isNull, isNumber } from 'simple-bool';
 import { ArdTransformer, RegExpTransformer } from './input-transformers';
+import { ElementRef, computed, signal, Signal, effect } from '@angular/core';
 
 export interface SimpleInputModelHost {
   maxLength?: number;
@@ -28,7 +29,9 @@ export class SimpleInputModel {
     if (!isAnyString(v) && !isNull(v)) {
       //warn when using non-string/non-null value
       console.warn(
-        new Error(`ARD-WA0020: Trying to set <ard-simple-input>'s value to "${v}" (of type ${typeof v}), expected string or null.`)
+        new Error(
+          `ARD-WA0020: Trying to set <ard-simple-input>'s value to "${v}" (of type ${typeof v}), expected string or null.`
+        )
       );
       //normalize the value
       v = v?.toString?.() ?? String(v);
@@ -112,51 +115,45 @@ export class InputModel extends SimpleInputModel {
 }
 
 export interface NumberInputModelHost {
-  max: number;
-  min: number;
-  allowFloat: boolean;
+  readonly max: Signal<number>;
+  readonly min: Signal<number>;
+  readonly allowFloat: Signal<boolean>;
+  readonly inputEl: Signal<ElementRef<HTMLInputElement> | undefined>;
 }
 export class NumberInputModel {
-  protected _hostComp!: NumberInputModelHost;
-  constructor(protected inputEl: HTMLInputElement, hostComp: NumberInputModelHost) {
-    this._hostComp = hostComp;
+  constructor(protected readonly _ardHostCmp: NumberInputModelHost) {
+    effect(() => {
+      const el = this._ardHostCmp.inputEl()?.nativeElement;
+      if (!el) return;
+      el.value = this.stringValue();
+    });
   }
 
   //! value setters/getters
-  protected _value: string | null = null;
-  get value(): string | null {
-    return this._value;
-  }
-  set value(v: string | null) {
-    this._value = v;
-  }
-  //value as string
-  get stringValue(): string {
-    return this._value ?? '';
-  }
-  set stringValue(v: string) {
-    this._value = v || null;
-  }
-  //value as number
-  get numberValue(): number | null {
-    return this._value === null ? null : Number(this._value);
-  }
-  set numberValue(v: number | null) {
-    this._value = v === null ? null : v.toString();
+  protected readonly _value = signal<string | null>(null);
+  readonly value = this._value.asReadonly();
+  readonly stringValue = computed(() => this._value() ?? '');
+  readonly numberValue = computed(() => (this._value() === null ? null : Number(this._value())));
+
+  setValue(v: string | number | null): void {
+    const stringV = isDefined(v) && !isAnyString(v) ? String(v) : v;
+    this._value.set(stringV);
   }
 
   //! write value handlers
   writeValue(v: any): boolean {
     if (!isNumber(v) && !isAnyString(v) && !isNull(v)) {
       //warn when using non-string/non-null value
-      console.warn(new Error(`Trying to set simple-input's value to ${typeof v}, expected string, number, or null.`));
+      console.warn(
+        new Error(`ARD-WA0070: Trying to set <ard-number-input>'s value to "${typeof v}", expected string, number, or null.`)
+      );
       //normalize the value
       v = v?.toString?.() ?? String(v);
     }
     v = String(v);
     return this._writeValue(v);
   }
-  protected _writeValue(v: string | null): boolean {
+  protected _writeValue(v: string | number | null): boolean {
     //constraints
     if (v) {
       v = this._removeDecimalPlaces(v);
@@ -164,46 +161,40 @@ export class NumberInputModel {
       v = this._applyMinMaxConstraints(v);
     }
     //update view
-    const oldVal = this.value;
-    this.value = v;
-    this._updateInputElement();
+    const oldVal = this._value();
+    this.setValue(v);
     return oldVal !== v;
   }
   rewriteValueAfterHostUpdate(): void {
-    this._writeValue(this._value);
+    this._writeValue(this._value());
   }
 
   //! input element methods
-  _updateInputElement() {
-    this.inputEl.value = this.stringValue;
-  }
   get caretPos(): number {
-    return this.inputEl.selectionEnd ?? this.stringValue.length;
+    return this._ardHostCmp.inputEl()?.nativeElement.selectionEnd ?? this.stringValue().length;
   }
   set caretPos(pos: number) {
-    this.inputEl.setSelectionRange(pos, pos);
+    this._ardHostCmp.inputEl()?.nativeElement.setSelectionRange(pos, pos);
   }
 
   //! constraints
-  private _removeDecimalPlaces(v: string): string {
+  private _removeDecimalPlaces(v: string | number | null): string | number {
     if (!v) return '';
-    if (this._hostComp.allowFloat) return v;
+    if (this._ardHostCmp.allowFloat()) return v;
 
-    if (v.match(/[.,].+/)) {
-      const num = Number(v);
-      if (!isNaN(num)) v = Math.round(num).toString();
+    let num = isNumber(v) ? v : Number(v);
+
+    if (!isNumber(v) && v.match(/[.,].+/)) {
+      num = Number(v);
     }
-    return v;
+    if (!isNaN(num)) num = Math.round(num);
+    return num;
   }
-  private _applyNumberConstraint(v: string): string {
+  private _applyNumberConstraint(v: string | number): string {
     if (!v) return '';
 
-    if (this._hostComp.allowFloat) {
-      const { text, caretPos } = ArdTransformer.Float(v, this.stringValue, this.caretPos);
-      this.caretPos = caretPos;
-      return text;
-    }
-    const { text, caretPos } = ArdTransformer.Integer(v, this.stringValue, this.caretPos);
+    const transformerFn = this._ardHostCmp.allowFloat() ? ArdTransformer.Float : ArdTransformer.Integer;
+    const { text, caretPos } = transformerFn(String(v), this.stringValue(), this.caretPos);
     this.caretPos = caretPos;
     return text;
   }
@@ -211,8 +202,8 @@ export class NumberInputModel {
     if (!v) return '';
 
     const numericValue = Number(v);
-    if (numericValue > this._hostComp.max) return this._hostComp.max.toString();
-    if (numericValue < this._hostComp.min) return this._hostComp.min.toString();
+    if (numericValue > this._ardHostCmp.max()) return this._ardHostCmp.max().toString();
+    if (numericValue < this._ardHostCmp.min()) return this._ardHostCmp.min().toString();
     return v;
   }
 }

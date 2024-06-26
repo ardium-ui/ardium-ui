@@ -1,27 +1,30 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
-  forwardRef,
   Input,
-  OnInit,
-  Output,
-  ViewChild,
-  ViewEncapsulation,
-  ContentChild,
   TemplateRef,
+  ViewEncapsulation,
+  computed,
+  contentChild,
+  effect,
+  forwardRef,
+  input,
+  output,
+  viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import { ButtonVariant, ButtonAppearance } from '../../buttons/general-button.types';
+import { roundToPrecision } from 'more-rounding';
+import { isDefined } from 'simple-bool';
+import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
+import { ButtonAppearance, ButtonVariant } from '../../buttons/general-button.types';
 import { OneAxisAlignment } from '../../types/alignment.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
-import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
+import { Nullable } from '../../types/utility.types';
 import { NumberInputModel, NumberInputModelHost } from '../input-utils';
-import { isDefined, isFloat } from 'simple-bool';
 import { ArdNumberInputPlaceholderTemplateDirective } from './number-input.directives';
-import { roundToPrecision } from 'more-rounding';
 
 @Component({
   selector: 'ard-number-input',
@@ -39,14 +42,13 @@ import { roundToPrecision } from 'more-rounding';
 })
 export class ArdiumNumberInputComponent
   extends _NgModelComponentBase
-  implements ControlValueAccessor, NumberInputModelHost, OnInit
+  implements ControlValueAccessor, NumberInputModelHost, AfterViewInit
 {
   //! input view
-  @ViewChild('textInput', { static: true })
-  textInputEl!: ElementRef<HTMLInputElement>;
-  protected inputModel!: NumberInputModel;
-  ngOnInit(): void {
-    this.inputModel = new NumberInputModel(this.textInputEl.nativeElement, this);
+  readonly inputEl = viewChild<ElementRef<HTMLInputElement>>('textInput');
+
+  protected readonly inputModel = new NumberInputModel(this);
+  ngAfterViewInit(): void {
     this._setInputAttributes();
     //set the value
     if (this._valueBeforeInit) {
@@ -55,58 +57,49 @@ export class ArdiumNumberInputComponent
     }
   }
 
-  @Input() inputId?: string;
+  readonly inputId = input<Nullable<string>>();
 
   //! placeholder
-  @Input() placeholder = '';
+  readonly placeholder = input<Nullable<string>>();
 
-  @ContentChild(ArdNumberInputPlaceholderTemplateDirective, {
-    read: TemplateRef,
-  })
-  placeholderTemplate?: TemplateRef<any>;
+  readonly placeholderTemplate = contentChild<TemplateRef<ArdNumberInputPlaceholderTemplateDirective>>(
+    TemplateRef<ArdNumberInputPlaceholderTemplateDirective>
+  );
 
-  get shouldDisplayPlaceholder(): boolean {
-    return Boolean(this.placeholder) && !this.inputModel.stringValue;
-  }
+  readonly shouldDisplayPlaceholder = computed<boolean>(() => !!this.placeholder() && !this.inputModel.stringValue());
 
   //! appearance
-  @Input() appearance: FormElementAppearance = FormElementAppearance.Outlined;
-  @Input() variant: FormElementVariant = FormElementVariant.Rounded;
-  @Input() alignText: OneAxisAlignment = OneAxisAlignment.Middle;
+  readonly appearance = input<FormElementAppearance>(FormElementAppearance.Outlined);
+  readonly variant = input<FormElementVariant>(FormElementVariant.Rounded);
+  readonly alignText = input<OneAxisAlignment>(OneAxisAlignment.Middle);
 
-  private _compact = false;
-  @Input()
-  get compact(): boolean {
-    return this._compact;
-  }
-  set compact(v: any) {
-    this._compact = coerceBooleanProperty(v);
-  }
+  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
-  get ngClasses(): string {
+  readonly ngClasses = computed((): string => {
     return [
-      `ard-appearance-${this.appearance}`,
-      `ard-variant-${this.variant}`,
-      `ard-text-align-${this.alignText}`,
+      `ard-appearance-${this.appearance()}`,
+      `ard-variant-${this.variant()}`,
+      `ard-text-align-${this.alignText()}`,
       `ard-quick-change-${this.allowQuickChange}`,
-      this.compact ? 'ard-compact' : '',
+      this.compact() ? 'ard-compact' : '',
     ].join(' ');
-  }
+  });
 
-  get buttonVariant(): ButtonVariant {
-    if (this.variant === FormElementVariant.Rounded) return ButtonVariant.Rounded;
-    if (this.variant === FormElementVariant.Pill) return ButtonVariant.Pill;
-    if (this.variant === FormElementVariant.Sharp) return ButtonVariant.Sharp;
+  readonly buttonVariant = computed((): ButtonVariant => {
+    if (this.variant() === FormElementVariant.Rounded) return ButtonVariant.Rounded;
+    if (this.variant() === FormElementVariant.Pill) return ButtonVariant.Pill;
+    if (this.variant() === FormElementVariant.Sharp) return ButtonVariant.Sharp;
     return ButtonVariant.Rounded;
-  }
-  get buttonAppearance(): ButtonAppearance {
-    if (this.appearance === FormElementAppearance.Outlined && this.variant !== FormElementVariant.Pill)
+  });
+  readonly buttonAppearance = computed<ButtonAppearance>(() => {
+    if (this.appearance() === FormElementAppearance.Outlined && this.variant() !== FormElementVariant.Pill) {
       return ButtonAppearance.Outlined;
+    }
     return ButtonAppearance.Transparent;
-  }
+  });
 
   //! other inputs
-  @Input() inputAttrs: Record<string, any> = {};
+  readonly inputAttrs = input<Record<string, any>>({});
 
   //! control value accessor's write value implementation
   writeValue(v: any) {
@@ -124,95 +117,86 @@ export class ArdiumNumberInputComponent
     }
     this.writeValue(v);
   }
-  @Output() valueChange = new EventEmitter<number | null>();
+  readonly valueChange = output<number | null>();
 
-  //* event emitters
-  @Output('input') inputEvent = new EventEmitter<number | null>();
-  @Output('change') changeEvent = new EventEmitter<number | null>();
-  @Output('clear') clearEvent = new EventEmitter<MouseEvent>();
-  @Output('quickChange') quickChangeEvent = new EventEmitter<{
-    direction: 1 | -1;
-    value: number;
-  }>();
+  constructor() {
+    super();
+    
+    effect(() => {
+      const v = this.inputModel.numberValue();
+      this.valueChange.emit(v);
+      this._onChangeRegistered?.(v);
+    });
+  }
+
+  //! event emitters
+  readonly inputEvent = output<number | null>({ alias: 'input' });
+  readonly changeEvent = output<number | null>({ alias: 'change' });
+  readonly clearEvent = output<MouseEvent>({ alias: 'clear' });
+  readonly quickChangeEvent = output<{
+    readonly direction: 1 | -1;
+    readonly value: number;
+  }>({ alias: 'quickChange' });
 
   //! min/max and number type
-  private _min = 0;
-  @Input()
-  get min(): number {
-    return this._min;
-  }
-  set min(v: any) {
-    this._min = coerceNumberProperty(v);
-  }
+  readonly min = input<number, any>(0, { transform: v => coerceNumberProperty(v, 0) });
+  readonly max = input<number, any>(0, { transform: v => coerceNumberProperty(v, 0) });
 
-  private _max = 999;
-  @Input()
-  get max(): number {
-    return this._max;
-  }
-  set max(v: any) {
-    this._max = coerceNumberProperty(v);
-  }
-
-  private _allowFloat?: boolean = undefined;
-  @Input()
-  get allowFloat(): boolean {
-    return this._allowFloat ?? isFloat(this._stepSize);
-  }
-  set allowFloat(v: any) {
-    this._allowFloat = coerceBooleanProperty(v);
-  }
+  readonly allowFloat = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! incerement/decrement buttons
-  private _allowQuickChange = true;
-  @Input()
-  get allowQuickChange(): boolean {
-    return this._allowQuickChange;
-  }
-  set allowQuickChange(v: any) {
-    this._allowQuickChange = coerceBooleanProperty(v);
-  }
+  readonly allowQuickChange = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
-  private _stepSize = 1;
-  @Input()
-  get stepSize(): number {
-    return this._stepSize;
-  }
-  set stepSize(v: any) {
-    this._stepSize = coerceNumberProperty(v);
-  }
+  readonly stepSize = input<number, any>(1, {
+    transform: v => {
+      const newValue = coerceNumberProperty(v, 1);
+      if (newValue === 0) throw new Error(`ARD-FT0071a: Cannot set <ard-number-input>'s [itemsPerRow] to 0.`);
+      if (newValue < 0)
+        throw new Error(`ARD-FT0071b: Cannot set <ard-number-input>'s [itemsPerRow] to a negative value, got "${newValue}".`);
+      if (newValue % 1 !== 0) {
+        const roundedValue = Math.round(newValue) || 1; // round to nearest int, but never round to zero
+        console.warn(
+          new Error(
+            `ARD-WA0071c: Cannot set <ard-number-input>'s [itemsPerRow] to a non-interger value, got "${newValue}". The value was rounded to "${roundedValue}".`
+          )
+        );
+        return Math.ceil(newValue);
+      }
+      return newValue;
+    },
+  });
 
   onQuickChangeButtonClick(direction: 1 | -1, event?: MouseEvent): void {
-    let num = this.inputModel.numberValue;
+    let num = this.inputModel.numberValue();
     if (!num) num = 0;
 
-    if (direction === 1 && num >= this.max) return;
-    if (direction === -1 && num <= this.min) return;
+    if (direction === 1 && num >= this.max()) return;
+    if (direction === -1 && num <= this.min()) return;
 
     if (event) event.stopPropagation();
 
-    const newValue = num + this.stepSize * direction;
+    const newValue = num + this.stepSize() * direction;
     //round to 9 decimal places to avoid floating point arithmetic errors
     //9 is an arbitrary number that just works well. ¯\_(ツ)_/¯
     const newValuePrecise = roundToPrecision(newValue, 9);
 
     this.writeValue(newValuePrecise);
-    this.quickChangeEvent.next({ direction, value: newValuePrecise });
+    this.quickChangeEvent.emit({ direction, value: newValuePrecise });
     this._emitChange();
 
-    this._checkButtonAvailability();
+    this._focusInputIfCantQuickChange();
   }
-  private _checkButtonAvailability(): void {
+  private _focusInputIfCantQuickChange(): void {
     if (!this.canDecrement() || !this.canIncrement()) this.focus();
   }
 
   canIncrement(): boolean {
-    const num = this.inputModel.numberValue;
-    return !isDefined(num) || num < this.max;
+    const num = this.inputModel.numberValue();
+    return !isDefined(num) || num < this.max();
   }
   canDecrement(): boolean {
-    const num = this.inputModel.numberValue;
-    return !isDefined(num) || num > this.min;
+    const num = this.inputModel.numberValue();
+    return !isDefined(num) || num > this.min();
   }
 
   //! event handlers
@@ -222,7 +206,7 @@ export class ArdiumNumberInputComponent
     this._emitInput();
   }
   protected _emitInput(): void {
-    this.inputEvent.emit(this.inputModel.numberValue);
+    this.inputEvent.emit(this.inputModel.numberValue());
     this._emitChange();
   }
 
@@ -239,10 +223,8 @@ export class ArdiumNumberInputComponent
     this._emitChange();
   }
   protected _emitChange(): void {
-    const v = this.inputModel.numberValue;
-    this._onChangeRegistered?.(v);
+    const v = this.inputModel.numberValue();
     this.changeEvent.emit(v);
-    this.valueChange.emit(this.inputModel.numberValue);
   }
 
   //smart focus
@@ -258,10 +240,10 @@ export class ArdiumNumberInputComponent
     if (
       this.value &&
       //does the selection cover the entire input
-      ((this.textInputEl.nativeElement.selectionStart === 0 &&
-        this.textInputEl.nativeElement.selectionEnd === this.textInputEl.nativeElement.value.length) ||
+      ((this.inputEl()?.nativeElement.selectionStart === 0 &&
+        this.inputEl()?.nativeElement.selectionEnd === this.inputEl()?.nativeElement.value.length) ||
         //or is zero-wide
-        this.textInputEl.nativeElement.selectionStart === this.textInputEl.nativeElement.selectionEnd)
+        this.inputEl()?.nativeElement.selectionStart === this.inputEl()?.nativeElement.selectionEnd)
     ) {
       event.clipboardData?.setData('text/plain', String(this.value));
       event.preventDefault();
@@ -270,7 +252,7 @@ export class ArdiumNumberInputComponent
 
   //! helpers
   protected _setInputAttributes() {
-    const input = this.textInputEl.nativeElement;
+    const input = this.inputEl()!.nativeElement;
     const attributes: Record<string, string> = {
       type: 'text',
       autocorrect: 'off',

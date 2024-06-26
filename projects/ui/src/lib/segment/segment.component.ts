@@ -77,7 +77,7 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
       const newValue = coerceNumberProperty(v, Infinity);
       if (newValue === 0) throw new Error(`ARD-FT1040a: Cannot set <ard-segment>'s [itemsPerRow] to 0.`);
       if (newValue < 0) throw new Error(`ARD-FT1040b: Cannot set <ard-segment>'s [itemsPerRow] to a negative value, got "${newValue}".`);
-      if (newValue < 0) {
+      if (newValue % 1 !== 0) {
         const roundedValue = Math.round(newValue) || 1; // round to nearest int, but never round to zero
         console.warn(
           new Error(
