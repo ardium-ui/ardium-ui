@@ -40,7 +40,7 @@ export class SnackbarPage {
     this._ref4?.close();
   }
 
-  @ViewChild('originEl')
+  ('originEl')
   private _originEl!: ElementRef<HTMLElement>;
   openSnackbar5() {
     for (const inside of [true, false]) {

@@ -29,7 +29,7 @@ export class InputPage {
       this._fruitAutocompleteSubject.next('');
       return;
     }
-    let newSuggestion = this._getNewAutocomplete();
+    const newSuggestion = this._getNewAutocomplete();
     this._fruitAutocompleteSubject.next(newSuggestion);
   }
   onFruitAcceptAutocomplete(): void {
@@ -49,7 +49,7 @@ export class InputPage {
       this._colorSuggestionsSubject.next([]);
       return;
     }
-    let newSuggestions = this._getNewSuggestions();
+    const newSuggestions = this._getNewSuggestions();
     this._colorSuggestionsSubject.next(newSuggestions);
   }
   onColorAcceptSuggestion(): void {
@@ -60,9 +60,6 @@ export class InputPage {
     return findBestSuggestions(this.colorInputValue, this._suggestions, v => v.name).slice(0, 7);
   }
 
-  constructor(
-    private _logger: Logger,
-    private _dataService: DataService
-  ) {}
+  constructor(private _logger: Logger, private _dataService: DataService) {}
   log = this._logger.log;
 }
