@@ -1,18 +1,17 @@
 import {
   AfterViewChecked,
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
-  HostBinding,
-  Input,
-  Output,
   TemplateRef,
-  ViewChild,
   ViewEncapsulation,
+  computed,
+  input,
+  output,
+  viewChild
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { Nullable } from '../types/utility.types';
 import { DropdownPanelAppearance, DropdownPanelVariant, ScrollAlignment } from './dropdown-panel.types';
 
 @Component({
@@ -21,43 +20,39 @@ import { DropdownPanelAppearance, DropdownPanelVariant, ScrollAlignment } from '
   styleUrls: ['./dropdown-panel.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    'class.ard-open': 'isOpen()',
+  },
 })
-export class ArdiumDropdownPanelComponent implements AfterViewInit, AfterViewChecked {
-  @ViewChild('scroll', { static: true }) private _scrollRef!: ElementRef;
-  private _scrollElement!: HTMLElement;
+export class ArdiumDropdownPanelComponent implements AfterViewChecked {
+  private readonly _scrollElementRef = viewChild<ElementRef<HTMLElement>>('scroll');
+  private readonly _scrollEl = computed(() => this._scrollElementRef()?.nativeElement);
 
   //! options
-  @Input() panelId!: string;
-  @Input() headerTemplate?: TemplateRef<any>;
-  @Input() footerTemplate?: TemplateRef<any>;
-  @Input() filterValue?: string;
+  readonly panelId = input.required<string>();
+  readonly headerTemplate = input<TemplateRef<any> | null>(null);
+  readonly footerTemplate = input<TemplateRef<any> | null>(null);
+  readonly filterValue = input<Nullable<string>>();
 
   //! appearance
-  @Input() appearance: DropdownPanelAppearance = DropdownPanelAppearance.Raised;
-  @Input() variant: DropdownPanelVariant = DropdownPanelVariant.Rounded;
+  readonly appearance = input<DropdownPanelAppearance>(DropdownPanelAppearance.Raised);
+  readonly variant = input<DropdownPanelVariant>(DropdownPanelVariant.Rounded);
 
-  private _compact = false;
-  @Input()
-  get compact(): boolean {
-    return this._compact;
-  }
-  set compact(v: any) {
-    this._compact = coerceBooleanProperty(v);
-  }
+  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
-  get ngClasses(): string {
-    return [`ard-appearance-${this.appearance}`, `ard-variant-${this.variant}`, this.compact ? 'ard-compact' : ''].join(' ');
-  }
+  readonly ngClasses = computed((): string =>
+    [`ard-appearance-${this.appearance()}`, `ard-variant-${this.variant()}`, this.compact() ? 'ard-compact' : ''].join(' ')
+  );
 
   //! states
-  @Input() @HostBinding('class.ard-open') isOpen!: boolean;
+  readonly isOpen = input.required<boolean>();
 
   //! output events
-  @Output('scroll') scrollEvent = new EventEmitter<{
+  readonly scrollEvent = output<{
     start: number;
     end: number;
-  }>();
-  @Output('scrollToEnd') scrollToEndEvent = new EventEmitter();
+  }>({ alias: 'scroll' });
+  readonly scrollToEndEvent = output({ alias: 'scrollToEnd' });
 
   //! event handlers
   onScroll() {
@@ -65,19 +60,16 @@ export class ArdiumDropdownPanelComponent implements AfterViewInit, AfterViewChe
     const end = this._scrollBottom;
     this.scrollEvent.emit({ start, end });
 
-    if (end === this._scrollElement.scrollHeight) {
+    if (end === this._scrollEl()?.scrollHeight) {
       this.scrollToEndEvent.emit();
     }
   }
 
   //! hooks
-  ngAfterViewInit(): void {
-    this._scrollElement = this._scrollRef.nativeElement as HTMLElement;
-  }
   ngAfterViewChecked(): void {
     if (!this._currentScrollToDirection) return;
 
-    const recent = this._scrollElement.querySelector<HTMLElement>('.ard-option-highlighted-recent');
+    const recent = this._scrollEl()?.querySelector<HTMLElement>('.ard-option-highlighted-recent');
     if (!recent) return;
 
     const isInView = this._isElementInView(recent);
@@ -90,18 +82,23 @@ export class ArdiumDropdownPanelComponent implements AfterViewInit, AfterViewChe
 
   //! scroll position
   private get _scrollTop(): number {
-    return this._scrollElement.scrollTop;
+    return this._scrollEl()?.scrollTop ?? 0;
   }
   private set _scrollTop(value: number) {
-    this._scrollElement.scrollTop = value;
+    const el = this._scrollEl();
+    if (!el) return;
+    el.scrollTop = value;
   }
   private get _scrollBottom(): number {
-    return this._scrollTop + this._scrollElement.getBoundingClientRect().height;
+    return this._scrollTop + (this._scrollEl()?.getBoundingClientRect().height ?? 0);
   }
 
   //! scroll to element methods
   private _scrollToElement(el: HTMLElement, alignTo: ScrollAlignment = 'middle'): void {
-    const parentContentRect = this._getContentRect(this._scrollElement);
+    const scrollEl = this._scrollEl();
+    if (!scrollEl) return;
+
+    const parentContentRect = this._getContentRect(scrollEl);
     const elementRect = el.getBoundingClientRect();
 
     switch (alignTo) {
@@ -122,7 +119,10 @@ export class ArdiumDropdownPanelComponent implements AfterViewInit, AfterViewChe
     this._currentScrollToDirection = direction;
   }
   private _isElementInView(el: HTMLElement): boolean {
-    const parentContentRect = this._getContentRect(this._scrollElement);
+    const scrollEl = this._scrollEl();
+    if (!scrollEl) return true;
+
+    const parentContentRect = this._getContentRect(scrollEl);
     const elementRect = el.getBoundingClientRect();
     return elementRect.bottom < parentContentRect.bottom && elementRect.top > parentContentRect.top;
   }
@@ -134,6 +134,7 @@ export class ArdiumDropdownPanelComponent implements AfterViewInit, AfterViewChe
     const rightPadd = paddings[1] ?? topPadd;
     const bottomPadd = paddings[2] ?? topPadd;
     const leftPadd = paddings[3] ?? rightPadd ?? topPadd;
+
     return new DOMRect(
       elRect.x + leftPadd,
       elRect.y + topPadd,
