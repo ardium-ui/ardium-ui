@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentColor as CC } from '@ardium-ui/ui';
 import { Logger } from '../../services/logger.service';
 
@@ -7,17 +7,21 @@ import { Logger } from '../../services/logger.service';
   templateUrl: './icon-button.page.html',
   styleUrls: ['./icon-button.page.scss'],
 })
-export class IconButtonPage implements OnInit {
+export class IconButtonPage {
   colors: CC[] = Object.values(CC);
 
   color: CC[] = [CC.Primary];
   compact: boolean = false;
   disabled: boolean = false;
-  icon: string | null = 'favorite';
+  private _icon: string | null = 'favorite';
+  public get icon(): string | null {
+    return this._icon;
+  }
+  public set icon(value: string | null) {
+    this._icon = value;
+  }
   text: string | null = null;
 
   constructor(private _logger: Logger) {}
   log = this._logger.log;
-
-  ngOnInit(): void {}
 }

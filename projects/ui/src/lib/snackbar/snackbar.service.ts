@@ -158,7 +158,9 @@ export class ArdiumSnackbarService implements OnDestroy {
 
     let origin = options.placement!.origin;
     if (!origin) {
-      console.error(new Error(`ARD-NF7021: trying to open a snackbar, but the origin is undefined. Using "document.body" instead.`));
+      console.error(
+        new Error(`ARD-NF7021: trying to open a snackbar, but the origin is undefined. Using "document.body" instead.`)
+      );
       origin = document.body;
     }
 

@@ -19,8 +19,8 @@ import { SliderTooltipContext } from './slider.types';
   ],
 })
 export class ArdiumSliderComponent extends _AbstractSlider<number> {
-  readonly componentId = "105";
-  readonly componentName = "slider";
+  readonly componentId = '105';
+  readonly componentName = 'slider';
 
   //! value input & output
   protected _value = 0;

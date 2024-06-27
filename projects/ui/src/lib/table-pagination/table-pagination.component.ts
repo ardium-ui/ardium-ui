@@ -13,7 +13,7 @@ import { CurrentItemsFormatFn, PaginationAlign } from './table-pagination.types'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumTablePaginationComponent extends _FocusableComponentBase implements OnInit {
-  readonly componentId = "506";
+  readonly componentId = '506';
 
   private readonly _pagination = new PaginationModel(this);
 

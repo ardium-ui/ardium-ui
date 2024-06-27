@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { StateboxState } from '@ardium-ui/ui';
 import { Logger } from '../../services/logger.service';
 
@@ -7,7 +7,7 @@ import { Logger } from '../../services/logger.service';
   templateUrl: './statebox.page.html',
   styleUrls: ['./statebox.page.scss'],
 })
-export class StateboxPage implements OnInit {
+export class StateboxPage {
   states: StateboxState[] = [
     { value: 0, color: 'none' },
     { value: 1, customColor: 'red', character: 'R', filled: true },
@@ -17,6 +17,4 @@ export class StateboxPage implements OnInit {
 
   constructor(private _logger: Logger) {}
   log = this._logger.log;
-
-  ngOnInit(): void {}
 }

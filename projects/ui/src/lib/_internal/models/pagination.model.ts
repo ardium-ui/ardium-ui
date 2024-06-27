@@ -89,7 +89,8 @@ export class PaginationModel {
   //! context
   readonly getCurrentItemsContext = computed<PaginationCurrentItemsContext>(() => {
     const total = this._ardHostCmp.totalItems();
-    if (!total) throw new Error(`ARD-FT${this._ardHostCmp.componentId}90: Cannot use pagination model without defining total items first.`);
+    if (!total)
+      throw new Error(`ARD-FT${this._ardHostCmp.componentId}90: Cannot use pagination model without defining total items first.`);
 
     const pageItems = this.itemsOnCurrentPage()!;
     return {

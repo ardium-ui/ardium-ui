@@ -4,14 +4,13 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
-  TemplateRef,
   ViewEncapsulation,
   computed,
   contentChild,
   forwardRef,
   input,
   model,
-  viewChild,
+  viewChild
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
@@ -119,7 +118,9 @@ export class ArdiumPasswordInputComponent extends _NgModelComponentBase implemen
     if (!isAnyString(v) && isDefined(v)) {
       //warn when using non-string/non-null value
       console.warn(
-        new Error(`ARD-WA0020: Trying to set <ard-password-input>'s value to "${v}" (of type ${typeof v}), expected string or null.`)
+        new Error(
+          `ARD-WA0020: Trying to set <ard-password-input>'s value to "${v}" (of type ${typeof v}), expected string or null.`
+        )
       );
       //normalize the value
       v = v?.toString?.() ?? String(v);

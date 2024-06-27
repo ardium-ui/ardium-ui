@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ArdiumIconModule, ArdiumOptionModule, ArdiumSelectModule } from '@ardium-ui/ui';
 import { SelectPage } from './select.page';
-import { ArdiumFormFieldFrameModule, ArdiumOptionModule, ArdiumSelectModule, ArdiumIconModule } from '@ardium-ui/ui';
 
 @NgModule({
   declarations: [SelectPage],

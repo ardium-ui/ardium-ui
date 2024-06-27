@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentColor as CC } from '@ardium-ui/ui';
 import { Logger } from '../../services/logger.service';
 
@@ -7,13 +7,11 @@ import { Logger } from '../../services/logger.service';
   templateUrl: './slide-toggle.page.html',
   styleUrls: ['./slide-toggle.page.scss'],
 })
-export class SlideTogglePage implements OnInit {
+export class SlideTogglePage {
   colors: CC[] = Object.values(CC);
 
   fontsize: number = 24;
 
   constructor(private _logger: Logger) {}
   log = this._logger.log;
-
-  ngOnInit(): void {}
 }

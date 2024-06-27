@@ -1,13 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ContentChild,
   Input,
   TemplateRef,
   ViewEncapsulation,
   computed,
   contentChild,
-  input,
+  input
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _FocusableComponentBase } from '../_internal/focusable-component';

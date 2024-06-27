@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ArdSearchFunction } from '@ardium-ui/ui';
 import { Logger } from '../../services/logger.service';
 import { DataService } from './../../services/data.service';
@@ -8,14 +8,12 @@ import { DataService } from './../../services/data.service';
   templateUrl: './select.page.html',
   styleUrls: ['./select.page.scss'],
 })
-export class SelectPage implements OnInit {
+export class SelectPage {
   constructor(
     private _logger: Logger,
     private _dataService: DataService
   ) {}
   readonly log = this._logger.log;
-
-  ngOnInit(): void {}
 
   //* item lists
   animals = Array.from(this._dataService.animalsArray);

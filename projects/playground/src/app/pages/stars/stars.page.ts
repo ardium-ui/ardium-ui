@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { StarColor as SC, StarFillMode as SF } from '@ardium-ui/ui';
 import { Logger } from '../../services/logger.service';
 
@@ -7,7 +7,7 @@ import { Logger } from '../../services/logger.service';
   templateUrl: './stars.page.html',
   styleUrls: ['./stars.page.scss'],
 })
-export class StarsPage implements OnInit {
+export class StarsPage {
   colors: SC[] = Object.values(SC);
   fillModes: SF[] = Object.values(SF);
 
@@ -17,6 +17,4 @@ export class StarsPage implements OnInit {
 
   constructor(private _logger: Logger) {}
   log = this._logger.log;
-
-  ngOnInit(): void {}
 }

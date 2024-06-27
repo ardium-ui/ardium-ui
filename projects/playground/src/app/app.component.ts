@@ -38,7 +38,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 }
 
-type PathObj = {
+interface PathObj {
   name: string;
   url: string;
-};
+}

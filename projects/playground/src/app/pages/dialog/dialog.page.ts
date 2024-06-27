@@ -1,4 +1,4 @@
-import { Component, signal, effect } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { PanelAppearance, PanelVariant } from '@ardium-ui/ui';
 
 @Component({

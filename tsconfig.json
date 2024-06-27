@@ -22,9 +22,7 @@
     "useDefineForClassFields": false,
     "types": ["node"],
     "paths": {
-      "@ardium-ui/ui": [
-        "./projects/ui/src/public-api"
-      ]
+      "@ardium-ui/ui": ["./projects/ui/src/public-api"]
     }
   },
   "angularCompilerOptions": {

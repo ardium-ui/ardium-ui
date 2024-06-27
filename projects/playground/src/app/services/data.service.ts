@@ -1,14 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-export type ColorObject = { name: string; hex: string };
-export type AnimalObject = { name: string; classification: string };
+export interface ColorObject {
+  name: string;
+  hex: string;
+}
+export interface AnimalObject {
+  name: string;
+  classification: string;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
-  public readonly fruitArray: ReadonlyArray<string> = [
+  public readonly fruitArray: readonly string[] = [
     'Abiu',
     'Açaí',
     'Acerola',
@@ -146,7 +152,7 @@ export class DataService {
     'Ximenia',
     'Yuzu',
   ];
-  public readonly colorsArray: ReadonlyArray<ColorObject> = [
+  public readonly colorsArray: readonly ColorObject[] = [
     { name: 'Indian Red', hex: '#CD5C5C' },
     { name: 'Light Coral', hex: '#F08080' },
     { name: 'Salmon', hex: '#FA8072' },
@@ -291,7 +297,7 @@ export class DataService {
     { name: 'Dark Slate Gray', hex: '#2F4F4F' },
     { name: 'Black', hex: '#000000' },
   ];
-  public readonly animalsArray: ReadonlyArray<AnimalObject> = [
+  public readonly animalsArray: readonly AnimalObject[] = [
     { name: 'Dog', classification: 'Mammals' },
     { name: 'Cat', classification: 'Mammals' },
     { name: 'Orca', classification: 'Mammals' },
@@ -320,6 +326,4 @@ export class DataService {
       }, delayMs);
     });
   }
-
-  constructor() {}
 }

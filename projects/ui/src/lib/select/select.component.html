@@ -15,76 +15,76 @@
   >
     <div class="ard-select-value-container">
       @if (shouldDisplayPlaceholder()) {
-      <ng-template
-        #defaultPlaceholderTemplate
-        let-plchldr
-      >
-        <div class="ard-placeholder">{{ plchldr }}</div>
-      </ng-template>
+        <ng-template
+          #defaultPlaceholderTemplate
+          let-plchldr
+        >
+          <div class="ard-placeholder">{{ plchldr }}</div>
+        </ng-template>
 
-      <ng-template
-        [ngTemplateOutlet]="placeholderTemplate || defaultPlaceholderTemplate"
-        [ngTemplateOutletContext]="getPlaceholderContext()"
-      />
+        <ng-template
+          [ngTemplateOutlet]="placeholderTemplate || defaultPlaceholderTemplate"
+          [ngTemplateOutletContext]="getPlaceholderContext()"
+        />
       }
       @if (shouldDisplayValue()) {
         @for (item of itemStorage.selectedItems(); track item.index()) {
-      <div
-        class="ard-select-value"
-        [class.ard-value-disabled]="item.disabled()"
-        [attr.hidden]="!isValueWithinDisplayLimit($index)"
-      >
-        <ng-template
-          *ngIf="isValueWithinDisplayLimit($index)"
-          [ngTemplateOutlet]="valueTemplate || (multiselectable() ? defaultMultiValueTemplate : defaultValueTemplate)"
-          [ngTemplateOutletContext]="getValueContext(item)"
-        />
-      </div>
-      }
+          <div
+            class="ard-select-value"
+            [class.ard-value-disabled]="item.disabled()"
+            [attr.hidden]="!isValueWithinDisplayLimit($index)"
+          >
+            <ng-template
+              *ngIf="isValueWithinDisplayLimit($index)"
+              [ngTemplateOutlet]="valueTemplate || (multiselectable() ? defaultMultiValueTemplate : defaultValueTemplate)"
+              [ngTemplateOutletContext]="getValueContext(item)"
+            />
+          </div>
+        }
 
-      <ng-template
-        #defaultValueTemplate
-        let-item
-      >
-        <div
-          [ardInnerHTML]="item.label()"
-          [ardEscapeInnerHTML]="isItemsInputUsed"
-        ></div>
-      </ng-template>
-      <ng-template
-        #defaultMultiValueTemplate
-        let-item
-        let-unselect="unselect"
-      >
-        <ard-deletable-chip
-          (delete)="unselect(item)"
-          [variant]="variant()"
-          compact
-          appearance="outlined-strong"
+        <ng-template
+          #defaultValueTemplate
+          let-item
         >
           <div
             [ardInnerHTML]="item.label()"
             [ardEscapeInnerHTML]="isItemsInputUsed"
           ></div>
-          <!-- TODO check if can remove div -->
-        </ard-deletable-chip>
-      </ng-template>
-      }
-      
-      @if (itemStorage.isAnyItemSelected() && shouldShowItemDisplayLimit()) {
-      <div class="ard-overflow-indicator">
-        <ng-template
-          [ngTemplateOutlet]="itemDisplayLimitTemplate || defaultItemDisplayLimitTemplate"
-          [ngTemplateOutletContext]="getItemDisplayLimitContext()"
-        />
-
-        <ng-template
-          #defaultItemDisplayLimitTemplate
-          let-count="overflowCount"
-        >
-          <div>{{ count }} more...</div>
         </ng-template>
-      </div>
+        <ng-template
+          #defaultMultiValueTemplate
+          let-item
+          let-unselect="unselect"
+        >
+          <ard-deletable-chip
+            (delete)="unselect(item)"
+            [variant]="variant()"
+            compact
+            appearance="outlined-strong"
+          >
+            <div
+              [ardInnerHTML]="item.label()"
+              [ardEscapeInnerHTML]="isItemsInputUsed"
+            ></div>
+            <!-- TODO check if can remove div -->
+          </ard-deletable-chip>
+        </ng-template>
+      }
+
+      @if (itemStorage.isAnyItemSelected() && shouldShowItemDisplayLimit()) {
+        <div class="ard-overflow-indicator">
+          <ng-template
+            [ngTemplateOutlet]="itemDisplayLimitTemplate || defaultItemDisplayLimitTemplate"
+            [ngTemplateOutletContext]="getItemDisplayLimitContext()"
+          />
+
+          <ng-template
+            #defaultItemDisplayLimitTemplate
+            let-count="overflowCount"
+          >
+            <div>{{ count }} more...</div>
+          </ng-template>
+        </div>
       }
 
       <div
@@ -117,11 +117,11 @@
 
     <div class="ard-select-controls">
       @if (isLoading()) {
-      <ng-template #defaultLoadingSpinnerTemplate>
-        <div class="ard-simple-spinner"></div>
-      </ng-template>
+        <ng-template #defaultLoadingSpinnerTemplate>
+          <div class="ard-simple-spinner"></div>
+        </ng-template>
 
-      <ng-template [ngTemplateOutlet]="loadingSpinnerTemplate || defaultLoadingSpinnerTemplate" />
+        <ng-template [ngTemplateOutlet]="loadingSpinnerTemplate || defaultLoadingSpinnerTemplate" />
       }
 
       @if (shouldShowClearButton()) {
@@ -172,7 +172,10 @@
           (click)="onGroupClick(group)"
         >
           @if (group.label() !== '' && group.label() !== undefined) {
-            <ng-template #defaultOptgroupTemplate let-group>
+            <ng-template
+              #defaultOptgroupTemplate
+              let-group
+            >
               <span
                 class="ard-optgroup-label"
                 [ardInnerHTML]="group.label()"
@@ -203,7 +206,10 @@
                 (mouseleave)="onItemMouseLeave(option, $event)"
               >
                 <div class="ard-option-label">
-                  <ng-template #defaultOptionTemplate let-option>
+                  <ng-template
+                    #defaultOptionTemplate
+                    let-option
+                  >
                     <span
                       [ardInnerHTML]="option.label()"
                       [ardEscapeInnerHTML]="isItemsInputUsed"
@@ -233,7 +239,7 @@
       />
     }
 
-    @if (shouldShowAddCustom()){
+    @if (shouldShowAddCustom()) {
       <ng-template
         #defaultAddCustomTemplate
         let-searchTerm

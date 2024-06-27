@@ -144,13 +144,13 @@ function getOneWideSelection(
 
   //* add main
   //determine top left
-  let topLeft: RSS = isBeforeStartPrev && isAtStartPrev ? RSS.None : RSS.Rounded;
+  const topLeft: RSS = isBeforeStartPrev && isAtStartPrev ? RSS.None : RSS.Rounded;
   //determine bottom left
-  let bottomLeft: RSS = isBeforeStartNext && isAtStartNext ? RSS.None : RSS.Rounded;
+  const bottomLeft: RSS = isBeforeStartNext && isAtStartNext ? RSS.None : RSS.Rounded;
   //determine top right
-  let topRight: RSS = isAfterStartPrev && isAtStartPrev ? RSS.None : RSS.Rounded;
+  const topRight: RSS = isAfterStartPrev && isAtStartPrev ? RSS.None : RSS.Rounded;
   //determine bottom right
-  let bottomRight: RSS = isAfterStartNext && isAtStartNext ? RSS.None : RSS.Rounded;
+  const bottomRight: RSS = isAfterStartNext && isAtStartNext ? RSS.None : RSS.Rounded;
 
   lineData.push({
     span: 1,
@@ -180,9 +180,9 @@ function getStandardSelectionBody(
     const isAtStartNext = nextLine && isSelectionAt(start, nextLine);
 
     //determine top left
-    let topLeft: RSS = isBeforeStartPrev || isAtStartPrev ? RSS.None : RSS.Rounded;
+    const topLeft: RSS = isBeforeStartPrev || isAtStartPrev ? RSS.None : RSS.Rounded;
     //determine bottom left
-    let bottomLeft: RSS = isBeforeStartNext || isAtStartNext ? RSS.None : RSS.Rounded;
+    const bottomLeft: RSS = isBeforeStartNext || isAtStartNext ? RSS.None : RSS.Rounded;
 
     lineData.push({
       span: 1,
@@ -208,9 +208,9 @@ function getStandardSelectionBody(
     const isAfterEndNext = nextLine && isSelectionAt(end + 1, nextLine);
 
     //determine top right
-    let topRight: RSS = isAfterEndPrev || isAtEndPrev ? RSS.None : RSS.Rounded;
+    const topRight: RSS = isAfterEndPrev || isAtEndPrev ? RSS.None : RSS.Rounded;
     //determine bottom right
-    let bottomRight: RSS = isAfterEndNext || isAtEndNext ? RSS.None : RSS.Rounded;
+    const bottomRight: RSS = isAfterEndNext || isAtEndNext ? RSS.None : RSS.Rounded;
 
     lineData.push({
       span: 1,

@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, HostBinding, Input, Output, effect, signal } from '@angular/core';
+import { Directive, EventEmitter, HostBinding, Input, Output, signal } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _NgModelComponentBase } from './ngmodel-component';

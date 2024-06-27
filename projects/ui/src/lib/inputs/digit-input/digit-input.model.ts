@@ -13,15 +13,18 @@ import { DigitInputConfigData, DigitInputConfigDataType, DigitInputModelHost, _s
 export class DigitInputModel {
   constructor(private _ardHost: DigitInputModelHost) {
     //set the value array to be the same length
-    effect(() => {
-      const length = this.configArrayData().length;
+    effect(
+      () => {
+        const length = this.configArrayData().length;
 
-      this.value.update(arr => {
-        if (!arr) return new Array(length).fill(null);
-        if (arr.length >= length) return arr.slice(0, length);
-        return [...arr, ...new Array(length - arr.length).fill(null)];
-      })
-    }, { allowSignalWrites: true });
+        this.value.update(arr => {
+          if (!arr) return new Array(length).fill(null);
+          if (arr.length >= length) return arr.slice(0, length);
+          return [...arr, ...new Array(length - arr.length).fill(null)];
+        });
+      },
+      { allowSignalWrites: true }
+    );
   }
 
   private readonly _configArray = signal<DigitInputOption[]>([]);
@@ -68,7 +71,9 @@ export class DigitInputModel {
     if (!isArray(v) && !isAnyString(v) && !isNull(v)) {
       //warn when using non-string value
       console.warn(
-        new Error(`ARD-WA0020: Trying to set <ard-digit-input>'s value to "${v}" (of type ${typeof v}), expected string or array of strings.`)
+        new Error(
+          `ARD-WA0020: Trying to set <ard-digit-input>'s value to "${v}" (of type ${typeof v}), expected string or array of strings.`
+        )
       );
       //normalize the value
       v = v?.toString?.() ?? String(v);

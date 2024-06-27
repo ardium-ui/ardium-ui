@@ -11,7 +11,5 @@ export class RangeSliderPage {
   constructor(private _logger: Logger) {}
   log = this._logger.log;
 
-  ngOnInit(): void {}
-
   readonly tooltipFormatFn: SliderTooltipFormatFn = (v: number): string => String(v / 1000) + 'k';
 }

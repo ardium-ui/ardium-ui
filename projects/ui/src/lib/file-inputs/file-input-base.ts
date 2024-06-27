@@ -25,7 +25,9 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
 
   ngOnInit(): void {
     if (!(window.File && window.FileReader && window.Blob)) {
-      console.error(new Error(`ARD-${this.componentId}0: Cannot use Ardium UI file features because this browser does not support them!`));
+      console.error(
+        new Error(`ARD-${this.componentId}0: Cannot use Ardium UI file features because this browser does not support them!`)
+      );
     }
   }
   protected _wasViewInit = false;

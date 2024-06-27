@@ -7,7 +7,7 @@ import {
   computed,
   input,
   output,
-  signal
+  signal,
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 

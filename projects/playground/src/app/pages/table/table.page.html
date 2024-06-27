@@ -1,6 +1,6 @@
 <div class="master">
-    <span class="title">Simple table</span>
-    <ard-table [columns]="simpleColumns"></ard-table>
+  <span class="title">Simple table</span>
+  <ard-table [columns]="simpleColumns"></ard-table>
 </div>
 <div class="master">
   <span class="title">Fruit table</span>
@@ -10,43 +10,44 @@
     clickableRows
     (clickRow)="log('clickRow', $event)"
   />
-<div class="master">
-  <span class="title">People table</span>
-  <ard-table
-    [columns]="peopleColumns"
-    [data]="peopleData"
-    appearance="strong"
-    paginated
-    paginationStrategy="slice"
-    selectableRows
-    [totalItems]="peopleData.length"
-    (selectRow)="log('selectRow', $event)"
-    (unselectRow)="log('unselectRow', $event)"
-    (selectedRowsChange)="log('selectedRowsChange', $event)"
-    (pageChange)="log('pageChange', $event)"
-    (itemsPerPageChange)="log('itemsPerPageChange', $event)"
-  >
-    <ng-template
-      ard-table-tmp="salary"
-      let-amount
+  <div class="master">
+    <span class="title">People table</span>
+    <ard-table
+      [columns]="peopleColumns"
+      [data]="peopleData"
+      appearance="strong"
+      paginated
+      paginationStrategy="slice"
+      selectableRows
+      [totalItems]="peopleData.length"
+      (selectRow)="log('selectRow', $event)"
+      (unselectRow)="log('unselectRow', $event)"
+      (selectedRowsChange)="log('selectedRowsChange', $event)"
+      (pageChange)="log('pageChange', $event)"
+      (itemsPerPageChange)="log('itemsPerPageChange', $event)"
     >
-      ${{ amount.replace('$', '') | number: '1.0-0' }}
-    </ng-template>
-  </ard-table>
-</div>
-<div class="master">
+      <ng-template
+        ard-table-tmp="salary"
+        let-amount
+      >
+        ${{ amount.replace('$', '') | number: '1.0-0' }}
+      </ng-template>
+    </ard-table>
+  </div>
+  <div class="master">
     <span class="title">Pagination</span>
     <ard-table-pagination
-        [totalItems]="67"
-        (pageChange)="log('pageChange', $event)"
-        (itemsPerPageChange)="log('itemsPerPageChange', $event)"
+      [totalItems]="67"
+      (pageChange)="log('pageChange', $event)"
+      (itemsPerPageChange)="log('itemsPerPageChange', $event)"
     ></ard-table-pagination>
-</div>
-<div class="master">
+  </div>
+  <div class="master">
     <span class="title">Table from CSV</span>
     <ard-table-from-csv [data]="CSV" />
-</div>
-<div class="master">
+  </div>
+  <div class="master">
     <span class="title">Complex table header</span>
     <ard-table [columns]="complexColumns"></ard-table>
+  </div>
 </div>

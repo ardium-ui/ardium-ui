@@ -1,7 +1,7 @@
+import { ElementRef, Signal, computed, signal } from '@angular/core';
 import { isAnyString, isDefined, isNull, isNumber } from 'simple-bool';
-import { ArdTransformer, RegExpTransformer } from './input-transformers';
-import { ElementRef, computed, signal, Signal, effect } from '@angular/core';
 import { Nullable } from '../types/utility.types';
+import { ArdTransformer, RegExpTransformer } from './input-transformers';
 
 export interface SimpleInputModelHost {
   readonly maxLength: Signal<Nullable<number>>;

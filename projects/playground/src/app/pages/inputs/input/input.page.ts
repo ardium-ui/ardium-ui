@@ -60,6 +60,9 @@ export class InputPage {
     return findBestSuggestions(this.colorInputValue, this._suggestions, v => v.name).slice(0, 7);
   }
 
-  constructor(private _logger: Logger, private _dataService: DataService) {}
+  constructor(
+    private _logger: Logger,
+    private _dataService: DataService
+  ) {}
   log = this._logger.log;
 }

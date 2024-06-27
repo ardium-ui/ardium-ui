@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { SimpleComponentColor as SCC, CheckboxState } from '@ardium-ui/ui';
+import { Component } from '@angular/core';
+import { CheckboxState, SimpleComponentColor as SCC } from '@ardium-ui/ui';
 import { Logger } from '../../services/logger.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { Logger } from '../../services/logger.service';
   templateUrl: './checkbox.page.html',
   styleUrls: ['./checkbox.page.scss'],
 })
-export class CheckboxPage implements OnInit {
+export class CheckboxPage {
   states: CheckboxState[] = Object.values(CheckboxState);
   colors: SCC[] = Object.values(SCC);
 
@@ -15,6 +15,4 @@ export class CheckboxPage implements OnInit {
 
   constructor(private _logger: Logger) {}
   log = this._logger.log;
-
-  ngOnInit(): void {}
 }

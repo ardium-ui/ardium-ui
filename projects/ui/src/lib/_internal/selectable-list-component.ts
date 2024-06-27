@@ -61,8 +61,10 @@ export abstract class _SelectableListComponentBase
   }
   private _printPrimitiveWarnings() {
     const makeWarning = (str: string): void => {
-      console.warn(`ARD-WA${this._componentId} Skipped using [${str}] property bound to <ard-${this._componentName}>, as some provided items are of primitive type`);
-    }
+      console.warn(
+        `ARD-WA${this._componentId} Skipped using [${str}] property bound to <ard-${this._componentName}>, as some provided items are of primitive type`
+      );
+    };
     if (this.valueFrom()) {
       makeWarning('valueFrom');
     }

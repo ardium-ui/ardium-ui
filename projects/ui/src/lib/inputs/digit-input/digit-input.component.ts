@@ -65,7 +65,7 @@ export class ArdiumDigitInputComponent extends _NgModelComponentBase implements 
   private _oldConfigArrayDataLength = -1;
   readonly configArrayDataEffect = effect(() => {
     if (this.configArrayData().length === this._oldConfigArrayDataLength) return;
-    
+
     this._oldConfigArrayDataLength = this.configArrayData().length;
     this._emitChange();
   });

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ButtonAppearance as BA, FABSize as FS, ComponentColor as CC } from '@ardium-ui/ui';
+import { Component } from '@angular/core';
+import { ButtonAppearance as BA, ComponentColor as CC, FABSize as FS } from '@ardium-ui/ui';
 import { Logger } from '../../services/logger.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { Logger } from '../../services/logger.service';
   templateUrl: './fab.page.html',
   styleUrls: ['./fab.page.scss'],
 })
-export class FabPage implements OnInit {
+export class FabPage {
   sizes: FS[] = Object.values(FS);
   appearances: BA[] = Object.values(BA);
   colors: CC[] = Object.values(CC);
@@ -22,6 +22,4 @@ export class FabPage implements OnInit {
 
   constructor(private _logger: Logger) {}
   log = this._logger.log;
-
-  ngOnInit(): void {}
 }

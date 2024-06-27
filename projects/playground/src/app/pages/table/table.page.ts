@@ -231,14 +231,15 @@ Nine Miles from the White City, 2013, -`;
     {
       header: 'kcal/100g',
       dataSource: 'calories',
-    }, {
+    },
+    {
       header: 'Primary color',
       dataSource: 'color',
     },
     {
       header: 'Harvest season',
       dataSource: 'season',
-    }
+    },
   ];
 
   peopleData = [

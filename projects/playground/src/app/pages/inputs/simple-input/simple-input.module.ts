@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SimpleInputPage } from './simple-input.page';
-import { ArdiumFormFieldFrameModule, ArdiumIconModule, ArdiumSimpleInputModule } from '@ardium-ui/ui';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ArdiumIconModule, ArdiumSimpleInputModule } from '@ardium-ui/ui';
+import { SimpleInputPage } from './simple-input.page';
 
 @NgModule({
   declarations: [SimpleInputPage],

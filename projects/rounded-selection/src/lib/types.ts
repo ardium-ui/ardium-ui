@@ -21,7 +21,7 @@ export const RoundedSelectionState = {
 } as const;
 export type RoundedSelectionState = (typeof RoundedSelectionState)[keyof typeof RoundedSelectionState];
 
-export type RoundedSelectionCell = {
+export interface RoundedSelectionCell {
   span: number;
   filled: boolean;
   topLeft?: RoundedSelectionState;

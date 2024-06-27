@@ -2,7 +2,6 @@ import {
   AfterContentInit,
   ChangeDetectionStrategy,
   Component,
-  TemplateRef,
   ViewEncapsulation,
   computed,
   contentChild,

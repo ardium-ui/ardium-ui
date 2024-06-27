@@ -4,13 +4,9 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ContentChild,
   ElementRef,
-  EventEmitter,
   HostListener,
   Input,
-  OnInit,
-  Output,
   TemplateRef,
   ViewContainerRef,
   ViewEncapsulation,
@@ -20,7 +16,7 @@ import {
   input,
   output,
   signal,
-  viewChild,
+  viewChild
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty } from '@ardium-ui/devkit';

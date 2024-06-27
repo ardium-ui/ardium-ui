@@ -94,7 +94,9 @@ export class ArdiumTableFromCsvComponent implements AfterContentInit, OnChanges 
     if (changes['page']) {
       const page = changes['page'].currentValue as number;
       if (page === 0) {
-        throw new Error(`ARD-FT5073a: <ard-table-from-csv>'s [page] uses 1-indexed numbering system. The value 0 is not accepted.`);
+        throw new Error(
+          `ARD-FT5073a: <ard-table-from-csv>'s [page] uses 1-indexed numbering system. The value 0 is not accepted.`
+        );
       } else if (page < 0 || page % 1 !== 0) {
         throw new Error(`ARD-FT5073b: value of <ard-table-from-csv>'s [page] must be a positive integer, got "${page}".`);
       }

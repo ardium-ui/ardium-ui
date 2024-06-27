@@ -3,13 +3,13 @@
   [ngClass]="ngClasses()"
 >
   @if (headerTemplate()) {
-  <div class="ard-dropdown-header">
-    <ng-template
-      [ngTemplateOutlet]="headerTemplate()"
-      [ngTemplateOutletContext]="{ searchTerm: filterValue() }"
-    >
-    </ng-template>
-  </div>
+    <div class="ard-dropdown-header">
+      <ng-template
+        [ngTemplateOutlet]="headerTemplate()"
+        [ngTemplateOutletContext]="{ searchTerm: filterValue() }"
+      >
+      </ng-template>
+    </div>
   }
   <div
     #scroll
@@ -20,12 +20,12 @@
     <ng-content></ng-content>
   </div>
   @if (footerTemplate()) {
-  <div class="ard-dropdown-footer">
-    <ng-template
-      [ngTemplateOutlet]="footerTemplate()"
-      [ngTemplateOutletContext]="{ searchTerm: filterValue() }"
-    >
-    </ng-template>
-  </div>
+    <div class="ard-dropdown-footer">
+      <ng-template
+        [ngTemplateOutlet]="footerTemplate()"
+        [ngTemplateOutletContext]="{ searchTerm: filterValue() }"
+      >
+      </ng-template>
+    </div>
   }
 </div>

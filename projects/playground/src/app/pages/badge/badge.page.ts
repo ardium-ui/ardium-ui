@@ -26,7 +26,7 @@ export class BadgePage {
     { value: BadgePosition.BelowAfter, label: nbspString },
   ];
 
-  log = inject(Logger).log
+  log = inject(Logger).log;
 
   variant: FEV[] = [FEV.Pill];
   color: CC[] = [CC.Primary];

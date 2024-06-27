@@ -8,7 +8,7 @@ import {
   computed,
   input,
   output,
-  viewChild
+  viewChild,
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { Nullable } from '../types/utility.types';

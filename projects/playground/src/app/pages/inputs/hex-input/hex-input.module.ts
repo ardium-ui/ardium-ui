@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HexInputPage } from './hex-input.page';
-import { ArdiumFormFieldFrameModule, ArdiumHexInputModule, ArdiumIconModule } from '@ardium-ui/ui';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ArdiumHexInputModule, ArdiumIconModule } from '@ardium-ui/ui';
+import { HexInputPage } from './hex-input.page';
 
 @NgModule({
   declarations: [HexInputPage],

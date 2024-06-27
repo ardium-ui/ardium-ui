@@ -4,7 +4,6 @@ import {
   Component,
   ElementRef,
   Input,
-  TemplateRef,
   ViewEncapsulation,
   computed,
   contentChild,

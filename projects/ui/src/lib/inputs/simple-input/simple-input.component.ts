@@ -10,9 +10,8 @@ import {
   input,
   Input,
   output,
-  TemplateRef,
   viewChild,
-  ViewEncapsulation,
+  ViewEncapsulation
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
@@ -74,7 +73,7 @@ export class ArdiumSimpleInputComponent
 
   jdfd = effect(() => {
     console.log(this.prefixTemplate(), this.suffixTemplate());
-  })
+  });
 
   //! placeholder
   readonly placeholderTemplate = contentChild(ArdSimpleInputPlaceholderTemplateDirective);

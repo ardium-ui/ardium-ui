@@ -26,7 +26,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumFileDropAreaComponent extends _FileInputComponentBase implements OnInit {
-  readonly componentId = "010";
+  readonly componentId = '010';
 
   //! appearance
   readonly variant = input<FormElementVariant>(FormElementVariant.Rounded);

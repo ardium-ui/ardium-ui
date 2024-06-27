@@ -6,7 +6,7 @@ import {
   computed,
   contentChild,
   input,
-  output
+  output,
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ButtonAppearance } from '../buttons/general-button.types';
@@ -91,7 +91,7 @@ export class ArdiumDialogComponent {
   }
 
   //! templates
-    readonly buttonsTemplate = contentChild(ArdDialogButtonsTemplateDirective);
+  readonly buttonsTemplate = contentChild(ArdDialogButtonsTemplateDirective);
 
   readonly getButtonsContext = computed<DialogButtonsContext>(() => {
     return {

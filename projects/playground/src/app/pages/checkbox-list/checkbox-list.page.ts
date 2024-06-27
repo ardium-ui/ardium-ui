@@ -9,5 +9,5 @@ import { Logger } from '../../services/logger.service';
 export class CheckboxListPage {
   readonly fruitItems = ['Apple', 'Banana', 'Pear', 'Starfruit'];
 
-  readonly log = inject(Logger).log
+  readonly log = inject(Logger).log;
 }

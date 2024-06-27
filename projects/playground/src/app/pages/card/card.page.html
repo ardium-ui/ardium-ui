@@ -97,18 +97,17 @@
 <div class="master full-width">
   <span class="title">Rainbow table</span>
   <div class="rainbow-grid">
-    @for (variant of variants; track $index) {
-      @for (appearance of appearances; track $index) {
-        <ard-card
-          [appearance]="appearance"
-          [variant]="variant"
-        >
-          <ard-card-content>
-            [variant]="{{ variant }}"
-            <br />
-            [appearance]="{{ appearance }}"
-          </ard-card-content>
-        </ard-card>
+    @for (variant of variants; track $index) { @for (appearance of appearances; track $index) {
+    <ard-card
+      [appearance]="appearance"
+      [variant]="variant"
+    >
+      <ard-card-content>
+        [variant]="{{ variant }}"
+        <br />
+        [appearance]="{{ appearance }}"
+      </ard-card-content>
+    </ard-card>
     } }
   </div>
 </div>
