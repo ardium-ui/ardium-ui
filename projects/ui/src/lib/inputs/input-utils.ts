@@ -1,29 +1,17 @@
 import { isAnyString, isDefined, isNull, isNumber } from 'simple-bool';
 import { ArdTransformer, RegExpTransformer } from './input-transformers';
 import { ElementRef, computed, signal, Signal, effect } from '@angular/core';
+import { Nullable } from '../types/utility.types';
 
 export interface SimpleInputModelHost {
-  maxLength?: number;
+  readonly maxLength: Signal<Nullable<number>>;
+  readonly textInputEl: Signal<ElementRef<HTMLInputElement> | undefined>;
 }
 export class SimpleInputModel {
-  protected _hostComp!: SimpleInputModelHost;
-  constructor(protected inputEl: HTMLInputElement, hostComp: SimpleInputModelHost) {
-    this._hostComp = hostComp;
-  }
+  constructor(protected readonly _ardHostCmp: SimpleInputModelHost) {}
 
-  protected _value: string | null = null;
-  get value(): string | null {
-    return this._value;
-  }
-  set value(v: string | null) {
-    this._value = v;
-  }
-  get stringValue(): string {
-    return this._value ?? '';
-  }
-  set stringValue(v: string) {
-    this._value = v || null;
-  }
+  readonly value = signal<string | null>(null);
+  readonly stringValue = computed<string>(() => this.value() ?? '');
 
   writeValue(v: any): boolean {
     if (!isAnyString(v) && !isNull(v)) {
@@ -42,73 +30,73 @@ export class SimpleInputModel {
     //constraints
     v = this._applyLengthTransformer(v);
     //update view
-    const oldVal = this.value;
-    this.value = v;
+    const oldVal = this.value();
+    this.value.set(v);
     this._updateInputElement();
     return oldVal !== v;
   }
   rewriteValueAfterHostUpdate(): void {
-    this._writeValue(this._value);
+    this._writeValue(this.value());
   }
   clear(): void {
-    this._value = null;
+    this.value.set(null);
     this._updateInputElement();
   }
 
   _updateInputElement() {
-    this.inputEl.value = this.stringValue;
+    const el = this._ardHostCmp.textInputEl()?.nativeElement;
+    if (!el) return;
+    el.value = this.stringValue();
   }
   get caretPos(): number {
-    return this.inputEl.selectionEnd ?? this.stringValue.length;
+    return this._ardHostCmp.textInputEl()?.nativeElement.selectionEnd ?? this.stringValue.length;
   }
   set caretPos(pos: number) {
-    this.inputEl.setSelectionRange(pos, pos);
+    this._ardHostCmp.textInputEl()?.nativeElement.setSelectionRange(pos, pos);
   }
   //! constraints
   protected _applyLengthTransformer(v: string | null): string | null {
-    //exit if max length not specified
-    if (this._hostComp.maxLength === undefined) return v;
-    //exit if not value
-    //exit if value length is less than specified max length
-    if (!v || v.length <= this._hostComp.maxLength) return v;
-    //cut the excess off
-    v = v.substring(0, this._hostComp.maxLength);
-    this.caretPos = this._hostComp.maxLength;
+    const max = this._ardHostCmp.maxLength();
+    if (!isDefined(max)) return v;
+    if (!v || v.length <= max) return v;
+
+    v = v.substring(0, max);
+    this.caretPos = max;
     return v;
   }
 }
 export interface InputModelHost extends SimpleInputModelHost {
-  charlist?: RegExp;
+  charlist: Signal<RegExp | undefined>;
 }
 export class InputModel extends SimpleInputModel {
-  protected override _hostComp!: InputModelHost;
-  constructor(inputEl: HTMLInputElement, hostComp: InputModelHost) {
-    super(inputEl, hostComp);
+  constructor(protected override readonly _ardHostCmp: InputModelHost) {
+    super(_ardHostCmp);
   }
   protected override _writeValue(v: string | null): boolean {
     //transformers
     if (v) {
-      let prev = this.stringValue;
+      let prev = this.stringValue();
       v = this._applyAllowOrDenylistTransformer(v, prev);
-      prev = this.stringValue;
+      prev = this.stringValue();
       v = this._applyLengthTransformer(v);
     }
-    const oldVal = this.value;
+    const oldVal = this.value();
     //update view
-    this.value = v;
+    this.value.set(v);
     this._updateInputElement();
     return oldVal !== v;
   }
 
   setSelection(from: number | null, to: number | null): void;
   setSelection(from: number | null, to?: number | null): void {
-    to = to ?? this.value?.length ?? Infinity;
-    this.inputEl.setSelectionRange(from, to);
+    to = to ?? this.value()?.length ?? Infinity;
+    this._ardHostCmp.textInputEl()?.nativeElement.setSelectionRange(from, to);
   }
   //* constraints
   protected _applyAllowOrDenylistTransformer(v: string, prev: string): string {
-    if (!this._hostComp.charlist || !v) return v;
-    const { text, caretPos } = new RegExpTransformer(this._hostComp.charlist).apply(v, prev, this.caretPos);
+    const charlist = this._ardHostCmp.charlist();
+    if (!charlist || !v) return v;
+    const { text, caretPos } = new RegExpTransformer(charlist).apply(v, prev, this.caretPos);
     this.caretPos = caretPos;
     return text;
   }

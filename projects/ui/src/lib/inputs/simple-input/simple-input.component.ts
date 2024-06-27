@@ -1,28 +1,28 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ContentChild,
+  computed,
+  contentChild,
   ElementRef,
-  EventEmitter,
   forwardRef,
-  HostBinding,
+  input,
   Input,
-  OnInit,
-  Output,
+  output,
   TemplateRef,
-  ViewChild,
-  ViewEncapsulation,
+  viewChild,
+  ViewEncapsulation
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
+import { Nullable } from '../../types/utility.types';
 import { SimpleOneAxisAlignment } from './../../types/alignment.types';
 import { SimpleInputModel, SimpleInputModelHost } from './../input-utils';
 import {
   ArdSimpleInputPlaceholderTemplateDirective,
-  ArdSimpleInputPrefixTemplateDirective,
-  ArdSimpleInputSuffixTemplateDirective,
+  ArdSimpleInputPrefixTemplateDirective
 } from './simple-input.directives';
 
 @Component({
@@ -42,17 +42,18 @@ import {
 // TODO convert to signals
 export class ArdiumSimpleInputComponent
   extends _NgModelComponentBase
-  implements SimpleInputModelHost, ControlValueAccessor, OnInit
+  implements SimpleInputModelHost, ControlValueAccessor, AfterViewInit
 {
   readonly DEFAULTS = {
     clearButtonTitle: 'Clear',
   };
   //! input view
-  @ViewChild('textInput', { static: true })
-  textInputEl!: ElementRef<HTMLInputElement>;
-  protected inputModel!: SimpleInputModel;
-  ngOnInit(): void {
-    this.inputModel = new SimpleInputModel(this.textInputEl.nativeElement, this);
+  readonly textInputEl = viewChild<ElementRef<HTMLInputElement>>('textInput');
+
+  protected readonly inputModel = new SimpleInputModel(this);
+  private _wasViewInit = false;
+  ngAfterViewInit(): void {
+    this._wasViewInit = true;
     this._setInputAttributes();
     //set the value
     if (this._valueBeforeInit) {
@@ -61,72 +62,50 @@ export class ArdiumSimpleInputComponent
     }
   }
 
-  @Input() placeholder = '';
-  @Input() inputId?: string;
-  @Input() clearButtonTitle: string = this.DEFAULTS.clearButtonTitle;
+  readonly placeholder = input<string>('');
+  readonly inputId = input<Nullable<string>>(undefined);
+  readonly clearButtonTitle = input<string>(this.DEFAULTS.clearButtonTitle);
 
   //! prefix & suffix
-  @ContentChild(ArdSimpleInputPrefixTemplateDirective, { read: TemplateRef })
-  prefixTemplate?: TemplateRef<any>;
-  @ContentChild(ArdSimpleInputSuffixTemplateDirective, { read: TemplateRef })
-  suffixTemplate?: TemplateRef<any>;
+  readonly prefixTemplate = contentChild<TemplateRef<ArdSimpleInputPrefixTemplateDirective>>(
+    TemplateRef<ArdSimpleInputPrefixTemplateDirective>
+  );
+  readonly suffixTemplate = contentChild<TemplateRef<ArdSimpleInputPrefixTemplateDirective>>(
+    TemplateRef<ArdSimpleInputPrefixTemplateDirective>
+  );
 
   //! placeholder
-  @ContentChild(ArdSimpleInputPlaceholderTemplateDirective, {
-    read: TemplateRef,
-  })
-  placeholderTemplate?: TemplateRef<any>;
+  readonly placeholderTemplate = contentChild<TemplateRef<ArdSimpleInputPlaceholderTemplateDirective>>(
+    TemplateRef<ArdSimpleInputPlaceholderTemplateDirective>
+  );
 
-  get shouldDisplayPlaceholder(): boolean {
-    return Boolean(this.placeholder) && !this.value;
-  }
+  readonly shouldDisplayPlaceholder = computed<boolean>(() => Boolean(this.placeholder()) && !this.inputModel.value());
 
   //! appearance
-  @Input() appearance: FormElementAppearance = FormElementAppearance.Outlined;
-  @Input() variant: FormElementVariant = FormElementVariant.Rounded;
-  @Input() alignText: SimpleOneAxisAlignment = SimpleOneAxisAlignment.Left;
+  readonly appearance = input<FormElementAppearance>(FormElementAppearance.Outlined);
+  readonly variant = input<FormElementVariant>(FormElementVariant.Rounded);
+  readonly alignText = input<SimpleOneAxisAlignment>(SimpleOneAxisAlignment.Left);
 
-  private _compact = false;
-  @Input()
-  get compact(): boolean {
-    return this._compact;
-  }
-  set compact(v: any) {
-    this._compact = coerceBooleanProperty(v);
-  }
+  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
-  get ngClasses(): string {
-    return [
-      `ard-appearance-${this.appearance}`,
-      `ard-variant-${this.variant}`,
-      `ard-text-align-${this.alignText}`,
-      this.compact ? 'ard-compact' : '',
-    ].join(' ');
-  }
+  readonly ngClasses = computed((): string =>
+    [
+      `ard-appearance-${this.appearance()}`,
+      `ard-variant-${this.variant()}`,
+      `ard-text-align-${this.alignText()}`,
+      this.compact() ? 'ard-compact' : '',
+      this.clearable() ? 'ard-clearable' : '',
+    ].join(' ')
+  );
 
   //! other inputs
-  @Input() inputAttrs: Record<string, any> = {};
+  readonly inputAttrs = input<Record<string, any>>({});
 
   //! number attribute setters/getters
-  protected _maxLength?: number;
-  @Input()
-  get maxLength(): number | undefined {
-    return this._maxLength;
-  }
-  set maxLength(v: any) {
-    this._maxLength = coerceNumberProperty(v);
-  }
+  readonly maxLength = input<Nullable<number>, any>(undefined, { transform: v => coerceNumberProperty(v, undefined) });
 
   //! no-value attribute setters/getters
-  protected _clearable = true;
-  @Input()
-  @HostBinding('class.ard-clearable')
-  get clearable(): boolean {
-    return this._clearable;
-  }
-  set clearable(v: any) {
-    this._clearable = coerceBooleanProperty(v);
-  }
+  readonly clearable = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! control value accessor's write value implementation
   writeValue(v: any) {
@@ -136,21 +115,21 @@ export class ArdiumSimpleInputComponent
   protected _valueBeforeInit?: string | null = null;
   @Input()
   set value(v: string | null) {
-    if (!this.inputModel) {
+    if (!this._wasViewInit) {
       this._valueBeforeInit = v;
       return;
     }
     this.writeValue(v);
   }
   get value(): string | null {
-    return this.inputModel.value;
+    return this.inputModel.value();
   }
-  @Output() valueChange = new EventEmitter<string | null>();
+  readonly valueChange = output<string | null>();
 
   //! event emitters
-  @Output('input') inputEvent = new EventEmitter<string | null>();
-  @Output('change') changeEvent = new EventEmitter<string | null>();
-  @Output('clear') clearEvent = new EventEmitter<MouseEvent>();
+  readonly inputEvent = output<string | null>({ alias: 'input' });
+  readonly changeEvent = output<string | null>({ alias: 'change' });
+  readonly clearEvent = output<MouseEvent>({ alias: 'clear' });
 
   //! event handlers
   onInput(newVal: string): void {
@@ -175,12 +154,12 @@ export class ArdiumSimpleInputComponent
     this._emitChange();
   }
   protected _emitChange(): void {
-    this.changeEvent.emit(this.inputModel.value);
+    this.changeEvent.emit(this.inputModel.value());
   }
   // clear button
-  get shouldShowClearButton(): boolean {
-    return this._clearable && !this.disabled && Boolean(this.inputModel.value);
-  }
+  readonly shouldShowClearButton = computed<boolean>(
+    () => this.clearable() && !this.disabled() && Boolean(this.inputModel.value())
+  );
   onClearButtonClick(event: MouseEvent): void {
     event.stopPropagation();
     this.inputModel.clear();
@@ -190,15 +169,15 @@ export class ArdiumSimpleInputComponent
     this.focus();
   }
 
-  // copy
+  //! copy event
   onCopy(event: ClipboardEvent): void {
     if (
       this.value &&
       //does the selection cover the entire input
-      ((this.textInputEl.nativeElement.selectionStart === 0 &&
-        this.textInputEl.nativeElement.selectionEnd === this.textInputEl.nativeElement.value.length) ||
+      ((this.textInputEl()?.nativeElement.selectionStart === 0 &&
+        this.textInputEl()?.nativeElement.selectionEnd === this.textInputEl()?.nativeElement.value.length) ||
         //or is zero-wide
-        this.textInputEl.nativeElement.selectionStart === this.textInputEl.nativeElement.selectionEnd)
+        this.textInputEl()?.nativeElement.selectionStart === this.textInputEl()?.nativeElement.selectionEnd)
     ) {
       event.clipboardData?.setData('text/plain', this.value);
       event.preventDefault();
@@ -206,7 +185,7 @@ export class ArdiumSimpleInputComponent
   }
   //! helpers
   protected _setInputAttributes() {
-    const input = this.textInputEl.nativeElement;
+    const input = this.textInputEl()!.nativeElement;
     const attributes: Record<string, string> = {
       type: 'text',
       autocorrect: 'off',

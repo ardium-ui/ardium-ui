@@ -15,6 +15,7 @@ import {
   ViewContainerRef,
   ViewEncapsulation,
   computed,
+  contentChild,
   forwardRef,
   input,
   output,
@@ -56,7 +57,7 @@ import {
 })
 export class ArdiumInputComponent
   extends ArdiumSimpleInputComponent
-  implements InputModelHost, OnInit, SimplestItemStorageHost, AfterViewInit
+  implements InputModelHost, SimplestItemStorageHost, AfterViewInit
 {
   private readonly element!: HTMLElement;
 
@@ -77,44 +78,28 @@ export class ArdiumInputComponent
     suggestionsLoadingText: 'Loading...',
   };
   //! input view
-  protected override inputModel!: InputModel;
-  override ngOnInit(): void {
-    this.inputModel = new InputModel(this.textInputEl.nativeElement, this);
-    this._setInputAttributes();
-    //set the value
-    if (this._valueBeforeInit) {
-      this.writeValue(this._valueBeforeInit);
-      delete this._valueBeforeInit;
-    }
-  }
+  protected override readonly inputModel = new InputModel(this);
 
   //! allowlist/denylist of characters
   //use standard string for denylist, prepend with ^ for allowlist
-  private _charlistRegExp?: RegExp;
-  @Input()
-  get charlist(): RegExp | undefined {
-    return this._charlistRegExp;
-  }
-  set charlist(v: any) {
-    if (!isString(v)) {
-      throw new Error('ARD-FT0033: [charlist] must be a non-empty string, got "".');
+  readonly charlistFromInput = input<RegExp | undefined, string>(undefined, {
+    transform: v => {
+      if (!isString(v)) {
+        throw new Error('ARD-FT0033: [charlist] must be a non-empty string, got "".');
+      }
+      const negated = v.startsWith('^');
+      return escapeAndCreateRegex(v, '', !negated);
+    },
+  });
+  readonly charlistCaseInsensitive = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+
+  readonly charlist = computed<RegExp | undefined>(() => {
+    const c = this.charlistFromInput();
+    if (!this.charlistCaseInsensitive() || !c) {
+      return c;
     }
-    const flags = this._charlistCaseInsensitive ? 'i' : '';
-    const negated = v.startsWith('^');
-    this._charlistRegExp = escapeAndCreateRegex(v, flags, !negated);
-  }
-  protected _charlistCaseInsensitive = false;
-  @Input()
-  get charlistCaseInsensitive(): boolean {
-    return this._charlistCaseInsensitive;
-  }
-  set charlistCaseInsensitive(v: any) {
-    this._charlistCaseInsensitive = coerceBooleanProperty(v);
-    if (this._charlistRegExp) {
-      const flags = this._charlistCaseInsensitive ? 'i' : '';
-      this._charlistRegExp = new RegExp(this._charlistRegExp.source, flags);
-    }
-  }
+    return new RegExp(c.source, 'i');
+  });
 
   //! autocomplete
   readonly autocomplete = input<Nullable<string>>(undefined);
@@ -125,14 +110,11 @@ export class ArdiumInputComponent
   readonly acceptAutocompleteEvent = output({ alias: 'acceptAutocomplete' });
 
   //! prefix & suffix
-  @ContentChild(ArdInputPrefixTemplateDirective, { read: TemplateRef })
-  override prefixTemplate?: TemplateRef<any>;
-  @ContentChild(ArdInputSuffixTemplateDirective, { read: TemplateRef })
-  override suffixTemplate?: TemplateRef<any>;
+  override readonly prefixTemplate = contentChild(TemplateRef<ArdInputPrefixTemplateDirective>);
+  override readonly suffixTemplate = contentChild(TemplateRef<ArdInputSuffixTemplateDirective>);
 
   //! placeholder
-  @ContentChild(ArdInputPlaceholderTemplateDirective, { read: TemplateRef })
-  override placeholderTemplate?: TemplateRef<any>;
+  override readonly placeholderTemplate = contentChild(TemplateRef<ArdInputPlaceholderTemplateDirective>);
 
   //! suggestions
   readonly suggestionStorage = new SimplestItemStorage(this);
@@ -140,7 +122,7 @@ export class ArdiumInputComponent
   readonly valueFrom = input<Nullable<string>>(undefined, { alias: 'suggValueFrom' });
   readonly labelFrom = input<Nullable<string>>(undefined, { alias: 'suggLabelFrom' });
 
-  @Output('acceptSuggestion') acceptSuggestionEvent = new EventEmitter<any>();
+  readonly acceptSuggestionEvent = output<any>({ alias: 'acceptSuggestion' });
 
   readonly suggestionItems = this.suggestionStorage.items;
 
@@ -181,10 +163,8 @@ export class ArdiumInputComponent
   readonly areSuggestionsLoading = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
   readonly suggestionsLoadingText = input<string>(this.DEFAULTS.suggestionsLoadingText);
 
-  @ContentChild(ArdSuggestionTemplateDirective, { read: TemplateRef })
-  suggestionTemplate?: TemplateRef<any>;
-  @ContentChild(ArdInputLoadingTemplateDirective, { read: TemplateRef })
-  suggestionLoadingTemplate?: TemplateRef<any>;
+  readonly suggestionTemplate = contentChild(TemplateRef<ArdSuggestionTemplateDirective>);
+  readonly suggestionLoadingTemplate = contentChild(TemplateRef<ArdInputLoadingTemplateDirective>);
 
   //! suggestions overlay
   readonly dropdownHost = viewChild<ElementRef<HTMLDivElement>>('suggestionsHost');
@@ -192,7 +172,9 @@ export class ArdiumInputComponent
 
   private dropdownOverlay!: OverlayRef;
 
-  ngAfterViewInit(): void {
+  override ngAfterViewInit(): void {
+    super.ngAfterViewInit();
+
     const strategy = this.overlay
       .position()
       .flexibleConnectedTo(this.dropdownHost()!)
@@ -267,14 +249,14 @@ export class ArdiumInputComponent
     const selected = this.suggestionStorage.selectItem(item);
     this.writeValue(selected ?? '');
 
-    this.acceptSuggestionEvent.next(selected);
+    this.acceptSuggestionEvent.emit(selected);
 
     //important to do those two things in this exact order
     this.focus();
     this._suggestionDropdowOpen.set(false);
   }
   handleSuggestionClickOutside(event: MouseEvent): void {
-    if (!this.shouldDisplaySuggestions) return;
+    if (!this.shouldDisplaySuggestions()) return;
 
     const target = event.target as HTMLElement;
     if (this.element.contains(target)) return;
@@ -282,31 +264,23 @@ export class ArdiumInputComponent
     this._suggestionDropdowOpen.set(false);
   }
   //! suggestion appearance
-  private _dropdownAppearance?: DropdownPanelAppearance = undefined;
-  @Input()
-  set dropdowonAppearance(v: DropdownPanelAppearance) {
-    this._dropdownAppearance = v;
-  }
-  get dropdownAppearance(): DropdownPanelAppearance {
-    if (this._dropdownAppearance) return this._dropdownAppearance;
-    if (this.appearance === FormElementAppearance.Outlined) return DropdownPanelAppearance.Outlined;
+  readonly dropdownAppearance = input<Nullable<DropdownPanelAppearance>>(undefined);
+  readonly dropdownAppearanceOrDefault = computed(() => {
+    if (this.dropdownAppearance()) return this.dropdownAppearance();
+    if (this.appearance() === FormElementAppearance.Outlined) return DropdownPanelAppearance.Outlined;
     return DropdownPanelAppearance.Raised;
-  }
-  private _dropdownVariant?: DropdownPanelVariant = undefined;
-  @Input()
-  set dropdowonVariant(v: DropdownPanelVariant) {
-    this._dropdownVariant = v;
-  }
-  get dropdownVariant(): DropdownPanelVariant {
-    if (this._dropdownVariant) return this._dropdownVariant;
-    if (this.variant === FormElementVariant.Pill) return DropdownPanelVariant.Rounded;
-    return this.variant;
-  }
+  });
+  readonly dropdowonVariant = input<Nullable<DropdownPanelVariant>>(undefined);
+  readonly dropdowonVariantOrDefault = computed(() => {
+    if (this.dropdowonVariant()) return this.dropdowonVariant();
+    if (this.variant() === FormElementVariant.Pill) return DropdownPanelVariant.Rounded;
+    return this.variant();
+  });
 
   //! focus override
   override onFocus(event: FocusEvent): void {
     this._suggestionDropdowOpen.set(true);
-    if (!this.suggestionStorage.highlightedItem) this.suggestionStorage.highlightFirstItem();
+    if (!this.suggestionStorage.highlightedItem()) this.suggestionStorage.highlightFirstItem();
 
     super.onFocus(event);
   }
@@ -335,7 +309,7 @@ export class ArdiumInputComponent
     }
   }
   protected _onTabOrEnterPress(event: KeyboardEvent): void {
-    if (!this.shouldDisplayAutocomplete) return;
+    if (!this.shouldDisplayAutocomplete()) return;
     event.preventDefault();
 
     this.onInput(this.autocomplete() ?? '');
@@ -350,7 +324,7 @@ export class ArdiumInputComponent
     this._selectSuggestion(item);
   }
   private _onArrowDownPress(event: KeyboardEvent): void {
-    if (!this.shouldDisplaySuggestions) return;
+    if (!this.shouldDisplaySuggestions()) return;
     event.preventDefault();
 
     this._isMouseBeingUsed = false;
@@ -358,7 +332,7 @@ export class ArdiumInputComponent
     this.suggestionStorage.highlightNextItem(+1);
   }
   private _onArrowUpPress(event: KeyboardEvent): void {
-    if (!this.shouldDisplaySuggestions) return;
+    if (!this.shouldDisplaySuggestions()) return;
     event.preventDefault();
 
     this._isMouseBeingUsed = false;

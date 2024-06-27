@@ -188,28 +188,19 @@ export class ArdiumSelectComponent
       this._searchBarFocused() ? 'ard-select-focused' : '',
     ].join(' ')
   );
-
-  private _dropdownAppearance?: DropdownPanelAppearance = undefined;
-  @Input()
-  set dropdowonAppearance(v: DropdownPanelAppearance) {
-    this._dropdownAppearance = v;
-  }
-  get dropdownAppearance(): DropdownPanelAppearance {
-    if (this._dropdownAppearance) return this._dropdownAppearance;
+  
+  readonly dropdownAppearance = input<Nullable<DropdownPanelAppearance>>(undefined);
+  readonly dropdownAppearanceOrDefault = computed(() => {
+    if (this.dropdownAppearance()) return this.dropdownAppearance();
     if (this.appearance() === FormElementAppearance.Outlined) return DropdownPanelAppearance.Outlined;
     return DropdownPanelAppearance.Raised;
-  }
-  private _dropdownVariant?: DropdownPanelVariant = undefined;
-  @Input()
-  set dropdowonVariant(v: DropdownPanelVariant) {
-    this._dropdownVariant = v;
-  }
-  get dropdownVariant(): DropdownPanelVariant {
-    if (this._dropdownVariant) return this._dropdownVariant;
-    const variant = this.variant();
-    if (variant === FormElementVariant.Pill) return DropdownPanelVariant.Rounded;
-    return variant;
-  }
+  });
+  readonly dropdowonVariant = input<Nullable<DropdownPanelVariant>>(undefined);
+  readonly dropdowonVariantOrDefault = computed(() => {
+    if (this.dropdowonVariant()) return this.dropdowonVariant();
+    if (this.variant() === FormElementVariant.Pill) return DropdownPanelVariant.Rounded;
+    return this.variant();
+  });
 
   @HostBinding('class.ard-group-items')
   get _groupItemsHostAttribute() {
@@ -585,7 +576,9 @@ export class ArdiumSelectComponent
   }
   private _printPrimitiveWarnings() {
     function makeWarning(str: string, errorCode: string): void {
-      console.warn(`ARD-WA000${errorCode}: Skipped using [${str}] property bound to <ard-select>, as some provided items are of primitive type`); //todo
+      console.warn(
+        `ARD-WA000${errorCode}: Skipped using [${str}] property bound to <ard-select>, as some provided items are of primitive type`
+      ); //todo
       //TODO error
     }
     if (this.valueFrom()) {
