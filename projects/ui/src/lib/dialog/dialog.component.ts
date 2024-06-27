@@ -1,13 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ContentChild,
   Input,
-  TemplateRef,
   ViewEncapsulation,
   computed,
+  contentChild,
   input,
-  output,
+  output
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ButtonAppearance } from '../buttons/general-button.types';

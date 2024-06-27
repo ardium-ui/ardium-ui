@@ -5,7 +5,7 @@
   (mousedown)="$event.preventDefault()"
   (mouseup)="onMouseup()"
 >
-  @if (allowQuickChange()) {
+  @if (!noButtons()) {
   <ard-button
     class="ard-quick-change-button decrement"
     [variant]="buttonVariant()"
@@ -49,7 +49,7 @@
       (copy)="onCopy($event)"
     />
   </div>
-  @if (allowQuickChange()) {
+  @if (!noButtons()) {
   <ard-button
     class="ard-quick-change-button increment"
     [variant]="buttonVariant()"

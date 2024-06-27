@@ -51,7 +51,7 @@
       </ng-template>
 
       <ng-template
-        [ngTemplateOutlet]="buttonsTemplate ?? defaultButtonsTemplate"
+        [ngTemplateOutlet]="buttonsTemplate()?.template ?? defaultButtonsTemplate"
         [ngTemplateOutletContext]="getButtonsContext()"
       ></ng-template>
     </div>

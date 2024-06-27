@@ -109,13 +109,7 @@ export interface NumberInputModelHost {
   readonly inputEl: Signal<ElementRef<HTMLInputElement> | undefined>;
 }
 export class NumberInputModel {
-  constructor(protected readonly _ardHostCmp: NumberInputModelHost) {
-    effect(() => {
-      const el = this._ardHostCmp.inputEl()?.nativeElement;
-      if (!el) return;
-      el.value = this.stringValue();
-    });
-  }
+  constructor(protected readonly _ardHostCmp: NumberInputModelHost) {}
 
   //! value setters/getters
   protected readonly _value = signal<string | null>(null);
@@ -124,8 +118,19 @@ export class NumberInputModel {
   readonly numberValue = computed(() => (this._value() === null ? null : Number(this._value())));
 
   setValue(v: string | number | null): void {
-    const stringV = isDefined(v) && !isAnyString(v) ? String(v) : v;
+    const stringV = isNumber(v) ? String(v) : v;
     this._value.set(stringV);
+    this._updateInputEl();
+  }
+
+  private _updateInputEl(): void {
+    const stringV = this.stringValue();
+    const el = this._ardHostCmp.inputEl()?.nativeElement;
+    if (!el) return;
+
+    const caretPos = this.caretPos;
+    el.value = stringV;
+    this.caretPos = caretPos;
   }
 
   //! write value handlers
@@ -162,7 +167,8 @@ export class NumberInputModel {
     return this._ardHostCmp.inputEl()?.nativeElement.selectionEnd ?? this.stringValue().length;
   }
   set caretPos(pos: number) {
-    this._ardHostCmp.inputEl()?.nativeElement.setSelectionRange(pos, pos);
+    const el = this._ardHostCmp.inputEl()?.nativeElement;
+    el?.setSelectionRange(pos, pos);
   }
 
   //! constraints
@@ -175,8 +181,8 @@ export class NumberInputModel {
     if (!isNumber(v) && v.match(/[.,].+/)) {
       num = Number(v);
     }
-    if (!isNaN(num)) num = Math.round(num);
-    return num;
+    if (!isNaN(num)) return Math.round(num);
+    return v;
   }
   private _applyNumberConstraint(v: string | number): string {
     if (!v) return '';

@@ -80,7 +80,7 @@ export class ArdiumNumberInputComponent
       `ard-appearance-${this.appearance()}`,
       `ard-variant-${this.variant()}`,
       `ard-text-align-${this.alignText()}`,
-      `ard-quick-change-${this.allowQuickChange}`,
+      `ard-quick-change-${this.noButtons}`,
       this.compact() ? 'ard-compact' : '',
     ].join(' ');
   });
@@ -140,28 +140,19 @@ export class ArdiumNumberInputComponent
 
   //! min/max and number type
   readonly min = input<number, any>(0, { transform: v => coerceNumberProperty(v, 0) });
-  readonly max = input<number, any>(0, { transform: v => coerceNumberProperty(v, 0) });
+  readonly max = input<number, any>(Infinity, { transform: v => coerceNumberProperty(v, Infinity) });
 
   readonly allowFloat = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! incerement/decrement buttons
-  readonly allowQuickChange = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly noButtons = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   readonly stepSize = input<number, any>(1, {
     transform: v => {
       const newValue = coerceNumberProperty(v, 1);
-      if (newValue === 0) throw new Error(`ARD-FT0071a: Cannot set <ard-number-input>'s [itemsPerRow] to 0.`);
+      if (newValue === 0) throw new Error(`ARD-FT0071a: Cannot set <ard-number-input>'s [stepSize] to 0.`);
       if (newValue < 0)
-        throw new Error(`ARD-FT0071b: Cannot set <ard-number-input>'s [itemsPerRow] to a negative value, got "${newValue}".`);
-      if (newValue % 1 !== 0) {
-        const roundedValue = Math.round(newValue) || 1; // round to nearest int, but never round to zero
-        console.warn(
-          new Error(
-            `ARD-WA0071c: Cannot set <ard-number-input>'s [itemsPerRow] to a non-interger value, got "${newValue}". The value was rounded to "${roundedValue}".`
-          )
-        );
-        return Math.ceil(newValue);
-      }
+        throw new Error(`ARD-FT0071b: Cannot set <ard-number-input>'s [stepSize] to a negative value, got "${newValue}".`);
       return newValue;
     },
   });
