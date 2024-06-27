@@ -10,7 +10,7 @@ export * from './lib/inputs/simple-input'; // 002
 export * from './lib/inputs/input'; // 003
 export * from './lib/inputs/digit-input'; // 004
 export * from './lib/inputs/password-input'; // 005
-export * from './lib/inputs/color-input'; // 006
+// export * from './lib/inputs/color-input'; // 006
 export * from './lib/inputs/number-input'; // 007
 export * from './lib/file-inputs/file-drop-area'; // 010
 export * from './lib/file-inputs/file-input'; // 011
@@ -32,8 +32,8 @@ export * from './lib/buttons/icon-button';
 export * from './lib/chip';
 
 //! component group 2 - pickers
-export * from './lib/calendar'; // 200 & (future: 201)
-export * from './lib/color/color-picker'; // 202
+// export * from './lib/calendar'; // 200 & (future: 201)
+// export * from './lib/color/color-picker'; // 202
 
 //! component group 3 - lists
 export * from './lib/checkbox-list'; // 300
