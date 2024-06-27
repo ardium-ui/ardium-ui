@@ -48,8 +48,10 @@ export class ArdiumNumberInputComponent
   readonly inputEl = viewChild<ElementRef<HTMLInputElement>>('textInput');
 
   protected readonly inputModel = new NumberInputModel(this);
+  private _wasViewInit = false;
   ngAfterViewInit(): void {
     this._setInputAttributes();
+    this._wasViewInit = true;
     //set the value
     if (this._valueBeforeInit) {
       this.writeValue(this._valueBeforeInit);
@@ -111,7 +113,7 @@ export class ArdiumNumberInputComponent
   @Input()
   set value(v: string | number | null) {
     if (typeof v === 'number') v = v.toString();
-    if (!this.inputModel) {
+    if (!this._wasViewInit) {
       this._valueBeforeInit = v;
       return;
     }

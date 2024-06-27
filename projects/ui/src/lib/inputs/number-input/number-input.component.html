@@ -1,37 +1,42 @@
 <div
   class="ard-number-input"
-  [ngClass]="ngClasses"
+  [ngClass]="ngClasses()"
   [class.ard-has-value]="value"
   (mousedown)="$event.preventDefault()"
   (mouseup)="onMouseup()"
 >
+  @if (allowQuickChange()) {
   <ard-button
-    *ngIf="allowQuickChange"
     class="ard-quick-change-button decrement"
-    [variant]="buttonVariant"
-    [appearance]="buttonAppearance"
+    [variant]="buttonVariant()"
+    [appearance]="buttonAppearance()"
     color="none"
     [disabled]="!canDecrement()"
     [tabIndex]="!canDecrement() ? -1 : tabIndex()"
     (click)="onQuickChangeButtonClick(-1, $event)"
     (ardHold)="onQuickChangeButtonClick(-1)"
     ardHoldSpaceKey
-    >-</ard-button
   >
+    -
+  </ard-button>
+  }
   <div class="ard-input-container">
-    <ng-container *ngIf="shouldDisplayPlaceholder">
-      <ng-template #defaultPlaceholderTemplate>
-        <div class="ard-placeholder">{{ placeholder }}</div>
-      </ng-template>
+    @if(shouldDisplayPlaceholder()) {
+    <ng-template
+      #defaultPlaceholderTemplate
+      let-plchldr
+    >
+      <div class="ard-placeholder">{{ placeholder() }}</div>
+    </ng-template>
 
-      <ng-template [ngTemplateOutlet]="placeholderTemplate || defaultPlaceholderTemplate"></ng-template>
-    </ng-container>
+    <ng-template [ngTemplateOutlet]="placeholderTemplate() || defaultPlaceholderTemplate"></ng-template>
+    }
 
     <input
       #textInput
       #focusableElement
       type="text"
-      [attr.id]="inputId"
+      [attr.id]="inputId()"
       [attr.tabindex]="tabIndex()"
       [readonly]="readonly()"
       [disabled]="disabled()"
@@ -44,17 +49,19 @@
       (copy)="onCopy($event)"
     />
   </div>
+  @if (allowQuickChange()) {
   <ard-button
-    *ngIf="allowQuickChange"
     class="ard-quick-change-button increment"
-    [variant]="buttonVariant"
-    [appearance]="buttonAppearance"
+    [variant]="buttonVariant()"
+    [appearance]="buttonAppearance()"
     color="none"
     [disabled]="!canIncrement()"
     [tabIndex]="!canIncrement() ? -1 : tabIndex()"
     (click)="onQuickChangeButtonClick(1, $event)"
     (ardHold)="onQuickChangeButtonClick(1)"
     ardHoldSpaceKey
-    >+</ard-button
   >
+    +
+  </ard-button>
+  }
 </div>
