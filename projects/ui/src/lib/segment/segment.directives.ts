@@ -1,4 +1,6 @@
-import { Directive } from '@angular/core';
+import { Directive, TemplateRef } from '@angular/core';
 
 @Directive({ selector: 'ng-template[ard-segm-option-tmp]' })
-export class ArdSegmentOptionTemplateDirective {}
+export class ArdSegmentOptionTemplateDirective {
+  constructor(readonly template: TemplateRef<any>) {}
+}

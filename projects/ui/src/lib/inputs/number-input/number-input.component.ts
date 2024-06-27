@@ -64,9 +64,7 @@ export class ArdiumNumberInputComponent
   //! placeholder
   readonly placeholder = input<Nullable<string>>();
 
-  readonly placeholderTemplate = contentChild<TemplateRef<ArdNumberInputPlaceholderTemplateDirective>>(
-    TemplateRef<ArdNumberInputPlaceholderTemplateDirective>
-  );
+  readonly placeholderTemplate = contentChild(ArdNumberInputPlaceholderTemplateDirective);
 
   readonly shouldDisplayPlaceholder = computed<boolean>(() => !!this.placeholder() && !this.inputModel.stringValue());
 
@@ -123,7 +121,7 @@ export class ArdiumNumberInputComponent
 
   constructor() {
     super();
-    
+
     effect(() => {
       const v = this.inputModel.numberValue();
       this.valueChange.emit(v);

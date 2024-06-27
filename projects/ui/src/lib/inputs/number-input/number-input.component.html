@@ -29,7 +29,7 @@
       <div class="ard-placeholder">{{ placeholder() }}</div>
     </ng-template>
 
-    <ng-template [ngTemplateOutlet]="placeholderTemplate() || defaultPlaceholderTemplate"></ng-template>
+    <ng-template [ngTemplateOutlet]="placeholderTemplate()?.template || defaultPlaceholderTemplate"></ng-template>
     }
 
     <input

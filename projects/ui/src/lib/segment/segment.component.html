@@ -2,7 +2,7 @@
   class="ard-segment-container"
   [class.ard-disabled]="disabled()"
   [ariaDisabled]="disabled()"
-  [ngClass]="ngClasses"
+  [ngClass]="ngClasses()"
   [class.ard-focus-visible]="isFocused && !isMouseBeingUsed"
   [class.ard-using-keyboard]="!isMouseBeingUsed"
   [attr.tabindex]="tabIndex()"
@@ -37,7 +37,7 @@
           </ng-template>
 
           <ng-template
-            [ngTemplateOutlet]="optionTemplate || defaultOptionTemplate"
+            [ngTemplateOutlet]="optionTemplate()?.template || defaultOptionTemplate"
             [ngTemplateOutletContext]="getOptionContext(option)"
           />
         </span>

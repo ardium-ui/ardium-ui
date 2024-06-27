@@ -53,17 +53,11 @@ export class ArdiumPasswordInputComponent extends _NgModelComponentBase implemen
   readonly inputId = input<Nullable<string>>();
 
   //! prefix & suffix
-  readonly prefixTemplate = contentChild<TemplateRef<ArdPasswordInputPrefixTemplateDirective>>(
-    TemplateRef<ArdPasswordInputPrefixTemplateDirective>
-  );
-  readonly suffixTemplate = contentChild<TemplateRef<ArdPasswordInputSuffixTemplateDirective>>(
-    TemplateRef<ArdPasswordInputSuffixTemplateDirective>
-  );
+  readonly prefixTemplate = contentChild(ArdPasswordInputPrefixTemplateDirective);
+  readonly suffixTemplate = contentChild(ArdPasswordInputSuffixTemplateDirective);
 
   //! placeholder
-  readonly placeholderTemplate = contentChild<TemplateRef<ArdPasswordInputPlaceholderTemplateDirective>>(
-    TemplateRef<ArdPasswordInputPlaceholderTemplateDirective>
-  );
+  readonly placeholderTemplate = contentChild(ArdPasswordInputPlaceholderTemplateDirective);
 
   readonly shouldDisplayPlaceholder = computed(() => !!this.placeholder() && !this.value());
 
@@ -94,9 +88,7 @@ export class ArdiumPasswordInputComponent extends _NgModelComponentBase implemen
     }
   }
 
-  readonly revealTemplate = contentChild<TemplateRef<ArdPasswordInputRevealButtonTemplateDirective>>(
-    TemplateRef<ArdPasswordInputRevealButtonTemplateDirective>
-  );
+  readonly revealTemplate = contentChild(ArdPasswordInputRevealButtonTemplateDirective);
 
   readonly revealButtonContext = computed(
     (): PasswordInputRevealButtonContext => ({

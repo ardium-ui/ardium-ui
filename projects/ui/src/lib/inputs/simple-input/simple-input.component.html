@@ -1,31 +1,34 @@
 <ard-form-field-frame
-  [appearance]="appearance"
-  [variant]="variant"
+  [appearance]="appearance()"
+  [variant]="variant()"
   [compact]="compact"
   [isFocused]="isFocused"
-  [prefixTemplate]="prefixTemplate"
-  [suffixTemplate]="suffixTemplate"
+  [prefixTemplate]="prefixTemplate()?.template"
+  [suffixTemplate]="suffixTemplate()?.template"
 >
   <div
     class="ard-simple-input"
-    [ngClass]="ngClasses"
+    [ngClass]="ngClasses()"
     [class.ard-has-value]="value"
     (click)="focus()"
   >
     <div class="ard-input-container">
-      <ng-container *ngIf="shouldDisplayPlaceholder">
-        <ng-template #defaultPlaceholderTemplate>
-          <div class="ard-placeholder">{{ placeholder }}</div>
-        </ng-template>
+      @if (shouldDisplayPlaceholder()) {
+      <ng-template
+        #defaultPlaceholderTemplate
+        let-text
+      >
+        <div class="ard-placeholder">{{ text }}</div>
+      </ng-template>
 
-        <ng-template [ngTemplateOutlet]="placeholderTemplate || defaultPlaceholderTemplate"></ng-template>
-      </ng-container>
+      <ng-template [ngTemplateOutlet]="placeholderTemplate()?.template || defaultPlaceholderTemplate"></ng-template>
+      }
 
       <input
         #textInput
         #focusableElement
         type="text"
-        [attr.id]="inputId"
+        [attr.id]="inputId()"
         [attr.tabindex]="tabIndex()"
         [readonly]="readonly()"
         [disabled]="disabled()"
@@ -37,10 +40,11 @@
       />
     </div>
 
+    @if (shouldShowClearButton()) {
     <ard-clear-button
-      *ngIf="shouldShowClearButton"
-      [title]="clearButtonTitle"
+      [title]="clearButtonTitle()"
       (click)="onClearButtonClick($event)"
-    ></ard-clear-button>
+    />
+    }
   </div>
 </ard-form-field-frame>

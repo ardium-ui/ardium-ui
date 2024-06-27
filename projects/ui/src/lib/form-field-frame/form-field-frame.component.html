@@ -3,17 +3,17 @@
   [ngClass]="ngClasses()"
 >
   <div class="ard-form-field-overlay"></div>
-  @if (prefixTemplateInput() ?? prefixTemplate) {
-    <div class="ard-form-field-prefix-container">
-      <ng-template [ngTemplateOutlet]="prefixTemplateInput() ?? prefixTemplate"></ng-template>
-    </div>
+  @if (prefixTemplateInput() ?? prefixTemplate()) {
+  <div class="ard-form-field-prefix-container">
+    <ng-template [ngTemplateOutlet]="prefixTemplateInput() ?? prefixTemplate()?.template ?? null"></ng-template>
+  </div>
   }
   <div class="ard-form-field-content-container">
     <ng-content></ng-content>
   </div>
-  @if (suffixTemplateInput() ?? suffixTemplate) {
-    <div class="ard-form-field-suffix-container">
-      <ng-template [ngTemplateOutlet]="suffixTemplateInput() ?? suffixTemplate"></ng-template>
-    </div>
+  @if (suffixTemplateInput() ?? suffixTemplate()) {
+  <div class="ard-form-field-suffix-container">
+    <ng-template [ngTemplateOutlet]="suffixTemplateInput() ?? suffixTemplate()?.template ?? null"></ng-template>
+  </div>
   }
 </div>

@@ -2,11 +2,11 @@ import {
   AfterContentInit,
   ChangeDetectionStrategy,
   Component,
-  ContentChild,
-  Input,
   TemplateRef,
   ViewEncapsulation,
-  input,
+  computed,
+  contentChild,
+  input
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { _SelectableListComponentBase } from '../_internal/selectable-list-component';
@@ -34,39 +34,24 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
   override readonly _componentName: string = 'segment';
 
   //! appearance
-  @Input() appearance: SegmentAppearance = SegmentAppearance.Outlined;
-  @Input() variant: SegmentVariant = SegmentVariant.RoundedConnected;
-  @Input() color: ComponentColor = ComponentColor.Primary;
-  @Input() align: OneAxisAlignment = OneAxisAlignment.Middle;
+  readonly appearance = input<SegmentAppearance>(SegmentAppearance.Outlined);
+  readonly variant = input<SegmentVariant>(SegmentVariant.RoundedConnected);
+  readonly color = input<ComponentColor>(ComponentColor.Primary);
+  readonly align = input<OneAxisAlignment>(OneAxisAlignment.Middle);
 
-  private _iconBased = false;
-  @Input()
-  get iconBased(): boolean {
-    return this._iconBased;
-  }
-  set iconBased(v: any) {
-    this._iconBased = coerceBooleanProperty(v);
-  }
+  readonly iconBased = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
-  private _compact = false;
-  @Input()
-  get compact(): boolean {
-    return this._compact;
-  }
-  set compact(v: any) {
-    this._compact = coerceBooleanProperty(v);
-  }
-
-  get ngClasses(): string {
-    return [
-      `ard-appearance-${this.appearance}`,
-      `ard-variant-${this.variant}`,
-      `ard-color-${this.color}`,
-      `ard-align-${this.align}`,
-      this.iconBased ? 'ard-icon-based' : '',
-      this.compact ? 'ard-compact' : '',
-    ].join(' ');
-  }
+  readonly ngClasses = computed<string>(() =>
+    [
+      `ard-appearance-${this.appearance()}`,
+      `ard-variant-${this.variant()}`,
+      `ard-color-${this.color()}`,
+      `ard-align-${this.align()}`,
+      this.iconBased() ? 'ard-icon-based' : '',
+      this.compact() ? 'ard-compact' : '',
+    ].join(' ')
+  );
 
   //! coerced properties
   readonly autoFocus = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
@@ -76,7 +61,8 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
     transform: v => {
       const newValue = coerceNumberProperty(v, Infinity);
       if (newValue === 0) throw new Error(`ARD-FT1040a: Cannot set <ard-segment>'s [itemsPerRow] to 0.`);
-      if (newValue < 0) throw new Error(`ARD-FT1040b: Cannot set <ard-segment>'s [itemsPerRow] to a negative value, got "${newValue}".`);
+      if (newValue < 0)
+        throw new Error(`ARD-FT1040b: Cannot set <ard-segment>'s [itemsPerRow] to a negative value, got "${newValue}".`);
       if (newValue % 1 !== 0) {
         const roundedValue = Math.round(newValue) || 1; // round to nearest int, but never round to zero
         console.warn(
@@ -94,8 +80,7 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
   }
 
   //! option template
-  @ContentChild(ArdSegmentOptionTemplateDirective, { read: TemplateRef })
-  optionTemplate?: TemplateRef<any>;
+  readonly optionTemplate = contentChild(ArdSegmentOptionTemplateDirective);
 
   //! lifecycle hooks
   ngAfterContentInit(): void {

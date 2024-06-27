@@ -92,8 +92,7 @@ export class ArdiumDialogComponent {
   }
 
   //! templates
-  @ContentChild(ArdDialogButtonsTemplateDirective)
-  buttonsTemplate?: TemplateRef<DialogButtonsContext>;
+    readonly buttonsTemplate = contentChild(ArdDialogButtonsTemplateDirective);
 
   readonly getButtonsContext = computed<DialogButtonsContext>(() => {
     return {

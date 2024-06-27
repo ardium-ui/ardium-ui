@@ -83,6 +83,7 @@ export class ArdiumInputComponent
   //! allowlist/denylist of characters
   //use standard string for denylist, prepend with ^ for allowlist
   readonly charlistFromInput = input<RegExp | undefined, string>(undefined, {
+    alias: 'charlist',
     transform: v => {
       if (!isString(v)) {
         throw new Error('ARD-FT0033: [charlist] must be a non-empty string, got "".');
@@ -110,11 +111,11 @@ export class ArdiumInputComponent
   readonly acceptAutocompleteEvent = output({ alias: 'acceptAutocomplete' });
 
   //! prefix & suffix
-  override readonly prefixTemplate = contentChild(TemplateRef<ArdInputPrefixTemplateDirective>);
-  override readonly suffixTemplate = contentChild(TemplateRef<ArdInputSuffixTemplateDirective>);
+  override readonly prefixTemplate = contentChild(ArdInputPrefixTemplateDirective);
+  override readonly suffixTemplate = contentChild(ArdInputSuffixTemplateDirective);
 
   //! placeholder
-  override readonly placeholderTemplate = contentChild(TemplateRef<ArdInputPlaceholderTemplateDirective>);
+  override readonly placeholderTemplate = contentChild(ArdInputPlaceholderTemplateDirective);
 
   //! suggestions
   readonly suggestionStorage = new SimplestItemStorage(this);
@@ -163,8 +164,8 @@ export class ArdiumInputComponent
   readonly areSuggestionsLoading = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
   readonly suggestionsLoadingText = input<string>(this.DEFAULTS.suggestionsLoadingText);
 
-  readonly suggestionTemplate = contentChild(TemplateRef<ArdSuggestionTemplateDirective>);
-  readonly suggestionLoadingTemplate = contentChild(TemplateRef<ArdInputLoadingTemplateDirective>);
+  readonly suggestionTemplate = contentChild(ArdSuggestionTemplateDirective);
+  readonly suggestionLoadingTemplate = contentChild(ArdInputLoadingTemplateDirective);
 
   //! suggestions overlay
   readonly dropdownHost = viewChild<ElementRef<HTMLDivElement>>('suggestionsHost');
@@ -266,15 +267,16 @@ export class ArdiumInputComponent
   //! suggestion appearance
   readonly dropdownAppearance = input<Nullable<DropdownPanelAppearance>>(undefined);
   readonly dropdownAppearanceOrDefault = computed(() => {
-    if (this.dropdownAppearance()) return this.dropdownAppearance();
+    if (this.dropdownAppearance()) return this.dropdownAppearance()!;
     if (this.appearance() === FormElementAppearance.Outlined) return DropdownPanelAppearance.Outlined;
     return DropdownPanelAppearance.Raised;
   });
-  readonly dropdowonVariant = input<Nullable<DropdownPanelVariant>>(undefined);
-  readonly dropdowonVariantOrDefault = computed(() => {
-    if (this.dropdowonVariant()) return this.dropdowonVariant();
-    if (this.variant() === FormElementVariant.Pill) return DropdownPanelVariant.Rounded;
-    return this.variant();
+  readonly dropdownVariant = input<Nullable<DropdownPanelVariant>>(undefined);
+  readonly dropdownVariantOrDefault = computed(() => {
+    if (this.dropdownVariant()) return this.dropdownVariant()!;
+    const variant = this.variant();
+    if (variant === FormElementVariant.Pill) return DropdownPanelVariant.Rounded;
+    return variant;
   });
 
   //! focus override

@@ -29,7 +29,7 @@ export class ArdiumDropdownPanelComponent implements AfterViewChecked {
   private readonly _scrollEl = computed(() => this._scrollElementRef()?.nativeElement);
 
   //! options
-  readonly panelId = input.required<string>();
+  readonly panelId = input<string>();
   readonly headerTemplate = input<TemplateRef<any> | null>(null);
   readonly footerTemplate = input<TemplateRef<any> | null>(null);
   readonly filterValue = input<Nullable<string>>();

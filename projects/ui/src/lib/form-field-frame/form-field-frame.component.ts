@@ -6,6 +6,7 @@ import {
   TemplateRef,
   ViewEncapsulation,
   computed,
+  contentChild,
   input,
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
@@ -52,8 +53,6 @@ export class ArdiumFormFieldFrameComponent extends _FocusableComponentBase {
   //! prefix & suffix
   readonly prefixTemplateInput = input<Nullable<TemplateRef<any>>>(undefined, { alias: 'prefixTemplate' });
   readonly suffixTemplateInput = input<Nullable<TemplateRef<any>>>(undefined, { alias: 'suffixTemplate' });
-  @ContentChild(ArdFormFieldPrefixTemplateDirective)
-  prefixTemplate: TemplateRef<any> | null = null;
-  @ContentChild(ArdFormFieldSuffixTemplateDirective)
-  suffixTemplate: TemplateRef<any> | null = null;
+  readonly prefixTemplate = contentChild(ArdFormFieldPrefixTemplateDirective);
+  readonly suffixTemplate = contentChild(ArdFormFieldSuffixTemplateDirective);
 }

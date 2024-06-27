@@ -4,6 +4,7 @@ import {
   Component,
   computed,
   contentChild,
+  effect,
   ElementRef,
   forwardRef,
   input,
@@ -11,7 +12,7 @@ import {
   output,
   TemplateRef,
   viewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
@@ -22,7 +23,8 @@ import { SimpleOneAxisAlignment } from './../../types/alignment.types';
 import { SimpleInputModel, SimpleInputModelHost } from './../input-utils';
 import {
   ArdSimpleInputPlaceholderTemplateDirective,
-  ArdSimpleInputPrefixTemplateDirective
+  ArdSimpleInputPrefixTemplateDirective,
+  ArdSimpleInputSuffixTemplateDirective,
 } from './simple-input.directives';
 
 @Component({
@@ -67,17 +69,15 @@ export class ArdiumSimpleInputComponent
   readonly clearButtonTitle = input<string>(this.DEFAULTS.clearButtonTitle);
 
   //! prefix & suffix
-  readonly prefixTemplate = contentChild<TemplateRef<ArdSimpleInputPrefixTemplateDirective>>(
-    TemplateRef<ArdSimpleInputPrefixTemplateDirective>
-  );
-  readonly suffixTemplate = contentChild<TemplateRef<ArdSimpleInputPrefixTemplateDirective>>(
-    TemplateRef<ArdSimpleInputPrefixTemplateDirective>
-  );
+  readonly prefixTemplate = contentChild(ArdSimpleInputPrefixTemplateDirective);
+  readonly suffixTemplate = contentChild(ArdSimpleInputSuffixTemplateDirective);
+
+  jdfd = effect(() => {
+    console.log(this.prefixTemplate(), this.suffixTemplate());
+  })
 
   //! placeholder
-  readonly placeholderTemplate = contentChild<TemplateRef<ArdSimpleInputPlaceholderTemplateDirective>>(
-    TemplateRef<ArdSimpleInputPlaceholderTemplateDirective>
-  );
+  readonly placeholderTemplate = contentChild(ArdSimpleInputPlaceholderTemplateDirective);
 
   readonly shouldDisplayPlaceholder = computed<boolean>(() => Boolean(this.placeholder()) && !this.inputModel.value());
 

@@ -188,18 +188,19 @@ export class ArdiumSelectComponent
       this._searchBarFocused() ? 'ard-select-focused' : '',
     ].join(' ')
   );
-  
+
   readonly dropdownAppearance = input<Nullable<DropdownPanelAppearance>>(undefined);
   readonly dropdownAppearanceOrDefault = computed(() => {
-    if (this.dropdownAppearance()) return this.dropdownAppearance();
+    if (this.dropdownAppearance()) return this.dropdownAppearance()!;
     if (this.appearance() === FormElementAppearance.Outlined) return DropdownPanelAppearance.Outlined;
     return DropdownPanelAppearance.Raised;
   });
-  readonly dropdowonVariant = input<Nullable<DropdownPanelVariant>>(undefined);
-  readonly dropdowonVariantOrDefault = computed(() => {
-    if (this.dropdowonVariant()) return this.dropdowonVariant();
-    if (this.variant() === FormElementVariant.Pill) return DropdownPanelVariant.Rounded;
-    return this.variant();
+  readonly dropdownVariant = input<Nullable<DropdownPanelVariant>>(undefined);
+  readonly dropdownVariantOrDefault = computed(() => {
+    if (this.dropdownVariant()) return this.dropdownVariant()!;
+    const variant = this.variant();
+    if (variant === FormElementVariant.Pill) return DropdownPanelVariant.Rounded;
+    return variant;
   });
 
   @HostBinding('class.ard-group-items')
