@@ -1,36 +1,22 @@
 import { isAnyString, isDefined, isNull } from 'simple-bool';
 import { RegExpTransformer } from './input-transformers';
 import { CaseTransformerType } from './input-types';
+import { ElementRef, Signal, computed, signal } from '@angular/core';
+import { Nullable } from '../types/utility.types';
 
 export interface HexInputModelHost {
-  case: CaseTransformerType;
-  maxDigits: number | undefined;
+  readonly case: Signal<CaseTransformerType>;
+  readonly maxDigits: Signal<Nullable<number>>;
+  readonly textInputEl: Signal<ElementRef<HTMLInputElement> | undefined>;
 }
 export class HexInputModel {
-  constructor(
-    protected inputEl: HTMLInputElement,
-    protected _hostComp: HexInputModelHost
-  ) {}
+  constructor(protected readonly _hostComp: HexInputModelHost) {}
 
   //! value setters/getters
-  protected _value: string | null = null;
-  get value(): string | null {
-    return this._value;
-  }
-  set value(v: string | null) {
-    this._value = v;
-  }
-  //value as string
-  get stringValue(): string {
-    return this._value ?? '';
-  }
-  set stringValue(v: string) {
-    this._value = v || null;
-  }
+  readonly value = signal<string | null>(null);
+  readonly stringValue = computed<string>(() => this.value() ?? '');
   //value with the hash sign
-  get hashSignValue(): string {
-    return '#' + this._value;
-  }
+  readonly hashSignValue = computed<string>(() => '#' + this.stringValue());
 
   //! write value handlers
   writeValue(v: any): boolean {
@@ -49,7 +35,7 @@ export class HexInputModel {
     return this._writeValue(v);
   }
   protected _writeValue(v: string | null): boolean {
-    const oldVal = this.value;
+    const oldVal = this.value();
     //constraints
     if (v) {
       v = this._applyCharactersConstraint(v);
@@ -57,7 +43,7 @@ export class HexInputModel {
       v = this._applyCaseTransformer(v);
     }
     //update view
-    this.value = v;
+    this.value.set(v);
     this._updateInputElement();
     return oldVal !== v;
   }
@@ -65,20 +51,22 @@ export class HexInputModel {
     this._writeValue(null);
   }
   rewriteValueAfterHostUpdate(): void {
-    this._writeValue(this._value);
+    this._writeValue(this.value());
   }
 
   //! input element methods
   _updateInputElement() {
+    const el = this._hostComp.textInputEl()?.nativeElement;
+    if (!el) return;
     const caretPos = this.caretPos;
-    this.inputEl.value = this.stringValue;
+    el.value = this.stringValue();
     this.caretPos = caretPos;
   }
   get caretPos(): number {
-    return this.inputEl.selectionEnd ?? this.stringValue.length;
+    return this._hostComp.textInputEl()?.nativeElement.selectionEnd ?? this.stringValue().length;
   }
   set caretPos(pos: number) {
-    this.inputEl.setSelectionRange(pos, pos);
+    this._hostComp.textInputEl()?.nativeElement.setSelectionRange(pos, pos);
   }
 
   //! constraints
@@ -89,7 +77,7 @@ export class HexInputModel {
     return text;
   }
   private _applyDigitsConstraint(v: string, prev: string): string {
-    const maxLength = this._hostComp.maxDigits;
+    const maxLength = this._hostComp.maxDigits();
     if (!isDefined(maxLength)) return v;
     if (v.length <= maxLength) return v;
     if (v.length < prev.length) return v;
@@ -109,8 +97,8 @@ export class HexInputModel {
     return v.substring(0, firstChangeIndex) + v.substring(firstChangeIndex + overflow);
   }
   private _applyCaseTransformer(v: string): string {
-    if (this._hostComp.case === CaseTransformerType.Uppercase) return v.toUpperCase();
-    if (this._hostComp.case === CaseTransformerType.Lowercase) return v.toLowerCase();
+    if (this._hostComp.case() === CaseTransformerType.Uppercase) return v.toUpperCase();
+    if (this._hostComp.case() === CaseTransformerType.Lowercase) return v.toLowerCase();
     return v;
   }
 }

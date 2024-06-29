@@ -2,20 +2,21 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ContentChild,
+  computed,
+  contentChild,
   ElementRef,
-  EventEmitter,
   forwardRef,
+  input,
   Input,
-  Output,
-  TemplateRef,
-  ViewChild,
+  output,
+  viewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
+import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
+import { Nullable } from '../../types/utility.types';
 import { HexInputModel, HexInputModelHost } from '../hex-input.model';
 import { CaseTransformerType } from '../input-types';
 import {
@@ -43,11 +44,12 @@ export class ArdiumHexInputComponent
   implements ControlValueAccessor, HexInputModelHost, AfterViewInit
 {
   //! input view
-  @ViewChild('textInput', { static: true })
-  textInputEl!: ElementRef<HTMLInputElement>;
-  protected inputModel!: HexInputModel;
+  readonly textInputEl = viewChild<ElementRef<HTMLInputElement>>('textInput');
+
+  protected readonly inputModel = new HexInputModel(this);
+  protected _wasViewInit = false;
   ngAfterViewInit(): void {
-    this.inputModel = new HexInputModel(this.textInputEl.nativeElement, this);
+    this._wasViewInit = true;
     this._setInputAttributes();
     //set the value
     if (this._valueBeforeInit) {
@@ -60,80 +62,43 @@ export class ArdiumHexInputComponent
     clearButtonTitle: 'Clear',
   };
 
-  @Input() inputId?: string;
+  readonly inputId = input<Nullable<string>>();
 
   //! prefix & suffix
-  @ContentChild(ArdHexInputPrefixTemplateDirective, { read: TemplateRef })
-  prefixTemplate?: TemplateRef<any>;
-  @ContentChild(ArdHexInputSuffixTemplateDirective, { read: TemplateRef })
-  suffixTemplate?: TemplateRef<any>;
+  readonly prefixTemplate = contentChild(ArdHexInputPrefixTemplateDirective);
+  readonly suffixTemplate = contentChild(ArdHexInputSuffixTemplateDirective);
 
   //! placeholder
-  @Input() placeholder = '';
+  readonly placeholder = input<Nullable<string>>();
 
-  @ContentChild(ArdHexInputPlaceholderTemplateDirective, {
-    read: TemplateRef,
-  })
-  placeholderTemplate?: TemplateRef<any>;
+  readonly placeholderTemplate = contentChild(ArdHexInputPlaceholderTemplateDirective);
 
-  get shouldDisplayPlaceholder(): boolean {
-    return Boolean(this.placeholder) && !this.inputModel.stringValue;
-  }
+  readonly shouldDisplayPlaceholder = computed((): boolean => Boolean(this.placeholder()) && !this.inputModel.stringValue());
 
   //! appearance
   //all handled in ard-form-field-frame component
-  @Input() appearance: FormElementAppearance = FormElementAppearance.Outlined;
-  @Input() variant: FormElementVariant = FormElementVariant.Rounded;
+  readonly appearance = input<FormElementAppearance>(FormElementAppearance.Outlined);
+  readonly variant = input<FormElementVariant>(FormElementVariant.Rounded);
 
-  private _compact = false;
-  @Input()
-  get compact(): boolean {
-    return this._compact;
-  }
-  set compact(v: any) {
-    this._compact = coerceBooleanProperty(v);
-  }
+  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! settings
-  @Input() case: CaseTransformerType = CaseTransformerType.NoChange;
+  readonly case = input<CaseTransformerType>(CaseTransformerType.NoChange);
 
-  private _maxDigits: number | undefined = undefined;
-  @Input()
-  get maxDigits(): number | undefined {
-    return this._maxDigits;
-  }
-  set maxDigits(v: any) {
-    this._maxDigits = coerceNumberProperty(v, undefined);
-  }
+  readonly maxDigits = input<Nullable<number>, any>(undefined, { transform: v => coerceNumberProperty(v, undefined) });
 
-  private _hideHash = false;
-  @Input()
-  get hideHash(): boolean {
-    return this._hideHash;
-  }
-  set hideHash(v: any) {
-    this._hideHash = coerceBooleanProperty(v);
-  }
-
-  get showHash(): boolean {
-    return !this.hideHash;
-  }
+  readonly hideHash = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly showHash = computed(() => !this.hideHash());
 
   //! clear button
-  private _clearable = true;
-  @Input()
-  get clearable(): boolean {
-    return this._clearable;
-  }
-  set clearable(v: any) {
-    this._clearable = coerceBooleanProperty(v);
-  }
+  readonly clearable = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
-  @Input() clearButtonTitle: string = this.DEFAULTS.clearButtonTitle;
+  readonly clearButtonTitle = input<string>(this.DEFAULTS.clearButtonTitle);
 
-  get shouldShowClearButton(): boolean {
-    return this._clearable && !this.disabled && Boolean(this.inputModel?.value);
-  }
+  readonly shouldShowClearButton = computed<boolean>(
+    () => this.clearable() && !this.disabled() && Boolean(this.inputModel?.value())
+  );
+
   onClearButtonClick(event: MouseEvent): void {
     event.stopPropagation();
     this.inputModel.clear();
@@ -144,11 +109,11 @@ export class ArdiumHexInputComponent
   }
 
   //! other inputs
-  @Input() inputAttrs: Record<string, any> = {};
+  readonly inputAttrs = input<Record<string, any>>({});
 
   //! control value accessor's write value implementation
   writeValue(v: any) {
-    if (!this.inputModel) {
+    if (!this._wasViewInit) {
       this._valueBeforeInit = v;
       return;
     }
@@ -159,43 +124,48 @@ export class ArdiumHexInputComponent
   protected _valueBeforeInit?: string | null = null;
   @Input()
   set value(v: string | null) {
-    if (!this.inputModel) {
+    if (!this._wasViewInit) {
       this._valueBeforeInit = v;
       return;
     }
     this.writeValue(v);
   }
   get value(): string | null {
-    return this.inputModel?.hashSignValue ?? '';
+    return this.inputModel?.hashSignValue();
   }
-  @Output() valueChange = new EventEmitter<string>();
+  readonly valueChange = output<string>();
 
-  //* event emitters
-  @Output('input') inputEvent = new EventEmitter<string>();
-  @Output('change') changeEvent = new EventEmitter<string>();
-  @Output('clear') clearEvent = new EventEmitter<any>();
+  //! event emitters
+  readonly inputEvent = output<string>({ alias: 'input' });
+  readonly changeEvent = output<string>({ alias: 'change' });
+  readonly clearEvent = output<void>({ alias: 'clear' });
 
   //! event handlers
-  onInput(newVal: string): void {
+  onInput(newVal: string, event: Event): void {
+    event.stopPropagation();
     const valueHasChanged = this.inputModel.writeValue(newVal);
     if (!valueHasChanged) return;
     this._emitInput();
   }
   protected _emitInput(): void {
-    this.inputEvent.emit(this.inputModel.hashSignValue);
-    this._emitChange();
+    const v = this.inputModel.hashSignValue();
+    this.inputEvent.emit(v);
+    this._onChangeRegistered?.(v);
+    this.valueChange.emit(v);
   }
 
-  //change
   onChange(event: Event): void {
-    event.stopPropagation();
     this._emitChange();
+    event.stopPropagation();
   }
   protected _emitChange(): void {
-    const v = this.inputModel.hashSignValue;
-    this._onChangeRegistered?.(v);
+    const v = this.inputModel.hashSignValue();
     this.changeEvent.emit(v);
-    this.valueChange.emit(v);
+  }
+
+  override onBlur(event: FocusEvent): void {
+    super.onBlur(event);
+    this._emitChange();
   }
 
   //smart focus
@@ -210,10 +180,10 @@ export class ArdiumHexInputComponent
     if (
       this.value &&
       //does the selection cover the entire input
-      ((this.textInputEl.nativeElement.selectionStart === 0 &&
-        this.textInputEl.nativeElement.selectionEnd === this.textInputEl.nativeElement.value.length) ||
+      ((this.textInputEl()?.nativeElement.selectionStart === 0 &&
+        this.textInputEl()?.nativeElement.selectionEnd === this.textInputEl()?.nativeElement.value.length) ||
         //or is zero-wide
-        this.textInputEl.nativeElement.selectionStart === this.textInputEl.nativeElement.selectionEnd)
+        this.textInputEl()?.nativeElement.selectionStart === this.textInputEl()?.nativeElement.selectionEnd)
     ) {
       event.clipboardData?.setData('text/plain', this.value);
       event.preventDefault();
@@ -222,7 +192,7 @@ export class ArdiumHexInputComponent
 
   //! helpers
   protected _setInputAttributes() {
-    const input = this.textInputEl.nativeElement;
+    const input = this.textInputEl()!.nativeElement;
     const attributes: Record<string, string> = {
       type: 'text',
       autocorrect: 'off',
