@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ColorInputModule } from './color-input/color-input.module';
+// import { ColorInputModule } from './color-input/color-input.module';
 import { HexInputModule } from './hex-input/hex-input.module';
 import { InputModule } from './input/input.module';
 
@@ -22,7 +22,7 @@ import { DigitInputModule } from './digit-input/digit-input.module';
     InputModule,
     NumberInputModule,
     HexInputModule,
-    ColorInputModule,
+    // ColorInputModule,
     PasswordInputModule,
     DigitInputModule,
   ],
