@@ -2,13 +2,12 @@ import {
   AfterViewInit,
   Directive,
   ElementRef,
-  EventEmitter,
   Input,
   OnInit,
-  Output,
   input,
+  output,
   signal,
-  viewChild,
+  viewChild
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { isDefined } from 'simple-bool';
@@ -58,9 +57,9 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
     this.writeValue(v);
   }
 
-  @Output() valueChange = new EventEmitter<File[] | null>();
-  @Output('change') changeEvent = new EventEmitter<File[] | null>();
-  @Output('dragFiles') dragFilesEvent = new EventEmitter<File[] | null>();
+  readonly valueChange = output<File[] | null>();
+  readonly changeEvent = output<File[] | null>({ alias: 'change' });
+  readonly dragFilesEvent = output<File[] | null>({ alias: 'dragFiles' });
 
   protected _valueBeforeInit: File[] | null = null;
   writeValue(v: File | File[] | null): void {

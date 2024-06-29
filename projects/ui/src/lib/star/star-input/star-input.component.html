@@ -11,8 +11,8 @@
       clickStrategy="noop"
       [selected]="object.filled"
       (click)="onStarClick($index)"
-      (focus)="onStarButtonFocus($index)"
-      (blur)="onStarButtonBlur()"
+      (focus)="onStarButtonFocus($index, $event)"
+      (blur)="onStarButtonBlur($event)"
       (mouseenter)="onStarHighlight($index)"
       [tabIndex]="tabIndex()"
     />

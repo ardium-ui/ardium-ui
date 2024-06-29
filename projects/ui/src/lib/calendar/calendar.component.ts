@@ -2,16 +2,15 @@ import {
   ChangeDetectionStrategy,
   Component,
   ContentChild,
-  EventEmitter,
   HostListener,
   Input,
   OnChanges,
   OnInit,
-  Output,
   SimpleChanges,
   TemplateRef,
   ViewEncapsulation,
   forwardRef,
+  output
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
@@ -232,16 +231,16 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase implements On
   }
 
   //! output events
-  @Output() yearSelected = new EventEmitter<number>();
-  @Output() monthSelected = new EventEmitter<number>();
+  readonly yearSelected = output<number>();
+  readonly monthSelected = output<number>();
 
-  @Output() selectedChange = new EventEmitter<Date | null>();
-  @Output() activeYearChange = new EventEmitter<number>();
-  @Output() activeMonthChange = new EventEmitter<number>();
+  readonly selectedChange = output<Date | null>();
+  readonly activeYearChange = output<number>();
+  readonly activeMonthChange = output<number>();
 
-  @Output() viewChange = new EventEmitter<CalendarView>();
+  readonly viewChange = output<CalendarView>();
 
-  @Output('change') changeEvent = new EventEmitter<Date | null>();
+  readonly changeEvent = output<Date | null>({ alias: 'change' });
 
   protected _emitChange(): void {
     const v = this.selected;

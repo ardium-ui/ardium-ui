@@ -7,23 +7,24 @@ import {
   Component,
   ContentChild,
   ElementRef,
-  EventEmitter,
-  forwardRef,
   Input,
-  Output,
   TemplateRef,
   ViewChild,
   ViewContainerRef,
   ViewEncapsulation,
+  computed,
+  forwardRef,
+  input,
+  output
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import * as Color from 'color';
+import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { ButtonVariant } from '../../buttons/general-button.types';
-import { CardAppearance, CardVariant } from '../../card/card.types';
 import { DropdownPanelAppearance, DropdownPanelVariant } from '../../dropdown-panel/dropdown-panel.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
-import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
+import { Nullable } from '../../types/utility.types';
 import { CaseTransformerType } from '../input-types';
 import {
   ArdColorInputActionButtonsTemplateDirective,
@@ -180,11 +181,11 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
   get value(): Color | null {
     return this._value;
   }
-  @Output() valueChange = new EventEmitter<Color>();
+  readonly valueChange = output<Color>();
 
   //* event emitters
-  @Output('change') changeEvent = new EventEmitter<Color>();
-  @Output('clear') clearEvent = new EventEmitter<any>();
+  readonly changeEvent = output<Color>({ alias: 'change' });
+  readonly clearEvent = output<void>({ alias: 'clear' });
 
   //! event handlers
   //change
@@ -287,8 +288,8 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
   //! overlay state handlers
   private _isOverlayOpen = false;
 
-  @Output('open') openEvent = new EventEmitter<any>();
-  @Output('close') closeEvent = new EventEmitter<any>();
+  readonly openEvent = output<void>({ alias: 'open' });
+  readonly closeEvent = output<void>({ alias: 'close' });
 
   toggle(): void {
     if (this._isOverlayOpen) {
@@ -319,26 +320,19 @@ export class ArdiumColorInputComponent extends _NgModelComponentBase implements 
     this.closeEvent.emit();
   }
   //! overlay appearance
-  private _overlayAppearance?: CardAppearance = undefined;
-  @Input()
-  set overlayAppearance(v: CardAppearance) {
-    this._overlayAppearance = v;
-  }
-  get overlayAppearance(): CardAppearance {
-    if (this._overlayAppearance) return this._overlayAppearance;
+  readonly dropdownAppearance = input<Nullable<DropdownPanelAppearance>>(undefined);
+  readonly dropdownAppearanceOrDefault = computed(() => {
+    if (this.dropdownAppearance()) return this.dropdownAppearance()!;
     if (this.appearance === FormElementAppearance.Outlined) return DropdownPanelAppearance.Outlined;
     return DropdownPanelAppearance.Raised;
-  }
-  private _overlayVariant?: CardVariant = undefined;
-  @Input()
-  set overlayVariant(v: CardVariant) {
-    this._overlayVariant = v;
-  }
-  get overlayVariant(): CardVariant {
-    if (this._overlayVariant) return this._overlayVariant;
-    if (this.variant === FormElementVariant.Pill) return DropdownPanelVariant.Rounded;
-    return this.variant;
-  }
+  });
+  readonly dropdownVariant = input<Nullable<DropdownPanelVariant>>(undefined);
+  readonly dropdownVariantOrDefault = computed(() => {
+    if (this.dropdownVariant()) return this.dropdownVariant()!;
+    const variant = this.variant;
+    if (variant === FormElementVariant.Pill) return DropdownPanelVariant.Rounded;
+    return variant;
+  });
 
   //! color picker integration
   private _temporaryValue: Color | null = null;

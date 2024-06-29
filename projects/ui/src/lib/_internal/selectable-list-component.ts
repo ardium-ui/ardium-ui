@@ -1,14 +1,13 @@
 import {
   ChangeDetectorRef,
   Directive,
-  EventEmitter,
   HostBinding,
   HostListener,
   Input,
-  Output,
   computed,
   input,
-  signal,
+  output,
+  signal
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
@@ -173,12 +172,12 @@ export abstract class _SelectableListComponentBase
     if (!Array.isArray(newValue)) newValue = coerceArrayProperty(newValue);
     this.writeValue(newValue);
   }
-  @Output() valueChange = new EventEmitter<any[]>();
+  readonly valueChange = output<any[]>();
 
   //! output events
-  @Output('change') changeEvent = new EventEmitter<any[]>();
-  @Output('add') addEvent = new EventEmitter<any[]>();
-  @Output('remove') removeEvent = new EventEmitter<any[]>();
+  readonly changeEvent = output<any[]>({ alias: 'change' });
+  readonly addEvent = output<any[]>({ alias: 'add' });
+  readonly removeEvent = output<any[]>({ alias: 'remove' });
 
   //! item selection handlers
   toggleItem(item: ArdOptionSimple): void {

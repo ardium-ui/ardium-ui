@@ -113,21 +113,21 @@ export class ArdiumStarInputComponent extends _NgModelComponentBase implements C
   private _isFocusEventSuppressed = false;
   private _isBlurEventSuppressed = false;
   private _currentFocusIndex: number | null = null;
-  onStarButtonFocus(index: number) {
+  onStarButtonFocus(index: number, event: FocusEvent) {
     this._currentFocusIndex = index;
     if (this._isFocusEventSuppressed) {
       this._isFocusEventSuppressed = false;
       return;
     }
-    this.focusEvent.emit();
+    this.focusEvent.emit(event);
   }
-  onStarButtonBlur(): void {
+  onStarButtonBlur(event: FocusEvent): void {
     this._currentFocusIndex = null;
     if (this._isBlurEventSuppressed) {
       this._isBlurEventSuppressed = false;
       return;
     }
-    this.blurEvent.emit();
+    this.blurEvent.emit(event);
   }
   focusStarButtonByIndex(index: number): void {
     if (!this.starButtonInstances()) return;

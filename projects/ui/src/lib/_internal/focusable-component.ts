@@ -1,4 +1,4 @@
-import { Directive, ElementRef, EventEmitter, Output, QueryList, ViewChildren, computed, input } from '@angular/core';
+import { Directive, ElementRef, QueryList, ViewChildren, computed, input, output } from '@angular/core';
 import { coerceNumberProperty } from '@ardium-ui/devkit';
 import { _DisablableComponentBase } from './disablable-component';
 
@@ -44,11 +44,11 @@ export abstract class _FocusableComponentBase extends _DisablableComponentBase {
   /**
    * The event emitter responsible for firing `focus` events.
    */
-  @Output('focus') focusEvent = new EventEmitter<FocusEvent>();
+  readonly focusEvent = output<FocusEvent>({ alias: 'focus' });
   /**
    * The event emitter responsible for firing `blur` events.
    */
-  @Output('blur') blurEvent = new EventEmitter<FocusEvent>();
+  readonly blurEvent = output<FocusEvent>({ alias: 'blur' });
 
   //! focus event handlers
   /**

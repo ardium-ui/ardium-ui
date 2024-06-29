@@ -4,15 +4,14 @@ import {
   ContentChild,
   Directive,
   ElementRef,
-  EventEmitter,
   HostListener,
   Inject,
   Input,
-  Output,
   Renderer2,
   TemplateRef,
   ViewChild,
   ViewContainerRef,
+  output
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { roundToMultiple, roundToPrecision } from 'more-rounding';
@@ -216,7 +215,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   get value(): T {
     return this._value;
   }
-  @Output() valueChange = new EventEmitter<T>();
+  readonly valueChange = output<T>();
 
   //! writeValue
   //! abstract here

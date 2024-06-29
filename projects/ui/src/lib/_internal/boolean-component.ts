@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, HostBinding, Input, Output, signal } from '@angular/core';
+import { Directive, HostBinding, Input, output, signal } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _NgModelComponentBase } from './ngmodel-component';
@@ -30,15 +30,15 @@ export abstract class _BooleanComponentBase extends _NgModelComponentBase implem
   /**
    * The event emitter responsible for firing `select` events. Fired when the `selected` state is set to true.
    */
-  @Output('select') selectEvent = new EventEmitter<null>();
+  readonly selectEvent = output<null>({ alias: 'select' });
   /**
    * The event emitter responsible for firing `unselect` events. Fired when the `selected` state is set to false.
    */
-  @Output('unselect') unselectEvent = new EventEmitter<null>();
+  readonly unselectEvent = output<null>({ alias: 'unselect' });
   /**
    * The event emitter responsible for firing `change` events. Fired when the `selected` state is changed.
    */
-  @Output('change') changeEvent = new EventEmitter<boolean>();
+  readonly changeEvent = output<boolean>({ alias: 'change' });
 
   //! [(selected)] two-way binding
   // can be set using a no-value argument
@@ -58,7 +58,7 @@ export abstract class _BooleanComponentBase extends _NgModelComponentBase implem
   /**
    * The event emitter responsible for firing `selectedChange` events. Fired when the `selected` state is changed.
    */
-  @Output() selectedChange = new EventEmitter<boolean>();
+  readonly selectedChange = output<boolean>();
 
   /**
    * Toggles the selected state. Emits all appropriate events.

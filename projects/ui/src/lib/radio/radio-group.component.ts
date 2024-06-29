@@ -4,15 +4,15 @@ import {
   ChangeDetectionStrategy,
   Component,
   ContentChildren,
-  EventEmitter,
   HostBinding,
   Input,
   OnDestroy,
-  Output,
+  OutputRefSubscription,
   QueryList,
   ViewEncapsulation,
   forwardRef,
   input,
+  output
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
@@ -59,8 +59,8 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
     this.writeValue(v);
   }
 
-  @Output() valueChange = new EventEmitter<any>();
-  @Output('change') changeEvent = new EventEmitter<any>();
+  readonly valueChange = output<any>();
+  readonly changeEvent = output<any>({ alias: 'change' });
 
   private _valueBeforeInit: any;
   writeValue(v: any): void {
@@ -157,7 +157,7 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
 
   //! hooks
   private readonly _subscriptions: Subscription[] = [];
-  private _childEventSubs: Subscription[] = [];
+  private _childEventSubs: OutputRefSubscription[] = [];
   private _isContentInit = false;
   ngAfterContentInit(): void {
     this._isContentInit = true;

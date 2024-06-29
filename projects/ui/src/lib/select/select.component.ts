@@ -9,14 +9,12 @@ import {
   ContentChild,
   ContentChildren,
   ElementRef,
-  EventEmitter,
   HostBinding,
   HostListener,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
-  Output,
   QueryList,
   Signal,
   SimpleChanges,
@@ -29,7 +27,7 @@ import {
   input,
   model,
   output,
-  signal,
+  signal
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
@@ -341,7 +339,7 @@ export class ArdiumSelectComponent
   get value(): Signal<any[]> {
     return this.itemStorage.value;
   }
-  @Output() valueChange = new EventEmitter<any[]>();
+  readonly valueChange = output<any[]>();
 
   //! output events
   readonly changeEvent = output<any[]>({ alias: 'change' });
