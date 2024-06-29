@@ -98,7 +98,7 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
    * The currently selected radio button. If set to a new radio button, the radio group value
    * will be updated to match the new selected button.
    */
-  @Input()
+  @Input() //TODO
   get selected() {
     return this._selected;
   }
@@ -117,7 +117,7 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
   //! name
   private _name: string = crypto.randomUUID();
   /** Name of the radio button group. All radio buttons inside this group will use this name. */
-  @Input()
+  @Input() //TODO
   get name(): string {
     return this._name;
   }

@@ -43,7 +43,7 @@ export class ArdiumDialogComponent {
 
   //! open state handling
   //all handled by modal component  private _open: boolean = false;
-  private _open = false;
+  private _open = false; //TODO
   @Input()
   get open(): boolean {
     return this._open;

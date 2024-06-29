@@ -32,11 +32,11 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   abstract readonly componentId: string;
   abstract readonly componentName: string;
 
-  @ViewChild('track')
+  @ViewChild('track') //TODO
   public readonly element!: ElementRef<HTMLElement>;
 
   constructor(
-    @Inject(DOCUMENT) protected document: Document,
+    @Inject(DOCUMENT) protected document: Document, //TODO
     protected renderer: Renderer2,
     protected overlay: Overlay,
     protected scrollStrategyOpts: ScrollStrategyOptions,
@@ -46,7 +46,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   }
 
   private _noTooltip = false;
-  @Input()
+  @Input() //TODO
   get noTooltip(): boolean {
     return this._noTooltip;
   }
@@ -54,12 +54,12 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     this._noTooltip = coerceBooleanProperty(v);
   }
 
-  @Input() tooltipFormat?: SliderTooltipFormatFn;
+  @Input() tooltipFormat?: SliderTooltipFormatFn; //TODO
 
   protected abstract _updateTooltipValue(): void;
 
   //! min, max, step sizes
-  protected _min = 0;
+  protected _min = 0; //TODO
   @Input()
   get min(): number {
     return this._min;
@@ -69,7 +69,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     this._updateComputedStepSizes();
     this._updateTickArray();
   }
-  protected _max = 100;
+  protected _max = 100; //TODO
   @Input()
   get max(): number {
     return this._max;
@@ -82,7 +82,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   protected _step = 1;
   @Input()
   get step(): number {
-    return this._step;
+    return this._step; //TODO
   }
   set step(v: any) {
     this._step = coerceNumberProperty(v, 0.5);
@@ -95,7 +95,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   protected _shiftMultiplier = 5;
   @Input()
   get shiftMultiplier(): number {
-    return this._shiftMultiplier;
+    return this._shiftMultiplier; //TODO
   }
   set shiftMultiplier(v: any) {
     this._shiftMultiplier = coerceNumberProperty(v, 1);
@@ -110,7 +110,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
 
   //! value ticks
   protected _showValueTicks = false;
-  @Input()
+  @Input() //TODO
   get showValueTicks(): boolean {
     return this._showValueTicks;
   }
@@ -143,9 +143,9 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   }
 
   //! labels
-  @Input() labelPosition: SliderDecorationPosition = SliderDecorationPosition.Bottom;
+  @Input() labelPosition: SliderDecorationPosition = SliderDecorationPosition.Bottom; //TODO
   public labelObjects: _InternalSliderLabelObject[] = [];
-  @Input()
+  @Input() //TODO
   set labels(val: SliderLabelObject[] | number[] | null) {
     if (!isDefined(val) || val.length === 0) {
       this.labelObjects = [];
@@ -168,12 +168,12 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   }
 
   //! appearance
-  @Input() color: SimpleComponentColor = SimpleComponentColor.Primary;
+  @Input() color: SimpleComponentColor = SimpleComponentColor.Primary; //TODO
 
   private _compact = false;
   @Input()
   get compact(): boolean {
-    return this._compact;
+    return this._compact; //TODO
   }
   set compact(v: any) {
     this._compact = coerceBooleanProperty(v);
@@ -255,9 +255,9 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   @ContentChild(ArdSliderTooltipDirective, { read: TemplateRef })
   tooltipTemplate?: TemplateRef<any>;
 
-  @Input() tooltipPosition: SliderDecorationPosition = SliderDecorationPosition.Top;
+  @Input() tooltipPosition: SliderDecorationPosition = SliderDecorationPosition.Top; //TODO
 
-  private _tooltipBehavior: SliderTooltipBehavior = SliderTooltipBehavior.Auto;
+  private _tooltipBehavior: SliderTooltipBehavior = SliderTooltipBehavior.Auto; //TODO
   @Input()
   set tooltipBehavior(v: SliderTooltipBehavior) {
     this._tooltipBehavior = v;

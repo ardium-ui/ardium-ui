@@ -51,9 +51,6 @@ export class ArdiumModalComponent {
   //! open state handling
   private readonly open = signal<boolean>(false);
   @Input({ alias: 'open' })
-  get _open(): boolean {
-    return this._open;
-  }
   set _open(v: any) {
     this.open.set(coerceBooleanProperty(v));
     if (this.open()) this._openOverlay();

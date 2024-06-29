@@ -19,9 +19,9 @@ import { coerceBooleanProperty } from '@ardium-ui/devkit';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumOptionComponent implements OnChanges, AfterViewChecked, OnDestroy {
-  constructor(private elementRef: ElementRef<HTMLElement>) {}
+  constructor(private elementRef: ElementRef<HTMLElement>) {} //TODO
 
-  private _value: any;
+  private _value: any; //TODO
   @Input()
   set value(v: any) {
     this._value = v;

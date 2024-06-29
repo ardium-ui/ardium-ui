@@ -362,13 +362,13 @@ export class ArdiumSelectComponent
   readonly isOpen = model<boolean>(false);
 
   //! view children
-  @ViewChild('searchInput', { static: true })
+  @ViewChild('searchInput', { static: true }) //TODO
   searchInput!: ElementRef<HTMLInputElement>;
   @ViewChild(forwardRef(() => ArdiumDropdownPanelComponent))
   dropdownPanel!: ArdiumDropdownPanelComponent;
 
   //! templates
-  @ContentChild(ArdOptionTemplateDirective, { read: TemplateRef })
+  @ContentChild(ArdOptionTemplateDirective, { read: TemplateRef }) //TODO
   optionTemplate?: TemplateRef<any>;
   @ContentChild(ArdOptgroupTemplateDirective, { read: TemplateRef })
   optgroupTemplate?: TemplateRef<any>;
