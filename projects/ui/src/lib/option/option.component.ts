@@ -1,16 +1,19 @@
 import {
+  AfterViewChecked,
   ChangeDetectionStrategy,
   Component,
-  ViewEncapsulation,
-  OnChanges,
-  AfterViewChecked,
-  OnDestroy,
   ElementRef,
-  Input,
+  OnChanges,
+  OnDestroy,
   SimpleChanges,
+  ViewEncapsulation,
+  computed,
+  inject,
+  input,
 } from '@angular/core';
-import { Subject } from 'rxjs';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { Subject } from 'rxjs';
+import { Nullable } from '../types/utility.types';
 
 @Component({
   selector: 'ard-option',
@@ -19,69 +22,51 @@ import { coerceBooleanProperty } from '@ardium-ui/devkit';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumOptionComponent implements OnChanges, AfterViewChecked, OnDestroy {
-  constructor(private elementRef: ElementRef<HTMLElement>) {} //TODO
+  private readonly elementRef = inject(ElementRef<HTMLElement>);
 
-  private _value: any; //TODO
-  @Input()
-  set value(v: any) {
-    this._value = v;
-  }
-  get value(): any {
-    return this._value ?? this.label;
-  }
-  get hasImplicitValue(): boolean {
-    return this._value === undefined;
+  readonly value = input<any>(undefined);
+
+  readonly hasImplicitValue = computed<boolean>(() => this.value() === undefined);
+
+  readonly label = input<Nullable<string>>(undefined);
+
+  get labelOrInnerHtml(): string {
+    return this.label() ?? (this.elementRef.nativeElement.innerHTML || '').trim();
   }
 
-  private _label: string | undefined = undefined;
-  @Input()
-  set label(v: any) {
-    this._label = v?.toString?.() ?? String(v);
-  }
-  get label(): string {
-    return this._label ?? (this.elementRef.nativeElement.innerHTML || '').trim();
-  }
-
-  private _disabled = false;
-  @Input()
-  get disabled(): boolean {
-    return this._disabled;
-  }
-  set disabled(v: any) {
-    this._disabled = coerceBooleanProperty(v);
-  }
+  readonly disabled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! state change listener
   readonly stateChange$ = new Subject<{
     value: any;
     oldValue?: string;
     disabled: boolean;
-    label?: string;
+    label?: Nullable<string>;
   }>();
 
-  private _previousLabel?: string;
+  private _previousLabel: Nullable<string>;
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['disabled']) {
       this.stateChange$.next({
-        value: this.value,
-        disabled: this.disabled,
+        value: this.value(),
+        disabled: changes['disabled'].currentValue,
       });
     }
   }
 
   ngAfterViewChecked(): void {
-    if (this.label !== this._previousLabel) {
-      let oldValue = this.value;
-      if (this.hasImplicitValue) oldValue = this._previousLabel;
+    if (this.label() !== this._previousLabel) {
+      let oldValue = this.value();
+      if (this.hasImplicitValue()) oldValue = this._previousLabel;
 
-      this._previousLabel = this.label;
+      this._previousLabel = this.label();
 
       this.stateChange$.next({
-        value: this.value,
+        value: this.value(),
         oldValue,
-        disabled: this.disabled,
-        label: this.label,
+        disabled: this.disabled(),
+        label: this.label(),
       });
     }
   }

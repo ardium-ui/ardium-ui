@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  SimpleChanges,
   TemplateRef,
   ViewEncapsulation,
   computed,
@@ -11,9 +12,10 @@ import {
   input,
   model,
   output,
+  OnChanges,
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import { isDefined } from 'simple-bool';
+import { isDefined, isNumber } from 'simple-bool';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
 import { CheckboxState } from '../checkbox/checkbox.types';
 import { CurrentItemsFormatFn, PaginationAlign } from '../table-pagination/table-pagination.types';
@@ -48,7 +50,7 @@ import { isTableSubheader } from './utils';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumTableComponent extends _FocusableComponentBase implements TableItemStorageHost, AfterContentInit {
+export class ArdiumTableComponent extends _FocusableComponentBase implements TableItemStorageHost, AfterContentInit, OnChanges {
   private readonly _itemStorage = new TableItemStorage(this);
 
   readonly DEFAULTS = {
@@ -99,10 +101,26 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
 
   //! pagination
   readonly paginated = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-
   readonly paginationStrategy = input<TablePaginationStrategy>(TablePaginationStrategy.Noop);
-
-  readonly paginationOptions = input<number[] | { value: number; label: string }[]>([10, 25, 50]);
+  readonly paginationOptions = input<
+    number[] | { value: number; label: string }[],
+    number[] | { value: number; label: string }[]
+  >([10, 25, 50], {
+    transform: v => {
+      return v.filter(el => {
+        const opt = isNumber(el) ? el : el.value;
+        if (opt <= 0 || opt % 1 !== 0) {
+          console.error(
+            new Error(
+              `ARD-NF5052: each item of <ard-table>'s [paginationOptions] must be a positive integer. The "${opt}" option will be ignored.`
+            )
+          );
+          return false;
+        }
+        return true;
+      }) as number[] | { value: number; label: string }[];
+    },
+  });
   readonly totalItems = input<Nullable<number>, any>(undefined, { transform: v => coerceNumberProperty(v, undefined) });
   readonly paginationColor = input<ComponentColor>(ComponentColor.None);
   readonly paginationAlign = input<PaginationAlign>(PaginationAlign.Split);
@@ -122,6 +140,33 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     () => this.paginationStrategy() !== TablePaginationStrategy.Noop || isDefined(this.totalItems())
   );
   readonly canDisplayPagination = computed(() => this.paginated() && this.isDefinedTotalItems());
+
+  //! print errors if needed
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['itemsPerPage']) {
+      const ipp = changes['itemsPerPage'].currentValue;
+      const options =
+        (changes['paginationOptions']?.currentValue as number[] | { value: number; label: string }[]) ||
+        (this.paginationOptions() as number[] | { value: number; label: string }[]);
+      if (!options.find(v => (typeof v === 'number' ? v === ipp : v.value === ipp))) {
+        console.error(
+          new Error(
+            `ARD-NF5051: value of "${ipp}" in <ard-table>'s [itemsPerPage] does not appear in [paginationOptions] array [${options
+              .map(v => (typeof v === 'number' ? v : v.value))
+              .join(', ')}]`
+          )
+        );
+      }
+    }
+    if (changes['page']) {
+      const page = changes['page'].currentValue as number;
+      if (page === 0) {
+        throw new Error(`ARD-FT5053a: <ard-table>'s [page] uses 1-indexed numbering system. The value 0 is not accepted.`);
+      } else if (page < 0 || page % 1 !== 0) {
+        throw new Error(`ARD-FT5053b: value of <ard-table>'s [page] must be a positive integer, got "${page}".`);
+      }
+    }
+  }
 
   //! item storage getters
   readonly headerCells = computed(() => this._itemStorage.headerCells());
@@ -188,7 +233,7 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     for (const instance of templates) {
       const name = instance.name();
       if (!name) {
-        console.error(new Error('ARD-FT5054: [ard-table-tmp] requires a value to be specified.')); //TODO
+        console.error(new Error('ARD-FT5054: [ard-table-tmp] requires a value to be specified.'));
         continue;
       }
       this._itemTemplates[name] = instance.template;
@@ -210,7 +255,7 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     if (tmp instanceof TemplateRef) return tmp;
     //check if the name can be found
     if (!(tmp in this._itemTemplates)) {
-      console.error(new Error(`ARD-NF5051: <ard-table> error: cannot find template named "${tmp}"`));
+      console.error(new Error(`ARD-NF5055: <ard-table> error: cannot find template named "${tmp}"`));
       return undefined;
     }
     //return the template

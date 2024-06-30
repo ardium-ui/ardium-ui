@@ -20,7 +20,7 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
   ngOnInit(): void {
     if (this._value.low !== -Infinity && this._value.high !== Infinity) return;
 
-    this.writeValue({ low: this._min, high: this._max });
+    this.writeValue({ low: this.min(), high: this.max() });
   }
 
   //! writeValue
@@ -71,9 +71,10 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
 
   protected _updateTooltipValue(): void {
     const v: SliderRange<string | number> = Object.create(this._value);
-    if (this.tooltipFormat) {
-      v.low = this.tooltipFormat(v.low as number);
-      v.high = this.tooltipFormat(v.high as number);
+    const formatFn = this.tooltipFormat();
+    if (formatFn) {
+      v.low = formatFn(v.low as number);
+      v.high = formatFn(v.high as number);
     }
     this._tooltipValue = v;
   }
@@ -118,8 +119,8 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
 
   //! position calculators
   protected _percentValueToValue(percent: number, handleId: number): SliderRange {
-    const minMaxDifference = Math.abs(this._min - this._max);
-    let newVal = percent * minMaxDifference + this._min;
+    const minMaxDifference = Math.abs(this.min() - this.max());
+    let newVal = percent * minMaxDifference + this.min();
     //round to 9 decimal places to avoid floating point arithmetic errors
     //9 is an arbitrary number that just works well. ¯\_(ツ)_/¯
     newVal = roundToPrecision(newVal, 9);

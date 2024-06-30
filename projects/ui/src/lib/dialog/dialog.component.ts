@@ -6,6 +6,7 @@ import {
   computed,
   contentChild,
   input,
+  model,
   output,
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
@@ -42,17 +43,9 @@ export class ArdiumDialogComponent {
   readonly disableBackdropClose = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! open state handling
-  //all handled by modal component  private _open: boolean = false;
-  private _open = false; //TODO
-  @Input()
-  get open(): boolean {
-    return this._open;
-  }
-  set open(v: any) {
-    this._open = coerceBooleanProperty(v);
-  }
+  //all handled by modal component
+  readonly open = model<boolean>(false);
 
-  readonly openChange = output<boolean>();
   readonly closeEvent = output<DialogResult>({ alias: 'close' });
   readonly confirmEvent = output<void>({ alias: 'confirm' });
   readonly rejectEvent = output<void>({ alias: 'reject' });
@@ -71,17 +64,15 @@ export class ArdiumDialogComponent {
   onConfirmClick() {
     if (!this.canConfirm()) return;
 
-    this._open = false;
+    this.open.set(false);
     setTimeout(() => {
-      this.openChange.emit(false);
       this.closeEvent.emit('confirm');
       this.confirmEvent.emit();
     }, 0);
   }
   onRejectClick() {
-    this._open = false;
+    this.open.set(false);
     setTimeout(() => {
-      this.openChange.emit(false);
       this.closeEvent.emit('reject');
       this.rejectEvent.emit();
     }, 0);

@@ -30,7 +30,8 @@ export class ArdiumSliderComponent extends _AbstractSlider<number> {
 
   protected _updateTooltipValue(): void {
     let v: string | number = this._value;
-    if (this.tooltipFormat) v = this.tooltipFormat(v);
+    const formatFn = this.tooltipFormat();
+    if (formatFn) v = formatFn(v);
     this._tooltipValue = String(v);
   }
 
@@ -80,8 +81,8 @@ export class ArdiumSliderComponent extends _AbstractSlider<number> {
 
   //! position calculators
   protected _percentValueToValue(percent: number): number {
-    const minMaxDifference = Math.abs(this._min - this._max);
-    const newVal = percent * minMaxDifference + this._min;
+    const minMaxDifference = Math.abs(this.min() - this.max());
+    const newVal = percent * minMaxDifference + this.min();
     //round to 9 decimal places to avoid floating point arithmetic errors
     //9 is an arbitrary number that just works well. ¯\_(ツ)_/¯
     return roundToPrecision(newVal, 9);

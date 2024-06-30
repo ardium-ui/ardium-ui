@@ -85,7 +85,7 @@ export class ArdiumTableFromCsvComponent implements AfterContentInit, OnChanges 
         if (opt <= 0 || opt % 1 !== 0) {
           console.error(
             new Error(
-              `ARD-NF5072: each item of <ard-table-from-csv>'s [paginationOptions] must be a positive integer. The "${opt}" option will be ignored.` //TODO implement
+              `ARD-NF5072: each item of <ard-table-from-csv>'s [paginationOptions] must be a positive integer. The "${opt}" option will be ignored.`
             )
           );
         }

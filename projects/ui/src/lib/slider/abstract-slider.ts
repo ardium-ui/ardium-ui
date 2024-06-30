@@ -1,23 +1,25 @@
 import { Overlay, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { DOCUMENT } from '@angular/common';
 import {
-  ContentChild,
   Directive,
   ElementRef,
   HostListener,
-  Inject,
   Input,
   Renderer2,
-  TemplateRef,
-  ViewChild,
   ViewContainerRef,
-  output
+  computed,
+  contentChild,
+  inject,
+  input,
+  output,
+  viewChild
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { roundToMultiple, roundToPrecision } from 'more-rounding';
 import { isDefined, isObject } from 'simple-bool';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { SimpleComponentColor } from '../types/colors.types';
+import { Nullable } from '../types/utility.types';
 import { ArdSliderTooltipDirective } from './slider.directive';
 import {
   SliderDecorationPosition,
@@ -32,133 +34,75 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   abstract readonly componentId: string;
   abstract readonly componentName: string;
 
-  @ViewChild('track') //TODO
-  public readonly element!: ElementRef<HTMLElement>;
+  public readonly elementRef = viewChild<ElementRef<HTMLElement>>('track');
 
-  constructor(
-    @Inject(DOCUMENT) protected document: Document, //TODO
-    protected renderer: Renderer2,
-    protected overlay: Overlay,
-    protected scrollStrategyOpts: ScrollStrategyOptions,
-    protected viewContainerRef: ViewContainerRef
-  ) {
-    super();
-  }
+  protected readonly document = inject(DOCUMENT);
+  protected readonly renderer = inject(Renderer2);
+  protected readonly overlay = inject(Overlay);
+  protected readonly scrollStrategyOpts = inject(ScrollStrategyOptions);
+  protected readonly viewContainerRef = inject(ViewContainerRef);
 
-  private _noTooltip = false;
-  @Input() //TODO
-  get noTooltip(): boolean {
-    return this._noTooltip;
-  }
-  set noTooltip(v: any) {
-    this._noTooltip = coerceBooleanProperty(v);
-  }
+  readonly noTooltip = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
-  @Input() tooltipFormat?: SliderTooltipFormatFn; //TODO
+  readonly tooltipFormat = input<Nullable<SliderTooltipFormatFn>>();
 
   protected abstract _updateTooltipValue(): void;
 
   //! min, max, step sizes
-  protected _min = 0; //TODO
-  @Input()
-  get min(): number {
-    return this._min;
-  }
-  set min(v: any) {
-    this._min = coerceNumberProperty(v, 0);
-    this._updateComputedStepSizes();
-    this._updateTickArray();
-  }
-  protected _max = 100; //TODO
-  @Input()
-  get max(): number {
-    return this._max;
-  }
-  set max(v: any) {
-    this._max = coerceNumberProperty(v, 100);
-    this._updateComputedStepSizes();
-    this._updateTickArray();
-  }
-  protected _step = 1;
-  @Input()
-  get step(): number {
-    return this._step; //TODO
-  }
-  set step(v: any) {
-    this._step = coerceNumberProperty(v, 0.5);
-    if (this._step <= 0) {
-      throw new Error(`ARD-FT${this.componentId}0: Cannot set <ard-${this.componentName}>'s [step] to 0.`);
-    }
-    this._updateComputedStepSizes();
-    this._updateTickArray();
-  }
-  protected _shiftMultiplier = 5;
-  @Input()
-  get shiftMultiplier(): number {
-    return this._shiftMultiplier; //TODO
-  }
-  set shiftMultiplier(v: any) {
-    this._shiftMultiplier = coerceNumberProperty(v, 1);
-  }
+  readonly min = input<number, any>(0, { transform: v => coerceNumberProperty(v, 0) });
+  readonly max = input<number, any>(100, { transform: v => coerceNumberProperty(v, 100) });
 
-  protected _stepSizeComputed: number = this._updateComputedStepSizes();
-  protected _updateComputedStepSizes(): number {
-    const minMaxDifference = Math.abs(this._min - this._max);
-    this._stepSizeComputed = this._step / minMaxDifference;
-    return this._stepSizeComputed;
-  }
+  readonly step = input<number, any>(0, {
+    transform: v => {
+      const step = coerceNumberProperty(v, 0);
+      if (step <= 0) {
+        throw new Error(`ARD-FT${this.componentId}0: Cannot set <ard-${this.componentName}>'s [step] to 0.`);
+      }
+      return step;
+    },
+  });
+
+  readonly shiftMultiplier = input<number, any>(5, { transform: v => coerceNumberProperty(v, 1) });
+
+  protected readonly _stepSizeComputed = computed<number>(() => this.step() / Math.abs(this.min() - this.max()));
 
   //! value ticks
-  protected _showValueTicks = false;
-  @Input() //TODO
-  get showValueTicks(): boolean {
-    return this._showValueTicks;
-  }
-  set showValueTicks(v: any) {
-    this._showValueTicks = coerceBooleanProperty(v);
-  }
+  readonly showValueTicks = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
-  get percentStepSize(): number {
-    return this._stepSizeComputed * 100;
-  }
-  protected _tickArray: string[] = this._updateTickArray();
-  protected _updateTickArray(): string[] {
+  readonly percentStepSize = computed<number>(() => this._stepSizeComputed() * 100);
+
+  protected readonly _tickArray = computed<string[]>(() => {
     const newArr: number[] = [];
-    let positionPercentCumulative = 0;
 
+    let positionPercentCumulative = 0;
     while (positionPercentCumulative < 100) {
       newArr.push(positionPercentCumulative);
-      positionPercentCumulative += this._stepSizeComputed * 100;
+      positionPercentCumulative += this._stepSizeComputed() * 100;
       positionPercentCumulative = roundToPrecision(positionPercentCumulative, 6);
     }
     newArr.push(100);
 
-    const stringArr = newArr.map(v => `${v}%`);
-
-    this._tickArray = stringArr;
-    return stringArr;
-  }
-  get tickArray(): string[] {
-    return this._tickArray;
-  }
+    return newArr.map(v => `${v}%`);
+  });
 
   //! labels
-  @Input() labelPosition: SliderDecorationPosition = SliderDecorationPosition.Bottom; //TODO
-  public labelObjects: _InternalSliderLabelObject[] = [];
-  @Input() //TODO
-  set labels(val: SliderLabelObject[] | number[] | null) {
-    if (!isDefined(val) || val.length === 0) {
-      this.labelObjects = [];
-      return;
-    }
-    this.labelObjects = val.map(this._numberLabelArrayMapFn).map(label => {
-      const v = this._clampValue(label.for); //todo dont let users add labels outside the max value
-      return {
-        label: String(label.label),
-        positionPercent: `${this._valueToPercent(v) * 100}%`,
-      };
-    });
-  }
+  readonly labelPosition = input<SliderDecorationPosition>(SliderDecorationPosition.Bottom);
+
+  readonly labelObjects = input<_InternalSliderLabelObject[], SliderLabelObject[] | number[] | null>([], {
+    transform: val => {
+      if (!isDefined(val) || val.length === 0) {
+        return [];
+      }
+      return val.map(this._numberLabelArrayMapFn).map(label => {
+        const v = this._clampValue(label.for);
+        return {
+          label: String(label.label),
+          positionPercent: `${this._valueToPercent(v) * 100}%`,
+        };
+      });
+    },
+  });
+
   protected _numberLabelArrayMapFn(val: SliderLabelObject | number): SliderLabelObject {
     if (isObject(val)) return val;
     return {
@@ -168,29 +112,22 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   }
 
   //! appearance
-  @Input() color: SimpleComponentColor = SimpleComponentColor.Primary; //TODO
+  readonly color = input<SimpleComponentColor>(SimpleComponentColor.Primary);
 
-  private _compact = false;
-  @Input()
-  get compact(): boolean {
-    return this._compact; //TODO
-  }
-  set compact(v: any) {
-    this._compact = coerceBooleanProperty(v);
-  }
+  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
-  get ngClasses(): string {
-    return [
-      `ard-color-${this.color}`,
-      `ard-labels-${this.labelPosition}`,
+  readonly ngClasses = computed<string>(() =>
+    [
+      `ard-color-${this.color()}`,
+      `ard-labels-${this.labelPosition()}`,
       `ard-tooltip-${this.tooltipPosition}`,
-      this.compact ? 'ard-compact' : '',
-    ].join(' ');
-  }
+      this.compact() ? 'ard-compact' : '',
+    ].join(' ')
+  );
 
   //! determining transition
   get sliderTransition(): string {
-    const x = this._totalSteps;
+    const x = this._totalSteps();
     //this is determined using this graph: https://www.geogebra.org/calculator/nqgnhpap
     //capped at y=80
     const formulaResult = (20 * (x + 200)) / (x + 20) - 80;
@@ -201,9 +138,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     const transitionDuration = Math.min(80, formulaResultRounded);
     return transitionDuration + 'ms';
   }
-  private get _totalSteps(): number {
-    return (this.max - this.min) / this.step;
-  }
+  private readonly _totalSteps = computed<number>(() => (this.max() - this.min()) / this.step());
 
   //! value input & output
   //! abstract here
@@ -224,7 +159,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   abstract reset(): void;
 
   protected _offset(offset: number, hasShift: boolean, handleId = 1): void {
-    const stepSize = this._stepSizeComputed * (hasShift ? this._shiftMultiplier : 1);
+    const stepSize = this._stepSizeComputed() * (hasShift ? this.shiftMultiplier() : 1);
     let newPercent = this._positionPercent[handleId - 1] + stepSize * offset;
     newPercent = this._clampPercentValue(newPercent);
     this._setValueFromPercent(newPercent);
@@ -233,17 +168,17 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   //! helper methods
   protected _clampValue(v: number): number {
     //clamp between min and max
-    v = Math.min(v, this._max);
-    v = Math.max(v, this._min);
+    v = Math.min(v, this.max());
+    v = Math.max(v, this.min());
     //round to the nearest step
-    v -= this._min;
-    v = roundToMultiple(v, this._step);
-    v += this._min;
+    v -= this.min();
+    v = roundToMultiple(v, this.step());
+    v += this.min();
     return v;
   }
   protected _valueToPercent(v: number): number {
-    const minMaxDifference = Math.abs(this._min - this._max);
-    return (v - this._min) / minMaxDifference;
+    const minMaxDifference = Math.abs(this.min() - this.max());
+    return (v - this.min()) / minMaxDifference;
   }
   protected _emitChange(): void {
     const v = this.value;
@@ -252,19 +187,10 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   }
 
   //! tooltip
-  @ContentChild(ArdSliderTooltipDirective, { read: TemplateRef })
-  tooltipTemplate?: TemplateRef<any>;
+  readonly tooltipTemplate = contentChild(ArdSliderTooltipDirective);
 
-  @Input() tooltipPosition: SliderDecorationPosition = SliderDecorationPosition.Top; //TODO
-
-  private _tooltipBehavior: SliderTooltipBehavior = SliderTooltipBehavior.Auto; //TODO
-  @Input()
-  set tooltipBehavior(v: SliderTooltipBehavior) {
-    this._tooltipBehavior = v;
-  }
-  get tooltipBehavior(): SliderTooltipBehavior {
-    return this._tooltipBehavior;
-  }
+  readonly tooltipPosition = input<SliderDecorationPosition>(SliderDecorationPosition.Top);
+  readonly tooltipBehavior = input<SliderTooltipBehavior>(SliderTooltipBehavior.Auto);
 
   //! event handlers
   protected _isGrabbed = 0;
@@ -320,14 +246,14 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   protected abstract _percentValueToValue(percent: number, handleId?: number): T; //* abstact
 
   protected _getElementRect(): DOMRect {
-    return this.element.nativeElement.getBoundingClientRect();
+    return this.elementRef()!.nativeElement.getBoundingClientRect();
   }
   protected _clampPercentValue(percent: number): number {
     //clamp between 0 and 1
     percent = Math.min(percent, 1);
     percent = Math.max(percent, 0);
     //round to the nearest step
-    percent = roundToMultiple(percent, this._stepSizeComputed);
+    percent = roundToMultiple(percent, this._stepSizeComputed());
     return percent;
   }
   protected _getPercentValueFromEvent(event: MouseEvent | TouchEvent): number {

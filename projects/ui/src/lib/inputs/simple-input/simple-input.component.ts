@@ -40,7 +40,6 @@ import {
     },
   ],
 })
-// TODO convert to signals
 export class ArdiumSimpleInputComponent
   extends _NgModelComponentBase
   implements SimpleInputModelHost, ControlValueAccessor, AfterViewInit
@@ -70,10 +69,6 @@ export class ArdiumSimpleInputComponent
   //! prefix & suffix
   readonly prefixTemplate = contentChild(ArdSimpleInputPrefixTemplateDirective);
   readonly suffixTemplate = contentChild(ArdSimpleInputSuffixTemplateDirective);
-
-  jdfd = effect(() => {
-    console.log(this.prefixTemplate(), this.suffixTemplate());
-  });
 
   //! placeholder
   readonly placeholderTemplate = contentChild(ArdSimpleInputPlaceholderTemplateDirective);
@@ -190,8 +185,8 @@ export class ArdiumSimpleInputComponent
       autocorrect: 'off',
       autocapitalize: 'off',
       autocomplete: 'off',
-      tabindex: String(this.tabIndex),
-      ...this.inputAttrs,
+      tabindex: String(this.tabIndex()),
+      ...this.inputAttrs(),
     };
 
     for (const key of Object.keys(attributes)) {

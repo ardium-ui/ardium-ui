@@ -6,7 +6,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ContentChild,
   ContentChildren,
   ElementRef,
   HostBinding,
@@ -23,11 +22,14 @@ import {
   ViewContainerRef,
   ViewEncapsulation,
   computed,
+  contentChild,
   forwardRef,
+  inject,
   input,
   model,
   output,
-  signal
+  signal,
+  viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
@@ -92,7 +94,6 @@ export class ArdiumSelectComponent
   readonly _componentId: string = '000';
   //! public constants
   readonly itemStorage = new ItemStorage(this);
-  readonly element!: HTMLElement;
   readonly DEFAULTS = {
     valueFrom: 'value',
     labelFrom: 'label',
@@ -136,6 +137,7 @@ export class ArdiumSelectComponent
   readonly loadingPlaceholderText = input<string>(this.DEFAULTS.loadingPlaceholderText);
   //! search-related options
   readonly searchInputId = input<Nullable<string>>(undefined);
+  readonly inputAttrs = input<Record<string, any>>({});
   //! other inputs
   readonly isLoading = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
   readonly inputProps = input<Record<string, any>>({});
@@ -362,41 +364,25 @@ export class ArdiumSelectComponent
   readonly isOpen = model<boolean>(false);
 
   //! view children
-  @ViewChild('searchInput', { static: true }) //TODO
-  searchInput!: ElementRef<HTMLInputElement>;
-  @ViewChild(forwardRef(() => ArdiumDropdownPanelComponent))
-  dropdownPanel!: ArdiumDropdownPanelComponent;
+  readonly searchInput = viewChild<ElementRef<HTMLInputElement>>('searchInput');
+  readonly dropdownPanel = viewChild<ArdiumDropdownPanelComponent>(ArdiumDropdownPanelComponent);
 
   //! templates
-  @ContentChild(ArdOptionTemplateDirective, { read: TemplateRef }) //TODO
-  optionTemplate?: TemplateRef<any>;
-  @ContentChild(ArdOptgroupTemplateDirective, { read: TemplateRef })
-  optgroupTemplate?: TemplateRef<any>;
-  @ContentChild(ArdValueTemplateDirective, { read: TemplateRef })
-  valueTemplate?: TemplateRef<any>;
-  @ContentChild(ArdSelectPlaceholderTemplateDirective, { read: TemplateRef })
-  placeholderTemplate?: TemplateRef<any>;
-  @ContentChild(ArdLoadingSpinnerTemplateDirective, { read: TemplateRef })
-  loadingSpinnerTemplate?: TemplateRef<any>;
-  @ContentChild(ArdLoadingPlaceholderTemplateDirective, { read: TemplateRef })
-  loadingPlaceholderTemplate?: TemplateRef<any>;
-  @ContentChild(ArdDropdownHeaderTemplateDirective, { read: TemplateRef })
-  dropdownHeaderTemplate?: TemplateRef<any>;
-  @ContentChild(ArdDropdownFooterTemplateDirective, { read: TemplateRef })
-  dropdownFooterTemplate?: TemplateRef<any>;
-  @ContentChild(ArdNoItemsFoundTemplateDirective, { read: TemplateRef })
-  noItemsFoundTemplate?: TemplateRef<any>;
-  @ContentChild(ArdAddCustomTemplateDirective, { read: TemplateRef })
-  addCustomTemplate?: TemplateRef<any>;
-  @ContentChild(ArdItemLimitReachedTemplateDirective, { read: TemplateRef })
-  itemLimitReachedTemplate?: TemplateRef<any>;
-  @ContentChild(ArdItemDisplayLimitTemplateDirective, { read: TemplateRef })
-  itemDisplayLimitTemplate?: TemplateRef<any>;
+  readonly optionTemplate = contentChild(ArdOptionTemplateDirective);
+  readonly optgroupTemplate = contentChild(ArdOptgroupTemplateDirective);
+  readonly valueTemplate = contentChild(ArdValueTemplateDirective);
+  readonly placeholderTemplate = contentChild(ArdSelectPlaceholderTemplateDirective);
+  readonly loadingSpinnerTemplate = contentChild(ArdLoadingSpinnerTemplateDirective);
+  readonly loadingPlaceholderTemplate = contentChild(ArdLoadingPlaceholderTemplateDirective);
+  readonly dropdownHeaderTemplate = contentChild(ArdDropdownHeaderTemplateDirective);
+  readonly dropdownFooterTemplate = contentChild(ArdDropdownFooterTemplateDirective);
+  readonly noItemsFoundTemplate = contentChild(ArdNoItemsFoundTemplateDirective);
+  readonly addCustomTemplate = contentChild(ArdAddCustomTemplateDirective);
+  readonly itemLimitReachedTemplate = contentChild(ArdItemLimitReachedTemplateDirective);
+  readonly itemDisplayLimitTemplate = contentChild(ArdItemDisplayLimitTemplateDirective);
 
-  @ContentChild(ArdSelectPrefixTemplateDirective, { read: TemplateRef })
-  prefixTemplate?: TemplateRef<any>;
-  @ContentChild(ArdSelectSuffixTemplateDirective, { read: TemplateRef })
-  suffixTemplate?: TemplateRef<any>;
+  readonly prefixTemplate = contentChild(ArdSelectPrefixTemplateDirective);
+  readonly suffixTemplate = contentChild(ArdSelectSuffixTemplateDirective);
 
   //! context providers
   getValueContext(item: ArdOption): ValueContext {
@@ -409,37 +395,33 @@ export class ArdiumSelectComponent
       },
     };
   }
-  getStatsContext(): StatsContext {
-    //TODO computed
-    return {
+  readonly getStatsContext = computed(
+    (): StatsContext => ({
       totalItems: this.totalItems(),
       foundItems: this.foundItems(),
-    };
-  }
-  getSearchContext(): SearchContext {
-    //TODO computed
-    return {
+    })
+  );
+  readonly getSearchContext = computed(
+    (): SearchContext => ({
       $implicit: this.searchTerm(),
       searchTerm: this.searchTerm(),
       totalItems: this.totalItems(),
       foundItems: this.foundItems(),
-    };
-  }
-  getPlaceholderContext(): PlaceholderContext {
-    //TODO computed
+    })
+  );
+  readonly getPlaceholderContext = computed((): PlaceholderContext => {
     const placeholder = this.placeholderForCurrentContext();
     return {
       placeholder,
       $implicit: placeholder,
     };
-  }
-  getCustomOptionContext(): CustomOptionContext {
-    //TODO cmputed
-    return {
+  });
+  readonly getCustomOptionContext = computed(
+    (): CustomOptionContext => ({
       $implicit: this.searchTerm(),
       searchTerm: this.searchTerm(),
-    };
-  }
+    })
+  );
   getGroupContext(group: ArdOptionGroup): GroupContext {
     return {
       $implicit: group,
@@ -455,16 +437,14 @@ export class ArdiumSelectComponent
       itemData: item.itemData(),
     };
   }
-  getItemLimitContext(): ItemLimitContext {
-    //TODO cmputed
-    return {
+  readonly getItemLimitContext = computed(
+    (): ItemLimitContext => ({
       totalItems: this.totalItems(),
       selectedItems: this.itemStorage.selectedItems().length,
       itemLimit: this.maxSelectedItems(),
-    };
-  }
-  getItemDisplayLimitContext(): ItemDisplayLimitContext {
-    //TODO computed
+    })
+  );
+  readonly getItemDisplayLimitContext = computed((): ItemDisplayLimitContext => {
     const selectedItems = this.itemStorage.selectedItems().length;
     return {
       totalItems: this.totalItems(),
@@ -472,18 +452,13 @@ export class ArdiumSelectComponent
       itemLimit: this.maxSelectedItems(),
       overflowCount: selectedItems - (this.itemDisplayLimit() ?? 0),
     };
-  }
+  });
 
-  constructor(
-    _elementRef: ElementRef<HTMLElement>,
-    private _cd: ChangeDetectorRef,
-    private overlay: Overlay,
-    private viewContainerRef: ViewContainerRef,
-    private scrollStrategyOpts: ScrollStrategyOptions
-  ) {
-    super();
-    this.element = _elementRef.nativeElement;
-  }
+  private readonly elementRef = inject(ElementRef<HTMLElement>);
+  private readonly _cd = inject(ChangeDetectorRef);
+  private readonly overlay = inject(Overlay);
+  private readonly viewContainerRef = inject(ViewContainerRef);
+  private readonly scrollStrategyOpts = inject(ScrollStrategyOptions);
 
   //! dropdown overlay
   @ViewChild('dropdownHost', { read: ElementRef })
@@ -577,8 +552,7 @@ export class ArdiumSelectComponent
     function makeWarning(str: string, errorCode: string): void {
       console.warn(
         `ARD-WA000${errorCode}: Skipped using [${str}] property bound to <ard-select>, as some provided items are of primitive type`
-      ); //todo
-      //TODO error
+      );
     }
     if (this.valueFrom()) {
       makeWarning('valueFrom', '5a');
@@ -775,7 +749,7 @@ export class ArdiumSelectComponent
   handleOutsideClick(event: MouseEvent): void {
     if (!this.isOpen()) return;
     const target = event.target as HTMLElement;
-    if (this.element.contains(target)) return;
+    if (this.elementRef.nativeElement.contains(target)) return;
 
     this.close();
   }
@@ -847,13 +821,13 @@ export class ArdiumSelectComponent
     this.filter(searchTerm, suppressSearchEvent);
   }
   private _setSearchInputAttributes() {
-    const input = this.searchInput.nativeElement;
+    const input = this.searchInput()!.nativeElement;
     const attributes: Record<string, string> = {
       type: 'text',
       autocorrect: 'off',
       autocapitalize: 'off',
       autocomplete: 'off',
-      // ...(this.inputAttrs()), //TODO fix
+      ...this.inputAttrs(),
     };
 
     for (const key of Object.keys(attributes)) {
@@ -945,7 +919,7 @@ export class ArdiumSelectComponent
       this.itemStorage.setRecentlyHighlighted(recentlyHighlighted);
     }
 
-    this.dropdownPanel.scrollToRecentlyHighlighted('bottom');
+    this.dropdownPanel()?.scrollToRecentlyHighlighted('bottom');
   }
   private _onArrowUpPress(event: KeyboardEvent): void {
     if (!this.isOpen()) return;
@@ -958,12 +932,12 @@ export class ArdiumSelectComponent
       this.itemStorage.setRecentlyHighlighted(recentlyHighlighted);
     }
 
-    this.dropdownPanel.scrollToRecentlyHighlighted('top');
+    this.dropdownPanel()?.scrollToRecentlyHighlighted('top');
   }
   private _onHomePress(event: KeyboardEvent): void {
     if (
       !this.isOpen() ||
-      (this.searchInput.nativeElement.selectionEnd !== 0 && this.searchInput.nativeElement.selectionStart !== 0)
+      (this.searchInput()?.nativeElement.selectionEnd !== 0 && this.searchInput()?.nativeElement.selectionStart !== 0)
     )
       return;
     event.preventDefault();
@@ -974,13 +948,13 @@ export class ArdiumSelectComponent
     if (!recentlyHighlighted) return;
 
     this.itemStorage.setRecentlyHighlighted(recentlyHighlighted);
-    this.dropdownPanel.scrollToRecentlyHighlighted('top');
+    this.dropdownPanel()?.scrollToRecentlyHighlighted('top');
   }
   private _onEndPress(event: KeyboardEvent): void {
     if (
       !this.isOpen() ||
-      (this.searchInput.nativeElement.selectionEnd !== this.searchTerm().length &&
-        this.searchInput.nativeElement.selectionStart !== this.searchTerm().length)
+      (this.searchInput()?.nativeElement.selectionEnd !== this.searchTerm().length &&
+        this.searchInput()?.nativeElement.selectionStart !== this.searchTerm().length)
     )
       return;
     event.preventDefault();
@@ -991,7 +965,7 @@ export class ArdiumSelectComponent
     if (!recentlyHighlighted) return;
 
     this.itemStorage.setRecentlyHighlighted(recentlyHighlighted);
-    this.dropdownPanel.scrollToRecentlyHighlighted('bottom');
+    this.dropdownPanel()?.scrollToRecentlyHighlighted('bottom');
   }
   private _onBackspaceOrDeletePress(event: KeyboardEvent): void {
     if (this.searchTerm() || !this.clearable() || this.noBackspaceClear() || !this.itemStorage.isAnyItemSelected()) return;
