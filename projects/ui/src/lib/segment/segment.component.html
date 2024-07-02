@@ -10,15 +10,15 @@
   (focus)="onFocus($event)"
   (blur)="onBlur($event)"
 >
+  @for (row of itemRows(); track $index) {
   <div
     class="ard-segment-row"
-    *ngFor="let row of itemRows"
     [class.ard-segment-row-partial]="row.isNotFull"
     [class.ard-segment-row-uniform]="uniformWidths() || itemsPerRow() < items.length"
     [style]="{ '--ard-_segment-row-items': itemsInActualRow }"
   >
+    @for (option of row.options; track $index) {
     <button
-      *ngFor="let option of row.options"
       class="ard-segment-option"
       tabindex="-1"
       [class.ard-option-disabled]="option.disabled() || (isItemLimitReached() && !option.selected())"
@@ -43,5 +43,7 @@
         </span>
       </div>
     </button>
+    }
   </div>
+  }
 </div>
