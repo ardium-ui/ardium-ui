@@ -3,8 +3,8 @@
   [variant]="variant()"
   [compact]="compact()"
   [isFocused]="isFocused"
-  [prefixTemplate]="prefixTemplate"
-  [suffixTemplate]="suffixTemplate"
+  [prefixTemplate]="prefixTemplate()?.template"
+  [suffixTemplate]="suffixTemplate()?.template"
 >
   <div
     class="ard-select"
@@ -23,7 +23,7 @@
         </ng-template>
 
         <ng-template
-          [ngTemplateOutlet]="placeholderTemplate || defaultPlaceholderTemplate"
+          [ngTemplateOutlet]="placeholderTemplate()?.template || defaultPlaceholderTemplate"
           [ngTemplateOutletContext]="getPlaceholderContext()"
         />
       }
@@ -36,7 +36,7 @@
           >
             <ng-template
               *ngIf="isValueWithinDisplayLimit($index)"
-              [ngTemplateOutlet]="valueTemplate || (multiselectable() ? defaultMultiValueTemplate : defaultValueTemplate)"
+              [ngTemplateOutlet]="valueTemplate()?.template || (multiselectable() ? defaultMultiValueTemplate : defaultValueTemplate)"
               [ngTemplateOutletContext]="getValueContext(item)"
             />
           </div>
@@ -74,7 +74,7 @@
       @if (itemStorage.isAnyItemSelected() && shouldShowItemDisplayLimit()) {
         <div class="ard-overflow-indicator">
           <ng-template
-            [ngTemplateOutlet]="itemDisplayLimitTemplate || defaultItemDisplayLimitTemplate"
+            [ngTemplateOutlet]="itemDisplayLimitTemplate()?.template || defaultItemDisplayLimitTemplate"
             [ngTemplateOutletContext]="getItemDisplayLimitContext()"
           />
 
@@ -121,7 +121,7 @@
           <div class="ard-simple-spinner"></div>
         </ng-template>
 
-        <ng-template [ngTemplateOutlet]="loadingSpinnerTemplate || defaultLoadingSpinnerTemplate" />
+        <ng-template [ngTemplateOutlet]="loadingSpinnerTemplate()?.template || defaultLoadingSpinnerTemplate" />
       }
 
       @if (shouldShowClearButton()) {
@@ -147,8 +147,8 @@
     class="ard-dropdown-panel ard-select-dropdown-panel"
     role="listbox"
     aria-label="Options list"
-    [headerTemplate]="dropdownHeaderTemplate ?? null"
-    [footerTemplate]="dropdownFooterTemplate ?? null"
+    [headerTemplate]="dropdownHeaderTemplate()?.template ?? null"
+    [footerTemplate]="dropdownFooterTemplate()?.template ?? null"
     [appearance]="dropdownAppearanceOrDefault()"
     [variant]="dropdownVariantOrDefault()"
     [isOpen]="true"
@@ -184,7 +184,7 @@
             </ng-template>
 
             <ng-template
-              [ngTemplateOutlet]="optgroupTemplate || defaultOptgroupTemplate"
+              [ngTemplateOutlet]="optgroupTemplate()?.template || defaultOptgroupTemplate"
               [ngTemplateOutletContext]="getGroupContext(group)"
             />
           }
@@ -217,7 +217,7 @@
                   </ng-template>
 
                   <ng-template
-                    [ngTemplateOutlet]="optionTemplate || defaultOptionTemplate"
+                    [ngTemplateOutlet]="optionTemplate()?.template || defaultOptionTemplate"
                     [ngTemplateOutletContext]="getOptionContext(option)"
                   />
                 </div>
@@ -234,7 +234,7 @@
       </ng-template>
 
       <ng-template
-        [ngTemplateOutlet]="noItemsFoundTemplate || defaultNoItemsFoundTemplate"
+        [ngTemplateOutlet]="noItemsFoundTemplate()?.template || defaultNoItemsFoundTemplate"
         [ngTemplateOutletContext]="getSearchContext()"
       />
     }
@@ -254,7 +254,7 @@
       </ng-template>
 
       <ng-template
-        [ngTemplateOutlet]="addCustomTemplate || defaultAddCustomTemplate"
+        [ngTemplateOutlet]="addCustomTemplate()?.template || defaultAddCustomTemplate"
         [ngTemplateOutletContext]="getCustomOptionContext()"
       />
     }
@@ -265,7 +265,7 @@
       </ng-template>
 
       <ng-template
-        [ngTemplateOutlet]="loadingPlaceholderTemplate || defaultLoadingPlaceholderTemplate"
+        [ngTemplateOutlet]="loadingPlaceholderTemplate()?.template || defaultLoadingPlaceholderTemplate"
         [ngTemplateOutletContext]="getSearchContext()"
       />
     }

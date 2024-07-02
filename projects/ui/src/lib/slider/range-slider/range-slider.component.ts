@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, OnInit, ViewEncapsulation, signal } from '@angular/core';
 import { roundToPrecision } from 'more-rounding';
 import { isNumber, isObject } from 'simple-bool';
 import { _AbstractSlider } from '../abstract-slider';
@@ -114,7 +114,7 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
       this._bodyHasClass = true;
       this.renderer.addClass(this.document.body, 'ard-prevent-touch-actions');
     }
-    this._writeValueFromEvent(event, this._isGrabbed);
+    this._writeValueFromEvent(event, this._grabbedHandleId());
   }
 
   //! position calculators
@@ -135,14 +135,14 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
   }
 
   //! handle focus monitors
-  currentHandle: 1 | 2 | null = null;
+  readonly currentHandle = signal<1 | 2 | null>(null);
   onHandleFocus(event: FocusEvent, handleId: 1 | 2) {
     this.onFocus(event);
 
-    this.currentHandle = handleId;
+    this.currentHandle.set(handleId);
   }
   override onBlur(event: FocusEvent) {
     super.onBlur(event);
-    this.currentHandle = null;
+    this.currentHandle.set(null);
   }
 }
