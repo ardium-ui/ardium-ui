@@ -89,10 +89,7 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
   }
 
   //! item row getters
-  private _itemRowsCache: SegmentRow[] | null = null;
-  get itemRows(): SegmentRow[] {
-    if (this._itemRowsCache) return this._itemRowsCache;
-
+  readonly itemRows = computed<SegmentRow[]>(() => {
     const itemRows: SegmentRow[] = [];
     let currentRow: ArdOptionSimple[] = [];
     //get all rows
@@ -106,17 +103,15 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
         currentRow = [];
       }
     }
-    //push the last row if it is not full
+    //push the last row if it is not empty
     if (currentRow.length !== 0) {
       itemRows.push({
         options: currentRow,
         isNotFull: Boolean(this.itemsPerRow()),
       });
     }
-
-    this._itemRowsCache = itemRows;
     return itemRows;
-  }
+  })
 
   //! focus handler override
   override onFocus(event: FocusEvent): void {
