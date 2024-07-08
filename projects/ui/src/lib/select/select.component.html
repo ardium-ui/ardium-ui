@@ -17,15 +17,11 @@
       @if (shouldDisplayPlaceholder()) {
         <ng-template
           #defaultPlaceholderTemplate
-          let-plchldr
         >
-          <div class="ard-placeholder">{{ plchldr }}</div>
+          <div class="ard-placeholder">{{ placeholder() }}</div>
         </ng-template>
 
-        <ng-template
-          [ngTemplateOutlet]="placeholderTemplate()?.template || defaultPlaceholderTemplate"
-          [ngTemplateOutletContext]="getPlaceholderContext()"
-        />
+        <ng-template [ngTemplateOutlet]="placeholderTemplate()?.template || defaultPlaceholderTemplate" />
       }
       @if (shouldDisplayValue()) {
         @for (item of itemStorage.selectedItems(); track item.index()) {

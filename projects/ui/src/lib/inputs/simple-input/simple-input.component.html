@@ -16,9 +16,8 @@
       @if (shouldDisplayPlaceholder()) {
         <ng-template
           #defaultPlaceholderTemplate
-          let-text
         >
-          <div class="ard-placeholder">{{ text }}</div>
+          <div class="ard-placeholder">{{ placeholder() }}</div>
         </ng-template>
 
         <ng-template [ngTemplateOutlet]="placeholderTemplate()?.template || defaultPlaceholderTemplate"></ng-template>

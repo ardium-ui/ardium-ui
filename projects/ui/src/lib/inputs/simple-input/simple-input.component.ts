@@ -4,7 +4,6 @@ import {
   Component,
   computed,
   contentChild,
-  effect,
   ElementRef,
   forwardRef,
   input,

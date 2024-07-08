@@ -13,6 +13,7 @@
     "resolve-object-path",
     "simple-bool",
     "color",
-    "string-similarity"
+    "string-similarity",
+    "@ardium-ui/devkit"
   ]
 }
