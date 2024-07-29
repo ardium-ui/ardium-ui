@@ -24,6 +24,7 @@
         (blur)="onItemBlur()"
         (select)="selectItem(item)"
         (unselect)="unselectItem(item)"
+        (click)="$event.stopPropagation()"
       />
       <label [for]="htmlId() + item.index()">
         {{ item.label() }}
