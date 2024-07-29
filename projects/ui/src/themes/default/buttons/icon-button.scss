@@ -46,6 +46,10 @@ ard-icon-button {
       }
     }
   }
+  //! light coloring
+  &.ard-light-coloring {
+    color: var(--ard-cmpcl--bg-colored-light);
+  }
 }
 
 ard-icon-button.ard-disabled {

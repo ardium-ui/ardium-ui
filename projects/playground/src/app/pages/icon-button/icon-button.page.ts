@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { ComponentColor as CC } from '@ardium-ui/ui';
 import { Logger } from '../../services/logger.service';
 
@@ -6,8 +6,14 @@ import { Logger } from '../../services/logger.service';
   selector: 'app-icon-button',
   templateUrl: './icon-button.page.html',
   styleUrls: ['./icon-button.page.scss'],
+  host: {
+    '[class.alt-coloring]': 'altColoring',
+  },
+  encapsulation: ViewEncapsulation.None,
 })
 export class IconButtonPage {
+  altColoring = false;
+
   colors: CC[] = Object.values(CC);
 
   color: CC[] = [CC.Primary];
