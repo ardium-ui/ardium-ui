@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { ButtonAppearance as BA, ButtonVariant as BV, ComponentColor as CC, SimpleOneAxisAlignment as SOAA } from '@ardium-ui/ui';
 import { Logger } from '../../services/logger.service';
 
@@ -6,8 +6,14 @@ import { Logger } from '../../services/logger.service';
   selector: 'app-button',
   templateUrl: './button.page.html',
   styleUrls: ['./button.page.scss'],
+  host: {
+    '[class.alt-coloring]': 'altColoring',
+  },
+  encapsulation: ViewEncapsulation.None,
 })
 export class ButtonPage {
+  altColoring = false;
+
   variants: BV[] = [BV.Rounded, BV.Pill, BV.Sharp];
   aligns: SOAA[] = [SOAA.Left, SOAA.Right];
   appearances: BA[] = Object.values(BA);

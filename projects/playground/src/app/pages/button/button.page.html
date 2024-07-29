@@ -1,4 +1,14 @@
 <div class="master flex playground">
+  <div
+    class="flex horiz"
+    style="margin-bottom: 16px"
+  >
+    <ard-checkbox
+      htmlId="alt-coloring"
+      [(selected)]="altColoring"
+    />
+    <label for="alt-coloring">Alternate coloring?</label>
+  </div>
   <span class="title">Button playground</span>
   <div class="settings-form">
     <div class="settings-top">
@@ -81,7 +91,7 @@
       </div>
     </div>
   </div>
-  <div class="button-container">
+  <div class="button-container alt-coloring-host">
     <ard-button
       [icon]="icon ?? ''"
       [appearance]="appearance[0]"
@@ -91,6 +101,7 @@
       [compact]="compact"
       [vertical]="vertical"
       [alignIcon]="align"
+      [lightColoring]="altColoring"
     >
       {{ text }}
     </ard-button>
@@ -109,7 +120,10 @@
       class="flex horiz"
       *ngFor="let appearance of appearances"
     >
-      <div class="flex">
+      <div
+        class="flex"
+        [class.alt-coloring-host]="appearance === 'transparent'"
+      >
         <div
           class="grid"
           *ngFor="let disabled of [false, true]"
@@ -122,6 +136,7 @@
             [color]="color"
             [disabled]="disabled"
             [compact]="compact"
+            [lightColoring]="altColoring"
             (focus)="log('focus', $event)"
             (blur)="log('blur', $event)"
             (click)="log('click', $event)"
