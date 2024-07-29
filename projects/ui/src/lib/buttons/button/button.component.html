@@ -1,6 +1,7 @@
 <button
   #buttonElement
   class="ard-button"
+  [type]="type()"
   [ngClass]="ngClasses()"
   (focus)="onFocus($event)"
   (blur)="onBlur($event)"

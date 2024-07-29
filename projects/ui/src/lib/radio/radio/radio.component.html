@@ -1,7 +1,8 @@
 <button
-  class="ard-radio"
-  [ngClass]="ngClasses()"
   #focusableElement
+  class="ard-radio"
+  type="button"
+  [ngClass]="ngClasses()"
   (focus)="onFocus($event)"
   (blur)="onBlur($event)"
   (mousedown)="onMousedown()"

@@ -1,4 +1,5 @@
 <div
+  #focusableElement
   class="ard-segment-container"
   [class.ard-disabled]="disabled()"
   [ariaDisabled]="disabled()"
@@ -6,7 +7,6 @@
   [class.ard-focus-visible]="isFocused && !isMouseBeingUsed"
   [class.ard-using-keyboard]="!isMouseBeingUsed"
   [attr.tabindex]="tabIndex()"
-  #focusableElement
   (focus)="onFocus($event)"
   (blur)="onBlur($event)"
 >
@@ -19,6 +19,7 @@
   >
     @for (option of row.options; track $index) {
     <button
+      type="button"
       class="ard-segment-option"
       tabindex="-1"
       [class.ard-option-disabled]="option.disabled() || (isItemLimitReached() && !option.selected())"

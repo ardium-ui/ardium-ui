@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _FocusableComponentBase } from '../../_internal/focusable-component';
+import { ButtonType } from '../../types/button.types';
 import { ComponentColor } from '../../types/colors.types';
 
 @Component({
@@ -12,6 +13,8 @@ import { ComponentColor } from '../../types/colors.types';
 })
 export class ArdiumIconButtonComponent extends _FocusableComponentBase {
   readonly wrapperClasses = input<string>('');
+
+  readonly type = input<ButtonType>(ButtonType.Button);
 
   //! button settings
   readonly color = input<ComponentColor>(ComponentColor.Primary);

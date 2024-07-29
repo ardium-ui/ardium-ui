@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { ButtonType } from '../../types/button.types';
 import { _ButtonBase } from '../_button-base';
 import { FABSize } from '../general-button.types';
 
@@ -11,6 +12,8 @@ import { FABSize } from '../general-button.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumFabComponent extends _ButtonBase {
+  readonly type = input<ButtonType>(ButtonType.Button);
+  
   //! appearance
   readonly size = input<FABSize>(FABSize.Standard);
 

@@ -7,20 +7,22 @@
     [ngClass]="tabContainerClasses()"
   >
     @for (tab of tabs(); track tab) {
-      <button
-        role="tab"
-        class="ard-tab-button"
-        [id]="tab.tabId()"
-        [class.ard-tab-active]="tab === currentTab()"
-        [class.ard-tab-focused]="tab === currentFocusedTab()"
-        (click)="!tab.selected() && onTabClick(tab)"
-        (focus)="onTabFocus(tab)"
-        (blur)="onTabBlur(tab)"
-        [tabindex]="tabIndex()"
-      >
-        <div class="ard-focus-overlay"></div>
-        {{ tab.label() }}
-      </button>
+    <button
+      #focusableElement
+      type="button"
+      role="tab"
+      class="ard-tab-button"
+      [id]="tab.tabId()"
+      [class.ard-tab-active]="tab === currentTab()"
+      [class.ard-tab-focused]="tab === currentFocusedTab()"
+      (click)="!tab.selected() && onTabClick(tab)"
+      (focus)="onTabFocus(tab)"
+      (blur)="onTabBlur(tab)"
+      [tabindex]="tabIndex()"
+    >
+      <div class="ard-focus-overlay"></div>
+      {{ tab.label() }}
+    </button>
     }
   </div>
   <div
