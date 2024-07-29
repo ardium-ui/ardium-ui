@@ -30,6 +30,7 @@ ard-card-header {
   display: flex;
   align-items: center;
   margin-bottom: 1em;
+  max-width: 100%;
 
   .ard-card-header-title-container {
     display: flex;
@@ -93,6 +94,7 @@ ard-card-header {
 .ard-card-content {
   padding: 0 1em;
   display: block;
+  max-width: 100%;
 
   &:first-child {
     padding-top: 1em;
@@ -111,6 +113,7 @@ ard-card-header {
   display: flex;
   flex-direction: row;
   align-items: center;
+  max-width: 100%;
 
   &.ard-align-left {
     justify-content: flex-start;
