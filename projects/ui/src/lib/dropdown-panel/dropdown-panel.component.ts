@@ -21,7 +21,7 @@ import { DropdownPanelAppearance, DropdownPanelVariant, ScrollAlignment } from '
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    'class.ard-open': 'isOpen()',
+    '[class.ard-open]': 'isOpen()',
   },
 })
 export class ArdiumDropdownPanelComponent implements AfterViewChecked {
