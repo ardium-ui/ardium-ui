@@ -1,0 +1,22 @@
+{
+  "restoreTerminals.terminals": [
+    {
+      "splitTerminals": [
+        {
+          "name": "ng",
+          "commands": [
+            "cd client"
+          ]
+        }
+      ]
+    },
+    {
+      "splitTerminals": [
+        {
+          "name": "ng serve",
+          "commands": ["ng serve --port=4240"]
+        }
+      ]
+    },
+  ]
+}
