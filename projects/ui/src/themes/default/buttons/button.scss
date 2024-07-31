@@ -19,6 +19,12 @@ ard-button {
   justify-content: center;
   margin: 0;
 
+  .ard-button-content {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+  }
+
   //! aligns
   &.ard-align-left {
     flex-direction: row;
