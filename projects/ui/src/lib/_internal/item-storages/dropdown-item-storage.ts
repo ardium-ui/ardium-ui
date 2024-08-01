@@ -1,5 +1,5 @@
 import { Signal, computed, signal } from '@angular/core';
-import resolvePath from 'resolve-object-path';
+import { resolvePath } from 'resolve-object-path';
 import { any, evaluate, isArray, isDefined, isObject, isPrimitive, isPromise } from 'simple-bool';
 import { AddCustomFn } from '../../select/select.types';
 import { ArdItemGroupMap, ArdOption, ArdOptionGroup, CompareWithFn, GroupByFn, SearchFn } from '../../types/item-storage.types';

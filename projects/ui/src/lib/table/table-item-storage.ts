@@ -1,5 +1,5 @@
 import { Signal, computed, signal } from '@angular/core';
-import resolvePath from 'resolve-object-path';
+import { resolvePath } from 'resolve-object-path';
 import { evaluate, isDefined, isNull } from 'simple-bool';
 import { Nullable } from '../types/utility.types';
 import { SortType, TableDataColumn, TablePaginationStrategy, TableSubheader } from './table.types';

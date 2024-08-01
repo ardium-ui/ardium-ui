@@ -1,5 +1,5 @@
 import { Signal, computed, signal } from '@angular/core';
-import resolvePath from 'resolve-object-path';
+import { resolvePath } from 'resolve-object-path';
 import { any, isDefined, isPrimitive } from 'simple-bool';
 import { ArdSimplestStorageItem } from '../../types/item-storage.types';
 import { Nullable } from '../../types/utility.types';
