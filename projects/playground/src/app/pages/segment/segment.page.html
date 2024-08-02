@@ -17,7 +17,19 @@
   ></ard-segment>
 </div>
 <div class="master">
-  <span class="title">Segment events, uniform widths</span>
+  <span class="title">Segment events, singleselectable</span>
+  <ard-segment
+    [items]="options"
+    (valueChange)="log('valueChange', $event)"
+    (add)="log('add', $event)"
+    (remove)="log('remove', $event)"
+    (focus)="log('focus', $event)"
+    (blur)="log('blur', $event)"
+    (change)="log('change', $event)"
+  ></ard-segment>
+</div>
+<div class="master">
+  <span class="title">Segment events, multiselectable, uniform widths</span>
   <ard-segment
     [items]="options"
     multiselectable
