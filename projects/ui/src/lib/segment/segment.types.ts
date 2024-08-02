@@ -4,6 +4,7 @@ export const SegmentVariant = {
   ...FormElementVariant,
   RoundedConnected: 'rounded-connected',
   SharpConnected: 'sharp-connected',
+  PillConnected: 'pill-connected',
 } as const;
 export type SegmentVariant = (typeof SegmentVariant)[keyof typeof SegmentVariant];
 

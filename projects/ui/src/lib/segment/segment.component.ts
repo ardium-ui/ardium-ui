@@ -49,6 +49,7 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
       `ard-align-${this.align()}`,
       this.iconBased() ? 'ard-icon-based' : '',
       this.compact() ? 'ard-compact' : '',
+      this.itemRows().length > 1 ? 'ard-multirow' : 'ard-singlerow',
     ].join(' ')
   );
 
@@ -111,7 +112,7 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
       });
     }
     return itemRows;
-  })
+  });
 
   //! focus handler override
   override onFocus(event: FocusEvent): void {
