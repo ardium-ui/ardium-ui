@@ -1,14 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Directive,
-  HostBinding,
-  HostListener,
-  Input,
-  computed,
-  input,
-  output,
-  signal
-} from '@angular/core';
+import { ChangeDetectorRef, Directive, HostBinding, HostListener, Input, computed, input, output, signal } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { ArdOptionSimple, CompareWithFn, OptionContext } from '../types/item-storage.types';
@@ -182,6 +172,8 @@ export abstract class _SelectableListComponentBase
   //! item selection handlers
   toggleItem(item: ArdOptionSimple): void {
     if (item.selected()) {
+      if (this.singleselectable()) return;
+
       this.unselectItem(item);
       return;
     }
@@ -200,7 +192,8 @@ export abstract class _SelectableListComponentBase
   unselectItem(...items: ArdOptionSimple[]): void {
     const unselected = this.itemStorage.unselectItem(...items);
 
-    this.removeEvent.emit(unselected);
+    if (unselected.length > 0) this.removeEvent.emit(unselected);
+    
     this._emitChange();
   }
 
