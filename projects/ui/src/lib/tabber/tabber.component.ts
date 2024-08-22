@@ -96,11 +96,16 @@ export class ArdiumTabberComponent implements AfterContentInit {
   readonly ngClasses = computed(() => [`ard-color-${this.color()}`].join(' '));
 
   //! tab container settings
-  readonly stretchTabs = input<boolean, any>(true, { transform: v => coerceBooleanProperty(v) });
+  readonly stretchTabs = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly uniformTabWidths = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
   readonly tabAlignment = input<OneAxisAlignment>(OneAxisAlignment.Left);
 
   readonly tabContainerClasses = computed(() =>
-    [this.stretchTabs() ? 'ard-stretch-tabs' : '', this.stretchTabs() ? '' : `ard-tab-align-${this.tabAlignment()}`].join(' ')
+    [
+      this.uniformTabWidths() && !this.stretchTabs() ? 'ard-uniform-tab-widths' : '',
+      this.stretchTabs() ? 'ard-stretch-tabs' : '',
+      this.stretchTabs() ? '' : `ard-tab-align-${this.tabAlignment()}`,
+    ].join(' ')
   );
 
   //! other

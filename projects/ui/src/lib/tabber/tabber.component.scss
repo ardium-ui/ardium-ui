@@ -6,4 +6,10 @@
       display: block;
     }
   }
+
+  .ard-tabber-tabs.ard-uniform-tab-widths {
+    display: grid;
+    grid-template-columns: repeat(var(--ard-_tabber-tabs), 1fr);
+    max-width: max-content;
+  }
 }
