@@ -5,8 +5,6 @@ import { FormElementAppearance } from 'dist/ui';
   selector: '[ardKbd]',
 })
 export class ArdiumKbdDirective {
-  readonly myProp = input<string>();
-
   readonly elementRef: ElementRef<HTMLElement> = inject(ElementRef<HTMLElement>);
   readonly renderer: Renderer2 = inject(Renderer2);
 
