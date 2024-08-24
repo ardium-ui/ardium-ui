@@ -1,5 +1,5 @@
 import { computed, Directive, effect, ElementRef, inject, input, Renderer2 } from '@angular/core';
-import { FormElementAppearance } from 'dist/ui';
+import { FormElementAppearance } from './../types/theming.types';
 
 @Directive({
   selector: '[ardKbd]',
