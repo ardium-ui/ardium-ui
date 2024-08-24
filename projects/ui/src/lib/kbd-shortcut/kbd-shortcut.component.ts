@@ -28,8 +28,9 @@ export class ArdiumKbdShortcutComponent implements AfterViewInit {
     }
   }
 
+  readonly splitRegex = /[+, ]/;
   readonly keys = input<Nullable<string[]>, Nullable<string | string[]>>(undefined, {
-    transform: v => coerceArrayProperty(v, /[+, ]/),
+    transform: v => coerceArrayProperty(v, this.splitRegex),
   });
 
   readonly full = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
