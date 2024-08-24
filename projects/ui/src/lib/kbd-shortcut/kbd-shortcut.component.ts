@@ -8,7 +8,7 @@ import {
   input,
   viewChild,
 } from '@angular/core';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { coerceArrayProperty, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { FormElementAppearance } from '../types/theming.types';
 import { Nullable } from '../types/utility.types';
 
@@ -28,17 +28,8 @@ export class ArdiumKbdShortcutComponent implements AfterViewInit {
     }
   }
 
-  readonly splitRegex = /[+ ]/;
-
   readonly keys = input<Nullable<string[]>, Nullable<string | string[]>>(undefined, {
-    transform: v => {
-      //assign from string
-      if (typeof v === 'string') {
-        return v.split(this.splitRegex);
-      }
-      //assign undefined or array
-      return v && [...v];
-    },
+    transform: v => coerceArrayProperty(v, /[+, ]/),
   });
 
   readonly full = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
