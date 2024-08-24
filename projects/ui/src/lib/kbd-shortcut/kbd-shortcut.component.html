@@ -1,6 +1,6 @@
 <div
   class="ard-kbd-shortcut"
-  [ngClass]="ngClasses"
+  [ngClass]="ngClasses()"
 >
   @for (key of keys() ?? contentWrapper()?.nativeElement?.innerText?.split(splitRegex); track $index) {
     @if ($index !== 0) {
