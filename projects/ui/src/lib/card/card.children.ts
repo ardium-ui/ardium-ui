@@ -3,13 +3,14 @@ import {
   Component,
   Directive,
   ElementRef,
-  HostBinding,
   Renderer2,
   ViewEncapsulation,
   computed,
-  input,
+  inject,
+  input
 } from '@angular/core';
 import { OneAxisAlignment } from '../types/alignment.types';
+import { ARD_CARD_DEFAULTS } from './card.defaults';
 
 @Component({
   selector: 'ard-card-header',
@@ -54,16 +55,18 @@ export class ArdiumCardImageDirective {
   }
 }
 
-@Directive({ selector: 'ard-card-action-buttons, [ard-card-action-buttons]' })
+@Directive({
+  selector: 'ard-card-action-buttons, [ard-card-action-buttons]',
+  host: {
+    '[class]': 'alignClass()',
+  },
+})
 export class ArdiumCardActionButtonsDirective {
-  readonly align = input<OneAxisAlignment>(OneAxisAlignment.Right);
+  private readonly _DEFAULTS = inject(ARD_CARD_DEFAULTS);
+
+  readonly align = input<OneAxisAlignment>(this._DEFAULTS.actionButtonsAlign);
 
   readonly alignClass = computed(() => `ard-card-action-buttons ard-align-${this.align()}`);
-
-  @HostBinding('class')
-  get _alignClassHostAttribute() {
-    return this.alignClass();
-  }
 }
 
 @Directive({ selector: 'ard-card-footer, [ard-card-footer]' })
