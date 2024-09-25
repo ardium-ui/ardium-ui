@@ -1,26 +1,38 @@
-import { AfterViewInit, Directive, ElementRef, OnChanges, OnDestroy, Renderer2, computed, input, signal } from '@angular/core';
+import {
+  AfterViewInit,
+  Directive,
+  ElementRef,
+  OnChanges,
+  OnDestroy,
+  Renderer2,
+  computed,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ComponentColor } from '../types/colors.types';
 import { FormElementVariant } from '../types/theming.types';
 import { Nullable } from '../types/utility.types';
+import { ARD_BADGE_DEFAULTS } from './badge.defaults';
 import { BadgePosition, BadgeSize } from './badge.types';
 
 @Directive({
   selector: '[ardBadge]',
 })
 export class ArdiumBadgeDirective implements OnChanges, AfterViewInit, OnDestroy {
-  constructor(
-    private _elRef: ElementRef,
-    private _renderer: Renderer2
-  ) {}
+  private readonly _elRef = inject(ElementRef);
+  private readonly _renderer = inject(Renderer2);
+
+  private readonly _DEFAULTS = inject(ARD_BADGE_DEFAULTS);
 
   readonly text = input<string>('', { alias: 'ardBadge' });
 
-  readonly color = input<ComponentColor>(ComponentColor.Primary, { alias: 'ardBadgeColor' });
-  readonly variant = input<FormElementVariant>(FormElementVariant.Pill, { alias: 'ardBadgeVariant' });
-  readonly size = input<BadgeSize>(BadgeSize.Medium, { alias: 'ardBadgeSize' });
+  readonly color = input<ComponentColor>(this._DEFAULTS.color, { alias: 'ardBadgeColor' });
+  readonly variant = input<FormElementVariant>(this._DEFAULTS.variant, { alias: 'ardBadgeVariant' });
+  readonly size = input<BadgeSize>(this._DEFAULTS.size, { alias: 'ardBadgeSize' });
 
-  readonly position = input<BadgePosition, BadgePosition>(BadgePosition.AboveAfter, {
+  readonly position = input<BadgePosition, BadgePosition>(this._DEFAULTS.position, {
     alias: 'ardBadgePosition',
     transform: v => {
       switch (v) {
@@ -41,7 +53,10 @@ export class ArdiumBadgeDirective implements OnChanges, AfterViewInit, OnDestroy
   readonly ariaLabel = input<string>('', { alias: 'ardBadgeAriaLabel' });
 
   readonly hidden = input<boolean, any>(false, { alias: 'ardBadgeHidden', transform: v => coerceBooleanProperty(v) });
-  readonly overlap = input<boolean, any>(false, { alias: 'ardBadgeOverlap', transform: v => coerceBooleanProperty(v) });
+  readonly overlap = input<boolean, any>(this._DEFAULTS.overlap, {
+    alias: 'ardBadgeOverlap',
+    transform: v => coerceBooleanProperty(v),
+  });
 
   private readonly _elementClasses = computed(() =>
     [
