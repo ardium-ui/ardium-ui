@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, inject, input } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { SimpleOneAxisAlignment } from '../../types/alignment.types';
-import { ButtonType } from '../../types/button.types';
 import { _ButtonBase } from '../_button-base';
 import { ButtonVariant } from '../general-button.types';
+import { ARD_BUTTON_DEFAULTS } from './button.defaults';
 
 @Component({
   selector: 'ard-button',
@@ -13,15 +13,15 @@ import { ButtonVariant } from '../general-button.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumButtonComponent extends _ButtonBase {
+  protected override readonly _DEFAULTS = inject(ARD_BUTTON_DEFAULTS);
+
   readonly icon = input<string>('');
 
-  readonly type = input<ButtonType>(ButtonType.Button);
-
   //! button settings
-  readonly variant = input<ButtonVariant>(ButtonVariant.Rounded);
-  readonly alignIcon = input<SimpleOneAxisAlignment>(SimpleOneAxisAlignment.Left);
+  readonly variant = input<ButtonVariant>(this._DEFAULTS.variant);
+  readonly alignIcon = input<SimpleOneAxisAlignment>(this._DEFAULTS.alignIcon);
 
-  readonly vertical = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly vertical = input<boolean, any>(this._DEFAULTS.vertical, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed(() =>
     [
