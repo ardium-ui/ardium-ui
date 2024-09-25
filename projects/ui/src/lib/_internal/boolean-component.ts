@@ -4,12 +4,8 @@ import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _NgModelComponentBase, _ngModelComponentDefaults, _NgModelComponentDefaults } from './ngmodel-component';
 
 export interface _BooleanComponentDefaults extends _NgModelComponentDefaults {
-  selected: boolean;
 }
-export const _booleanComponentDefaults: _BooleanComponentDefaults = {
-  ..._ngModelComponentDefaults,
-  selected: false,
-};
+export const _booleanComponentDefaults: _BooleanComponentDefaults = _ngModelComponentDefaults;
 
 /**
  * Common code for components, which only operate on the "selected" state.
@@ -52,7 +48,7 @@ export abstract class _BooleanComponentBase extends _NgModelComponentBase implem
 
   //! [(selected)] two-way binding
   // can be set using a no-value argument
-  readonly selected = signal<boolean>(this._DEFAULTS.selected);
+  readonly selected = signal<boolean>(false);
   /**
    * The selection state of the component. Coercible into a boolean.
    */
