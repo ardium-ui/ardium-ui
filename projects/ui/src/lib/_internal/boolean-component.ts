@@ -1,13 +1,23 @@
 import { Directive, HostBinding, Input, output, signal } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
-import { _NgModelComponentBase } from './ngmodel-component';
+import { _NgModelComponentBase, _ngModelComponentDefaults, _NgModelComponentDefaults } from './ngmodel-component';
+
+export interface _BooleanComponentDefaults extends _NgModelComponentDefaults {
+  selected: boolean;
+}
+export const _booleanComponentDefaults: _BooleanComponentDefaults = {
+  ..._ngModelComponentDefaults,
+  selected: false,
+};
 
 /**
  * Common code for components, which only operate on the "selected" state.
  */
 @Directive()
 export abstract class _BooleanComponentBase extends _NgModelComponentBase implements ControlValueAccessor {
+  protected override readonly _DEFAULTS!: _BooleanComponentDefaults;
+
   //! control value accessor
   writeValue(v: any): void {
     this._selected = v;
@@ -42,7 +52,7 @@ export abstract class _BooleanComponentBase extends _NgModelComponentBase implem
 
   //! [(selected)] two-way binding
   // can be set using a no-value argument
-  readonly selected = signal<boolean>(false);
+  readonly selected = signal<boolean>(this._DEFAULTS.selected);
   /**
    * The selection state of the component. Coercible into a boolean.
    */

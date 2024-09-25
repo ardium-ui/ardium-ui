@@ -1,16 +1,51 @@
-import { ChangeDetectorRef, Directive, HostBinding, HostListener, Input, computed, input, output, signal } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Directive,
+  HostBinding,
+  HostListener,
+  Input,
+  computed,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { ArdOptionSimple, CompareWithFn, OptionContext } from '../types/item-storage.types';
 import { Nullable } from '../types/utility.types';
 import { SimpleItemStorage, SimpleItemStorageHost } from './item-storages/simple-item-storage';
-import { _NgModelComponentBase } from './ngmodel-component';
+import { _NgModelComponentBase, _NgModelComponentDefaults, _ngModelComponentDefaults } from './ngmodel-component';
+
+export interface _SelectableListComponentDefaults extends _NgModelComponentDefaults {
+  valueFrom: Nullable<string>;
+  labelFrom: Nullable<string>;
+  disabledFrom: Nullable<string>;
+  compareWith: Nullable<CompareWithFn>;
+  multiselectable: boolean;
+  requireValue: boolean;
+  invertDisabled: boolean;
+  maxSelectedItems: Nullable<number>;
+}
+export const _selectableListComponentDefaults: _SelectableListComponentDefaults = {
+  ..._ngModelComponentDefaults,
+  valueFrom: undefined,
+  labelFrom: undefined,
+  disabledFrom: undefined,
+  compareWith: undefined,
+  multiselectable: false,
+  requireValue: false,
+  invertDisabled: false,
+  maxSelectedItems: undefined,
+};
 
 @Directive()
 export abstract class _SelectableListComponentBase
   extends _NgModelComponentBase
   implements ControlValueAccessor, SimpleItemStorageHost
 {
+  protected override readonly _DEFAULTS!: _SelectableListComponentDefaults;
+
   //! public constants
   readonly itemStorage = new SimpleItemStorage(this);
   readonly htmlId = crypto.randomUUID();
@@ -24,15 +59,13 @@ export abstract class _SelectableListComponentBase
   abstract readonly _componentId: string;
   abstract readonly _componentName: string;
 
-  constructor(private _cd: ChangeDetectorRef) {
-    super();
-  }
+  private readonly _cd = inject(ChangeDetectorRef);
 
   //! binding-related inputs
-  readonly valueFrom = input<Nullable<string>>(undefined);
-  readonly labelFrom = input<Nullable<string>>(undefined);
-  readonly disabledFrom = input<Nullable<string>>(undefined);
-  readonly compareWith = input<Nullable<CompareWithFn>>(undefined);
+  readonly valueFrom = input<Nullable<string>>(this._DEFAULTS.valueFrom);
+  readonly labelFrom = input<Nullable<string>>(this._DEFAULTS.labelFrom);
+  readonly disabledFrom = input<Nullable<string>>(this._DEFAULTS.disabledFrom);
+  readonly compareWith = input<Nullable<CompareWithFn>>(this._DEFAULTS.compareWith);
 
   //! items setter/getter
   @Input()
@@ -69,7 +102,7 @@ export abstract class _SelectableListComponentBase
   }
 
   //! multiselectable
-  readonly multiselectable = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly multiselectable = input<boolean, any>(this._DEFAULTS.multiselectable, { transform: v => coerceBooleanProperty(v) });
 
   @HostBinding('attr.multiple')
   @HostBinding('class.ard-multiselect')
@@ -80,7 +113,7 @@ export abstract class _SelectableListComponentBase
   readonly singleselectable = computed(() => !this.multiselectable());
 
   //! require value
-  readonly requireValue = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly requireValue = input<boolean, any>(this._DEFAULTS.requireValue, { transform: v => coerceBooleanProperty(v) });
 
   readonly isValueRequired = computed(() => this.requireValue() || !this.multiselectable());
 
@@ -90,8 +123,10 @@ export abstract class _SelectableListComponentBase
   }
 
   //! coerced properties
-  readonly invertDisabled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly maxSelectedItems = input<Nullable<number>, any>(undefined, { transform: v => coerceNumberProperty(v, undefined) });
+  readonly invertDisabled = input<boolean, any>(this._DEFAULTS.invertDisabled, { transform: v => coerceBooleanProperty(v) });
+  readonly maxSelectedItems = input<Nullable<number>, any>(this._DEFAULTS.maxSelectedItems, {
+    transform: v => coerceNumberProperty(v, undefined),
+  });
 
   //! control value accessor
   //override the writeValue and setDisabledState defined in _NgModelComponent
@@ -193,7 +228,7 @@ export abstract class _SelectableListComponentBase
     const unselected = this.itemStorage.unselectItem(...items);
 
     if (unselected.length > 0) this.removeEvent.emit(unselected);
-    
+
     this._emitChange();
   }
 

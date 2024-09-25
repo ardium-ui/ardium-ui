@@ -2,7 +2,8 @@ import { ComponentType, Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/
 import { ComponentPortal } from '@angular/cdk/portal';
 import { Injectable, Injector, OnDestroy, inject } from '@angular/core';
 import { isArray, isDefined } from 'simple-bool';
-import { Queue } from '../_internal/queue';
+import { Queue } from '../_internal/models/queue';
+import { ComponentColor } from '../types/colors.types';
 import {
   ARD_SNACKBAR_COLOR,
   ARD_SNACKBAR_DATA,
@@ -13,7 +14,6 @@ import {
 import { _ArdSimpleSnackbarComponent } from './snackbar.component';
 import { ARD_SNACKBAR_ANIMATION_LENGTH, ARD_SNACKBAR_DEFAULT_OPTIONS, _DEFAULT_OPTIONS_STATIC } from './snackbar.token';
 import { ArdSnackbarOptions, ArdSnackbarOriginRelation, ArdSnackbarQueueHandling, ArdSnackbarType } from './snackbar.types';
-import { ComponentColor } from '../types/colors.types';
 
 @Injectable({
   providedIn: 'root',

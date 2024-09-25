@@ -1,9 +1,19 @@
-import { Directive, ElementRef, QueryList, ViewChildren, computed, input, output } from '@angular/core';
+import { computed, Directive, ElementRef, input, output, QueryList, ViewChildren } from '@angular/core';
 import { coerceNumberProperty } from '@ardium-ui/devkit';
-import { _DisablableComponentBase } from './disablable-component';
+import { _DisablableComponentBase, _disablableComponentDefaults, _DisablableComponentDefaults } from './disablable-component';
+
+export interface _FocusableComponentDefaults extends _DisablableComponentDefaults {
+  tabIndex: number;
+}
+export const _focusableComponentDefaults: _FocusableComponentDefaults = {
+  ..._disablableComponentDefaults,
+  tabIndex: 0,
+};
 
 @Directive()
 export abstract class _FocusableComponentBase extends _DisablableComponentBase {
+  protected override readonly _DEFAULTS!: _FocusableComponentDefaults;
+
   //! make the component focusable programmatically
   @ViewChildren('focusableElement')
   private readonly _focusableElement!: QueryList<ElementRef<HTMLElement>>;
@@ -38,7 +48,7 @@ export abstract class _FocusableComponentBase extends _DisablableComponentBase {
    * The component's overall tab index. If the component is disabled, it is always `-1`. Coercible into a number, defaults to `0`.
    */
   readonly tabIndex = computed(() => (this.disabled() ? -1 : this._tabIndex()));
-  readonly _tabIndex = input<any, number>(0, { alias: 'tabIndex', transform: v => coerceNumberProperty(v) });
+  readonly _tabIndex = input<any, number>(this._DEFAULTS.tabIndex, { alias: 'tabIndex', transform: v => coerceNumberProperty(v) });
 
   //! events
   /**
