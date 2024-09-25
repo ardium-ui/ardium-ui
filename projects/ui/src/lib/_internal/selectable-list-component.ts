@@ -18,9 +18,9 @@ import { SimpleItemStorage, SimpleItemStorageHost } from './item-storages/simple
 import { _NgModelComponentBase, _NgModelComponentDefaults, _ngModelComponentDefaults } from './ngmodel-component';
 
 export interface _SelectableListComponentDefaults extends _NgModelComponentDefaults {
-  valueFrom: Nullable<string>;
-  labelFrom: Nullable<string>;
-  disabledFrom: Nullable<string>;
+  valueFrom: string;
+  labelFrom: string;
+  disabledFrom: string;
   compareWith: Nullable<CompareWithFn>;
   multiselectable: boolean;
   requireValue: boolean;
@@ -29,9 +29,9 @@ export interface _SelectableListComponentDefaults extends _NgModelComponentDefau
 }
 export const _selectableListComponentDefaults: _SelectableListComponentDefaults = {
   ..._ngModelComponentDefaults,
-  valueFrom: undefined,
-  labelFrom: undefined,
-  disabledFrom: undefined,
+  valueFrom: 'value',
+  labelFrom: 'label',
+  disabledFrom: 'disabled',
   compareWith: undefined,
   multiselectable: false,
   requireValue: false,
@@ -50,11 +50,7 @@ export abstract class _SelectableListComponentBase
   readonly itemStorage = new SimpleItemStorage(this);
   readonly htmlId = crypto.randomUUID();
   readonly element!: HTMLElement;
-  readonly DEFAULTS = {
-    valueFrom: 'value',
-    labelFrom: 'label',
-    disabledFrom: 'disabled',
-  };
+  readonly DEFAULTS = this._DEFAULTS;
 
   abstract readonly _componentId: string;
   abstract readonly _componentName: string;
@@ -62,9 +58,9 @@ export abstract class _SelectableListComponentBase
   private readonly _cd = inject(ChangeDetectorRef);
 
   //! binding-related inputs
-  readonly valueFrom = input<Nullable<string>>(this._DEFAULTS.valueFrom);
-  readonly labelFrom = input<Nullable<string>>(this._DEFAULTS.labelFrom);
-  readonly disabledFrom = input<Nullable<string>>(this._DEFAULTS.disabledFrom);
+  readonly valueFrom = input<string>(this._DEFAULTS.valueFrom);
+  readonly labelFrom = input<string>(this._DEFAULTS.labelFrom);
+  readonly disabledFrom = input<string>(this._DEFAULTS.disabledFrom);
   readonly compareWith = input<Nullable<CompareWithFn>>(this._DEFAULTS.compareWith);
 
   //! items setter/getter
