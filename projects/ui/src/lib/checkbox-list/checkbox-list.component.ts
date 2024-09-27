@@ -6,6 +6,7 @@ import {
   Input,
   ViewEncapsulation,
   computed,
+  inject,
   input,
   output,
   signal,
@@ -16,6 +17,7 @@ import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ComponentColor } from '../types/colors.types';
 import { ArdOptionSimple, CompareWithFn } from '../types/item-storage.types';
 import { Nullable } from '../types/utility.types';
+import { ARD_CHECKBOX_LIST_DEFAULTS } from './checkbox-list.defaults';
 import { CheckboxListAlignType } from './checkbox-list.types';
 
 @Component({
@@ -33,11 +35,9 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
     return this.htmlId();
   }
 
-  readonly DEFAULTS = {
-    valueFrom: 'value',
-    labelFrom: 'label',
-    disabledFrom: 'disabled',
-  };
+  protected override readonly _DEFAULTS = inject(ARD_CHECKBOX_LIST_DEFAULTS);
+
+  readonly DEFAULTS = this._DEFAULTS;
   // static values. Not meant to be changed.
   readonly multiselectable = signal<true>(true);
   readonly isValueRequired = signal<false>(false);
@@ -58,17 +58,17 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
     return this._itemStorage.items();
   }
 
-  readonly compareWith = input<Nullable<CompareWithFn>>(undefined);
+  readonly compareWith = input<Nullable<CompareWithFn>>(this._DEFAULTS.compareWith);
 
-  readonly invertDisabled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly invertDisabled = input<boolean, any>(this._DEFAULTS.invertDisabled, { transform: v => coerceBooleanProperty(v) });
 
-  readonly maxSelectedItems = input<number, any>(Infinity, { transform: v => coerceNumberProperty(v) });
+  readonly maxSelectedItems = input<number, any>(this._DEFAULTS.maxSelectedItems, { transform: v => coerceNumberProperty(v) });
 
   //! appearance
-  readonly color = input<ComponentColor>(ComponentColor.Primary);
-  readonly align = input<CheckboxListAlignType>(CheckboxListAlignType.LeftClumped);
+  readonly color = input<ComponentColor>(this._DEFAULTS.color);
+  readonly align = input<CheckboxListAlignType>(this._DEFAULTS.align);
 
-  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed(() =>
     [`ard-color-${this.color()}`, `ard-align-${this.align()}`, this.compact() ? 'ard-compact' : ''].join(' ')
