@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, inject, input } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { SimpleOneAxisAlignment } from '../types/alignment.types';
 import { ComponentColor } from '../types/colors.types';
 import { DecorationElementAppearance, FormElementVariant } from '../types/theming.types';
 import { _DisablableComponentBase } from './../_internal/disablable-component';
+import { ARD_CHIP_DEFAULTS } from './chip.defaults';
 
 @Component({
   selector: 'ard-chip',
@@ -13,13 +14,15 @@ import { _DisablableComponentBase } from './../_internal/disablable-component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumChipComponent extends _DisablableComponentBase {
-  //! appearance
-  readonly contentAlignment = input<SimpleOneAxisAlignment>(SimpleOneAxisAlignment.Left);
-  readonly appearance = input<DecorationElementAppearance>(DecorationElementAppearance.Outlined);
-  readonly variant = input<FormElementVariant>(FormElementVariant.Rounded);
-  readonly color = input<ComponentColor>(ComponentColor.Primary);
+  protected override readonly _DEFAULTS = inject(ARD_CHIP_DEFAULTS);
 
-  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  //! appearance
+  readonly contentAlignment = input<SimpleOneAxisAlignment>(this._DEFAULTS.contentAlignment);
+  readonly appearance = input<DecorationElementAppearance>(this._DEFAULTS.appearance);
+  readonly variant = input<FormElementVariant>(this._DEFAULTS.variant);
+  readonly color = input<ComponentColor>(this._DEFAULTS.color);
+
+  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   readonly wrapperClasses = input<string>('');
 

@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, forwardRef, input, output, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, forwardRef, inject, input, output, ViewEncapsulation } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _FocusableComponentBase } from '../../_internal/focusable-component';
 import { SimpleOneAxisAlignment } from '../../types/alignment.types';
 import { ComponentColor } from '../../types/colors.types';
 import { DecorationElementAppearance, FormElementVariant } from '../../types/theming.types';
+import { ARD_DELETABLE_CHIP_DEFAULTS } from './deletable-chip.defaults';
 
 @Component({
   selector: 'ard-deletable-chip',
@@ -21,19 +22,17 @@ import { DecorationElementAppearance, FormElementVariant } from '../../types/the
   ],
 })
 export class ArdiumDeletableChipComponent extends _FocusableComponentBase {
-  readonly DEFAULTS = {
-    deleteButtonTitle: 'Delete',
-  };
+  protected override readonly _DEFAULTS = inject(ARD_DELETABLE_CHIP_DEFAULTS);
 
-  readonly deleteButtonTitle = input<string>(this.DEFAULTS.deleteButtonTitle);
+  readonly deleteButtonTitle = input<string>(this._DEFAULTS.deleteButtonTitle);
 
   //! appearance
-  readonly contentAlignment = input<SimpleOneAxisAlignment>(SimpleOneAxisAlignment.Left);
-  readonly appearance = input<DecorationElementAppearance>(DecorationElementAppearance.Outlined);
-  readonly variant = input<FormElementVariant>(FormElementVariant.Rounded);
-  readonly color = input<ComponentColor>(ComponentColor.Primary);
+  readonly contentAlignment = input<SimpleOneAxisAlignment>(this._DEFAULTS.contentAlignment);
+  readonly appearance = input<DecorationElementAppearance>(this._DEFAULTS.appearance);
+  readonly variant = input<FormElementVariant>(this._DEFAULTS.variant);
+  readonly color = input<ComponentColor>(this._DEFAULTS.color);
 
-  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   readonly wrapperClasses = input<string>('');
 
