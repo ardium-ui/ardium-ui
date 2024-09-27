@@ -10,7 +10,7 @@ import { ButtonAppearance } from './general-button.types';
 export abstract class _ButtonBase extends _FocusableComponentBase {
   readonly wrapperClasses = input<string>('');
 
-  protected readonly _DEFAULTS!: _ButtonBaseDefaults;
+  protected override readonly _DEFAULTS!: _ButtonBaseDefaults;
 
   readonly type = input<ButtonType>(this._DEFAULTS.type);
 
