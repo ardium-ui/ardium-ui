@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, input } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { ARD_DIVIDER_DEFAULTS } from './divider.defaults';
 
 @Component({
   selector: 'ard-divider',
@@ -7,12 +8,12 @@ import { coerceBooleanProperty } from '@ardium-ui/devkit';
   styleUrls: ['./divider.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.ard-divider-vertical]': 'vertical()',
+  },
 })
 export class ArdiumDividerComponent {
-  readonly vertical = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  protected readonly _DEFAULTS = inject(ARD_DIVIDER_DEFAULTS);
 
-  @HostBinding('class.ard-divider-vertical')
-  get _verticalHostAttribute() {
-    return this.vertical();
-  }
+  readonly vertical = input<boolean, any>(this._DEFAULTS.vertical, { transform: v => coerceBooleanProperty(v) });
 }
