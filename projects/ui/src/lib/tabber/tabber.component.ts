@@ -7,7 +7,7 @@ import {
   contentChildren,
   input,
   output,
-  signal,
+  signal
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { OneAxisAlignment } from '../types/alignment.types';
@@ -26,6 +26,8 @@ export class ArdiumTabberComponent implements AfterContentInit {
 
   readonly currentTab = signal<ArdiumTabComponent | null>(null);
   readonly currentFocusedTab = signal<ArdiumTabComponent | null>(null);
+
+  readonly initialTab = input<string | undefined>(undefined);
 
   ngAfterContentInit(): void {
     let selectedCmp: ArdiumTabComponent | null = null;
@@ -52,7 +54,8 @@ export class ArdiumTabberComponent implements AfterContentInit {
     }
 
     if (!selectedCmp) {
-      selectedCmp = this.tabs()[0] ?? null;
+      const initiallySelectedTab = this.tabs().find(tab => tab.tabId() === this.initialTab())
+      selectedCmp = initiallySelectedTab ?? this.tabs()[0] ?? null;
 
       if (selectedCmp) {
         selectedCmp.selected.set(true);
