@@ -1,6 +1,7 @@
 import { InjectionToken } from '@angular/core';
-import { CompareWithFn, Nullable } from '@ardium-ui/ui';
 import { _ngModelComponentDefaults, _NgModelComponentDefaults } from '../_internal/ngmodel-component';
+import { CompareWithFn } from '../types/item-storage.types';
+import { Nullable } from '../types/utility.types';
 import { ComponentColor } from './../types/colors.types';
 import { CheckboxListAlignType } from './checkbox-list.types';
 

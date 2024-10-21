@@ -1,5 +1,5 @@
 import { InjectionToken } from '@angular/core';
-import { OneAxisAlignment } from '@ardium-ui/ui';
+import { OneAxisAlignment } from './../types/alignment.types';
 import { CardAppearance, CardVariant } from './card.types';
 
 export interface ArdCardDefaults {
