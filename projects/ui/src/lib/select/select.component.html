@@ -20,7 +20,7 @@
       </ng-template>
 
       <ng-template [ngTemplateOutlet]="placeholderTemplate()?.template || defaultPlaceholderTemplate" />
-      } @if (shouldDisplayValue()) { @for (item of itemStorage.selectedItems(); track item.index()) {
+      } @if (shouldDisplayValue()) { @for (item of itemStorage.selectedItems(); track item.index) {
       <div
         class="ard-select-value"
         [class.ard-value-disabled]="item.disabled()"
@@ -178,7 +178,7 @@
       }
 
       <div class="ard-optgroup-children">
-        @for (option of group.children(); track option.index()) {
+        @for (option of group.children(); track option.index) {
         <div
           class="ard-option"
           role="option"
@@ -187,7 +187,7 @@
           [class.ard-option-highlighted]="option.highlighted()"
           [class.ard-option-highlighted-recent]="option.highlighted_recently()"
           [attr.aria-selected]="option.selected()"
-          [attr.id]="htmlId() + '-' + option.index()"
+          [attr.id]="htmlId() + '-' + option.index"
           (click)="onItemClick(option, $event)"
           (mouseover)="onItemMouseOver($event)"
           (mouseenter)="onItemMouseEnter(option, $event)"

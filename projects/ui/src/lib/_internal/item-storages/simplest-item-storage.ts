@@ -60,7 +60,7 @@ export class SimplestItemStorage {
     if (areItemsPrimitive) {
       return {
         itemData: signal(rawItemData),
-        index: signal(index),
+        index: index,
         value: signal(rawItemData.value),
         label: signal(rawItemData.value?.toString?.() ?? String(rawItemData.value)),
         selected: signal(false),
@@ -80,7 +80,7 @@ export class SimplestItemStorage {
     //return
     return {
       itemData: signal(rawItemData),
-      index: signal(index),
+      index: index,
       value: signal(value),
       label: signal(label?.toString?.() ?? String(label)),
       selected: signal(false),
@@ -130,7 +130,7 @@ export class SimplestItemStorage {
   unhighlightItem(item: ArdSimplestStorageItem): void {
     item.highlighted.set(false);
 
-    if (this._highlightedItem()?.index() === item.index()) this._highlightedItem.set(null);
+    if (this._highlightedItem()?.index === item.index) this._highlightedItem.set(null);
   }
   /**
    * Highlights the first item out of all items.
@@ -171,7 +171,7 @@ export class SimplestItemStorage {
       return this.highlightFirstItem();
     }
     const items = this._items();
-    const currentIndexInItems = items.findIndex(item => item.index() === currentItem.index());
+    const currentIndexInItems = items.findIndex(item => item.index === currentItem.index);
 
     let nextItemIndex = currentIndexInItems + offset;
     if (nextItemIndex >= items.length) {

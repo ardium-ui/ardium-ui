@@ -1,5 +1,5 @@
 import { InjectionToken } from '@angular/core';
-import { ColorDisplayAppearance } from 'dist/ui';
+import { ColorDisplayAppearance } from './color-display.types';
 
 export interface ArdColorDisplayDefaults {
   ariaLabel: string;

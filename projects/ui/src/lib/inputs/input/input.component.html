@@ -62,7 +62,7 @@
     (ardClickOutside)="handleSuggestionClickOutside($event)"
     (mousemove)="onMouseMove()"
   >
-    @for (item of suggestionItems(); track item.index()) {
+    @for (item of suggestionItems(); track item.index) {
       <div
         class="ard-option"
         role="option"

@@ -2,7 +2,7 @@
   class="ard-checkbox-list"
   [ngClass]="ngClasses()"
 >
-  @for (item of items; track item.index()) {
+  @for (item of items; track item.index) {
     <div
       class="ard-checkbox-list__item"
       [class.ard-item-highlighted]="item.highlighted()"
@@ -16,7 +16,7 @@
         [selected]="item.selected()"
         [disabled]="item.disabled()"
         [color]="color()"
-        [htmlId]="htmlId() + item.index()"
+        [htmlId]="htmlId() + item.index"
         [tabIndex]="tabIndex()"
         (focus)="onFocus($event)"
         (focus)="onItemFocus(item)"
@@ -26,7 +26,7 @@
         (unselect)="unselectItem(item)"
         (click)="$event.stopPropagation()"
       />
-      <label [for]="htmlId() + item.index()">
+      <label [for]="htmlId() + item.index">
         {{ item.label() }}
       </label>
     </div>

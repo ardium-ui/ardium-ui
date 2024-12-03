@@ -58,7 +58,7 @@ export class ItemStorage {
   readonly selectedItems = computed(() => {
     if (this._ardParentComp.sortMultipleValues()) {
       return this._selectedItems().sort((a, b) => {
-        return a.index() - b.index();
+        return a.index - b.index;
       });
     }
     return this._selectedItems();
@@ -124,7 +124,7 @@ export class ItemStorage {
       item = this._primitiveItemsMapFn(item);
     }
     //map the item to create data bindings
-    const ardOption = this._setItemsMapFn(item, (this._items().last()?.index() ?? 0) + 1, isItemPrimitive);
+    const ardOption = this._setItemsMapFn(item, (this._items().last()?.index ?? 0) + 1, isItemPrimitive);
 
     //push the item into all items
     this._items.update(v => [...v, ardOption]);
@@ -175,13 +175,13 @@ export class ItemStorage {
     if (areItemsPrimitive) {
       return {
         itemData: signal(rawItemData),
-        index: signal(index),
+        index: index,
         value: signal(rawItemData.value),
         label: signal(rawItemData.value?.toString?.() ?? String(rawItemData.value)),
         disabled: signal(false),
         selected: signal(false),
         highlighted: signal(false),
-        group: signal(undefined),
+        group: undefined,
         highlighted_recently: signal(false),
       };
     }
@@ -220,11 +220,11 @@ export class ItemStorage {
     //return
     return {
       itemData: signal(rawItemData),
-      index: signal(index),
+      index: index,
       value: signal(value),
       label: signal(label?.toString?.() ?? String(label)),
       disabled: signal(disabled),
-      group: signal(group),
+      group: group,
       selected: signal(false),
       highlighted: signal(false),
       highlighted_recently: signal(false),
@@ -240,7 +240,7 @@ export class ItemStorage {
     }
   }
   private _addToGroup(item: ArdOption): void {
-    const groupKey = item.group();
+    const groupKey = item.group;
     const targetGroup = this._groups().get(groupKey);
     //create new group if needed
     if (!targetGroup) {
@@ -320,9 +320,9 @@ export class ItemStorage {
   findItemByValue(valueToFind: any): ArdOption | undefined {
     let findBy: (item: ArdOption) => boolean;
     if (this._ardParentComp.compareWith()) {
-      findBy = item => this._ardParentComp.compareWith()!(valueToFind, item.value);
+      findBy = item => this._ardParentComp.compareWith()!(valueToFind, item.value());
     } else {
-      findBy = item => item.value === valueToFind;
+      findBy = item => item.value() === valueToFind;
     }
     return this._items().find(item => findBy(item));
   }
@@ -469,7 +469,7 @@ export class ItemStorage {
     }
     const currentItem = this.highlightedItems().last();
     const highlightableItems = this._getHiglightableItems();
-    const currentIndexInFiltered = highlightableItems.findIndex(item => item.index() === currentItem.index());
+    const currentIndexInFiltered = highlightableItems.findIndex(item => item.index === currentItem.index);
 
     let nextItemIndex = currentIndexInFiltered + offset;
     if (nextItemIndex >= highlightableItems.length) {

@@ -98,7 +98,7 @@ export class SimpleItemStorage {
     if (areItemsPrimitive) {
       return {
         itemData: signal(rawItemData),
-        index: signal(index),
+        index: index,
         value: signal(rawItemData.value),
         label: signal(rawItemData.value?.toString?.() ?? String(rawItemData.value)),
         disabled: signal(false),
@@ -126,7 +126,7 @@ export class SimpleItemStorage {
     //return
     return {
       itemData: signal(rawItemData),
-      index: signal(index),
+      index: index,
       value: signal(value),
       label: signal(label?.toString?.() ?? String(label)),
       disabled: signal(disabled),
@@ -373,7 +373,7 @@ export class SimpleItemStorage {
     const itemsWithoutDisabled = this._items().filter(
       item => !item.disabled() && (!this.isItemLimitReached() || item.selected())
     );
-    const currentIndexInItems = itemsWithoutDisabled.findIndex(item => item.index() === currentItem.index());
+    const currentIndexInItems = itemsWithoutDisabled.findIndex(item => item.index === currentItem.index);
 
     let nextItemIndex = currentIndexInItems + offset;
     if (nextItemIndex >= itemsWithoutDisabled.length) {

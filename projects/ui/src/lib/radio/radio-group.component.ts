@@ -12,7 +12,7 @@ import {
   forwardRef,
   input,
   model,
-  output
+  output,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
@@ -52,44 +52,53 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
   constructor() {
     super();
 
-    effect(() => {
-      this.name();
-      this._updateRadioButtonNames();
-    });
-    effect(() => {
-      this.selected();
-      this._checkSelectedRadioButton();
-    });
-    effect(() => {
-      const radios = this._radios();
-      if (!radios) return;
-      
-      setTimeout(() => {
+    effect(
+      () => {
+        this.name();
         this._updateRadioButtonNames();
-      }, 0);
+      },
+      { allowSignalWrites: true }
+    );
+    effect(
+      () => {
+        this.selected();
+        this._checkSelectedRadioButton();
+      },
+      { allowSignalWrites: true }
+    );
+    effect(
+      () => {
+        const radios = this._radios();
+        if (!radios) return;
 
-      this._destroyChildSubscriptions();
+        setTimeout(() => {
+          this._updateRadioButtonNames();
+        }, 0);
 
-      //sub to child component events
-      for (const radio of radios) {
-        this._childEventSubs.push(
-          radio.blurEvent.subscribe(v => {
-            this._handleBlurEvents(v);
-          })
-        );
-        this._childEventSubs.push(
-          radio.focusEvent.subscribe(v => {
-            this._handleFocusEvents(v);
-          })
-        );
-        this._childEventSubs.push(
-          radio.selectedChange.subscribe((v: boolean) => {
-            if (!v) return;
-            this._handleChangeEvents(radio);
-          })
-        );
-      }
-    })
+        this._destroyChildSubscriptions();
+
+        //sub to child component events
+        for (const radio of radios) {
+          this._childEventSubs.push(
+            radio.blurEvent.subscribe(v => {
+              this._handleBlurEvents(v);
+            })
+          );
+          this._childEventSubs.push(
+            radio.focusEvent.subscribe(v => {
+              this._handleFocusEvents(v);
+            })
+          );
+          this._childEventSubs.push(
+            radio.selectedChange.subscribe((v: boolean) => {
+              if (!v) return;
+              this._handleChangeEvents(radio);
+            })
+          );
+        }
+      },
+      { allowSignalWrites: true }
+    );
   }
 
   //! value

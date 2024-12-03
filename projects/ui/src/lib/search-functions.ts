@@ -37,7 +37,7 @@ export const searchFunctions: {
    * @returns `true` if the item matches the search term, otherwise `false`.
    */
   byGroup: (searchTerm: string, item: ArdOption) => {
-    return searchInString(searchTerm, item.group());
+    return searchInString(searchTerm, item.group);
   },
   /**
    * Determines if the item should appear in the search results, based on the label and group.
