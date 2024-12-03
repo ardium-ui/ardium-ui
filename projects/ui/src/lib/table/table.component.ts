@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  OnChanges,
   SimpleChanges,
   TemplateRef,
   ViewEncapsulation,
@@ -12,7 +13,6 @@ import {
   input,
   model,
   output,
-  OnChanges,
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { isDefined, isNumber } from 'simple-bool';

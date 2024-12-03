@@ -1,4 +1,4 @@
-import { InjectionToken } from '@angular/core';
+import { InjectionToken, Provider } from '@angular/core';
 import { OneAxisAlignment } from './../types/alignment.types';
 import { CardAppearance, CardVariant } from './card.types';
 
@@ -8,10 +8,18 @@ export interface ArdCardDefaults {
   actionButtonsAlign: OneAxisAlignment;
 }
 
+const _cardDefaults = {
+  appearance: CardAppearance.Raised,
+  variant: CardVariant.Rounded,
+  actionButtonsAlign: OneAxisAlignment.Right,
+};
+
 export const ARD_CARD_DEFAULTS = new InjectionToken<ArdCardDefaults>('ard-card-defaults', {
   factory: () => ({
-    appearance: CardAppearance.Raised,
-    variant: CardVariant.Rounded,
-    actionButtonsAlign: OneAxisAlignment.Right,
+    ..._cardDefaults,
   }),
 });
+
+export function provideCardDefaults(config: Partial<ArdCardDefaults>): Provider {
+  return { provide: ARD_CARD_DEFAULTS, useValue: { ..._cardDefaults, ...config } };
+}

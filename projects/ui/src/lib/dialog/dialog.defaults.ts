@@ -1,5 +1,5 @@
-import { InjectionToken } from '@angular/core';
-import { _modalComponentDefaults, ArdModalDefaults } from '../modal/modal.defaults';
+import { InjectionToken, Provider } from '@angular/core';
+import { _modalDefaults, ArdModalDefaults } from '../modal/modal.defaults';
 import { ButtonAppearance } from './../buttons/general-button.types';
 import { ComponentColor } from './../types/colors.types';
 
@@ -14,9 +14,8 @@ export interface ArdDialogDefaults extends ArdModalDefaults {
   canConfirm: boolean;
 }
 
-export const ARD_DIALOG_DEFAULTS = new InjectionToken<ArdDialogDefaults>('ard-dialog-defaults', {
-  factory: () => ({
-    ..._modalComponentDefaults,
+const _dialogDefaults = {
+    ..._modalDefaults,
     confirmButtonText: 'Confirm',
     confirmButtonColor: ComponentColor.Primary,
     confirmButtonAppearance: ButtonAppearance.RaisedStrong,
@@ -25,5 +24,14 @@ export const ARD_DIALOG_DEFAULTS = new InjectionToken<ArdDialogDefaults>('ard-di
     rejectButtonAppearance: ButtonAppearance.Transparent,
     noRejectButton: false,
     canConfirm: true,
+};
+
+export const ARD_DIALOG_DEFAULTS = new InjectionToken<ArdDialogDefaults>('ard-dialog-defaults', {
+  factory: () => ({
+    ..._dialogDefaults,
   }),
 });
+
+export function provideDialogDefaults(config: Partial<ArdDialogDefaults>): Provider {
+  return { provide: ARD_DIALOG_DEFAULTS, useValue: { ..._dialogDefaults, ...config } };
+}

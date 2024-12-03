@@ -1,4 +1,4 @@
-import { InjectionToken } from '@angular/core';
+import { InjectionToken, Provider } from '@angular/core';
 import { _disablableComponentDefaults, _DisablableComponentDefaults } from '../_internal/disablable-component';
 import { SimpleOneAxisAlignment } from '../types/alignment.types';
 import { ComponentColor } from '../types/colors.types';
@@ -24,3 +24,7 @@ export const _chipDefaults = {
 export const ARD_CHIP_DEFAULTS = new InjectionToken<ArdChipDefaults>('ard-chip-defaults', {
   factory: () => _chipDefaults,
 });
+
+export function provideChipDefaults(config: Partial<ArdChipDefaults>): Provider {
+  return { provide: ARD_CHIP_DEFAULTS, useValue: { ..._chipDefaults, ...config } };
+}

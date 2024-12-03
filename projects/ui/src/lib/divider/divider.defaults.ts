@@ -1,11 +1,19 @@
-import { InjectionToken } from '@angular/core';
+import { InjectionToken, Provider } from '@angular/core';
 
 export interface ArdDividerDefaults {
   vertical: boolean;
 }
 
+const _dividerDefaults = {
+    vertical: false,
+};
+
 export const ARD_DIVIDER_DEFAULTS = new InjectionToken<ArdDividerDefaults>('ard-divider-defaults', {
   factory: () => ({
-    vertical: false,
+    ..._dividerDefaults,
   }),
 });
+
+export function provideDividerDefaults(config: Partial<ArdDividerDefaults>): Provider {
+  return { provide: ARD_DIVIDER_DEFAULTS, useValue: { ..._dividerDefaults, ...config } };
+}

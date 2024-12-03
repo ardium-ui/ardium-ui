@@ -1,4 +1,4 @@
-import { InjectionToken } from '@angular/core';
+import { InjectionToken, Provider } from '@angular/core';
 import { PanelAppearance, PanelVariant } from './../types/theming.types';
 
 export interface ArdModalDefaults {
@@ -11,7 +11,7 @@ export interface ArdModalDefaults {
   disableBackdropClose: boolean;
 }
 
-export const _modalComponentDefaults: ArdModalDefaults = {
+export const _modalDefaults: ArdModalDefaults = {
   appearance: PanelAppearance.Raised,
   variant: PanelVariant.Rounded,
   compact: false,
@@ -23,6 +23,10 @@ export const _modalComponentDefaults: ArdModalDefaults = {
 
 export const ARD_MODAL_DEFAULTS = new InjectionToken<ArdModalDefaults>('ard-modal-defaults', {
   factory: () => ({
-    ..._modalComponentDefaults,
+    ..._modalDefaults,
   }),
 });
+
+export function provideModalDefaults(config: Partial<ArdModalDefaults>): Provider {
+  return { provide: ARD_MODAL_DEFAULTS, useValue: { ..._modalDefaults, ...config } };
+}

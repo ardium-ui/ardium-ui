@@ -1,4 +1,4 @@
-import { InjectionToken } from '@angular/core';
+import { InjectionToken, Provider } from '@angular/core';
 import { _ngModelComponentDefaults, _NgModelComponentDefaults } from '../_internal/ngmodel-component';
 import { CompareWithFn } from '../types/item-storage.types';
 import { Nullable } from '../types/utility.types';
@@ -17,8 +17,7 @@ export interface ArdCheckboxListDefaults extends _NgModelComponentDefaults {
   compact: boolean;
 }
 
-export const ARD_CHECKBOX_LIST_DEFAULTS = new InjectionToken<ArdCheckboxListDefaults>('ard-checkbox-list-defaults', {
-  factory: () => ({
+const _checkboxListDefaults = {
     ..._ngModelComponentDefaults,
     valueFrom: 'value',
     labelFrom: 'label',
@@ -29,5 +28,14 @@ export const ARD_CHECKBOX_LIST_DEFAULTS = new InjectionToken<ArdCheckboxListDefa
     color: ComponentColor.Primary,
     align: CheckboxListAlignType.LeftClumped,
     compact: false,
+};
+
+export const ARD_CHECKBOX_LIST_DEFAULTS = new InjectionToken<ArdCheckboxListDefaults>('ard-checkbox-list-defaults', {
+  factory: () => ({
+    ..._checkboxListDefaults,
   }),
 });
+
+export function provideCheckboxListDefaults(config: Partial<ArdCheckboxListDefaults>): Provider {
+  return { provide: ARD_CHECKBOX_LIST_DEFAULTS, useValue: { ..._checkboxListDefaults, ...config } };
+}

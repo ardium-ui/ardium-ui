@@ -1,6 +1,6 @@
 import { computed, Directive, ElementRef, input, output, QueryList, ViewChildren } from '@angular/core';
 import { coerceNumberProperty } from '@ardium-ui/devkit';
-import { _DisablableComponentBase, _disablableComponentDefaults, _DisablableComponentDefaults } from './disablable-component';
+import { _DisablableComponentBase, _DisablableComponentBaseWithDefaults, _disablableComponentDefaults, _DisablableComponentDefaults } from './disablable-component';
 
 export interface _FocusableComponentDefaults extends _DisablableComponentDefaults {
   tabIndex: number;
@@ -9,6 +9,88 @@ export const _focusableComponentDefaults: _FocusableComponentDefaults = {
   ..._disablableComponentDefaults,
   tabIndex: 0,
 };
+
+@Directive()
+export abstract class _FocusableComponentBaseWithDefaults extends _DisablableComponentBaseWithDefaults {
+  protected override readonly _DEFAULTS!: _FocusableComponentDefaults;
+
+  constructor(defaults: _FocusableComponentDefaults) {
+    super(defaults);
+    this._DEFAULTS = defaults;
+  }
+
+  //! make the component focusable programmatically
+  @ViewChildren('focusableElement')
+  private readonly _focusableElement!: QueryList<ElementRef<HTMLElement>>;
+
+  /**
+   * Focuses the correct element in the component.
+   */
+  public focus(): void {
+    this._focusableElement?.first?.nativeElement.focus();
+  }
+  /**
+   * Focuses the first of all available elements in the component.
+   */
+  public focusFirst(): void {
+    this.focus();
+  }
+  /**
+   * Focuses the last of all available elements in the component.
+   */
+  public focusLast(): void {
+    this._focusableElement?.last?.nativeElement.focus();
+  }
+  /**
+   * Blurs all focusable elements in the component.
+   */
+  public blur(): void {
+    this._focusableElement?.forEach(el => el.nativeElement.blur());
+  }
+
+  //! tabindex
+  /**
+   * The component's overall tab index. If the component is disabled, it is always `-1`. Coercible into a number, defaults to `0`.
+   */
+  readonly tabIndex = computed(() => (this.disabled() ? -1 : this._tabIndex()));
+  readonly _tabIndex = input<any, number>(this._DEFAULTS.tabIndex, {
+    alias: 'tabIndex',
+    transform: v => coerceNumberProperty(v),
+  });
+
+  //! events
+  /**
+   * The event emitter responsible for firing `focus` events.
+   */
+  readonly focusEvent = output<FocusEvent>({ alias: 'focus' });
+  /**
+   * The event emitter responsible for firing `blur` events.
+   */
+  readonly blurEvent = output<FocusEvent>({ alias: 'blur' });
+
+  //! focus event handlers
+  /**
+   * Whether the component is currently focused.
+   */
+  public isFocused = false;
+
+  /**
+   * Function to handle when an element is focused. Sets `isFocused` and fires the `focus` event.
+   * @param event The focus event to emit.
+   */
+  onFocus(event: FocusEvent) {
+    this.isFocused = true;
+    this.focusEvent.emit(event);
+  }
+  /**
+   * Function to handle when an element is blurred. Sets `isFocused` and fires the `blur` event.
+   * @param event The focus event to emit.
+   */
+  onBlur(event: FocusEvent) {
+    this.isFocused = false;
+    this.blurEvent.emit(event);
+  }
+}
 
 @Directive()
 export abstract class _FocusableComponentBase extends _DisablableComponentBase {
@@ -48,7 +130,10 @@ export abstract class _FocusableComponentBase extends _DisablableComponentBase {
    * The component's overall tab index. If the component is disabled, it is always `-1`. Coercible into a number, defaults to `0`.
    */
   readonly tabIndex = computed(() => (this.disabled() ? -1 : this._tabIndex()));
-  readonly _tabIndex = input<any, number>(this._DEFAULTS.tabIndex, { alias: 'tabIndex', transform: v => coerceNumberProperty(v) });
+  readonly _tabIndex = input<any, number>(this._DEFAULTS.tabIndex, {
+    alias: 'tabIndex',
+    transform: v => coerceNumberProperty(v),
+  });
 
   //! events
   /**
