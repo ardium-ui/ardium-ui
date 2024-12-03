@@ -3,11 +3,11 @@ app-button {
     font-size: 14px;
     font-weight: normal;
   }
-  .playground {
+  .form-field label {
     padding: 1rem;
     padding-top: 0;
   }
-  label {
+  .form-field > label {
     font-weight: 500;
   }
   .settings-form {
