@@ -12,7 +12,7 @@ export const _disablableComponentDefaults: _DisablableComponentDefaults = {
 
 @Directive()
 export abstract class _DisablableComponentBase {
-  protected readonly _DEFAULTS!: _DisablableComponentDefaults;
+  protected readonly _DEFAULTS: _DisablableComponentDefaults = _disablableComponentDefaults;
   //! no value arguments
   /**
    * Whether the component is read-only. Defines the `readonly` host attribute and `ard-readonly` host class. Coercible into a boolean.

@@ -1,16 +1,16 @@
-import { Directive, Signal, input } from '@angular/core';
+import { Directive, input, Signal } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
 import { ButtonType } from '../types/button.types';
 import { ComponentColor } from '../types/colors.types';
-import { _ButtonBaseDefaults } from './_button-base.defaults';
+import { _buttonBaseDefaults, _ButtonBaseDefaults } from './_button-base.defaults';
 import { ButtonAppearance } from './general-button.types';
 
 @Directive()
 export abstract class _ButtonBase extends _FocusableComponentBase {
   readonly wrapperClasses = input<string>('');
 
-  protected override readonly _DEFAULTS!: _ButtonBaseDefaults;
+  protected override readonly _DEFAULTS: _ButtonBaseDefaults = _buttonBaseDefaults;
 
   readonly type = input<ButtonType>(this._DEFAULTS.type);
 

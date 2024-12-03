@@ -12,7 +12,7 @@ export const _focusableComponentDefaults: _FocusableComponentDefaults = {
 
 @Directive()
 export abstract class _FocusableComponentBase extends _DisablableComponentBase {
-  protected override readonly _DEFAULTS!: _FocusableComponentDefaults;
+  protected override readonly _DEFAULTS: _FocusableComponentDefaults = _focusableComponentDefaults;
 
   //! make the component focusable programmatically
   @ViewChildren('focusableElement')

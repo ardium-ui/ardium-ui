@@ -13,7 +13,7 @@ export const _ngModelComponentDefaults: _NgModelComponentDefaults = _focusableCo
  */
 @Directive()
 export abstract class _NgModelComponentBase extends _FocusableComponentBase implements ControlValueAccessor {
-  protected override readonly _DEFAULTS!: _NgModelComponentDefaults;
+  protected override readonly _DEFAULTS: _NgModelComponentDefaults = _ngModelComponentDefaults;
 
   //! control value accessor
   protected _onChangeRegistered!: (_: any) => void;

@@ -1,7 +1,8 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ViewEncapsulation, computed, inject, input } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import * as Color from 'color';
 import { Nullable } from '../../types/utility.types';
+import { ARD_COLOR_DISPLAY_DEFAULTS, ArdColorDisplayDefaults } from './color-display.defaults';
 import { ColorDisplayAppearance } from './color-display.types';
 
 @Component({
@@ -12,17 +13,19 @@ import { ColorDisplayAppearance } from './color-display.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumColorDisplayComponent implements AfterViewInit {
-  readonly ariaLabel = input<string>('');
+  private readonly _DEFAULTS: ArdColorDisplayDefaults = inject(ARD_COLOR_DISPLAY_DEFAULTS);
 
-  readonly withLabel = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly ariaLabel = input<string>(this._DEFAULTS.ariaLabel);
+
+  readonly withLabel = input<boolean, any>(this._DEFAULTS.withLabel, { transform: v => coerceBooleanProperty(v) });
 
   //! appearance
-  readonly appearance = input<ColorDisplayAppearance>(ColorDisplayAppearance.Rounded);
+  readonly appearance = input<ColorDisplayAppearance>(this._DEFAULTS.appearance);
 
-  get ngClasses(): string {
+  readonly ngClasses = computed((): string => {
     const apprncParts = this.appearance().split(' ');
     return `ard-appearance-${apprncParts[0]} ${apprncParts[1] ? 'ard-with-border' : ''}`;
-  }
+  });
 
   //! color
   readonly color = input<Nullable<string>, any>(undefined, { transform: v => Color(v).hex() });

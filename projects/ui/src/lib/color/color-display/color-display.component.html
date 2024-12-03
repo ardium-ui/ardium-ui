@@ -1,15 +1,13 @@
 <div
   class="ard-color-display-wrapper"
-  [ngClass]="ngClasses"
+  [ngClass]="ngClasses()"
 >
   <div
     class="ard-color-display"
     [title]="color()"
     [style]="{ background: color() }"
   ></div>
-  <span
-    class="ard-color-display-label"
-    *ngIf="withLabel"
-    >{{ color() }}</span
-  >
+  @if (withLabel()) {
+  <span class="ard-color-display-label">{{ color() }}</span>
+  }
 </div>

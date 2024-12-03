@@ -12,7 +12,7 @@ export const _booleanComponentDefaults: _BooleanComponentDefaults = _ngModelComp
  */
 @Directive()
 export abstract class _BooleanComponentBase extends _NgModelComponentBase implements ControlValueAccessor {
-  protected override readonly _DEFAULTS!: _BooleanComponentDefaults;
+  protected override readonly _DEFAULTS: _BooleanComponentDefaults = _booleanComponentDefaults;
 
   //! control value accessor
   writeValue(v: any): void {
