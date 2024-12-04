@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Inject,
   Input,
   ViewEncapsulation,
   computed,
@@ -13,8 +14,9 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
-import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
+import { _NgModelComponentBaseWithDefaults } from '../../_internal/ngmodel-component';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
+import { ARD_DIGIT_INPUT_DEFAULTS, ArdDigitInputDefaults } from './digit-input.defaults';
 import { DigitInputModel } from './digit-input.model';
 import { DigitInputConfig, DigitInputShape } from './digit-input.types';
 import { DigitInputModelHost } from './digit-input.utils';
@@ -33,7 +35,12 @@ import { DigitInputModelHost } from './digit-input.utils';
     },
   ],
 })
-export class ArdiumDigitInputComponent extends _NgModelComponentBase implements ControlValueAccessor, DigitInputModelHost {
+export class ArdiumDigitInputComponent extends _NgModelComponentBaseWithDefaults implements ControlValueAccessor, DigitInputModelHost {
+  protected override readonly _DEFAULTS!: ArdDigitInputDefaults;
+  constructor(@Inject(ARD_DIGIT_INPUT_DEFAULTS) defaults: ArdDigitInputDefaults) {
+    super(defaults);
+  }
+  
   //! inputs ref
   readonly inputs = viewChildren<ElementRef<HTMLInputElement>>('input');
 
@@ -41,11 +48,11 @@ export class ArdiumDigitInputComponent extends _NgModelComponentBase implements 
   private readonly model = new DigitInputModel(this);
 
   //! appearance
-  readonly appearance = input<FormElementAppearance>(FormElementAppearance.Outlined);
-  readonly variant = input<FormElementVariant>(FormElementVariant.Rounded);
-  readonly shape = input<DigitInputShape>(DigitInputShape.Square);
+  readonly appearance = input<FormElementAppearance>(this._DEFAULTS.appearance);
+  readonly variant = input<FormElementVariant>(this._DEFAULTS.variant);
+  readonly shape = input<DigitInputShape>(this._DEFAULTS.shape);
 
-  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed((): string =>
     [
@@ -83,7 +90,7 @@ export class ArdiumDigitInputComponent extends _NgModelComponentBase implements 
   }
 
   //! value two-way binding
-  readonly outputAsString = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly outputAsString = input<boolean, any>(this._DEFAULTS.outputAsString, { transform: v => coerceBooleanProperty(v) });
 
   @Input()
   set value(v: string | (string | null)[] | null) {

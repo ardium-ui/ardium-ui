@@ -13,13 +13,13 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
-import { ArdColorInputPlaceholderTemplateDirective } from '../../inputs/color-input/color-input.directives';
 import { ComponentColor } from '../../types/colors.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { _FileInputComponentBase } from '../file-input-base';
 import { FileInputBrowseContext, FileInputFileAmountContext, FileInputFilesContext } from '../file-input-types';
 import { ARD_FILE_INPUT_DEFAULTS, ArdFileInputDefaults } from './file-input.defaults';
 import {
+  ArdFileInputPlaceholderTemplateDirective,
   ArdFileInputPrefixTemplateDirective,
   ArdFileInputSuffixTemplateDirective,
   ArdiumFileInputDragoverContentTemplateDirective,
@@ -66,7 +66,7 @@ export class ArdiumFileInputComponent extends _FileInputComponentBase {
     [`ard-color-${this.color()}`, `ard-state-${this.currentViewState()}`, this.value ? 'ard-has-value' : ''].join(' ')
   );
 
-  @ContentChild(ArdColorInputPlaceholderTemplateDirective, {
+  @ContentChild(ArdFileInputPlaceholderTemplateDirective, {
     read: TemplateRef,
   })
   placeholderTemplate?: TemplateRef<any>;

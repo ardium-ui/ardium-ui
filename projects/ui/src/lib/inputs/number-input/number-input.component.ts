@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Inject,
   Input,
   ViewEncapsulation,
   computed,
@@ -17,12 +18,13 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { roundToPrecision } from 'more-rounding';
 import { isDefined } from 'simple-bool';
-import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
+import { _NgModelComponentBaseWithDefaults } from '../../_internal/ngmodel-component';
 import { ButtonAppearance, ButtonVariant } from '../../buttons/general-button.types';
 import { OneAxisAlignment } from '../../types/alignment.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { Nullable } from '../../types/utility.types';
 import { NumberInputModel, NumberInputModelHost } from '../input-utils';
+import { ARD_NUMBER_INPUT_DEFAULTS, ArdNumberInputDefaults } from './number-input.defaults';
 import { ArdNumberInputPlaceholderTemplateDirective } from './number-input.directives';
 
 @Component({
@@ -40,9 +42,20 @@ import { ArdNumberInputPlaceholderTemplateDirective } from './number-input.direc
   ],
 })
 export class ArdiumNumberInputComponent
-  extends _NgModelComponentBase
+  extends _NgModelComponentBaseWithDefaults
   implements ControlValueAccessor, NumberInputModelHost, AfterViewInit
 {
+  protected override readonly _DEFAULTS!: ArdNumberInputDefaults;
+  constructor(@Inject(ARD_NUMBER_INPUT_DEFAULTS) defaults: ArdNumberInputDefaults) {
+    super(defaults);
+    
+    effect(() => {
+      const v = this.inputModel.numberValue();
+      this.valueChange.emit(v);
+      this._onChangeRegistered?.(v);
+    });
+  }
+
   //! input view
   readonly inputEl = viewChild<ElementRef<HTMLInputElement>>('textInput');
 
@@ -117,16 +130,6 @@ export class ArdiumNumberInputComponent
     this.writeValue(v);
   }
   readonly valueChange = output<number | null>();
-
-  constructor() {
-    super();
-
-    effect(() => {
-      const v = this.inputModel.numberValue();
-      this.valueChange.emit(v);
-      this._onChangeRegistered?.(v);
-    });
-  }
 
   //! event emitters
   readonly inputEvent = output<number | null>({ alias: 'input' });

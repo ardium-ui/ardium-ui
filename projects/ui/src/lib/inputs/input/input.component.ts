@@ -6,6 +6,7 @@ import {
   Component,
   ElementRef,
   HostListener,
+  Inject,
   Input,
   TemplateRef,
   ViewContainerRef,
@@ -13,22 +14,25 @@ import {
   computed,
   contentChild,
   forwardRef,
+  inject,
   input,
   output,
   signal,
-  viewChild
+  viewChild,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { coerceArrayProperty, coerceBooleanProperty } from '@ardium-ui/devkit';
+import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { SimpleOneAxisAlignment } from '@ardium-ui/ui';
 import { isString } from 'simple-bool';
 import { SimplestItemStorage, SimplestItemStorageHost } from '../../_internal/item-storages/simplest-item-storage';
+import { _NgModelComponentBaseWithDefaults } from '../../_internal/ngmodel-component';
 import { DropdownPanelAppearance, DropdownPanelVariant } from '../../dropdown-panel/dropdown-panel.types';
 import { ArdSimplestStorageItem } from '../../types/item-storage.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { Nullable } from '../../types/utility.types';
-import { ArdiumSimpleInputComponent } from '../simple-input/simple-input.component';
 import { OptionContext } from './../../types/item-storage.types';
 import { InputModel, InputModelHost, escapeAndCreateRegex } from './../input-utils';
+import { ARD_INPUT_DEFAULTS, ArdInputDefaults } from './input.defaults';
 import {
   ArdInputLoadingTemplateDirective,
   ArdInputPlaceholderTemplateDirective,
@@ -52,29 +56,152 @@ import {
   ],
 })
 export class ArdiumInputComponent
-  extends ArdiumSimpleInputComponent
+  extends _NgModelComponentBaseWithDefaults
   implements InputModelHost, SimplestItemStorageHost, AfterViewInit
 {
-  private readonly element!: HTMLElement;
+  private readonly overlay = inject(Overlay);
+  private readonly scrollStrategyOpts = inject(ScrollStrategyOptions);
+  private readonly viewContainerRef = inject(ViewContainerRef);
 
-  constructor(
-    private viewContainerRef: ViewContainerRef,
-    private overlay: Overlay,
-    private scrollStrategyOpts: ScrollStrategyOptions
-  ) {
-    super();
+  protected override readonly _DEFAULTS!: ArdInputDefaults;
+  public readonly DEFAULTS!: ArdInputDefaults;
+  constructor(@Inject(ARD_INPUT_DEFAULTS) defaults: ArdInputDefaults) {
+    super(defaults);
 
-    this.element = viewContainerRef.element.nativeElement;
+    this.DEFAULTS = this._DEFAULTS;
   }
 
-  override readonly DEFAULTS = {
-    clearButtonTitle: 'Clear',
-    valueFrom: 'value',
-    labelFrom: 'label',
-    suggestionsLoadingText: 'Loading...',
-  };
   //! input view
-  protected override readonly inputModel = new InputModel(this);
+  readonly textInputEl = viewChild<ElementRef<HTMLInputElement>>('textInput');
+
+  readonly placeholder = input<string>(this._DEFAULTS.placeholder);
+  readonly inputId = input<Nullable<string>>(undefined);
+  readonly clearButtonTitle = input<string>(this._DEFAULTS.clearButtonTitle);
+
+  readonly shouldDisplayPlaceholder = computed<boolean>(() => Boolean(this.placeholder()) && !this.inputModel.value());
+
+  //! appearance
+  readonly appearance = input<FormElementAppearance>(this._DEFAULTS.appearance);
+  readonly variant = input<FormElementVariant>(this._DEFAULTS.variant);
+  readonly alignText = input<SimpleOneAxisAlignment>(this._DEFAULTS.alignText);
+
+  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
+
+  readonly ngClasses = computed((): string =>
+    [
+      `ard-appearance-${this.appearance()}`,
+      `ard-variant-${this.variant()}`,
+      `ard-text-align-${this.alignText()}`,
+      this.compact() ? 'ard-compact' : '',
+      this.clearable() ? 'ard-clearable' : '',
+    ].join(' ')
+  );
+
+  //! other inputs
+  readonly inputAttrs = input<Record<string, any>>(this._DEFAULTS.inputAttrs);
+
+  //! number attribute setters/getters
+  readonly maxLength = input<Nullable<number>, any>(this._DEFAULTS.maxLength, {
+    transform: v => coerceNumberProperty(v, this._DEFAULTS.maxLength),
+  });
+
+  //! no-value attribute setters/getters
+  readonly clearable = input<boolean, any>(this._DEFAULTS.clearable, { transform: v => coerceBooleanProperty(v) });
+
+  //! control value accessor's write value implementation
+  writeValue(v: any) {
+    this.inputModel.writeValue(v);
+  }
+  //! value two-way binding
+  protected _valueBeforeInit?: string | null = null;
+  @Input()
+  set value(v: string | null) {
+    if (!this._wasViewInit) {
+      this._valueBeforeInit = v;
+      return;
+    }
+    this.writeValue(v);
+  }
+  get value(): string | null {
+    return this.inputModel.value();
+  }
+  readonly valueChange = output<string | null>();
+
+  //! event emitters
+  readonly inputEvent = output<string | null>({ alias: 'input' });
+  readonly changeEvent = output<string | null>({ alias: 'change' });
+  readonly clearEvent = output<MouseEvent>({ alias: 'clear' });
+
+  //! event handlers
+  onInput(newVal: string): void {
+    const valueHasChanged = this.inputModel.writeValue(newVal);
+    if (!valueHasChanged) return;
+    this._emitInput();
+  }
+  protected _emitInput(): void {
+    this._onChangeRegistered?.(this.value);
+    this.inputEvent.emit(this.value);
+    this.valueChange.emit(this.value);
+  }
+  //focus, blur, change
+  onFocusMaster(event: FocusEvent): void {
+    this.onFocus(event);
+  }
+  onBlurMaster(event: FocusEvent): void {
+    this.onBlur(event);
+  }
+  onChange(event: Event): void {
+    event.stopPropagation();
+    this._emitChange();
+  }
+  protected _emitChange(): void {
+    this.changeEvent.emit(this.inputModel.value());
+  }
+  // clear button
+  readonly shouldShowClearButton = computed<boolean>(
+    () => this.clearable() && !this.disabled() && Boolean(this.inputModel.value())
+  );
+  onClearButtonClick(event: MouseEvent): void {
+    event.stopPropagation();
+    this.inputModel.clear();
+    this._emitChange();
+    this._emitInput();
+    this.clearEvent.emit(event);
+    this.focus();
+  }
+
+  //! copy event
+  onCopy(event: ClipboardEvent): void {
+    if (
+      this.value &&
+      //does the selection cover the entire input
+      ((this.textInputEl()?.nativeElement.selectionStart === 0 &&
+        this.textInputEl()?.nativeElement.selectionEnd === this.textInputEl()?.nativeElement.value.length) ||
+        //or is zero-wide
+        this.textInputEl()?.nativeElement.selectionStart === this.textInputEl()?.nativeElement.selectionEnd)
+    ) {
+      event.clipboardData?.setData('text/plain', this.value);
+      event.preventDefault();
+    }
+  }
+  //! helpers
+  protected _setInputAttributes() {
+    const input = this.textInputEl()!.nativeElement;
+    const attributes: Record<string, string> = {
+      type: 'text',
+      autocorrect: 'off',
+      autocapitalize: 'off',
+      autocomplete: 'off',
+      tabindex: String(this.tabIndex()),
+      ...this.inputAttrs(),
+    };
+
+    for (const key of Object.keys(attributes)) {
+      input.setAttribute(key, String(attributes[key]));
+    }
+  }
+  //! input view
+  protected readonly inputModel = new InputModel(this);
 
   //! allowlist/denylist of characters
   //use standard string for denylist, prepend with ^ for allowlist
@@ -107,11 +234,11 @@ export class ArdiumInputComponent
   readonly acceptAutocompleteEvent = output({ alias: 'acceptAutocomplete' });
 
   //! prefix & suffix
-  override readonly prefixTemplate = contentChild(ArdInputPrefixTemplateDirective);
-  override readonly suffixTemplate = contentChild(ArdInputSuffixTemplateDirective);
+  readonly prefixTemplate = contentChild(ArdInputPrefixTemplateDirective);
+  readonly suffixTemplate = contentChild(ArdInputSuffixTemplateDirective);
 
   //! placeholder
-  override readonly placeholderTemplate = contentChild(ArdInputPlaceholderTemplateDirective);
+  readonly placeholderTemplate = contentChild(ArdInputPlaceholderTemplateDirective);
 
   //! suggestions
   readonly suggestionStorage = new SimplestItemStorage(this);
@@ -169,8 +296,15 @@ export class ArdiumInputComponent
 
   private dropdownOverlay!: OverlayRef;
 
-  override ngAfterViewInit(): void {
-    super.ngAfterViewInit();
+  private _wasViewInit = false;
+  ngAfterViewInit(): void {
+    this._wasViewInit = true;
+    this._setInputAttributes();
+    //set the value
+    if (this._valueBeforeInit) {
+      this.writeValue(this._valueBeforeInit);
+      delete this._valueBeforeInit;
+    }
 
     const strategy = this.overlay
       .position()
@@ -256,7 +390,7 @@ export class ArdiumInputComponent
     if (!this.shouldDisplaySuggestions()) return;
 
     const target = event.target as HTMLElement;
-    if (this.element.contains(target)) return;
+    if (this.viewContainerRef.element.nativeElement.contains(target)) return;
 
     this._suggestionDropdowOpen.set(false);
   }

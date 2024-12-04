@@ -1,8 +1,8 @@
-import { isAnyString, isDefined, isNull } from 'simple-bool';
-import { RegExpTransformer } from './input-transformers';
-import { CaseTransformerType } from './input-types';
 import { ElementRef, Signal, computed, signal } from '@angular/core';
-import { Nullable } from '../types/utility.types';
+import { isAnyString, isDefined, isNull } from 'simple-bool';
+import { Nullable } from '../../types/utility.types';
+import { RegExpTransformer } from '../input-transformers';
+import { CaseTransformerType } from '../input-types';
 
 export interface HexInputModelHost {
   readonly case: Signal<CaseTransformerType>;

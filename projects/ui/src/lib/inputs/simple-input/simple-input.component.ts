@@ -6,6 +6,7 @@ import {
   contentChild,
   ElementRef,
   forwardRef,
+  Inject,
   input,
   Input,
   output,
@@ -14,11 +15,12 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
+import { _NgModelComponentBaseWithDefaults } from '../../_internal/ngmodel-component';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { Nullable } from '../../types/utility.types';
 import { SimpleOneAxisAlignment } from './../../types/alignment.types';
 import { SimpleInputModel, SimpleInputModelHost } from './../input-utils';
+import { ARD_SIMPLE_INPUT_DEFAULTS, ArdSimpleInputDefaults } from './simple-input.defaults';
 import {
   ArdSimpleInputPlaceholderTemplateDirective,
   ArdSimpleInputPrefixTemplateDirective,
@@ -40,12 +42,14 @@ import {
   ],
 })
 export class ArdiumSimpleInputComponent
-  extends _NgModelComponentBase
+  extends _NgModelComponentBaseWithDefaults
   implements SimpleInputModelHost, ControlValueAccessor, AfterViewInit
 {
-  readonly DEFAULTS = {
-    clearButtonTitle: 'Clear',
-  };
+  protected override readonly _DEFAULTS!: ArdSimpleInputDefaults;
+  constructor(@Inject(ARD_SIMPLE_INPUT_DEFAULTS) defaults: ArdSimpleInputDefaults) {
+    super(defaults);
+  }
+
   //! input view
   readonly textInputEl = viewChild<ElementRef<HTMLInputElement>>('textInput');
 
@@ -61,9 +65,9 @@ export class ArdiumSimpleInputComponent
     }
   }
 
-  readonly placeholder = input<string>('');
+  readonly placeholder = input<string>(this._DEFAULTS.placeholder);
   readonly inputId = input<Nullable<string>>(undefined);
-  readonly clearButtonTitle = input<string>(this.DEFAULTS.clearButtonTitle);
+  readonly clearButtonTitle = input<string>(this._DEFAULTS.clearButtonTitle);
 
   //! prefix & suffix
   readonly prefixTemplate = contentChild(ArdSimpleInputPrefixTemplateDirective);
@@ -75,11 +79,11 @@ export class ArdiumSimpleInputComponent
   readonly shouldDisplayPlaceholder = computed<boolean>(() => Boolean(this.placeholder()) && !this.inputModel.value());
 
   //! appearance
-  readonly appearance = input<FormElementAppearance>(FormElementAppearance.Outlined);
-  readonly variant = input<FormElementVariant>(FormElementVariant.Rounded);
-  readonly alignText = input<SimpleOneAxisAlignment>(SimpleOneAxisAlignment.Left);
+  readonly appearance = input<FormElementAppearance>(this._DEFAULTS.appearance);
+  readonly variant = input<FormElementVariant>(this._DEFAULTS.variant);
+  readonly alignText = input<SimpleOneAxisAlignment>(this._DEFAULTS.alignText);
 
-  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed((): string =>
     [
@@ -92,13 +96,15 @@ export class ArdiumSimpleInputComponent
   );
 
   //! other inputs
-  readonly inputAttrs = input<Record<string, any>>({});
+  readonly inputAttrs = input<Record<string, any>>(this._DEFAULTS.inputAttrs);
 
   //! number attribute setters/getters
-  readonly maxLength = input<Nullable<number>, any>(undefined, { transform: v => coerceNumberProperty(v, undefined) });
+  readonly maxLength = input<Nullable<number>, any>(this._DEFAULTS.maxLength, {
+    transform: v => coerceNumberProperty(v, this._DEFAULTS.maxLength),
+  });
 
   //! no-value attribute setters/getters
-  readonly clearable = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly clearable = input<boolean, any>(this._DEFAULTS.clearable, { transform: v => coerceBooleanProperty(v) });
 
   //! control value accessor's write value implementation
   writeValue(v: any) {

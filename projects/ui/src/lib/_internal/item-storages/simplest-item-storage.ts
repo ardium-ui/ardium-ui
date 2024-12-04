@@ -5,8 +5,8 @@ import { ArdSimplestStorageItem } from '../../types/item-storage.types';
 import { Nullable } from '../../types/utility.types';
 
 export interface SimplestItemStorageHostDefaults {
-  valueFrom: string;
-  labelFrom: string;
+  suggValueFrom: string;
+  suggLabelFrom: string;
 }
 export interface SimplestItemStorageHost {
   readonly valueFrom: Signal<Nullable<string>>;
@@ -69,12 +69,12 @@ export class SimplestItemStorage {
     }
     //get value
     const valuePath =
-      this._ardParentComp.valueFrom() ?? this._ardParentComp.labelFrom() ?? this._ardParentComp.DEFAULTS.valueFrom;
+      this._ardParentComp.valueFrom() ?? this._ardParentComp.labelFrom() ?? this._ardParentComp.DEFAULTS.suggValueFrom;
     const value = resolvePath(rawItemData, valuePath);
 
     //get label
     const labelPath =
-      this._ardParentComp.labelFrom() ?? this._ardParentComp.valueFrom() ?? this._ardParentComp.DEFAULTS.labelFrom;
+      this._ardParentComp.labelFrom() ?? this._ardParentComp.valueFrom() ?? this._ardParentComp.DEFAULTS.suggLabelFrom;
     const label = resolvePath(rawItemData, labelPath) ?? value;
 
     //return

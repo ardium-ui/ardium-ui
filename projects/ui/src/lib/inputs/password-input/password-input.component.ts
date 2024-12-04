@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Inject,
   OnDestroy,
   OnInit,
   ViewEncapsulation,
@@ -10,14 +11,15 @@ import {
   forwardRef,
   input,
   model,
-  viewChild
+  viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { isAnyString, isDefined } from 'simple-bool';
-import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
+import { _NgModelComponentBaseWithDefaults } from '../../_internal/ngmodel-component';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { Nullable } from '../../types/utility.types';
+import { ARD_PASSWORD_INPUT_DEFAULTS, ArdPasswordInputDefaults } from './password-input.defaults';
 import {
   ArdPasswordInputPlaceholderTemplateDirective,
   ArdPasswordInputPrefixTemplateDirective,
@@ -40,7 +42,15 @@ import { PasswordInputRevealButtonContext } from './password-input.types';
     },
   ],
 })
-export class ArdiumPasswordInputComponent extends _NgModelComponentBase implements ControlValueAccessor, OnInit, OnDestroy {
+export class ArdiumPasswordInputComponent
+  extends _NgModelComponentBaseWithDefaults
+  implements ControlValueAccessor, OnInit, OnDestroy
+{
+  protected override readonly _DEFAULTS!: ArdPasswordInputDefaults;
+  constructor(@Inject(ARD_PASSWORD_INPUT_DEFAULTS) defaults: ArdPasswordInputDefaults) {
+    super(defaults);
+  }
+
   //! input view
   readonly textInputEl = viewChild<ElementRef<HTMLInputElement>>('textInput');
 
@@ -48,7 +58,7 @@ export class ArdiumPasswordInputComponent extends _NgModelComponentBase implemen
     this._setInputAttributes();
   }
 
-  readonly placeholder = input<string>('');
+  readonly placeholder = input<string>(this._DEFAULTS.placeholder);
   readonly inputId = input<Nullable<string>>();
 
   //! prefix & suffix
@@ -61,12 +71,14 @@ export class ArdiumPasswordInputComponent extends _NgModelComponentBase implemen
   readonly shouldDisplayPlaceholder = computed(() => !!this.placeholder() && !this.value());
 
   //! revealing
-  readonly revealable = input<boolean, any>(true, { transform: v => coerceBooleanProperty(v) });
-  readonly holdToReveal = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly revealable = input<boolean, any>(this._DEFAULTS.revealable, { transform: v => coerceBooleanProperty(v) });
+  readonly holdToReveal = input<boolean, any>(this._DEFAULTS.holdToReveal, { transform: v => coerceBooleanProperty(v) });
 
-  readonly autoHideTimeoutMs = input<Nullable<number>, any>(undefined, { transform: v => coerceNumberProperty(v, undefined) });
+  readonly autoHideTimeoutMs = input<Nullable<number>, any>(this._DEFAULTS.autoHideTimeoutMs, {
+    transform: v => coerceNumberProperty(v, this._DEFAULTS.autoHideTimeoutMs),
+  });
 
-  readonly revealed = model<boolean>(false);
+  readonly revealed = model<boolean>(this._DEFAULTS.revealed);
 
   private _hideTimeout: NodeJS.Timeout | null = null;
   toggleReveal(newState = !this.revealed()): void {
@@ -96,10 +108,10 @@ export class ArdiumPasswordInputComponent extends _NgModelComponentBase implemen
   );
 
   //! appearance
-  readonly appearance = input<FormElementAppearance>(FormElementAppearance.Outlined);
-  readonly variant = input<FormElementVariant>(FormElementVariant.Rounded);
+  readonly appearance = input<FormElementAppearance>(this._DEFAULTS.appearance);
+  readonly variant = input<FormElementVariant>(this._DEFAULTS.variant);
 
-  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed(() =>
     [
@@ -111,7 +123,7 @@ export class ArdiumPasswordInputComponent extends _NgModelComponentBase implemen
   );
 
   //! other inputs
-  readonly inputAttrs = input<Record<string, any>>({});
+  readonly inputAttrs = input<Record<string, any>>(this._DEFAULTS.inputAttrs);
 
   //! control value accessor's write value implementation
   writeValue(v: any) {

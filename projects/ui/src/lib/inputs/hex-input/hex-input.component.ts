@@ -6,6 +6,7 @@ import {
   contentChild,
   ElementRef,
   forwardRef,
+  Inject,
   input,
   Input,
   output,
@@ -14,16 +15,17 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
+import { _NgModelComponentBaseWithDefaults } from '../../_internal/ngmodel-component';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { Nullable } from '../../types/utility.types';
-import { HexInputModel, HexInputModelHost } from '../hex-input.model';
 import { CaseTransformerType } from '../input-types';
+import { ARD_HEX_INPUT_DEFAULTS, ArdHexInputDefaults } from './hex-input.defaults';
 import {
   ArdHexInputPlaceholderTemplateDirective,
   ArdHexInputPrefixTemplateDirective,
   ArdHexInputSuffixTemplateDirective,
 } from './hex-input.directives';
+import { HexInputModel, HexInputModelHost } from './hex-input.model';
 
 @Component({
   selector: 'ard-hex-input',
@@ -40,9 +42,13 @@ import {
   ],
 })
 export class ArdiumHexInputComponent
-  extends _NgModelComponentBase
+  extends _NgModelComponentBaseWithDefaults
   implements ControlValueAccessor, HexInputModelHost, AfterViewInit
 {
+  protected override readonly _DEFAULTS!: ArdHexInputDefaults;
+  constructor(@Inject(ARD_HEX_INPUT_DEFAULTS) defaults: ArdHexInputDefaults) {
+    super(defaults);
+  }
   //! input view
   readonly textInputEl = viewChild<ElementRef<HTMLInputElement>>('textInput');
 
@@ -58,10 +64,6 @@ export class ArdiumHexInputComponent
     }
   }
 
-  readonly DEFAULTS = {
-    clearButtonTitle: 'Clear',
-  };
-
   readonly inputId = input<Nullable<string>>();
 
   //! prefix & suffix
@@ -69,7 +71,7 @@ export class ArdiumHexInputComponent
   readonly suffixTemplate = contentChild(ArdHexInputSuffixTemplateDirective);
 
   //! placeholder
-  readonly placeholder = input<Nullable<string>>();
+  readonly placeholder = input<Nullable<string>>(this._DEFAULTS.placeholder);
 
   readonly placeholderTemplate = contentChild(ArdHexInputPlaceholderTemplateDirective);
 
@@ -77,23 +79,25 @@ export class ArdiumHexInputComponent
 
   //! appearance
   //all handled in ard-form-field-frame component
-  readonly appearance = input<FormElementAppearance>(FormElementAppearance.Outlined);
-  readonly variant = input<FormElementVariant>(FormElementVariant.Rounded);
+  readonly appearance = input<FormElementAppearance>(this._DEFAULTS.appearance);
+  readonly variant = input<FormElementVariant>(this._DEFAULTS.variant);
 
-  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   //! settings
-  readonly case = input<CaseTransformerType>(CaseTransformerType.NoChange);
+  readonly case = input<CaseTransformerType>(this._DEFAULTS.case);
 
-  readonly maxDigits = input<Nullable<number>, any>(undefined, { transform: v => coerceNumberProperty(v, undefined) });
+  readonly maxDigits = input<Nullable<number>, any>(this._DEFAULTS.maxDigits, {
+    transform: v => coerceNumberProperty(v, this._DEFAULTS.maxDigits),
+  });
 
-  readonly hideHash = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly hideHash = input<boolean, any>(this._DEFAULTS.hideHash, { transform: v => coerceBooleanProperty(v) });
   readonly showHash = computed(() => !this.hideHash());
 
   //! clear button
-  readonly clearable = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly clearable = input<boolean, any>(this._DEFAULTS.clearable, { transform: v => coerceBooleanProperty(v) });
 
-  readonly clearButtonTitle = input<string>(this.DEFAULTS.clearButtonTitle);
+  readonly clearButtonTitle = input<string>(this._DEFAULTS.clearButtonTitle);
 
   readonly shouldShowClearButton = computed<boolean>(
     () => this.clearable() && !this.disabled() && Boolean(this.inputModel?.value())
