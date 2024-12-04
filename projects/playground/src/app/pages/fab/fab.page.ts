@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ButtonAppearance as BA, ComponentColor as CC, FABSize as FS } from '@ardium-ui/ui';
+import { ButtonAppearance as BA, ComponentColor as CC, FabSize as FS } from '@ardium-ui/ui';
 import { Logger } from '../../services/logger.service';
 
 @Component({
