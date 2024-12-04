@@ -9,10 +9,10 @@ import {
   input,
   model,
 } from '@angular/core';
-import { TableDataColumn, TablePaginationStrategy } from '../table/table.types';
-import { Nullable } from '../types/utility.types';
-import { ComponentColor } from '../types/colors.types';
 import { CurrentItemsFormatFn, PaginationAlign } from '../table-pagination/table-pagination.types';
+import { TableDataColumn, TablePaginationStrategy } from '../table/table.types';
+import { ComponentColor } from '../types/colors.types';
+import { Nullable } from '../types/utility.types';
 
 @Component({
   selector: 'ard-table-from-csv',
@@ -21,6 +21,7 @@ import { CurrentItemsFormatFn, PaginationAlign } from '../table-pagination/table
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumTableFromCsvComponent implements AfterContentInit, OnChanges {
+  // most inputs are of type "any" because <ard-table> accepts type "any" and coerces it into appropriate types
   readonly selectableRows = input<any>();
   readonly maxSelectedItems = input<any>();
   readonly clickableRows = input<any>();
@@ -106,15 +107,16 @@ export class ArdiumTableFromCsvComponent implements AfterContentInit, OnChanges 
   //! data
   readonly separator = input<string>(',');
 
-  readonly data = input<{ headers: TableDataColumn[]; dataRows: any[] } | null, string>(null, {
-    transform: v => {
-      if (!this._isCsvValid(v)) return null;
-      const lines = v.split('\n');
-      const headers = this._convertCsvToHeaders(lines.shift()!);
-      const dataRows = this._convertCsvToArray(lines, headers);
-      return { headers, dataRows };
-    },
+  readonly stringData = input<string>('', { alias: 'data' });
+  readonly data = computed<{ headers: TableDataColumn[]; dataRows: any[] } | null>(() => {
+    const v = this.stringData();
+    if (!this._isCsvValid(v)) return null;
+    const lines = v.split('\n');
+    const headers = this._convertCsvToHeaders(lines.shift()!);
+    const dataRows = this._convertCsvToArray(lines, headers);
+    return { headers, dataRows };
   });
+
   private readonly _isDataOkay = computed(() => this.data() !== null);
 
   readonly headers = computed(() => this.data()?.headers ?? []);
