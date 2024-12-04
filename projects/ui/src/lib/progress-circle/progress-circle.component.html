@@ -10,13 +10,13 @@
   <div class="ard-progress-circle-value">
     <ng-template
       #defaultValueTemplate
-      let-value
+      let-percents
     >
-      {{ value }}%
+      {{ percents | number:'1.0-0' }}%
     </ng-template>
 
     <ng-template
-      [ngTemplateOutlet]="valueTemplate || defaultValueTemplate"
+      [ngTemplateOutlet]="valueTemplate() || defaultValueTemplate"
       [ngTemplateOutletContext]="getValueContext()"
     ></ng-template>
   </div>

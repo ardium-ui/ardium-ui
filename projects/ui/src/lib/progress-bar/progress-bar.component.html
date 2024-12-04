@@ -16,7 +16,7 @@
     </ng-template>
 
     <ng-template
-      [ngTemplateOutlet]="valueTemplate || defaultValueTemplate"
+      [ngTemplateOutlet]="valueTemplate() || defaultValueTemplate"
       [ngTemplateOutletContext]="getValueContext()"
     ></ng-template>
   </div>
