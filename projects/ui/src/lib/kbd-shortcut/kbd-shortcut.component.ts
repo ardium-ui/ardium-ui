@@ -5,12 +5,15 @@ import {
   ElementRef,
   ViewEncapsulation,
   computed,
+  inject,
   input,
   viewChild,
 } from '@angular/core';
 import { coerceArrayProperty, coerceBooleanProperty } from '@ardium-ui/devkit';
+import { ARD_KBD_DEFAULTS } from '@ardium-ui/ui';
 import { FormElementAppearance } from '../types/theming.types';
 import { Nullable } from '../types/utility.types';
+import { ARD_KBD_SHORTCUT_DEFAULTS } from './kbd-shortcut.defaults';
 
 @Component({
   selector: 'ard-kbd-shortcut',
@@ -20,6 +23,9 @@ import { Nullable } from '../types/utility.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumKbdShortcutComponent implements AfterViewInit {
+  protected readonly _KBD_DEFAULTS = inject(ARD_KBD_DEFAULTS);
+  protected readonly _DEFAULTS = inject(ARD_KBD_SHORTCUT_DEFAULTS);
+
   readonly contentWrapper = viewChild<ElementRef<HTMLElement>>('contentWrapperEl');
 
   ngAfterViewInit(): void {
@@ -33,10 +39,12 @@ export class ArdiumKbdShortcutComponent implements AfterViewInit {
     transform: v => coerceArrayProperty(v, this.splitRegex),
   });
 
-  readonly full = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly full = input<boolean, any>(this._DEFAULTS.full ?? this._KBD_DEFAULTS.full, {
+    transform: v => coerceBooleanProperty(v),
+  });
 
   //! appearance
-  readonly appearance = input<FormElementAppearance>(FormElementAppearance.Filled);
+  readonly appearance = input<FormElementAppearance>(this._DEFAULTS.appearance ?? this._KBD_DEFAULTS.appearance);
 
   readonly ngClasses = computed<string>(() => [`ard-appearance-${this.appearance}`].join(' '));
 }
