@@ -7,7 +7,7 @@ export interface ArdColorDisplayDefaults {
   appearance: ColorDisplayAppearance;
 }
 
-const _colorDisplayDefaults = {
+const _colorDisplayDefaults: ArdColorDisplayDefaults = {
   ariaLabel: '',
   withLabel: false,
   appearance: ColorDisplayAppearance.Rounded,

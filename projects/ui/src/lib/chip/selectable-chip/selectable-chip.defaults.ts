@@ -7,7 +7,7 @@ export interface ArdSelectableChipDefaults extends ArdChipDefaults, _BooleanComp
   hideSelectionIcon: boolean;
 }
 
-const _selectableChipDefaults = {
+const _selectableChipDefaults: ArdSelectableChipDefaults = {
     ..._booleanComponentDefaults,
     ..._chipDefaults,
     chipTitle: 'Select',

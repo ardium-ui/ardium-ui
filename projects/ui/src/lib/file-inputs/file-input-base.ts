@@ -11,10 +11,13 @@ import {
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { isDefined } from 'simple-bool';
-import { _NgModelComponentBase } from '../_internal/ngmodel-component';
+import { _NgModelComponentBaseWithDefaults } from '../_internal/ngmodel-component';
+import { _FileInputBaseDefaults } from './file-input-base.defaults';
 
 @Directive()
-export abstract class _FileInputComponentBase extends _NgModelComponentBase implements OnInit, AfterViewInit {
+export abstract class _FileInputComponentBase extends _NgModelComponentBaseWithDefaults implements OnInit, AfterViewInit {
+  protected override readonly _DEFAULTS!: _FileInputBaseDefaults;
+
   abstract readonly componentId: string;
 
   readonly fileInputEl = viewChild<ElementRef<HTMLInputElement>>('fileInput');
@@ -25,7 +28,7 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
   ngOnInit(): void {
     if (!(window.File && window.FileReader && window.Blob)) {
       console.error(
-        new Error(`ARD-${this.componentId}0: Cannot use Ardium UI file features because this browser does not support them!`)
+        new Error(`ARD-${this.componentId}0: Cannot use Ardium UI file features because this browser does not support file handling!`)
       );
     }
   }

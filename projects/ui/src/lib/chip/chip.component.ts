@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation, computed, input } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { SimpleOneAxisAlignment } from '../types/alignment.types';
 import { ComponentColor } from '../types/colors.types';
 import { DecorationElementAppearance, FormElementVariant } from '../types/theming.types';
-import { _DisablableComponentBase } from './../_internal/disablable-component';
-import { ARD_CHIP_DEFAULTS } from './chip.defaults';
+import { _DisablableComponentBaseWithDefaults } from './../_internal/disablable-component';
+import { ARD_CHIP_DEFAULTS, ArdChipDefaults } from './chip.defaults';
 
 @Component({
   selector: 'ard-chip',
@@ -13,8 +13,11 @@ import { ARD_CHIP_DEFAULTS } from './chip.defaults';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumChipComponent extends _DisablableComponentBase {
-  protected override readonly _DEFAULTS = inject(ARD_CHIP_DEFAULTS);
+export class ArdiumChipComponent extends _DisablableComponentBaseWithDefaults {
+  protected override readonly _DEFAULTS!: ArdChipDefaults;
+  constructor(@Inject(ARD_CHIP_DEFAULTS) defaults: ArdChipDefaults) {
+    super(defaults);
+  }
 
   //! appearance
   readonly contentAlignment = input<SimpleOneAxisAlignment>(this._DEFAULTS.contentAlignment);

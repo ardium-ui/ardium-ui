@@ -3,21 +3,21 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
+  Inject,
   Input,
   ViewEncapsulation,
   computed,
-  inject,
   input,
   output,
-  signal,
+  signal
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { SimpleItemStorage, SimpleItemStorageHost } from '../_internal/item-storages/simple-item-storage';
-import { _NgModelComponentBase } from '../_internal/ngmodel-component';
+import { _NgModelComponentBaseWithDefaults } from '../_internal/ngmodel-component';
 import { ComponentColor } from '../types/colors.types';
 import { ArdOptionSimple, CompareWithFn } from '../types/item-storage.types';
 import { Nullable } from '../types/utility.types';
-import { ARD_CHECKBOX_LIST_DEFAULTS } from './checkbox-list.defaults';
+import { ARD_CHECKBOX_LIST_DEFAULTS, ArdCheckboxListDefaults } from './checkbox-list.defaults';
 import { CheckboxListAlignType } from './checkbox-list.types';
 
 @Component({
@@ -27,15 +27,18 @@ import { CheckboxListAlignType } from './checkbox-list.types';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumCheckboxListComponent extends _NgModelComponentBase implements SimpleItemStorageHost, AfterViewInit {
+export class ArdiumCheckboxListComponent extends _NgModelComponentBaseWithDefaults implements SimpleItemStorageHost, AfterViewInit {
+  protected override readonly _DEFAULTS!: ArdCheckboxListDefaults;
+  constructor(@Inject(ARD_CHECKBOX_LIST_DEFAULTS) defaults: ArdCheckboxListDefaults) {
+    super(defaults);
+  }
+
   readonly htmlId = input<string>(crypto.randomUUID());
 
   @HostBinding('attr.id')
   get _htmlIdHostAttribute() {
     return this.htmlId();
   }
-
-  protected override readonly _DEFAULTS = inject(ARD_CHECKBOX_LIST_DEFAULTS);
 
   readonly DEFAULTS = this._DEFAULTS;
   // static values. Not meant to be changed.

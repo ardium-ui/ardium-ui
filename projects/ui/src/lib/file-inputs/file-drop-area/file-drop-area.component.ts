@@ -2,16 +2,17 @@ import {
   ChangeDetectionStrategy,
   Component,
   ContentChild,
-  OnInit,
+  Inject,
   TemplateRef,
   ViewEncapsulation,
   computed,
-  input,
+  input
 } from '@angular/core';
 import { ComponentColor } from '../../types/colors.types';
 import { FormElementVariant } from '../../types/theming.types';
 import { _FileInputComponentBase } from '../file-input-base';
 import { FileInputBrowseContext, FileInputFileAmountContext, FileInputFilesContext } from '../file-input-types';
+import { ARD_FILE_DROP_AREA_DEFAULTS, ArdFileDropAreaDefaults } from './file-drop-area.defaults';
 import {
   ArdiumFileDropAreaDragoverContentTemplateDirective,
   ArdiumFileDropAreaIdleContentTemplateDirective,
@@ -25,12 +26,17 @@ import {
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumFileDropAreaComponent extends _FileInputComponentBase implements OnInit {
+export class ArdiumFileDropAreaComponent extends _FileInputComponentBase {
+  protected override readonly _DEFAULTS!: ArdFileDropAreaDefaults;
+  constructor(@Inject(ARD_FILE_DROP_AREA_DEFAULTS) defaults: ArdFileDropAreaDefaults) {
+    super(defaults);
+  }
+
   readonly componentId = '010';
 
   //! appearance
-  readonly variant = input<FormElementVariant>(FormElementVariant.Rounded);
-  readonly color = input<ComponentColor>(ComponentColor.Primary);
+  readonly variant = input<FormElementVariant>(this._DEFAULTS.variant);
+  readonly color = input<ComponentColor>(this._DEFAULTS.color);
 
   readonly ngClasses = computed<string>(() =>
     [`ard-variant-${this.variant()}`, `ard-color-${this.color()}`, this.compact() ? 'ard-compact' : ''].join(' ')

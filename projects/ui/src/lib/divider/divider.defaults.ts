@@ -4,7 +4,7 @@ export interface ArdDividerDefaults {
   vertical: boolean;
 }
 
-const _dividerDefaults = {
+const _dividerDefaults: ArdDividerDefaults = {
     vertical: false,
 };
 

@@ -1,15 +1,15 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { _buttonBaseDefaults, _ButtonBaseDefaults } from '../_button-base.defaults';
-import { FABSize } from '../general-button.types';
+import { FabSize } from '../general-button.types';
 
 export interface ArdFabDefaults extends _ButtonBaseDefaults {
-  size: FABSize;
+  size: FabSize;
   extended: boolean;
 }
 
-const _fabDefaults = {
+const _fabDefaults: ArdFabDefaults = {
     ..._buttonBaseDefaults,
-    size: FABSize.Standard,
+    size: FabSize.Standard,
     extended: false,
 };
 

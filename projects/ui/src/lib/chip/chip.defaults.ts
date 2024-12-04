@@ -12,7 +12,7 @@ export interface ArdChipDefaults extends _DisablableComponentDefaults {
   compact: boolean;
 }
 
-export const _chipDefaults = {
+export const _chipDefaults: ArdChipDefaults = {
   ..._disablableComponentDefaults,
   contentAlignment: SimpleOneAxisAlignment.Left,
   appearance: DecorationElementAppearance.Outlined,

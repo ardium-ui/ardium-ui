@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Inject,
   Input,
   TemplateRef,
   ViewEncapsulation,
@@ -9,9 +10,10 @@ import {
   input
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
-import { _FocusableComponentBase } from '../_internal/focusable-component';
+import { _FocusableComponentBaseWithDefaults } from '../_internal/focusable-component';
 import { FormElementAppearance, FormElementVariant } from '../types/theming.types';
 import { Nullable } from '../types/utility.types';
+import { ARD_FORM_FIELD_FRAME_DEFAULTS, ArdFormFieldFrameDefaults } from './form-field-frame.defaults';
 import { ArdFormFieldPrefixTemplateDirective, ArdFormFieldSuffixTemplateDirective } from './form-field-frame.directives';
 
 @Component({
@@ -21,7 +23,12 @@ import { ArdFormFieldPrefixTemplateDirective, ArdFormFieldSuffixTemplateDirectiv
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumFormFieldFrameComponent extends _FocusableComponentBase {
+export class ArdiumFormFieldFrameComponent extends _FocusableComponentBaseWithDefaults {
+  protected override readonly _DEFAULTS!: ArdFormFieldFrameDefaults;
+  constructor(@Inject(ARD_FORM_FIELD_FRAME_DEFAULTS) defaults: ArdFormFieldFrameDefaults) {
+    super(defaults);
+  }
+
   //! focused state
   @Input() override isFocused = false;
 

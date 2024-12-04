@@ -5,11 +5,13 @@ import {
   ElementRef,
   ViewEncapsulation,
   computed,
+  inject,
   input,
   viewChild,
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { FormElementAppearance } from './../types/theming.types';
+import { ARD_KBD_DEFAULTS } from './kbd.defaults';
 
 @Component({
   selector: 'ard-kbd',
@@ -19,6 +21,8 @@ import { FormElementAppearance } from './../types/theming.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumKbdComponent implements AfterViewInit {
+  protected readonly _DEFAULTS = inject(ARD_KBD_DEFAULTS);
+
   readonly contentWrapper = viewChild<ElementRef<HTMLElement>>('contentWrapperEl');
 
   ngAfterViewInit(): void {

@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, forwardRef, inject, input, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation, computed, forwardRef, input, model } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { SimpleComponentColor } from '../types/colors.types';
-import { _BooleanComponentBase } from './../_internal/boolean-component';
-import { ARD_CHECKBOX_DEFAULTS } from './checkbox.defaults';
+import { _BooleanComponentBaseWithDefaults } from './../_internal/boolean-component';
+import { ARD_CHECKBOX_DEFAULTS, ArdCheckboxDefaults } from './checkbox.defaults';
 import { CheckboxState } from './checkbox.types';
 
 @Component({
@@ -20,11 +20,13 @@ import { CheckboxState } from './checkbox.types';
     },
   ],
 })
-export class ArdiumCheckboxComponent extends _BooleanComponentBase implements ControlValueAccessor {
-  readonly wrapperClasses = input<string>('');
+export class ArdiumCheckboxComponent extends _BooleanComponentBaseWithDefaults implements ControlValueAccessor {
+  protected override readonly _DEFAULTS!: ArdCheckboxDefaults;
+  constructor(@Inject(ARD_CHECKBOX_DEFAULTS) defaults: ArdCheckboxDefaults) {
+    super(defaults);
+  }
+  
   readonly htmlId = input<string>('');
-
-  protected override readonly _DEFAULTS = inject(ARD_CHECKBOX_DEFAULTS);
 
   //! appearance
   readonly color = input<SimpleComponentColor>(this._DEFAULTS.color);
@@ -32,7 +34,6 @@ export class ArdiumCheckboxComponent extends _BooleanComponentBase implements Co
 
   readonly ngClasses = computed(() =>
     [
-      this.wrapperClasses(),
       `ard-color-${this.color()}`,
       `ard-unselected-color-${this.unselectedColor()}`,
       `ard-checkbox-${this.state()}`,

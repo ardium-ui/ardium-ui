@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ContentChild,
+  Inject,
   TemplateRef,
   ViewEncapsulation,
   computed,
@@ -17,6 +18,7 @@ import { ComponentColor } from '../../types/colors.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { _FileInputComponentBase } from '../file-input-base';
 import { FileInputBrowseContext, FileInputFileAmountContext, FileInputFilesContext } from '../file-input-types';
+import { ARD_FILE_INPUT_DEFAULTS, ArdFileInputDefaults } from './file-input.defaults';
 import {
   ArdFileInputPrefixTemplateDirective,
   ArdFileInputSuffixTemplateDirective,
@@ -40,23 +42,24 @@ import {
   ],
 })
 export class ArdiumFileInputComponent extends _FileInputComponentBase {
-  readonly DEFAULTS = {
-    clearButtonTitle: 'Clear',
-  };
+  protected override readonly _DEFAULTS!: ArdFileInputDefaults;
+  constructor(@Inject(ARD_FILE_INPUT_DEFAULTS) defaults: ArdFileInputDefaults) {
+    super(defaults);
+  }
 
   readonly componentId = '011';
 
   //! appearance
   //all handled in ard-form-field-frame component
-  readonly appearance = input<FormElementAppearance>(FormElementAppearance.Outlined);
-  readonly variant = input<FormElementVariant>(FormElementVariant.Rounded);
-  readonly color = input<ComponentColor>(ComponentColor.Primary);
+  readonly appearance = input<FormElementAppearance>(this._DEFAULTS.appearance);
+  readonly variant = input<FormElementVariant>(this._DEFAULTS.variant);
+  readonly color = input<ComponentColor>(this._DEFAULTS.color);
 
   //! other inputs
-  readonly inputAttrs = input<Record<string, any>>({});
+  readonly inputAttrs = input<Record<string, any>>(this._DEFAULTS.inputAttrs);
 
   //! placeholder
-  readonly placeholder = input<string>('');
+  readonly placeholder = input<string>(this._DEFAULTS.placeholder);
 
   //! root element classes
   readonly ngClasses = computed<string>(() =>
@@ -73,9 +76,9 @@ export class ArdiumFileInputComponent extends _FileInputComponentBase {
   }
 
   //! clear button
-  readonly clearable = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly clearable = input<boolean, any>(this._DEFAULTS.clearable, { transform: v => coerceBooleanProperty(v) });
 
-  readonly clearButtonTitle = input<string>(this.DEFAULTS.clearButtonTitle);
+  readonly clearButtonTitle = input<string>(this._DEFAULTS.clearButtonTitle);
 
   get shouldShowClearButton(): boolean {
     return this.clearable() && !this.disabled() && Boolean(this.value);
@@ -95,7 +98,7 @@ export class ArdiumFileInputComponent extends _FileInputComponentBase {
     this.clearEvent.emit();
   }
 
-  readonly clearEvent = output();
+  readonly clearEvent = output({ alias: 'clear' });
 
   //! state
   readonly touched = signal<boolean>(false);

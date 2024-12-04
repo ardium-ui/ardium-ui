@@ -6,7 +6,7 @@ export interface ArdDeletableChipDefaults extends ArdChipDefaults, _FocusableCom
   deleteButtonTitle: string;
 }
 
-const _deletableChipDefaults = {
+const _deletableChipDefaults: ArdDeletableChipDefaults = {
     ..._focusableComponentDefaults,
     ..._chipDefaults,
     deleteButtonTitle: 'Delete',

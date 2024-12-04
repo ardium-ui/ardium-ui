@@ -17,7 +17,7 @@ export interface ArdCheckboxListDefaults extends _NgModelComponentDefaults {
   compact: boolean;
 }
 
-const _checkboxListDefaults = {
+const _checkboxListDefaults: ArdCheckboxListDefaults = {
     ..._ngModelComponentDefaults,
     valueFrom: 'value',
     labelFrom: 'label',

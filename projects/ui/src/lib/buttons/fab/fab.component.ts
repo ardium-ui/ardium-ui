@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation, computed, input } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _ButtonBase } from '../_button-base';
-import { FABSize } from '../general-button.types';
-import { ARD_FAB_DEFAULTS } from './fab.defaults';
+import { FabSize } from '../general-button.types';
+import { ARD_FAB_DEFAULTS, ArdFabDefaults } from './fab.defaults';
 
 @Component({
   selector: 'ard-fab',
@@ -12,10 +12,12 @@ import { ARD_FAB_DEFAULTS } from './fab.defaults';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumFabComponent extends _ButtonBase {
-  protected override readonly _DEFAULTS = inject(ARD_FAB_DEFAULTS);
+  constructor(@Inject(ARD_FAB_DEFAULTS) defaults: ArdFabDefaults) {
+    super(defaults);
+  }
   
   //! appearance
-  readonly size = input<FABSize>(FABSize.Standard);
+  readonly size = input<FabSize>(FabSize.Standard);
 
   readonly extended = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 

@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ViewEncapsulation, c
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import * as Color from 'color';
 import { Nullable } from '../../types/utility.types';
-import { ARD_COLOR_DISPLAY_DEFAULTS, ArdColorDisplayDefaults } from './color-display.defaults';
+import { ARD_COLOR_DISPLAY_DEFAULTS } from './color-display.defaults';
 import { ColorDisplayAppearance } from './color-display.types';
 
 @Component({
@@ -13,7 +13,7 @@ import { ColorDisplayAppearance } from './color-display.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumColorDisplayComponent implements AfterViewInit {
-  private readonly _DEFAULTS: ArdColorDisplayDefaults = inject(ARD_COLOR_DISPLAY_DEFAULTS);
+  private readonly _DEFAULTS = inject(ARD_COLOR_DISPLAY_DEFAULTS);
 
   readonly ariaLabel = input<string>(this._DEFAULTS.ariaLabel);
 

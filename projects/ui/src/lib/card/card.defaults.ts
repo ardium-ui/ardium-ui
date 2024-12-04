@@ -8,7 +8,7 @@ export interface ArdCardDefaults {
   actionButtonsAlign: OneAxisAlignment;
 }
 
-const _cardDefaults = {
+const _cardDefaults: ArdCardDefaults = {
   appearance: CardAppearance.Raised,
   variant: CardVariant.Rounded,
   actionButtonsAlign: OneAxisAlignment.Right,

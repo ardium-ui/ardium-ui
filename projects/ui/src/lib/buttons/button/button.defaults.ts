@@ -9,7 +9,7 @@ export interface ArdButtonDefaults extends _ButtonBaseDefaults {
   vertical: boolean;
 }
 
-const _buttonDefaults = {
+const _buttonDefaults: ArdButtonDefaults = {
   ..._buttonBaseDefaults,
   variant: ButtonVariant.Rounded,
   alignIcon: SimpleOneAxisAlignment.Left,

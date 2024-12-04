@@ -5,21 +5,26 @@ import {
   ElementRef,
   ViewEncapsulation,
   computed,
+  inject,
   input,
   viewChild,
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { isDefined } from 'simple-bool';
 import { Nullable } from '../types/utility.types';
+import { ARD_ICON_DEFAULTS } from './icon.defaults';
 
 type WeightNumber = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 type WeightString = '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900';
+export type Weight = WeightNumber | WeightString;
 
 type GradeNumber = -25 | 0 | 200;
 type GradeString = '-25' | '0' | '200';
+export type Grade = GradeNumber | GradeString;
 
 type OpticalSizeNumber = 20 | 24 | 40 | 48;
 type OpticalSizeString = '20' | '24' | '40' | '48';
+export type OpticalSize = OpticalSizeNumber | OpticalSizeString;
 
 @Component({
   selector: 'ard-icon',
@@ -29,17 +34,19 @@ type OpticalSizeString = '20' | '24' | '40' | '48';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumIconComponent implements AfterViewInit {
+  protected readonly _DEFAULTS = inject(ARD_ICON_DEFAULTS);
+
   readonly ariaLabel = input<string>('');
   readonly icon = input<Nullable<string>>(undefined);
 
   readonly filled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly weight = input<WeightNumber | undefined, Nullable<WeightNumber | WeightString>>(400, {
+  readonly weight = input<WeightNumber | undefined, Nullable<Weight>>(400, {
     transform: v => coerceNumberProperty(v, 400) as WeightNumber,
   });
-  readonly grade = input<GradeNumber | undefined, Nullable<GradeNumber | GradeString>>(0, {
+  readonly grade = input<GradeNumber | undefined, Nullable<GradeNumber>>(0, {
     transform: v => coerceNumberProperty(v, 0) as GradeNumber,
   });
-  readonly opticalSize = input<OpticalSizeNumber | undefined, Nullable<OpticalSizeNumber | OpticalSizeString>>(40, {
+  readonly opticalSize = input<OpticalSizeNumber | undefined, Nullable<OpticalSize>>(40, {
     transform: v => coerceNumberProperty(v, 40) as OpticalSizeNumber,
   });
 

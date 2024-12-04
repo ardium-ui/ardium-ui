@@ -52,8 +52,8 @@ export type ButtonVariant = (typeof ButtonVariant)[keyof typeof ButtonVariant];
 /**
  * **F**loating **A**ction **B**utton size.
  */
-export const FABSize = {
+export const FabSize = {
   Standard: 'standard',
   Small: 'small',
 } as const;
-export type FABSize = (typeof FABSize)[keyof typeof FABSize];
+export type FabSize = (typeof FabSize)[keyof typeof FabSize];

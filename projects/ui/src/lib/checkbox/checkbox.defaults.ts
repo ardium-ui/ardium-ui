@@ -7,7 +7,7 @@ export interface ArdCheckboxDefaults extends _BooleanComponentDefaults {
   unselectedColor: SimpleComponentColor;
 }
 
-const _checkboxDefaults = {
+const _checkboxDefaults: ArdCheckboxDefaults = {
     ..._booleanComponentDefaults,
     color: SimpleComponentColor.Primary,
     unselectedColor: SimpleComponentColor.None,

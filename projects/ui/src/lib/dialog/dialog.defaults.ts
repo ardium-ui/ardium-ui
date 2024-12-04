@@ -14,7 +14,7 @@ export interface ArdDialogDefaults extends ArdModalDefaults {
   canConfirm: boolean;
 }
 
-const _dialogDefaults = {
+const _dialogDefaults: ArdDialogDefaults = {
     ..._modalDefaults,
     confirmButtonText: 'Confirm',
     confirmButtonColor: ComponentColor.Primary,

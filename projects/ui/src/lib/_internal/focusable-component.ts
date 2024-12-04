@@ -14,11 +14,6 @@ export const _focusableComponentDefaults: _FocusableComponentDefaults = {
 export abstract class _FocusableComponentBaseWithDefaults extends _DisablableComponentBaseWithDefaults {
   protected override readonly _DEFAULTS!: _FocusableComponentDefaults;
 
-  constructor(defaults: _FocusableComponentDefaults) {
-    super(defaults);
-    this._DEFAULTS = defaults;
-  }
-
   //! make the component focusable programmatically
   @ViewChildren('focusableElement')
   private readonly _focusableElement!: QueryList<ElementRef<HTMLElement>>;

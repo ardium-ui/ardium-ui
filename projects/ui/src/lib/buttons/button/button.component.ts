@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation, computed, input } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { SimpleOneAxisAlignment } from '../../types/alignment.types';
-import { _ButtonBaseWithDefaults } from '../_button-base';
+import { _ButtonBase } from '../_button-base';
 import { ButtonVariant } from '../general-button.types';
 import { ARD_BUTTON_DEFAULTS, ArdButtonDefaults } from './button.defaults';
 
@@ -12,7 +12,7 @@ import { ARD_BUTTON_DEFAULTS, ArdButtonDefaults } from './button.defaults';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumButtonComponent extends _ButtonBaseWithDefaults {
+export class ArdiumButtonComponent extends _ButtonBase {
   protected override readonly _DEFAULTS!: ArdButtonDefaults;
 
   readonly icon = input<string>('');

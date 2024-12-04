@@ -6,12 +6,14 @@ import {
   TemplateRef,
   ViewEncapsulation,
   computed,
+  inject,
   input,
   output,
   viewChild,
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { Nullable } from '../types/utility.types';
+import { ARD_DROPDOWN_PANEL_DEFAULTS } from './dropdown-panel.defaults';
 import { DropdownPanelAppearance, DropdownPanelVariant, ScrollAlignment } from './dropdown-panel.types';
 
 @Component({
@@ -25,6 +27,8 @@ import { DropdownPanelAppearance, DropdownPanelVariant, ScrollAlignment } from '
   },
 })
 export class ArdiumDropdownPanelComponent implements AfterViewChecked {
+  private readonly _DEFAULTS = inject(ARD_DROPDOWN_PANEL_DEFAULTS);
+
   private readonly _scrollElementRef = viewChild<ElementRef<HTMLElement>>('scroll');
   private readonly _scrollEl = computed(() => this._scrollElementRef()?.nativeElement);
 
@@ -32,13 +36,13 @@ export class ArdiumDropdownPanelComponent implements AfterViewChecked {
   readonly panelId = input<string>();
   readonly headerTemplate = input<TemplateRef<any> | null>(null);
   readonly footerTemplate = input<TemplateRef<any> | null>(null);
-  readonly filterValue = input<Nullable<string>>();
+  readonly filterValue = input<Nullable<string>>(this._DEFAULTS.filterValue);
 
   //! appearance
-  readonly appearance = input<DropdownPanelAppearance>(DropdownPanelAppearance.Raised);
-  readonly variant = input<DropdownPanelVariant>(DropdownPanelVariant.Rounded);
+  readonly appearance = input<DropdownPanelAppearance>(this._DEFAULTS.appearance);
+  readonly variant = input<DropdownPanelVariant>(this._DEFAULTS.variant);
 
-  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed((): string =>
     [`ard-appearance-${this.appearance()}`, `ard-variant-${this.variant()}`, this.compact() ? 'ard-compact' : ''].join(' ')

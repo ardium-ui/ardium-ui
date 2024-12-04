@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, forwardRef, inject, input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, forwardRef, Inject, input, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { SimpleOneAxisAlignment } from '../../types/alignment.types';
 import { ComponentColor } from '../../types/colors.types';
 import { DecorationElementAppearance, FormElementVariant } from '../../types/theming.types';
-import { _BooleanComponentBase } from './../../_internal/boolean-component';
-import { ARD_SELECTABLE_CHIP_DEFAULTS } from './selectable-chip.defaults';
+import { _BooleanComponentBaseWithDefaults } from './../../_internal/boolean-component';
+import { ARD_SELECTABLE_CHIP_DEFAULTS, ArdSelectableChipDefaults } from './selectable-chip.defaults';
 
 @Component({
   selector: 'ard-selectable-chip',
@@ -21,8 +21,11 @@ import { ARD_SELECTABLE_CHIP_DEFAULTS } from './selectable-chip.defaults';
     },
   ],
 })
-export class ArdiumSelectableChipComponent extends _BooleanComponentBase implements ControlValueAccessor {
-  protected override readonly _DEFAULTS = inject(ARD_SELECTABLE_CHIP_DEFAULTS);
+export class ArdiumSelectableChipComponent extends _BooleanComponentBaseWithDefaults implements ControlValueAccessor {
+  protected override readonly _DEFAULTS!: ArdSelectableChipDefaults;
+  constructor(@Inject(ARD_SELECTABLE_CHIP_DEFAULTS) defaults: ArdSelectableChipDefaults) {
+    super(defaults);
+  }
 
   readonly chipTitle = input<string>(this._DEFAULTS.chipTitle);
   readonly hideSelectionIcon = input<boolean, any>(this._DEFAULTS.hideSelectionIcon, {
