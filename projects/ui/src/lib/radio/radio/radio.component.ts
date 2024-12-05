@@ -2,14 +2,16 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  Inject,
   ViewEncapsulation,
   computed,
   inject,
   input,
   signal,
 } from '@angular/core';
-import { _BooleanComponentBase } from '../../_internal/boolean-component';
-import { ComponentColor } from '../../types/colors.types';
+import { _BooleanComponentBaseWithDefaults } from '../../_internal/boolean-component';
+import { SimpleComponentColor } from '../../types/colors.types';
+import { ARD_RADIO_DEFAULTS, ArdRadioDefaults } from './radio.defaults';
 
 @Component({
   selector: 'ard-radio',
@@ -18,15 +20,20 @@ import { ComponentColor } from '../../types/colors.types';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumRadioComponent extends _BooleanComponentBase {
+export class ArdiumRadioComponent extends _BooleanComponentBaseWithDefaults {
   protected readonly _changeDetector = inject(ChangeDetectorRef);
+
+  protected override readonly _DEFAULTS!: ArdRadioDefaults;
+  constructor(@Inject(ARD_RADIO_DEFAULTS) defaults: ArdRadioDefaults) {
+    super(defaults);
+  }
 
   readonly htmlId = input<string>(crypto.randomUUID());
 
   readonly value = input<any>();
 
   //! appearance
-  readonly color = input<ComponentColor>(ComponentColor.Primary);
+  readonly color = input<SimpleComponentColor>(this._DEFAULTS.color);
 
   readonly ngClasses = computed<string>(() =>
     [`ard-color-${this.color()}`, `ard-radio-${this.selected() ? 'selected' : 'unselected'}`].join(' ')

@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, forwardRef, input } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation, computed, forwardRef, input } from '@angular/core';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ComponentColor } from '../types/colors.types';
-import { _BooleanComponentBase } from './../_internal/boolean-component';
+import { Nullable } from '../types/utility.types';
+import { _BooleanComponentBaseWithDefaults } from './../_internal/boolean-component';
+import { ARD_SLIDE_TOGGLE_DEFAULTS, ArdSlideToggleDefaults } from './slide-toggle.defaults';
 import { ArdSlideToggleAppearance } from './slide-toggle.types';
 
 @Component({
@@ -18,15 +20,20 @@ import { ArdSlideToggleAppearance } from './slide-toggle.types';
     },
   ],
 })
-export class ArdiumSlideToggleComponent extends _BooleanComponentBase implements ControlValueAccessor {
-  readonly wrapperClass = input<string | undefined | null>(undefined);
+export class ArdiumSlideToggleComponent extends _BooleanComponentBaseWithDefaults {
+  protected override readonly _DEFAULTS!: ArdSlideToggleDefaults;
+  constructor(@Inject(ARD_SLIDE_TOGGLE_DEFAULTS) defaults: ArdSlideToggleDefaults) {
+    super(defaults);
+  }
+
+  readonly wrapperClass = input<Nullable<string>>(undefined);
 
   //! appearance
-  readonly color = input<ComponentColor>(ComponentColor.Primary);
-  readonly appearance = input<ArdSlideToggleAppearance>(ArdSlideToggleAppearance.Raised);
-  readonly icon = input<string | undefined | null>(undefined);
-  readonly selectedIcon = input<string | undefined | null>(undefined);
-  readonly unselectedIcon = input<string | undefined | null>(undefined);
+  readonly color = input<ComponentColor>(this._DEFAULTS.color);
+  readonly appearance = input<ArdSlideToggleAppearance>(this._DEFAULTS.appearance);
+  readonly icon = input<Nullable<string>>(this._DEFAULTS.icon);
+  readonly selectedIcon = input<Nullable<string>>(this._DEFAULTS.selectedIcon);
+  readonly unselectedIcon = input<Nullable<string>>(this._DEFAULTS.unselectedIcon);
 
   readonly ngClasses = computed(() => {
     return [`ard-color-${this.color()}`, `ard-appearance-${this.appearance()}`, this.wrapperClass() ?? ''].join(' ');
