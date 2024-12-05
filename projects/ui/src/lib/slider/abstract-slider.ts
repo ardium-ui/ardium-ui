@@ -18,7 +18,7 @@ import {
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { roundToMultiple, roundToPrecision } from 'more-rounding';
 import { isDefined, isObject } from 'simple-bool';
-import { _NgModelComponentBase } from '../_internal/ngmodel-component';
+import { _NgModelComponentBaseWithDefaults, _NgModelComponentDefaults, _ngModelComponentDefaults } from '../_internal/ngmodel-component';
 import { SimpleComponentColor } from '../types/colors.types';
 import { Nullable } from '../types/utility.types';
 import { ArdSliderTooltipDirective } from './slider.directive';
@@ -30,10 +30,45 @@ import {
   _InternalSliderLabelObject,
 } from './slider.types';
 
+export interface _AsbtractSliderDefaults extends _NgModelComponentDefaults {
+  noTooltip: boolean;
+  showValueTicks: boolean;
+  formatTooltipFn: Nullable<SliderTooltipFormatFn>;
+  min: number;
+  max: number;
+  step: number;
+  shiftMultiplier: number;
+  labelPosition: SliderDecorationPosition;
+  labels: SliderLabelObject[] | number[] | null;
+  color: SimpleComponentColor;
+  compact: boolean;
+  tooltipPosition: SliderDecorationPosition;
+  tooltipBehavior: SliderTooltipBehavior;
+}
+
+export const _asbtractSliderDefaults: _AsbtractSliderDefaults = {
+  ..._ngModelComponentDefaults,
+  noTooltip: false,
+  showValueTicks: false,
+  formatTooltipFn: undefined,
+  min: 0,
+  max: 100,
+  step: 1,
+  shiftMultiplier: 5,
+  labelPosition: SliderDecorationPosition.Bottom,
+  labels: [],
+  color: SimpleComponentColor.Primary,
+  compact: false,
+  tooltipPosition: SliderDecorationPosition.Top,
+  tooltipBehavior: SliderTooltipBehavior.Auto,
+};
+
 @Directive()
-export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
+export abstract class _AbstractSlider<T> extends _NgModelComponentBaseWithDefaults {
   abstract readonly componentId: string;
   abstract readonly componentName: string;
+
+  protected override readonly _DEFAULTS!: _AsbtractSliderDefaults;
 
   public readonly elementRef = viewChild<ElementRef<HTMLElement>>('track');
 
@@ -43,35 +78,39 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   protected readonly scrollStrategyOpts = inject(ScrollStrategyOptions);
   protected readonly viewContainerRef = inject(ViewContainerRef);
 
-  readonly noTooltip = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly noTooltip = input<boolean, any>(this._DEFAULTS.noTooltip, { transform: v => coerceBooleanProperty(v) });
 
-  readonly tooltipFormat = input<Nullable<SliderTooltipFormatFn>>();
+  readonly tooltipFormatFn = input<Nullable<SliderTooltipFormatFn>>(this._DEFAULTS.formatTooltipFn);
 
   protected abstract _updateTooltipValue(): void;
 
   //! min, max, step sizes
-  readonly min = input<number, any>(0, { transform: v => coerceNumberProperty(v, 0) });
-  readonly max = input<number, any>(100, { transform: v => coerceNumberProperty(v, 100) });
+  readonly min = input<number, any>(this._DEFAULTS.min, { transform: v => coerceNumberProperty(v, this._DEFAULTS.min) });
+  readonly max = input<number, any>(this._DEFAULTS.max, { transform: v => coerceNumberProperty(v, this._DEFAULTS.max) });
 
-  readonly step = input<number, any>(1, {
+  readonly step = input<number, any>(this._DEFAULTS.step, {
     transform: v => {
-      const step = coerceNumberProperty(v, 1);
+      const step = coerceNumberProperty(v, this._DEFAULTS.step);
       if (step === 0) {
         throw new Error(`ARD-FT${this.componentId}0a: Cannot set <ard-${this.componentName}>'s [step] to 0.`);
       }
       if (step < 0) {
-        throw new Error(`ARD-FT${this.componentId}0b: Cannot set <ard-${this.componentName}>'s [step] to a negative value, got ${step}.`);
+        throw new Error(
+          `ARD-FT${this.componentId}0b: Cannot set <ard-${this.componentName}>'s [step] to a negative value, got ${step}.`
+        );
       }
       return step;
     },
   });
 
-  readonly shiftMultiplier = input<number, any>(5, { transform: v => coerceNumberProperty(v, 1) });
+  readonly shiftMultiplier = input<number, any>(this._DEFAULTS.shiftMultiplier, {
+    transform: v => coerceNumberProperty(v, this._DEFAULTS.shiftMultiplier),
+  });
 
   protected readonly _stepSizeComputed = computed<number>(() => this.step() / Math.abs(this.min() - this.max()));
 
   //! value ticks
-  readonly showValueTicks = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly showValueTicks = input<boolean, any>(this._DEFAULTS.showValueTicks, { transform: v => coerceBooleanProperty(v) });
 
   readonly percentStepSize = computed<number>(() => this._stepSizeComputed() * 100);
 
@@ -90,23 +129,27 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   });
 
   //! labels
-  readonly labelPosition = input<SliderDecorationPosition>(SliderDecorationPosition.Bottom);
+  readonly labelPosition = input<SliderDecorationPosition>(this._DEFAULTS.labelPosition);
 
-  readonly labelObjects = input<_InternalSliderLabelObject[], SliderLabelObject[] | number[] | null>([], {
-    alias: 'labels',
-    transform: val => {
-      if (!isDefined(val) || val.length === 0) {
-        return [];
-      }
-      return val.map(this._numberLabelArrayMapFn).map(label => {
-        const v = this._clampValue(label.for);
-        return {
-          label: String(label.label),
-          positionPercent: `${this._valueToPercent(v) * 100}%`,
-        };
-      });
-    },
-  });
+  readonly labelObjects = input<_InternalSliderLabelObject[], SliderLabelObject[] | number[] | null>(
+    this._transformLabelObjects(this._DEFAULTS.labels),
+    {
+      alias: 'labels',
+      transform: this._transformLabelObjects,
+    }
+  );
+  private _transformLabelObjects(v: SliderLabelObject[] | number[] | null): _InternalSliderLabelObject[] {
+    if (!isDefined(v) || v.length === 0) {
+      return [];
+    }
+    return v.map(this._numberLabelArrayMapFn).map(label => {
+      const v = this._clampValue(label.for);
+      return {
+        label: String(label.label),
+        positionPercent: `${this._valueToPercent(v) * 100}%`,
+      };
+    });
+  }
 
   protected _numberLabelArrayMapFn(val: SliderLabelObject | number): SliderLabelObject {
     if (isObject(val)) return val;

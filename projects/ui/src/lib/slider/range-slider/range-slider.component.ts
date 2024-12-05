@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, HostListener, OnInit, ViewEncapsulation, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, Inject, OnInit, ViewEncapsulation, signal } from '@angular/core';
 import { roundToPrecision } from 'more-rounding';
 import { isNumber, isObject } from 'simple-bool';
 import { _AbstractSlider } from '../abstract-slider';
+import { ARD_SLIDER_DEFAULTS, ArdSliderDefaults } from '../slider.defaults';
 import { SliderRange, SliderTooltipContext } from '../slider.types';
 
 @Component({
@@ -14,6 +15,11 @@ import { SliderRange, SliderTooltipContext } from '../slider.types';
 export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> implements OnInit {
   readonly componentId = '106';
   readonly componentName = 'range-slider';
+
+  protected override readonly _DEFAULTS!: ArdSliderDefaults;
+  constructor(@Inject(ARD_SLIDER_DEFAULTS) defaults: ArdSliderDefaults) {
+    super(defaults);
+  }
 
   protected _value: SliderRange = { low: -Infinity, high: Infinity };
 
@@ -71,7 +77,7 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
 
   protected _updateTooltipValue(): void {
     const v: SliderRange<string | number> = Object.create(this._value);
-    const formatFn = this.tooltipFormat();
+    const formatFn = this.tooltipFormatFn();
     if (formatFn) {
       v.low = formatFn(v.low as number);
       v.high = formatFn(v.high as number);

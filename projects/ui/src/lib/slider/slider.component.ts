@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, forwardRef, HostListener, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef, HostListener, Inject, ViewEncapsulation } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { roundToPrecision } from 'more-rounding';
 import { _AbstractSlider } from './abstract-slider';
+import { ARD_SLIDER_DEFAULTS, ArdSliderDefaults } from './slider.defaults';
 import { SliderTooltipContext } from './slider.types';
 
 @Component({
@@ -22,6 +23,11 @@ export class ArdiumSliderComponent extends _AbstractSlider<number> {
   readonly componentId = '105';
   readonly componentName = 'slider';
 
+  protected override readonly _DEFAULTS!: ArdSliderDefaults;
+  constructor(@Inject(ARD_SLIDER_DEFAULTS) defaults: ArdSliderDefaults) {
+    super(defaults);
+  }
+
   //! value input & output
   protected _value = 0;
 
@@ -30,7 +36,7 @@ export class ArdiumSliderComponent extends _AbstractSlider<number> {
 
   protected _updateTooltipValue(): void {
     let v: string | number = this._value;
-    const formatFn = this.tooltipFormat();
+    const formatFn = this.tooltipFormatFn();
     if (formatFn) v = formatFn(v);
     this._tooltipValue = String(v);
   }
