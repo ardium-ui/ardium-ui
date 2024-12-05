@@ -1,35 +1,14 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { _NgModelComponentDefaults, _ngModelComponentDefaults } from '../../_internal/ngmodel-component';
-import { SimpleOneAxisAlignment } from './../../types/alignment.types';
-import { FormElementAppearance, FormElementVariant } from './../../types/theming.types';
-import { Nullable } from './../../types/utility.types';
+import { _SimpleInputComponentDefaults, _simpleInputComponentDefaults } from '../_simple-input-base';
 
-export interface ArdInputDefaults extends _NgModelComponentDefaults {
-  appearance: FormElementAppearance;
-  variant: FormElementVariant;
-  compact: boolean;
-  placeholder: string;
-  alignText: SimpleOneAxisAlignment;
-  clearable: boolean;
-  clearButtonTitle: string;
-  inputAttrs: Record<string, any>;
-  maxLength: Nullable<number>;
+export interface ArdInputDefaults extends _SimpleInputComponentDefaults {
   suggValueFrom: string;
   suggLabelFrom: string;
   suggestionsLoadingText: string;
 }
 
 const _inputDefaults: ArdInputDefaults = {
-  ..._ngModelComponentDefaults,
-  appearance: FormElementAppearance.Outlined,
-  variant: FormElementVariant.Rounded,
-  compact: false,
-  placeholder: '',
-  alignText: SimpleOneAxisAlignment.Left,
-  clearable: false,
-  clearButtonTitle: 'Clear',
-  inputAttrs: {},
-  maxLength: undefined,
+  ..._simpleInputComponentDefaults,
   suggValueFrom: 'value',
   suggLabelFrom: 'label',
   suggestionsLoadingText: 'Loading...',

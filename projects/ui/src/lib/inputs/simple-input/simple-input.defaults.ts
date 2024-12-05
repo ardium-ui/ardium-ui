@@ -1,19 +1,10 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { _NgModelComponentDefaults, _ngModelComponentDefaults } from '../../_internal/ngmodel-component';
+import { _ngModelComponentDefaults } from '../../_internal/ngmodel-component';
+import { _SimpleInputComponentDefaults } from '../_simple-input-base';
 import { SimpleOneAxisAlignment } from './../../types/alignment.types';
 import { FormElementAppearance, FormElementVariant } from './../../types/theming.types';
-import { Nullable } from './../../types/utility.types';
 
-export interface ArdSimpleInputDefaults extends _NgModelComponentDefaults {
-  appearance: FormElementAppearance;
-  variant: FormElementVariant;
-  compact: boolean;
-  placeholder: string;
-  alignText: SimpleOneAxisAlignment;
-  clearable: boolean;
-  clearButtonTitle: string;
-  inputAttrs: Record<string, any>;
-  maxLength: Nullable<number>;
+export interface ArdSimpleInputDefaults extends _SimpleInputComponentDefaults {
 }
 
 const _simpleInputDefaults: ArdSimpleInputDefaults = {
