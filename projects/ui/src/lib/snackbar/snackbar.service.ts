@@ -12,7 +12,7 @@ import {
   _ArdSnackbarRefInternal,
 } from './snackbar-ref';
 import { _ArdSimpleSnackbarComponent } from './snackbar.component';
-import { ARD_SNACKBAR_ANIMATION_LENGTH, ARD_SNACKBAR_DEFAULT_OPTIONS, _DEFAULT_OPTIONS_STATIC } from './snackbar.token';
+import { ARD_SNACKBAR_ANIMATION_LENGTH, ARD_SNACKBAR_DEFAULTS } from './snackbar.token';
 import { ArdSnackbarOptions, ArdSnackbarOriginRelation, ArdSnackbarQueueHandling, ArdSnackbarType } from './snackbar.types';
 
 @Injectable({
@@ -22,8 +22,7 @@ export class ArdiumSnackbarService implements OnDestroy {
   private readonly _snackbarQueue = new Queue<_ArdSnackbarRefInternal<unknown>>();
   private _openedSnackbar?: _ArdSnackbarRefInternal<unknown>;
 
-  private readonly _defaultOptionsStatic = _DEFAULT_OPTIONS_STATIC;
-  private readonly _defaultOptions = inject(ARD_SNACKBAR_DEFAULT_OPTIONS);
+  private readonly _DEFAULTS = inject(ARD_SNACKBAR_DEFAULTS);
   private readonly _animationLength = inject(ARD_SNACKBAR_ANIMATION_LENGTH);
   private readonly _overlay = inject(Overlay);
   private readonly _injector = inject(Injector);
@@ -83,26 +82,23 @@ export class ArdiumSnackbarService implements OnDestroy {
     // merge placement
     if (options.placement) {
       options.placement = {
-        ...this._defaultOptionsStatic.placement,
-        ...this._defaultOptions.placement,
+        ...this._DEFAULTS.placement,
         ...options.placement,
       };
     } else {
-      options.placement = this._defaultOptions.placement ?? this._defaultOptionsStatic.placement;
+      options.placement = this._DEFAULTS.placement;
     }
     // merge data
     if (options.data) {
       options.data = {
-        ...this._defaultOptionsStatic.data,
-        ...this._defaultOptions.data,
+        ...this._DEFAULTS.data,
         ...options.data,
       };
     } else {
-      options.data = this._defaultOptions.data ?? this._defaultOptionsStatic.data;
+      options.data = this._DEFAULTS.data;
     }
     return {
-      ...this._defaultOptionsStatic,
-      ...this._defaultOptions,
+      ...this._DEFAULTS,
       ...options,
     } as Required<ArdSnackbarOptions>;
   }
