@@ -1,24 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewEncapsulation,
-  computed,
-  effect,
-  forwardRef,
-  input,
-  model,
-  output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation, computed, effect, forwardRef, input, model } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
-import { _NgModelComponentBase } from './../_internal/ngmodel-component';
+import { ClickStrategy } from '@ardium-ui/ui';
+import { _NgModelComponentBaseWithDefaults } from './../_internal/ngmodel-component';
 import { ArdiumStarButtonComponent } from './../star/star-button/star-button.component';
+import { ARD_STATEBOX_DEFAULTS, ArdStateboxDefaults } from './statebox.defaults';
 import { StateboxState, StateboxValue, _StateboxInternalState } from './statebox.types';
-
-const DEFAULT_STATES: StateboxState[] = [
-  { value: false, color: 'none' },
-  { value: true, color: 'secondary', icon: 'check_box', filled: true },
-];
 
 @Component({
   selector: 'ard-statebox',
@@ -34,12 +20,22 @@ const DEFAULT_STATES: StateboxState[] = [
     },
   ],
 })
-export class ArdiumStateboxComponent extends _NgModelComponentBase implements ControlValueAccessor {
-  readonly states = input<StateboxState[]>(DEFAULT_STATES);
+export class ArdiumStateboxComponent extends _NgModelComponentBaseWithDefaults implements ControlValueAccessor {
+  protected override readonly _DEFAULTS!: ArdStateboxDefaults;
+  constructor(@Inject(ARD_STATEBOX_DEFAULTS) defaults: ArdStateboxDefaults) {
+    super(defaults);
+
+    effect(() => {
+      this.state(); // let the effect know when to fire
+      this._emitChange();
+    });
+  }
+
+  readonly states = input<StateboxState[]>(this._DEFAULTS.states);
   readonly _states = computed(() => this.states().map(this._stateMapFn));
   readonly _defaultState = computed(() => this._states()[0]);
 
-  readonly manualStateHandling = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly clickStrategy = input<ClickStrategy>(this._DEFAULTS.clickStrategy);
 
   readonly wrapperClasses = input<string>('');
 
@@ -53,18 +49,6 @@ export class ArdiumStateboxComponent extends _NgModelComponentBase implements Co
       this.internalState().keepFrame ? 'ard-statebox-keep-frame' : '',
     ].join(' ')
   );
-
-  //! events
-  readonly changeEvent = output<StateboxValue>({ alias: 'change' });
-  readonly clickEvent = output<MouseEvent>({ alias: 'click' });
-
-  constructor() {
-    super();
-    effect(() => {
-      this.state(); // let the effect know when to fire
-      this._emitChange();
-    });
-  }
 
   //! state handlers
   readonly state = model<StateboxValue>(this._defaultState().value);
@@ -107,9 +91,8 @@ export class ArdiumStateboxComponent extends _NgModelComponentBase implements Co
   }
 
   //! event handlers
-  onClick(event: MouseEvent) {
-    if (this.manualStateHandling()) {
-      this.clickEvent.emit(event);
+  onClick() {
+    if (this.clickStrategy() === ClickStrategy.Noop) {
       return;
     }
 
@@ -121,9 +104,7 @@ export class ArdiumStateboxComponent extends _NgModelComponentBase implements Co
   }
 
   protected _emitChange() {
-    const s = this.state();
-    this._onChangeRegistered?.(s);
-    this.changeEvent.emit(s);
+    this._onChangeRegistered?.(this.state());
   }
 
   readonly ngStyle = computed<Record<string, any>>(() => {
