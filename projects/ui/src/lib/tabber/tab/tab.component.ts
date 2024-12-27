@@ -5,11 +5,13 @@ import {
   Input,
   ViewEncapsulation,
   computed,
+  inject,
   input,
   output,
   signal,
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { ARD_TAB_DEFAULTS } from './tab.defaults';
 
 @Component({
   selector: 'ard-tab',
@@ -19,7 +21,9 @@ import { coerceBooleanProperty } from '@ardium-ui/devkit';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumTabComponent {
-  readonly disabled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  protected readonly _DEFAULTS = inject(ARD_TAB_DEFAULTS);
+  
+  readonly disabled = input<boolean, any>(this._DEFAULTS.disabled, { transform: v => coerceBooleanProperty(v) });
 
   readonly selected = signal<boolean>(false);
   @Input('selected')

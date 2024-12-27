@@ -5,6 +5,7 @@ import {
   ViewEncapsulation,
   computed,
   contentChildren,
+  inject,
   input,
   output,
   signal
@@ -13,6 +14,7 @@ import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { OneAxisAlignment } from '../types/alignment.types';
 import { ComponentColor } from '../types/colors.types';
 import { ArdiumTabComponent } from './tab/tab.component';
+import { ARD_TABBER_DEFAULTS } from './tabber.defaults';
 
 @Component({
   selector: 'ard-tabber',
@@ -22,6 +24,8 @@ import { ArdiumTabComponent } from './tab/tab.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumTabberComponent implements AfterContentInit {
+  protected readonly _DEFAULTS = inject(ARD_TABBER_DEFAULTS);
+
   public readonly tabs = contentChildren(ArdiumTabComponent, { descendants: true });
 
   readonly currentTab = signal<ArdiumTabComponent | null>(null);
@@ -94,14 +98,14 @@ export class ArdiumTabberComponent implements AfterContentInit {
   readonly changeTab = output<string>();
 
   //! appearance
-  readonly color = input<ComponentColor>(ComponentColor.Primary);
+  readonly color = input<ComponentColor>(this._DEFAULTS.color);
 
   readonly ngClasses = computed(() => [`ard-color-${this.color()}`].join(' '));
 
   //! tab container settings
-  readonly stretchTabs = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly uniformTabWidths = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly tabAlignment = input<OneAxisAlignment>(OneAxisAlignment.Left);
+  readonly stretchTabs = input<boolean, any>(this._DEFAULTS.stretchTabs, { transform: v => coerceBooleanProperty(v) });
+  readonly uniformTabWidths = input<boolean, any>(this._DEFAULTS.uniformTabWidths, { transform: v => coerceBooleanProperty(v) });
+  readonly tabAlignment = input<OneAxisAlignment>(this._DEFAULTS.tabAlignment);
 
   readonly tabContainerClasses = computed(() =>
     [
