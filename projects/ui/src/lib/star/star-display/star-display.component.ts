@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, inject, input } from '@angular/core';
 import { coerceNumberProperty } from '@ardium-ui/devkit';
 import { isArray } from 'simple-bool';
 import { StarColor, StarFillMode } from './../star.types';
+import { ARD_STAR_DISPLAY_DEFAULTS } from './star-display.defaults';
 
 @Component({
   selector: 'ard-star-display',
@@ -13,15 +14,17 @@ import { StarColor, StarFillMode } from './../star.types';
 export class ArdiumStarDisplayComponent {
   readonly wrapperClasses = input<string>('');
 
+  protected readonly _DEFAULTS = inject(ARD_STAR_DISPLAY_DEFAULTS);
+
   //! appearance
-  readonly color = input<StarColor>(StarColor.Star);
+  readonly color = input<StarColor>(this._DEFAULTS.color);
 
   readonly ngClasses = computed<string>(() => [this.wrapperClasses(), `ard-color-${this.color}`].join(' '));
 
   //! stars
-  readonly max = input<number, any>(5, { transform: v => coerceNumberProperty(v, 0) });
+  readonly max = input<number, any>(this._DEFAULTS.max, { transform: v => coerceNumberProperty(v, this._DEFAULTS.max) });
 
-  readonly value = input<number | StarFillMode[], string | number | StarFillMode[]>(0, {
+  readonly value = input<number | StarFillMode[], string | number | StarFillMode[]>(this._DEFAULTS.value, {
     transform: v => {
       if (isArray(v)) {
         return v;

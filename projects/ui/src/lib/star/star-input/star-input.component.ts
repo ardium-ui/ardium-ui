@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostListener,
+  Inject,
   ViewEncapsulation,
   computed,
   effect,
@@ -15,8 +16,9 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceNumberProperty } from '@ardium-ui/devkit';
 import { ArdiumStarButtonComponent } from '../star-button/star-button.component';
-import { _NgModelComponentBase } from './../../_internal/ngmodel-component';
+import { _NgModelComponentBaseWithDefaults } from './../../_internal/ngmodel-component';
 import { StarColor } from './../star.types';
+import { ARD_STAR_INPUT_DEFAULTS, ArdStarInputDefaults } from './star-input.defaults';
 
 interface StarInputObject {
   filled: boolean;
@@ -37,11 +39,13 @@ interface StarInputObject {
     },
   ],
 })
-export class ArdiumStarInputComponent extends _NgModelComponentBase implements ControlValueAccessor {
+export class ArdiumStarInputComponent extends _NgModelComponentBaseWithDefaults implements ControlValueAccessor {
   readonly wrapperClasses = input<string>('');
 
+  protected override readonly _DEFAULTS!: ArdStarInputDefaults;
+
   //! appearance
-  readonly color = input<StarColor>(StarColor.Star);
+  readonly color = input<StarColor>(this._DEFAULTS.color);
 
   readonly ngClasses = computed<string>(() => [this.wrapperClasses(), `ard-color-${this.color()}`].join(' '));
 
@@ -51,8 +55,8 @@ export class ArdiumStarInputComponent extends _NgModelComponentBase implements C
 
   readonly value = model<number>(0);
 
-  constructor() {
-    super();
+  constructor(@Inject(ARD_STAR_INPUT_DEFAULTS) defaults: ArdStarInputDefaults) {
+    super(defaults);
     effect(() => {
       const hi = this._highlightedStarIndex();
       if (hi !== null) {
@@ -66,7 +70,7 @@ export class ArdiumStarInputComponent extends _NgModelComponentBase implements C
   }
 
   //! stars
-  readonly max = input<number, any>(0, { transform: v => coerceNumberProperty(v, 0) });
+  readonly max = input<number, any>(this._DEFAULTS.max, { transform: v => coerceNumberProperty(v, this._DEFAULTS.max) });
 
   readonly starButtonInstances = viewChildren<ArdiumStarButtonComponent>('starButton');
   private readonly _highlightedStarIndex = signal<number | null>(null);
