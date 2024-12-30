@@ -15,7 +15,7 @@ import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from
 import { ArdOptionSimple, CompareWithFn, OptionContext } from '../types/item-storage.types';
 import { Nullable } from '../types/utility.types';
 import { SimpleItemStorage, SimpleItemStorageHost } from './item-storages/simple-item-storage';
-import { _NgModelComponentBase, _NgModelComponentDefaults, _ngModelComponentDefaults } from './ngmodel-component';
+import { _NgModelComponentBaseWithDefaults, _NgModelComponentDefaults, _ngModelComponentDefaults } from './ngmodel-component';
 
 export interface _SelectableListComponentDefaults extends _NgModelComponentDefaults {
   valueFrom: string;
@@ -41,7 +41,7 @@ export const _selectableListComponentDefaults: _SelectableListComponentDefaults 
 
 @Directive()
 export abstract class _SelectableListComponentBase
-  extends _NgModelComponentBase
+  extends _NgModelComponentBaseWithDefaults
   implements ControlValueAccessor, SimpleItemStorageHost
 {
   protected override readonly _DEFAULTS: _SelectableListComponentDefaults = _selectableListComponentDefaults;

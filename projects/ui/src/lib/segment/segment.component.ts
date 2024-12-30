@@ -2,10 +2,11 @@ import {
   AfterContentInit,
   ChangeDetectionStrategy,
   Component,
+  Inject,
   ViewEncapsulation,
   computed,
   contentChild,
-  input
+  input,
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { _SelectableListComponentBase } from '../_internal/selectable-list-component';
@@ -13,6 +14,7 @@ import { OneAxisAlignment } from '../types/alignment.types';
 import { ComponentColor } from '../types/colors.types';
 import { ArdOptionSimple } from '../types/item-storage.types';
 import { SimpleItemStorageHost } from './../_internal/item-storages/simple-item-storage';
+import { ARD_SEGMENT_DEFAULTS, ArdSegmentDefaults } from './segment.defaults';
 import { ArdSegmentOptionTemplateDirective } from './segment.directives';
 import { SegmentAppearance, SegmentVariant } from './segment.types';
 
@@ -32,14 +34,19 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
   override readonly _componentId: string = '104';
   override readonly _componentName: string = 'segment';
 
-  //! appearance
-  readonly appearance = input<SegmentAppearance>(SegmentAppearance.Outlined);
-  readonly variant = input<SegmentVariant>(SegmentVariant.RoundedConnected);
-  readonly color = input<ComponentColor>(ComponentColor.Primary);
-  readonly align = input<OneAxisAlignment>(OneAxisAlignment.Middle);
+  protected override readonly _DEFAULTS!: ArdSegmentDefaults;
+  constructor(@Inject(ARD_SEGMENT_DEFAULTS) defaults: ArdSegmentDefaults) {
+    super(defaults);
+  }
 
-  readonly iconBased = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  //! appearance
+  readonly appearance = input<SegmentAppearance>(this._DEFAULTS.appearance);
+  readonly variant = input<SegmentVariant>(this._DEFAULTS.variant);
+  readonly color = input<ComponentColor>(this._DEFAULTS.color);
+  readonly align = input<OneAxisAlignment>(this._DEFAULTS.align);
+
+  readonly iconBased = input<boolean, any>(this._DEFAULTS.iconBased, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed<string>(() =>
     [
@@ -54,10 +61,10 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
   );
 
   //! coerced properties
-  readonly autoFocus = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly uniformWidths = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly autoFocus = input<boolean, any>(this._DEFAULTS.autoFocus, { transform: v => coerceBooleanProperty(v) });
+  readonly uniformWidths = input<boolean, any>(this._DEFAULTS.uniformWidths, { transform: v => coerceBooleanProperty(v) });
 
-  readonly itemsPerRow = input<number, any>(Infinity, {
+  readonly itemsPerRow = input<number, any>(this._DEFAULTS.itemsPerRow, {
     transform: v => {
       const newValue = coerceNumberProperty(v, Infinity);
       if (newValue === 0) throw new Error(`ARD-FT1040a: Cannot set <ard-segment>'s [itemsPerRow] to 0.`);
