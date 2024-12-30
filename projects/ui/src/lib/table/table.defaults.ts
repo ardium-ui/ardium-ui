@@ -40,7 +40,7 @@ export interface ArdTableDefaults extends _FocusableComponentDefaults {
   treatDataSourceAsString: boolean;
 }
 
-const _tableDefaults: ArdTableDefaults = {
+export const _tableDefaults: ArdTableDefaults = {
   ..._focusableComponentDefaults,
   rowDisabledFrom: 'disabled',
   rowBoldFrom: 'bold',

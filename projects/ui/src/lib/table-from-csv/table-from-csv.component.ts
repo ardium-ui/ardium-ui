@@ -6,6 +6,7 @@ import {
   SimpleChanges,
   ViewEncapsulation,
   computed,
+  inject,
   input,
   model,
 } from '@angular/core';
@@ -13,6 +14,7 @@ import { CurrentItemsFormatFn, PaginationAlign } from '../table-pagination/table
 import { TableDataColumn, TablePaginationStrategy } from '../table/table.types';
 import { ComponentColor } from '../types/colors.types';
 import { Nullable } from '../types/utility.types';
+import { ARD_TABLE_FROM_CSV_DEFAULTS } from './table-from-csv.defaults';
 
 @Component({
   selector: 'ard-table-from-csv',
@@ -21,46 +23,46 @@ import { Nullable } from '../types/utility.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumTableFromCsvComponent implements AfterContentInit, OnChanges {
+  protected readonly _DEFAULTS = inject(ARD_TABLE_FROM_CSV_DEFAULTS);
+
   // most inputs are of type "any" because <ard-table> accepts type "any" and coerces it into appropriate types
-  readonly selectableRows = input<any>();
-  readonly maxSelectedItems = input<any>();
-  readonly clickableRows = input<any>();
+  readonly selectableRows = input<any>(this._DEFAULTS.selectableRows);
+  readonly maxSelectedItems = input<any>(this._DEFAULTS.maxSelectedItems);
+  readonly clickableRows = input<any>(this._DEFAULTS.clickableRows);
 
-  readonly isLoading = input<any>();
-  readonly loadingProgress = input<any>();
+  readonly isLoading = input<any>(this._DEFAULTS.isLoading);
+  readonly loadingProgress = input<any>(this._DEFAULTS.loadingProgress);
 
-  readonly caption = input<Nullable<string>>(undefined);
+  readonly caption = input<Nullable<string>>(this._DEFAULTS.caption);
 
-  readonly appearance = input<any>();
-  readonly variant = input<any>();
-  readonly color = input<any>();
-  readonly align = input<any>();
-  readonly headerAlign = input<any>();
+  readonly appearance = input<any>(this._DEFAULTS.appearance);
+  readonly variant = input<any>(this._DEFAULTS.variant);
+  readonly color = input<any>(this._DEFAULTS.color);
+  readonly align = input<any>(this._DEFAULTS.align);
+  readonly headerAlign = input<any>(this._DEFAULTS.headerAlign);
 
-  readonly compact = input<any>();
-  readonly zebra = input<any>();
-  readonly stickyHeader = input<any>();
+  readonly compact = input<any>(this._DEFAULTS.compact);
+  readonly zebra = input<any>(this._DEFAULTS.zebra);
+  readonly stickyHeader = input<any>(this._DEFAULTS.stickyHeader);
 
   //! pagination
-  readonly paginated = input<any>();
+  readonly paginated = input<any>(this._DEFAULTS.paginated);
 
-  readonly paginationStrategy = input<TablePaginationStrategy>(TablePaginationStrategy.Slice);
+  readonly paginationStrategy = input<TablePaginationStrategy>(this._DEFAULTS.paginationStrategy);
 
-  readonly paginationOptions = input<number[] | { value: number; label: string }[]>([10, 25, 50]);
-  readonly totalItems = input<any>();
-  readonly paginationColor = input<ComponentColor>(ComponentColor.None);
-  readonly paginationAlign = input<PaginationAlign>(PaginationAlign.Split);
-  readonly itemsPerPageText = input<string>('Items per page:');
-  readonly currentItemsFormatFn = input<CurrentItemsFormatFn>(
-    ({ currentItemsFirst, currentItemsLast, totalItems }) => `${currentItemsFirst} – ${currentItemsLast} of ${totalItems}`
-  );
+  readonly paginationOptions = input<number[] | { value: number; label: string }[]>(this._DEFAULTS.paginationOptions);
+  readonly totalItems = input<any>(this._DEFAULTS.totalItems);
+  readonly paginationColor = input<ComponentColor>(this._DEFAULTS.paginationColor);
+  readonly paginationAlign = input<PaginationAlign>(this._DEFAULTS.paginationAlign);
+  readonly itemsPerPageText = input<string>(this._DEFAULTS.itemsPerPageText);
+  readonly currentItemsFormatFn = input<CurrentItemsFormatFn>(this._DEFAULTS.currentItemsFormatFn);
 
-  readonly pageFillRemaining = input<any>();
-  readonly paginationDisabled = input<any>();
-  readonly useFirstLastButtons = input<any>();
+  readonly pageFillRemaining = input<any>(this._DEFAULTS.pageFillRemaining);
+  readonly paginationDisabled = input<any>(this._DEFAULTS.paginationDisabled);
+  readonly useFirstLastButtons = input<any>(this._DEFAULTS.useFirstLastButtons);
 
-  readonly itemsPerPage = model<number>(50);
-  readonly page = model<number>(1);
+  readonly itemsPerPage = model<number>(this._DEFAULTS.itemsPerPage);
+  readonly page = model<number>(this._DEFAULTS.page);
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['itemsPerPage']) {
@@ -105,7 +107,7 @@ export class ArdiumTableFromCsvComponent implements AfterContentInit, OnChanges 
   }
 
   //! data
-  readonly separator = input<string>(',');
+  readonly separator = input<string>(this._DEFAULTS.separator);
 
   readonly stringData = input<string>('', { alias: 'data' });
   readonly data = computed<{ headers: TableDataColumn[]; dataRows: any[] } | null>(() => {
