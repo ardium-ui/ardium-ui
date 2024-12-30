@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation, computed, input } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
-import { _FocusableComponentBaseWithDefaults } from '../../_internal/focusable-component';
+import { _FocusableComponentBase } from '../../_internal/focusable-component';
 import { ButtonType } from '../../types/button.types';
 import { ComponentColor } from '../../types/colors.types';
 import { ARD_ICON_BUTTON_DEFAULTS, ArdIconButtonDefaults } from './icon-button.defaults';
@@ -12,7 +12,7 @@ import { ARD_ICON_BUTTON_DEFAULTS, ArdIconButtonDefaults } from './icon-button.d
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumIconButtonComponent extends _FocusableComponentBaseWithDefaults {
+export class ArdiumIconButtonComponent extends _FocusableComponentBase {
   protected override readonly _DEFAULTS!: ArdIconButtonDefaults;
   constructor(@Inject(ARD_ICON_BUTTON_DEFAULTS) defaults: ArdIconButtonDefaults) {
     super(defaults);

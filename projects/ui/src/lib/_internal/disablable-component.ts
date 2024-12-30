@@ -11,7 +11,7 @@ export const _disablableComponentDefaults: _DisablableComponentDefaults = {
 };
 
 @Directive()
-export abstract class _DisablableComponentBaseWithDefaults {
+export abstract class _DisablableComponentBase {
   constructor(protected readonly _DEFAULTS: _DisablableComponentDefaults) {}
   //! no value arguments
   /**

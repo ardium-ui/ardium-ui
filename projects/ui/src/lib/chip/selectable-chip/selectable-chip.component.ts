@@ -4,7 +4,7 @@ import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { SimpleOneAxisAlignment } from '../../types/alignment.types';
 import { ComponentColor } from '../../types/colors.types';
 import { DecorationElementAppearance, FormElementVariant } from '../../types/theming.types';
-import { _BooleanComponentBaseWithDefaults } from './../../_internal/boolean-component';
+import { _BooleanComponentBase } from './../../_internal/boolean-component';
 import { ARD_SELECTABLE_CHIP_DEFAULTS, ArdSelectableChipDefaults } from './selectable-chip.defaults';
 
 @Component({
@@ -21,7 +21,7 @@ import { ARD_SELECTABLE_CHIP_DEFAULTS, ArdSelectableChipDefaults } from './selec
     },
   ],
 })
-export class ArdiumSelectableChipComponent extends _BooleanComponentBaseWithDefaults implements ControlValueAccessor {
+export class ArdiumSelectableChipComponent extends _BooleanComponentBase implements ControlValueAccessor {
   protected override readonly _DEFAULTS!: ArdSelectableChipDefaults;
   constructor(@Inject(ARD_SELECTABLE_CHIP_DEFAULTS) defaults: ArdSelectableChipDefaults) {
     super(defaults);

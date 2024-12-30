@@ -1,22 +1,22 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  HostListener,
-  Inject,
-  ViewEncapsulation,
-  computed,
-  effect,
-  forwardRef,
-  input,
-  model,
-  output,
-  signal,
-  viewChildren,
+    ChangeDetectionStrategy,
+    Component,
+    HostListener,
+    Inject,
+    ViewEncapsulation,
+    computed,
+    effect,
+    forwardRef,
+    input,
+    model,
+    output,
+    signal,
+    viewChildren,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceNumberProperty } from '@ardium-ui/devkit';
 import { ArdiumStarButtonComponent } from '../star-button/star-button.component';
-import { _NgModelComponentBaseWithDefaults } from './../../_internal/ngmodel-component';
+import { _NgModelComponentBase } from './../../_internal/ngmodel-component';
 import { StarColor } from './../star.types';
 import { ARD_STAR_INPUT_DEFAULTS, ArdStarInputDefaults } from './star-input.defaults';
 
@@ -39,7 +39,7 @@ interface StarInputObject {
     },
   ],
 })
-export class ArdiumStarInputComponent extends _NgModelComponentBaseWithDefaults implements ControlValueAccessor {
+export class ArdiumStarInputComponent extends _NgModelComponentBase implements ControlValueAccessor {
   readonly wrapperClasses = input<string>('');
 
   protected override readonly _DEFAULTS!: ArdStarInputDefaults;

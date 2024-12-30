@@ -1,24 +1,24 @@
 import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Inject,
-  Input,
-  ViewEncapsulation,
-  computed,
-  contentChild,
-  effect,
-  forwardRef,
-  input,
-  output,
-  viewChild,
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    Inject,
+    Input,
+    ViewEncapsulation,
+    computed,
+    contentChild,
+    effect,
+    forwardRef,
+    input,
+    output,
+    viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { roundToPrecision } from 'more-rounding';
 import { isDefined } from 'simple-bool';
-import { _NgModelComponentBaseWithDefaults } from '../../_internal/ngmodel-component';
+import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { ButtonAppearance, ButtonVariant } from '../../buttons/general-button.types';
 import { OneAxisAlignment } from '../../types/alignment.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
@@ -42,7 +42,7 @@ import { ArdNumberInputPlaceholderTemplateDirective } from './number-input.direc
   ],
 })
 export class ArdiumNumberInputComponent
-  extends _NgModelComponentBaseWithDefaults
+  extends _NgModelComponentBase
   implements ControlValueAccessor, NumberInputModelHost, AfterViewInit
 {
   protected override readonly _DEFAULTS!: ArdNumberInputDefaults;

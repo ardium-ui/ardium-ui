@@ -2,15 +2,15 @@ import { AfterViewInit, computed, contentChild, Directive, ElementRef, input, In
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { FormElementAppearance, FormElementVariant, Nullable, SimpleOneAxisAlignment } from '@ardium-ui/ui';
 import {
-  _NgModelComponentBaseWithDefaults,
-  _NgModelComponentDefaults,
-  _ngModelComponentDefaults,
+    _NgModelComponentBase,
+    _NgModelComponentDefaults,
+    _ngModelComponentDefaults,
 } from '../_internal/ngmodel-component';
 import { SimpleInputModel } from './input-utils';
 import {
-  ArdSimpleInputPlaceholderTemplateDirective,
-  ArdSimpleInputPrefixTemplateDirective,
-  ArdSimpleInputSuffixTemplateDirective,
+    ArdSimpleInputPlaceholderTemplateDirective,
+    ArdSimpleInputPrefixTemplateDirective,
+    ArdSimpleInputSuffixTemplateDirective,
 } from './simple-input';
 
 export interface _SimpleInputComponentDefaults extends _NgModelComponentDefaults {
@@ -39,7 +39,7 @@ export const _simpleInputComponentDefaults: _SimpleInputComponentDefaults = {
 };
 
 @Directive()
-export abstract class _SimpleInputComponentBase extends _NgModelComponentBaseWithDefaults implements AfterViewInit {
+export abstract class _SimpleInputComponentBase extends _NgModelComponentBase implements AfterViewInit {
   protected override readonly _DEFAULTS!: _SimpleInputComponentDefaults;
 
   //! input view

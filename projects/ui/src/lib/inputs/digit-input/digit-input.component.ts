@@ -1,20 +1,20 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Inject,
-  Input,
-  ViewEncapsulation,
-  computed,
-  effect,
-  forwardRef,
-  input,
-  output,
-  viewChildren,
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    Inject,
+    Input,
+    ViewEncapsulation,
+    computed,
+    effect,
+    forwardRef,
+    input,
+    output,
+    viewChildren,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
-import { _NgModelComponentBaseWithDefaults } from '../../_internal/ngmodel-component';
+import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { ARD_DIGIT_INPUT_DEFAULTS, ArdDigitInputDefaults } from './digit-input.defaults';
 import { DigitInputModel } from './digit-input.model';
@@ -35,7 +35,7 @@ import { DigitInputModelHost } from './digit-input.utils';
     },
   ],
 })
-export class ArdiumDigitInputComponent extends _NgModelComponentBaseWithDefaults implements ControlValueAccessor, DigitInputModelHost {
+export class ArdiumDigitInputComponent extends _NgModelComponentBase implements ControlValueAccessor, DigitInputModelHost {
   protected override readonly _DEFAULTS!: ArdDigitInputDefaults;
   constructor(@Inject(ARD_DIGIT_INPUT_DEFAULTS) defaults: ArdDigitInputDefaults) {
     super(defaults);

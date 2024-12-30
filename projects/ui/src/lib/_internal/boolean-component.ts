@@ -1,7 +1,7 @@
 import { Directive, HostBinding, Input, output, signal } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
-import { _NgModelComponentBaseWithDefaults, _ngModelComponentDefaults, _NgModelComponentDefaults } from './ngmodel-component';
+import { _NgModelComponentBase, _ngModelComponentDefaults, _NgModelComponentDefaults } from './ngmodel-component';
 
 export interface _BooleanComponentDefaults extends _NgModelComponentDefaults {}
 export const _booleanComponentDefaults: _BooleanComponentDefaults = _ngModelComponentDefaults;
@@ -10,8 +10,8 @@ export const _booleanComponentDefaults: _BooleanComponentDefaults = _ngModelComp
  * Common code for components, which only operate on the "selected" state.
  */
 @Directive()
-export abstract class _BooleanComponentBaseWithDefaults
-  extends _NgModelComponentBaseWithDefaults
+export abstract class _BooleanComponentBase
+  extends _NgModelComponentBase
   implements ControlValueAccessor
 {
   protected override readonly _DEFAULTS!: _BooleanComponentDefaults;

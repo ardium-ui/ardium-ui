@@ -16,7 +16,7 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { roundToMultiple } from 'more-rounding';
 import { isDefined, isNull } from 'simple-bool';
-import { _NgModelComponentBaseWithDefaults, _ngModelComponentDefaults } from '../_internal/ngmodel-component';
+import { _NgModelComponentBase, _ngModelComponentDefaults } from '../_internal/ngmodel-component';
 import { ComponentColor } from '../types/colors.types';
 import {
   ArdDayTemplateDirective,
@@ -60,7 +60,7 @@ function isLeapYear(year: number): boolean {
     },
   ],
 })
-export class ArdiumCalendarComponent extends _NgModelComponentBaseWithDefaults implements OnInit, OnChanges {
+export class ArdiumCalendarComponent extends _NgModelComponentBase implements OnInit, OnChanges {
   constructor() {
     super(_ngModelComponentDefaults); // stub definition for now. Maybe will create a better one later
   }

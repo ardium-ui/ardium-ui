@@ -1,7 +1,7 @@
 import { Directive } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import {
-  _FocusableComponentBaseWithDefaults,
+  _FocusableComponentBase,
   _focusableComponentDefaults,
   _FocusableComponentDefaults,
 } from './focusable-component';
@@ -16,8 +16,8 @@ export const _ngModelComponentDefaults: _NgModelComponentDefaults = _focusableCo
  * **Warning**: `writeValue` function should be implemented on the child component!
  */
 @Directive()
-export abstract class _NgModelComponentBaseWithDefaults
-  extends _FocusableComponentBaseWithDefaults
+export abstract class _NgModelComponentBase
+  extends _FocusableComponentBase
   implements ControlValueAccessor
 {
   protected override readonly _DEFAULTS!: _NgModelComponentDefaults;

@@ -17,7 +17,7 @@ import {
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { isDefined, isNumber } from 'simple-bool';
-import { _FocusableComponentBaseWithDefaults } from '../_internal/focusable-component';
+import { _FocusableComponentBase } from '../_internal/focusable-component';
 import { CheckboxState } from '../checkbox/checkbox.types';
 import { CurrentItemsFormatFn, PaginationAlign } from '../table-pagination/table-pagination.types';
 import { ComponentColor, SimpleComponentColor } from '../types/colors.types';
@@ -53,7 +53,7 @@ import { isTableSubheader } from './utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArdiumTableComponent
-  extends _FocusableComponentBaseWithDefaults
+  extends _FocusableComponentBase
   implements TableItemStorageHost, AfterContentInit, OnChanges
 {
   protected override readonly _DEFAULTS!: ArdTableDefaults;

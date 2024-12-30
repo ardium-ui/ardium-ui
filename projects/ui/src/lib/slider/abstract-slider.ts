@@ -1,33 +1,33 @@
 import { Overlay, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { DOCUMENT } from '@angular/common';
 import {
-  Directive,
-  ElementRef,
-  HostListener,
-  Input,
-  Renderer2,
-  ViewContainerRef,
-  computed,
-  contentChild,
-  inject,
-  input,
-  output,
-  signal,
-  viewChild,
+    Directive,
+    ElementRef,
+    HostListener,
+    Input,
+    Renderer2,
+    ViewContainerRef,
+    computed,
+    contentChild,
+    inject,
+    input,
+    output,
+    signal,
+    viewChild,
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { roundToMultiple, roundToPrecision } from 'more-rounding';
 import { isDefined, isObject } from 'simple-bool';
-import { _NgModelComponentBaseWithDefaults, _NgModelComponentDefaults, _ngModelComponentDefaults } from '../_internal/ngmodel-component';
+import { _NgModelComponentBase, _NgModelComponentDefaults, _ngModelComponentDefaults } from '../_internal/ngmodel-component';
 import { SimpleComponentColor } from '../types/colors.types';
 import { Nullable } from '../types/utility.types';
 import { ArdSliderTooltipDirective } from './slider.directive';
 import {
-  SliderDecorationPosition,
-  SliderLabelObject,
-  SliderTooltipBehavior,
-  SliderTooltipFormatFn,
-  _InternalSliderLabelObject,
+    SliderDecorationPosition,
+    SliderLabelObject,
+    SliderTooltipBehavior,
+    SliderTooltipFormatFn,
+    _InternalSliderLabelObject,
 } from './slider.types';
 
 export interface _AsbtractSliderDefaults extends _NgModelComponentDefaults {
@@ -64,7 +64,7 @@ export const _asbtractSliderDefaults: _AsbtractSliderDefaults = {
 };
 
 @Directive()
-export abstract class _AbstractSlider<T> extends _NgModelComponentBaseWithDefaults {
+export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   abstract readonly componentId: string;
   abstract readonly componentName: string;
 

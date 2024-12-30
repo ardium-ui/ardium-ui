@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation, computed, forwardRef, input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { _BooleanComponentBaseWithDefaults } from '../../_internal/boolean-component';
+import { _BooleanComponentBase } from '../../_internal/boolean-component';
 import { ClickStrategy } from '../../types/utility.types';
 import { StarColor } from '../star.types';
 import { StarFillMode } from './../star.types';
@@ -20,7 +20,7 @@ import { ARD_STAR_BUTTON_DEFAULTS, ArdStarButtonDefaults } from './star-button.d
     },
   ],
 })
-export class ArdiumStarButtonComponent extends _BooleanComponentBaseWithDefaults implements ControlValueAccessor {
+export class ArdiumStarButtonComponent extends _BooleanComponentBase implements ControlValueAccessor {
   readonly wrapperClasses = input<string>('');
 
   protected override readonly _DEFAULTS!: ArdStarButtonDefaults;

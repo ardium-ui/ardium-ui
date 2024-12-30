@@ -1,7 +1,7 @@
 import { computed, Directive, ElementRef, input, output, QueryList, ViewChildren } from '@angular/core';
 import { coerceNumberProperty } from '@ardium-ui/devkit';
 import {
-  _DisablableComponentBaseWithDefaults,
+  _DisablableComponentBase,
   _disablableComponentDefaults,
   _DisablableComponentDefaults,
 } from './disablable-component';
@@ -15,7 +15,7 @@ export const _focusableComponentDefaults: _FocusableComponentDefaults = {
 };
 
 @Directive()
-export abstract class _FocusableComponentBaseWithDefaults extends _DisablableComponentBaseWithDefaults {
+export abstract class _FocusableComponentBase extends _DisablableComponentBase {
   protected override readonly _DEFAULTS!: _FocusableComponentDefaults;
 
   //! make the component focusable programmatically

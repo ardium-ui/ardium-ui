@@ -20,7 +20,7 @@ import {
 import { coerceBooleanProperty, coerceNumberProperty, getEventRelativePos } from '@ardium-ui/devkit';
 import * as Color from 'color';
 import { round, roundToMultiple, roundToPrecision } from 'more-rounding';
-import { _NgModelComponentBaseWithDefaults, _ngModelComponentDefaults } from '../../_internal/ngmodel-component';
+import { _NgModelComponentBase, _ngModelComponentDefaults } from '../../_internal/ngmodel-component';
 import {
   ArdColorPickerColorReferenceTemplateDirective,
   ArdColorPickerHueIndicatorTemplateDirective,
@@ -49,7 +49,7 @@ interface TripleInputObject {
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumColorPickerComponent extends _NgModelComponentBaseWithDefaults implements OnInit, OnChanges {
+export class ArdiumColorPickerComponent extends _NgModelComponentBase implements OnInit, OnChanges {
   constructor() {
     super(_ngModelComponentDefaults); // stub definition for now. Will change when fixing the component.
   }

@@ -1,21 +1,21 @@
 import {
-  AfterViewInit,
-  Directive,
-  ElementRef,
-  Input,
-  OnInit,
-  input,
-  output,
-  signal,
-  viewChild
+    AfterViewInit,
+    Directive,
+    ElementRef,
+    Input,
+    OnInit,
+    input,
+    output,
+    signal,
+    viewChild
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { isDefined } from 'simple-bool';
-import { _NgModelComponentBaseWithDefaults } from '../_internal/ngmodel-component';
+import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { _FileInputBaseDefaults } from './file-input-base.defaults';
 
 @Directive()
-export abstract class _FileInputComponentBase extends _NgModelComponentBaseWithDefaults implements OnInit, AfterViewInit {
+export abstract class _FileInputComponentBase extends _NgModelComponentBase implements OnInit, AfterViewInit {
   protected override readonly _DEFAULTS!: _FileInputBaseDefaults;
 
   abstract readonly componentId: string;

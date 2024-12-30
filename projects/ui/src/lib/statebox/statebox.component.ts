@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation, computed, effect, forwardRef, input, model } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ClickStrategy } from '@ardium-ui/ui';
-import { _NgModelComponentBaseWithDefaults } from './../_internal/ngmodel-component';
+import { _NgModelComponentBase } from './../_internal/ngmodel-component';
 import { ArdiumStarButtonComponent } from './../star/star-button/star-button.component';
 import { ARD_STATEBOX_DEFAULTS, ArdStateboxDefaults } from './statebox.defaults';
 import { StateboxState, StateboxValue, _StateboxInternalState } from './statebox.types';
@@ -20,7 +20,7 @@ import { StateboxState, StateboxValue, _StateboxInternalState } from './statebox
     },
   ],
 })
-export class ArdiumStateboxComponent extends _NgModelComponentBaseWithDefaults implements ControlValueAccessor {
+export class ArdiumStateboxComponent extends _NgModelComponentBase implements ControlValueAccessor {
   protected override readonly _DEFAULTS!: ArdStateboxDefaults;
   constructor(@Inject(ARD_STATEBOX_DEFAULTS) defaults: ArdStateboxDefaults) {
     super(defaults);

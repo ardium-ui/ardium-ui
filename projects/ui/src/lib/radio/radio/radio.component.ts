@@ -1,15 +1,15 @@
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Inject,
-  ViewEncapsulation,
-  computed,
-  inject,
-  input,
-  signal,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    Inject,
+    ViewEncapsulation,
+    computed,
+    inject,
+    input,
+    signal,
 } from '@angular/core';
-import { _BooleanComponentBaseWithDefaults } from '../../_internal/boolean-component';
+import { _BooleanComponentBase } from '../../_internal/boolean-component';
 import { SimpleComponentColor } from '../../types/colors.types';
 import { ARD_RADIO_DEFAULTS, ArdRadioDefaults } from './radio.defaults';
 
@@ -20,7 +20,7 @@ import { ARD_RADIO_DEFAULTS, ArdRadioDefaults } from './radio.defaults';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumRadioComponent extends _BooleanComponentBaseWithDefaults {
+export class ArdiumRadioComponent extends _BooleanComponentBase {
   protected readonly _changeDetector = inject(ChangeDetectorRef);
 
   protected override readonly _DEFAULTS!: ArdRadioDefaults;

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, forwardRef, Inject, input, output, ViewEncapsulation } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
-import { _FocusableComponentBaseWithDefaults } from '../../_internal/focusable-component';
+import { _FocusableComponentBase } from '../../_internal/focusable-component';
 import { SimpleOneAxisAlignment } from '../../types/alignment.types';
 import { ComponentColor } from '../../types/colors.types';
 import { DecorationElementAppearance, FormElementVariant } from '../../types/theming.types';
@@ -21,7 +21,7 @@ import { ARD_DELETABLE_CHIP_DEFAULTS, ArdDeletableChipDefaults } from './deletab
     },
   ],
 })
-export class ArdiumDeletableChipComponent extends _FocusableComponentBaseWithDefaults {
+export class ArdiumDeletableChipComponent extends _FocusableComponentBase {
   protected override readonly _DEFAULTS!: ArdDeletableChipDefaults;
   constructor(@Inject(ARD_DELETABLE_CHIP_DEFAULTS) defaults: ArdDeletableChipDefaults) {
     super(defaults);

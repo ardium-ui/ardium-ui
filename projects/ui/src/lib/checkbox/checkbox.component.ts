@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation, computed
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { SimpleComponentColor } from '../types/colors.types';
-import { _BooleanComponentBaseWithDefaults } from './../_internal/boolean-component';
+import { _BooleanComponentBase } from './../_internal/boolean-component';
 import { ARD_CHECKBOX_DEFAULTS, ArdCheckboxDefaults } from './checkbox.defaults';
 import { CheckboxState } from './checkbox.types';
 
@@ -20,7 +20,7 @@ import { CheckboxState } from './checkbox.types';
     },
   ],
 })
-export class ArdiumCheckboxComponent extends _BooleanComponentBaseWithDefaults implements ControlValueAccessor {
+export class ArdiumCheckboxComponent extends _BooleanComponentBase implements ControlValueAccessor {
   protected override readonly _DEFAULTS!: ArdCheckboxDefaults;
   constructor(@Inject(ARD_CHECKBOX_DEFAULTS) defaults: ArdCheckboxDefaults) {
     super(defaults);

@@ -1,30 +1,30 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Inject,
-  OnDestroy,
-  OnInit,
-  ViewEncapsulation,
-  computed,
-  contentChild,
-  forwardRef,
-  input,
-  model,
-  viewChild,
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    Inject,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation,
+    computed,
+    contentChild,
+    forwardRef,
+    input,
+    model,
+    viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { isAnyString, isDefined } from 'simple-bool';
-import { _NgModelComponentBaseWithDefaults } from '../../_internal/ngmodel-component';
+import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { Nullable } from '../../types/utility.types';
 import { ARD_PASSWORD_INPUT_DEFAULTS, ArdPasswordInputDefaults } from './password-input.defaults';
 import {
-  ArdPasswordInputPlaceholderTemplateDirective,
-  ArdPasswordInputPrefixTemplateDirective,
-  ArdPasswordInputRevealButtonTemplateDirective,
-  ArdPasswordInputSuffixTemplateDirective,
+    ArdPasswordInputPlaceholderTemplateDirective,
+    ArdPasswordInputPrefixTemplateDirective,
+    ArdPasswordInputRevealButtonTemplateDirective,
+    ArdPasswordInputSuffixTemplateDirective,
 } from './password-input.directives';
 import { PasswordInputRevealButtonContext } from './password-input.types';
 
@@ -43,7 +43,7 @@ import { PasswordInputRevealButtonContext } from './password-input.types';
   ],
 })
 export class ArdiumPasswordInputComponent
-  extends _NgModelComponentBaseWithDefaults
+  extends _NgModelComponentBase
   implements ControlValueAccessor, OnInit, OnDestroy
 {
   protected override readonly _DEFAULTS!: ArdPasswordInputDefaults;

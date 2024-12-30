@@ -3,7 +3,7 @@ import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { SimpleOneAxisAlignment } from '../types/alignment.types';
 import { ComponentColor } from '../types/colors.types';
 import { DecorationElementAppearance, FormElementVariant } from '../types/theming.types';
-import { _DisablableComponentBaseWithDefaults } from './../_internal/disablable-component';
+import { _DisablableComponentBase } from './../_internal/disablable-component';
 import { ARD_CHIP_DEFAULTS, ArdChipDefaults } from './chip.defaults';
 
 @Component({
@@ -13,7 +13,7 @@ import { ARD_CHIP_DEFAULTS, ArdChipDefaults } from './chip.defaults';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumChipComponent extends _DisablableComponentBaseWithDefaults {
+export class ArdiumChipComponent extends _DisablableComponentBase {
   protected override readonly _DEFAULTS!: ArdChipDefaults;
   constructor(@Inject(ARD_CHIP_DEFAULTS) defaults: ArdChipDefaults) {
     super(defaults);
