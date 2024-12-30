@@ -15,7 +15,7 @@ import {
   output,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { _NgModelComponentBase } from '../_internal/ngmodel-component';
+import { _NgModelComponentBaseWithDefaults, _ngModelComponentDefaults } from '../_internal/ngmodel-component';
 import { Nullable } from '../types/utility.types';
 import { ArdiumRadioComponent } from './radio/radio.component';
 
@@ -39,7 +39,7 @@ import { ArdiumRadioComponent } from './radio/radio.component';
     },
   ],
 })
-export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements AfterContentInit, OnDestroy {
+export class ArdiumRadioGroupComponent extends _NgModelComponentBaseWithDefaults implements AfterContentInit, OnDestroy {
   private readonly _radios = contentChildren<ArdiumRadioComponent>(ArdiumRadioComponent, { descendants: true });
 
   readonly htmlId = input<string>('');
@@ -50,7 +50,7 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
   }
 
   constructor() {
-    super();
+    super(_ngModelComponentDefaults); // no need for injecting a token with default values
 
     effect(
       () => {
