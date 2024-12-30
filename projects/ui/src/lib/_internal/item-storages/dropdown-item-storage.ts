@@ -5,24 +5,14 @@ import { AddCustomFn } from '../../select/select.types';
 import { ArdItemGroupMap, ArdOption, ArdOptionGroup, CompareWithFn, GroupByFn, SearchFn } from '../../types/item-storage.types';
 import { Nullable } from '../../types/utility.types';
 
-export interface ItemStorageHostDefaults {
-  valueFrom: string;
-  labelFrom: string;
-  disabledFrom: string;
-  groupLabelFrom: string;
-  groupDisabledFrom: string;
-  childrenFrom: string;
-  [key: string]: any;
-}
 export interface ItemStorageHost {
-  readonly valueFrom: Signal<Nullable<string>>;
-  readonly labelFrom: Signal<Nullable<string>>;
-  readonly disabledFrom: Signal<Nullable<string>>;
-  readonly invertDisabled: Signal<Nullable<boolean>>;
-  readonly groupLabelFrom: Signal<Nullable<string | GroupByFn>>;
-  readonly groupDisabledFrom: Signal<Nullable<string>>;
-  readonly childrenFrom: Signal<Nullable<string>>;
-  readonly DEFAULTS: ItemStorageHostDefaults;
+  readonly valueFrom: Signal<string>;
+  readonly labelFrom: Signal<string>;
+  readonly disabledFrom: Signal<string>;
+  readonly invertDisabled: Signal<boolean>;
+  readonly groupLabelFrom: Signal<string | GroupByFn>;
+  readonly groupDisabledFrom: Signal<string>;
+  readonly childrenFrom: Signal<string>;
   readonly itemsAlreadyGrouped: Signal<Nullable<boolean>>;
   readonly hideSelected: Signal<boolean>;
   readonly searchCaseSensitive: Signal<boolean>;
@@ -139,7 +129,7 @@ export class ItemStorage {
   }
   private _ungroupAlreadyGroupedItems<T extends object>(group: T): [any[], boolean] {
     //determine groupBy (groupLabel) path
-    const groupBy = this._ardParentComp.groupLabelFrom() ?? this._ardParentComp.DEFAULTS.groupLabelFrom;
+    const groupBy = this._ardParentComp.groupLabelFrom();
 
     //get group label from object
     let groupName: any;
@@ -150,7 +140,7 @@ export class ItemStorage {
     }
 
     //determine group children path
-    const childrenPath = this._ardParentComp.childrenFrom() ?? this._ardParentComp.DEFAULTS.childrenFrom;
+    const childrenPath = this._ardParentComp.childrenFrom();
 
     //get group children
     let groupItems: any = resolvePath(group, childrenPath);
@@ -186,17 +176,15 @@ export class ItemStorage {
       };
     }
     //get value
-    const valuePath =
-      this._ardParentComp.valueFrom() ?? this._ardParentComp.labelFrom() ?? this._ardParentComp.DEFAULTS.valueFrom;
+    const valuePath = this._ardParentComp.valueFrom() ?? this._ardParentComp.labelFrom();
     const value = resolvePath(rawItemData, valuePath);
 
     //get label
-    const labelPath =
-      this._ardParentComp.labelFrom() ?? this._ardParentComp.valueFrom() ?? this._ardParentComp.DEFAULTS.labelFrom;
+    const labelPath = this._ardParentComp.labelFrom() ?? this._ardParentComp.valueFrom();
     const label = resolvePath(rawItemData, labelPath) ?? value;
 
     //get disabled
-    const disabledPath = this._ardParentComp.disabledFrom() ?? this._ardParentComp.DEFAULTS.disabledFrom;
+    const disabledPath = this._ardParentComp.disabledFrom();
     let disabled = evaluate(resolvePath(rawItemData, disabledPath));
     if (this._ardParentComp.invertDisabled()) {
       disabled = !disabled;
@@ -217,7 +205,6 @@ export class ItemStorage {
       }
     }
 
-    //return
     return {
       itemData: signal(rawItemData),
       index: index,
@@ -242,7 +229,7 @@ export class ItemStorage {
   private _addToGroup(item: ArdOption): void {
     const groupKey = item.group;
     const targetGroup = this._groups().get(groupKey);
-    //create new group if needed
+    //create new group if no such group exists
     if (!targetGroup) {
       this._groups.update(v => {
         const map = new Map(v);
@@ -277,9 +264,7 @@ export class ItemStorage {
     return ngModel.every(item => {
       if (!isDefined(this._ardParentComp.compareWith) && isObject(item) && this._ardParentComp.valueFrom()) {
         console.warn(
-          `ARD-WA${this._ardParentComp._componentId}0: Setting object(${JSON.stringify(
-            item
-          )}) as your model with [valueFrom] is not allowed unless [compareWith] is used.`
+          `ARD-WA${this._ardParentComp._componentId}0: [valueFrom] can only point to a property of a primitive type. Define [compareWith] if using objects as a value is needed.`
         );
         return false;
       }
@@ -309,7 +294,9 @@ export class ItemStorage {
         return;
       }
       console.warn(
-        `ARD-WA${this._ardParentComp._componentId}1: Couldn't find an item with value ${value?.toString?.() || String(value)}.`
+        `ARD-WA${this._ardParentComp._componentId}1: Couldn't find an item with value ${
+          value?.toString?.() || String(value)
+        } when trying to select it.`
       );
     };
 
@@ -326,14 +313,23 @@ export class ItemStorage {
     }
     return this._items().find(item => findBy(item));
   }
-  async addCustomOption(value: string, fn: AddCustomFn<any> | AddCustomFn<Promise<any>>): Promise<ArdOption> {
+  async addCustomOption(value: string, fn: AddCustomFn<any> | AddCustomFn<Promise<any>>): Promise<ArdOption | null> {
     const fnResult = fn(value);
 
     let optionValue = fnResult;
-    if (isPromise(optionValue)) optionValue = await optionValue;
+    if (isPromise(optionValue)) {
+      try {
+        optionValue = await optionValue;
+      } catch (error) {
+        console.error(
+          `ARD-NF${this._ardParentComp._componentId}2: Failed to add a custom option. The promise was rejected with the following error:`,
+          error
+        );
+        return null;
+      }
+    }
 
     const newOptionObj = this._addSingleItem(optionValue);
-
     return newOptionObj;
   }
 

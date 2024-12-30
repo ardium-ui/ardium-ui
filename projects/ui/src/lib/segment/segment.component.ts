@@ -66,7 +66,7 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
 
   readonly itemsPerRow = input<number, any>(this._DEFAULTS.itemsPerRow, {
     transform: v => {
-      const newValue = coerceNumberProperty(v, Infinity);
+      const newValue = coerceNumberProperty(v, this._DEFAULTS.itemsPerRow);
       if (newValue === 0) throw new Error(`ARD-FT1040a: Cannot set <ard-segment>'s [itemsPerRow] to 0.`);
       if (newValue < 0)
         throw new Error(`ARD-FT1040b: Cannot set <ard-segment>'s [itemsPerRow] to a negative value, got "${newValue}".`);

@@ -1,0 +1,99 @@
+import { InjectionToken, Provider } from '@angular/core';
+import { _ngModelComponentDefaults, _NgModelComponentDefaults } from '../_internal/ngmodel-component';
+import { DropdownPanelAppearance, DropdownPanelVariant } from '../dropdown-panel';
+import { searchFunctions } from '../search-functions';
+import { ArdPanelPosition, GroupByFn, SearchFn } from '../types/item-storage.types';
+import { Nullable } from '../types/utility.types';
+import { FormElementAppearance, FormElementVariant } from './../types/theming.types';
+import { AddCustomFn } from './select.types';
+
+export interface ArdSelectDefaults extends _NgModelComponentDefaults {
+  valueFrom: string;
+  labelFrom: string;
+  disabledFrom: string;
+  groupLabelFrom: string | GroupByFn;
+  groupDisabledFrom: string;
+  childrenFrom: string;
+  placeholder: string;
+  searchPlaceholder: string;
+  clearButtonTitle: string;
+  dropdownPosition: ArdPanelPosition;
+  noItemsFoundText: string;
+  loadingPlaceholderText: string;
+  inputAttrs: Record<string, any>;
+  isLoading: boolean;
+  itemsAlreadyGrouped: boolean;
+  invertDisabled: boolean;
+  noGroupActions: boolean;
+  autoHighlightFirst: boolean;
+  autoFocus: boolean;
+  keepOpen: boolean;
+  hideSelected: boolean;
+  noBackspaceClear: boolean;
+  sortMultipleValues: boolean;
+  searchCaseSensitive: boolean;
+  keepSearchAfterSelect: boolean;
+  maxSelectedItems: number;
+  itemDisplayLimit: number;
+  searchFn: SearchFn;
+  compareWith: Nullable<SearchFn>;
+  appearance: FormElementAppearance;
+  variant: FormElementVariant;
+  compact: boolean;
+  dropdownAppearance: Nullable<DropdownPanelAppearance>;
+  dropdownVariant: Nullable<DropdownPanelVariant>;
+  multiselectable: boolean;
+  clearable: boolean;
+  searchable: boolean;
+  addCustom: boolean | AddCustomFn<any> | AddCustomFn<Promise<any>>;
+}
+
+const _selectDefaults: ArdSelectDefaults = {
+  ..._ngModelComponentDefaults,
+  valueFrom: 'value',
+  labelFrom: 'label',
+  disabledFrom: 'disabled',
+  groupLabelFrom: 'group',
+  groupDisabledFrom: 'disabled',
+  childrenFrom: 'children',
+  searchFn: searchFunctions.byLabel,
+  clearButtonTitle: 'Clear',
+  noItemsFoundText: 'No items found.',
+  loadingPlaceholderText: 'Loading...',
+  placeholder: 'Select item',
+  searchPlaceholder: 'Search...',
+  dropdownPosition: ArdPanelPosition.Auto,
+  inputAttrs: {},
+  isLoading: false,
+  itemsAlreadyGrouped: false,
+  invertDisabled: false,
+  noGroupActions: false,
+  autoHighlightFirst: false,
+  autoFocus: false,
+  keepOpen: false,
+  hideSelected: false,
+  noBackspaceClear: false,
+  sortMultipleValues: false,
+  searchCaseSensitive: false,
+  keepSearchAfterSelect: false,
+  maxSelectedItems: Infinity,
+  itemDisplayLimit: Infinity,
+  compareWith: undefined,
+  appearance: FormElementAppearance.Outlined,
+  variant: FormElementVariant.Rounded,
+  compact: false,
+  dropdownAppearance: undefined,
+  dropdownVariant: undefined,
+  multiselectable: false,
+  clearable: false,
+  searchable: false,
+  addCustom: false,
+};
+
+export const ARD_SELECT_DEFAULTS = new InjectionToken<ArdSelectDefaults>('ard-select-defaults', {
+  factory: () => ({ ..._selectDefaults }),
+});
+
+export function provideSelectDefaults(config: Partial<ArdSelectDefaults>): Provider {
+  return { provide: ARD_SELECT_DEFAULTS, useValue: { ..._selectDefaults, ...config } };
+}

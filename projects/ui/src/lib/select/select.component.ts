@@ -10,6 +10,7 @@ import {
   ElementRef,
   HostBinding,
   HostListener,
+  Inject,
   Input,
   OnChanges,
   OnDestroy,
@@ -36,15 +37,15 @@ import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from
 import { Subject, merge, startWith, takeUntil } from 'rxjs';
 import { isAnyString, isArray, isFunction } from 'simple-bool';
 import { ItemStorage, ItemStorageHost } from '../_internal/item-storages/dropdown-item-storage';
-import { _NgModelComponentBase } from '../_internal/ngmodel-component';
+import { _NgModelComponentBaseWithDefaults } from '../_internal/ngmodel-component';
 import { ArdiumDropdownPanelComponent } from '../dropdown-panel/dropdown-panel.component';
 import { DropdownPanelAppearance, DropdownPanelVariant } from '../dropdown-panel/dropdown-panel.types';
 import { ArdiumOptionComponent } from '../option/option.component';
-import { searchFunctions } from '../search-functions';
 import { ArdOption, ArdOptionGroup, ArdPanelPosition, GroupByFn, OptionContext, SearchFn } from '../types/item-storage.types';
 import { FormElementAppearance } from '../types/theming.types';
 import { Nullable } from '../types/utility.types';
 import { FormElementVariant } from './../types/theming.types';
+import { ARD_SELECT_DEFAULTS, ArdSelectDefaults } from './select.defaults';
 import {
   ArdAddCustomTemplateDirective,
   ArdDropdownFooterTemplateDirective,
@@ -88,24 +89,16 @@ import {
   ],
 })
 export class ArdiumSelectComponent
-  extends _NgModelComponentBase
+  extends _NgModelComponentBaseWithDefaults
   implements OnChanges, AfterViewInit, AfterContentInit, OnInit, OnDestroy, ControlValueAccessor, ItemStorageHost
 {
+  protected override readonly _DEFAULTS!: ArdSelectDefaults;
+  constructor(@Inject(ARD_SELECT_DEFAULTS) defaults: ArdSelectDefaults) {
+    super(defaults);
+  }
+
   readonly _componentId: string = '000';
-  //! public constants
   readonly itemStorage = new ItemStorage(this);
-  readonly DEFAULTS = {
-    valueFrom: 'value',
-    labelFrom: 'label',
-    disabledFrom: 'disabled',
-    groupLabelFrom: 'group',
-    groupDisabledFrom: 'disabled',
-    childrenFrom: 'children',
-    searchFn: searchFunctions.byLabel,
-    clearButtonTitle: 'Clear',
-    noItemsFoundText: 'No items found.',
-    loadingPlaceholderText: 'Loading...',
-  };
 
   //! privates
   private _items: any[] | null = [];
@@ -119,64 +112,75 @@ export class ArdiumSelectComponent
 
   //! binding-related inputs
   //value/label/disabled/group/pre-grouped children paths
-  readonly valueFrom = input<Nullable<string>>(undefined);
-  readonly labelFrom = input<Nullable<string>>(undefined);
-  readonly disabledFrom = input<Nullable<string>>(undefined);
+  readonly valueFrom = input<string>(this._DEFAULTS.valueFrom);
+  readonly labelFrom = input<string>(this._DEFAULTS.labelFrom);
+  readonly disabledFrom = input<string>(this._DEFAULTS.disabledFrom);
   //! group-related inputs
-  readonly groupLabelFrom = input<Nullable<string | GroupByFn>>(undefined);
-  readonly groupDisabledFrom = input<Nullable<string>>(undefined);
-  readonly childrenFrom = input<Nullable<string>>(undefined);
+  readonly groupLabelFrom = input<string | GroupByFn>(this._DEFAULTS.groupLabelFrom);
+  readonly groupDisabledFrom = input<string>(this._DEFAULTS.groupDisabledFrom);
+  readonly childrenFrom = input<string>(this._DEFAULTS.childrenFrom);
   //! settings
-  readonly placeholder = input<string>('Select item');
-  readonly searchPlaceholder = input<string>('Search...');
-  readonly clearButtonTitle = input<string>(this.DEFAULTS.clearButtonTitle);
+  readonly placeholder = input<string>(this._DEFAULTS.placeholder);
+  readonly searchPlaceholder = input<string>(this._DEFAULTS.searchPlaceholder);
+  readonly clearButtonTitle = input<string>(this._DEFAULTS.clearButtonTitle);
 
-  readonly dropdownPosition = input<ArdPanelPosition>(ArdPanelPosition.Auto);
+  readonly dropdownPosition = input<ArdPanelPosition>(this._DEFAULTS.dropdownPosition);
   //! template-related settings
-  readonly noItemsFoundText = input<string>(this.DEFAULTS.noItemsFoundText);
-  readonly loadingPlaceholderText = input<string>(this.DEFAULTS.loadingPlaceholderText);
+  readonly noItemsFoundText = input<string>(this._DEFAULTS.noItemsFoundText);
+  readonly loadingPlaceholderText = input<string>(this._DEFAULTS.loadingPlaceholderText);
   //! search-related options
   readonly searchInputId = input<Nullable<string>>(undefined);
-  readonly inputAttrs = input<Record<string, any>>({});
+  readonly inputAttrs = input<Record<string, any>>(this._DEFAULTS.inputAttrs);
   //! other inputs
-  readonly isLoading = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly inputProps = input<Record<string, any>>({});
+  readonly isLoading = input<boolean, any>(this._DEFAULTS.isLoading, { transform: v => coerceBooleanProperty(v) });
   readonly htmlId = input<string>(crypto.randomUUID());
 
   //! boolean settings
-  readonly itemsAlreadyGrouped = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly itemsAlreadyGrouped = input<boolean, any>(this._DEFAULTS.itemsAlreadyGrouped, {
+    transform: v => coerceBooleanProperty(v),
+  });
 
-  //should the value that the "disabledFrom" path lead to be inverted?
-  //useful when the property is e.g. "active", which is the oposite of "disabled"
-  readonly invertDisabled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly invertDisabled = input<boolean, any>(this._DEFAULTS.invertDisabled, { transform: v => coerceBooleanProperty(v) });
 
-  readonly noGroupActions = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly autoHighlightFirst = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly autoFocus = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly keepOpen = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly hideSelected = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly noBackspaceClear = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly sortMultipleValues = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly searchCaseSensitive = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly keepSearchAfterSelect = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly noGroupActions = input<boolean, any>(this._DEFAULTS.noGroupActions, { transform: v => coerceBooleanProperty(v) });
+  readonly autoHighlightFirst = input<boolean, any>(this._DEFAULTS.autoHighlightFirst, {
+    transform: v => coerceBooleanProperty(v),
+  });
+  readonly autoFocus = input<boolean, any>(this._DEFAULTS.autoFocus, { transform: v => coerceBooleanProperty(v) });
+  readonly keepOpen = input<boolean, any>(this._DEFAULTS.keepOpen, { transform: v => coerceBooleanProperty(v) });
+  readonly hideSelected = input<boolean, any>(this._DEFAULTS.hideSelected, { transform: v => coerceBooleanProperty(v) });
+  readonly noBackspaceClear = input<boolean, any>(this._DEFAULTS.noBackspaceClear, { transform: v => coerceBooleanProperty(v) });
+  readonly sortMultipleValues = input<boolean, any>(this._DEFAULTS.sortMultipleValues, {
+    transform: v => coerceBooleanProperty(v),
+  });
+  readonly searchCaseSensitive = input<boolean, any>(this._DEFAULTS.searchCaseSensitive, {
+    transform: v => coerceBooleanProperty(v),
+  });
+  readonly keepSearchAfterSelect = input<boolean, any>(this._DEFAULTS.keepSearchAfterSelect, {
+    transform: v => coerceBooleanProperty(v),
+  });
 
   //! number inputs
-  readonly maxSelectedItems = input<number, any>(Infinity, { transform: v => coerceNumberProperty(v, Infinity) });
-  readonly itemDisplayLimit = input<number, any>(Infinity, { transform: v => coerceNumberProperty(v, Infinity) });
+  readonly maxSelectedItems = input<number, any>(this._DEFAULTS.maxSelectedItems, {
+    transform: v => coerceNumberProperty(v, this._DEFAULTS.maxSelectedItems),
+  });
+  readonly itemDisplayLimit = input<number, any>(this._DEFAULTS.itemDisplayLimit, {
+    transform: v => coerceNumberProperty(v, this._DEFAULTS.itemDisplayLimit),
+  });
 
   //! function inputs
-  readonly searchFn = input<SearchFn>(this.DEFAULTS.searchFn);
-  readonly compareWith = input<Nullable<SearchFn>>(undefined);
+  readonly searchFn = input<SearchFn>(this._DEFAULTS.searchFn);
+  readonly compareWith = input<Nullable<SearchFn>>(this._DEFAULTS.compareWith);
 
   //! appearance
-  readonly appearance = input<FormElementAppearance>(FormElementAppearance.Outlined);
-  readonly variant = input<FormElementVariant>(FormElementVariant.Rounded);
+  readonly appearance = input<FormElementAppearance>(this._DEFAULTS.appearance);
+  readonly variant = input<FormElementVariant>(this._DEFAULTS.variant);
 
-  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed(() =>
     [
-      //appearance, variant handled in ard-form-field-frame component
+      //appearance and variant handled in ard-form-field-frame component
       this.compact() ? 'ard-compact' : '',
       this.multiselectable() ? 'ard-multiselect' : 'ard-singleselect',
       this.clearable() ? 'ard-clearable' : '',
@@ -189,13 +193,13 @@ export class ArdiumSelectComponent
     ].join(' ')
   );
 
-  readonly dropdownAppearance = input<Nullable<DropdownPanelAppearance>>(undefined);
+  readonly dropdownAppearance = input<Nullable<DropdownPanelAppearance>>(this._DEFAULTS.dropdownAppearance);
   readonly dropdownAppearanceOrDefault = computed(() => {
     if (this.dropdownAppearance()) return this.dropdownAppearance()!;
     if (this.appearance() === FormElementAppearance.Outlined) return DropdownPanelAppearance.Outlined;
     return DropdownPanelAppearance.Raised;
   });
-  readonly dropdownVariant = input<Nullable<DropdownPanelVariant>>(undefined);
+  readonly dropdownVariant = input<Nullable<DropdownPanelVariant>>(this._DEFAULTS.dropdownVariant);
   readonly dropdownVariantOrDefault = computed(() => {
     if (this.dropdownVariant()) return this.dropdownVariant()!;
     const variant = this.variant();
@@ -269,9 +273,9 @@ export class ArdiumSelectComponent
   }
 
   //! attribute and/or class setters/getters
-  readonly multiselectable = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly clearable = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly searchable = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly multiselectable = input<boolean, any>(this._DEFAULTS.multiselectable, { transform: v => coerceBooleanProperty(v) });
+  readonly clearable = input<boolean, any>(this._DEFAULTS.clearable, { transform: v => coerceBooleanProperty(v) });
+  readonly searchable = input<boolean, any>(this._DEFAULTS.searchable, { transform: v => coerceBooleanProperty(v) });
 
   readonly filtered = computed<boolean>(() => this.searchable() && this.searchTerm() !== '');
 
@@ -283,7 +287,7 @@ export class ArdiumSelectComponent
   readonly addCustom = input<
     false | AddCustomFn<any> | AddCustomFn<Promise<any>>,
     string | boolean | AddCustomFn<any> | AddCustomFn<Promise<any>>
-  >(false, {
+  >(this._DEFAULTS.addCustom === true ? this._defaultAddCustomFn : this._DEFAULTS.addCustom, {
     transform: v => {
       if (isFunction(v)) {
         return v;
@@ -302,6 +306,7 @@ export class ArdiumSelectComponent
     if (!ac) return;
 
     const newOptionObj = await this.itemStorage.addCustomOption(value, ac);
+    if (!newOptionObj) return;
 
     this.selectItem(newOptionObj);
   }
