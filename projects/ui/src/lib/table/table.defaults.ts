@@ -67,8 +67,8 @@ export const _tableDefaults: ArdTableDefaults = {
   paginationColor: ComponentColor.None,
   paginationAlign: PaginationAlign.Split,
   itemsPerPageText: 'Items per page:',
-  currentItemsFormatFn: ({ currentItemsFirst, currentItemsLast, totalItems }) =>
-    `${currentItemsFirst} – ${currentItemsLast} of ${totalItems}`,
+  currentItemsFormatFn: ({ currentItemsFrom, currentItemsTo, totalItems }) =>
+    `${currentItemsFrom} – ${currentItemsTo} of ${totalItems}`,
   pageFillRemaining: false,
   paginationDisabled: false,
   useFirstLastButtons: false,

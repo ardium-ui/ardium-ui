@@ -10,8 +10,8 @@ export interface PaginationModelHost {
 }
 
 export interface PaginationCurrentItemsContext {
-  readonly currentItemsFirst: number;
-  readonly currentItemsLast: number;
+  readonly currentItemsFrom: number;
+  readonly currentItemsTo: number;
   readonly totalItems: number;
   readonly totalPages: number;
   readonly page: number;
@@ -97,8 +97,8 @@ export class PaginationModel {
       totalPages: this.lastPageNum()!,
       totalItems: total,
       page: this._ardHostCmp.page(),
-      currentItemsFirst: pageItems[0],
-      currentItemsLast: pageItems[1],
+      currentItemsFrom: pageItems[0],
+      currentItemsTo: pageItems[1],
     };
   });
   readonly getPartialContext = computed<Omit<PaginationContext, 'onItemsPerPageChange' | 'onPageChange'>>(() => {

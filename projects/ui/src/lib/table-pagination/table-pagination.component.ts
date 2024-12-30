@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation, computed, input, model, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewEncapsulation, computed, input, model, output } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
-import { _FocusableComponentBase } from '../_internal/focusable-component';
+import { _FocusableComponentBaseWithDefaults } from '../_internal/focusable-component';
 import { PaginationModel } from '../_internal/models/pagination.model';
 import { ComponentColor } from '../types/colors.types';
+import { ARD_TABLE_PAGINATION_DEFAULTS, ArdTablePaginationDefaults } from './table-pagination.defaults';
 import { CurrentItemsFormatFn, PaginationAlign } from './table-pagination.types';
 
 @Component({
@@ -12,7 +13,12 @@ import { CurrentItemsFormatFn, PaginationAlign } from './table-pagination.types'
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumTablePaginationComponent extends _FocusableComponentBase implements OnInit {
+export class ArdiumTablePaginationComponent extends _FocusableComponentBaseWithDefaults implements OnInit {
+  protected override readonly _DEFAULTS!: ArdTablePaginationDefaults;
+  constructor(@Inject(ARD_TABLE_PAGINATION_DEFAULTS) defaults: ArdTablePaginationDefaults) {
+    super(defaults);
+  }
+
   readonly componentId = '506';
 
   private readonly _pagination = new PaginationModel(this);
@@ -49,7 +55,7 @@ export class ArdiumTablePaginationComponent extends _FocusableComponentBase impl
   readonly itemsPerPageText = input<string>('Items per page:');
 
   readonly currentItemsFormatFn = input<CurrentItemsFormatFn>(
-    ({ currentItemsFirst, currentItemsLast, totalItems }) => `${currentItemsFirst} – ${currentItemsLast} of ${totalItems}`
+    ({ currentItemsFrom: currentItemsFirst, currentItemsTo: currentItemsLast, totalItems }) => `${currentItemsFirst} – ${currentItemsLast} of ${totalItems}`
   );
 
   //! contexts
