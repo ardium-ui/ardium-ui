@@ -2,6 +2,7 @@ import {
   AfterContentInit,
   ChangeDetectionStrategy,
   Component,
+  Inject,
   Input,
   OnChanges,
   SimpleChanges,
@@ -16,12 +17,13 @@ import {
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { isDefined, isNumber } from 'simple-bool';
-import { _FocusableComponentBase } from '../_internal/focusable-component';
+import { _FocusableComponentBaseWithDefaults } from '../_internal/focusable-component';
 import { CheckboxState } from '../checkbox/checkbox.types';
 import { CurrentItemsFormatFn, PaginationAlign } from '../table-pagination/table-pagination.types';
 import { ComponentColor, SimpleComponentColor } from '../types/colors.types';
 import { Nullable } from '../types/utility.types';
 import { ArdTableRow, HeaderCell, TableItemStorage, TableItemStorageHost } from './table-item-storage';
+import { ARD_TABLE_DEFAULTS, ArdTableDefaults } from './table.defaults';
 import {
   ArdiumTableCaptionTemplateDirective,
   ArdiumTableCheckboxTemplateDirective,
@@ -50,39 +52,46 @@ import { isTableSubheader } from './utils';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumTableComponent extends _FocusableComponentBase implements TableItemStorageHost, AfterContentInit, OnChanges {
+export class ArdiumTableComponent
+  extends _FocusableComponentBaseWithDefaults
+  implements TableItemStorageHost, AfterContentInit, OnChanges
+{
+  protected override readonly _DEFAULTS!: ArdTableDefaults;
+  constructor(@Inject(ARD_TABLE_DEFAULTS) defaults: ArdTableDefaults) {
+    super(defaults);
+  }
+
   private readonly _itemStorage = new TableItemStorage(this);
 
-  readonly DEFAULTS = {
-    rowDisabledFrom: 'disabled',
-    rowBoldFrom: 'bold',
-  };
+  readonly rowDisabledFrom = input<string>(this._DEFAULTS.rowDisabledFrom);
+  readonly rowBoldFrom = input<string>(this._DEFAULTS.rowBoldFrom);
+  readonly invertRowDisabled = input<boolean, any>(this._DEFAULTS.invertRowDisabled, {
+    transform: v => coerceBooleanProperty(v),
+  });
+  readonly invertRowBold = input<boolean, any>(this._DEFAULTS.invertRowBold, { transform: v => coerceBooleanProperty(v) });
 
-  readonly rowDisabledFrom = input<Nullable<string>>(undefined);
-  readonly rowBoldFrom = input<Nullable<string>>(undefined);
-  readonly invertRowDisabled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly invertRowBold = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly selectableRows = input<boolean, any>(this._DEFAULTS.selectableRows, { transform: v => coerceBooleanProperty(v) });
+  readonly maxSelectedItems = input<Nullable<number>, any>(this._DEFAULTS.maxSelectedItems, {
+    transform: v => coerceNumberProperty(v, this._DEFAULTS.maxSelectedItems),
+  });
 
-  readonly selectableRows = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly maxSelectedItems = input<Nullable<number>, any>(undefined, { transform: v => coerceNumberProperty(v, undefined) });
+  readonly clickableRows = input<boolean, any>(this._DEFAULTS.clickableRows, { transform: v => coerceBooleanProperty(v) });
 
-  readonly clickableRows = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly caption = input<Nullable<string>>(this._DEFAULTS.caption);
 
-  readonly caption = input<Nullable<string>>(undefined);
-
-  readonly isLoading = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly isLoading = input<boolean, any>(this._DEFAULTS.isLoading, { transform: v => coerceBooleanProperty(v) });
   readonly loadingProgress = input<number, any>(0, { transform: v => coerceNumberProperty(v, 0) }); //TODO add progress bar
 
   //! appearance
-  readonly appearance = input<TableAppearance>(TableAppearance.Strong);
-  readonly variant = input<TableVariant>(TableVariant.Rounded);
-  readonly color = input<ComponentColor>(ComponentColor.Primary);
-  readonly align = input<TableAlignType>(TableAlignType.CenterLeft);
-  readonly headerAlign = input<TableAlignType>(TableAlignType.CenterLeft);
+  readonly appearance = input<TableAppearance>(this._DEFAULTS.appearance);
+  readonly variant = input<TableVariant>(this._DEFAULTS.variant);
+  readonly color = input<ComponentColor>(this._DEFAULTS.color);
+  readonly align = input<TableAlignType>(this._DEFAULTS.align);
+  readonly headerAlign = input<TableAlignType>(this._DEFAULTS.headerAlign);
 
-  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly zebra = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly stickyHeader = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
+  readonly zebra = input<boolean, any>(this._DEFAULTS.zebra, { transform: v => coerceBooleanProperty(v) });
+  readonly stickyHeader = input<boolean, any>(this._DEFAULTS.stickyHeader, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed(() =>
     [
@@ -100,12 +109,12 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
   );
 
   //! pagination
-  readonly paginated = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly paginationStrategy = input<TablePaginationStrategy>(TablePaginationStrategy.Noop);
+  readonly paginated = input<boolean, any>(this._DEFAULTS.paginated, { transform: v => coerceBooleanProperty(v) });
+  readonly paginationStrategy = input<TablePaginationStrategy>(this._DEFAULTS.paginationStrategy);
   readonly paginationOptions = input<
     number[] | { value: number; label: string }[],
     number[] | { value: number; label: string }[]
-  >([10, 25, 50], {
+  >(this._DEFAULTS.paginationOptions, {
     transform: v => {
       return v.filter(el => {
         const opt = isNumber(el) ? el : el.value;
@@ -121,20 +130,26 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
       }) as number[] | { value: number; label: string }[];
     },
   });
-  readonly totalItems = input<Nullable<number>, any>(undefined, { transform: v => coerceNumberProperty(v, undefined) });
-  readonly paginationColor = input<ComponentColor>(ComponentColor.None);
-  readonly paginationAlign = input<PaginationAlign>(PaginationAlign.Split);
-  readonly itemsPerPageText = input<string>('Items per page:');
-  readonly currentItemsFormatFn = input<CurrentItemsFormatFn>(
-    ({ currentItemsFirst, currentItemsLast, totalItems }) => `${currentItemsFirst} – ${currentItemsLast} of ${totalItems}`
-  );
+  readonly totalItems = input<Nullable<number>, any>(this._DEFAULTS.totalItems, {
+    transform: v => coerceNumberProperty(v, this._DEFAULTS.totalItems),
+  });
+  readonly paginationColor = input<ComponentColor>(this._DEFAULTS.paginationColor);
+  readonly paginationAlign = input<PaginationAlign>(this._DEFAULTS.paginationAlign);
+  readonly itemsPerPageText = input<string>(this._DEFAULTS.itemsPerPageText);
+  readonly currentItemsFormatFn = input<CurrentItemsFormatFn>(this._DEFAULTS.currentItemsFormatFn);
 
-  readonly pageFillRemaining = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly paginationDisabled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly useFirstLastButtons = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly pageFillRemaining = input<boolean, any>(this._DEFAULTS.pageFillRemaining, {
+    transform: v => coerceBooleanProperty(v),
+  });
+  readonly paginationDisabled = input<boolean, any>(this._DEFAULTS.paginationDisabled, {
+    transform: v => coerceBooleanProperty(v),
+  });
+  readonly useFirstLastButtons = input<boolean, any>(this._DEFAULTS.useFirstLastButtons, {
+    transform: v => coerceBooleanProperty(v),
+  });
 
-  readonly itemsPerPage = model<number>(50);
-  readonly page = model<number>(1);
+  readonly itemsPerPage = model<number>(this._DEFAULTS.itemsPerPage);
+  readonly page = model<number>(this._DEFAULTS.page);
 
   readonly isDefinedTotalItems = computed(
     () => this.paginationStrategy() !== TablePaginationStrategy.Noop || isDefined(this.totalItems())
@@ -146,8 +161,7 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     if (changes['itemsPerPage']) {
       const ipp = changes['itemsPerPage'].currentValue;
       const options =
-        (changes['paginationOptions']?.currentValue as number[] | { value: number; label: string }[]) ||
-        (this.paginationOptions() as number[] | { value: number; label: string }[]);
+        (changes['paginationOptions']?.currentValue as number[] | { value: number; label: string }[]) || this.paginationOptions();
       if (!options.find(v => (typeof v === 'number' ? v === ipp : v.value === ipp))) {
         console.error(
           new Error(
@@ -202,8 +216,9 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     return this._data;
   }
 
-  readonly treatDataSourceAsString = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly _suppressErrors = input<boolean>(false);
+  readonly treatDataSourceAsString = input<boolean, any>(this._DEFAULTS.treatDataSourceAsString, {
+    transform: v => coerceBooleanProperty(v),
+  });
 
   //! templates
   readonly checkboxTemplate = contentChild<ArdiumTableCheckboxTemplateDirective, TemplateRef<TableCheckboxContext>>(

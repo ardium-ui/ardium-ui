@@ -50,19 +50,14 @@ export class ArdTableRow {
     return new ArdTableRow(null, index, [], [], false, false, true);
   }
 }
-export interface TableItemStorageHostDefaults {
-  readonly rowDisabledFrom: string;
-  readonly rowBoldFrom: string;
-}
 export interface TableItemStorageHost {
-  readonly rowDisabledFrom: Signal<Nullable<string>>;
-  readonly rowBoldFrom: Signal<Nullable<string>>;
-  readonly invertRowDisabled: Signal<Nullable<boolean>>;
-  readonly invertRowBold: Signal<Nullable<boolean>>;
+  readonly rowDisabledFrom: Signal<string>;
+  readonly rowBoldFrom: Signal<string>;
+  readonly invertRowDisabled: Signal<boolean>;
+  readonly invertRowBold: Signal<boolean>;
   readonly data: Signal<Nullable<any>>[];
-  readonly DEFAULTS: TableItemStorageHostDefaults;
   readonly maxSelectedItems: Signal<Nullable<number>>;
-  readonly treatDataSourceAsString: Signal<Nullable<boolean>>;
+  readonly treatDataSourceAsString: Signal<boolean>;
 
   readonly paginated: Signal<boolean>;
   readonly paginationStrategy: Signal<TablePaginationStrategy>;
@@ -307,14 +302,14 @@ export class TableItemStorage {
     const [data, dataColumns] = this._getRowData(rawItemData, index);
 
     //get bold
-    const rowBoldFromPath = this._ardParentComp.rowBoldFrom() ?? this._ardParentComp.DEFAULTS.rowBoldFrom;
+    const rowBoldFromPath = this._ardParentComp.rowBoldFrom();
     let bold = resolvePath(rawItemData, rowBoldFromPath);
     if (this._ardParentComp.invertRowBold()) {
       bold = !bold;
     }
 
     //get disabled
-    const disabledPath = this._ardParentComp.rowDisabledFrom() ?? this._ardParentComp.DEFAULTS.rowDisabledFrom;
+    const disabledPath = this._ardParentComp.rowDisabledFrom();
     let disabled = evaluate(resolvePath(rawItemData, disabledPath));
     if (this._ardParentComp.invertRowDisabled()) {
       disabled = !disabled;
