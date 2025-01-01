@@ -71,30 +71,7 @@ export abstract class _SelectableListComponentBase
   set items(value: any) {
     if (!Array.isArray(value)) value = coerceArrayProperty(value);
 
-    const shouldPrintErrors = this.itemStorage.setItems(value);
-
-    if (shouldPrintErrors) {
-      this._printPrimitiveWarnings();
-    }
-  }
-  private _printPrimitiveWarnings() {
-    const makeWarning = (str: string): void => {
-      console.warn(
-        `ARD-WA${this._componentId} Skipped using [${str}] property bound to <ard-${this._componentName}>, as some provided items are of primitive type`
-      );
-    };
-    if (this.valueFrom()) {
-      makeWarning('valueFrom');
-    }
-    if (this.labelFrom()) {
-      makeWarning('labelFrom');
-    }
-    if (this.disabledFrom()) {
-      makeWarning('disabledFrom');
-    }
-    if (this.invertDisabled()) {
-      makeWarning('invertDisabled');
-    }
+    this.itemStorage.setItems(value);
   }
 
   //! multiselectable

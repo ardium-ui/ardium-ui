@@ -76,7 +76,7 @@ export class SimpleItemStorage {
    * @param items An array of items to be set as the component's items.
    * @returns true if at least one of the items is of primitive type, otherwise false.
    */
-  setItems(items: unknown[]): boolean {
+  setItems(items: unknown[]): void {
     let areItemsPrimitive = false;
     if (items.some(isPrimitive)) {
       items = items.map(this._primitiveItemsMapFn);
@@ -88,8 +88,6 @@ export class SimpleItemStorage {
         return this._setItemsMapFn(item, index, areItemsPrimitive);
       })
     );
-
-    return areItemsPrimitive;
   }
   private _primitiveItemsMapFn<T>(item: T): { value: T } {
     return { value: item };

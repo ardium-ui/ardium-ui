@@ -1,19 +1,19 @@
 import { Overlay, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { DOCUMENT } from '@angular/common';
 import {
-    Directive,
-    ElementRef,
-    HostListener,
-    Input,
-    Renderer2,
-    ViewContainerRef,
-    computed,
-    contentChild,
-    inject,
-    input,
-    output,
-    signal,
-    viewChild,
+  Directive,
+  ElementRef,
+  HostListener,
+  Input,
+  Renderer2,
+  ViewContainerRef,
+  computed,
+  contentChild,
+  inject,
+  input,
+  output,
+  signal,
+  viewChild,
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { roundToMultiple, roundToPrecision } from 'more-rounding';
@@ -23,11 +23,11 @@ import { SimpleComponentColor } from '../types/colors.types';
 import { Nullable } from '../types/utility.types';
 import { ArdSliderTooltipDirective } from './slider.directive';
 import {
-    SliderDecorationPosition,
-    SliderLabelObject,
-    SliderTooltipBehavior,
-    SliderTooltipFormatFn,
-    _InternalSliderLabelObject,
+  SliderDecorationPosition,
+  SliderLabelObject,
+  SliderTooltipBehavior,
+  SliderTooltipFormatFn,
+  _InternalSliderLabelObject,
 } from './slider.types';
 
 export interface _AsbtractSliderDefaults extends _NgModelComponentDefaults {
@@ -131,33 +131,22 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   //! labels
   readonly labelPosition = input<SliderDecorationPosition>(this._DEFAULTS.labelPosition);
 
-  readonly labelObjects = input<_InternalSliderLabelObject[], SliderLabelObject[] | number[] | null>(
-    this._transformLabelObjects(this._DEFAULTS.labels),
-    {
-      alias: 'labels',
-      transform: this._transformLabelObjects,
-    }
-  );
-  private _transformLabelObjects(v: SliderLabelObject[] | number[] | null): _InternalSliderLabelObject[] {
+  readonly labels = input<SliderLabelObject[] | number[] | null>(this._DEFAULTS.labels);
+
+  readonly labelObjects = computed<_InternalSliderLabelObject[]>(() => {
+    const v = this.labels();
     if (!isDefined(v) || v.length === 0) {
       return [];
     }
-    return v.map(this._numberLabelArrayMapFn).map(label => {
-      const v = this._clampValue(label.for);
+    return v.map(label => {
+      const obj = isObject(label) ? label : { label, for: label };
+      const v = this._clampValue(obj.for);
       return {
-        label: String(label.label),
+        label: String(obj.label),
         positionPercent: `${this._valueToPercent(v) * 100}%`,
       };
     });
-  }
-
-  protected _numberLabelArrayMapFn(val: SliderLabelObject | number): SliderLabelObject {
-    if (isObject(val)) return val;
-    return {
-      label: val,
-      for: val,
-    };
-  }
+  });
 
   //! appearance
   readonly color = input<SimpleComponentColor>(SimpleComponentColor.Primary);
