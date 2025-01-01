@@ -1,6 +1,6 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { FormElementAppearance, FormElementVariant } from '@ardium-ui/ui';
 import { _FocusableComponentDefaults, _focusableComponentDefaults } from '../_internal/focusable-component';
+import { FormElementAppearance, FormElementVariant } from './../types/theming.types';
 
 export interface ArdFormFieldFrameDefaults extends _FocusableComponentDefaults {
   appearance: FormElementAppearance;

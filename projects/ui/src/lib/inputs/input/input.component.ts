@@ -124,28 +124,10 @@ export class ArdiumInputComponent
   set suggestions(value: any) {
     if (!Array.isArray(value)) value = coerceArrayProperty(value);
 
-    const shouldPrintErrors = this.suggestionStorage.setItems(value);
+    this.suggestionStorage.setItems(value);
 
     this._suggestionDropdowOpen.set(true);
     this.suggestionStorage.highlightFirstItem();
-
-    if (shouldPrintErrors) {
-      this._printPrimitiveWarnings();
-    }
-  }
-
-  private _printPrimitiveWarnings() {
-    function makeWarning(str: string): void {
-      console.warn(
-        `ARD-WA0031: Skipped using [${str}] property bound to <ard-input>, as some provided suggestion items are of primitive type`
-      );
-    }
-    if (this.valueFrom()) {
-      makeWarning('valueFrom');
-    }
-    if (this.labelFrom()) {
-      makeWarning('labelFrom');
-    }
   }
 
   private readonly _suggestionDropdowOpen = signal<boolean>(false);

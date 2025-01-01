@@ -4,13 +4,13 @@ import { FabSize } from '../general-button.types';
 
 export interface ArdFabDefaults extends _ButtonBaseDefaults {
   size: FabSize;
-  extended: boolean;
+  // extended: boolean;
 }
 
 const _fabDefaults: ArdFabDefaults = {
     ..._buttonBaseDefaults,
     size: FabSize.Standard,
-    extended: false,
+    // extended: false,
 };
 
 export const ARD_FAB_DEFAULTS = new InjectionToken<ArdFabDefaults>('ard-fab-defaults', {

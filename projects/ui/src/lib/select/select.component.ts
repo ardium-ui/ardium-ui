@@ -1,36 +1,36 @@
 import { Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import {
-    AfterContentInit,
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    ContentChildren,
-    ElementRef,
-    HostBinding,
-    HostListener,
-    Inject,
-    Input,
-    OnChanges,
-    OnDestroy,
-    OnInit,
-    QueryList,
-    Signal,
-    SimpleChanges,
-    TemplateRef,
-    ViewChild,
-    ViewContainerRef,
-    ViewEncapsulation,
-    computed,
-    contentChild,
-    forwardRef,
-    inject,
-    input,
-    model,
-    output,
-    signal,
-    viewChild,
+  AfterContentInit,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ContentChildren,
+  ElementRef,
+  HostBinding,
+  HostListener,
+  Inject,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  Signal,
+  SimpleChanges,
+  TemplateRef,
+  ViewChild,
+  ViewContainerRef,
+  ViewEncapsulation,
+  computed,
+  contentChild,
+  forwardRef,
+  inject,
+  input,
+  model,
+  output,
+  signal,
+  viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
@@ -47,31 +47,31 @@ import { Nullable } from '../types/utility.types';
 import { FormElementVariant } from './../types/theming.types';
 import { ARD_SELECT_DEFAULTS, ArdSelectDefaults } from './select.defaults';
 import {
-    ArdAddCustomTemplateDirective,
-    ArdDropdownFooterTemplateDirective,
-    ArdDropdownHeaderTemplateDirective,
-    ArdItemDisplayLimitTemplateDirective,
-    ArdItemLimitReachedTemplateDirective,
-    ArdLoadingPlaceholderTemplateDirective,
-    ArdLoadingSpinnerTemplateDirective,
-    ArdNoItemsFoundTemplateDirective,
-    ArdOptgroupTemplateDirective,
-    ArdOptionTemplateDirective,
-    ArdSelectPlaceholderTemplateDirective,
-    ArdSelectPrefixTemplateDirective,
-    ArdSelectSuffixTemplateDirective,
-    ArdValueTemplateDirective,
+  ArdAddCustomTemplateDirective,
+  ArdDropdownFooterTemplateDirective,
+  ArdDropdownHeaderTemplateDirective,
+  ArdItemDisplayLimitTemplateDirective,
+  ArdItemLimitReachedTemplateDirective,
+  ArdLoadingPlaceholderTemplateDirective,
+  ArdLoadingSpinnerTemplateDirective,
+  ArdNoItemsFoundTemplateDirective,
+  ArdOptgroupTemplateDirective,
+  ArdOptionTemplateDirective,
+  ArdSelectPlaceholderTemplateDirective,
+  ArdSelectPrefixTemplateDirective,
+  ArdSelectSuffixTemplateDirective,
+  ArdValueTemplateDirective,
 } from './select.directive';
 import {
-    AddCustomFn,
-    CustomOptionContext,
-    GroupContext,
-    ItemDisplayLimitContext,
-    ItemLimitContext,
-    PlaceholderContext,
-    SearchContext,
-    StatsContext,
-    ValueContext,
+  AddCustomFn,
+  CustomOptionContext,
+  GroupContext,
+  ItemDisplayLimitContext,
+  ItemLimitContext,
+  PlaceholderContext,
+  SearchContext,
+  StatsContext,
+  ValueContext,
 } from './select.types';
 
 @Component({
@@ -225,10 +225,7 @@ export class ArdiumSelectComponent
     } else if (isAnyString(value)) {
       value = coerceArrayProperty(value);
     }
-    const printErrors = this.itemStorage.setItems(value);
-    if (printErrors) {
-      this._printPrimitiveWarnings();
-    }
+    this.itemStorage.setItems(value);
   }
 
   @ContentChildren(ArdiumOptionComponent)
@@ -552,34 +549,6 @@ export class ArdiumSelectComponent
   private _onItemsLoad() {
     if (!this._searchBarFocused) return;
     this.open();
-  }
-  private _printPrimitiveWarnings() {
-    function makeWarning(str: string, errorCode: string): void {
-      console.warn(
-        `ARD-WA000${errorCode}: Skipped using [${str}] property bound to <ard-select>, as some provided items are of primitive type`
-      );
-    }
-    if (this.valueFrom()) {
-      makeWarning('valueFrom', '5a');
-    }
-    if (this.labelFrom()) {
-      makeWarning('labelFrom', '5b');
-    }
-    if (this.disabledFrom()) {
-      makeWarning('disabledFrom', '5c');
-    }
-    if (this.groupLabelFrom()) {
-      makeWarning('groupLabelFrom', '5d');
-    }
-    if (this.groupDisabledFrom()) {
-      makeWarning('groupDisabledFrom', '5e');
-    }
-    if (this.childrenFrom()) {
-      makeWarning('childrenFrom', '5f');
-    }
-    if (this.invertDisabled()) {
-      makeWarning('invertDisabled', '5g');
-    }
   }
 
   //! getters

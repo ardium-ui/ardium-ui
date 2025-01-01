@@ -1,16 +1,18 @@
 import { AfterViewInit, computed, contentChild, Directive, ElementRef, input, Input, output, viewChild } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import { FormElementAppearance, FormElementVariant, Nullable, SimpleOneAxisAlignment } from '@ardium-ui/ui';
 import {
-    _NgModelComponentBase,
-    _NgModelComponentDefaults,
-    _ngModelComponentDefaults,
+  _NgModelComponentBase,
+  _NgModelComponentDefaults,
+  _ngModelComponentDefaults,
 } from '../_internal/ngmodel-component';
+import { SimpleOneAxisAlignment } from './../types/alignment.types';
+import { FormElementAppearance, FormElementVariant } from './../types/theming.types';
+import { Nullable } from './../types/utility.types';
 import { SimpleInputModel } from './input-utils';
 import {
-    ArdSimpleInputPlaceholderTemplateDirective,
-    ArdSimpleInputPrefixTemplateDirective,
-    ArdSimpleInputSuffixTemplateDirective,
+  ArdSimpleInputPlaceholderTemplateDirective,
+  ArdSimpleInputPrefixTemplateDirective,
+  ArdSimpleInputSuffixTemplateDirective,
 } from './simple-input';
 
 export interface _SimpleInputComponentDefaults extends _NgModelComponentDefaults {

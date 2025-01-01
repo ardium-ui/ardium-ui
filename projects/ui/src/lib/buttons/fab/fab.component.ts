@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation, computed, input } from '@angular/core';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _ButtonBase } from '../_button-base';
 import { FabSize } from '../general-button.types';
 import { ARD_FAB_DEFAULTS, ArdFabDefaults } from './fab.defaults';
@@ -19,7 +18,7 @@ export class ArdiumFabComponent extends _ButtonBase {
   //! appearance
   readonly size = input<FabSize>(FabSize.Standard);
 
-  readonly extended = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  // readonly extended = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed(() =>
     [
@@ -27,7 +26,7 @@ export class ArdiumFabComponent extends _ButtonBase {
       `ard-color-${this.color()}`,
       `ard-fab-size-${this.size()}`,
       this.lightColoring() ? `ard-light-coloring` : '',
-      this.extended() ? 'ard-fab-extended' : '',
+      // this.extended() ? 'ard-fab-extended' : '',
     ].join(' ')
   );
 }

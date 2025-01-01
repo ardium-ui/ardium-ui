@@ -71,7 +71,7 @@ export class ItemStorage {
       this._ardParentComp.maxSelectedItems()! <= this.selectedItems().length
   );
 
-  setItems(items: any[]): boolean {
+  setItems(items: any[]): void {
     let areItemsPrimitive = false;
     if (this._ardParentComp.groupLabelFrom() && this._ardParentComp.itemsAlreadyGrouped()) {
       const newItems = [];
@@ -104,8 +104,6 @@ export class ItemStorage {
     if (toWrite !== undefined) {
       this.handleWriteValue(toWrite);
     }
-
-    return areItemsPrimitive;
   }
   private _addSingleItem(item: any): ArdOption {
     const isItemPrimitive = isPrimitive(item);

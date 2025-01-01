@@ -10,7 +10,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { coerceArrayProperty, coerceBooleanProperty } from '@ardium-ui/devkit';
-import { ARD_KBD_DEFAULTS } from '@ardium-ui/ui';
+import { ARD_KBD_DEFAULTS } from '../kbd/kbd.defaults';
 import { FormElementAppearance } from '../types/theming.types';
 import { Nullable } from '../types/utility.types';
 import { ARD_KBD_SHORTCUT_DEFAULTS } from './kbd-shortcut.defaults';

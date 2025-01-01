@@ -1,6 +1,7 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { ComponentColor, CurrentItemsFormatFn, PaginationAlign } from '@ardium-ui/ui';
 import { _focusableComponentDefaults, _FocusableComponentDefaults } from '../_internal/focusable-component';
+import { ComponentColor } from './../types/colors.types';
+import { CurrentItemsFormatFn, PaginationAlign } from './table-pagination.types';
 
 export interface ArdTablePaginationDefaults extends _FocusableComponentDefaults {
   options: number[] | { value: number; label: string }[];

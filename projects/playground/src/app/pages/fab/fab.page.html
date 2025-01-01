@@ -30,13 +30,13 @@
       </div>
       <div class="settings-right">
         <div class="form-field flex checkboxes">
-          <div class="list-item flex horiz">
+          <!-- <div class="list-item flex horiz">
             <ard-checkbox
               [(selected)]="extended"
               htmlId="extended"
             />
             <label for="extended">Extended</label>
-          </div>
+          </div> -->
           <div class="list-item flex horiz">
             <ard-checkbox
               [(selected)]="disabled"
@@ -69,9 +69,9 @@
       [appearance]="appearance[0]"
       [color]="color[0]"
       [disabled]="disabled"
-      [extended]="extended"
       [size]="size[0]"
-    >
+      >
+      <!-- [extended]="extended" -->
       <ard-icon [icon]="icon"></ard-icon>
       {{ text }}
     </ard-fab>
@@ -108,7 +108,7 @@
     <span class="mono">{{ appearance }}</span>
   </div>
 </div>
-<div
+<!-- <div
   class="flex master"
   *ngFor="let size of sizes"
 >
@@ -140,4 +140,4 @@
     </div>
     <span class="mono">{{ appearance }}</span>
   </div>
-</div>
+</div> -->
