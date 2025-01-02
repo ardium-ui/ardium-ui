@@ -117,6 +117,9 @@ export class ItemStorage {
     //push the item into all items
     this._items.update(v => [...v, ardOption]);
 
+    //add all items to filter array
+    this._filteredItems.set(this._items());
+
     //add item to groups
     this._populateGroups();
 
@@ -217,10 +220,10 @@ export class ItemStorage {
   }
   private _populateGroups(): void {
     this._groups.set(this._createEmptyGroupMap());
-
+    
     for (const item of this._filteredItems()) {
       if (this._ardParentComp.hideSelected() && item.selected()) continue;
-
+      
       this._addToGroup(item);
     }
   }
