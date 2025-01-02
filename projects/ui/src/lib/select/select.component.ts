@@ -30,7 +30,7 @@ import {
   model,
   output,
   signal,
-  viewChild,
+  viewChild
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
@@ -258,11 +258,13 @@ export class ArdiumSelectComponent
       .subscribe((options: QueryList<ArdiumOptionComponent>) => {
         if (options.length === 0) return;
         setTimeout(() => {
-          this.items = options.map(option => ({
-            value: option.value,
-            label: option.label,
-            disabled: option.disabled,
-          }));
+          this.items = options.map(option => {
+            return {
+              value: option.value() ?? option.labelOrInnerHtml,
+              label: option.labelOrInnerHtml ?? option.value(),
+              disabled: option.disabled(),
+            };
+          });
           handleOptionChange();
           this.detectChanges();
         }, 0);

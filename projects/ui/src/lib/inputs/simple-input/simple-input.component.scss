@@ -6,6 +6,11 @@
   position: absolute;
   left: 0;
   right: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  pointer-events: none;
 }
 
 .ard-text-align-left {

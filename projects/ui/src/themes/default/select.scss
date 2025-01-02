@@ -36,7 +36,11 @@
       font: inherit;
       position: absolute;
       color: $text3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       width: max-content;
+      max-width: 100%;
       pointer-events: none;
     }
 

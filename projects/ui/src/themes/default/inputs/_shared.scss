@@ -25,6 +25,11 @@
     .ard-placeholder {
       font: inherit;
       opacity: 60%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+      pointer-events: none;
     }
 
     input {

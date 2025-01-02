@@ -44,7 +44,7 @@ export abstract class _SelectableListComponentBase
   extends _NgModelComponentBase
   implements ControlValueAccessor, SimpleItemStorageHost
 {
-  protected override readonly _DEFAULTS: _SelectableListComponentDefaults = _selectableListComponentDefaults;
+  protected override readonly _DEFAULTS!: _SelectableListComponentDefaults;
 
   //! public constants
   readonly itemStorage = new SimpleItemStorage(this);

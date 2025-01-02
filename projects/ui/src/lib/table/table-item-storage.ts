@@ -593,7 +593,7 @@ export class TableItemStorage {
   }
   private _generateSortedRows(justReverse?: boolean): void {
     if (justReverse) {
-      this._sortedItems().reverse();
+      this._sortedItems.update(v => [...v.reverse()]);
       return;
     }
     const sortColumnIndex = this._currentSortColumn;
