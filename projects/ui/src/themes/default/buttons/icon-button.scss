@@ -6,44 +6,37 @@ ard-icon-button {
   border-radius: 9999px;
   aspect-ratio: 1;
   display: inline-block;
+  font-size: 1rem;
 }
 
 .ard-icon-button {
   @include shared.button;
   background: transparent;
-  height: 2.1875rem;
-  border-radius: 9999px;
+  height: 2.1875em;
   aspect-ratio: 1;
+  border-radius: 9999px;
   align-items: center;
   justify-content: center;
   padding: 0;
   overflow: hidden;
   font-weight: 600;
+  font-size: inherit;
   color: var(--ard-cmpcl--bg-colored);
 
   .ard-button-content {
-    font-size: 1.25rem;
     display: flex;
     align-items: center;
 
     > ard-icon {
       font-weight: 500;
-      font-size: 1.5rem;
+      font-size: 1.5em;
     }
   }
 
   //! compact
   &.ard-compact {
-    font-size: 0.75rem;
-    height: 1.6875rem;
-
-    .ard-button-content {
-      font-size: 1.0625rem;
-
-      > ard-icon {
-        font-size: 1.25rem;
-      }
-    }
+    height: 2.25em;
+    font-size: 0.75em;
   }
   //! light coloring
   &.ard-light-coloring {
