@@ -12,6 +12,7 @@
   />
   <div class="master">
     <span class="title">People table</span>
+    <ard-button (click)="onTestDataLoadingClick()">Test data loading</ard-button>
     <ard-table
       [columns]="peopleColumns"
       [data]="peopleData"
@@ -19,6 +20,8 @@
       paginated
       paginationStrategy="slice"
       selectableRows
+      [isLoading]="isLoading()"
+      [loadingProgress]="loadingProgress()"
       [totalItems]="peopleData.length"
       (selectRow)="log('selectRow', $event)"
       (unselectRow)="log('unselectRow', $event)"

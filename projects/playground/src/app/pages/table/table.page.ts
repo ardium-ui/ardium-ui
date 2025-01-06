@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, signal } from '@angular/core';
 import { TableDataColumn, TableSubheader } from '@ardium-ui/ui';
 import { Logger } from '../../services/logger.service';
 
@@ -7,9 +7,36 @@ import { Logger } from '../../services/logger.service';
   templateUrl: './table.page.html',
   styleUrls: ['./table.page.scss'],
 })
-export class TablePage {
+export class TablePage implements OnDestroy {
   constructor(private _logger: Logger) {}
   log = this._logger.log;
+
+  readonly isLoading = signal<boolean>(false);
+  readonly loadingProgress = signal<number>(0);
+
+  private _loadingInterval: NodeJS.Timeout | null = null;
+
+  onTestDataLoadingClick() {
+    this._resetLoadingProgress();
+    this.isLoading.set(true);
+    this._loadingInterval = setInterval(() => {
+      this.loadingProgress.update(v => v + 1 / (1 + Math.random()));
+      if (this.loadingProgress() > 100) {
+        this._resetLoadingProgress();
+      }
+    }, 50);
+  }
+  private _resetLoadingProgress() {
+    this.isLoading.set(false);
+    if (this._loadingInterval) {
+      clearInterval(this._loadingInterval);
+    }
+    this.loadingProgress.set(0);
+  }
+
+  ngOnDestroy(): void {
+    this._resetLoadingProgress();
+  }
 
   readonly CSV = `Album, Year, US Peak Chart Pos
 The White Stripes, 1998, -

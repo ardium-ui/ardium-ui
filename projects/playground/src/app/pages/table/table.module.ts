@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ArdiumButtonModule, ArdiumTableFromCsvModule, ArdiumTableModule, ArdiumTablePaginationModule } from '@ardium-ui/ui';
 import { TablePage } from './table.page';
-import { ArdiumTableModule, ArdiumTableFromCsvModule, ArdiumTablePaginationModule } from '@ardium-ui/ui';
 
 @NgModule({
   declarations: [TablePage],
-  imports: [CommonModule, ArdiumTableModule, ArdiumTableFromCsvModule, ArdiumTablePaginationModule],
+  imports: [CommonModule, ArdiumTableModule, ArdiumTableFromCsvModule, ArdiumTablePaginationModule, ArdiumButtonModule],
 })
 export class TableModule {}
