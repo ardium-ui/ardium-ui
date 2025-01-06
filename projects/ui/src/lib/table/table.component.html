@@ -107,6 +107,23 @@
       }
     </tr>
     }
+    <tr class="ard-table__progress-bar-row">
+      <th
+        class="ard-table__progress-bar-cell"
+        colspan="9999"
+      >
+        @if (isLoading()) {
+        <ard-progress-bar
+          [value]="loadingProgress()"
+          [bufferValue]="loadingProgressBuffer()"
+          [mode]="loadingBarMode()"
+          [color]="loadingBarColor()"
+          variant="sharp"
+          hideValue
+        />
+        }
+      </th>
+    </tr>
   </thead>
   <tbody class="ard-table__body">
     @for (row of dataRows(); track $index) { @if (row.isEmpty()) {

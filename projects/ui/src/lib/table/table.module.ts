@@ -1,8 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ArdiumTableComponent } from './table.component';
+import { NgModule } from '@angular/core';
 import { ArdiumCheckboxModule } from '../checkbox/checkbox.module';
+import { ArdiumIconModule } from '../icon/icon.module';
 import { ArdiumTablePaginationModule } from '../table-pagination/table-pagination.module';
+import { ArdiumProgressBarModule } from './../progress-bar/progress-bar.module';
+import { ArdiumTableComponent } from './table.component';
 import {
   ArdiumTableCaptionTemplateDirective,
   ArdiumTableCheckboxTemplateDirective,
@@ -10,7 +12,6 @@ import {
   ArdiumTablePaginationTemplateDirective,
   ArdiumTableTemplateDirective,
 } from './table.directives';
-import { ArdiumIconModule } from '../icon/icon.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { ArdiumIconModule } from '../icon/icon.module';
     ArdiumTableCaptionTemplateDirective,
     ArdiumTablePaginationTemplateDirective,
   ],
-  imports: [CommonModule, ArdiumCheckboxModule, ArdiumTablePaginationModule, ArdiumIconModule],
+  imports: [CommonModule, ArdiumCheckboxModule, ArdiumTablePaginationModule, ArdiumIconModule, ArdiumProgressBarModule],
   exports: [
     ArdiumTableComponent,
     ArdiumTableTemplateDirective,

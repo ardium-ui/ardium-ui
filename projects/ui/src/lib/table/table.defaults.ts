@@ -1,5 +1,6 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { _focusableComponentDefaults, _FocusableComponentDefaults } from '../_internal/focusable-component';
+import { ProgressBarMode } from '../progress-bar';
 import { CurrentItemsFormatFn, PaginationAlign } from '../table-pagination';
 import { TableAlignType, TableAppearance, TablePaginationStrategy, TableVariant } from '../table/table.types';
 import { ComponentColor } from '../types/colors.types';
@@ -16,6 +17,9 @@ export interface ArdTableDefaults extends _FocusableComponentDefaults {
   caption: Nullable<string>;
   isLoading: boolean;
   loadingProgress: number;
+  loadingProgressBuffer: number;
+  loadingBarMode: ProgressBarMode;
+  loadingBarColor: ComponentColor;
   appearance: TableAppearance;
   variant: TableVariant;
   color: ComponentColor;
@@ -52,6 +56,9 @@ export const _tableDefaults: ArdTableDefaults = {
   caption: undefined,
   isLoading: false,
   loadingProgress: 0,
+  loadingProgressBuffer: 0,
+  loadingBarMode: ProgressBarMode.Determinate,
+  loadingBarColor: ComponentColor.Secondary,
   appearance: TableAppearance.Strong,
   variant: TableVariant.Rounded,
   color: ComponentColor.Primary,

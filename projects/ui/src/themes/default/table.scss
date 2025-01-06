@@ -84,6 +84,26 @@
       opacity: 40%;
     }
   }
+  .ard-table__progress-bar-row {
+    background-color: $bg;
+    border-left: 1px solid $detail-ultralight;
+    border-right: 1px solid $detail-ultralight;
+    border-bottom: 1px solid $bg;
+
+    .ard-table__progress-bar-cell {
+      height: 0.1875rem;
+
+      ard-progress-bar {
+        position: relative;
+        z-index: 1;
+        margin: -1px;
+
+        & > .ard-progress-bar {
+          margin: 0;
+        }
+      }
+    }
+  }
 
   //! sorting
   .ard-table__sortable {

@@ -19,6 +19,7 @@ import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { isDefined, isNumber } from 'simple-bool';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
 import { CheckboxState } from '../checkbox/checkbox.types';
+import { ProgressBarMode } from '../progress-bar';
 import { CurrentItemsFormatFn, PaginationAlign } from '../table-pagination/table-pagination.types';
 import { ComponentColor, SimpleComponentColor } from '../types/colors.types';
 import { Nullable } from '../types/utility.types';
@@ -52,10 +53,7 @@ import { isTableSubheader } from './utils';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumTableComponent
-  extends _FocusableComponentBase
-  implements TableItemStorageHost, AfterContentInit, OnChanges
-{
+export class ArdiumTableComponent extends _FocusableComponentBase implements TableItemStorageHost, AfterContentInit, OnChanges {
   protected override readonly _DEFAULTS!: ArdTableDefaults;
   constructor(@Inject(ARD_TABLE_DEFAULTS) defaults: ArdTableDefaults) {
     super(defaults);
@@ -80,7 +78,14 @@ export class ArdiumTableComponent
   readonly caption = input<Nullable<string>>(this._DEFAULTS.caption);
 
   readonly isLoading = input<boolean, any>(this._DEFAULTS.isLoading, { transform: v => coerceBooleanProperty(v) });
-  readonly loadingProgress = input<number, any>(0, { transform: v => coerceNumberProperty(v, 0) }); //TODO add progress bar
+  readonly loadingProgress = input<number, any>(this._DEFAULTS.loadingProgress, {
+    transform: v => coerceNumberProperty(v, this._DEFAULTS.loadingProgress),
+  });
+  readonly loadingProgressBuffer = input<number, any>(this._DEFAULTS.loadingProgressBuffer, {
+    transform: v => coerceNumberProperty(v, this._DEFAULTS.loadingProgressBuffer),
+  });
+  readonly loadingBarMode = input<ProgressBarMode>(this._DEFAULTS.loadingBarMode);
+  readonly loadingBarColor = input<ComponentColor>(this._DEFAULTS.loadingBarColor);
 
   //! appearance
   readonly appearance = input<TableAppearance>(this._DEFAULTS.appearance);
