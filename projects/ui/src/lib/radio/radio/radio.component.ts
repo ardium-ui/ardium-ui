@@ -1,13 +1,13 @@
 import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    Inject,
-    ViewEncapsulation,
-    computed,
-    inject,
-    input,
-    signal,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  ViewEncapsulation,
+  computed,
+  inject,
+  input,
+  signal,
 } from '@angular/core';
 import { _BooleanComponentBase } from '../../_internal/boolean-component';
 import { SimpleComponentColor } from '../../types/colors.types';

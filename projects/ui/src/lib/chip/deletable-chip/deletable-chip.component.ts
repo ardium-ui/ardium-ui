@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, forwardRef, Inject, input, output, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  forwardRef,
+  Inject,
+  input,
+  output,
+  ViewEncapsulation,
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _FocusableComponentBase } from '../../_internal/focusable-component';

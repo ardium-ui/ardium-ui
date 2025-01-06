@@ -19,7 +19,7 @@ const _iconDefaults: ArdIconDefaults = {
 
 export const ARD_ICON_DEFAULTS = new InjectionToken<ArdIconDefaults>('ard-icon-defaults', {
   factory: () => ({
-    ..._iconDefaults
+    ..._iconDefaults,
   }),
 });
 

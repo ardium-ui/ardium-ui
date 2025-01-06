@@ -7,9 +7,9 @@ export interface ArdDeletableChipDefaults extends ArdChipDefaults, _FocusableCom
 }
 
 const _deletableChipDefaults: ArdDeletableChipDefaults = {
-    ..._focusableComponentDefaults,
-    ..._chipDefaults,
-    deleteButtonTitle: 'Delete',
+  ..._focusableComponentDefaults,
+  ..._chipDefaults,
+  deleteButtonTitle: 'Delete',
 };
 
 export const ARD_DELETABLE_CHIP_DEFAULTS = new InjectionToken<ArdDeletableChipDefaults>('ard-deletable-chip-defaults', {

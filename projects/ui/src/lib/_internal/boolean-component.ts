@@ -10,10 +10,7 @@ export const _booleanComponentDefaults: _BooleanComponentDefaults = _ngModelComp
  * Common code for components, which only operate on the "selected" state.
  */
 @Directive()
-export abstract class _BooleanComponentBase
-  extends _NgModelComponentBase
-  implements ControlValueAccessor
-{
+export abstract class _BooleanComponentBase extends _NgModelComponentBase implements ControlValueAccessor {
   protected override readonly _DEFAULTS!: _BooleanComponentDefaults;
 
   //! control value accessor

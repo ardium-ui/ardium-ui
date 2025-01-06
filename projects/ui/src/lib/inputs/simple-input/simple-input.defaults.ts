@@ -4,8 +4,7 @@ import { _SimpleInputComponentDefaults } from '../_simple-input-base';
 import { SimpleOneAxisAlignment } from './../../types/alignment.types';
 import { FormElementAppearance, FormElementVariant } from './../../types/theming.types';
 
-export interface ArdSimpleInputDefaults extends _SimpleInputComponentDefaults {
-}
+export interface ArdSimpleInputDefaults extends _SimpleInputComponentDefaults {}
 
 const _simpleInputDefaults: ArdSimpleInputDefaults = {
   ..._ngModelComponentDefaults,

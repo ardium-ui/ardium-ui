@@ -1,15 +1,15 @@
 import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    Component,
-    HostBinding,
-    Inject,
-    Input,
-    ViewEncapsulation,
-    computed,
-    input,
-    output,
-    signal
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  Inject,
+  Input,
+  ViewEncapsulation,
+  computed,
+  input,
+  output,
+  signal,
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { SimpleItemStorage, SimpleItemStorageHost } from '../_internal/item-storages/simple-item-storage';

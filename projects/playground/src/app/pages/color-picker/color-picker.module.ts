@@ -5,6 +5,6 @@ import { ColorPickerPage } from './color-picker.page';
 
 @NgModule({
   declarations: [ColorPickerPage],
-  imports: [CommonModule, /* ArdiumColorPickerModule */],
+  imports: [CommonModule /* ArdiumColorPickerModule */],
 })
 export class ColorPickerModule {}

@@ -21,10 +21,9 @@ const _badgeDefaults: ArdBadgeDefaults = {
 
 export const ARD_BADGE_DEFAULTS = new InjectionToken<ArdBadgeDefaults>('ard-badge-defaults', {
   factory: () => ({
-    ..._badgeDefaults
+    ..._badgeDefaults,
   }),
 });
-
 
 export function provideBadgeDefaults(config: Partial<ArdBadgeDefaults>): Provider {
   return { provide: ARD_BADGE_DEFAULTS, useValue: { ..._badgeDefaults, ...config } };

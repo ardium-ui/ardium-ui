@@ -10,7 +10,7 @@ import {
   TemplateRef,
   ViewEncapsulation,
   forwardRef,
-  output
+  output,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';

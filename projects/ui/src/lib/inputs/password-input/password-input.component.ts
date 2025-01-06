@@ -1,17 +1,17 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    Inject,
-    OnDestroy,
-    OnInit,
-    ViewEncapsulation,
-    computed,
-    contentChild,
-    forwardRef,
-    input,
-    model,
-    viewChild,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Inject,
+  OnDestroy,
+  OnInit,
+  ViewEncapsulation,
+  computed,
+  contentChild,
+  forwardRef,
+  input,
+  model,
+  viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
@@ -21,10 +21,10 @@ import { FormElementAppearance, FormElementVariant } from '../../types/theming.t
 import { Nullable } from '../../types/utility.types';
 import { ARD_PASSWORD_INPUT_DEFAULTS, ArdPasswordInputDefaults } from './password-input.defaults';
 import {
-    ArdPasswordInputPlaceholderTemplateDirective,
-    ArdPasswordInputPrefixTemplateDirective,
-    ArdPasswordInputRevealButtonTemplateDirective,
-    ArdPasswordInputSuffixTemplateDirective,
+  ArdPasswordInputPlaceholderTemplateDirective,
+  ArdPasswordInputPrefixTemplateDirective,
+  ArdPasswordInputRevealButtonTemplateDirective,
+  ArdPasswordInputSuffixTemplateDirective,
 } from './password-input.directives';
 import { PasswordInputRevealButtonContext } from './password-input.types';
 
@@ -42,10 +42,7 @@ import { PasswordInputRevealButtonContext } from './password-input.types';
     },
   ],
 })
-export class ArdiumPasswordInputComponent
-  extends _NgModelComponentBase
-  implements ControlValueAccessor, OnInit, OnDestroy
-{
+export class ArdiumPasswordInputComponent extends _NgModelComponentBase implements ControlValueAccessor, OnInit, OnDestroy {
   protected override readonly _DEFAULTS!: ArdPasswordInputDefaults;
   constructor(@Inject(ARD_PASSWORD_INPUT_DEFAULTS) defaults: ArdPasswordInputDefaults) {
     super(defaults);

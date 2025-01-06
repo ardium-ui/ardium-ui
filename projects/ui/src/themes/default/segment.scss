@@ -41,7 +41,11 @@
       background: transparent;
       position: relative;
       cursor: pointer;
-      transition: color 0.1s $timing-fn, opacity 0.1s $timing-fn, border-color 0.1s $timing-fn, background-color 0.1s $timing-fn;
+      transition:
+        color 0.1s $timing-fn,
+        opacity 0.1s $timing-fn,
+        border-color 0.1s $timing-fn,
+        background-color 0.1s $timing-fn;
       outline: none;
       display: flex;
       align-items: center;

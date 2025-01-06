@@ -1,14 +1,4 @@
-import {
-    AfterViewInit,
-    Directive,
-    ElementRef,
-    Input,
-    OnInit,
-    input,
-    output,
-    signal,
-    viewChild
-} from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, Input, OnInit, input, output, signal, viewChild } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { isDefined } from 'simple-bool';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
@@ -28,7 +18,9 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
   ngOnInit(): void {
     if (!(window.File && window.FileReader && window.Blob)) {
       console.error(
-        new Error(`ARD-${this.componentId}0: Cannot use Ardium UI file features because this browser does not support file handling!`)
+        new Error(
+          `ARD-${this.componentId}0: Cannot use Ardium UI file features because this browser does not support file handling!`
+        )
       );
     }
   }

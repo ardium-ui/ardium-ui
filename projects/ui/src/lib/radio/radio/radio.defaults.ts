@@ -8,12 +8,12 @@ export interface ArdRadioDefaults extends _BooleanComponentDefaults {
 
 const _radioDefaults: ArdRadioDefaults = {
   ..._booleanComponentDefaults,
-  color: SimpleComponentColor.Primary
+  color: SimpleComponentColor.Primary,
 };
 
 export const ARD_RADIO_DEFAULTS = new InjectionToken<ArdRadioDefaults>('ard-radio-defaults', {
   factory: () => ({
-    ..._radioDefaults
+    ..._radioDefaults,
   }),
 });
 

@@ -6,6 +6,6 @@ import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [CalendarPage],
-  imports: [CommonModule, FormsModule, /* ArdiumCalendarModule */],
+  imports: [CommonModule, FormsModule /* ArdiumCalendarModule */],
 })
 export class CalendarModule {}

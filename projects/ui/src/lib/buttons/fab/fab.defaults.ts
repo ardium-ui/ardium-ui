@@ -8,9 +8,9 @@ export interface ArdFabDefaults extends _ButtonBaseDefaults {
 }
 
 const _fabDefaults: ArdFabDefaults = {
-    ..._buttonBaseDefaults,
-    size: FabSize.Standard,
-    // extended: false,
+  ..._buttonBaseDefaults,
+  size: FabSize.Standard,
+  // extended: false,
 };
 
 export const ARD_FAB_DEFAULTS = new InjectionToken<ArdFabDefaults>('ard-fab-defaults', {

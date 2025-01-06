@@ -1,6 +1,12 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { ComponentColor } from './../types/colors.types';
-import { ArdSnackbarAlignment, ArdSnackbarOptions, ArdSnackbarOriginRelation, ArdSnackbarQueueHandling, ArdSnackbarType } from './snackbar.types';
+import {
+  ArdSnackbarAlignment,
+  ArdSnackbarOptions,
+  ArdSnackbarOriginRelation,
+  ArdSnackbarQueueHandling,
+  ArdSnackbarType,
+} from './snackbar.types';
 
 const _snackbarDefaults: Required<ArdSnackbarOptions> = {
   placement: {

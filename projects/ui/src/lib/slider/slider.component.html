@@ -17,14 +17,14 @@
         [style]="{ width: getHandlePosition(1) }"
       ></div>
       @if (showValueTicks()) {
-      <div class="ard-value-tick-container">
-        @for (tick of _tickArray(); track tick) {
-        <div
-          class="ard-value-tick"
-          [style]="{ left: tick }"
-        ></div>
-        }
-      </div>
+        <div class="ard-value-tick-container">
+          @for (tick of _tickArray(); track tick) {
+            <div
+              class="ard-value-tick"
+              [style]="{ left: tick }"
+            ></div>
+          }
+        </div>
       }
     </div>
     <button
@@ -43,39 +43,39 @@
       <div class="ard-hitbox"></div>
     </button>
     @if (tooltipBehavior() !== 'never') {
-    <div
-      class="ard-slider-tooltip-wrapper"
-      [class.ard-tooltip-always]="tooltipBehavior() === 'always'"
-      [style]="{ left: getHandlePosition(1) }"
-    >
-      <ng-template
-        #defaultTooltipTemplate
-        let-value
+      <div
+        class="ard-slider-tooltip-wrapper"
+        [class.ard-tooltip-always]="tooltipBehavior() === 'always'"
+        [style]="{ left: getHandlePosition(1) }"
       >
-        <div class="ard-slider-tooltip">{{ value }}</div>
-      </ng-template>
+        <ng-template
+          #defaultTooltipTemplate
+          let-value
+        >
+          <div class="ard-slider-tooltip">{{ value }}</div>
+        </ng-template>
 
-      <ng-template
-        [ngTemplateOutlet]="tooltipTemplate()?.template || defaultTooltipTemplate"
-        [ngTemplateOutletContext]="getTooltipContext()"
-      >
-      </ng-template>
-    </div>
+        <ng-template
+          [ngTemplateOutlet]="tooltipTemplate()?.template || defaultTooltipTemplate"
+          [ngTemplateOutletContext]="getTooltipContext()"
+        >
+        </ng-template>
+      </div>
     }
   </div>
   @if (labelObjects().length) {
-  <div
-    class="ard-slider-label-container"
-    *ngIf="labelObjects.length"
-  >
-    @for (label of labelObjects(); track $index) {
     <div
-      class="ard-slider-label"
-      [style]="{ left: label.positionPercent }"
+      class="ard-slider-label-container"
+      *ngIf="labelObjects.length"
     >
-      {{ label.label }}
+      @for (label of labelObjects(); track $index) {
+        <div
+          class="ard-slider-label"
+          [style]="{ left: label.positionPercent }"
+        >
+          {{ label.label }}
+        </div>
+      }
     </div>
-    }
-  </div>
   }
 </div>

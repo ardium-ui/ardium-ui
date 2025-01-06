@@ -8,10 +8,10 @@ export interface ArdSelectableChipDefaults extends ArdChipDefaults, _BooleanComp
 }
 
 const _selectableChipDefaults: ArdSelectableChipDefaults = {
-    ..._booleanComponentDefaults,
-    ..._chipDefaults,
-    chipTitle: 'Select',
-    hideSelectionIcon: false,
+  ..._booleanComponentDefaults,
+  ..._chipDefaults,
+  chipTitle: 'Select',
+  hideSelectionIcon: false,
 };
 
 export const ARD_SELECTABLE_CHIP_DEFAULTS = new InjectionToken<ArdSelectableChipDefaults>('ard-selectable-chip-defaults', {

@@ -50,7 +50,11 @@
       class="flex horiz"
       *ngFor="let appearance of appearances"
     >
-      <kbd ardKbd [ardKbdAppearance]="appearance">Ctrl</kbd>
+      <kbd
+        ardKbd
+        [ardKbdAppearance]="appearance"
+        >Ctrl</kbd
+      >
       <span class="mono">{{ appearance }}</span>
     </div>
   </div>

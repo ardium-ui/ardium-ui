@@ -6,7 +6,7 @@ import {
   TemplateRef,
   ViewEncapsulation,
   computed,
-  input
+  input,
 } from '@angular/core';
 import { ComponentColor } from '../../types/colors.types';
 import { FormElementVariant } from '../../types/theming.types';

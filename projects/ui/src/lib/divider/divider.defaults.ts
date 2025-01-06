@@ -5,7 +5,7 @@ export interface ArdDividerDefaults {
 }
 
 const _dividerDefaults: ArdDividerDefaults = {
-    vertical: false,
+  vertical: false,
 };
 
 export const ARD_DIVIDER_DEFAULTS = new InjectionToken<ArdDividerDefaults>('ard-divider-defaults', {

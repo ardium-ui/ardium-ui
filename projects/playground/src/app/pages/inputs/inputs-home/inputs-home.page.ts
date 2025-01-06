@@ -5,5 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './inputs-home.page.html',
   styleUrls: ['./inputs-home.page.scss'],
 })
-export class InputsHomePage {
-}
+export class InputsHomePage {}

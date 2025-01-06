@@ -1,10 +1,6 @@
 import { computed, Directive, ElementRef, input, output, QueryList, ViewChildren } from '@angular/core';
 import { coerceNumberProperty } from '@ardium-ui/devkit';
-import {
-  _DisablableComponentBase,
-  _disablableComponentDefaults,
-  _DisablableComponentDefaults,
-} from './disablable-component';
+import { _DisablableComponentBase, _disablableComponentDefaults, _DisablableComponentDefaults } from './disablable-component';
 
 export interface _FocusableComponentDefaults extends _DisablableComponentDefaults {
   tabIndex: number;

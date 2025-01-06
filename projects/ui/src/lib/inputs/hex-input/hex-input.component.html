@@ -19,11 +19,11 @@
     </div>
     <div class="ard-input-container">
       @if (shouldDisplayPlaceholder()) {
-      <ng-template #defaultPlaceholderTemplate>
-        <div class="ard-placeholder">{{ placeholder() }}</div>
-      </ng-template>
+        <ng-template #defaultPlaceholderTemplate>
+          <div class="ard-placeholder">{{ placeholder() }}</div>
+        </ng-template>
 
-      <ng-template [ngTemplateOutlet]="placeholderTemplate()?.template || defaultPlaceholderTemplate"></ng-template>
+        <ng-template [ngTemplateOutlet]="placeholderTemplate()?.template || defaultPlaceholderTemplate"></ng-template>
       }
 
       <input
@@ -44,10 +44,10 @@
     </div>
 
     @if (shouldShowClearButton()) {
-    <ard-clear-button
-      [title]="clearButtonTitle()"
-      (click)="onClearButtonClick($event)"
-    />
+      <ard-clear-button
+        [title]="clearButtonTitle()"
+        (click)="onClearButtonClick($event)"
+      />
     }
   </div>
 </ard-form-field-frame>

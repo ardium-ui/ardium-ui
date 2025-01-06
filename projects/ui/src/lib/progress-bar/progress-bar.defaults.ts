@@ -24,7 +24,7 @@ const _progressBarDefaults: ArdProgressBarDefaults = {
 
 export const ARD_PROGRESS_BAR_DEFAULTS = new InjectionToken<ArdProgressBarDefaults>('ard-progress-bar-defaults', {
   factory: () => ({
-    ..._progressBarDefaults
+    ..._progressBarDefaults,
   }),
 });
 

@@ -1,4 +1,4 @@
-import { _ngModelComponentDefaults, _NgModelComponentDefaults } from "../_internal/ngmodel-component";
+import { _ngModelComponentDefaults, _NgModelComponentDefaults } from '../_internal/ngmodel-component';
 
 export interface _FileInputBaseDefaults extends _NgModelComponentDefaults {
   compact: boolean;

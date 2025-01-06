@@ -220,10 +220,10 @@ export class ItemStorage {
   }
   private _populateGroups(): void {
     this._groups.set(this._createEmptyGroupMap());
-    
+
     for (const item of this._filteredItems()) {
       if (this._ardParentComp.hideSelected() && item.selected()) continue;
-      
+
       this._addToGroup(item);
     }
   }

@@ -1,10 +1,6 @@
 import { AfterViewInit, computed, contentChild, Directive, ElementRef, input, Input, output, viewChild } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import {
-  _NgModelComponentBase,
-  _NgModelComponentDefaults,
-  _ngModelComponentDefaults,
-} from '../_internal/ngmodel-component';
+import { _NgModelComponentBase, _NgModelComponentDefaults, _ngModelComponentDefaults } from '../_internal/ngmodel-component';
 import { SimpleOneAxisAlignment } from './../types/alignment.types';
 import { FormElementAppearance, FormElementVariant } from './../types/theming.types';
 import { Nullable } from './../types/utility.types';

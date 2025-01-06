@@ -18,16 +18,16 @@ export interface ArdCheckboxListDefaults extends _NgModelComponentDefaults {
 }
 
 const _checkboxListDefaults: ArdCheckboxListDefaults = {
-    ..._ngModelComponentDefaults,
-    valueFrom: 'value',
-    labelFrom: 'label',
-    disabledFrom: 'disabled',
-    compareWith: null,
-    invertDisabled: false,
-    maxSelectedItems: Infinity,
-    color: ComponentColor.Primary,
-    align: CheckboxListAlignType.LeftClumped,
-    compact: false,
+  ..._ngModelComponentDefaults,
+  valueFrom: 'value',
+  labelFrom: 'label',
+  disabledFrom: 'disabled',
+  compareWith: null,
+  invertDisabled: false,
+  maxSelectedItems: Infinity,
+  color: ComponentColor.Primary,
+  align: CheckboxListAlignType.LeftClumped,
+  compact: false,
 };
 
 export const ARD_CHECKBOX_LIST_DEFAULTS = new InjectionToken<ArdCheckboxListDefaults>('ard-checkbox-list-defaults', {

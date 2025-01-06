@@ -20,7 +20,7 @@ const _tabberDefaults: ArdTabberDefaults = {
 
 export const ARD_TABBER_DEFAULTS = new InjectionToken<ArdTabberDefaults>('ard-tabber-defaults', {
   factory: () => ({
-    ..._tabberDefaults
+    ..._tabberDefaults,
   }),
 });
 

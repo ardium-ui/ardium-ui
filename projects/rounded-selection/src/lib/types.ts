@@ -28,7 +28,7 @@ export interface RoundedSelectionCell {
   topRight?: RoundedSelectionState;
   bottomLeft?: RoundedSelectionState;
   bottomRight?: RoundedSelectionState;
-};
+}
 
 export type RoundedSelectionLine = [] | RoundedSelectionCell[];
 

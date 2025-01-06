@@ -7,7 +7,7 @@ import {
   contentChild,
   effect,
   inject,
-  input
+  input,
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { SimpleComponentColor } from '../types/colors.types';

@@ -4,9 +4,7 @@
       "splitTerminals": [
         {
           "name": "ng",
-          "commands": [
-            "cd client"
-          ]
+          "commands": ["cd client"]
         }
       ]
     },
@@ -17,6 +15,6 @@
           "commands": ["ng serve --port=4240"]
         }
       ]
-    },
+    }
   ]
 }

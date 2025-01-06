@@ -14,7 +14,7 @@ export class ArdiumFabComponent extends _ButtonBase {
   constructor(@Inject(ARD_FAB_DEFAULTS) defaults: ArdFabDefaults) {
     super(defaults);
   }
-  
+
   //! appearance
   readonly size = input<FabSize>(FabSize.Standard);
 

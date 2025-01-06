@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewEncapsulation, computed, input, model, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnInit,
+  ViewEncapsulation,
+  computed,
+  input,
+  model,
+  output,
+} from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
 import { PaginationModel } from '../_internal/models/pagination.model';
@@ -55,7 +65,8 @@ export class ArdiumTablePaginationComponent extends _FocusableComponentBase impl
   readonly itemsPerPageText = input<string>('Items per page:');
 
   readonly currentItemsFormatFn = input<CurrentItemsFormatFn>(
-    ({ currentItemsFrom: currentItemsFirst, currentItemsTo: currentItemsLast, totalItems }) => `${currentItemsFirst} – ${currentItemsLast} of ${totalItems}`
+    ({ currentItemsFrom: currentItemsFirst, currentItemsTo: currentItemsLast, totalItems }) =>
+      `${currentItemsFirst} – ${currentItemsLast} of ${totalItems}`
   );
 
   //! contexts

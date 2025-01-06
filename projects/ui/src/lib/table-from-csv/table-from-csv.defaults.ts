@@ -1,5 +1,3 @@
-
-
 import { InjectionToken, Provider } from '@angular/core';
 import { _tableDefaults, ArdTableDefaults } from './../table/table.defaults';
 
@@ -14,7 +12,7 @@ const _tableFromCsvDefaults: ArdTableFromCsvDefaults = {
 
 export const ARD_TABLE_FROM_CSV_DEFAULTS = new InjectionToken<ArdTableFromCsvDefaults>('ard-table-from-csv-defaults', {
   factory: () => ({
-    ..._tableFromCsvDefaults
+    ..._tableFromCsvDefaults,
   }),
 });
 

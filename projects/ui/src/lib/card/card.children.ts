@@ -7,7 +7,7 @@ import {
   ViewEncapsulation,
   computed,
   inject,
-  input
+  input,
 } from '@angular/core';
 import { OneAxisAlignment } from '../types/alignment.types';
 import { ARD_CARD_DEFAULTS } from './card.defaults';

@@ -15,7 +15,7 @@ const _starDisplayDefaults: ArdStarDisplayDefaults = {
 
 export const ARD_STAR_DISPLAY_DEFAULTS = new InjectionToken<ArdStarDisplayDefaults>('ard-star-display-defaults', {
   factory: () => ({
-    ..._starDisplayDefaults
+    ..._starDisplayDefaults,
   }),
 });
 

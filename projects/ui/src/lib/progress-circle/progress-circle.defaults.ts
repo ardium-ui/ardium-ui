@@ -24,7 +24,7 @@ const _progressCircleDefaults: ArdProgressCircleDefaults = {
 
 export const ARD_PROGRESS_CIRCLE_DEFAULTS = new InjectionToken<ArdProgressCircleDefaults>('ard-progress-circle-defaults', {
   factory: () => ({
-    ..._progressCircleDefaults
+    ..._progressCircleDefaults,
   }),
 });
 

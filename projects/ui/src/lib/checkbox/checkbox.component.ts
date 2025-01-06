@@ -25,7 +25,7 @@ export class ArdiumCheckboxComponent extends _BooleanComponentBase implements Co
   constructor(@Inject(ARD_CHECKBOX_DEFAULTS) defaults: ArdCheckboxDefaults) {
     super(defaults);
   }
-  
+
   readonly htmlId = input<string>('');
 
   //! appearance
@@ -33,11 +33,7 @@ export class ArdiumCheckboxComponent extends _BooleanComponentBase implements Co
   readonly unselectedColor = input<SimpleComponentColor>(this._DEFAULTS.unselectedColor);
 
   readonly ngClasses = computed(() =>
-    [
-      `ard-color-${this.color()}`,
-      `ard-unselected-color-${this.unselectedColor()}`,
-      `ard-checkbox-${this.state()}`,
-    ].join(' ')
+    [`ard-color-${this.color()}`, `ard-unselected-color-${this.unselectedColor()}`, `ard-checkbox-${this.state()}`].join(' ')
   );
 
   //override the "selected" setter, so it changes the state too.

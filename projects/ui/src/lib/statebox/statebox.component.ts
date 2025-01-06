@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation, computed, effect, forwardRef, input, model } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  ViewEncapsulation,
+  computed,
+  effect,
+  forwardRef,
+  input,
+  model,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { _NgModelComponentBase } from './../_internal/ngmodel-component';
 import { ArdiumStarButtonComponent } from './../star/star-button/star-button.component';

@@ -11,7 +11,7 @@ const _spinnerDefaults: ArdSpinnerDefaults = {
 
 export const ARD_SPINNER_DEFAULTS = new InjectionToken<ArdSpinnerDefaults>('ard-spinner-defaults', {
   factory: () => ({
-    ..._spinnerDefaults
+    ..._spinnerDefaults,
   }),
 });
 

@@ -5,12 +5,12 @@ export interface ArdTabDefaults {
 }
 
 const _tabDefaults: ArdTabDefaults = {
-  disabled: false
+  disabled: false,
 };
 
 export const ARD_TAB_DEFAULTS = new InjectionToken<ArdTabDefaults>('ard-tab-defaults', {
   factory: () => ({
-    ..._tabDefaults
+    ..._tabDefaults,
   }),
 });
 

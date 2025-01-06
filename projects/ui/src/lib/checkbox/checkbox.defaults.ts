@@ -8,9 +8,9 @@ export interface ArdCheckboxDefaults extends _BooleanComponentDefaults {
 }
 
 const _checkboxDefaults: ArdCheckboxDefaults = {
-    ..._booleanComponentDefaults,
-    color: SimpleComponentColor.Primary,
-    unselectedColor: SimpleComponentColor.None,
+  ..._booleanComponentDefaults,
+  color: SimpleComponentColor.Primary,
+  unselectedColor: SimpleComponentColor.None,
 };
 
 export const ARD_CHECKBOX_DEFAULTS = new InjectionToken<ArdCheckboxDefaults>('ard-checkbox-defaults', {

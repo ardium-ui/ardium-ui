@@ -1,16 +1,16 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    Inject,
-    Input,
-    ViewEncapsulation,
-    computed,
-    effect,
-    forwardRef,
-    input,
-    output,
-    viewChildren,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Inject,
+  Input,
+  ViewEncapsulation,
+  computed,
+  effect,
+  forwardRef,
+  input,
+  output,
+  viewChildren,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
@@ -40,7 +40,7 @@ export class ArdiumDigitInputComponent extends _NgModelComponentBase implements 
   constructor(@Inject(ARD_DIGIT_INPUT_DEFAULTS) defaults: ArdDigitInputDefaults) {
     super(defaults);
   }
-  
+
   //! inputs ref
   readonly inputs = viewChildren<ElementRef<HTMLInputElement>>('input');
 

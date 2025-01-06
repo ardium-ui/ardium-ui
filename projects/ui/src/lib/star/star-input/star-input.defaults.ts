@@ -15,7 +15,7 @@ const _starInputDefaults: ArdStarInputDefaults = {
 
 export const ARD_STAR_INPUT_DEFAULTS = new InjectionToken<ArdStarInputDefaults>('ard-star-input-defaults', {
   factory: () => ({
-    ..._starInputDefaults
+    ..._starInputDefaults,
   }),
 });
 

@@ -49,7 +49,9 @@ export class ArdiumModalComponent {
 
   //! options
   readonly noBackdrop = input<boolean, any>(this._DEFAULTS.noBackdrop, { transform: v => coerceBooleanProperty(v) });
-  readonly disableBackdropClose = input<boolean, any>(this._DEFAULTS.disableBackdropClose, { transform: v => coerceBooleanProperty(v) });
+  readonly disableBackdropClose = input<boolean, any>(this._DEFAULTS.disableBackdropClose, {
+    transform: v => coerceBooleanProperty(v),
+  });
 
   //! open state handling
   private readonly open = signal<boolean>(false);

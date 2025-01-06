@@ -1,18 +1,18 @@
 import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    Inject,
-    Input,
-    ViewEncapsulation,
-    computed,
-    contentChild,
-    effect,
-    forwardRef,
-    input,
-    output,
-    viewChild,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Inject,
+  Input,
+  ViewEncapsulation,
+  computed,
+  contentChild,
+  effect,
+  forwardRef,
+  input,
+  output,
+  viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
@@ -48,7 +48,7 @@ export class ArdiumNumberInputComponent
   protected override readonly _DEFAULTS!: ArdNumberInputDefaults;
   constructor(@Inject(ARD_NUMBER_INPUT_DEFAULTS) defaults: ArdNumberInputDefaults) {
     super(defaults);
-    
+
     effect(() => {
       const v = this.inputModel.numberValue();
       this.valueChange.emit(v);

@@ -15,15 +15,15 @@ export interface ArdDialogDefaults extends ArdModalDefaults {
 }
 
 const _dialogDefaults: ArdDialogDefaults = {
-    ..._modalDefaults,
-    confirmButtonText: 'Confirm',
-    confirmButtonColor: ComponentColor.Primary,
-    confirmButtonAppearance: ButtonAppearance.RaisedStrong,
-    rejectButtonText: 'Cancel',
-    rejectButtonColor: ComponentColor.None,
-    rejectButtonAppearance: ButtonAppearance.Transparent,
-    noRejectButton: false,
-    canConfirm: true,
+  ..._modalDefaults,
+  confirmButtonText: 'Confirm',
+  confirmButtonColor: ComponentColor.Primary,
+  confirmButtonAppearance: ButtonAppearance.RaisedStrong,
+  rejectButtonText: 'Cancel',
+  rejectButtonColor: ComponentColor.None,
+  rejectButtonAppearance: ButtonAppearance.Transparent,
+  noRejectButton: false,
+  canConfirm: true,
 };
 
 export const ARD_DIALOG_DEFAULTS = new InjectionToken<ArdDialogDefaults>('ard-dialog-defaults', {

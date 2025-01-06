@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, Directive, HostBinding, ViewEncapsulation, computed, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Directive,
+  HostBinding,
+  ViewEncapsulation,
+  computed,
+  inject,
+  input,
+} from '@angular/core';
 import { ARD_CARD_DEFAULTS } from './card.defaults';
 import { CardAppearance, CardVariant } from './card.types';
 

@@ -22,7 +22,7 @@ import { ARD_TAB_DEFAULTS } from './tab.defaults';
 })
 export class ArdiumTabComponent {
   protected readonly _DEFAULTS = inject(ARD_TAB_DEFAULTS);
-  
+
   readonly disabled = input<boolean, any>(this._DEFAULTS.disabled, { transform: v => coerceBooleanProperty(v) });
 
   readonly selected = signal<boolean>(false);

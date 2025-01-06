@@ -5,4 +5,3 @@ export * from './slider.defaults';
 export * from './slider.directive';
 export * from './slider.module';
 export * from './slider.types';
-

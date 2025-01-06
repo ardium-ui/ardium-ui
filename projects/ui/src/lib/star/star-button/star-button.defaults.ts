@@ -16,7 +16,7 @@ const _starButtonDefaults: ArdStarButtonDefaults = {
 
 export const ARD_STAR_BUTTON_DEFAULTS = new InjectionToken<ArdStarButtonDefaults>('ard-star-button-defaults', {
   factory: () => ({
-    ..._starButtonDefaults
+    ..._starButtonDefaults,
   }),
 });
 

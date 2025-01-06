@@ -17,7 +17,7 @@ const _dropdownPanelDefaults: ArdDropdownPanelDefaults = {
 
 export const ARD_DROPDOWN_PANEL_DEFAULTS = new InjectionToken<ArdDropdownPanelDefaults>('ard-dropdown-panel-defaults', {
   factory: () => ({
-    ..._dropdownPanelDefaults
+    ..._dropdownPanelDefaults,
   }),
 });
 

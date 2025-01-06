@@ -10,11 +10,11 @@ export interface ArdNumberInputDefaults extends _NgModelComponentDefaults {
   placeholder: string;
   alignText: OneAxisAlignment;
   inputAttrs: Record<string, any>;
-  min: number,
-  max: number,
-  allowFloat: boolean,
-  noButtons: boolean,
-  stepSize: number,
+  min: number;
+  max: number;
+  allowFloat: boolean;
+  noButtons: boolean;
+  stepSize: number;
 }
 
 const _numberInputDefaults: ArdNumberInputDefaults = {

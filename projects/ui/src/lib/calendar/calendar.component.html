@@ -22,9 +22,9 @@
           [tabIndex]="tabIndex()"
           (click)="openDaysView()"
         >
-          {{ currRange.low | date : 'YYYY' }}
+          {{ currRange.low | date: 'YYYY' }}
           &mdash;
-          {{ currRange.high | date : 'YYYY' }}
+          {{ currRange.high | date: 'YYYY' }}
           <div class="ard-dropdown-arrow"></div>
         </ard-button>
         <div class="ard-calendar-arrows">
@@ -169,7 +169,7 @@
                 #defaultMonthTemplate
                 let-month
               >
-                {{ month | date : 'MMM' | uppercase }}
+                {{ month | date: 'MMM' | uppercase }}
               </ng-template>
               <ng-template
                 [ngTemplateOutlet]="monthTemplate || defaultMonthTemplate"
@@ -200,7 +200,7 @@
           [tabIndex]="tabIndex()"
           (click)="openYearsView()"
         >
-          {{ currDate | date : 'MMM YYYY' | uppercase }}
+          {{ currDate | date: 'MMM YYYY' | uppercase }}
           <div class="ard-dropdown-arrow"></div>
         </ard-button>
         <div class="ard-calendar-arrows">
@@ -237,7 +237,7 @@
         #defaultWeekdayTemplate
         let-date
       >
-        <div class="ard-calendar-weekday">{{ date | date : 'EEEEE' }}</div>
+        <div class="ard-calendar-weekday">{{ date | date: 'EEEEE' }}</div>
       </ng-template>
       <ng-container *ngFor="let weekdayIndex of weekdayArray">
         <ng-template
@@ -265,7 +265,7 @@
           #defaultFloatingMonthTemplate
           let-date
         >
-          {{ date | date : 'LLL' | uppercase }}
+          {{ date | date: 'LLL' | uppercase }}
         </ng-template>
 
         <ng-template
