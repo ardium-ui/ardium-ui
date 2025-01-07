@@ -1,5 +1,10 @@
-import { ChangeDetectionStrategy, Component, forwardRef, Inject, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, contentChild, forwardRef, Inject, ViewEncapsulation } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ArdSimpleInputPlaceholderTemplateDirective,
+  ArdSimpleInputPrefixTemplateDirective,
+  ArdSimpleInputSuffixTemplateDirective,
+} from 'dist/ui';
 import { _SimpleInputComponentBase } from '../_simple-input-base';
 import { ARD_SIMPLE_INPUT_DEFAULTS, ArdSimpleInputDefaults } from './simple-input.defaults';
 
@@ -22,4 +27,11 @@ export class ArdiumSimpleInputComponent extends _SimpleInputComponentBase {
   constructor(@Inject(ARD_SIMPLE_INPUT_DEFAULTS) defaults: ArdSimpleInputDefaults) {
     super(defaults);
   }
+
+  //! prefix & suffix
+  readonly prefixTemplate = contentChild(ArdSimpleInputPrefixTemplateDirective);
+  readonly suffixTemplate = contentChild(ArdSimpleInputSuffixTemplateDirective);
+
+  //! placeholder
+  readonly placeholderTemplate = contentChild(ArdSimpleInputPlaceholderTemplateDirective);
 }

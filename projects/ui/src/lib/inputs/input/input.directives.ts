@@ -2,7 +2,7 @@ import { Directive, TemplateRef } from '@angular/core';
 import { ArdSimplestStorageItem, OptionContext } from '../../types/item-storage.types';
 
 @Directive({ selector: 'ard-input > ng-template[ard-suggestion-tmp]' })
-export class ArdSuggestionTemplateDirective {
+export class ArdInputSuggestionTemplateDirective {
   constructor(public template: TemplateRef<OptionContext<ArdSimplestStorageItem>>) {}
 }
 

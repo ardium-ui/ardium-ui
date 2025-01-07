@@ -1,15 +1,10 @@
-import { AfterViewInit, computed, contentChild, Directive, ElementRef, input, Input, output, viewChild } from '@angular/core';
+import { AfterViewInit, computed, Directive, ElementRef, input, Input, output, viewChild } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { _NgModelComponentBase, _NgModelComponentDefaults, _ngModelComponentDefaults } from '../_internal/ngmodel-component';
 import { SimpleOneAxisAlignment } from './../types/alignment.types';
 import { FormElementAppearance, FormElementVariant } from './../types/theming.types';
 import { Nullable } from './../types/utility.types';
 import { SimpleInputModel } from './input-utils';
-import {
-  ArdSimpleInputPlaceholderTemplateDirective,
-  ArdSimpleInputPrefixTemplateDirective,
-  ArdSimpleInputSuffixTemplateDirective,
-} from './simple-input/simple-input.directives';
 
 export interface _SimpleInputComponentDefaults extends _NgModelComponentDefaults {
   appearance: FormElementAppearance;
@@ -60,11 +55,11 @@ export abstract class _SimpleInputComponentBase extends _NgModelComponentBase im
   readonly clearButtonTitle = input<string>(this._DEFAULTS.clearButtonTitle);
 
   //! prefix & suffix
-  readonly prefixTemplate = contentChild(ArdSimpleInputPrefixTemplateDirective);
-  readonly suffixTemplate = contentChild(ArdSimpleInputSuffixTemplateDirective);
+  abstract readonly prefixTemplate: any;
+  abstract readonly suffixTemplate: any;
 
   //! placeholder
-  readonly placeholderTemplate = contentChild(ArdSimpleInputPlaceholderTemplateDirective);
+  abstract readonly placeholderTemplate: any;
 
   readonly shouldDisplayPlaceholder = computed<boolean>(() => Boolean(this.placeholder()) && !this.inputModel.value());
 

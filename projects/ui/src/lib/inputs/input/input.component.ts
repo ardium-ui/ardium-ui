@@ -37,7 +37,7 @@ import {
   ArdInputPlaceholderTemplateDirective,
   ArdInputPrefixTemplateDirective,
   ArdInputSuffixTemplateDirective,
-  ArdSuggestionTemplateDirective,
+  ArdInputSuggestionTemplateDirective,
 } from './input.directives';
 
 @Component({
@@ -139,7 +139,7 @@ export class ArdiumInputComponent
   readonly areSuggestionsLoading = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
   readonly suggestionsLoadingText = input<string>(this.DEFAULTS.suggestionsLoadingText);
 
-  readonly suggestionTemplate = contentChild(ArdSuggestionTemplateDirective);
+  readonly suggestionTemplate = contentChild(ArdInputSuggestionTemplateDirective);
   readonly suggestionLoadingTemplate = contentChild(ArdInputLoadingTemplateDirective);
 
   //! suggestions overlay

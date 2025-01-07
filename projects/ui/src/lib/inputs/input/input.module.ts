@@ -1,22 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ArdiumClickOutsideEventModule } from '@ardium-ui/devkit';
+import { _ClearButtonModule } from '../../_internal/clear-button/clear-button.module';
 import { ArdiumDropdownPanelModule } from '../../dropdown-panel/dropdown-panel.module';
 import { ArdiumFormFieldFrameModule } from '../../form-field-frame/form-field-frame.module';
-import { _ClearButtonModule } from '../../_internal/clear-button/clear-button.module';
 import { ArdiumInputComponent } from './input.component';
 import {
-  ArdInputLoadingTemplateDirective,
-  ArdInputPlaceholderTemplateDirective,
-  ArdInputPrefixTemplateDirective,
-  ArdInputSuffixTemplateDirective,
-  ArdSuggestionTemplateDirective,
+    ArdInputLoadingTemplateDirective,
+    ArdInputPlaceholderTemplateDirective,
+    ArdInputPrefixTemplateDirective,
+    ArdInputSuffixTemplateDirective,
+    ArdInputSuggestionTemplateDirective,
 } from './input.directives';
 
 @NgModule({
   declarations: [
     ArdiumInputComponent,
-    ArdSuggestionTemplateDirective,
+    ArdInputSuggestionTemplateDirective,
     ArdInputPlaceholderTemplateDirective,
     ArdInputLoadingTemplateDirective,
     ArdInputPrefixTemplateDirective,
@@ -31,7 +31,7 @@ import {
   ],
   exports: [
     ArdiumInputComponent,
-    ArdSuggestionTemplateDirective,
+    ArdInputSuggestionTemplateDirective,
     ArdInputPlaceholderTemplateDirective,
     ArdInputLoadingTemplateDirective,
     ArdInputPrefixTemplateDirective,
