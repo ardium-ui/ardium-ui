@@ -9,7 +9,7 @@ import {
   ArdSimpleInputPlaceholderTemplateDirective,
   ArdSimpleInputPrefixTemplateDirective,
   ArdSimpleInputSuffixTemplateDirective,
-} from './simple-input';
+} from './simple-input/simple-input.directives';
 
 export interface _SimpleInputComponentDefaults extends _NgModelComponentDefaults {
   appearance: FormElementAppearance;
