@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, contentChild, forwardRef, Inject, ViewEncapsulation } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { _SimpleInputComponentBase } from '../_simple-input-base';
+import { ARD_SIMPLE_INPUT_DEFAULTS, ArdSimpleInputDefaults } from './simple-input.defaults';
 import {
   ArdSimpleInputPlaceholderTemplateDirective,
   ArdSimpleInputPrefixTemplateDirective,
   ArdSimpleInputSuffixTemplateDirective,
-} from 'dist/ui';
-import { _SimpleInputComponentBase } from '../_simple-input-base';
-import { ARD_SIMPLE_INPUT_DEFAULTS, ArdSimpleInputDefaults } from './simple-input.defaults';
+} from './simple-input.directives';
 
 @Component({
   selector: 'ard-simple-input',
