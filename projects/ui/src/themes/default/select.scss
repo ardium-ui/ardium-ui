@@ -130,7 +130,7 @@
     cursor: pointer;
 
     .ard-dropdown-arrow {
-      border: calc($dropdown-button-size / 2) solid transparent;
+      border: calc(ARD.$dropdown-button-size / 2) solid transparent;
       position: relative;
       border-bottom-color: ARD.$detail;
       border-right-color: ARD.$detail;
@@ -148,7 +148,7 @@
     padding-right: 0.625em;
 
     .ard-dropdown-arrow-wrapper .ard-dropdown-arrow {
-      border-width: calc($dropdown-button-size / 2.4);
+      border-width: calc(ARD.$dropdown-button-size / 2.4);
     }
   }
 }

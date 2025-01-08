@@ -153,7 +153,7 @@
     z-index: 2;
   }
   .ard-slider-tooltip {
-    --ard-background: #{$text3};
+    --ard-background: #{ARD.$text3};
     background: var(--ard-background);
     color: ARD.$text2-alt;
     font-size: 0.875em;

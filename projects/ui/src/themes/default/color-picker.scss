@@ -30,7 +30,7 @@
       width: 1rem;
     }
     .ard-color-picker-opacity-map {
-      --ard-color-picker-opacity-checkerboard-color: #{$detail-ultralight-solid};
+      --ard-color-picker-opacity-checkerboard-color: #{ARD.$detail-ultralight-solid};
       --ard-color-picker-opacity-checkerboard-size: 0.5rem;
     }
     .ard-color-picker-shade-indicator {
@@ -94,7 +94,7 @@
       }
     }
     .ard-color-picker-reference {
-      --ard-color-picker-opacity-checkerboard-color: #{$detail-ultralight-solid};
+      --ard-color-picker-opacity-checkerboard-color: #{ARD.$detail-ultralight-solid};
       --ard-color-picker-opacity-checkerboard-size: 0.5rem;
 
       display: grid;
