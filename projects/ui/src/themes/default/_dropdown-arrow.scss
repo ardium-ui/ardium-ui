@@ -1,12 +1,12 @@
 @use '../variables' as ARD;
 
-@mixin dropdown-arrow($size: $dropdown-button-size) {
+@mixin dropdown-arrow($size: ARD.$dropdown-button-size) {
   width: $size;
   height: $size;
   border: calc($size / 2) solid transparent;
   position: relative;
-  border-bottom-color: $detail;
-  border-right-color: $detail;
+  border-bottom-color: ARD.$detail;
+  border-right-color: ARD.$detail;
   transform: rotate(45deg) translate(-17.67771%, -17.67771%);
   box-sizing: border-box;
 }

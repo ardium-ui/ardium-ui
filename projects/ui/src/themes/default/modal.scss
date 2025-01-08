@@ -10,11 +10,11 @@
   place-items: center;
 
   &.ard-modal-backdrop {
-    background: $darken-overlay-strong;
+    background: ARD.$darken-overlay-strong;
   }
   .ard-modal-panel {
     padding: 1.25rem 3rem 1.5rem 3rem;
-    background: $bg;
+    background: ARD.$bg;
     max-width: calc(100vw - 4rem);
     position: relative;
     display: flex;
@@ -44,7 +44,7 @@
 
     .ard-modal-heading-text {
       font-size: 1.25rem;
-      color: $text;
+      color: ARD.$text;
       font-weight: 500;
       font-family: Roboto;
     }
@@ -57,7 +57,7 @@
   //! appearances
   &.ard-appearance-raised {
     .ard-modal-panel {
-      box-shadow: $simple-shadow2;
+      box-shadow: ARD.$simple-shadow2;
     }
   }
   //! variants

@@ -14,7 +14,7 @@
   gap: 0.625rem;
   border-radius: 6px;
   transform-origin: bottom center;
-  background-color: $bg-f-alt;
+  background-color: ARD.$bg-f-alt;
   padding: 0 0.5rem 0 1rem;
 
   opacity: 100%;
@@ -27,7 +27,7 @@
     gap: 0.625rem;
     align-items: center;
     flex-grow: 1;
-    color: $text2-alt;
+    color: ARD.$text2-alt;
 
     ard-icon {
       color: var(--ard-cmpcl--content-light);

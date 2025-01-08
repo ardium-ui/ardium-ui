@@ -5,16 +5,16 @@
   font-family: monospace;
   font-size: 0.9em;
   margin: 0 0.125em;
-  color: $text2;
+  color: ARD.$text2;
 
   //! appearance
   &.ard-appearance-outlined,
   &.ard-appearance-filled {
-    border: 1px solid $detail-ultralight;
-    box-shadow: inset 0 -1px 0 $darken-overlay;
+    border: 1px solid ARD.$detail-ultralight;
+    box-shadow: inset 0 -1px 0 ARD.$darken-overlay;
     padding: 0.15em 0.35em;
   }
   &.ard-appearance-filled {
-    background: $bg-d;
+    background: ARD.$bg-d;
   }
 }

@@ -35,7 +35,7 @@
   .ard-statebox-icon,
   .ard-statebox-frame::after {
     @include defaultMixins.icon;
-    transition: opacity 0.2s $timing-fn;
+    transition: opacity 0.2s ARD.$timing-fn;
     color: currentColor;
     position: absolute;
     left: 50%;

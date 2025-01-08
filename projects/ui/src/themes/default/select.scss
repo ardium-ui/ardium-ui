@@ -35,7 +35,7 @@
     .ard-placeholder {
       font: inherit;
       position: absolute;
-      color: $text3;
+      color: ARD.$text3;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -132,8 +132,8 @@
     .ard-dropdown-arrow {
       border: calc($dropdown-button-size / 2) solid transparent;
       position: relative;
-      border-bottom-color: $detail;
-      border-right-color: $detail;
+      border-bottom-color: ARD.$detail;
+      border-right-color: ARD.$detail;
       transform: rotate(45deg) translate(-17.67771%, -17.67771%);
     }
   }
@@ -184,16 +184,16 @@
 
   .ard-option {
     padding: 0.375em 0.625em;
-    color: $text2;
+    color: ARD.$text2;
     cursor: pointer;
 
     &.ard-option-highlighted {
-      background: $darken-overlay-light;
+      background: ARD.$darken-overlay-light;
     }
 
     &.ard-option-selected {
       font-weight: 500;
-      background: $darken-overlay-medium;
+      background: ARD.$darken-overlay-medium;
     }
 
     &.ard-option-disabled {
@@ -206,7 +206,7 @@
     width: calc(100% - 1.25em);
     margin: 0.375em 0.625em;
     border: none;
-    border-bottom: 1px solid $darken-overlay-strong;
+    border-bottom: 1px solid ARD.$darken-overlay-strong;
   }
 
   .ard-optgroup:first-child > hr.ard-divider {

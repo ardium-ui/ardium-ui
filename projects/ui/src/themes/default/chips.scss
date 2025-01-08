@@ -10,8 +10,8 @@
   @include defaultMixins.formVariants();
 
   font-family: 'Roboto', sans-serif;
-  color: $text2;
-  background: $bg;
+  color: ARD.$text2;
+  background: ARD.$bg;
   border-radius: var(--ard-variant-border-radius);
   padding: 0;
   margin: 6px;
@@ -30,7 +30,7 @@
   }
   > .ard-focus-overlay {
     @include defaultMixins.focus-overlay;
-    background: $overlay;
+    background: ARD.$overlay;
     border-radius: 0;
   }
 
@@ -66,8 +66,8 @@
     border: none;
 
     &.ard-chip-selectable {
-      background-color: $bg-f;
-      color: $text2;
+      background-color: ARD.$bg-f;
+      color: ARD.$text2;
       transition:
         color 0.15s ease,
         border-color 0.15s ease,

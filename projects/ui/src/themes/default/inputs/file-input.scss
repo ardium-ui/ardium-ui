@@ -50,7 +50,7 @@
 
     .ard-focus-overlay {
       @include defaultMixins.focus-overlay();
-      background: $overlay;
+      background: ARD.$overlay;
       border-radius: 9999px;
     }
     &:hover {

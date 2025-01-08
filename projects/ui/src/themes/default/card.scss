@@ -3,7 +3,7 @@
 ard-card,
 .ard-card {
   position: relative;
-  background: $bg;
+  background: ARD.$bg;
   box-sizing: border-box;
   width: 100%;
   height: max-content;
@@ -11,10 +11,10 @@ ard-card,
 
   //! appearances
   &.ard-appearance-outlined {
-    border: 1px solid $border-light;
+    border: 1px solid ARD.$border-light;
   }
   &.ard-appearance-raised {
-    box-shadow: $card-shadow;
+    box-shadow: ARD.$card-shadow;
   }
   //! variants
   &.ard-variant-sharp {
@@ -52,12 +52,12 @@ ard-card-header {
 .ard-card-title {
   font-size: 1.375em;
   letter-spacing: 0.0125em;
-  color: $text;
+  color: ARD.$text;
 }
 .ard-card-subtitle {
   font-size: 1em;
   letter-spacing: 0.0078125em;
-  color: $text3;
+  color: ARD.$text3;
   margin-top: 0.125rem;
 }
 .ard-card-avatar {

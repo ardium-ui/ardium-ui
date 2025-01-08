@@ -63,30 +63,30 @@
   }
   &.ard-appearance-raised,
   &.ard-appearance-raised-strong {
-    transition: box-shadow 0.28s $timing-fn;
-    box-shadow: $simple-shadow;
+    transition: box-shadow 0.28s ARD.$timing-fn;
+    box-shadow: ARD.$simple-shadow;
 
     &:hover,
     &:focus {
-      box-shadow: $simple-shadow2;
+      box-shadow: ARD.$simple-shadow2;
     }
     &:active {
-      box-shadow: $simple-shadow3;
+      box-shadow: ARD.$simple-shadow3;
     }
   }
   &.ard-appearance-outlined {
-    background: $bg;
+    background: ARD.$bg;
     color: var(--ard-cmpcl--content);
-    border: 1px solid $border-light;
+    border: 1px solid ARD.$border-light;
 
     .ard-focus-overlay {
       background: var(--ard-cmpcl--overlay-colored);
     }
   }
   &.ard-appearance-outlined-strong {
-    background: $bg;
+    background: ARD.$bg;
     color: var(--ard-cmpcl--content);
-    border: 1px solid $border-light;
+    border: 1px solid ARD.$border-light;
 
     .ard-focus-overlay {
       display: none;

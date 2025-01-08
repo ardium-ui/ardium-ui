@@ -24,7 +24,7 @@
       height: 100%;
       aspect-ratio: 1;
       padding: 0;
-      border-color: $border;
+      border-color: ARD.$border;
       display: flex;
       justify-content: center;
       margin: 0;
@@ -116,6 +116,6 @@
       opacity: 0;
     }
 
-    background: $bg-f;
+    background: ARD.$bg-f;
   }
 }

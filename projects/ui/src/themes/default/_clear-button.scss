@@ -3,17 +3,17 @@
 
 @mixin clearButton() {
   ard-clear-button {
-    height: $clear-button-size;
-    width: $clear-button-size;
+    height: ARD.$clear-button-size;
+    width: ARD.$clear-button-size;
     position: relative;
   }
 
   .ard-clear-btn-wrapper {
     cursor: pointer;
     font-size: medium;
-    color: $detail;
-    width: $clear-button-size;
-    height: $clear-button-size;
+    color: ARD.$detail;
+    width: ARD.$clear-button-size;
+    height: ARD.$clear-button-size;
     line-height: 1em;
     border-radius: 999px;
     border: none;

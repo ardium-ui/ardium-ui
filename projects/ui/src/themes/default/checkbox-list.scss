@@ -20,7 +20,7 @@
     }
     > .ard-focus-overlay {
       @include CM.focus-overlay();
-      background: $overlay;
+      background: ARD.$overlay;
     }
     &.ard-item-highlighted {
       > .ard-focus-overlay {

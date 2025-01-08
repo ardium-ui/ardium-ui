@@ -17,7 +17,7 @@
   background: none;
   padding: 0;
   outline: none;
-  color: $text2;
+  color: ARD.$text2;
 
   &.ard-color-currentColor {
     color: currentColor;
@@ -43,7 +43,7 @@
     height: 1.8em; //the height of the icon
     display: none;
     opacity: 80%;
-    transition: opacity 0.2s $timing-fn;
+    transition: opacity 0.2s ARD.$timing-fn;
 
     &::after {
       @include defaultMixins.icon(0, 600);

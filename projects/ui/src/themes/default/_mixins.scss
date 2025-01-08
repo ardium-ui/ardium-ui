@@ -35,11 +35,11 @@
 
 @mixin formAppearances() {
   &.ard-appearance-outlined {
-    --ard-appearance-background: #{$bg};
-    --ard-appearance-border: 1px solid #{$border};
+    --ard-appearance-background: #{ARD.$bg};
+    --ard-appearance-border: 1px solid #{ARD.$border};
   }
   &.ard-appearance-filled {
-    --ard-appearance-background: #{$bg-f};
+    --ard-appearance-background: #{ARD.$bg-f};
     --ard-appearance-border: none;
   }
   &.ard-appearance-transparent {

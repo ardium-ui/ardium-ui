@@ -34,9 +34,9 @@ ard-radio {
       right: 0;
       top: 0;
       bottom: 0;
-      border: 2px solid $detail;
+      border: 2px solid ARD.$detail;
       border-radius: 9999px;
-      transition: border-color 0.2s $timing-fn;
+      transition: border-color 0.2s ARD.$timing-fn;
     }
     > .ard-radio-inner-circle {
       position: absolute;
@@ -47,12 +47,12 @@ ard-radio {
       background: var(--ard-cmpcl--bg-colored);
       border-radius: 9999px;
       transform: scale(0);
-      transition: transform 0.2s $timing-fn;
+      transition: transform 0.2s ARD.$timing-fn;
     }
     > .ard-focus-overlay {
       @include GM.focus-overlay(0.375em);
       border-radius: 9999px;
-      background-color: $overlay;
+      background-color: ARD.$overlay;
 
       transition:
         opacity 0.2s ease,

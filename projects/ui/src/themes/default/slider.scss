@@ -39,7 +39,7 @@
   .ard-slider-track {
     width: 100%;
     height: 0.25em;
-    background: $bg;
+    background: ARD.$bg;
 
     .ard-slider-track-overlay {
       position: absolute;
@@ -74,7 +74,7 @@
       width: 0.125em;
       height: 0.125em;
       border-radius: 9999px;
-      background: $text;
+      background: ARD.$text;
       opacity: 30%;
       transform: translate(-50%, -50%);
     }
@@ -100,7 +100,7 @@
     transition:
       box-shadow 0.15s ease,
       left var(--_ard-slider-transition) ease;
-    box-shadow: $simple-shadow;
+    box-shadow: ARD.$simple-shadow;
 
     // cursor: grab;
     // &.ard-grabbed {
@@ -124,7 +124,7 @@
       }
     }
     &:focus {
-      box-shadow: $simple-shadow2;
+      box-shadow: ARD.$simple-shadow2;
       .ard-focus-overlay {
         opacity: 15%;
       }
@@ -155,7 +155,7 @@
   .ard-slider-tooltip {
     --ard-background: #{$text3};
     background: var(--ard-background);
-    color: $text2-alt;
+    color: ARD.$text2-alt;
     font-size: 0.875em;
     border-radius: 0.375em;
     height: 2em;
@@ -168,7 +168,7 @@
     user-select: none;
 
     transform: scale(0);
-    transition: transform 0.1s $timing-fn;
+    transition: transform 0.1s ARD.$timing-fn;
 
     &::before {
       content: '';

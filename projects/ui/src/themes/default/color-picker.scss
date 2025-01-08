@@ -14,10 +14,10 @@
     .ard-color-picker-shade-map,
     .ard-color-picker-hue-map,
     .ard-color-picker-opacity-map {
-      border: 1px solid $detail-ultralight-solid;
+      border: 1px solid ARD.$detail-ultralight-solid;
 
       &:focus-visible {
-        outline: 2px solid $overlay;
+        outline: 2px solid ARD.$overlay;
         outline-offset: 1px;
       }
     }
@@ -101,7 +101,7 @@
       grid-template-columns: 1fr 1fr;
       width: 4rem;
       height: 100%;
-      border: 1px solid $detail-ultralight-solid;
+      border: 1px solid ARD.$detail-ultralight-solid;
       box-sizing: border-box;
     }
   }

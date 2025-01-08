@@ -19,7 +19,7 @@ ard-tabber {
     max-width: 100%;
     display: flex;
     flex-wrap: wrap;
-    border-bottom: 1px solid $detail-ultralight;
+    border-bottom: 1px solid ARD.$detail-ultralight;
 
     &.ard-tab-align-left {
       justify-content: left;
@@ -52,7 +52,7 @@ ard-tabber {
 
       .ard-focus-overlay {
         @include M.focus-overlay();
-        background: $bg-alt;
+        background: ARD.$bg-alt;
       }
 
       &:hover,

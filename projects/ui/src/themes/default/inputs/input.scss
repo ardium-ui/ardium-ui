@@ -20,16 +20,16 @@
   .ard-option {
     padding: 0.375rem 0.625rem;
     font-size: 1rem;
-    color: $text2;
+    color: ARD.$text2;
     cursor: pointer;
 
     &.ard-option-highlighted {
-      background: $darken-overlay-light;
+      background: ARD.$darken-overlay-light;
     }
 
     &.ard-option-selected {
       font-weight: 500;
-      background: $darken-overlay-medium;
+      background: ARD.$darken-overlay-medium;
     }
 
     &.ard-option-disabled {

@@ -4,7 +4,7 @@
 ard-digit-input {
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
-  color: $text;
+  color: ARD.$text;
 }
 
 .ard-digit-input,
@@ -26,7 +26,7 @@ ard-digit-input {
       width: 2.0625em;
       box-sizing: border-box;
       text-align: center;
-      caret-color: $text3;
+      caret-color: ARD.$text3;
 
       &:not(.ard-digit-input__input-empty) {
         caret-color: transparent;

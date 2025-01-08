@@ -6,7 +6,7 @@
 .ard-calendar {
   @include CM.typeColors();
   width: 18.5rem;
-  background: $bg;
+  background: ARD.$bg;
   user-select: none;
 
   .ard-calendar-header-container {
@@ -76,7 +76,7 @@
     }
     &.ard-calendar-today {
       .ard-calendar-entry-button {
-        border-color: $detail;
+        border-color: ARD.$detail;
       }
     }
     &.ard-calendar-entry-highlighted {
@@ -94,7 +94,7 @@
 
       &.ard-calendar-today {
         .ard-focus-overlay {
-          border-color: $bg;
+          border-color: ARD.$bg;
         }
       }
     }
@@ -112,7 +112,7 @@
   }
   .ard-calendar-day-labels {
     font-size: 0.8125rem;
-    color: $text3;
+    color: ARD.$text3;
     height: 1.25rem;
     position: relative;
 
@@ -127,7 +127,7 @@
       position: absolute;
       width: 100%;
       height: 1px;
-      background: $detail-ultralight;
+      background: ARD.$detail-ultralight;
       bottom: 0;
     }
   }
@@ -135,7 +135,7 @@
     position: relative;
 
     &.ard-reserve-top-row {
-      padding-top: 14.285714%;
+      padding-top: 100% / 7;
     }
     .ard-calendar-floating-month {
       position: absolute;
@@ -149,13 +149,13 @@
       align-items: center;
       font-size: 0.875rem;
       font-weight: 500;
-      color: $text3;
+      color: ARD.$text3;
       letter-spacing: 0.5px;
     }
   }
   //! years & months view
   .ard-calendar-simple-grid {
-    border-top: 1px solid $detail-ultralight;
+    border-top: 1px solid ARD.$detail-ultralight;
     margin-top: 0.25rem;
     display: grid;
     grid-template-columns: repeat(4, 1fr);

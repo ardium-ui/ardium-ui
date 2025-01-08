@@ -27,7 +27,7 @@
     font-size: inherit;
     border-radius: 999px;
     overflow: hidden;
-    background: $bg;
+    background: ARD.$bg;
 
     .ard-slide-toggle-track-overlay {
       position: absolute;
@@ -35,7 +35,7 @@
       right: 0;
       bottom: 0;
       top: 0;
-      background: $overlay;
+      background: ARD.$overlay;
       opacity: 20%;
     }
   }
@@ -44,15 +44,15 @@
     height: 1.25em;
     font-size: inherit;
     border-radius: 999px;
-    background: $bg-f;
+    background: ARD.$bg-f;
     position: absolute;
     top: 0;
     left: 0;
-    box-shadow: $simple-shadow;
+    box-shadow: ARD.$simple-shadow;
     overflow: hidden;
 
     transition:
-      box-shadow 0.28s $timing-fn,
+      box-shadow 0.28s ARD.$timing-fn,
       left 0.1s ease,
       background-color 0.1s ease,
       transform 0.1s ease;
@@ -64,7 +64,7 @@
     .ard-slide-toggle-icon {
       @include defaultMixins.icon(0, 600);
       font-size: 0.95em;
-      color: $text;
+      color: ARD.$text;
       position: absolute;
       left: 50%;
       top: 50%;
@@ -82,7 +82,7 @@
   &:hover,
   &:focus {
     .ard-slide-toggle-handle {
-      box-shadow: $simple-shadow2;
+      box-shadow: ARD.$simple-shadow2;
 
       .ard-focus-overlay {
         opacity: 4%;
@@ -91,7 +91,7 @@
   }
   &:active {
     .ard-slide-toggle-handle {
-      box-shadow: $simple-shadow3;
+      box-shadow: ARD.$simple-shadow3;
 
       .ard-focus-overlay {
         opacity: 12%;
