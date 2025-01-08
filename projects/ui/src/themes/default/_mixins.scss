@@ -1,13 +1,9 @@
-@import '../variables';
+@use '../variables' as ARD;
 
 @mixin icon($fill: 0, $wght: 500, $grad: 0, $opsz: 48) {
   font-family: 'Material Symbols Outlined';
   font-size: 1.5em;
-  font-variation-settings:
-    'FILL' #{$fill},
-    'wght' #{$wght},
-    'GRAD' #{$grad},
-    'opsz' #{$opsz};
+  font-variation-settings: 'FILL' #{$fill}, 'wght' #{$wght}, 'GRAD' #{$grad}, 'opsz' #{$opsz};
 }
 
 @mixin focus-overlay($size: 0) {
@@ -26,9 +22,7 @@
   > .ard-focus-overlay {
     transform: scale(0.2);
 
-    transition:
-      opacity 0.2s ease,
-      transform 0.1s ease;
+    transition: opacity 0.2s ease, transform 0.1s ease;
   }
 
   &:hover,

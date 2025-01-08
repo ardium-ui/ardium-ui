@@ -1,5 +1,5 @@
 @use 'sass:math';
-@import '../variables';
+@use '../variables' as ARD;
 
 .ard-color-display-wrapper {
   gap: 0.3ch;

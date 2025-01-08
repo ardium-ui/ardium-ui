@@ -1,5 +1,5 @@
 @use './coloring' as CM;
-@import '../variables';
+@use '../variables' as ARD;
 
 .ard-table {
   @include CM.typeColors();

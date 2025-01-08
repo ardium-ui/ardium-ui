@@ -1,5 +1,5 @@
 @use './mixins' as CM;
-@import '../variables';
+@use '../variables' as ARD;
 
 .ard-checkbox-list {
   display: flex;

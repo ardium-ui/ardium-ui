@@ -1,5 +1,5 @@
 @use './coloring' as C;
-@import '../variables';
+@use '../variables' as ARD;
 
 .ard-snackbar {
   @include C.typeColors();

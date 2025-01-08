@@ -1,6 +1,6 @@
 @use './coloring' as CM;
 @use './mixins' as M;
-@import '../variables';
+@use '../variables' as ARD;
 
 ard-tabber {
   max-width: 100%;

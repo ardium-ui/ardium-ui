@@ -2,7 +2,7 @@
 @use '../mixins' as defaultMixins;
 @use '../clear-button' as CB;
 @use '../coloring' as CM;
-@import '../../variables';
+@use '../../variables' as ARD;
 
 .ard-file-input-form-field-frame {
   .ard-form-field-overlay {

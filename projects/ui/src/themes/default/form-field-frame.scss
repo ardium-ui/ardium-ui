@@ -1,5 +1,5 @@
 @use './mixins' as defaultMixins;
-@import '../variables';
+@use '../variables' as ARD;
 
 .ard-form-field-frame {
   box-sizing: border-box;

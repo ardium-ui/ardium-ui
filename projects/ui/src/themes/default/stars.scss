@@ -1,6 +1,6 @@
 @use './mixins' as defaultMixins;
 @use './coloring' as coloringMixins;
-@import '../variables';
+@use '../variables' as ARD;
 
 .ard-star,
 .ard-star-button,

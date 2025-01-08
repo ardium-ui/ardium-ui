@@ -1,5 +1,5 @@
 @use './mixins' as defaultMixins;
-@import '../variables';
+@use '../variables' as ARD;
 
 @mixin clearButton() {
   ard-clear-button {

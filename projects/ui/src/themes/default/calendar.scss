@@ -1,7 +1,7 @@
 @use './dropdown-arrow.scss' as DA;
 @use './mixins.scss' as DM;
 @use './coloring.scss' as CM;
-@import '../variables';
+@use '../variables' as ARD;
 
 .ard-calendar {
   @include CM.typeColors();

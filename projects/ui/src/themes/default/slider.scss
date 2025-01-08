@@ -1,7 +1,7 @@
 @use './mixins' as defaultMixins;
 @use './coloring' as coloringMixins;
 @use 'sass:math';
-@import '../variables';
+@use '../variables' as ARD;
 
 .ard-slider-container-master,
 .ard-range-slider-container-master {
