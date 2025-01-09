@@ -1,6 +1,7 @@
 import { AfterViewInit, Directive, ElementRef, Input, OnInit, input, output, signal, viewChild } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { isDefined } from 'simple-bool';
+import Random from 'take-chance';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { _FileInputBaseDefaults } from './file-input-base.defaults';
 
@@ -12,7 +13,7 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
 
   readonly fileInputEl = viewChild<ElementRef<HTMLInputElement>>('fileInput');
 
-  readonly htmlId = input<string>(crypto.randomUUID());
+  readonly htmlId = input<string>(Random.id());
   readonly name = input<string>('');
 
   ngOnInit(): void {

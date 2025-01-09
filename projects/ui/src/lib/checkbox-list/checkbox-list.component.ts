@@ -12,6 +12,7 @@ import {
   signal,
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import Random from 'take-chance';
 import { SimpleItemStorage, SimpleItemStorageHost } from '../_internal/item-storages/simple-item-storage';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ComponentColor } from '../types/colors.types';
@@ -33,7 +34,7 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
     super(defaults);
   }
 
-  readonly htmlId = input<string>(crypto.randomUUID());
+  readonly htmlId = input<string>(Random.id());
 
   @HostBinding('attr.id')
   get _htmlIdHostAttribute() {
@@ -65,7 +66,9 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
 
   readonly invertDisabled = input<boolean, any>(this._DEFAULTS.invertDisabled, { transform: v => coerceBooleanProperty(v) });
 
-  readonly maxSelectedItems = input<number, any>(this._DEFAULTS.maxSelectedItems, { transform: v => coerceNumberProperty(v) });
+  readonly maxSelectedItems = input<number, any>(this._DEFAULTS.maxSelectedItems, {
+    transform: v => coerceNumberProperty(v, this._DEFAULTS.maxSelectedItems),
+  });
 
   //! appearance
   readonly color = input<ComponentColor>(this._DEFAULTS.color);

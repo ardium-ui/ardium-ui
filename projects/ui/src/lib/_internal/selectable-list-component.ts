@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import Random from 'take-chance';
 import { ArdOptionSimple, CompareWithFn, OptionContext } from '../types/item-storage.types';
 import { Nullable } from '../types/utility.types';
 import { SimpleItemStorage, SimpleItemStorageHost } from './item-storages/simple-item-storage';
@@ -48,7 +49,7 @@ export abstract class _SelectableListComponentBase
 
   //! public constants
   readonly itemStorage = new SimpleItemStorage(this);
-  readonly htmlId = crypto.randomUUID();
+  readonly htmlId = Random.id();
   readonly element!: HTMLElement;
   readonly DEFAULTS = this._DEFAULTS;
 
