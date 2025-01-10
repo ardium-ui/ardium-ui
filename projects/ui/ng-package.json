@@ -12,6 +12,7 @@
     "more-rounding",
     "resolve-object-path",
     "simple-bool",
+    "take-chance",
     "color",
     "string-similarity",
     "@ardium-ui/devkit"
