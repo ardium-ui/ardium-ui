@@ -9,7 +9,7 @@ import {
   input,
   signal,
 } from '@angular/core';
-import Random from 'take-chance';
+import { TakeChance as Random } from 'take-chance';
 import { _BooleanComponentBase } from '../../_internal/boolean-component';
 import { SimpleComponentColor } from '../../types/colors.types';
 import { ARD_RADIO_DEFAULTS, ArdRadioDefaults } from './radio.defaults';

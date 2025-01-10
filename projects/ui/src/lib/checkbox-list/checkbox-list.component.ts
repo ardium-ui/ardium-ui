@@ -12,7 +12,7 @@ import {
   signal,
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import Random from 'take-chance';
+import { TakeChance as Random } from 'take-chance';
 import { SimpleItemStorage, SimpleItemStorageHost } from '../_internal/item-storages/simple-item-storage';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ComponentColor } from '../types/colors.types';

@@ -36,7 +36,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { Subject, merge, startWith, takeUntil } from 'rxjs';
 import { isAnyString, isArray, isFunction } from 'simple-bool';
-import Random from 'take-chance';
+import { TakeChance as Random } from 'take-chance';
 import { ItemStorage, ItemStorageHost } from '../_internal/item-storages/dropdown-item-storage';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ArdiumDropdownPanelComponent } from '../dropdown-panel/dropdown-panel.component';

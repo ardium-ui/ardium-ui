@@ -15,7 +15,7 @@ import {
   output,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import Random from 'take-chance';
+import { TakeChance as Random } from 'take-chance';
 import { _NgModelComponentBase, _ngModelComponentDefaults } from '../_internal/ngmodel-component';
 import { Nullable } from '../types/utility.types';
 import { ArdiumRadioComponent } from './radio/radio.component';

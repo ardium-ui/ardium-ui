@@ -1,7 +1,7 @@
 import { AfterViewInit, Directive, ElementRef, Input, OnInit, input, output, signal, viewChild } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { isDefined } from 'simple-bool';
-import Random from 'take-chance';
+import { TakeChance as Random } from 'take-chance';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { _FileInputBaseDefaults } from './file-input-base.defaults';
 
