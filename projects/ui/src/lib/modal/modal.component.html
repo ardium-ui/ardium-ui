@@ -2,7 +2,7 @@
   @if (noBackdrop()) {
     <div
       class="ard-modal"
-      [ngClass]="ngClasses"
+      [ngClass]="ngClasses()"
       (click)="onBackdropClick()"
     >
       <ng-template [ngTemplateOutlet]="_modalInsidePanel"></ng-template>
@@ -10,7 +10,7 @@
   } @else {
     <div
       class="ard-modal ard-modal-backdrop"
-      [ngClass]="ngClasses"
+      [ngClass]="ngClasses()"
       (click)="onBackdropClick()"
     >
       <ng-template [ngTemplateOutlet]="_modalInsidePanel"></ng-template>
