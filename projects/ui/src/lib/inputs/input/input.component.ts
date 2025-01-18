@@ -75,17 +75,24 @@ export class ArdiumInputComponent
 
   //! allowlist/denylist of characters
   //use standard string for denylist, prepend with ^ for allowlist
-  readonly charlistFromInput = input<RegExp | undefined, string>(undefined, {
-    alias: 'charlist',
-    transform: v => {
-      if (!isString(v)) {
-        throw new Error('ARD-FT0033: [charlist] must be a non-empty string, got "".');
-      }
-      const negated = v.startsWith('^');
-      return escapeAndCreateRegex(v, '', !negated);
-    },
+  readonly charlistFromInput = input<RegExp | undefined, string>(
+    this._DEFAULTS.charlist
+      ? escapeAndCreateRegex(this._DEFAULTS.charlist, '', this._DEFAULTS.charlist.startsWith('^'))
+      : undefined,
+    {
+      alias: 'charlist',
+      transform: v => {
+        if (!isString(v)) {
+          throw new Error('ARD-FT0033: [charlist] must be a non-empty string, got "".');
+        }
+        const negated = v.startsWith('^');
+        return escapeAndCreateRegex(v, '', !negated);
+      },
+    }
+  );
+  readonly charlistCaseInsensitive = input<boolean, any>(this._DEFAULTS.charlistCaseInsensitive, {
+    transform: v => coerceBooleanProperty(v),
   });
-  readonly charlistCaseInsensitive = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   readonly charlist = computed<RegExp | undefined>(() => {
     const c = this.charlistFromInput();
@@ -113,8 +120,8 @@ export class ArdiumInputComponent
   //! suggestions
   readonly suggestionStorage = new SimplestItemStorage(this);
 
-  readonly valueFrom = input<Nullable<string>>(undefined, { alias: 'suggValueFrom' });
-  readonly labelFrom = input<Nullable<string>>(undefined, { alias: 'suggLabelFrom' });
+  readonly valueFrom = input<Nullable<string>>(this._DEFAULTS.suggLabelFrom, { alias: 'suggValueFrom' });
+  readonly labelFrom = input<Nullable<string>>(this._DEFAULTS.suggLabelFrom, { alias: 'suggLabelFrom' });
 
   readonly acceptSuggestionEvent = output<any>({ alias: 'acceptSuggestion' });
 
@@ -137,7 +144,7 @@ export class ArdiumInputComponent
   );
 
   readonly areSuggestionsLoading = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly suggestionsLoadingText = input<string>(this.DEFAULTS.suggestionsLoadingText);
+  readonly suggestionsLoadingText = input<string>(this._DEFAULTS.suggestionsLoadingText);
 
   readonly suggestionTemplate = contentChild(ArdInputSuggestionTemplateDirective);
   readonly suggestionLoadingTemplate = contentChild(ArdInputLoadingTemplateDirective);
@@ -236,13 +243,13 @@ export class ArdiumInputComponent
     this._suggestionDropdowOpen.set(false);
   }
   //! suggestion appearance
-  readonly dropdownAppearance = input<Nullable<DropdownPanelAppearance>>(undefined);
+  readonly dropdownAppearance = input<Nullable<DropdownPanelAppearance>>(this._DEFAULTS.dropdownAppearance);
   readonly dropdownAppearanceOrDefault = computed(() => {
     if (this.dropdownAppearance()) return this.dropdownAppearance()!;
     if (this.appearance() === FormElementAppearance.Outlined) return DropdownPanelAppearance.Outlined;
     return DropdownPanelAppearance.Raised;
   });
-  readonly dropdownVariant = input<Nullable<DropdownPanelVariant>>(undefined);
+  readonly dropdownVariant = input<Nullable<DropdownPanelVariant>>(this._DEFAULTS.dropdownVariant);
   readonly dropdownVariantOrDefault = computed(() => {
     if (this.dropdownVariant()) return this.dropdownVariant()!;
     const variant = this.variant();
