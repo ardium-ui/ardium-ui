@@ -63,6 +63,7 @@
   }
   &.ard-appearance-raised,
   &.ard-appearance-raised-strong {
+    background: ARD.$bg;
     transition: box-shadow 0.28s ARD.$timing-fn;
     box-shadow: ARD.$simple-shadow;
 
