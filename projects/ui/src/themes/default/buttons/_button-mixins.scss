@@ -51,16 +51,6 @@
       background: var(--ard-cmpcl--overlay-colored);
     }
   }
-  &.ard-appearance-flat,
-  &.ard-appearance-raised-strong {
-    background: var(--ard-cmpcl--bg);
-    color: var(--ard-cmpcl--on-bg);
-    border: none;
-
-    .ard-focus-overlay {
-      background: var(--ard-cmpcl--on-bg);
-    }
-  }
   &.ard-appearance-raised,
   &.ard-appearance-raised-strong {
     background: ARD.$bg;
@@ -101,8 +91,12 @@
       color: var(--ard-cmpcl--on-bg-colored);
     }
   }
-  &.ard-appearance-raised-strong,
-  &.ard-appearance-flat {
+  &.ard-appearance-flat,
+  &.ard-appearance-raised-strong {
+    background: var(--ard-cmpcl--bg);
+    color: var(--ard-cmpcl--on-bg);
+    border: none;
+
     .ard-focus-overlay {
       background: var(--ard-cmpcl--on-bg);
     }
