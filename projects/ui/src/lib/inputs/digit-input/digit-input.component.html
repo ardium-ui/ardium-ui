@@ -4,29 +4,32 @@
   [class.ard-has-error]="hasError()"
 >
   @for (data of configArrayData(); track $index) {
-    <div class="ard-digit-input__item">
-      @if (data.type === 'input') {
-        <input
-          #input
-          #focusableElement
-          class="ard-digit-input__input"
-          type="text"
-          autocomplete="off"
-          [readonly]="data.readonly"
-          [placeholder]="data.placeholder"
-          [class.ard-digit-input__input-readonly]="data.readonly"
-          [class.ard-digit-input__input-empty]="isInputEmpty(data.index!)"
-          (paste)="onPaste($event, data.index!)"
-          (input)="onInput($event, data.index!)"
-          (focus)="onFocusMaster($event, data.index!)"
-          (blur)="onBlurMaster($event, data.index!)"
-          (keydown)="onKeydown($event, data.index!)"
-        />
-      } @else {
-        <div class="ard-digit-input__static">
-          {{ data.char }}
-        </div>
-      }
+  <div
+    class="ard-digit-input__item"
+    [class.ard-digit-input__item-with-input]="data.type === 'input'"
+  >
+    @if (data.type === 'input') {
+    <input
+      #input
+      #focusableElement
+      class="ard-digit-input__input"
+      type="text"
+      autocomplete="off"
+      [readonly]="data.readonly"
+      [placeholder]="data.placeholder"
+      [class.ard-digit-input__input-readonly]="data.readonly"
+      [class.ard-digit-input__input-empty]="isInputEmpty(data.index!)"
+      (paste)="onPaste($event, data.index!)"
+      (input)="onInput($event, data.index!)"
+      (focus)="onFocusMaster($event, data.index!)"
+      (blur)="onBlurMaster($event, data.index!)"
+      (keydown)="onKeydown($event, data.index!)"
+    />
+    } @else {
+    <div class="ard-digit-input__static">
+      {{ data.char }}
     </div>
+    }
+  </div>
   }
 </div>
