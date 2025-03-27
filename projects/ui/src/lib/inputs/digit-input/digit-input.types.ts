@@ -22,6 +22,7 @@ export interface DigitInputAcceptObject {
   accept: string | RegExp | ((char: string, charsBefore: string) => boolean);
   transform?: TransformType | null;
   readonly?: boolean;
+  placeholder?: string;
 }
 export interface DigitInputStaticObject {
   static: string;
@@ -29,4 +30,7 @@ export interface DigitInputStaticObject {
 
 export type DigitInputOption = DigitInputAcceptObject | DigitInputStaticObject;
 
-export type DigitInputConfig = (DigitInputPrimitiveOption | DigitInputOption)[] | string | number;
+export type DigitInputConfig = /* (DigitInputPrimitiveOption | DigitInputOption)[][] */
+  | (DigitInputPrimitiveOption | DigitInputOption)[]
+  | string
+  | number;

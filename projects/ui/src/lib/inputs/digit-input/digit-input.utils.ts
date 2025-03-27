@@ -5,6 +5,7 @@ export interface DigitInputConfigData {
   char?: string;
   index?: number;
   readonly?: boolean;
+  placeholder?: string;
 }
 export interface DigitInputModelHost {
   readonly inputs: Signal<readonly ElementRef<HTMLInputElement>[]>;

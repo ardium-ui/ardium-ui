@@ -13,6 +13,7 @@
           type="text"
           autocomplete="off"
           [readonly]="data.readonly"
+          [placeholder]="data.placeholder"
           [class.ard-digit-input__input-readonly]="data.readonly"
           [class.ard-digit-input__input-empty]="isInputEmpty(data.index!)"
           (paste)="onPaste($event, data.index!)"

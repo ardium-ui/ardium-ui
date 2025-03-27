@@ -36,12 +36,14 @@ export class DigitInputModel {
         return {
           type: DigitInputConfigDataType.Static,
           char: v.static,
-        };
+        } satisfies DigitInputConfigData;
       }
       return {
         type: DigitInputConfigDataType.Input,
         index: inputIndex++,
-      };
+        readonly: v.readonly,
+        placeholder: v.placeholder ?? '',
+      } satisfies DigitInputConfigData;
     });
   });
 
@@ -156,8 +158,8 @@ export class DigitInputModel {
   }
 
   //! validate against the config
-  validateInputAndSetValue(input: string, index: number): false | [boolean, string | null] {
-    if (index < 0 || index > this._configArrayNoStatics().length) return false;
+  validateInputAndSetValue(input: string, index: number): null | { wasChanged: boolean, resultChar: string | null } {
+    if (index < 0 || index > this._configArrayNoStatics().length) return null;
 
     let v = this.value();
     //prepare the value array if does not exist
@@ -198,7 +200,7 @@ export class DigitInputModel {
       return newArr;
     });
     //return changes marker and validated value
-    return [newVal !== before, inputChar];
+    return { wasChanged: newVal !== before, resultChar: inputChar };
   }
   validateValueAndUpdate(): void {
     const v = this.value();
