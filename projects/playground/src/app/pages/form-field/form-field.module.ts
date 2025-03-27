@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ArdiumFormFieldModule, ArdiumSimpleInputModule } from '@ardium-ui/ui';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ArdiumDigitInputModule, ArdiumFormFieldModule, ArdiumSelectModule, ArdiumSimpleInputModule } from '@ardium-ui/ui';
 import { FormFieldPage } from './form-field.page';
 
 @NgModule({
   declarations: [FormFieldPage],
-  imports: [CommonModule, ArdiumFormFieldModule, ArdiumSimpleInputModule],
+  imports: [CommonModule, ReactiveFormsModule, ArdiumFormFieldModule, ArdiumSimpleInputModule, ArdiumSelectModule, ArdiumDigitInputModule],
 })
 export class FormFieldModule {}

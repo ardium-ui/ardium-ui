@@ -5,3 +5,54 @@
     <ard-simple-input />
   </ard-form-field>
 </div>
+<div class="master first">
+  <span class="title">Form field with hint</span>
+  <ard-form-field>
+    <ard-label>Test</ard-label>
+    <ard-simple-input [formControl]="control" />
+    <ard-hint>Lorem ipsum dolor sit amet consectetur.</ard-hint>
+  </ard-form-field>
+</div>
+<div class="master first">
+  <span class="title">Form field with 3 hints</span>
+  <ard-form-field>
+    <ard-label>Test</ard-label>
+    <ard-simple-input [formControl]="control" />
+    <ard-hint left>Left 1</ard-hint>
+    <ard-hint left>Left 2</ard-hint>
+    <ard-hint right>Right</ard-hint>
+  </ard-form-field>
+</div>
+<div class="master first">
+  <span class="title">Form field with hint and error</span>
+  <ard-form-field>
+    <ard-label>Test</ard-label>
+    <ard-simple-input [formControl]="control2" />
+    <ard-hint>Lorem ipsum dolor sit amet consectetur.</ard-hint>
+    @if (control2.invalid) {
+    <ard-error>This field is required.</ard-error>
+    }
+  </ard-form-field>
+</div>
+<div class="master first">
+  <span class="title">Form field with select control</span>
+  <ard-form-field>
+    <ard-label>Test</ard-label>
+    <ard-select
+      [formControl]="control"
+      [items]="options"
+    />
+    <ard-hint>Lorem ipsum dolor sit amet consectetur.</ard-hint>
+  </ard-form-field>
+</div>
+<div class="master first">
+  <span class="title">Form field with digit input control</span>
+  <ard-form-field>
+    <ard-label>Test</ard-label>
+    <ard-digit-input
+      [formControl]="control"
+      [config]="6"
+    />
+    <ard-hint>Lorem ipsum dolor sit amet consectetur.</ard-hint>
+  </ard-form-field>
+</div>
