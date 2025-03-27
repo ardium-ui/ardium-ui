@@ -17,6 +17,7 @@ import { DialogModule } from './pages/dialog/dialog.module';
 import { DividerModule } from './pages/divider/divider.module';
 import { FabModule } from './pages/fab/fab.module';
 import { FileDropAreaModule } from './pages/file-drop-area/file-drop-area.module';
+import { FormFieldModule } from './pages/form-field/form-field.module';
 import { HomeModule } from './pages/home/home.module';
 import { IconButtonModule } from './pages/icon-button/icon-button.module';
 import { IconModule } from './pages/icon/icon.module';
@@ -78,6 +79,7 @@ import { TableModule } from './pages/table/table.module';
     DialogModule,
     SnackbarModule,
     TabberModule,
+    FormFieldModule
   ],
   providers: [],
   bootstrap: [AppComponent],
