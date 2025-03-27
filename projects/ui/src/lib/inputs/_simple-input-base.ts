@@ -1,12 +1,12 @@
 import { AfterViewInit, computed, Directive, ElementRef, input, Input, output, viewChild } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import { _NgModelComponentBase, _NgModelComponentDefaults, _ngModelComponentDefaults } from '../_internal/ngmodel-component';
+import { _FormFieldComponentBase, _FormFieldComponentDefaults, _formFieldComponentDefaults } from '../_internal/form-field-component';
 import { SimpleOneAxisAlignment } from './../types/alignment.types';
 import { FormElementAppearance, FormElementVariant } from './../types/theming.types';
 import { Nullable } from './../types/utility.types';
 import { SimpleInputModel } from './input-utils';
 
-export interface _SimpleInputComponentDefaults extends _NgModelComponentDefaults {
+export interface _SimpleInputComponentDefaults extends _FormFieldComponentDefaults {
   appearance: FormElementAppearance;
   variant: FormElementVariant;
   compact: boolean;
@@ -19,7 +19,7 @@ export interface _SimpleInputComponentDefaults extends _NgModelComponentDefaults
 }
 
 export const _simpleInputComponentDefaults: _SimpleInputComponentDefaults = {
-  ..._ngModelComponentDefaults,
+  ..._formFieldComponentDefaults,
   appearance: FormElementAppearance.Outlined,
   variant: FormElementVariant.Rounded,
   compact: false,
@@ -32,7 +32,7 @@ export const _simpleInputComponentDefaults: _SimpleInputComponentDefaults = {
 };
 
 @Directive()
-export abstract class _SimpleInputComponentBase extends _NgModelComponentBase implements AfterViewInit {
+export abstract class _SimpleInputComponentBase extends _FormFieldComponentBase implements AfterViewInit {
   protected override readonly _DEFAULTS!: _SimpleInputComponentDefaults;
 
   //! input view

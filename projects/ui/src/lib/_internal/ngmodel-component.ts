@@ -2,9 +2,14 @@ import { Directive } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { _FocusableComponentBase, _focusableComponentDefaults, _FocusableComponentDefaults } from './focusable-component';
 
-export interface _NgModelComponentDefaults extends _FocusableComponentDefaults {}
+export interface _NgModelComponentDefaults extends _FocusableComponentDefaults {
+  required: boolean | undefined;
+}
 
-export const _ngModelComponentDefaults: _NgModelComponentDefaults = _focusableComponentDefaults;
+export const _ngModelComponentDefaults: _NgModelComponentDefaults = {
+  ..._focusableComponentDefaults,
+  required: undefined,
+};
 
 /**
  * Common code for components which implement the ControlValueAccessor.

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, contentChild, forwardRef, Inject, ViewEncapsulation } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { _FormFieldComponentBase } from '../../_internal/form-field-component';
 import { _SimpleInputComponentBase } from '../_simple-input-base';
 import { ARD_SIMPLE_INPUT_DEFAULTS, ArdSimpleInputDefaults } from './simple-input.defaults';
 import {
@@ -19,6 +20,10 @@ import {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => ArdiumSimpleInputComponent),
       multi: true,
+    },
+    {
+      provide: _FormFieldComponentBase,
+      useExisting: ArdiumSimpleInputComponent
     },
   ],
 })

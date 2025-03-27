@@ -16,7 +16,7 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { isAnyString, isDefined } from 'simple-bool';
-import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
+import { _FormFieldComponentBase } from '../../_internal/form-field-component';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { Nullable } from '../../types/utility.types';
 import { ARD_PASSWORD_INPUT_DEFAULTS, ArdPasswordInputDefaults } from './password-input.defaults';
@@ -40,9 +40,13 @@ import { PasswordInputRevealButtonContext } from './password-input.types';
       useExisting: forwardRef(() => ArdiumPasswordInputComponent),
       multi: true,
     },
+    {
+      provide: _FormFieldComponentBase,
+      useExisting: ArdiumPasswordInputComponent,
+    },
   ],
 })
-export class ArdiumPasswordInputComponent extends _NgModelComponentBase implements ControlValueAccessor, OnInit, OnDestroy {
+export class ArdiumPasswordInputComponent extends _FormFieldComponentBase implements ControlValueAccessor, OnInit, OnDestroy {
   protected override readonly _DEFAULTS!: ArdPasswordInputDefaults;
   constructor(@Inject(ARD_PASSWORD_INPUT_DEFAULTS) defaults: ArdPasswordInputDefaults) {
     super(defaults);
@@ -51,7 +55,8 @@ export class ArdiumPasswordInputComponent extends _NgModelComponentBase implemen
   //! input view
   readonly textInputEl = viewChild<ElementRef<HTMLInputElement>>('textInput');
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
+    super.ngOnInit();
     this._setInputAttributes();
   }
 

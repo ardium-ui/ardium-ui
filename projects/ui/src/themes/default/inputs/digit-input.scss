@@ -1,5 +1,6 @@
 @use '../coloring' as CM;
 @use '../../variables' as ARD;
+@use '../mixins' as defaultMixins;
 
 ard-digit-input {
   font-family: 'Roboto', sans-serif;
@@ -15,6 +16,7 @@ ard-digit-input {
   color: inherit;
 }
 .ard-digit-input {
+  @include defaultMixins.formAppearances();
   display: flex;
   gap: 0.5em;
 
@@ -27,6 +29,10 @@ ard-digit-input {
       box-sizing: border-box;
       text-align: center;
       caret-color: ARD.$text3;
+      background: var(--ard-appearance-background);
+      border: var(--ard-appearance-border);
+      border-radius: var(--ard-variant-border-radius);
+      transition: border-color 0.15s ARD.$timing-fn, background-color 0.15s ARD.$timing-fn;
 
       &:not(.ard-digit-input__input-empty) {
         caret-color: transparent;
@@ -52,5 +58,23 @@ ard-digit-input {
         height: calc(2.0625em * 1.3 / 1.2);
       }
     }
+  }
+
+  &.ard-has-error {
+    .ard-digit-input__item .ard-digit-input__input {
+      background-color: ARD.$danger50;
+      border-color: ARD.$danger500;
+    }
+  }
+
+  
+  &.ard-variant-rounded {
+    --ard-variant-border-radius: 0.25em;
+  }
+  &.ard-variant-pill {
+    --ard-variant-border-radius: 9999px;
+  }
+  &.ard-variant-sharp {
+    --ard-variant-border-radius: 0;
   }
 }

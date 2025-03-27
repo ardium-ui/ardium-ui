@@ -18,7 +18,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { roundToPrecision } from 'more-rounding';
 import { isDefined } from 'simple-bool';
-import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
+import { _FormFieldComponentBase } from '../../_internal/form-field-component';
 import { ButtonAppearance, ButtonVariant } from '../../buttons/general-button.types';
 import { OneAxisAlignment } from '../../types/alignment.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
@@ -39,10 +39,14 @@ import { ArdNumberInputPlaceholderTemplateDirective } from './number-input.direc
       useExisting: forwardRef(() => ArdiumNumberInputComponent),
       multi: true,
     },
+    {
+      provide: _FormFieldComponentBase,
+      useExisting: ArdiumNumberInputComponent,
+    },
   ],
 })
 export class ArdiumNumberInputComponent
-  extends _NgModelComponentBase
+  extends _FormFieldComponentBase
   implements ControlValueAccessor, NumberInputModelHost, AfterViewInit
 {
   protected override readonly _DEFAULTS!: ArdNumberInputDefaults;
@@ -92,7 +96,7 @@ export class ArdiumNumberInputComponent
       `ard-appearance-${this.appearance()}`,
       `ard-variant-${this.variant()}`,
       `ard-text-align-${this.alignText()}`,
-      `ard-quick-change-${this.noButtons}`,
+      `ard-quick-change-${!this.noButtons()}`,
       this.compact() ? 'ard-compact' : '',
     ].join(' ');
   });
@@ -142,7 +146,7 @@ export class ArdiumNumberInputComponent
 
   //! min/max and number type
   readonly min = input<number, any>(0, { transform: v => coerceNumberProperty(v, 0) });
-  readonly max = input<number, any>(Infinity, { transform: v => coerceNumberProperty(v, Infinity) });
+  readonly max = input<number, any>(999999, { transform: v => coerceNumberProperty(v, 999999) });
 
   readonly allowFloat = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 

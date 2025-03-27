@@ -1,9 +1,9 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { _NgModelComponentDefaults, _ngModelComponentDefaults } from '../../_internal/ngmodel-component';
+import { _FormFieldComponentDefaults, _formFieldComponentDefaults } from '../../_internal/form-field-component';
 import { OneAxisAlignment } from './../../types/alignment.types';
 import { FormElementAppearance, FormElementVariant } from './../../types/theming.types';
 
-export interface ArdNumberInputDefaults extends _NgModelComponentDefaults {
+export interface ArdNumberInputDefaults extends _FormFieldComponentDefaults {
   appearance: FormElementAppearance;
   variant: FormElementVariant;
   compact: boolean;
@@ -18,7 +18,7 @@ export interface ArdNumberInputDefaults extends _NgModelComponentDefaults {
 }
 
 const _numberInputDefaults: ArdNumberInputDefaults = {
-  ..._ngModelComponentDefaults,
+  ..._formFieldComponentDefaults,
   appearance: FormElementAppearance.Outlined,
   variant: FormElementVariant.Rounded,
   compact: false,

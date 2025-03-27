@@ -2,9 +2,19 @@
 @use '../mixins' as defaultMixins;
 @use '../../variables' as ARD;
 
+ard-number-input {
+  width: 9.5rem;
+
+  &:not(:has(.ard-quick-change-button)) {
+    width: 6rem;
+  }
+}
+
 .ard-number-input {
   @include inputMixin.genericInput();
   @include defaultMixins.formAppearances();
+  min-height: 2.1875rem;
+  height: 2.1875rem;
   gap: 0;
   width: 100%;
 
@@ -24,7 +34,7 @@
       height: 100%;
       aspect-ratio: 1;
       padding: 0;
-      border-color: ARD.$border;
+      border-color: var(--ard-appearance-border-color);
       display: flex;
       justify-content: center;
       margin: 0;
@@ -65,12 +75,10 @@
     border-radius: 0;
   }
   &.ard-variant-pill {
-    @include defaultMixins.formAppearances();
-
-    border-radius: 999px;
+    border-radius: 9999px;
 
     .ard-button {
-      border-radius: 999px !important;
+      border-radius: 9999px !important;
       height: 30px;
       width: 30px;
       margin: 0 2px;
@@ -78,7 +86,7 @@
 
     &.ard-quick-change-false {
       .ard-input-container {
-        border-radius: 999px;
+        border-radius: 9999px;
       }
     }
   }
@@ -103,6 +111,8 @@
 
   //! compact
   &.ard-compact {
+    min-height: 1.6875rem;
+    height: 1.6875rem;
     font-size: 0.925rem;
   }
 }

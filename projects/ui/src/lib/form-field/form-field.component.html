@@ -1,0 +1,34 @@
+<div class="ard-form-field">
+  <label
+    class="ard-label"
+    [attr.for]=""
+  >
+    <ng-content select="ard-label, [ard-label]" />
+  </label>
+  <div class="ard-form-field__input">
+    <ng-content />
+  </div>
+  <div
+    class="ard-form-field__hints"
+    [class.ard-form-field__hints-default-left]="alignLabelToLeftByDefault"
+  >
+    @if (hasAnyError()) {
+    <div class="ard-form-field__error">
+      <ng-content select="ard-error, [ard-error]" />
+    </div>
+    } @else {
+    <div class="ard-form-field__hints-left">
+      <div class="ard-form-field__default-hint">
+        <ng-content select="ard-hint.ard-hint-default, [ard-hint].ard-hint-default" />
+      </div>
+      <ng-content select="ard-hint.ard-hint-left, [ard-hint].ard-hint-left" />
+    </div>
+    <div class="ard-form-field__hints-right">
+      <div class="ard-form-field__default-hint">
+        <ng-content select="ard-hint.ard-hint-default, [ard-hint].ard-hint-default" />
+      </div>
+      <ng-content select="ard-hint.ard-hint-right, [ard-hint].ard-hint-right" />
+    </div>
+    }
+  </div>
+</div>

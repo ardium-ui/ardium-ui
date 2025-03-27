@@ -37,8 +37,8 @@ import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from
 import { Subject, merge, startWith, takeUntil } from 'rxjs';
 import { isAnyString, isArray, isFunction } from 'simple-bool';
 import { TakeChance as Random } from 'take-chance';
+import { _FormFieldComponentBase } from '../_internal/form-field-component';
 import { ItemStorage, ItemStorageHost } from '../_internal/item-storages/dropdown-item-storage';
-import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ArdiumDropdownPanelComponent } from '../dropdown-panel/dropdown-panel.component';
 import { DropdownPanelAppearance, DropdownPanelVariant } from '../dropdown-panel/dropdown-panel.types';
 import { ArdiumOptionComponent } from '../option/option.component';
@@ -87,10 +87,14 @@ import {
       useExisting: forwardRef(() => ArdiumSelectComponent),
       multi: true,
     },
+    {
+      provide: _FormFieldComponentBase,
+      useExisting: ArdiumSelectComponent,
+    },
   ],
 })
 export class ArdiumSelectComponent
-  extends _NgModelComponentBase
+  extends _FormFieldComponentBase
   implements OnChanges, AfterViewInit, AfterContentInit, OnInit, OnDestroy, ControlValueAccessor, ItemStorageHost
 {
   protected override readonly _DEFAULTS!: ArdSelectDefaults;
@@ -524,7 +528,8 @@ export class ArdiumSelectComponent
   }
 
   //! hooks
-  ngOnInit(): void {
+  override ngOnInit(): void {
+    super.ngOnInit();
     this._setSearchInputAttributes();
   }
   ngOnDestroy() {

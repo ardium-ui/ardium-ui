@@ -1,9 +1,9 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { _ngModelComponentDefaults, _NgModelComponentDefaults } from '../../_internal/ngmodel-component';
+import { _FormFieldComponentDefaults, _formFieldComponentDefaults } from '../../_internal/form-field-component';
 import { FormElementAppearance, FormElementVariant } from './../../types/theming.types';
 import { DigitInputShape } from './digit-input.types';
 
-export interface ArdDigitInputDefaults extends _NgModelComponentDefaults {
+export interface ArdDigitInputDefaults extends _FormFieldComponentDefaults {
   appearance: FormElementAppearance;
   variant: FormElementVariant;
   shape: DigitInputShape;
@@ -12,7 +12,7 @@ export interface ArdDigitInputDefaults extends _NgModelComponentDefaults {
 }
 
 const _digitInputDefaults: ArdDigitInputDefaults = {
-  ..._ngModelComponentDefaults,
+  ..._formFieldComponentDefaults,
   appearance: FormElementAppearance.Outlined,
   variant: FormElementVariant.Rounded,
   shape: DigitInputShape.Square,

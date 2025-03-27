@@ -36,15 +36,32 @@
 @mixin formAppearances() {
   &.ard-appearance-outlined {
     --ard-appearance-background: #{ARD.$bg};
-    --ard-appearance-border: 1px solid #{ARD.$border};
+    --ard-appearance-border-color: #{ARD.$border};
+    --ard-appearance-border: 1px solid var(--ard-appearance-border-color);
+
+    &.ard-focused {
+      --ard-appearance-border-color: #{ARD.$border-dark};
+    }
+    &.ard-has-error {
+      --ard-appearance-background: #{ARD.$danger50};
+      --ard-appearance-border-color: #{ARD.$danger500};
+    }
   }
   &.ard-appearance-filled {
     --ard-appearance-background: #{ARD.$bg-f};
     --ard-appearance-border: none;
+
+    &.ard-has-error {
+      --ard-appearance-background: #{ARD.$danger50};
+    }
   }
   &.ard-appearance-transparent {
     --ard-appearance-background: transparent;
     --ard-appearance-border: none;
+
+    &.ard-has-error {
+      --ard-appearance-border: 1px solid rgba(#{ARD.$danger500-rgb}, 0.1);
+    }
   }
 }
 

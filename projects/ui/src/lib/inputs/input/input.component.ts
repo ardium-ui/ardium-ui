@@ -23,6 +23,7 @@ import {
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { isString } from 'simple-bool';
+import { _FormFieldComponentBase } from '../../_internal/form-field-component';
 import { SimplestItemStorage, SimplestItemStorageHost } from '../../_internal/item-storages/simplest-item-storage';
 import { DropdownPanelAppearance, DropdownPanelVariant } from '../../dropdown-panel/dropdown-panel.types';
 import { ArdSimplestStorageItem } from '../../types/item-storage.types';
@@ -51,6 +52,10 @@ import {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => ArdiumInputComponent),
       multi: true,
+    },
+    {
+      provide: _FormFieldComponentBase,
+      useExisting: ArdiumInputComponent,
     },
   ],
 })

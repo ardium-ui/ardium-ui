@@ -3,7 +3,7 @@
 
 .ard-form-field-frame {
   box-sizing: border-box;
-  min-height: 2.1875rem;
+  min-height: 2.3125rem;
   height: max-content;
   max-width: 100%;
   display: flex;
@@ -49,9 +49,7 @@
   .ard-form-field-overlay {
     background: ARD.$overlay;
     opacity: 0;
-    transition:
-      opacity 0.15s ARD.$timing-fn,
-      background-color 0.15s ARD.$timing-fn;
+    transition: opacity 0.15s ARD.$timing-fn, background-color 0.15s ARD.$timing-fn;
   }
 
   &:hover {
@@ -63,7 +61,6 @@
     .ard-form-field-overlay {
       opacity: 6%;
     }
-    border-color: ARD.$border-dark;
   }
 }
 .ard-disabled .ard-form-field-frame {

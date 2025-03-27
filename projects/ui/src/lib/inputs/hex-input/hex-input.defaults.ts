@@ -1,10 +1,10 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { _NgModelComponentDefaults, _ngModelComponentDefaults } from '../../_internal/ngmodel-component';
+import { _FormFieldComponentDefaults, _formFieldComponentDefaults } from '../../_internal/form-field-component';
 import { Nullable } from '../../types/utility.types';
 import { CaseTransformerType } from '../input-types';
 import { FormElementAppearance, FormElementVariant } from './../../types/theming.types';
 
-export interface ArdHexInputDefaults extends _NgModelComponentDefaults {
+export interface ArdHexInputDefaults extends _FormFieldComponentDefaults {
   appearance: FormElementAppearance;
   variant: FormElementVariant;
   compact: boolean;
@@ -18,7 +18,7 @@ export interface ArdHexInputDefaults extends _NgModelComponentDefaults {
 }
 
 const _hexInputDefaults: ArdHexInputDefaults = {
-  ..._ngModelComponentDefaults,
+  ..._formFieldComponentDefaults,
   appearance: FormElementAppearance.Outlined,
   variant: FormElementVariant.Rounded,
   compact: false,

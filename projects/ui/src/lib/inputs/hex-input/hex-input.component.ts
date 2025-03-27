@@ -15,7 +15,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
+import { _FormFieldComponentBase } from '../../_internal/form-field-component';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { Nullable } from '../../types/utility.types';
 import { CaseTransformerType } from '../input-types';
@@ -39,10 +39,14 @@ import { HexInputModel, HexInputModelHost } from './hex-input.model';
       useExisting: forwardRef(() => ArdiumHexInputComponent),
       multi: true,
     },
+    {
+      provide: _FormFieldComponentBase,
+      useExisting: forwardRef(() => ArdiumHexInputComponent),
+    },
   ],
 })
 export class ArdiumHexInputComponent
-  extends _NgModelComponentBase
+  extends _FormFieldComponentBase
   implements ControlValueAccessor, HexInputModelHost, AfterViewInit
 {
   protected override readonly _DEFAULTS!: ArdHexInputDefaults;

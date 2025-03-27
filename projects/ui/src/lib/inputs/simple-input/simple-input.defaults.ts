@@ -1,5 +1,5 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { _ngModelComponentDefaults } from '../../_internal/ngmodel-component';
+import { _formFieldComponentDefaults } from '../../_internal/form-field-component';
 import { _SimpleInputComponentDefaults } from '../_simple-input-base';
 import { SimpleOneAxisAlignment } from './../../types/alignment.types';
 import { FormElementAppearance, FormElementVariant } from './../../types/theming.types';
@@ -7,7 +7,7 @@ import { FormElementAppearance, FormElementVariant } from './../../types/theming
 export interface ArdSimpleInputDefaults extends _SimpleInputComponentDefaults {}
 
 const _simpleInputDefaults: ArdSimpleInputDefaults = {
-  ..._ngModelComponentDefaults,
+  ..._formFieldComponentDefaults,
   appearance: FormElementAppearance.Outlined,
   variant: FormElementVariant.Rounded,
   compact: false,

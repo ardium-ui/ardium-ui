@@ -48,9 +48,9 @@ export abstract class _FocusableComponentBase extends _DisablableComponentBase {
    * The component's overall tab index. If the component is disabled, it is always `-1`. Coercible into a number, defaults to `0`.
    */
   readonly tabIndex = computed(() => (this.disabled() ? -1 : this._tabIndex()));
-  readonly _tabIndex = input<any, number>(this._DEFAULTS.tabIndex, {
+  readonly _tabIndex = input<number, any>(this._DEFAULTS.tabIndex, {
     alias: 'tabIndex',
-    transform: v => coerceNumberProperty(v),
+    transform: v => coerceNumberProperty(v, 0),
   });
 
   //! events

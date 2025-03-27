@@ -47,6 +47,7 @@ export * from './lib/spinner'; // 400
 //! component group 5 - data display components
 export * from './lib/color/color-display'; // 502
 export * from './lib/dropdown-panel'; // 501
+export * from './lib/form-field'; // 511-514
 export * from './lib/form-field-frame'; // 500
 export * from './lib/kbd'; // 503
 export * from './lib/kbd-shortcut'; // 504
@@ -71,6 +72,7 @@ export * from './lib/snackbar'; // 702
 export * from './lib/icon'; // 900
 
 //! types
+export * from './lib/_internal/public-api';
 export * from './lib/types/alignment.types';
 export * from './lib/types/colors.types';
 export * from './lib/types/item-storage.types';

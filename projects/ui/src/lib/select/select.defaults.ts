@@ -1,5 +1,5 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { _ngModelComponentDefaults, _NgModelComponentDefaults } from '../_internal/ngmodel-component';
+import { _FormFieldComponentDefaults, _formFieldComponentDefaults } from '../_internal/form-field-component';
 import { DropdownPanelAppearance, DropdownPanelVariant } from '../dropdown-panel';
 import { searchFunctions } from '../search-functions';
 import { ArdPanelPosition, GroupByFn, SearchFn } from '../types/item-storage.types';
@@ -7,7 +7,7 @@ import { Nullable } from '../types/utility.types';
 import { FormElementAppearance, FormElementVariant } from './../types/theming.types';
 import { AddCustomFn } from './select.types';
 
-export interface ArdSelectDefaults extends _NgModelComponentDefaults {
+export interface ArdSelectDefaults extends _FormFieldComponentDefaults {
   valueFrom: string;
   labelFrom: string;
   disabledFrom: string;
@@ -49,7 +49,7 @@ export interface ArdSelectDefaults extends _NgModelComponentDefaults {
 }
 
 const _selectDefaults: ArdSelectDefaults = {
-  ..._ngModelComponentDefaults,
+  ..._formFieldComponentDefaults,
   valueFrom: 'value',
   labelFrom: 'label',
   disabledFrom: 'disabled',
