@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import { DigitInputConfig, DigitInputPrimitiveOption, TransformType } from '@ardium-ui/ui';
 import { Logger } from '../../../services/logger.service';
-import { DigitInputConfig, TransformType } from '@ardium-ui/ui';
 
 @Component({
   selector: 'app-digit-input',
@@ -17,18 +17,31 @@ export class DigitInputPage {
     {
       accept: 'a-fA-F0-9',
       transform: TransformType.Uppercase,
+      placeholder: '0',
     },
     {
       accept: 'a-fA-F0-9',
       transform: TransformType.Uppercase,
+      placeholder: '0',
     },
     {
       accept: 'a-fA-F0-9',
       transform: TransformType.Uppercase,
+      placeholder: '0',
     },
     {
       accept: 'a-fA-F0-9',
       transform: TransformType.Uppercase,
+      placeholder: '0',
     },
+  ];
+
+  readonly configWithStatics: DigitInputConfig = [
+    DigitInputPrimitiveOption.Number,
+    DigitInputPrimitiveOption.Number,
+    { static: '-' },
+    DigitInputPrimitiveOption.Number,
+    DigitInputPrimitiveOption.Number,
+    DigitInputPrimitiveOption.Number,
   ];
 }
