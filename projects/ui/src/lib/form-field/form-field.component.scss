@@ -1,0 +1,9 @@
+.ard-form-field__hints {
+  display: flex;
+  justify-content: space-between;
+
+  > * {
+    display: flex;
+    flex-direction: column;
+  }
+}

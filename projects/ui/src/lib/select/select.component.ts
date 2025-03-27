@@ -36,7 +36,6 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { Subject, merge, startWith, takeUntil } from 'rxjs';
 import { isAnyString, isArray, isFunction } from 'simple-bool';
-import { TakeChance as Random } from 'take-chance';
 import { _FormFieldComponentBase } from '../_internal/form-field-component';
 import { ItemStorage, ItemStorageHost } from '../_internal/item-storages/dropdown-item-storage';
 import { ArdiumDropdownPanelComponent } from '../dropdown-panel/dropdown-panel.component';
@@ -138,7 +137,6 @@ export class ArdiumSelectComponent
   readonly inputAttrs = input<Record<string, any>>(this._DEFAULTS.inputAttrs);
   //! other inputs
   readonly isLoading = input<boolean, any>(this._DEFAULTS.isLoading, { transform: v => coerceBooleanProperty(v) });
-  readonly htmlId = input<string>(Random.id());
 
   //! boolean settings
   readonly itemsAlreadyGrouped = input<boolean, any>(this._DEFAULTS.itemsAlreadyGrouped, {
@@ -532,7 +530,8 @@ export class ArdiumSelectComponent
     super.ngOnInit();
     this._setSearchInputAttributes();
   }
-  ngOnDestroy() {
+  override ngOnDestroy() {
+    super.ngOnDestroy();
     this._destroy$.next();
     this._destroy$.complete();
   }

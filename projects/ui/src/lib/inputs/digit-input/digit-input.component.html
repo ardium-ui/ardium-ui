@@ -1,7 +1,7 @@
 <div
   class="ard-digit-input"
   [ngClass]="ngClasses()"
-  [class.ard-has-error]="hasError"
+  [class.ard-has-error]="hasError()"
 >
   @for (data of configArrayData(); track $index) {
     <div class="ard-digit-input__item">

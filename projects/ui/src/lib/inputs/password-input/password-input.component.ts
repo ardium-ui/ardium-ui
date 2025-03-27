@@ -95,7 +95,8 @@ export class ArdiumPasswordInputComponent extends _FormFieldComponentBase implem
     }
   }
 
-  ngOnDestroy(): void {
+  override ngOnDestroy(): void {
+    super.ngOnDestroy();
     if (this._hideTimeout) {
       clearTimeout(this._hideTimeout);
     }

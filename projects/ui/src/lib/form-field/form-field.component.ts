@@ -1,5 +1,14 @@
-import { Component, computed, contentChild, contentChildren, effect, inject } from '@angular/core';
-import { _NgModelComponentBase } from '../_internal/ngmodel-component';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  contentChild,
+  contentChildren,
+  inject,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
+import { _FormFieldComponentBase } from '../_internal/form-field-component';
 import { SimpleOneAxisAlignment } from './../types/alignment.types';
 import { ArdiumErrorDirective } from './error/error.directive';
 import { ARD_FORM_FIELD_DEFAULTS } from './form-field.defaults';
@@ -10,17 +19,16 @@ import { ArdiumLabelComponent } from './label/label.component';
   selector: 'ard-form-field',
   templateUrl: './form-field.component.html',
   styleUrl: './form-field.component.scss',
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumFormFieldComponent {
+export class ArdiumFormFieldComponent implements OnInit {
   protected readonly _DEFAULTS = inject(ARD_FORM_FIELD_DEFAULTS);
 
   public readonly alignLabelToLeftByDefault = this._DEFAULTS.defaultHintAlign === SimpleOneAxisAlignment.Left;
 
-  readonly control = contentChild<_NgModelComponentBase>(_NgModelComponentBase);
-
-  fhjdf = effect(() => {
-    console.log(this.control(), this.label());
-  });
+  readonly control = contentChild<_FormFieldComponentBase>(_FormFieldComponentBase);
+  readonly controlId = computed(() => this.control()?.htmlId());
 
   readonly label = contentChild<ArdiumLabelComponent>(ArdiumLabelComponent);
 
@@ -33,4 +41,12 @@ export class ArdiumFormFieldComponent {
   // readonly rightErrors = computed<ArdiumErrorDirective[]>(() => this.errors().filter(v => !v.left() && v.right()));
 
   readonly hasAnyError = computed<boolean>(() => this.errors()?.length > 0);
+
+  ngOnInit(): void {
+    if (!this.control()) {
+      throw new Error(
+        `ARD-FT5110: Form field component requires any control (input) to be present within the element. Found none.`
+      );
+    }
+  }
 }

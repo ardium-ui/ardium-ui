@@ -275,6 +275,9 @@ export class ItemStorage {
   private readonly _valueToWriteAfterItemsLoad = signal<any>(undefined);
   private readonly _wasValueWriteDeferred = signal<boolean>(false);
   handleWriteValue(ngModel: any[]): void {
+    if (!isArray(ngModel)) {
+      ngModel = [ngModel];
+    }
     //defer writing the value if no options are yet loaded
     if (!this._wasValueWriteDeferred() && this._items().length === 0) {
       this._valueToWriteAfterItemsLoad.set(ngModel);

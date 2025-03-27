@@ -1,7 +1,7 @@
-<div class="ard-form-field">
+<div class="ard-form-field" [class.ard-form-field__with-error]="control()?.hasError()">
   <label
     class="ard-label"
-    [attr.for]=""
+    [attr.for]="controlId()"
   >
     <ng-content select="ard-label, [ard-label]" />
   </label>
@@ -19,15 +19,15 @@
     } @else {
     <div class="ard-form-field__hints-left">
       <div class="ard-form-field__default-hint">
-        <ng-content select="ard-hint.ard-hint-default, [ard-hint].ard-hint-default" />
+        <ng-content select="ard-hint:not([left]):not([right]), [ard-hint]:not([left]):not([right])" />
       </div>
-      <ng-content select="ard-hint.ard-hint-left, [ard-hint].ard-hint-left" />
+      <ng-content select="ard-hint[left], [ard-hint][left]" />
     </div>
     <div class="ard-form-field__hints-right">
       <div class="ard-form-field__default-hint">
-        <ng-content select="ard-hint.ard-hint-default, [ard-hint].ard-hint-default" />
+        <ng-content select="ard-hint:not([left]):not([right]), [ard-hint]:not([left]):not([right])" />
       </div>
-      <ng-content select="ard-hint.ard-hint-right, [ard-hint].ard-hint-right" />
+      <ng-content select="ard-hint[right], [ard-hint][right]" />
     </div>
     }
   </div>
