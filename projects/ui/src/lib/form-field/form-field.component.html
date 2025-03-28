@@ -1,4 +1,7 @@
-<div class="ard-form-field" [class.ard-form-field__with-error]="control()?.hasError()">
+<div
+  class="ard-form-field"
+  [class.ard-form-field__with-error]="control()?.hasError()"
+>
   <label
     class="ard-label"
     [attr.for]="controlId()"
@@ -10,7 +13,8 @@
   </div>
   <div
     class="ard-form-field__hints"
-    [class.ard-form-field__hints-default-left]="alignLabelToLeftByDefault"
+    [class.ard-form-field__reserve-hint-line]="reserveHintLine()"
+    [class.ard-form-field__hints-default-left]="alignHintToLeftByDefault"
   >
     @if (hasAnyError()) {
     <div class="ard-form-field__error">

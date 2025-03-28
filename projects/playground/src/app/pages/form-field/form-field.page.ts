@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -11,11 +11,17 @@ export class FormFieldPage implements OnInit {
   readonly control2 = new FormControl('');
   readonly controlSelect = new FormControl('');
 
-  readonly options = ['Apple', 'Pear', 'Banana', 'Cherry']
+  readonly options = ['Apple', 'Pear', 'Banana', 'Cherry'];
 
+  readonly showHint = signal<boolean>(false);
+
+  private _interval!: any;
   ngOnInit(): void {
     setTimeout(() => {
       this.control2.setErrors({ required: true });
+    }, 3000);
+    setInterval(() => {
+      this.showHint.update(v => !v);
     }, 3000);
   }
 }

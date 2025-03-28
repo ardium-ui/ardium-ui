@@ -5,11 +5,24 @@ import { ArdiumErrorDirective } from './error/error.directive';
 import { ArdiumFormFieldComponent } from './form-field.component';
 import { ArdiumHintComponent } from './hint/hint.component';
 import { ArdiumHintDirective } from './hint/hint.directive';
+import { ArdiumHorizontalFormFieldComponent } from './horizontal-form-field.component';
 import { ArdiumLabelComponent } from './label/label.component';
 
 @NgModule({
-  declarations: [ArdiumFormFieldComponent, ArdiumLabelComponent, ArdiumHintComponent, ArdiumErrorComponent],
+  declarations: [
+    ArdiumFormFieldComponent,
+    ArdiumHorizontalFormFieldComponent,
+    ArdiumLabelComponent,
+    ArdiumHintComponent,
+    ArdiumErrorComponent,
+  ],
   imports: [CommonModule, ArdiumHintDirective, ArdiumErrorDirective],
-  exports: [ArdiumFormFieldComponent, ArdiumLabelComponent, ArdiumHintComponent, ArdiumErrorComponent],
+  exports: [
+    ArdiumFormFieldComponent,
+    ArdiumHorizontalFormFieldComponent,
+    ArdiumLabelComponent,
+    ArdiumHintComponent,
+    ArdiumErrorComponent,
+  ],
 })
 export class ArdiumFormFieldModule {}

@@ -7,7 +7,7 @@ import {
   inject,
   input,
   OnInit,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _FormFieldComponentBase } from '../_internal/form-field-component';
@@ -18,13 +18,13 @@ import { ArdiumHintDirective } from './hint/hint.directive';
 import { ArdiumLabelComponent } from './label/label.component';
 
 @Component({
-  selector: 'ard-form-field',
-  templateUrl: './form-field.component.html',
-  styleUrl: './form-field.component.scss',
+  selector: 'ard-horizontal-form-field',
+  templateUrl: './horizontal-form-field.component.html',
+  styleUrl: './horizontal-form-field.component.scss',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumFormFieldComponent implements OnInit {
+export class ArdiumHorizontalFormFieldComponent implements OnInit {
   protected readonly _DEFAULTS = inject(ARD_FORM_FIELD_DEFAULTS);
 
   public readonly alignHintToLeftByDefault = this._DEFAULTS.defaultHintAlign === SimpleOneAxisAlignment.Left;

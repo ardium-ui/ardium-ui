@@ -3,10 +3,12 @@ import { SimpleOneAxisAlignment } from './../types/alignment.types';
 
 export interface ArdFormFieldDefaults {
   defaultHintAlign: SimpleOneAxisAlignment;
+  reserveHintLine: boolean;
 }
 
 const _formFieldDefaults: ArdFormFieldDefaults = {
   defaultHintAlign: SimpleOneAxisAlignment.Left,
+  reserveHintLine: false,
 };
 
 export const ARD_FORM_FIELD_DEFAULTS = new InjectionToken<ArdFormFieldDefaults>('ard-form-field-defaults', {

@@ -1,0 +1,42 @@
+<div
+  class="ard-horizontal-form-field"
+  [class.ard-form-field__with-error]="control()?.hasError()"
+>
+  <div class="ard-form-field__label-container">
+    <label
+      class="ard-label"
+      [attr.for]="controlId()"
+    >
+      <ng-content select="ard-label, [ard-label]" />
+    </label>
+  </div>
+  <div class="ard-form-field__non-label">
+    <div class="ard-form-field__input">
+      <ng-content />
+    </div>
+    <div
+      class="ard-form-field__hints"
+      [class.ard-form-field__reserve-hint-line]="reserveHintLine()"
+      [class.ard-form-field__hints-default-left]="alignHintToLeftByDefault"
+    >
+      @if (hasAnyError()) {
+      <div class="ard-form-field__error">
+        <ng-content select="ard-error, [ard-error]" />
+      </div>
+      } @else {
+      <div class="ard-form-field__hints-left">
+        <div class="ard-form-field__default-hint">
+          <ng-content select="ard-hint:not([left]):not([right]), [ard-hint]:not([left]):not([right])" />
+        </div>
+        <ng-content select="ard-hint[left], [ard-hint][left]" />
+      </div>
+      <div class="ard-form-field__hints-right">
+        <div class="ard-form-field__default-hint">
+          <ng-content select="ard-hint:not([left]):not([right]), [ard-hint]:not([left]):not([right])" />
+        </div>
+        <ng-content select="ard-hint[right], [ard-hint][right]" />
+      </div>
+      }
+    </div>
+  </div>
+</div>
