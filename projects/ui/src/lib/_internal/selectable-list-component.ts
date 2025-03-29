@@ -264,7 +264,7 @@ export abstract class _SelectableListComponentBase
     }
   }
   private _toggleHighlightedItems(event: KeyboardEvent): void {
-    if (!this.isFocused) return;
+    if (!this.isFocused()) return;
 
     event.preventDefault();
 
@@ -277,7 +277,7 @@ export abstract class _SelectableListComponentBase
     }
   }
   private _highlightPrevious(event: KeyboardEvent): void {
-    if (!this.isFocused) return;
+    if (!this.isFocused()) return;
 
     event.preventDefault();
     this.isMouseBeingUsed.set(false);
@@ -285,7 +285,7 @@ export abstract class _SelectableListComponentBase
     this.itemStorage.highlightNextItem(-1, event.shiftKey);
   }
   private _highlightNext(event: KeyboardEvent): void {
-    if (!this.isFocused) return;
+    if (!this.isFocused()) return;
 
     event.preventDefault();
     this.isMouseBeingUsed.set(false);
@@ -293,7 +293,7 @@ export abstract class _SelectableListComponentBase
     this.itemStorage.highlightNextItem(+1, event.shiftKey);
   }
   private _highlightFirst(event: KeyboardEvent): void {
-    if (!this.isFocused) return;
+    if (!this.isFocused()) return;
 
     event.preventDefault();
     this.isMouseBeingUsed.set(false);
@@ -301,7 +301,7 @@ export abstract class _SelectableListComponentBase
     this.itemStorage.highlightFirstItem();
   }
   private _highlightLast(event: KeyboardEvent): void {
-    if (!this.isFocused) return;
+    if (!this.isFocused()) return;
 
     event.preventDefault();
     this.isMouseBeingUsed.set(false);

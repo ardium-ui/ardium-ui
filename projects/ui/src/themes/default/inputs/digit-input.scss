@@ -71,6 +71,11 @@ ard-digit-input {
     }
   }
 
+  &.ard-is-success {
+    .ard-digit-input__item .ard-digit-input__input {
+      border-color: ARD.$success500;
+    }
+  }
   &.ard-has-error {
     .ard-digit-input__item .ard-digit-input__input {
       background-color: ARD.$danger50;

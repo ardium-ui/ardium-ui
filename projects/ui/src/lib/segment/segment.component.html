@@ -4,7 +4,7 @@
   [class.ard-disabled]="disabled()"
   [ariaDisabled]="disabled()"
   [ngClass]="ngClasses()"
-  [class.ard-focus-visible]="isFocused && !isMouseBeingUsed"
+  [class.ard-focus-visible]="isFocused() && !isMouseBeingUsed"
   [class.ard-using-keyboard]="!isMouseBeingUsed"
   [attr.tabindex]="tabIndex()"
   (focus)="onFocus($event)"

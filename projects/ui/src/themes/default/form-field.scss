@@ -52,6 +52,11 @@ ard-horizontal-form-field {
       color: ARD.$danger700;
     }
   }
+  &.ard-form-field__is-success {
+    .ard-label {
+      color: ARD.$success700;
+    }
+  }
 }
 .ard-horizontal-form-field {
   align-items: flex-start;

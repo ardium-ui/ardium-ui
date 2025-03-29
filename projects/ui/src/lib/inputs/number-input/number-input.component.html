@@ -2,6 +2,7 @@
   class="ard-number-input"
   [ngClass]="ngClasses()"
   [class.ard-has-error]="hasError()"
+  [class.ard-is-success]="isSuccess()"
   [class.ard-has-value]="value"
   (mousedown)="$event.preventDefault()"
   (mouseup)="onMouseup()"

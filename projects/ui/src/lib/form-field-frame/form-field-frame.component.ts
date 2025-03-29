@@ -30,9 +30,13 @@ export class ArdiumFormFieldFrameComponent extends _FocusableComponentBase {
   }
 
   readonly hasError = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly isSuccess = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! focused state
-  @Input() override isFocused = false;
+  @Input({ alias: 'isFocused' })
+  set _setIsFocused(v: boolean) {
+    this.isFocused.set(v);
+  }
 
   //! appearance
   /**
@@ -55,7 +59,8 @@ export class ArdiumFormFieldFrameComponent extends _FocusableComponentBase {
       `ard-variant-${this.variant()}`,
       this.compact() ? 'ard-compact' : '',
       this.hasError() ? 'ard-has-error' : '',
-      this.isFocused ? 'ard-focused' : 'ard-unfocused',
+      this.isSuccess() ? 'ard-is-success' : '',
+      this.isFocused() ? 'ard-focused' : 'ard-unfocused',
     ].join(' ')
   );
 

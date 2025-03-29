@@ -54,7 +54,9 @@ export abstract class _FormFieldComponentBase extends _NgModelComponentBase impl
     alias: 'hasError',
   });
   private readonly _hasErrorInControl = signal<boolean>(false);
-  readonly hasError = computed<boolean>(() => this._hasError() ?? this._hasErrorInControl());
+  readonly hasError = computed<boolean>(() => this._hasError() ?? (this.wasTouched() && this._hasErrorInControl()));
+
+  readonly isSuccess = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   ngOnDestroy(): void {
     this._statusChangesSub?.unsubscribe();

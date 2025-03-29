@@ -42,6 +42,9 @@
     &.ard-focused {
       --ard-appearance-border-color: #{ARD.$border-dark};
     }
+    &.ard-is-success {
+      --ard-appearance-border-color: #{ARD.$success500};
+    }
     &.ard-has-error {
       --ard-appearance-background: #{ARD.$danger50};
       --ard-appearance-border-color: #{ARD.$danger500};
@@ -51,6 +54,9 @@
     --ard-appearance-background: #{ARD.$bg-f};
     --ard-appearance-border: none;
 
+    &.ard-is-success {
+      --ard-appearance-background: #{ARD.$success50};
+    }
     &.ard-has-error {
       --ard-appearance-background: #{ARD.$danger50};
     }
@@ -58,10 +64,6 @@
   &.ard-appearance-transparent {
     --ard-appearance-background: transparent;
     --ard-appearance-border: none;
-
-    &.ard-has-error {
-      --ard-appearance-border: 1px solid rgba(#{ARD.$danger500-rgb}, 0.1);
-    }
   }
 }
 
