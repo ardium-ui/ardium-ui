@@ -29,9 +29,17 @@
     <ard-label>Test</ard-label>
     <ard-simple-input [formControl]="control2" />
     <ard-hint>Lorem ipsum dolor sit amet consectetur.</ard-hint>
-    @if (control2.invalid) {
+    @if (control2.invalid && control2.touched) {
     <ard-error>This field is required.</ard-error>
     }
+  </ard-form-field>
+</div>
+<div class="master first">
+  <span class="title">Form field with success state</span>
+  <ard-form-field>
+    <ard-label>Test</ard-label>
+    <ard-simple-input [formControl]="control" isSuccess />
+    <ard-hint>Hint</ard-hint>
   </ard-form-field>
 </div>
 <div class="master first">
