@@ -16,7 +16,11 @@
 
   .ard-form-field-content-container {
     flex-grow: 1;
-    min-height: 100%;
+    min-height: inherit;
+
+    > * {
+      min-height: inherit;
+    }
   }
   .ard-form-field-prefix-container,
   .ard-form-field-suffix-container {

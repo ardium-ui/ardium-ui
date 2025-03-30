@@ -10,10 +10,3 @@
 
   @include CB.clearButton();
 }
-//! disabled state
-.ard-disabled {
-  .ard-simple-input {
-    pointer-events: none;
-    opacity: 50%;
-  }
-}

@@ -32,6 +32,8 @@ export abstract class _FormFieldComponentBase extends _NgModelComponentBase impl
     if (this._ngControl) {
       this._ngControl.valueAccessor = this;
 
+      this._hasErrorInControl.set(this._ngControl.status === 'INVALID');
+
       this._statusChangesSub = this._ngControl.statusChanges
         ?.pipe(map(v => v === 'INVALID'))
         .subscribe(v => this._hasErrorInControl.set(v));
