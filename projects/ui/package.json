@@ -1,6 +1,6 @@
 {
   "name": "@ardium-ui/ui",
-  "version": "3.3.0-alpha.4",
+  "version": "3.3.0-alpha.5",
   "peerDependencies": {
     "@angular/common": ">=18.0.0",
     "@angular/core": ">=18.0.0",
