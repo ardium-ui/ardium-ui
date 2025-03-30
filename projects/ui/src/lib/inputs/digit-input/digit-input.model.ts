@@ -70,17 +70,37 @@ export class DigitInputModel {
   }
 
   writeValue(v: any): boolean {
-    if (!isArray(v) && !isAnyString(v) && !isNull(v)) {
-      //warn when using non-string value
-      console.warn(
-        new Error(
-          `ARD-WA0020: Trying to set <ard-digit-input>'s value to "${v}" (of type ${typeof v}), expected string or array of strings.`
-        )
+    if (this._ardHost.outputAsString()) {
+      if (!isAnyString(v) && !isNull(v)) {
+        throw new Error(
+          `ARD-FT0040b: Trying to set <ard-digit-input>'s value to "${v}" (of type ${typeof v}), but the input uses [outputAsString]="true", and thus expects string or null.`
+        );
+      }
+      const vArray = v?.split('') ?? [];
+
+      if (vArray.length > this._configArrayNoStatics().length) {
+        console.warn(
+          `ARD-WA0041: Value provided to <ard-digit-input> is too long. Got ${
+            vArray.length
+          } characters, but expected a maximum of ${this._configArrayNoStatics().length} characters.`
+        );
+      }
+      return this._writeValue(vArray);
+    }
+    if (!isAnyString(v) && !isNull(v) && !isArray(v)) {
+      throw new Error(
+        `ARD-FT0041: Trying to set <ard-digit-input>'s value to "${v}" (of type ${typeof v}), expected string or array of characters.`
       );
-      //normalize the value
-      v = v?.toString?.() ?? String(v);
     }
     const vArray = coerceArrayProperty(v);
+
+    if (vArray.length > this._configArrayNoStatics().length) {
+      console.warn(
+        `ARD-WA0041: Value provided to <ard-digit-input> is too long. Got ${
+          vArray.length
+        } characters, but expected a maximum of ${this._configArrayNoStatics().length} characters.`
+      );
+    }
     const problemIndex = vArray.findIndex(el => !isAnyString(el) || el.length > 1);
     if (problemIndex !== -1) {
       throw new Error(
@@ -90,18 +110,19 @@ export class DigitInputModel {
     return this._writeValue(vArray);
   }
   private _writeValue(v: string[] | null): boolean {
-    const oldVal = this.value();
+    const isOldValueTheSame = this.value() ? this.value()!.every((ch, i) => ch === v?.[i]) : !v;
+    if (isOldValueTheSame) return false;
     this.value.set(v && v.map(el => el || null));
     this.validateValueAndUpdate();
     this._updateInputElements();
-    return oldVal !== v;
+    return true;
   }
 
   private _updateInputElements() {
-    const value = this.value ?? [];
+    const v = this.value() ?? [];
     let i = 0;
     for (const inputEl of this._ardHost.inputs()) {
-      inputEl.nativeElement.value = value()?.[i] ?? '';
+      inputEl.nativeElement.value = v[i] ?? '';
       i++;
     }
   }
@@ -158,7 +179,7 @@ export class DigitInputModel {
   }
 
   //! validate against the config
-  validateInputAndSetValue(input: string, index: number): null | { wasChanged: boolean, resultChar: string | null } {
+  validateInputAndSetValue(input: string, index: number): null | { wasChanged: boolean; resultChar: string | null } {
     if (index < 0 || index > this._configArrayNoStatics().length) return null;
 
     let v = this.value();
@@ -186,7 +207,7 @@ export class DigitInputModel {
     const inputEl = this._ardHost.inputs()[index];
     if (!inputEl) {
       throw new Error(
-        "ARD-IS0048: <ard-digit-input>'s value changed, but its corresponding input element could not be found. This is error is fatal to the functioning of Ardium UI. Please report this issue to the creators."
+        "ARD-IS0048: <ard-digit-input>'s value changed, but its corresponding input element could not be found. If you are reading this, you probably experienced a problem with Ardium UI. Please report this issue to the creators."
       );
     }
     //update the input element and value array

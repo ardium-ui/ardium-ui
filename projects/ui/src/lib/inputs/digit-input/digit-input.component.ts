@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -42,7 +43,7 @@ import { DigitInputModelHost } from './digit-input.utils';
 })
 export class ArdiumDigitInputComponent
   extends _FormFieldComponentBase
-  implements ControlValueAccessor, DigitInputModelHost, OnInit
+  implements ControlValueAccessor, DigitInputModelHost, OnInit, AfterViewInit
 {
   protected override readonly _DEFAULTS!: ArdDigitInputDefaults;
   constructor(@Inject(ARD_DIGIT_INPUT_DEFAULTS) defaults: ArdDigitInputDefaults) {
@@ -95,11 +96,25 @@ export class ArdiumDigitInputComponent
   }
 
   //! control value accessor's write value implementation
+  private _valueBeforeViewInit?: any;
   writeValue(v: any): void {
+    if (!this._wasViewInit) {
+      this._valueBeforeViewInit = v;
+      return;
+    }
     this._writeValue(v);
   }
   private _writeValue(v: any): boolean {
     return this.model.writeValue(v);
+  }
+
+  private _wasViewInit = false;
+  ngAfterViewInit(): void {
+    this._wasViewInit = true;
+
+    if (this._valueBeforeViewInit) {
+      this._writeValue(this._valueBeforeViewInit);
+    }
   }
 
   //! value two-way binding

@@ -2,11 +2,12 @@
   class="ard-horizontal-form-field"
   [class.ard-form-field__with-error]="control()?.hasError()"
   [class.ard-form-field__is-success]="control()?.isSuccess()"
+  [class.ard-form-field__control-disabled]="control()?.disabled()"
 >
   <div class="ard-form-field__label-container">
     <label
       class="ard-label"
-      [attr.for]="controlId()"
+      [attr.for]="control()?.htmlId()"
     >
       <ng-content select="ard-label, [ard-label]" />
     </label>

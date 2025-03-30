@@ -7,9 +7,11 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./form-field.page.scss'],
 })
 export class FormFieldPage implements OnInit {
-  readonly control = new FormControl('');
-  readonly control2 = new FormControl('');
+  readonly control = new FormControl('Example text 1');
+  readonly control2 = new FormControl('Example text 2');
+  readonly control3 = new FormControl('Example text 3');
   readonly controlSelect = new FormControl('');
+  readonly controlDigit = new FormControl('123456');
 
   readonly options = ['Apple', 'Pear', 'Banana', 'Cherry'];
 
@@ -23,5 +25,6 @@ export class FormFieldPage implements OnInit {
     setInterval(() => {
       this.showHint.update(v => !v);
     }, 3000);
+    this.control3.disable();
   }
 }

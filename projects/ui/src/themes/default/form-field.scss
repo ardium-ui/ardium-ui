@@ -57,6 +57,14 @@ ard-horizontal-form-field {
       color: ARD.$success700;
     }
   }
+  &.ard-form-field__control-disabled {
+    .ard-label {
+      opacity: 40%;
+    }
+    .ard-form-field__hints {
+      opacity: 50%;
+    }
+  }
 }
 .ard-horizontal-form-field {
   align-items: flex-start;

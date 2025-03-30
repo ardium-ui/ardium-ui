@@ -30,7 +30,6 @@ export class ArdiumFormFieldComponent implements OnInit {
   public readonly alignHintToLeftByDefault = this._DEFAULTS.defaultHintAlign === SimpleOneAxisAlignment.Left;
 
   readonly control = contentChild<_FormFieldComponentBase>(_FormFieldComponentBase);
-  readonly controlId = computed(() => this.control()?.htmlId());
 
   readonly label = contentChild<ArdiumLabelComponent>(ArdiumLabelComponent);
 

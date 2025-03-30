@@ -53,6 +53,14 @@
   </ard-form-field>
 </div>
 <div class="master first">
+  <span class="title">Form field with disabled input</span>
+  <ard-form-field>
+    <ard-label>Test</ard-label>
+    <ard-simple-input [formControl]="control3"/>
+    <ard-hint>Example hint</ard-hint>
+  </ard-form-field>
+</div>
+<div class="master first">
   <span class="title">Form field with select control</span>
   <ard-form-field>
     <ard-label>Test</ard-label>
@@ -68,7 +76,8 @@
   <ard-form-field>
     <ard-label>Test</ard-label>
     <ard-digit-input
-      [formControl]="control"
+      [formControl]="controlDigit"
+      outputAsString
       [config]="6"
     />
     <ard-hint>Lorem ipsum dolor sit amet consectetur.</ard-hint>
