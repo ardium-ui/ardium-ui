@@ -9,7 +9,6 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { TakeChance as Random } from 'take-chance';
 import { _BooleanComponentBase } from '../../_internal/boolean-component';
 import { SimpleComponentColor } from '../../types/colors.types';
 import { ARD_RADIO_DEFAULTS, ArdRadioDefaults } from './radio.defaults';
@@ -28,8 +27,6 @@ export class ArdiumRadioComponent extends _BooleanComponentBase {
   constructor(@Inject(ARD_RADIO_DEFAULTS) defaults: ArdRadioDefaults) {
     super(defaults);
   }
-
-  readonly htmlId = input<string>(Random.id());
 
   readonly value = input<any>();
 

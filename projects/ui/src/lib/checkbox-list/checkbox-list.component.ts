@@ -12,7 +12,6 @@ import {
   signal,
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import { TakeChance as Random } from 'take-chance';
 import { SimpleItemStorage, SimpleItemStorageHost } from '../_internal/item-storages/simple-item-storage';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ComponentColor } from '../types/colors.types';
@@ -33,8 +32,6 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
   constructor(@Inject(ARD_CHECKBOX_LIST_DEFAULTS) defaults: ArdCheckboxListDefaults) {
     super(defaults);
   }
-
-  readonly htmlId = input<string>(Random.id());
 
   @HostBinding('attr.id')
   get _htmlIdHostAttribute() {

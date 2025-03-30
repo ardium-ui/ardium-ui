@@ -26,8 +26,6 @@ export class ArdiumCheckboxComponent extends _BooleanComponentBase implements Co
     super(defaults);
   }
 
-  readonly htmlId = input<string>('');
-
   //! appearance
   readonly color = input<SimpleComponentColor>(this._DEFAULTS.color);
   readonly unselectedColor = input<SimpleComponentColor>(this._DEFAULTS.unselectedColor);

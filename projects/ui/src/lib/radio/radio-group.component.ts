@@ -43,8 +43,6 @@ import { ArdiumRadioComponent } from './radio/radio.component';
 export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements AfterContentInit, OnDestroy {
   private readonly _radios = contentChildren<ArdiumRadioComponent>(ArdiumRadioComponent, { descendants: true });
 
-  readonly htmlId = input<string>('');
-
   @HostBinding('attr.id')
   get _htmlIdHostAttribute() {
     return this.htmlId();
@@ -226,7 +224,8 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
       );
     }
   }
-  ngOnDestroy(): void {
+  override ngOnDestroy(): void {
+    super.ngOnDestroy();
     this._destroyChildSubscriptions();
   }
   private _destroyChildSubscriptions(): void {
