@@ -84,6 +84,18 @@
     <ard-hint>Lorem ipsum dolor sit amet consectetur.</ard-hint>
   </ard-form-field>
 </div>
+<div class="master first">
+  <span class="title">Form field with segment control</span>
+  <ard-form-field>
+    <ard-label>Test</ard-label>
+    <ard-segment
+      [formControl]="controlSegment"
+      [items]="['yes', 'no']"
+      uniformWidths
+    />
+    <ard-hint>Lorem ipsum dolor sit amet consectetur.</ard-hint>
+  </ard-form-field>
+</div>
 <div class="master">
   <span class="title">Horizontal form field</span>
   <ard-horizontal-form-field>

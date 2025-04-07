@@ -12,6 +12,7 @@ export class FormFieldPage implements OnInit {
   readonly control3 = new FormControl('Example text 3');
   readonly controlSelect = new FormControl('');
   readonly controlDigit = new FormControl('123456');
+  readonly controlSegment = new FormControl(['yes']);
 
   readonly options = ['Apple', 'Pear', 'Banana', 'Cherry'];
 
