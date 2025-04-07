@@ -1,6 +1,6 @@
 import { Signal, computed, signal } from '@angular/core';
 import { resolvePath } from 'resolve-object-path';
-import { evaluate, isDefined, isObject, isPrimitive } from 'simple-bool';
+import { evaluate, isArray, isDefined, isObject, isPrimitive } from 'simple-bool';
 import { ArdOptionSimple, CompareWithFn } from '../../types/item-storage.types';
 import { Nullable } from '../../types/utility.types';
 
@@ -20,6 +20,7 @@ export interface SimpleItemStorageHost {
   readonly isValueRequired: Signal<boolean>;
   readonly maxSelectedItems: Signal<Nullable<number>>;
   readonly _componentId: string;
+  readonly _componentName: string;
 }
 
 export class SimpleItemStorage {
@@ -167,7 +168,12 @@ export class SimpleItemStorage {
    * @param ngModel The value of ngModel to validate.
    * @returns true if all items are valid, otherwise false.
    */
-  private _validateWriteValue(ngModel: any[]): boolean {
+  private _validateWriteValue(ngModel: unknown): boolean {
+    if (!isArray(ngModel)) {
+      throw new Error(
+        `ARD-FT${this._ardParentComp._componentId}0: <ard-${this._ardParentComp._componentName}> expects its value to be an array, got "${ngModel}".`
+      );
+    }
     return ngModel.every(item => {
       if (!isDefined(this._ardParentComp.compareWith()) && isObject(item) && this._ardParentComp.valueFrom()) {
         console.warn(

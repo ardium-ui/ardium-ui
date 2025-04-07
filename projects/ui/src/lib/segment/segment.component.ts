@@ -6,9 +6,12 @@ import {
   ViewEncapsulation,
   computed,
   contentChild,
+  forwardRef,
   input,
 } from '@angular/core';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { _FormFieldComponentBase } from '../_internal/form-field-component';
 import { _SelectableListComponentBase } from '../_internal/selectable-list-component';
 import { OneAxisAlignment } from '../types/alignment.types';
 import { ComponentColor } from '../types/colors.types';
@@ -29,6 +32,17 @@ interface SegmentRow {
   styleUrls: ['./segment.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => ArdiumSegmentComponent),
+      multi: true,
+    },
+    {
+      provide: _FormFieldComponentBase,
+      useExisting: ArdiumSegmentComponent,
+    },
+  ],
 })
 export class ArdiumSegmentComponent extends _SelectableListComponentBase implements SimpleItemStorageHost, AfterContentInit {
   override readonly _componentId: string = '104';

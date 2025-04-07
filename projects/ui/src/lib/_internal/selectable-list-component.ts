@@ -14,10 +14,10 @@ import { ControlValueAccessor } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { ArdOptionSimple, CompareWithFn, OptionContext } from '../types/item-storage.types';
 import { Nullable } from '../types/utility.types';
+import { _FormFieldComponentBase, _FormFieldComponentDefaults, _formFieldComponentDefaults } from './form-field-component';
 import { SimpleItemStorage, SimpleItemStorageHost } from './item-storages/simple-item-storage';
-import { _NgModelComponentBase, _NgModelComponentDefaults, _ngModelComponentDefaults } from './ngmodel-component';
 
-export interface _SelectableListComponentDefaults extends _NgModelComponentDefaults {
+export interface _SelectableListComponentDefaults extends _FormFieldComponentDefaults {
   valueFrom: string;
   labelFrom: string;
   disabledFrom: string;
@@ -28,7 +28,7 @@ export interface _SelectableListComponentDefaults extends _NgModelComponentDefau
   maxSelectedItems: Nullable<number>;
 }
 export const _selectableListComponentDefaults: _SelectableListComponentDefaults = {
-  ..._ngModelComponentDefaults,
+  ..._formFieldComponentDefaults,
   valueFrom: 'value',
   labelFrom: 'label',
   disabledFrom: 'disabled',
@@ -41,7 +41,7 @@ export const _selectableListComponentDefaults: _SelectableListComponentDefaults 
 
 @Directive()
 export abstract class _SelectableListComponentBase
-  extends _NgModelComponentBase
+  extends _FormFieldComponentBase
   implements ControlValueAccessor, SimpleItemStorageHost
 {
   protected override readonly _DEFAULTS!: _SelectableListComponentDefaults;
