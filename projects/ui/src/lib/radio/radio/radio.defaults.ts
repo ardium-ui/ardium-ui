@@ -1,13 +1,13 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { _booleanComponentDefaults, _BooleanComponentDefaults } from '../../_internal/boolean-component';
+import { _FocusableComponentDefaults, _focusableComponentDefaults } from '../../_internal/focusable-component';
 import { SimpleComponentColor } from './../../types/colors.types';
 
-export interface ArdRadioDefaults extends _BooleanComponentDefaults {
+export interface ArdRadioDefaults extends _FocusableComponentDefaults {
   color: SimpleComponentColor;
 }
 
 const _radioDefaults: ArdRadioDefaults = {
-  ..._booleanComponentDefaults,
+  ..._focusableComponentDefaults,
   color: SimpleComponentColor.Primary,
 };
 

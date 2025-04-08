@@ -60,7 +60,6 @@
             [ardInnerHTML]="item.label()"
             [ardEscapeInnerHTML]="isItemsInputUsed"
           ></div>
-          <!-- TODO check if can remove div -->
         </ard-deletable-chip>
       </ng-template>
       } @if (itemStorage.isAnyItemSelected() && shouldShowItemDisplayLimit()) {
@@ -125,6 +124,7 @@
         type="button"
         class="ard-dropdown-arrow-wrapper"
         (click)="handleDropdownArrowClick($event)"
+        [attr.tabindex]="tabIndex()"
       >
         <span class="ard-dropdown-arrow"></span>
         <div class="ard-hitbox"></div>

@@ -2,14 +2,19 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  HostBinding,
   Inject,
+  Input,
   ViewEncapsulation,
   computed,
   inject,
   input,
+  output,
   signal,
 } from '@angular/core';
-import { _BooleanComponentBase } from '../../_internal/boolean-component';
+import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import Random from 'take-chance';
+import { _FocusableComponentBase } from '../../_internal/focusable-component';
 import { SimpleComponentColor } from '../../types/colors.types';
 import { ARD_RADIO_DEFAULTS, ArdRadioDefaults } from './radio.defaults';
 
@@ -20,12 +25,82 @@ import { ARD_RADIO_DEFAULTS, ArdRadioDefaults } from './radio.defaults';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumRadioComponent extends _BooleanComponentBase {
+export class ArdiumRadioComponent extends _FocusableComponentBase {
   protected readonly _changeDetector = inject(ChangeDetectorRef);
 
   protected override readonly _DEFAULTS!: ArdRadioDefaults;
   constructor(@Inject(ARD_RADIO_DEFAULTS) defaults: ArdRadioDefaults) {
     super(defaults);
+  }
+
+  readonly htmlId = input<string>(Random.id());
+
+  /**
+   * Emits all select-state-related events.
+   */
+  protected _emitChange() {
+    if (this.selected()) this.selectEvent.emit(null);
+    else this.unselectEvent.emit(null);
+
+    this.selectedChange.emit(this.selected());
+    this.changeEvent.emit(this.selected());
+  }
+
+  //! events
+  /**
+   * The event emitter responsible for firing `select` events. Fired when the `selected` state is set to true.
+   */
+  readonly selectEvent = output<null>({ alias: 'select' });
+  /**
+   * The event emitter responsible for firing `unselect` events. Fired when the `selected` state is set to false.
+   */
+  readonly unselectEvent = output<null>({ alias: 'unselect' });
+  /**
+   * The event emitter responsible for firing `change` events. Fired when the `selected` state is changed.
+   */
+  readonly changeEvent = output<boolean>({ alias: 'change' });
+
+  //! [(selected)] two-way binding
+  // can be set using a no-value argument
+  readonly selected = signal<boolean>(false);
+  /**
+   * The selection state of the component. Coercible into a boolean.
+   */
+  @Input('selected')
+  set _selected(v: any) {
+    this.selected.set(coerceBooleanProperty(v));
+  }
+  @HostBinding('attr.selected')
+  @HostBinding('class.ard-selected')
+  get _selectedHostAttribute(): boolean {
+    return this.selected();
+  }
+  /**
+   * The event emitter responsible for firing `selectedChange` events. Fired when the `selected` state is changed.
+   */
+  readonly selectedChange = output<boolean>();
+
+  /**
+   * Toggles the selected state. Emits all appropriate events.
+   */
+  toggleSelected() {
+    this.selected.update(v => !v);
+    this._emitChange();
+  }
+
+  /**
+   * Sets the state to "selected". Emits all appropriate events only if the state changes.
+   */
+  select() {
+    this.selected.set(true);
+    this._emitChange();
+  }
+  /**
+   * Sets the state to "unselected". Emits all appropriate events only if the state changes.
+   */
+  unselect() {
+    this.selected.set(false);
+    this._emitChange();
   }
 
   readonly value = input<any>();

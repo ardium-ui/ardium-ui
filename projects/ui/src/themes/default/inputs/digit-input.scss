@@ -93,3 +93,9 @@ ard-digit-input {
     --ard-variant-border-radius: 0;
   }
 }
+.ard-disabled {
+  > .ard-digit-input {
+    opacity: 50%;
+    pointer-events: none;
+  }
+}
