@@ -17,6 +17,9 @@
     [formControl]="control"
   />
   Touched: {{ control.touched }}
+  <button (click)="control.disabled ? control.enable() : control.disable()">
+    {{ control.disabled ? 'Enable' : 'Disable' }} control
+  </button>
 </div>
 <div class="master">
   <span class="title">Basic digit input (rectangular)</span>

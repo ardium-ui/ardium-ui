@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Logger } from '../../services/logger.service';
 
 @Component({
@@ -16,4 +17,6 @@ export class RadioPage {
   readonly log = inject(Logger).log;
 
   addMore: boolean = false;
+
+  readonly control = new FormControl();
 }
