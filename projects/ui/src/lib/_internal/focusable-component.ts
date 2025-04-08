@@ -69,8 +69,6 @@ export abstract class _FocusableComponentBase extends _DisablableComponentBase {
    */
   readonly isFocused = signal<boolean>(false);
 
-  readonly wasTouched = signal<boolean>(false);
-
   /**
    * Function to handle when an element is focused. Sets `isFocused` and fires the `focus` event.
    * @param event The focus event to emit.
@@ -84,7 +82,6 @@ export abstract class _FocusableComponentBase extends _DisablableComponentBase {
    * @param event The focus event to emit.
    */
   onBlur(event: FocusEvent) {
-    this.wasTouched.set(true);
     this.isFocused.set(false);
     this.blurEvent.emit(event);
   }

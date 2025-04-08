@@ -158,20 +158,18 @@ export class ArdiumDigitInputComponent
     this.focusByIndex(index - 1 + Math.min(value.length, maxLength));
   }
   onInput(event: Event, index: number): void {
-    const wasChanged = this._updateSingleInputValue((event.target as HTMLInputElement).value, index);
-    if (!wasChanged) return;
+    this._updateSingleInputValue((event.target as HTMLInputElement).value, index);
     this.focusByIndex(index + 1);
   }
-  private _updateSingleInputValue(value: string, index: number): boolean {
+  private _updateSingleInputValue(value: string, index: number): void {
     const changeResult = this.model.validateInputAndSetValue(value, index);
-    if (!changeResult?.wasChanged) return false;
+    if (!changeResult?.wasChanged) return;
 
     this._emitChange();
 
     if (this.model.isValueFull()) {
       this.blur();
     }
-    return true;
   }
   focusByIndex(index: number): boolean;
   focusByIndex(index: number, tryFocusingNext: boolean, direction: 1 | -1): boolean;

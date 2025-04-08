@@ -75,9 +75,23 @@ export abstract class _NgModelComponentBase extends _FocusableComponentBase impl
   protected abstract _emitChange(): void; //* abstract
 
   //! event handlers
+  readonly wasTouched = signal<boolean>(false);
+
+  override onFocus(event: FocusEvent): void {
+    super.onFocus(event);
+    this._shouldEmitTouched = false;
+  }
+
+  private _shouldEmitTouched = false;
   override onBlur(event: FocusEvent) {
+    this._shouldEmitTouched = true;
     super.onBlur(event);
-    this._onTouchedRegistered?.();
+
+    setTimeout(() => {
+      if (!this._shouldEmitTouched) return;
+      this.wasTouched.set(true);
+      this._onTouchedRegistered?.();
+    }, 0);
   }
 
   //! form field related
