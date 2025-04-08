@@ -1,6 +1,6 @@
 {
   "name": "ardium-ui",
-  "version": "3.3.0-alpha.2",
+  "version": "3.3.0-alpha.9",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
