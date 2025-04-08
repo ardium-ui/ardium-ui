@@ -13,7 +13,7 @@ import {
   signal,
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
-import Random from 'take-chance';
+import { TakeChance as Random } from 'take-chance';
 import { _FocusableComponentBase } from '../../_internal/focusable-component';
 import { SimpleComponentColor } from '../../types/colors.types';
 import { ARD_RADIO_DEFAULTS, ArdRadioDefaults } from './radio.defaults';
