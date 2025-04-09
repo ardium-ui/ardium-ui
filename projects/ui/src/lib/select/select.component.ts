@@ -325,7 +325,7 @@ export class ArdiumSelectComponent
   }
   //! change & touch event emitters
   protected _emitChange(): void {
-    const value = this.itemStorage.value();
+    const value = this.multiselectable() ? this.itemStorage.value() : this.itemStorage.value()[0];
     this._onChangeRegistered?.(value);
     this.changeEvent.emit(value);
     this.valueChange.emit(value);
