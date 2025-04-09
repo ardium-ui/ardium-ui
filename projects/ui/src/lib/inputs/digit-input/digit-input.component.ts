@@ -156,6 +156,8 @@ export class ArdiumDigitInputComponent
         this.model.validateInputAndSetValue(char, index + i);
       });
     this.focusByIndex(index - 1 + Math.min(value.length, maxLength));
+
+    this._emitChange();
   }
   onInput(event: Event, index: number): void {
     this._updateSingleInputValue((event.target as HTMLInputElement).value, index);
