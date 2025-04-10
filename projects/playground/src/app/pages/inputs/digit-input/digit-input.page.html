@@ -45,7 +45,12 @@
 </div>
 <div class="master">
   <span class="title">Digit input with static items</span>
+  <label [attr.for]="'postalCode'">Zip code</label>
   <ard-digit-input
     [config]="configWithStatics"
+    [formControl]="group.controls.zipCode"
+    htmlId="zipCode"
+    outputAsString
+    (valueChange)="log('valueChange', $event)"
   />
 </div>

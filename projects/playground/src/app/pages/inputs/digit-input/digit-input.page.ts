@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { DigitInputConfig, DigitInputPrimitiveOption, TransformType } from '@ardium-ui/ui';
 import { Logger } from '../../../services/logger.service';
 
@@ -13,6 +13,9 @@ export class DigitInputPage {
   log = this._logger.log;
 
   readonly control = new FormControl();
+  readonly group = new FormGroup({
+    zipCode: new FormControl(),
+  });
 
   readonly simpleConfig = 'letter,number,number,number';
 
