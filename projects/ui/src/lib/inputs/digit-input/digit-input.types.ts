@@ -18,9 +18,11 @@ export const DigitInputPrimitiveOption = {
 } as const;
 export type DigitInputPrimitiveOption = (typeof DigitInputPrimitiveOption)[keyof typeof DigitInputPrimitiveOption];
 
+export type DigitInputTransform = TransformType | ((char: string) => string) | null;
+
 export interface DigitInputAcceptObject {
   accept: string | RegExp | ((char: string, charsBefore: string) => boolean);
-  transform?: TransformType | ((char: string) => string) | null;
+  transform?: DigitInputTransform;
   readonly?: boolean;
   placeholder?: string;
 }

@@ -1,4 +1,5 @@
 import { ElementRef, Signal } from '@angular/core';
+import { DigitInputTransform } from './digit-input.types';
 
 export interface DigitInputConfigData {
   type: DigitInputConfigDataType;
@@ -10,6 +11,7 @@ export interface DigitInputConfigData {
 export interface DigitInputModelHost {
   readonly inputs: Signal<readonly ElementRef<HTMLInputElement>[]>;
   readonly outputAsString: Signal<boolean>;
+  readonly transform: Signal<DigitInputTransform>;
 }
 
 export const DigitInputConfigDataType = {

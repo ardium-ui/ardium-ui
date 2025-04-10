@@ -263,15 +263,16 @@ export class DigitInputModel {
     if (!canAccept) return null;
 
     // transform if needed
-    if (config.transform) {
-      if (config.transform === TransformType.Lowercase) {
+    const transform = config.transform ?? this._ardHost.transform();
+    if (transform) {
+      if (transform === TransformType.Lowercase) {
         return char.toLowerCase();
       }
-      if (config.transform === TransformType.Uppercase) {
+      if (transform === TransformType.Uppercase) {
         return char.toUpperCase();
       }
-      if (isFunction(config.transform)) {
-        return config.transform(char).charAt(0);
+      if (isFunction(transform)) {
+        return transform(char).charAt(0);
       }
       console.warn(
         `ARD-IS0049T: <ard-digit-input>'s value validator encountered an unexpected value of the config's "transform" property. Ardium UI was able to handle this issue, but please report it to the creators.`

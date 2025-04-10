@@ -20,7 +20,7 @@ import { _FormFieldComponentBase } from '../../_internal/form-field-component';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { ARD_DIGIT_INPUT_DEFAULTS, ArdDigitInputDefaults } from './digit-input.defaults';
 import { DigitInputModel } from './digit-input.model';
-import { DigitInputConfig, DigitInputShape } from './digit-input.types';
+import { DigitInputConfig, DigitInputShape, DigitInputTransform } from './digit-input.types';
 import { DigitInputModelHost } from './digit-input.utils';
 
 @Component({
@@ -77,6 +77,8 @@ export class ArdiumDigitInputComponent
     transform: v => this.model.setConfig(v),
   });
   readonly configArrayData = this.model.configArrayData;
+
+  readonly transform = input<DigitInputTransform>(this._DEFAULTS.transform);
 
   private _oldConfigArrayDataLength = -1;
   readonly configArrayDataEffect = effect(() => {
