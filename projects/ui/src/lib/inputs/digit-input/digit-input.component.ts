@@ -160,18 +160,17 @@ export class ArdiumDigitInputComponent
     this._emitChange();
   }
   onInput(event: Event, index: number): void {
-    this._updateSingleInputValue((event.target as HTMLInputElement).value, index);
+    const changeSuccessful = this._updateSingleInputValue((event.target as HTMLInputElement).value, index);
+    if (!changeSuccessful) return;
     this.focusByIndex(index + 1);
   }
-  private _updateSingleInputValue(value: string, index: number): void {
+  private _updateSingleInputValue(value: string, index: number): boolean {
     const changeResult = this.model.validateInputAndSetValue(value, index);
-    if (!changeResult?.wasChanged) return;
 
+    if (!changeResult?.wasChanged) return false;
     this._emitChange();
 
-    if (this.model.isValueFull()) {
-      this.blur();
-    }
+    return true;
   }
   focusByIndex(index: number): boolean;
   focusByIndex(index: number, tryFocusingNext: boolean, direction: 1 | -1): boolean;
@@ -180,6 +179,9 @@ export class ArdiumDigitInputComponent
     const nextEl = this.inputs()[index]?.nativeElement;
     if (!nextEl) return false;
 
+    if (nextEl.getAttribute('data-ard-static') !== null) {
+      return this.focusByIndex(index + (direction ?? 1));
+    }
     nextEl.focus();
     if (tryFocusingNext && direction && document.activeElement !== nextEl) {
       return this.focusByIndex(index + direction);

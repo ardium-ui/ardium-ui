@@ -31,6 +31,16 @@
     <div class="ard-digit-input__static">
       {{ data.char }}
     </div>
+    <input
+      #input
+      type="text"
+      class="ard-digit-input__static-input"
+      data-ard-static
+      autocomplete="off"
+      tabindex="-1"
+      aria-hidden="true"
+      [value]="data.char"
+    />
     }
   </div>
   }

@@ -15,12 +15,18 @@ export class DigitInputModel {
     //set the value array to be the same length
     effect(
       () => {
-        const length = this.configArrayData().length;
+        const configArr = this.configArrayData();
+        const length = configArr.length;
 
         this.value.update(arr => {
-          if (!arr) return new Array(length).fill(null);
-          if (arr.length >= length) return arr.slice(0, length);
-          return [...arr, ...new Array(length - arr.length).fill(null)];
+          if (!arr) arr = [];
+          const newArr: (string | null)[] = [];
+          for (let i = 0; i < length; i++) {
+            const curr = arr[i];
+            const config = configArr[i];
+            newArr.push(config.type === DigitInputConfigDataType.Static ? config.char! : curr ?? null);
+          }
+          return newArr;
         });
       },
       { allowSignalWrites: true }
@@ -30,8 +36,7 @@ export class DigitInputModel {
   private readonly _configArray = signal<DigitInputOption[]>([]);
 
   readonly configArrayData = computed<DigitInputConfigData[]>(() => {
-    let inputIndex = 0;
-    return this._configArray().map(v => {
+    return this._configArray().map((v, i) => {
       if ('static' in v) {
         return {
           type: DigitInputConfigDataType.Static,
@@ -40,16 +45,12 @@ export class DigitInputModel {
       }
       return {
         type: DigitInputConfigDataType.Input,
-        index: inputIndex++,
+        index: i,
         readonly: v.readonly,
         placeholder: v.placeholder ?? '',
       } satisfies DigitInputConfigData;
     });
   });
-
-  private readonly _configArrayNoStatics = computed<DigitInputAcceptObject[]>(
-    () => this._configArray().filter(v => !('static' in v)) as DigitInputAcceptObject[]
-  );
 
   readonly isConfigDefined = computed((): boolean => this._configArray().length > 0);
 
@@ -59,11 +60,10 @@ export class DigitInputModel {
     (): string =>
       this.value()
         ?.map(v => v ?? ' ')
-        .join('')
-        .trimEnd() ?? ''
+        .join('') ?? ''
   );
 
-  readonly isValueFull = computed((): boolean => this.value()?.filter(v => v).length === this._configArrayNoStatics().length);
+  readonly isValueFull = computed((): boolean => this.value()?.filter(v => v).length === this._configArray().length);
 
   isDefinedAtIndex(index: number): boolean {
     return !!this.value()?.[index];
@@ -78,11 +78,11 @@ export class DigitInputModel {
       }
       const vArray = v?.split('') ?? [];
 
-      if (vArray.length > this._configArrayNoStatics().length) {
+      if (vArray.length > this._configArray().length) {
         console.warn(
           `ARD-WA0041: Value provided to <ard-digit-input> is too long. Got ${
             vArray.length
-          } characters, but expected a maximum of ${this._configArrayNoStatics().length} characters.`
+          } characters, but expected a maximum of ${this._configArray().length} characters.`
         );
       }
       return this._writeValue(vArray);
@@ -94,11 +94,11 @@ export class DigitInputModel {
     }
     const vArray = coerceArrayProperty(v);
 
-    if (vArray.length > this._configArrayNoStatics().length) {
+    if (vArray.length > this._configArray().length) {
       console.warn(
         `ARD-WA0041: Value provided to <ard-digit-input> is too long. Got ${
           vArray.length
-        } characters, but expected a maximum of ${this._configArrayNoStatics().length} characters.`
+        } characters, but expected a maximum of ${this._configArray().length} characters.`
       );
     }
     const problemIndex = vArray.findIndex(el => !isAnyString(el) || el.length > 1);
@@ -180,7 +180,7 @@ export class DigitInputModel {
 
   //! validate against the config
   validateInputAndSetValue(input: string, index: number): null | { wasChanged: boolean; resultChar: string | null } {
-    if (index < 0 || index > this._configArrayNoStatics().length) return null;
+    if (index < 0 || index > this._configArray().length) return null;
 
     let v = this.value();
     //prepare the value array if does not exist
@@ -201,7 +201,7 @@ export class DigitInputModel {
     input = firstChar === before ? lastChar : firstChar;
 
     //validate and transform, if necessary
-    const inputChar = this._validateSingleChar(input, before, this._configArrayNoStatics()[index]);
+    const inputChar = this._validateSingleChar(input, before, this._configArray()[index] as DigitInputAcceptObject);
 
     //get the corresponding HTML input element
     const inputEl = this._ardHost.inputs()[index];
@@ -229,7 +229,7 @@ export class DigitInputModel {
 
     let before = '';
     const newValue: (string | null)[] = [];
-    for (let i = 0; i < Math.min(this._configArrayNoStatics().length, v.length); i++) {
+    for (let i = 0; i < Math.min(this._configArray().length, v.length); i++) {
       const char = v[i];
       before += char ?? ' ';
 
@@ -237,34 +237,41 @@ export class DigitInputModel {
         newValue.push(char);
         continue;
       }
-      const config = this._configArrayNoStatics()[i];
-
-      const newChar = this._validateSingleChar(char, before, config);
+      const newChar = this._validateSingleChar(char, before, this._configArray()[i] as DigitInputAcceptObject);
       newValue.push(newChar);
     }
     this.value.set(newValue);
   }
-  private _validateSingleChar(char: string | null, before: string, config: DigitInputAcceptObject): string | null {
+  private _validateSingleChar(char: string | null, before: string, config: DigitInputOption): string | null {
+    // return the character if it is static
+    if ('static' in config) return config.static;
+    // for peace of mind protect against modifying read-only fields
     if (config.readonly) {
       throw new Error(
         `ARD-IS0049R: trying to set value of a <ard-digit-input>'s readonly field. This is error is fatal to the functioning of Ardium UI. Please report this issue to the creators.`
       );
     }
+    // process regex or convert string into regex
     if (!isFunction(config.accept)) {
       const regExp = isRegExp(config.accept) ? config.accept : new RegExp(`[${_sanitizeRegExpString(config.accept)}]`);
       config.accept = str => regExp.test(str);
     }
     if (!char) return char;
 
+    // check if input fits the criteria
     const canAccept = config.accept(char, before);
     if (!canAccept) return null;
 
+    // transform if needed
     if (config.transform) {
       if (config.transform === TransformType.Lowercase) {
         return char.toLowerCase();
       }
       if (config.transform === TransformType.Uppercase) {
         return char.toUpperCase();
+      }
+      if (isFunction(config.transform)) {
+        return config.transform(char).charAt(0);
       }
       console.warn(
         `ARD-IS0049T: <ard-digit-input>'s value validator encountered an unexpected value of the config's "transform" property. Ardium UI was able to handle this issue, but please report it to the creators.`

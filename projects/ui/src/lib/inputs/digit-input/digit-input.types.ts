@@ -20,7 +20,7 @@ export type DigitInputPrimitiveOption = (typeof DigitInputPrimitiveOption)[keyof
 
 export interface DigitInputAcceptObject {
   accept: string | RegExp | ((char: string, charsBefore: string) => boolean);
-  transform?: TransformType | null;
+  transform?: TransformType | ((char: string) => string) | null;
   readonly?: boolean;
   placeholder?: string;
 }
@@ -30,7 +30,6 @@ export interface DigitInputStaticObject {
 
 export type DigitInputOption = DigitInputAcceptObject | DigitInputStaticObject;
 
-export type DigitInputConfig = /* (DigitInputPrimitiveOption | DigitInputOption)[][] */
-  | (DigitInputPrimitiveOption | DigitInputOption)[]
-  | string
-  | number;
+export type DigitInputConfig =
+  /* (DigitInputPrimitiveOption | DigitInputOption)[][] */
+  (DigitInputPrimitiveOption | DigitInputOption)[] | string | number;
