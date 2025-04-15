@@ -69,7 +69,7 @@ export class ArdiumDigitInputComponent
       const attributes: Record<string, string> = {
         autocorrect: 'off',
         autocapitalize: 'off',
-        autocomplete: 'postal-code',
+        autocomplete: 'off',
         ...this.inputAttrs(),
       };
 
