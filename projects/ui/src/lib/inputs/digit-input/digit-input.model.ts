@@ -179,7 +179,10 @@ export class DigitInputModel {
   }
 
   //! validate against the config
-  validateInputAndSetValue(input: string, index: number): null | { wasChanged: boolean; resultChar: string | null } {
+  validateInputAndSetValue(
+    input: string,
+    index: number
+  ): null | { wasChanged: boolean; wasValidChar: boolean; resultChar: string | null } {
     if (index < 0 || index > this._configArray().length) return null;
 
     let v = this.value();
@@ -221,7 +224,7 @@ export class DigitInputModel {
       return newArr;
     });
     //return changes marker and validated value
-    return { wasChanged: newVal !== before, resultChar: inputChar };
+    return { wasChanged: newVal !== before, wasValidChar: !isNull(inputChar), resultChar: inputChar };
   }
   validateValueAndUpdate(): void {
     const v = this.value();
