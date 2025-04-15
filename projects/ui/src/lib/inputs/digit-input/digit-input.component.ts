@@ -1,3 +1,4 @@
+import { AutofillMonitor } from '@angular/cdk/text-field';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -5,22 +6,25 @@ import {
   ElementRef,
   Inject,
   Input,
+  OnDestroy,
   OnInit,
   ViewEncapsulation,
   computed,
   effect,
   forwardRef,
+  inject,
   input,
   output,
   viewChildren,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { Subscription } from 'rxjs';
 import { _FormFieldComponentBase } from '../../_internal/form-field-component';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { ARD_DIGIT_INPUT_DEFAULTS, ArdDigitInputDefaults } from './digit-input.defaults';
 import { DigitInputModel } from './digit-input.model';
-import { DigitInputConfig, DigitInputShape, DigitInputTransform } from './digit-input.types';
+import { DigitInputAutoFillParseFn, DigitInputConfig, DigitInputShape, DigitInputTransform } from './digit-input.types';
 import { DigitInputModelHost } from './digit-input.utils';
 
 @Component({
@@ -43,15 +47,65 @@ import { DigitInputModelHost } from './digit-input.utils';
 })
 export class ArdiumDigitInputComponent
   extends _FormFieldComponentBase
-  implements ControlValueAccessor, DigitInputModelHost, OnInit, AfterViewInit
+  implements ControlValueAccessor, DigitInputModelHost, OnInit, AfterViewInit, OnDestroy
 {
   protected override readonly _DEFAULTS!: ArdDigitInputDefaults;
   constructor(@Inject(ARD_DIGIT_INPUT_DEFAULTS) defaults: ArdDigitInputDefaults) {
     super(defaults);
   }
 
+  private readonly _autoFillMonitor = inject(AutofillMonitor);
+
   //! inputs ref
   readonly inputs = viewChildren<ElementRef<HTMLInputElement>>('input');
+
+  readonly inputAttrs = input<Record<string, any>>(this._DEFAULTS.inputAttrs);
+
+  private _setInputAttributes() {
+    const inputs = this.inputs();
+    for (const input of inputs) {
+      const inputEl = input.nativeElement;
+      const attributes: Record<string, string> = {
+        autocorrect: 'off',
+        autocapitalize: 'off',
+        autocomplete: 'postal-code',
+        ...this.inputAttrs(),
+      };
+
+      for (const key of Object.keys(attributes)) {
+        inputEl.setAttribute(key, attributes[key]);
+      }
+    }
+  }
+
+  //! auto-fill
+  readonly autoFillParseFn = input<DigitInputAutoFillParseFn>(this._DEFAULTS.autoFillParseFn);
+
+  private _autoFillSubs: Subscription[] = [];
+  private _subscribeToAutoFillOnInputs() {
+    const inputs = this.inputs();
+    for (const input of inputs) {
+      const sub = this._autoFillMonitor.monitor(input).subscribe(event => {
+        console.log(event);
+      });
+      this._autoFillSubs.push(sub);
+    }
+  }
+
+  private _unsubscribeFromAutoFill() {
+    const inputs = this.inputs();
+    for (const input of inputs) {
+      this._autoFillMonitor.stopMonitoring(input);
+    }
+    for (const sub of this._autoFillSubs) {
+      sub.unsubscribe();
+    }
+  }
+
+  override ngOnDestroy(): void {
+    super.ngOnDestroy();
+    this._unsubscribeFromAutoFill();
+  }
 
   //! data model
   private readonly model = new DigitInputModel(this);
@@ -117,6 +171,9 @@ export class ArdiumDigitInputComponent
     if (this._valueBeforeViewInit) {
       this._writeValue(this._valueBeforeViewInit);
     }
+
+    this._setInputAttributes();
+    this._subscribeToAutoFillOnInputs();
   }
 
   //! value two-way binding

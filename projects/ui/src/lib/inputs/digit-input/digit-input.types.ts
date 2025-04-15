@@ -35,3 +35,6 @@ export type DigitInputOption = DigitInputAcceptObject | DigitInputStaticObject;
 export type DigitInputConfig =
   /* (DigitInputPrimitiveOption | DigitInputOption)[][] */
   (DigitInputPrimitiveOption | DigitInputOption)[] | string | number;
+
+
+export type DigitInputAutoFillParseFn = (autoFill: string) => string;
