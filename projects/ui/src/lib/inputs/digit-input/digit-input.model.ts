@@ -178,6 +178,33 @@ export class DigitInputModel {
     );
   }
 
+  resetInputValue(index: number): void {
+    if (index < 0 || index > this._configArray().length) return;
+
+    const config = this._configArray()[index] as DigitInputOption;
+    let newValue = '';
+    if ('static' in config) {
+      newValue = config.static;
+    }
+
+    //get the corresponding HTML input element
+    const inputEl = this._ardHost.inputs()[index];
+    if (!inputEl) {
+      throw new Error(
+        "ARD-IS0048: <ard-digit-input>'s value changed, but its corresponding input element could not be found. If you are reading this, you probably experienced a problem with Ardium UI. Please report this issue to the creators."
+      );
+    }
+    //update the input element and value array
+    inputEl.nativeElement.value = newValue;
+
+    this.value.update(arr => {
+      if (!arr) arr = [];
+      const newArr = [...arr];
+      newArr[index] = newValue || null;
+      return newArr;
+    });
+  }
+
   //! validate against the config
   validateInputAndSetValue(
     input: string,

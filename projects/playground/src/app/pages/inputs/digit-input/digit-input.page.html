@@ -45,13 +45,6 @@
 </div> -->
 <div class="master">
   <span class="title">Digit input with static items</span>
-  <form (submit)="$event.preventDefault()">
-    <input
-      type="text"
-      name="city"
-      (cdkAutofill)="autofilled = $event.isAutofilled"
-    />
-    <span>autofilled: {{ autofilled }}</span>
     <label [attr.for]="'postalCode'">Zip code</label>
     <ard-digit-input
       [config]="configWithStatics"
@@ -61,5 +54,4 @@
       [inputAttrs]="{ autocomplete: 'postal-code' }"
       (valueChange)="log('valueChange', $event)"
     />
-  </form>
 </div>

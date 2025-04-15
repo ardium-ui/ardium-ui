@@ -1,3 +1,5 @@
+@use '@angular/cdk';
+
 .ard-digit-input__static-input {
   position: absolute;
   opacity: 0;
@@ -6,3 +8,5 @@
   width: 0;
   height: 0;
 }
+
+@include cdk.text-field-autofill();

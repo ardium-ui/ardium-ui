@@ -1,5 +1,4 @@
-import { AutofillMonitor } from '@angular/cdk/text-field';
-import { AfterViewInit, Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DigitInputConfig, DigitInputPrimitiveOption, TransformType } from '@ardium-ui/ui';
 import { Logger } from '../../../services/logger.service';
@@ -9,7 +8,7 @@ import { Logger } from '../../../services/logger.service';
   templateUrl: './digit-input.page.html',
   styleUrls: ['./digit-input.page.scss'],
 })
-export class DigitInputPage implements AfterViewInit {
+export class DigitInputPage {
   constructor(private _logger: Logger) {}
   log = this._logger.log;
 
@@ -51,14 +50,4 @@ export class DigitInputPage implements AfterViewInit {
     DigitInputPrimitiveOption.Number,
     DigitInputPrimitiveOption.Number,
   ];
-
-  readonly autofillMonitor = inject(AutofillMonitor);
-  @ViewChild('city', { read: ElementRef }) cityInput?: ElementRef<HTMLElement>;
-
-  autofilled = false;
-
-  ngAfterViewInit(): void {
-    console.log(this.cityInput);
-    this.autofillMonitor.monitor(this.cityInput!).subscribe(e => console.log(e));
-  }
 }
