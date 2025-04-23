@@ -154,8 +154,12 @@ export class SimpleItemStorage {
       );
     };
 
-    for (const modelValue of ngModel) {
-      selectItemByValue(modelValue);
+    if (this._ardParentComp.multiselectable()) {
+      for (const modelValue of ngModel) {
+        selectItemByValue(modelValue);
+      }
+    } else {
+      selectItemByValue(ngModel);
     }
   }
 
@@ -191,7 +195,7 @@ export class SimpleItemStorage {
     }
     return this._validateSingleElementType(ngModel);
   }
-  
+
   findItemByValue(valueToFind: any): ArdOptionSimple | undefined {
     let findBy: (item: ArdOptionSimple) => boolean;
     const cmpFn = this._ardParentComp.compareWith();
