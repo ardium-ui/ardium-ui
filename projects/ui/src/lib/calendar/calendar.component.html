@@ -1,9 +1,13 @@
-<div class="ard-calendar" [ngClass]="ngClasses()">
+<div
+  class="ard-calendar"
+  [ngClass]="ngClasses()"
+>
   @switch (activeView()) { @case ('days') {
   <ard-days-view
     [tabIndex]="tabIndex()"
     [readOnly]="readonly()"
     [disabled]="disabled()"
+    [_isUsingKeyboard]="_isUsingKeyboard()"
     [(activeMonth)]="activeMonth"
     [(activeYear)]="activeYear"
     [(selectedDate)]="selected"
@@ -17,5 +21,20 @@
     (triggerOpenMonthsView)="onTriggerOpenMonthsView()"
     (triggerOpenYearsView)="onTriggerOpenYearsView()"
   />
-  } @case ('months') {} @case ('years') {} }
+  } @case ('months') {} @case ('years') {
+  <ard-years-view
+    [tabIndex]="tabIndex()"
+    [readOnly]="readonly()"
+    [disabled]="disabled()"
+    [_isUsingKeyboard]="_isUsingKeyboard()"
+    [(activeYear)]="activeYear"
+    [(selectedDate)]="selected"
+    [yearsViewHeaderTemplate]="yearsViewHeaderTemplate()"
+    [yearTemplate]="yearTemplate()"
+    (focus)="onFocus($event)"
+    (blur)="onBlur($event)"
+    (triggerOpenDaysView)="onTriggerOpenDaysView()"
+    (triggerOpenMonthsView)="onTriggerOpenMonthsView()"
+  />
+  } }
 </div>

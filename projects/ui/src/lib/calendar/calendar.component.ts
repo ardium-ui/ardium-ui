@@ -3,12 +3,15 @@ import {
   Component,
   computed,
   contentChild,
+  HostListener,
   Inject,
   input,
   model,
+  signal,
   TemplateRef,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
+import { coerceNumberProperty } from '@ardium-ui/devkit';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ComponentColor } from '../types/colors.types';
 import { ARD_CALENDAR_DEFAULTS, ArdCalendarDefaults } from './calendar.defaults';
@@ -43,12 +46,48 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
   readonly ngClasses = computed((): string => [`ard-color-${this.color()}`].join(' '));
 
   //! active view
-  readonly activeView = model<ArdCalendarView>(ArdCalendarView.Days);
+  readonly activeView = model<ArdCalendarView>(ArdCalendarView.Years);
   readonly activeYear = model<number>(new Date().getFullYear());
   readonly activeMonth = model<number>(new Date().getMonth());
 
-  readonly firstWeekday = input<number, number>(1, { transform: v => v % 7 });
+  readonly firstWeekday = input<number, any>(1, {
+    transform: v => {
+      const value = coerceNumberProperty(v, 1);
+      if (!Number.isInteger(value)) {
+        console.error(
+          new Error(`ARD-NF2001A: [firstWeekday] must be a positive integer, got "${value}". Using default value instead.`)
+        );
+        return 1;
+      }
+      if (value < 0 || value > 6) {
+        console.error(
+          new Error(
+            `ARD-NF2001B: [firstWeekday] must be between 0 and 6, got "${value}". Using modulo operator to adjust the value.`
+          )
+        );
+      }
+      return value % 7;
+    },
+  });
 
+  readonly multipleYearPageChangeModifier = input<number, any>(5, {
+    transform: v => {
+      const value = coerceNumberProperty(v, 5);
+      if (!Number.isInteger(value) || value < 1) {
+        console.error(
+          new Error(
+            `ARD-NF2002: [multipleYearPageChangeModifier] must be a positive integer, got "${value}". Using default value instead.`
+          )
+        );
+        return 5;
+      }
+      return value;
+    },
+  });
+
+  onTriggerOpenDaysView(): void {
+    this.activeView.set(ArdCalendarView.Days);
+  }
   onTriggerOpenMonthsView(): void {
     this.activeView.set(ArdCalendarView.Months);
   }
@@ -65,6 +104,17 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
 
   protected override _emitChange(): void {
     // TODO
+  }
+
+  //! internals
+  readonly _isUsingKeyboard = signal<boolean>(false);
+  @HostListener('document:mousemove')
+  onDocumentMousemove(): void {
+    this._isUsingKeyboard.set(false);
+  }
+  @HostListener('document:keydown')
+  onDocumentKeydown(): void {
+    this._isUsingKeyboard.set(true);
   }
 
   //! templates

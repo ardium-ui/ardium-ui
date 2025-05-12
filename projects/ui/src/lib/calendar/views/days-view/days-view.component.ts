@@ -3,8 +3,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   ElementRef,
-  HostListener,
   input,
   model,
   output,
@@ -42,12 +42,23 @@ export class DaysViewComponent {
   readonly readOnly = input.required<boolean>();
   readonly disabled = input.required<boolean>();
 
+  readonly _isUsingKeyboard = input.required<boolean>();
+
+  constructor() {
+    effect(() => {
+      const isUsingKeyboard = this._isUsingKeyboard();
+      const highlightedDay = this.highlightedDay();
+
+      if (isUsingKeyboard) return;
+      if (highlightedDay) this.setHighlightedDay(null);
+    }, { allowSignalWrites: true });
+  }
+
   //! active year/month
   readonly activeYear = model.required<number>();
   readonly activeMonth = model.required<number>();
 
   changeMonth(offset: number): void {
-    const oldYear = this.activeYear();
     this.activeMonth.update(v => v + offset);
 
     if (this.activeMonth() > 11) {
@@ -124,7 +135,7 @@ export class DaysViewComponent {
     if (this.activeMonth() !== date.getMonth()) this.activeMonth.update(() => date.getMonth());
   }
   onCalendarDayMouseover(day: number | null): void {
-    if (this._isUsingKeyboard) return;
+    if (this._isUsingKeyboard()) return;
 
     this.setHighlightedDay(day);
   }
@@ -162,18 +173,6 @@ export class DaysViewComponent {
   }
 
   //! keyboard controls
-  private _isUsingKeyboard = false;
-  @HostListener('document:mousemove')
-  onDocumentMousemove(): void {
-    if (!this._isUsingKeyboard && this.highlightedDay()) this.setHighlightedDay(null);
-
-    this._isUsingKeyboard = false;
-  }
-  @HostListener('document:keydown')
-  onDocumentKeydown(): void {
-    this._isUsingKeyboard = true;
-  }
-
   onMainGridKeydown(event: KeyboardEvent): void {
     switch (event.code) {
       case 'Space':
@@ -440,7 +439,7 @@ export class DaysViewComponent {
       date,
       $implicit: day,
       select: (dayOrDate: number | Date) => {
-        // this.selectDay(dayOrDate);
+        this.selectDay(dayOrDate);
       },
     };
   });

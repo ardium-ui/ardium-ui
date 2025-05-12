@@ -1,0 +1,99 @@
+<div class="ard-years-view">
+  <div class="ard-calendar__top-toolbar">
+    <ng-template
+      #defaultYearsViewHeaderTemplate
+      let-dateRange="dateRange"
+      let-nextPage="nextPage"
+      let-prevPage="prevPage"
+      let-openDaysView="openDaysView"
+    >
+      <div class="ard-calendar__calendar-header">
+        <ard-button
+          class="ard-calendar__header-button"
+          appearance="transparent"
+          color="none"
+          [tabIndex]="tabIndex()"
+          (click)="openDaysView()"
+          variant="pill"
+        >
+          {{ dateRange.low | date : 'YYYY' }}
+          &mdash;
+          {{ dateRange.high | date : 'YYYY' }}
+          <div class="ard-dropdown-arrow"></div>
+        </ard-button>
+        <div class="ard-calendar-arrows">
+          <ard-icon-button
+            size="small"
+            appearance="transparent"
+            color="none"
+            (click)="prevPage()"
+            [tabIndex]="tabIndex()"
+          >
+            <ard-icon>chevron_left</ard-icon>
+          </ard-icon-button>
+          <ard-icon-button
+            size="small"
+            appearance="transparent"
+            color="none"
+            (click)="nextPage()"
+            [tabIndex]="tabIndex()"
+          >
+            <ard-icon>chevron_right</ard-icon>
+          </ard-icon-button>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template
+      [ngTemplateOutlet]="yearsViewHeaderTemplate() || defaultYearsViewHeaderTemplate"
+      [ngTemplateOutletContext]="yearsViewHeaderContext()"
+    />
+  </div>
+  <div
+    #focusableElement
+    class="ard-calendar__simple-grid"
+    [tabindex]="tabIndex()"
+    [ariaLabel]="currentAriaLabel()"
+    (focus)="focusEvent.emit($event)"
+    (focus)="onYearGridFocus()"
+    (blur)="blurEvent.emit($event)"
+    (blur)="onYearGridBlur()"
+    (click)="onYearGridClick()"
+    (keydown)="onMainGridKeydown($event)"
+    role="grid"
+  >
+    @for (year of yearsArray(); track year) {
+    <div
+      class="ard-calendar__entry"
+      [class.ard-calendar__entry-highlighted]="highlightedYear() === year || activeYear() === year"
+      [class.ard-calendar__entry-selected]="isYearSelected(year)"
+      [class.ard-calendar-today]="isYearToday(year)"
+      (click)="onCalendarYearClick(year)"
+      (mousemove)="$event.stopPropagation()"
+      (mouseover)="onCalendarYearMouseover(year)"
+      role="gridcell"
+    >
+      <button
+        type="button"
+        class="ard-calendar__entry-button"
+        tabindex="-1"
+        aria-hidden="true"
+      >
+        <div class="ard-focus-overlay"></div>
+        <div class="ard-button-content">
+          <ng-template
+            #defaultYearTemplate
+            let-year
+          >
+            {{ year | date : 'YYYY' }}
+          </ng-template>
+          <ng-template
+            [ngTemplateOutlet]="yearTemplate() || defaultYearTemplate"
+            [ngTemplateOutletContext]="yearContext()(year)"
+          />
+        </div>
+      </button>
+    </div>
+    }
+  </div>
+</div>

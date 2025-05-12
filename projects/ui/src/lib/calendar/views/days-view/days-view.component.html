@@ -90,21 +90,22 @@
     </div>
     @for (week of activeCalendarData().array; track $index) { @for (day of week; track day) {
     <div
-      class="ard-calendar__day"
-      [class.ard-calendar__day-empty]="day === null"
-      [class.ard-calendar__day-highlighted]="highlightedDay() === day"
-      [class.ard-calendar__day-selected]="isDaySelected(day)"
+      class="ard-calendar__entry"
+      [class.ard-calendar__entry-empty]="day === null"
+      [class.ard-calendar__entry-highlighted]="highlightedDay() === day"
+      [class.ard-calendar__entry-selected]="isDaySelected(day)"
       [class.ard-calendar-today]="isDayToday(day)"
       (click)="onCalendarDayClick(day)"
       (mousemove)="$event.stopPropagation()"
       (mouseover)="onCalendarDayMouseover(day)"
       role="gridcell"
     >
+      @if (day !== null) {
       <button
         type="button"
-        class="ard-calendar__day-button"
-        *ngIf="day !== null"
+        class="ard-calendar__entry-button"
         tabindex="-1"
+        aria-hidden="true"
       >
         <div class="ard-focus-overlay"></div>
         <div class="ard-button-content">
@@ -120,6 +121,7 @@
           />
         </div>
       </button>
+      }
     </div>
     } }
   </div>

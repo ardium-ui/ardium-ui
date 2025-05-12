@@ -24,6 +24,11 @@ $grid-size: 2.5rem;
       }
     }
   }
+  .ard-years-view {
+    .ard-dropdown-arrow {
+      rotate: 180deg;
+    }
+  }
   //! weekdays
   .ard-calendar__weekdays {
     display: grid;
@@ -73,13 +78,32 @@ $grid-size: 2.5rem;
       pointer-events: none;
     }
   }
-  .ard-calendar__day {
+  //! years/months grid
+  .ard-calendar__simple-grid {
+    border-top: 1px solid ARD.$detail-ultralight;
+    margin-top: 0.25rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(6, $grid-size);
+    position: relative;
+    outline: none;
+
+    > * {
+      max-width: 100%;
+      box-sizing: border-box;
+      aspect-ratio: 7/4; //it has to be the same height as in the days view
+      //before it was 7/7 (1) because there are 7 entries in a single row
+      //now there are 4 entries, and thus 7/4
+    }
+  }
+  //! common in both grids
+  .ard-calendar__entry {
     z-index: 1;
     cursor: pointer;
     outline: none;
     padding: 0.125rem;
 
-    .ard-calendar__day-button {
+    .ard-calendar__entry-button {
       background: transparent;
       border: 1px solid transparent;
       width: 100%;
@@ -97,21 +121,21 @@ $grid-size: 2.5rem;
         transition: border-color 0.2s ease, opacity 0.2s ease;
       }
     }
-    &.ard-calendar__day-empty {
+    &.ard-calendar__entry-empty {
       cursor: default;
     }
     &.ard-calendar-today {
-      .ard-calendar__day-button {
+      .ard-calendar__entry-button {
         border-color: ARD.$detail;
       }
     }
-    &.ard-calendar__day-highlighted {
+    &.ard-calendar__entry-highlighted {
       .ard-focus-overlay {
         opacity: 20%;
       }
     }
-    &.ard-calendar__day-selected {
-      .ard-calendar__day-button {
+    &.ard-calendar__entry-selected {
+      .ard-calendar__entry-button {
         color: var(--ard-cmpcl--on-bg-colored);
       }
       .ard-focus-overlay {

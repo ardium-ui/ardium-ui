@@ -19,6 +19,7 @@ export interface YearRange {
 export interface CalendarYearsViewHeaderContext {
   nextPage: () => void;
   prevPage: () => void;
+  openMonthsView: () => void;
   openDaysView: () => void;
   yearRange: YearRange;
   dateRange: DateRange;
@@ -60,7 +61,7 @@ export interface CalendarFloatingMonthContext {
 export interface CalendarYearContext {
   value: number;
   date: Date;
-  $implicit: number;
+  $implicit: Date;
   select: (year: number) => void;
 }
 
