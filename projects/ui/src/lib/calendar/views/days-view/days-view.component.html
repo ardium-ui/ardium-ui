@@ -1,0 +1,130 @@
+<div class="ard-days-view">
+  <div class="ard-days-view__top-toolbar">
+    <ng-template
+      #defaultDaysViewHeaderTemplate
+      let-currDate
+      let-nextMonth="nextMonth"
+      let-prevMonth="prevMonth"
+      let-openYearsView="openYearsView"
+    >
+      <div class="ard-calendar__days-view-header">
+        <ard-button
+          class="ard-calendar__header-button"
+          appearance="transparent"
+          color="none"
+          variant="pill"
+          [tabIndex]="tabIndex()"
+          (click)="openYearsView()"
+        >
+          {{ currDate | date : 'MMM YYYY' | uppercase }}
+          <div class="ard-dropdown-arrow"></div>
+        </ard-button>
+        <div class="ard-calendar__arrows">
+          <ard-icon-button
+            size="small"
+            appearance="transparent"
+            color="none"
+            (click)="prevMonth()"
+            [tabIndex]="tabIndex()"
+          >
+            <ard-icon>chevron_left</ard-icon>
+          </ard-icon-button>
+          <ard-icon-button
+            size="small"
+            appearance="transparent"
+            color="none"
+            (click)="nextMonth()"
+            [tabIndex]="tabIndex()"
+          >
+            <ard-icon>chevron_right</ard-icon>
+          </ard-icon-button>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template
+      [ngTemplateOutlet]="daysViewHeaderTemplate() || defaultDaysViewHeaderTemplate"
+      [ngTemplateOutletContext]="daysViewHeaderContext()"
+    />
+  </div>
+  <div class="ard-days-view__weekdays">
+    <ng-template
+      #defaultWeekdayTemplate
+      let-date
+    >
+      <div class="ard-calendar__weekday">{{ date | date : 'EEEEE' }}</div>
+    </ng-template>
+    @for (weekdayIndex of weekdayArray(); track weekdayIndex) {
+    <ng-template
+      [ngTemplateOutlet]="weekdayTemplate() || defaultWeekdayTemplate"
+      [ngTemplateOutletContext]="weekdayContext()(weekdayIndex)"
+    ></ng-template>
+    }
+  </div>
+  <div
+    #focusableElement
+    class="ard-calendar__days-grid"
+    [class.ard-reserve-top-row]="reserveTopRow()"
+    [tabindex]="tabIndex()"
+  >
+  <!--
+    [ariaLabel]="currentAriaLabel"
+    (focus)="onFocus($event)"
+    (focus)="onDayGridFocus()"
+    (blur)="onBlur($event)"
+    (blur)="onDayGridBlur()"
+    (click)="onDayGridClick()"
+    (keydown)="onMainGridKeydown($event)"
+    role="grid"
+  -->
+    <div class="ard-calendar__floating-month">
+      <ng-template
+        #defaultFloatingMonthTemplate
+        let-date
+      >
+        {{ date | date : 'LLL' | uppercase }}
+      </ng-template>
+
+      <ng-template
+        [ngTemplateOutlet]="floatingMonthTemplate() || defaultFloatingMonthTemplate"
+        [ngTemplateOutletContext]="floatingMonthContext()"
+      ></ng-template>
+    </div>
+    @for (week of activeCalendarData().array; track $index) { @for (day of week; track day) {
+    <div
+      class="ard-calendar__day"
+      [class.ard-calendar__day-empty]="day === null"
+    >
+    <!-- 
+      [class.ard-calendar__day-highlighted]="highlightedDay === day"
+      [class.ard-calendar__day-selected]="isDaySelected(day)"
+      [class.ard-calendar-today]="isDayToday(day)"
+      (click)="onCalendarDayClick(day)"
+      (mousemove)="$event.stopPropagation()"
+      (mouseover)="onCalendarDayMouseover(day)"
+      role="gridcell"
+    -->
+      <button
+        type="button"
+        class="ard-calendar__day-button"
+        *ngIf="day !== null"
+        tabindex="-1"
+      >
+        <div class="ard-focus-overlay"></div>
+        <div class="ard-button-content">
+          <ng-template
+            #defaultDayTemplate
+            let-day
+          >
+            {{ day }}
+          </ng-template>
+          <ng-template
+            [ngTemplateOutlet]="dayTemplate() || defaultDayTemplate"
+            [ngTemplateOutletContext]="dayContext()(day)"
+          />
+        </div>
+      </button>
+    </div>
+    } }
+  </div>
+</div>

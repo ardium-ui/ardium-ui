@@ -1,0 +1,16 @@
+<div class="ard-calendar">
+  @switch (activeView()) { @case ('days') {
+  <ard-days-view
+    [tabIndex]="tabIndex()"
+    [readOnly]="readonly()"
+    [disabled]="disabled()"
+    [(activeMonth)]="activeMonth"
+    [(activeYear)]="activeYear"
+    [firstWeekday]="firstWeekday()"
+    [daysViewHeaderTemplate]="daysViewHeaderTemplate()"
+    [floatingMonthTemplate]="floatingMonthTemplate()"
+    [weekdayTemplate]="weekdayTemplate()"
+    [dayTemplate]="dayTemplate()"
+  />
+  } @case ('months') {} @case ('years') {} }
+</div>

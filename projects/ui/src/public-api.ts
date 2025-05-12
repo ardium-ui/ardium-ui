@@ -32,7 +32,7 @@ export * from './lib/star/star-input'; // 108
 export * from './lib/statebox'; // 109
 
 //! component group 2 - pickers
-// export * from './lib/calendar'; // 200 & (future: 201)
+export * from './lib/calendar'; // 200 & (future: 201)
 // export * from './lib/color/color-picker'; // 202
 
 //! component group 3 - lists

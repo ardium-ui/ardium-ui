@@ -6,7 +6,10 @@
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
-    "types": ["node"]
+    "types": ["node"],
+    "paths": {
+      "@public-api": ["projects/ui/src/public-api"],
+    }
   },
   "exclude": ["src/test.ts", "**/*.spec.ts"]
 }

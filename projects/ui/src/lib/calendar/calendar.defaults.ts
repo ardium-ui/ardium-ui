@@ -1,12 +1,10 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { SimpleComponentColor } from '../types/colors.types';
+import { _ngModelComponentDefaults, _NgModelComponentDefaults } from '../_internal/ngmodel-component';
 
-export interface ArdCalendarDefaults {
-  color: SimpleComponentColor;
-}
+export interface ArdCalendarDefaults extends _NgModelComponentDefaults {}
 
 const _calendarDefaults: ArdCalendarDefaults = {
-  color: SimpleComponentColor.Primary,
+  ..._ngModelComponentDefaults,
 };
 
 export const ARD_CALENDAR_DEFAULTS = new InjectionToken<ArdCalendarDefaults>('ard-calendar-defaults', {
