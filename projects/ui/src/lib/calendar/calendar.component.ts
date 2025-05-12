@@ -7,9 +7,10 @@ import {
   input,
   model,
   TemplateRef,
-  ViewEncapsulation,
+  ViewEncapsulation
 } from '@angular/core';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
+import { ComponentColor } from '../types/colors.types';
 import { ARD_CALENDAR_DEFAULTS, ArdCalendarDefaults } from './calendar.defaults';
 import {
   ArdCalendarView,
@@ -37,7 +38,9 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
   }
 
   //! appearance
-  readonly ngClasses = computed((): string => [].join(' '));
+  readonly color = input<ComponentColor>(ComponentColor.Primary);
+
+  readonly ngClasses = computed((): string => [`ard-color-${this.color()}`].join(' '));
 
   //! active view
   readonly activeView = model<ArdCalendarView>(ArdCalendarView.Days);
@@ -45,6 +48,13 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
   readonly activeMonth = model<number>(new Date().getMonth());
 
   readonly firstWeekday = input<number, number>(1, { transform: v => v % 7 });
+
+  onTriggerOpenMonthsView(): void {
+    this.activeView.set(ArdCalendarView.Months);
+  }
+  onTriggerOpenYearsView(): void {
+    this.activeView.set(ArdCalendarView.Years);
+  }
 
   //! value
   readonly selected = model<Date | null>(null);

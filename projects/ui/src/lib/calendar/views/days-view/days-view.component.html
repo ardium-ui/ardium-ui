@@ -1,5 +1,5 @@
 <div class="ard-days-view">
-  <div class="ard-days-view__top-toolbar">
+  <div class="ard-calendar__top-toolbar">
     <ng-template
       #defaultDaysViewHeaderTemplate
       let-currDate
@@ -7,7 +7,7 @@
       let-prevMonth="prevMonth"
       let-openYearsView="openYearsView"
     >
-      <div class="ard-calendar__days-view-header">
+      <div class="ard-calendar__calendar-header">
         <ard-button
           class="ard-calendar__header-button"
           appearance="transparent"
@@ -47,7 +47,7 @@
       [ngTemplateOutletContext]="daysViewHeaderContext()"
     />
   </div>
-  <div class="ard-days-view__weekdays">
+  <div class="ard-calendar__weekdays">
     <ng-template
       #defaultWeekdayTemplate
       let-date
@@ -66,17 +66,15 @@
     class="ard-calendar__days-grid"
     [class.ard-reserve-top-row]="reserveTopRow()"
     [tabindex]="tabIndex()"
-  >
-  <!--
-    [ariaLabel]="currentAriaLabel"
-    (focus)="onFocus($event)"
+    [ariaLabel]="currentAriaLabel()"
+    (focus)="focusEvent.emit($event)"
     (focus)="onDayGridFocus()"
-    (blur)="onBlur($event)"
+    (blur)="blurEvent.emit($event)"
     (blur)="onDayGridBlur()"
     (click)="onDayGridClick()"
     (keydown)="onMainGridKeydown($event)"
     role="grid"
-  -->
+  >
     <div class="ard-calendar__floating-month">
       <ng-template
         #defaultFloatingMonthTemplate
@@ -94,16 +92,14 @@
     <div
       class="ard-calendar__day"
       [class.ard-calendar__day-empty]="day === null"
-    >
-    <!-- 
-      [class.ard-calendar__day-highlighted]="highlightedDay === day"
+      [class.ard-calendar__day-highlighted]="highlightedDay() === day"
       [class.ard-calendar__day-selected]="isDaySelected(day)"
       [class.ard-calendar-today]="isDayToday(day)"
       (click)="onCalendarDayClick(day)"
       (mousemove)="$event.stopPropagation()"
       (mouseover)="onCalendarDayMouseover(day)"
       role="gridcell"
-    -->
+    >
       <button
         type="button"
         class="ard-calendar__day-button"

@@ -73,6 +73,7 @@
     }
     &.ard-calendar-entry-empty {
       cursor: default;
+      pointer-events: none;
     }
     &.ard-calendar-today {
       .ard-calendar-entry-button {
