@@ -46,7 +46,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
   readonly ngClasses = computed((): string => [`ard-color-${this.color()}`].join(' '));
 
   //! active view
-  readonly activeView = model<ArdCalendarView>(ArdCalendarView.Years);
+  readonly activeView = model<ArdCalendarView>(ArdCalendarView.Days);
   readonly activeYear = model<number>(new Date().getFullYear());
   readonly activeMonth = model<number>(new Date().getMonth());
 

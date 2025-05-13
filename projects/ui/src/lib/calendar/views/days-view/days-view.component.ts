@@ -3,8 +3,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
   ElementRef,
+  HostListener,
   input,
   model,
   output,
@@ -44,14 +44,10 @@ export class DaysViewComponent {
 
   readonly _isUsingKeyboard = input.required<boolean>();
 
-  constructor() {
-    effect(() => {
-      const isUsingKeyboard = this._isUsingKeyboard();
-      const highlightedDay = this.highlightedDay();
-
-      if (isUsingKeyboard) return;
-      if (highlightedDay) this.setHighlightedDay(null);
-    }, { allowSignalWrites: true });
+  @HostListener('document:mousemove')
+  onMouseMove(): void {
+    if (this._isUsingKeyboard()) return;
+    if (this.highlightedDay()) this.setHighlightedDay(null);
   }
 
   //! active year/month
@@ -118,6 +114,7 @@ export class DaysViewComponent {
   readonly highlightedDay = this.__highlightedDay.asReadonly();
 
   setHighlightedDay(day: number | null): void {
+    console.log(new Error('setHighlightedDay'), day);
     if (isNull(day)) {
       this.__highlightedDay.update(() => day);
       return;
@@ -134,6 +131,7 @@ export class DaysViewComponent {
 
     if (this.activeMonth() !== date.getMonth()) this.activeMonth.update(() => date.getMonth());
   }
+
   onCalendarDayMouseover(day: number | null): void {
     if (this._isUsingKeyboard()) return;
 

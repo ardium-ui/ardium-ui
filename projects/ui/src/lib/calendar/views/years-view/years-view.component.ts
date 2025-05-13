@@ -1,5 +1,15 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, input, model, output, signal, TemplateRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  HostListener,
+  input,
+  model,
+  output,
+  signal,
+  TemplateRef,
+} from '@angular/core';
 import { roundToMultiple } from 'more-rounding';
 import { ArdiumButtonModule, ArdiumIconButtonModule } from 'projects/ui/src/public-api';
 import { isDefined, isNull } from 'simple-bool';
@@ -23,6 +33,12 @@ export class YearsViewComponent {
   readonly disabled = input.required<boolean>();
 
   readonly _isUsingKeyboard = input.required<boolean>();
+
+  @HostListener('document:mousemove')
+  onMouseMove(): void {
+    if (this._isUsingKeyboard()) return;
+    if (this.highlightedYear()) this.highlightedYear.set(null);
+  }
 
   readonly activeYear = model.required<number>();
 

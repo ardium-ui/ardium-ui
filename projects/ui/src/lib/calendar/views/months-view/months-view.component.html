@@ -1,0 +1,95 @@
+<div class="ard-months-view">
+  <div class="ard-calendar__top-toolbar">
+    <ng-template
+      #defaultMonthsViewHeaderTemplate
+      let-year
+      let-nextPage="nextPage"
+      let-prevPage="prevPage"
+      let-openDaysView="openDaysView"
+    >
+      <div class="ard-calendar__calendar-header">
+        <ard-button
+          class="ard-calendar__header-button"
+          appearance="transparent"
+          [color]="color()"
+          [tabIndex]="tabIndex()"
+          (click)="openDaysView()"
+        >
+          {{ year }}
+          <div class="ard-dropdown-arrow"></div>
+        </ard-button>
+        <div class="ard-calendar-arrows">
+          <ard-icon-button
+            size="small"
+            appearance="transparent"
+            color="none"
+            (click)="prevPage()"
+            [tabIndex]="tabIndex()"
+          >
+            <ard-icon>chevron_left</ard-icon>
+          </ard-icon-button>
+          <ard-icon-button
+            size="small"
+            appearance="transparent"
+            color="none"
+            (click)="nextPage()"
+            [tabIndex]="tabIndex()"
+          >
+            <ard-icon>chevron_right</ard-icon>
+          </ard-icon-button>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template
+      [ngTemplateOutlet]="monthsViewHeaderTemplate() || defaultMonthsViewHeaderTemplate"
+      [ngTemplateOutletContext]="monthsViewHeaderContext()"
+    />
+  </div>
+  <div
+    #focusableElement
+    class="ard-calendar__simple-grid"
+    [tabindex]="tabIndex()"
+    [ariaLabel]="currentAriaLabel()"
+    (focus)="focusEvent.emit($event)"
+    (focus)="onMonthGridFocus()"
+    (blur)="blurEvent.emit($event)"
+    (blur)="onMonthGridBlur()"
+    (click)="onMonthGridClick()"
+    (keydown)="onMainGridKeydown($event)"
+    role="grid"
+  >
+    @for (month of MONTHS_ARRAY; track $index) {
+    <div
+      class="ard-calendar__entry"
+      [class.ard-calendar__entry-highlighted]="highlightedMonth() === month || activeMonth() === month"
+      [class.ard-calendar__entry-selected]="isMonthSelected(month)"
+      [class.ard-calendar-today]="isMonthToday(month)"
+      (click)="onCalendarMonthClick(month)"
+      (mousemove)="$event.stopPropagation()"
+      (mouseover)="onCalendarMonthMouseover(month)"
+      role="gridcell"
+    >
+      <button
+        type="button"
+        class="ard-calendar__entry-button"
+        tabindex="-1"
+      >
+        <div class="ard-focus-overlay"></div>
+        <div class="ard-button-content">
+          <ng-template
+            #defaultMonthTemplate
+            let-month
+          >
+            {{ month | date : 'MMM' | uppercase }}
+          </ng-template>
+          <ng-template
+            [ngTemplateOutlet]="monthTemplate() || defaultMonthTemplate"
+            [ngTemplateOutletContext]="monthContext()(month)"
+          />
+        </div>
+      </button>
+    </div>
+    }
+  </div>
+</div>

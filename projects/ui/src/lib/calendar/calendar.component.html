@@ -21,7 +21,24 @@
     (triggerOpenMonthsView)="onTriggerOpenMonthsView()"
     (triggerOpenYearsView)="onTriggerOpenYearsView()"
   />
-  } @case ('months') {} @case ('years') {
+  } @case ('months') {
+    <ard-months-view
+      [tabIndex]="tabIndex()"
+      [readOnly]="readonly()"
+      [disabled]="disabled()"
+      [_isUsingKeyboard]="_isUsingKeyboard()"
+      [color]="color()"
+      [(activeMonth)]="activeMonth"
+      [(activeYear)]="activeYear"
+      [(selectedDate)]="selected"
+      [monthsViewHeaderTemplate]="monthsViewHeaderTemplate()"
+      [monthTemplate]="monthTemplate()"
+      (focus)="onFocus($event)"
+      (blur)="onBlur($event)"
+      (triggerOpenDaysView)="onTriggerOpenDaysView()"
+      (triggerOpenYearsView)="onTriggerOpenYearsView()"
+    />
+  } @case ('years') {
   <ard-years-view
     [tabIndex]="tabIndex()"
     [readOnly]="readonly()"
