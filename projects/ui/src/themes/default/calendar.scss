@@ -104,13 +104,17 @@ $grid-size: 2.5rem;
     padding: 0.125rem;
 
     .ard-calendar__entry-button {
-      background: transparent;
-      border: 1px solid transparent;
       width: 100%;
       height: 100%;
       padding: 0;
-      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;;
+      background: transparent;
+      border: 1px solid transparent;
       border-radius: 9999px;
+      position: relative;
       cursor: pointer;
 
       .ard-focus-overlay {
@@ -169,5 +173,16 @@ $grid-size: 2.5rem;
       background: ARD.$detail-ultralight;
       bottom: 0;
     }
+  }
+}
+.ard-readonly,
+.ard-disabled {
+  .ard-calendar {
+    pointer-events: none;
+  }
+}
+.ard-disabled {
+  .ard-calendar {
+    opacity: 50%;
   }
 }

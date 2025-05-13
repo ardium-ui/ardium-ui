@@ -133,10 +133,12 @@ export class DaysViewComponent {
 
   onCalendarDayMouseover(day: number | null): void {
     if (this._isUsingKeyboard()) return;
+    if (this.disabled() || this.readOnly()) return;
 
     this.setHighlightedDay(day);
   }
   onCalendarDayClick(day: number | null): void {
+    if (this.disabled() || this.readOnly()) return;
     if (day === null) return;
 
     this.selectDay(day);
@@ -145,12 +147,15 @@ export class DaysViewComponent {
     this.setHighlightedDay(day);
   }
   onDayGridFocus(): void {
+    if (this.disabled() || this.readOnly()) return;
     this.setHighlightedDay(1);
   }
   onDayGridBlur(): void {
+    if (this.disabled() || this.readOnly()) return;
     this.setHighlightedDay(null);
   }
   onDayGridClick(): void {
+    if (this.disabled() || this.readOnly()) return;
     if (this.highlightedDay() !== null) return;
     this.setHighlightedDay(1);
   }
@@ -171,6 +176,7 @@ export class DaysViewComponent {
 
   //! keyboard controls
   onMainGridKeydown(event: KeyboardEvent): void {
+    if (this.disabled() || this.readOnly()) return;
     switch (event.code) {
       case 'Space':
       case 'Enter':

@@ -72,20 +72,24 @@ export class YearsViewComponent {
   }
 
   onCalendarYearMouseover(year: number): void {
-    if (this._isUsingKeyboard()) return;
+    if (this._isUsingKeyboard() || this.disabled() || this.readOnly()) return;
 
     this.highlightedYear.set(year);
   }
   onCalendarYearClick(year: number): void {
+    if (this.disabled() || this.readOnly()) return;
     this.selectYear(year);
   }
   onYearGridFocus(): void {
+    if (this.disabled() || this.readOnly()) return;
     this.highlightedYear.set(this.currentYearRangeStart());
   }
   onYearGridBlur(): void {
+    if (this.disabled() || this.readOnly()) return;
     this.highlightedYear.set(null);
   }
   onYearGridClick(): void {
+    if (this.disabled() || this.readOnly()) return;
     if (this.highlightedYear() !== null) return;
     this.highlightedYear.set(this.currentYearRangeStart());
   }
@@ -101,6 +105,7 @@ export class YearsViewComponent {
 
   //! keyboard controls
   onMainGridKeydown(event: KeyboardEvent): void {
+    if (this.disabled() || this.readOnly()) return;
     switch (event.code) {
       case 'Space':
       case 'Enter':

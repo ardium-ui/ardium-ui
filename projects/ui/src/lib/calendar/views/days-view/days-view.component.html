@@ -1,4 +1,5 @@
 <div class="ard-days-view">
+  @if (!readOnly()) {
   <div class="ard-calendar__top-toolbar">
     <ng-template
       #defaultDaysViewHeaderTemplate
@@ -47,6 +48,7 @@
       [ngTemplateOutletContext]="daysViewHeaderContext()"
     />
   </div>
+  }
   <div class="ard-calendar__weekdays">
     <ng-template
       #defaultWeekdayTemplate
@@ -101,12 +103,7 @@
       role="gridcell"
     >
       @if (day !== null) {
-      <button
-        type="button"
-        class="ard-calendar__entry-button"
-        tabindex="-1"
-        aria-hidden="true"
-      >
+      <div class="ard-calendar__entry-button">
         <div class="ard-focus-overlay"></div>
         <div class="ard-button-content">
           <ng-template
@@ -120,7 +117,7 @@
             [ngTemplateOutletContext]="dayContext()(day)"
           />
         </div>
-      </button>
+      </div>
       }
     </div>
     } }

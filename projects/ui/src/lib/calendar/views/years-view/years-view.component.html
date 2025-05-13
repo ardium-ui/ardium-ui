@@ -1,4 +1,5 @@
 <div class="ard-years-view">
+  @if (!readOnly()) {
   <div class="ard-calendar__top-toolbar">
     <ng-template
       #defaultYearsViewHeaderTemplate
@@ -49,6 +50,7 @@
       [ngTemplateOutletContext]="yearsViewHeaderContext()"
     />
   </div>
+  }
   <div
     #focusableElement
     class="ard-calendar__simple-grid"

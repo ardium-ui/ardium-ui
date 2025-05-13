@@ -17,7 +17,7 @@ export abstract class _DisablableComponentBase {
   /**
    * Whether the component is read-only. Defines the `readonly` host attribute and `ard-readonly` host class. Coercible into a boolean.
    */
-  readonly readonly = input<any, boolean>(this._DEFAULTS.readonly, { transform: v => coerceBooleanProperty(v) });
+  readonly readonly = input<boolean, any>(this._DEFAULTS.readonly, { transform: v => coerceBooleanProperty(v) });
 
   /**
    * Whether the component is disabled. Defines the `disabled` host attribute and `ard-disabled` host class. Coercible into a boolean.

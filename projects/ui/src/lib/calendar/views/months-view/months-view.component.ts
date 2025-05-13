@@ -1,5 +1,15 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, HostListener, input, model, output, signal, TemplateRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  HostListener,
+  input,
+  model,
+  output,
+  signal,
+  TemplateRef,
+} from '@angular/core';
 import { ArdiumButtonModule, ArdiumIconButtonModule, ComponentColor } from 'projects/ui/src/public-api';
 import { isDefined, isNull } from 'simple-bool';
 import { ArdiumIconModule } from '../../../icon';
@@ -67,27 +77,33 @@ export class MonthsViewComponent {
 
   onCalendarMonthMouseover(month: number): void {
     if (this._isUsingKeyboard()) return;
+    if (this.disabled() || this.readOnly()) return;
 
     this.highlightedMonth.set(month);
   }
 
   onCalendarMonthClick(month: number): void {
+    if (this.disabled() || this.readOnly()) return;
     this.selectMonth(month);
   }
 
   onMonthGridFocus(): void {
+    if (this.disabled() || this.readOnly()) return;
     this.highlightedMonth.set(0);
   }
   onMonthGridBlur(): void {
+    if (this.disabled() || this.readOnly()) return;
     this.highlightedMonth.set(null);
   }
   onMonthGridClick(): void {
+    if (this.disabled() || this.readOnly()) return;
     if (this.highlightedMonth() !== null) return;
     this.highlightedMonth.set(0);
   }
 
   //! keyboard controls
   onMainGridKeydown(event: KeyboardEvent): void {
+    if (this.disabled() || this.readOnly()) return;
     switch (event.code) {
       case 'Space':
       case 'Enter':
@@ -131,12 +147,12 @@ export class MonthsViewComponent {
   //highlight the entry one line above
   private _onArrowUpPress(event: KeyboardEvent): void {
     event.preventDefault();
-    this.highlightPreviousMonth(3); //3 months per line
+    this.highlightPreviousMonth(4); //4 months per line
   }
   //highlight the entry one line below
   private _onArrowDownPress(event: KeyboardEvent): void {
     event.preventDefault();
-    this.highlightNextMonth(3); //3 months per line
+    this.highlightNextMonth(4); //4 months per line
   }
   //highlight previous entry
   private _onArrowLeftPress(event: KeyboardEvent): void {
@@ -228,7 +244,6 @@ export class MonthsViewComponent {
   readonly monthTemplate = input.required<TemplateRef<CalendarMonthContext> | undefined>();
 
   //! template contexts
-
   readonly monthsViewHeaderContext = computed(
     (): CalendarMonthsViewHeaderContext => ({
       openYearsView: () => {
@@ -250,8 +265,7 @@ export class MonthsViewComponent {
       date,
       $implicit: date,
       select: (month: number | Date) => {
-        // this.selectMonth(month);
-        // TODO
+        this.selectMonth(month);
       },
     };
   });

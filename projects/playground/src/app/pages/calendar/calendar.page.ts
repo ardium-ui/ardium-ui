@@ -7,7 +7,7 @@ import { Logger } from '../../services/logger.service';
   styleUrls: ['./calendar.page.scss'],
 })
 export class CalendarPage {
-  selectedDate: Date = new Date(2024, 0, 1);
+  selectedDate: Date = new Date();
 
   eventsCalendarDate: Date | null = null;
 
