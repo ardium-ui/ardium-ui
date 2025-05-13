@@ -114,7 +114,6 @@ export class DaysViewComponent {
   readonly highlightedDay = this.__highlightedDay.asReadonly();
 
   setHighlightedDay(day: number | null): void {
-    console.log(new Error('setHighlightedDay'), day);
     if (isNull(day)) {
       this.__highlightedDay.update(() => day);
       return;
