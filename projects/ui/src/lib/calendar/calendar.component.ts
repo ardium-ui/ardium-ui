@@ -48,18 +48,18 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
   }
 
   //! appearance
-  readonly color = input<ComponentColor>(ComponentColor.Primary);
+  readonly color = input<ComponentColor>(this._DEFAULTS.color);
 
   readonly ngClasses = computed((): string => [`ard-color-${this.color()}`].join(' '));
 
   //! active view
-  readonly activeView = model<ArdCalendarView>(ArdCalendarView.Days);
-  readonly activeYear = model<number>(new Date().getFullYear());
-  readonly activeMonth = model<number>(new Date().getMonth());
+  readonly activeView = model<ArdCalendarView>(this._DEFAULTS.activeView);
+  readonly activeYear = model<number>(this._DEFAULTS.activeYear);
+  readonly activeMonth = model<number>(this._DEFAULTS.activeMonth);
 
-  readonly firstWeekday = input<number, any>(1, {
+  readonly firstWeekday = input<number, any>(this._DEFAULTS.firstWeekday, {
     transform: v => {
-      const value = coerceNumberProperty(v, 1);
+      const value = coerceNumberProperty(v, this._DEFAULTS.firstWeekday);
       if (!Number.isInteger(value)) {
         console.error(
           new Error(`ARD-NF2001A: [firstWeekday] must be a positive integer, got "${value}". Using default value instead.`)
@@ -77,9 +77,9 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
     },
   });
 
-  readonly multipleYearPageChangeModifier = input<number, any>(5, {
+  readonly multipleYearPageChangeModifier = input<number, any>(this._DEFAULTS.multipleYearPageChangeModifier, {
     transform: v => {
-      const value = coerceNumberProperty(v, 5);
+      const value = coerceNumberProperty(v, this._DEFAULTS.multipleYearPageChangeModifier);
       if (!Number.isInteger(value) || value < 1) {
         console.error(
           new Error(
