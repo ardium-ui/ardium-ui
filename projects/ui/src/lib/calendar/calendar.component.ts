@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   contentChild,
+  effect,
   HostListener,
   Inject,
   input,
@@ -12,6 +13,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { coerceNumberProperty } from '@ardium-ui/devkit';
+import { isDefined } from 'simple-bool';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ComponentColor } from '../types/colors.types';
 import { ARD_CALENDAR_DEFAULTS, ArdCalendarDefaults } from './calendar.defaults';
@@ -38,6 +40,11 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
   protected override readonly _DEFAULTS!: ArdCalendarDefaults;
   constructor(@Inject(ARD_CALENDAR_DEFAULTS) defaults: ArdCalendarDefaults) {
     super(defaults);
+
+    effect(() => {
+      this.selected(); // trigger effect
+      this._emitChange();
+    })
   }
 
   //! appearance
@@ -99,11 +106,17 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
   readonly selected = model<Date | null>(null);
 
   override writeValue(v: any): void {
-    // TODO
+    if (v instanceof Date) {
+      this.selected.set(v);
+    } else if (!isDefined(v)) {
+      this.selected.set(null);
+    } else {
+      console.error(new Error(`ARD-NF2003: <ard-calendar> [writeValue] expected a Date or null, got "${v}".`));
+    }
   }
 
   protected override _emitChange(): void {
-    // TODO
+    this._onChangeRegistered(this.selected());
   }
 
   //! internals
