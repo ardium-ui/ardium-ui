@@ -1,0 +1,80 @@
+<ard-form-field-frame
+  [appearance]="appearance()"
+  [variant]="variant()"
+  [compact]="compact()"
+  [isFocused]="isFocused()"
+  [hasError]="hasError()"
+  [isSuccess]="isSuccess()"
+  [prefixTemplate]="prefixTemplate()?.template"
+  [suffixTemplate]="suffixTemplate()?.template"
+>
+  <div
+    class="ard-datepicker"
+    #dropdownHost
+    (click)="onGeneralClick($event)"
+    [class.ard-has-value]="!!value()"
+    [ngClass]="ngClasses()"
+  >
+    <div class="ard-datepicker__value-container">
+      @if (shouldDisplayPlaceholder()) {
+      <div class="ard-datepicker__placeholder">{{ placeholder() }}</div>
+      } @else if (shouldDisplayValue()) {
+      <div class="ard-datepicker__value">
+        <ng-template
+          #defaultValueTemplate
+          let-date
+        >
+          {{ serializeFn()(date) }}
+        </ng-template>
+
+        <ng-template
+          [ngTemplateOutlet]="valueTemplate()?.template || defaultValueTemplate"
+          [ngTemplateOutletContext]="getValueContext()"
+        />
+      </div>
+      } @else {
+      <div
+        class="ard-datepicker__input-container"
+        role="combobox"
+        aria-haspopup="listbox"
+        [attr.aria-expanded]="isOpen()"
+        [attr.aria-owns]="isOpen() ? htmlId() : null"
+      >
+        <input
+          #dateInput
+          #focusableElement
+          type="text"
+          [attr.tabindex]="tabIndex()"
+          [value]="dateInputValue()"
+          [attr.aria-controls]="isOpen() ? htmlId() : null"
+          (input)="onDateInputInput($event)"
+          (change)="$event.stopPropagation()"
+          (focus)="onDateInputFocus($event)"
+          (blur)="onDateInputBlur($event)"
+        />
+      </div>
+      }
+    </div>
+
+    <ard-icon-button
+      color="none"
+      (click)="onCalendarButtonClick()"
+    >
+      <ard-icon>today</ard-icon>
+    </ard-icon-button>
+  </div>
+</ard-form-field-frame>
+
+<ng-template #dropdownTemplate>
+  <ard-dropdown-panel
+    class="ard-dropdown-panel ard-datepicker-dropdown-panel"
+    [appearance]="dropdownAppearanceOrDefault()"
+    [variant]="dropdownVariantOrDefault()"
+    [isOpen]="true"
+    [panelId]="htmlId()"
+    [compact]="compact()"
+    (ardClickOutside)="onOutsideClick($event)"
+  >
+    calendar here
+  </ard-dropdown-panel>
+</ng-template>
