@@ -4,13 +4,14 @@ import { NgModule } from '@angular/core';
 import { HexInputModule } from './hex-input/hex-input.module';
 import { InputModule } from './input/input.module';
 
+import { DateInputModule } from './date-input/date-input.module';
+import { DigitInputModule } from './digit-input/digit-input.module';
 import { InputsHomeModule } from './inputs-home/inputs-home.module';
 import { InputsRoutingModule } from './inputs-routing.module';
 import { InputsPage } from './inputs.page';
 import { NumberInputModule } from './number-input/number-input.module';
 import { PasswordInputModule } from './password-input/password-input.module';
 import { SimpleInputModule } from './simple-input/simple-input.module';
-import { DigitInputModule } from './digit-input/digit-input.module';
 
 @NgModule({
   declarations: [InputsPage],
@@ -25,6 +26,7 @@ import { DigitInputModule } from './digit-input/digit-input.module';
     // ColorInputModule,
     PasswordInputModule,
     DigitInputModule,
+    DateInputModule,
   ],
   exports: [InputsPage],
 })

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CheckboxState, SimpleComponentColor as SCC } from '@ardium-ui/ui';
+import { CheckboxState, SimpleComponentColor as SCC } from 'projects/ui/src/public-api';
 import { Logger } from '../../services/logger.service';
 
 @Component({

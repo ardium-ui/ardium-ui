@@ -1,12 +1,12 @@
-import { Component, inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import {
-  ArdSnackbarAlignment,
-  ArdSnackbarOriginRelation,
-  ArdSnackbarQueueHandling,
-  ArdSnackbarRef,
-  ArdSnackbarType,
-  ArdiumSnackbarService,
-} from '@ardium-ui/ui';
+    ArdiumSnackbarService,
+    ArdSnackbarAlignment,
+    ArdSnackbarOriginRelation,
+    ArdSnackbarQueueHandling,
+    ArdSnackbarRef,
+    ArdSnackbarType,
+} from 'projects/ui/src/public-api';
 
 @Component({
   selector: 'app-snackbar',

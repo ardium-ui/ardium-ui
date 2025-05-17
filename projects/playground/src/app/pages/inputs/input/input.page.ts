@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { FormElementAppearance } from '@ardium-ui/ui';
-import { Logger } from './../../../services/logger.service';
-import { DataService } from './../../../services/data.service';
-import { BehaviorSubject } from 'rxjs';
 import { findBestSuggestions } from '@ardium-ui/devkit';
+import { FormElementAppearance } from 'projects/ui/src/public-api';
+import { BehaviorSubject } from 'rxjs';
+import { DataService } from './../../../services/data.service';
+import { Logger } from './../../../services/logger.service';
 
 @Component({
   selector: 'app-input',

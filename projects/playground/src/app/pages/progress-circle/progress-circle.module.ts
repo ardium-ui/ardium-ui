@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ArdiumProgressCircleModule } from 'projects/ui/src/public-api';
 import { ProgressCirclePage } from './progress-circle.page';
-import { ArdiumProgressCircleModule } from '@ardium-ui/ui';
 
 @NgModule({
   declarations: [ProgressCirclePage],

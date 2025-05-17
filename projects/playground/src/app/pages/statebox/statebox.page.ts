@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { StateboxState } from '@ardium-ui/ui';
+import { StateboxState } from 'projects/ui/src/public-api';
 import { Logger } from '../../services/logger.service';
 
 @Component({

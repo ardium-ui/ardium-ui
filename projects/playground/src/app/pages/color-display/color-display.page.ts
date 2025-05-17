@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ColorDisplayAppearance } from '@ardium-ui/ui';
 import * as Color from 'color';
+import { ColorDisplayAppearance } from 'projects/ui/src/public-api';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({

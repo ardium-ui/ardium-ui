@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ArdiumStarButtonModule, ArdiumStarDisplayModule, ArdiumStarInputModule, ArdiumStarModule } from 'projects/ui/src/public-api';
 import { StarsPage } from './stars.page';
-import { ArdiumStarButtonModule, ArdiumStarDisplayModule, ArdiumStarInputModule, ArdiumStarModule } from '@ardium-ui/ui';
 
 @NgModule({
   declarations: [StarsPage],

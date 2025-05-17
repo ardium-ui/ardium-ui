@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ArdiumCheckboxListModule } from 'projects/ui/src/public-api';
 import { CheckboxListPage } from './checkbox-list.page';
-import { ArdiumCheckboxListModule } from '@ardium-ui/ui';
 
 @NgModule({
   declarations: [CheckboxListPage],

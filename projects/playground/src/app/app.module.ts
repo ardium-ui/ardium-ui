@@ -79,7 +79,7 @@ import { TableModule } from './pages/table/table.module';
     DialogModule,
     SnackbarModule,
     TabberModule,
-    FormFieldModule
+    FormFieldModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

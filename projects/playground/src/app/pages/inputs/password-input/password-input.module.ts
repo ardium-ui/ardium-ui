@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ArdiumPasswordInputModule } from 'projects/ui/src/public-api';
 import { PasswordInputPage } from './password-input.page';
-import { ArdiumPasswordInputModule } from '@ardium-ui/ui';
 
 @NgModule({
   declarations: [PasswordInputPage],

@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, inject } from '@angular/core';
-import { BadgeSize as BS, BadgePosition, ComponentColor as CC, FormElementVariant as FEV } from '@ardium-ui/ui';
+import { BadgeSize as BS, BadgePosition, ComponentColor as CC, FormElementVariant as FEV } from 'projects/ui/src/public-api';
 import { Logger } from '../../services/logger.service';
 
 const nbspString = '\xa0'.repeat(9);

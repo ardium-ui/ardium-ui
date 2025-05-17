@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, signal } from '@angular/core';
-import { CardAppearance, CardVariant, OneAxisAlignment } from '@ardium-ui/ui';
+import { CardAppearance, CardVariant, OneAxisAlignment } from 'projects/ui/src/public-api';
 
 @Component({
   selector: 'app-card',

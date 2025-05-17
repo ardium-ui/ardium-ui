@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormElementAppearance } from '@ardium-ui/ui';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormElementAppearance } from 'projects/ui/src/public-api';
 
 @Component({
   selector: 'app-kbd',

@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SlideTogglePage } from './slide-toggle.page';
-import { ArdiumSlideToggleModule } from '@ardium-ui/ui';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ArdiumSlideToggleModule } from 'projects/ui/src/public-api';
+import { SlideTogglePage } from './slide-toggle.page';
 
 @NgModule({
   declarations: [SlideTogglePage],

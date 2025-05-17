@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormElementAppearance as FA, FormElementVariant as FV } from '@ardium-ui/ui';
+import { FormElementAppearance as FA, FormElementVariant as FV } from 'projects/ui/src/public-api';
 import { Logger } from '../../../services/logger.service';
 
 @Component({

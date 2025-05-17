@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ArdiumButtonModule, ArdiumCardModule, ArdiumFabModule, ArdiumIconModule } from 'projects/ui/src/public-api';
 import { CardPage } from './card.page';
-import { ArdiumCardModule, ArdiumButtonModule, ArdiumFabModule, ArdiumIconModule } from '@ardium-ui/ui';
 
 @NgModule({
   declarations: [CardPage],

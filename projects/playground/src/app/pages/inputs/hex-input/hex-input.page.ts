@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import { FormElementAppearance as FA, FormElementVariant as FV } from 'projects/ui/src/public-api';
 import { Logger } from '../../../services/logger.service';
-import { FormElementAppearance as FA, FormElementVariant as FV } from '@ardium-ui/ui';
 
 @Component({
   selector: 'app-hex-input',

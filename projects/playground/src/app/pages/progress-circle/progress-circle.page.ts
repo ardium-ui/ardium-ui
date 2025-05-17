@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ProgressCircleAppearance, ProgressCircleVariant, SimpleComponentColor } from '@ardium-ui/ui';
+import { ProgressCircleAppearance, ProgressCircleVariant, SimpleComponentColor } from 'projects/ui/src/public-api';
 
 @Component({
   selector: 'app-progress-circle',

@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FabPage } from './fab.page';
+import { NgModule } from '@angular/core';
 import {
-  ArdiumCheckboxModule,
-  ArdiumFabModule,
-  ArdiumIconModule,
-  ArdiumSelectModule,
-  ArdiumSimpleInputModule,
-} from '@ardium-ui/ui';
+    ArdiumCheckboxModule,
+    ArdiumFabModule,
+    ArdiumIconModule,
+    ArdiumSelectModule,
+    ArdiumSimpleInputModule,
+} from 'projects/ui/src/public-api';
+import { FabPage } from './fab.page';
 
 @NgModule({
   declarations: [FabPage],
