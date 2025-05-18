@@ -2,12 +2,17 @@ import { ArdDateInputDeserializeFn, ArdDateInputSerializeFn } from './date-input
 
 export const DEFAULT_DATE_INPUT_SERIALIZE_FN: ArdDateInputSerializeFn = (value: Date | null) => {
   if (value instanceof Date) {
-    return `${value.getDate().toString().padStart(2, '0')}/${(value.getMonth() + 1).toString().padStart(2, '0')}/${value.getFullYear()}`;
+    return `${value.getDate().toString().padStart(2, '0')}/${(value.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}/${value.getFullYear()}`;
   }
   return '';
 };
 
-export const DEFAULT_DATE_INPUT_DESERIALIZE_FN: ArdDateInputDeserializeFn = (value: string): Date | null => {
+export const DEFAULT_DATE_INPUT_DESERIALIZE_FN: ArdDateInputDeserializeFn = (
+  value: string,
+  prevValue: Date | null
+): Date | null => {
   const trimmed = value.trim();
 
   // case: ISO string
@@ -44,10 +49,10 @@ export const DEFAULT_DATE_INPUT_DESERIALIZE_FN: ArdDateInputDeserializeFn = (val
     const year = parseInt(parts[2], 10);
     if (isNaN(day) || isNaN(month) || isNaN(year)) return null;
     const date = new Date(year, month, day);
+    console.log(date, year, month, day);
     return isNaN(date.getTime()) ? null : date;
   }
 
   // invalid format
-  return null;
+  return prevValue;
 };
-

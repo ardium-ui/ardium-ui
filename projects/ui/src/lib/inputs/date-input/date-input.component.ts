@@ -18,7 +18,7 @@ import {
   model,
   output,
   signal,
-  viewChild
+  viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
@@ -35,9 +35,14 @@ import {
   ArdDateInputCalendarIconTemplateDirective,
   ArdDateInputPrefixTemplateDirective,
   ArdDateInputSuffixTemplateDirective,
-  ArdDateInputValueTemplateDirective
+  ArdDateInputValueTemplateDirective,
 } from './date-input.directive';
-import { ArdDateInputAcceptButtonsContext, ArdDateInputDeserializeFn, ArdDateInputSerializeFn, ArdDateInputValueContext } from './date-input.types';
+import {
+  ArdDateInputAcceptButtonsContext,
+  ArdDateInputDeserializeFn,
+  ArdDateInputSerializeFn,
+  ArdDateInputValueContext,
+} from './date-input.types';
 
 @Component({
   selector: 'ard-date-input',
@@ -141,13 +146,9 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
   }
   private _processDateInputText(value: string): void {
     const date = this.deserializeFn()(value, this.value());
-    if (date instanceof Date) {
-      this.value.set(date);
-      this.dateInputValue.set(this.serializeFn()(date));
-    } else {
-      this.value.set(null);
-      this.dateInputValue.set(value);
-    }
+    
+    this.value.set(date);
+    this.dateInputValue.set(this.serializeFn()(date));
   }
   private _setDateInputAttributes() {
     const input = this.dateInput()!.nativeElement;

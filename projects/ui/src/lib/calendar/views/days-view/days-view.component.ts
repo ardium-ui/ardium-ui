@@ -58,6 +58,8 @@ export class DaysViewComponent {
     } else if (newMonth < 0) {
       this.activeMonth.set(11);
       this.activeYear.update(v => v - 1);
+    } else {
+      this.activeMonth.set(newMonth);
     }
   }
   changeYear(offset: number): void {
