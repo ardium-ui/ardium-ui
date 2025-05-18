@@ -4,3 +4,10 @@ export type ArdDateInputDeserializeFn = (date: string, prevValue: Date | null) =
 export interface ArdDateInputValueContext {
   $implicit: Date | null;
 }
+
+export interface ArdDateInputAcceptButtonsContext {
+  $implicit: () => void;
+  cancel: () => void;
+  accept: () => void;
+  disabled: boolean;
+}

@@ -6,6 +6,7 @@ import { ArdiumClickOutsideEventModule } from '@ardium-ui/devkit';
 import { ArdiumDropdownPanelModule } from '../../dropdown-panel/dropdown-panel.module';
 
 import { ArdiumIconButtonModule } from '../../buttons/icon-button';
+import { ArdiumCalendarModule } from '../../calendar';
 import { ArdiumFormFieldFrameModule } from '../../form-field-frame/form-field-frame.module';
 import { ArdiumIconModule } from '../../icon';
 import { ArdiumDateInputComponent } from './date-input.component';
@@ -20,9 +21,10 @@ import { ArdiumDateInputComponent } from './date-input.component';
     ArdiumFormFieldFrameModule,
     ArdiumDropdownPanelModule,
     ArdiumClickOutsideEventModule,
+    ArdiumCalendarModule,
     ArdiumIconButtonModule,
     ArdiumIconModule,
-  ],
+],
   exports: [
     ArdiumDateInputComponent,
     //tempalate directives

@@ -116,7 +116,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
   }
 
   protected override _emitChange(): void {
-    this._onChangeRegistered(this.selected());
+    this._onChangeRegistered?.(this.selected());
   }
 
   //! internals

@@ -1,6 +1,5 @@
 import { Directive, TemplateRef } from '@angular/core';
-import { PlaceholderContext } from '../../select';
-import { ArdDateInputValueContext } from './date-input.types';
+import { ArdDateInputAcceptButtonsContext, ArdDateInputValueContext } from './date-input.types';
 
 //public (exported)
 
@@ -19,7 +18,12 @@ export class ArdDateInputValueTemplateDirective {
   constructor(public template: TemplateRef<ArdDateInputValueContext>) {}
 }
 
-@Directive({ selector: 'ard-date-input > ng-template[ard-placeholder-tmp]' })
-export class ArdDateInputPlaceholderTemplateDirective {
-  constructor(public template: TemplateRef<PlaceholderContext>) {}
+@Directive({ selector: 'ard-date-input > ng-template[ard-calendar-icon-tmp]' })
+export class ArdDateInputCalendarIconTemplateDirective {
+  constructor(public template: TemplateRef<undefined>) {}
+}
+
+@Directive({ selector: 'ard-date-input > ng-template[ard-accept-buttons-tmp]' })
+export class ArdDateInputAcceptButtonsTemplateDirective {
+  constructor(public template: TemplateRef<ArdDateInputAcceptButtonsContext>) {}
 }

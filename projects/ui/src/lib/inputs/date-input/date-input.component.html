@@ -35,7 +35,7 @@
 
         <ng-template
           [ngTemplateOutlet]="valueTemplate()?.template || defaultValueTemplate"
-          [ngTemplateOutletContext]="getValueContext()"
+          [ngTemplateOutletContext]="valueContext()"
         />
       </div>
       <div
@@ -63,12 +63,22 @@
       </div>
     </div>
 
+    @if (!calendarHidden()) {
     <ard-icon-button
       color="none"
-      (click)="onCalendarButtonClick()"
+      [disabled]="calendarDisabled()"
+      (click)="onCalendarButtonClick($event)"
     >
-      <ard-icon filled>today</ard-icon> <!-- TODO template -->
+      <ng-template
+        #defaultCalendarIconTemplate
+        let-date
+      >
+        <ard-icon filled>today</ard-icon>
+      </ng-template>
+
+      <ng-template [ngTemplateOutlet]="calendarIconTemplate()?.template || defaultCalendarIconTemplate" />
     </ard-icon-button>
+    }
   </div>
 </ard-form-field-frame>
 
@@ -82,7 +92,32 @@
     [compact]="compact()"
     (ardClickOutside)="onOutsideClick($event)"
   >
-    calendar here
-    <!-- TODO agree buttons template -->
+    <ard-calendar
+      class="ard-date-input__calendar"
+      [(activeMonth)]="activeMonth"
+      [(activeYear)]="activeYear"
+      [(activeView)]="activeView"
+      [firstWeekday]="firstWeekday()"
+      [multipleYearPageChangeModifier]="multipleYearPageChangeModifier()"
+      [color]="color()"
+      [disabled]="disabled() || calendarDisabled()"
+      [tabIndex]="tabIndex()"
+      (selectedChange)="onCalendarSelectedChange($event)"
+    />
+    @if (useAcceptButtonToSelect()) {
+    <div class="ard-date-input__accept-buttons-container">
+      <ng-template
+        #defaultAcceptButtonsTemplate
+        let-date
+      >
+        {{ serializeFn()(date) }}
+      </ng-template>
+
+      <ng-template
+        [ngTemplateOutlet]="acceptButtonsTemplate()?.template || defaultAcceptButtonsTemplate"
+        [ngTemplateOutletContext]="acceptButtonsContext()"
+      />
+    </div>
+    }
   </ard-dropdown-panel>
 </ng-template>

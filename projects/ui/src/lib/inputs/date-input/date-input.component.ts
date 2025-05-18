@@ -5,7 +5,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostListener,
   Inject,
   OnDestroy,
   TemplateRef,
@@ -19,23 +18,26 @@ import {
   model,
   output,
   signal,
-  viewChild,
+  viewChild
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { isDefined, isNull } from 'simple-bool';
 import { _FormFieldComponentBase } from '../../_internal/form-field-component';
+import { ArdCalendarView } from '../../calendar/calendar.types';
 import { ArdiumDropdownPanelComponent, DropdownPanelAppearance, DropdownPanelVariant } from '../../dropdown-panel';
 import { ComponentColor } from '../../types/colors.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { Nullable } from '../../types/utility.types';
 import { ARD_DATE_INPUT_DEFAULTS, ArdDateInputDefaults } from './date-input.defaults';
 import {
+  ArdDateInputAcceptButtonsTemplateDirective,
+  ArdDateInputCalendarIconTemplateDirective,
   ArdDateInputPrefixTemplateDirective,
   ArdDateInputSuffixTemplateDirective,
-  ArdDateInputValueTemplateDirective,
+  ArdDateInputValueTemplateDirective
 } from './date-input.directive';
-import { ArdDateInputDeserializeFn, ArdDateInputSerializeFn, ArdDateInputValueContext } from './date-input.types';
+import { ArdDateInputAcceptButtonsContext, ArdDateInputDeserializeFn, ArdDateInputSerializeFn, ArdDateInputValueContext } from './date-input.types';
 
 @Component({
   selector: 'ard-date-input',
@@ -88,7 +90,7 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
     } else if (!isDefined(v)) {
       this.value.set(null);
     } else {
-      console.error(new Error(`ARD-NF2003: <ard-date-input> writeValue expected a Date or null, got "${v}".`));
+      console.error(new Error(`ARD-NF0083: <ard-date-input> writeValue expected a Date or null, got "${v}".`));
     }
   }
 
@@ -185,6 +187,7 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
   readonly ngClasses = computed(() =>
     [
       //appearance and variant handled in ard-form-field-frame component
+      //color handled in ard-calendar component
       this.compact() ? 'ard-compact' : '',
       this.isOpen() ? 'ard-dropdown-open' : '',
       this._isDateInputFocused() ? 'ard-date-input__date-input-focused' : '',
@@ -205,6 +208,74 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
     return variant;
   });
 
+  //! calendar attributes
+  readonly activeView = model<ArdCalendarView>(this._DEFAULTS.activeView);
+  readonly activeYear = model<number>(this._DEFAULTS.activeYear);
+  readonly activeMonth = model<number>(this._DEFAULTS.activeMonth);
+
+  readonly firstWeekday = input<number, any>(this._DEFAULTS.firstWeekday, {
+    transform: v => {
+      const value = coerceNumberProperty(v, this._DEFAULTS.firstWeekday);
+      if (!Number.isInteger(value)) {
+        console.error(
+          new Error(`ARD-NF0081A: [firstWeekday] must be a positive integer, got "${value}". Using default value instead.`)
+        );
+        return 1;
+      }
+      if (value < 0 || value > 6) {
+        console.error(
+          new Error(
+            `ARD-NF0081B: [firstWeekday] must be between 0 and 6, got "${value}". Using modulo operator to adjust the value.`
+          )
+        );
+      }
+      return value % 7;
+    },
+  });
+
+  readonly multipleYearPageChangeModifier = input<number, any>(this._DEFAULTS.multipleYearPageChangeModifier, {
+    transform: v => {
+      const value = coerceNumberProperty(v, this._DEFAULTS.multipleYearPageChangeModifier);
+      if (!Number.isInteger(value) || value < 1) {
+        console.error(
+          new Error(
+            `ARD-NF0082: [multipleYearPageChangeModifier] must be a positive integer, got "${value}". Using default value instead.`
+          )
+        );
+        return 5;
+      }
+      return value;
+    },
+  });
+
+  readonly useAcceptButtonToSelect = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+
+  private _valueToAccept: Date | null = null;
+
+  onCalendarSelectedChange(event: Date | null): void {
+    if (this.useAcceptButtonToSelect()) {
+      this._valueToAccept = event;
+      return;
+    }
+    this._acceptSelectedDate(event!);
+  }
+  private _acceptSelectedDate(date: Date | null): void {
+    this.value.set(date);
+    this.dateInputValue.set(this.serializeFn()(date));
+    this.close();
+  }
+  private _cancelCalendarSelection(): void {
+    this.close();
+  }
+
+  onAcceptButtonClick(): void {
+    this._acceptSelectedDate(this._valueToAccept);
+    this._valueToAccept = null;
+  }
+  onCancelButtonClick(): void {
+    this._cancelCalendarSelection();
+  }
+
   //! dropdown overlay
   readonly dropdownHost = viewChild.required<ElementRef<HTMLElement>>('dropdownHost');
   readonly dropdownTemplate = viewChild.required<TemplateRef<any>>('dropdownTemplate');
@@ -218,16 +289,16 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
       .flexibleConnectedTo(this.dropdownHost())
       .withPositions([
         {
-          originX: 'start',
-          originY: 'bottom',
-          overlayX: 'start',
-          overlayY: 'top',
+          originX: 'end',
+          originY: 'top',
+          overlayX: 'end',
+          overlayY: 'bottom',
         },
         {
-          originX: 'start',
-          originY: 'top',
-          overlayX: 'start',
-          overlayY: 'bottom',
+          originX: 'end',
+          originY: 'bottom',
+          overlayX: 'end',
+          overlayY: 'top',
         },
       ]);
 
@@ -241,25 +312,12 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
 
     const portal = new TemplatePortal(this.dropdownTemplate(), this.viewContainerRef);
     this.dropdownOverlay.attach(portal);
-    this.setOverlaySize();
   }
   private _destroyOverlay(): void {
     if (!this.dropdownOverlay) return;
 
     this.dropdownOverlay.dispose();
     delete this.dropdownOverlay;
-  }
-
-  setOverlaySize(): void {
-    if (!this.dropdownOverlay) return;
-
-    const rect = this.dropdownHost().nativeElement.getBoundingClientRect();
-    this.dropdownOverlay.updateSize({ width: rect.width });
-  }
-
-  @HostListener('window:resize')
-  onWindowResize(): void {
-    this.setOverlaySize();
   }
 
   //! hooks
@@ -286,9 +344,11 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
 
     this.close();
   }
-  onCalendarButtonClick(): void {
+  onCalendarButtonClick(event: MouseEvent): void {
     if (this.calendarDisabled()) return;
     if (this.calendarHidden()) return;
+    event.preventDefault();
+    event.stopPropagation();
 
     this.toggle();
   }
@@ -301,6 +361,7 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
     this.open();
   }
   open(): void {
+    console.log('open');
     if (this.disabled() || this.isOpen()) return;
 
     this.isOpen.set(true);
@@ -311,6 +372,7 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
     this.openEvent.emit();
   }
   close(): void {
+    console.log('close');
     if (!this.isOpen()) return;
 
     this.isOpen.set(false);
@@ -323,14 +385,21 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
 
   //! templates
   readonly valueTemplate = contentChild(ArdDateInputValueTemplateDirective);
+  readonly calendarIconTemplate = contentChild(ArdDateInputCalendarIconTemplateDirective);
+  readonly acceptButtonsTemplate = contentChild(ArdDateInputAcceptButtonsTemplateDirective);
 
   readonly prefixTemplate = contentChild(ArdDateInputPrefixTemplateDirective);
   readonly suffixTemplate = contentChild(ArdDateInputSuffixTemplateDirective);
 
   //! context providers
-  getValueContext(): ArdDateInputValueContext {
-    return {
-      $implicit: this.value(),
-    };
-  }
+  readonly valueContext = computed<ArdDateInputValueContext>(() => ({
+    $implicit: this.value(),
+  }));
+
+  readonly acceptButtonsContext = computed<ArdDateInputAcceptButtonsContext>(() => ({
+    $implicit: () => this.onAcceptButtonClick(),
+    accept: () => this.onAcceptButtonClick(),
+    cancel: () => this.onCancelButtonClick(),
+    disabled: this.disabled() || this.calendarDisabled(),
+  }));
 }

@@ -1,4 +1,3 @@
-import { CommonModule, DatePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,9 +10,7 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { roundToMultiple } from 'more-rounding';
-import { ArdiumButtonModule, ArdiumIconButtonModule } from 'projects/ui/src/public-api';
 import { isDefined, isNull } from 'simple-bool';
-import { ArdiumIconModule } from '../../../icon';
 import { CalendarYearContext, CalendarYearsViewHeaderContext, DateRange, YearRange } from '../../calendar.types';
 import { getCalendarYearsArray } from './years-view.helpers';
 
@@ -23,8 +20,6 @@ const TODAY = new Date();
   selector: 'ard-years-view',
   templateUrl: './years-view.component.html',
   styleUrl: './years-view.component.scss',
-  imports: [CommonModule, DatePipe, ArdiumIconButtonModule, ArdiumIconModule, ArdiumButtonModule],
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class YearsViewComponent {

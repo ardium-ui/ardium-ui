@@ -1,4 +1,3 @@
-import { CommonModule, DatePipe, UpperCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,9 +11,7 @@ import {
   TemplateRef,
   viewChild,
 } from '@angular/core';
-import { ArdiumButtonModule, ArdiumIconButtonModule } from 'projects/ui/src/public-api';
 import { isDefined, isNull } from 'simple-bool';
-import { ArdiumIconModule } from '../../../icon';
 import {
   CalendarDayContext,
   CalendarDaysViewHeaderContext,
@@ -33,8 +30,6 @@ function isLeapYear(year: number): boolean {
   selector: 'ard-days-view',
   templateUrl: './days-view.component.html',
   styleUrl: './days-view.component.scss',
-  imports: [CommonModule, DatePipe, UpperCasePipe, ArdiumIconButtonModule, ArdiumIconModule, ArdiumButtonModule],
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DaysViewComponent {
@@ -55,13 +50,13 @@ export class DaysViewComponent {
   readonly activeMonth = model.required<number>();
 
   changeMonth(offset: number): void {
-    this.activeMonth.update(v => v + offset);
+    const newMonth = this.activeMonth() + offset;
 
-    if (this.activeMonth() > 11) {
-      this.activeMonth.update(() => 0);
+    if (newMonth > 11) {
+      this.activeMonth.set(0);
       this.activeYear.update(v => v + 1);
-    } else if (this.activeMonth() < 0) {
-      this.activeMonth.update(() => 11);
+    } else if (newMonth < 0) {
+      this.activeMonth.set(11);
       this.activeYear.update(v => v - 1);
     }
   }

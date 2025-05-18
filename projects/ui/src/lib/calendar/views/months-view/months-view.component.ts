@@ -1,4 +1,3 @@
-import { CommonModule, DatePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -10,9 +9,8 @@ import {
   signal,
   TemplateRef,
 } from '@angular/core';
-import { ArdiumButtonModule, ArdiumIconButtonModule, ComponentColor } from 'projects/ui/src/public-api';
+import { ComponentColor } from 'projects/ui/src/public-api';
 import { isDefined, isNull } from 'simple-bool';
-import { ArdiumIconModule } from '../../../icon';
 import { CalendarMonthContext, CalendarMonthsViewHeaderContext } from '../../calendar.types';
 
 const TODAY = new Date();
@@ -21,8 +19,6 @@ const TODAY = new Date();
   selector: 'ard-months-view',
   templateUrl: './months-view.component.html',
   styleUrl: './months-view.component.scss',
-  imports: [CommonModule, DatePipe, ArdiumIconButtonModule, ArdiumIconModule, ArdiumButtonModule],
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MonthsViewComponent {
