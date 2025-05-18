@@ -2,7 +2,7 @@ import { ArdDateInputDeserializeFn, ArdDateInputSerializeFn } from './date-input
 
 export const DEFAULT_DATE_INPUT_SERIALIZE_FN: ArdDateInputSerializeFn = (value: Date | null) => {
   if (value instanceof Date) {
-    return `${value.getDate()}/${value.getMonth() + 1}/${value.getFullYear()}`;
+    return `${value.getDate().toString().padStart(2, '0')}/${(value.getMonth() + 1).toString().padStart(2, '0')}/${value.getFullYear()}`;
   }
   return '';
 };

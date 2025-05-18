@@ -9,17 +9,23 @@
   [suffixTemplate]="suffixTemplate()?.template"
 >
   <div
-    class="ard-datepicker"
+    class="ard-date-input"
     #dropdownHost
     (click)="onGeneralClick($event)"
     [class.ard-has-value]="!!value()"
     [ngClass]="ngClasses()"
   >
-    <div class="ard-datepicker__value-container">
-      @if (shouldDisplayPlaceholder()) {
-      <div class="ard-datepicker__placeholder">{{ placeholder() }}</div>
-      } @else if (shouldDisplayValue()) {
-      <div class="ard-datepicker__value">
+    <div class="ard-date-input__value-container ard-input-container">
+      <div
+        class="ard-date-input__placeholder ard-placeholder"
+        [class.ard-date-input__placeholder-hidden]="!shouldDisplayPlaceholder()"
+      >
+        {{ placeholder() }}
+      </div>
+      <div
+        class="ard-date-input__value"
+        [class.ard-date-input__value-hidden]="!shouldDisplayValue()"
+      >
         <ng-template
           #defaultValueTemplate
           let-date
@@ -32,18 +38,19 @@
           [ngTemplateOutletContext]="getValueContext()"
         />
       </div>
-      } @else {
       <div
-        class="ard-datepicker__input-container"
+        class="ard-date-input__input-container"
         role="combobox"
         aria-haspopup="listbox"
         [attr.aria-expanded]="isOpen()"
         [attr.aria-owns]="isOpen() ? htmlId() : null"
+        [class.ard-date-input__input-container-hidden]="!shouldDisplayDateInput()"
       >
         <input
           #dateInput
           #focusableElement
           type="text"
+          class="ard-date-input__input"
           [attr.tabindex]="tabIndex()"
           [value]="dateInputValue()"
           [attr.aria-controls]="isOpen() ? htmlId() : null"
@@ -51,23 +58,23 @@
           (change)="$event.stopPropagation()"
           (focus)="onDateInputFocus($event)"
           (blur)="onDateInputBlur($event)"
+          (keydown)="onDateInputEnter($event)"
         />
       </div>
-      }
     </div>
 
     <ard-icon-button
       color="none"
       (click)="onCalendarButtonClick()"
     >
-      <ard-icon>today</ard-icon>
+      <ard-icon filled>today</ard-icon> <!-- TODO template -->
     </ard-icon-button>
   </div>
 </ard-form-field-frame>
 
 <ng-template #dropdownTemplate>
   <ard-dropdown-panel
-    class="ard-dropdown-panel ard-datepicker-dropdown-panel"
+    class="ard-dropdown-panel ard-date-input__dropdown-panel"
     [appearance]="dropdownAppearanceOrDefault()"
     [variant]="dropdownVariantOrDefault()"
     [isOpen]="true"
@@ -76,5 +83,6 @@
     (ardClickOutside)="onOutsideClick($event)"
   >
     calendar here
+    <!-- TODO agree buttons template -->
   </ard-dropdown-panel>
 </ng-template>

@@ -1,54 +1,8 @@
-.ard-select {
-  .ard-select-container {
-    display: flex;
-    cursor: pointer;
-  }
-
-  .ard-placeholder,
-  .ard-value,
-  .ard-dropdown-arrow-wrapper,
-  .ard-clear-btn-wrapper {
-    user-select: none;
-  }
-
-  .ard-clear-btn,
-  .ard-dropdown-arrow {
-    border: none;
-    background: transparent;
-    padding: 0;
-    box-sizing: content-box;
-  }
-
-  .ard-option-disabled {
-    pointer-events: none;
-  }
-
-  .ard-select-value {
-    display: block;
-  }
-  .ard-select-value[hidden='true'] {
+.ard-date-input {
+  .ard-date-input__placeholder.ard-date-input__placeholder-hidden {
     display: none;
   }
-  .ard-searchable {
-    .ard-select-value-container {
-      cursor: text;
-    }
-  }
-
-  .ard-dropdown-arrow-wrapper {
-    position: relative;
-
-    .ard-hitbox {
-      position: absolute;
-      left: -4px;
-      right: -4px;
-      aspect-ratio: 1;
-    }
-  }
-}
-.ard-select-dropdown-panel {
-  .ard-optgroup,
-  .ard-option {
-    user-select: none;
+  .ard-date-input__value.ard-date-input__value-hidden {
+    display: none;
   }
 }

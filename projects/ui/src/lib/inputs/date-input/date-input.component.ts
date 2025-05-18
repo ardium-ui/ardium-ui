@@ -1,13 +1,13 @@
 import { Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostListener,
   Inject,
   OnDestroy,
-  OnInit,
   TemplateRef,
   ViewContainerRef,
   ViewEncapsulation,
@@ -31,11 +31,11 @@ import { FormElementAppearance, FormElementVariant } from '../../types/theming.t
 import { Nullable } from '../../types/utility.types';
 import { ARD_DATE_INPUT_DEFAULTS, ArdDateInputDefaults } from './date-input.defaults';
 import {
-  ArdSelectPrefixTemplateDirective,
-  ArdSelectSuffixTemplateDirective,
-  ArdValueTemplateDirective,
+  ArdDateInputPrefixTemplateDirective,
+  ArdDateInputSuffixTemplateDirective,
+  ArdDateInputValueTemplateDirective,
 } from './date-input.directive';
-import { ArdDateInputDeserializeFn, ArdDateInputSerializeFn, ValueContext } from './date-input.types';
+import { ArdDateInputDeserializeFn, ArdDateInputSerializeFn, ArdDateInputValueContext } from './date-input.types';
 
 @Component({
   selector: 'ard-date-input',
@@ -55,7 +55,7 @@ import { ArdDateInputDeserializeFn, ArdDateInputSerializeFn, ValueContext } from
     },
   ],
 })
-export class ArdiumDateInputComponent extends _FormFieldComponentBase implements OnInit, OnDestroy, ControlValueAccessor {
+export class ArdiumDateInputComponent extends _FormFieldComponentBase implements OnDestroy, ControlValueAccessor, AfterViewInit {
   protected override readonly _DEFAULTS!: ArdDateInputDefaults;
   constructor(@Inject(ARD_DATE_INPUT_DEFAULTS) defaults: ArdDateInputDefaults) {
     super(defaults);
@@ -130,6 +130,13 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
 
     this._isDateInputFocused.set(false);
   }
+  onDateInputEnter(event: KeyboardEvent): void {
+    if (event.key !== 'Enter') return;
+    event.preventDefault();
+    this.close();
+    this.blur();
+    this.focus();
+  }
   private _processDateInputText(value: string): void {
     const date = this.deserializeFn()(value, this.value());
     if (date instanceof Date) {
@@ -164,6 +171,9 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
     if (this._isDateInputFocused() && this.dateInputValue()) return false;
     return this.value() instanceof Date;
   });
+  readonly shouldDisplayDateInput = computed(() => {
+    return !this.inputReadOnly() && !this.shouldDisplayValue() && this._isDateInputFocused();
+  });
 
   //! appearance
   readonly appearance = input<FormElementAppearance>(this._DEFAULTS.appearance);
@@ -177,7 +187,7 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
       //appearance and variant handled in ard-form-field-frame component
       this.compact() ? 'ard-compact' : '',
       this.isOpen() ? 'ard-dropdown-open' : '',
-      this._isDateInputFocused() ? 'ard-datepicker__date-input-focused' : '',
+      this._isDateInputFocused() ? 'ard-date-input__date-input-focused' : '',
     ].join(' ')
   );
 
@@ -253,8 +263,7 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
   }
 
   //! hooks
-  override ngOnInit(): void {
-    super.ngOnInit();
+  ngAfterViewInit(): void {
     this._setDateInputAttributes();
   }
 
@@ -313,13 +322,13 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
   }
 
   //! templates
-  readonly valueTemplate = contentChild(ArdValueTemplateDirective);
+  readonly valueTemplate = contentChild(ArdDateInputValueTemplateDirective);
 
-  readonly prefixTemplate = contentChild(ArdSelectPrefixTemplateDirective);
-  readonly suffixTemplate = contentChild(ArdSelectSuffixTemplateDirective);
+  readonly prefixTemplate = contentChild(ArdDateInputPrefixTemplateDirective);
+  readonly suffixTemplate = contentChild(ArdDateInputSuffixTemplateDirective);
 
   //! context providers
-  getValueContext(): ValueContext {
+  getValueContext(): ArdDateInputValueContext {
     return {
       $implicit: this.value(),
     };

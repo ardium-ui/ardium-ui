@@ -1,90 +1,25 @@
 import { Directive, TemplateRef } from '@angular/core';
-import { ArdOption, OptionContext } from '../types/item-storage.types';
-import {
-  CustomOptionContext,
-  GroupContext,
-  ItemDisplayLimitContext,
-  ItemLimitContext,
-  PlaceholderContext,
-  SearchContext,
-  ValueContext,
-} from './select.types';
+import { PlaceholderContext } from '../../select';
+import { ArdDateInputValueContext } from './date-input.types';
 
 //public (exported)
 
-@Directive({ selector: 'ard-select > ng-template[ard-prefix-tmp]' })
-export class ArdSelectPrefixTemplateDirective {
+@Directive({ selector: 'ard-date-input > ng-template[ard-prefix-tmp]' })
+export class ArdDateInputPrefixTemplateDirective {
   constructor(public template: TemplateRef<undefined>) {}
 }
 
-@Directive({ selector: 'ard-select > ng-template[ard-suffix-tmp]' })
-export class ArdSelectSuffixTemplateDirective {
+@Directive({ selector: 'ard-date-input > ng-template[ard-suffix-tmp]' })
+export class ArdDateInputSuffixTemplateDirective {
   constructor(public template: TemplateRef<undefined>) {}
 }
 
-@Directive({ selector: 'ard-select > ng-template[ard-value-tmp]' })
-export class ArdValueTemplateDirective {
-  constructor(public template: TemplateRef<ValueContext>) {}
+@Directive({ selector: 'ard-date-input > ng-template[ard-value-tmp]' })
+export class ArdDateInputValueTemplateDirective {
+  constructor(public template: TemplateRef<ArdDateInputValueContext>) {}
 }
 
-@Directive({ selector: 'ard-select > ng-template[ard-value-chip-tmp]' })
-export class ArdValueChipTemplateDirective {
-  constructor(public template: TemplateRef<ValueContext>) {}
-}
-
-@Directive({ selector: 'ard-select > ng-template[ard-option-tmp]' })
-export class ArdOptionTemplateDirective {
-  constructor(public template: TemplateRef<OptionContext<ArdOption>>) {}
-}
-
-@Directive({ selector: 'ard-select > ng-template[ard-optgroup-tmp]' })
-export class ArdOptgroupTemplateDirective {
-  constructor(public template: TemplateRef<GroupContext>) {}
-}
-
-@Directive({ selector: 'ard-select > ng-template[ard-placeholder-tmp]' })
-export class ArdSelectPlaceholderTemplateDirective {
+@Directive({ selector: 'ard-date-input > ng-template[ard-placeholder-tmp]' })
+export class ArdDateInputPlaceholderTemplateDirective {
   constructor(public template: TemplateRef<PlaceholderContext>) {}
-}
-
-@Directive({ selector: 'ard-select > ng-template[ard-loading-spinner-tmp]' })
-export class ArdLoadingSpinnerTemplateDirective {
-  constructor(public template: TemplateRef<null>) {}
-}
-
-@Directive({
-  selector: 'ard-select > ng-template[ard-loading-placeholder-tmp]',
-})
-export class ArdLoadingPlaceholderTemplateDirective {
-  constructor(public template: TemplateRef<SearchContext>) {}
-}
-
-@Directive({ selector: 'ard-select > ng-template[ard-dropdown-header-tmp]' })
-export class ArdDropdownHeaderTemplateDirective {
-  constructor(public template: TemplateRef<SearchContext>) {}
-}
-
-@Directive({ selector: 'ard-select > ng-template[ard-dropdown-footer-tmp]' })
-export class ArdDropdownFooterTemplateDirective {
-  constructor(public template: TemplateRef<SearchContext>) {}
-}
-
-@Directive({ selector: 'ard-select > ng-template[ard-no-items-found-tmp]' })
-export class ArdNoItemsFoundTemplateDirective {
-  constructor(public template: TemplateRef<SearchContext>) {}
-}
-
-@Directive({ selector: 'ard-select > ng-template[ard-add-custom-tmp]' })
-export class ArdAddCustomTemplateDirective {
-  constructor(public template: TemplateRef<CustomOptionContext>) {}
-}
-
-@Directive({ selector: 'ard-select > ng-template[ard-item-limit-reached-tmp]' })
-export class ArdItemLimitReachedTemplateDirective {
-  constructor(public template: TemplateRef<ItemLimitContext>) {}
-}
-
-@Directive({ selector: 'ard-select > ng-template[ard-item-display-limit-tmp]' })
-export class ArdItemDisplayLimitTemplateDirective {
-  constructor(public template: TemplateRef<ItemDisplayLimitContext>) {}
 }
