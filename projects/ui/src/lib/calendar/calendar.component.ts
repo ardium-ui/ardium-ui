@@ -30,6 +30,7 @@ import {
   CalendarYearContext,
   CalendarYearsViewHeaderContext,
 } from './calendar.types';
+import { isDayOutOfRange } from './views/days-view/days-view.helpers';
 
 const TODAY = new Date();
 
@@ -140,13 +141,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
     );
   }
   isDayOutOfRange(day: number, month: number = this.activeMonth(), year: number = this.activeYear()): number {
-    const min = this.min();
-    const max = this.max();
-
-    const date = new Date(year, month, day);
-    if (isDefined(min) && date < min) return -1;
-    if (isDefined(max) && date > max) return 1;
-    return 0;
+    return isDayOutOfRange(day, month, year, this.min(), this.max());
   }
   selectDay(day: number | Date | null): void {
     if (this.isDaySelected(day)) return;
@@ -190,6 +185,13 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
     }
 
     this.__highlightedDay.update(() => date.getDate());
+
+    if (date.getFullYear() !== this.activeYear()) {
+      this.activeYear.set(date.getFullYear());
+    }
+    if (date.getMonth() !== this.activeMonth()) {
+      this.activeMonth.set(date.getMonth());
+    }
   }
 
   private _highlightMinDay(): void {

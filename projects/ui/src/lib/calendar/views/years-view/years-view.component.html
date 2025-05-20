@@ -72,6 +72,7 @@
     <div
       class="ard-calendar__entry"
       [class.ard-calendar__entry-highlighted]="highlightedYear() === year || activeYear() === year"
+      [class.ard-calendar__entry-disabled]="isYearOutOfRange(year)"
       [class.ard-calendar__entry-selected]="isYearSelected(year)"
       [class.ard-calendar-today]="isYearToday(year)"
       (click)="onCalendarYearClick(year)"

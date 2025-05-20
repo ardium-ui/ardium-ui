@@ -69,6 +69,7 @@
     <div
       class="ard-calendar__entry"
       [class.ard-calendar__entry-highlighted]="highlightedMonth() === month || activeMonth() === month"
+      [class.ard-calendar__entry-disabled]="isMonthOutOfRange(month)"
       [class.ard-calendar__entry-selected]="isMonthSelected(month)"
       [class.ard-calendar-today]="isMonthToday(month)"
       (click)="onCalendarMonthClick(month)"

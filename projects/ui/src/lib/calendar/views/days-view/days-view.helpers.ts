@@ -1,3 +1,5 @@
+import { isDefined } from 'simple-bool';
+
 export type CalendarArray = (number | null)[][];
 
 export interface CalendarData {
@@ -64,4 +66,11 @@ export function getCalendarData(year: number, monthIndex: number, firstWeekday =
 
 export function getCalendarWeekdayArray(firstWeekday = 1): number[] {
   return [0, 1, 2, 3, 4, 5, 6].map(v => (v + firstWeekday) % 7);
+}
+
+export function isDayOutOfRange(day: number, month: number, year: number, min: Date | null, max: Date | null): number {
+  const date = new Date(year, month, day);
+  if (isDefined(min) && date < min) return -1;
+  if (isDefined(max) && date > max) return 1;
+  return 0;
 }

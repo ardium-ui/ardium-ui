@@ -122,7 +122,7 @@ $grid-size: 2.5rem;
         z-index: -1;
         background: var(--ard-cmpcl--bg-colored);
         border: 2px solid transparent;
-        transition: border-color 0.2s ease, opacity 0.2s ease;
+        transition: border-color 0.1s ease, opacity 0.1s ease;
       }
     }
     &.ard-calendar__entry-empty {
@@ -150,6 +150,17 @@ $grid-size: 2.5rem;
         .ard-focus-overlay {
           border-color: ARD.$bg;
         }
+      }
+    }
+    &.ard-calendar__entry-disabled {
+      pointer-events: none;
+      opacity: 60%;
+
+      .ard-calendar__entry-button {
+        cursor: default;
+      }
+      .ard-focus-overlay {
+        background: var(--ard-cmpcl--overlay);
       }
     }
   }

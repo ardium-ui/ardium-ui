@@ -1,14 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  HostListener,
-  input,
-  output,
-  TemplateRef
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, HostListener, input, output, TemplateRef } from '@angular/core';
 import { ComponentColor } from 'projects/ui/src/public-api';
 import { CalendarMonthContext, CalendarMonthsViewHeaderContext } from '../../calendar.types';
+import { isYearOutOfRange } from '../years-view/years-view.helpers';
+import { isMonthOutOfRange } from './months-view.helpers';
 
 const TODAY = new Date();
 
@@ -36,10 +30,10 @@ export class MonthsViewComponent {
   readonly activeYear = input.required<number>();
   readonly activeMonth = input.required<number>();
 
-  readonly canGoToNextYear = input.required<boolean>();
-  readonly canGoToPreviousYear = input.required<boolean>();
-
   readonly selectedDate = input.required<Date | null>();
+
+  readonly min = input.required<Date | null>();
+  readonly max = input.required<Date | null>();
 
   readonly MONTHS_ARRAY: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
@@ -199,6 +193,12 @@ export class MonthsViewComponent {
       month === this.selectedDate()?.getMonth()
     );
   }
+  isMonthOutOfRange(month: number, year: number = this.activeYear()): number {
+    return isMonthOutOfRange(month, year, this.min(), this.max());
+  }
+  isYearOutOfRange(year: number): number {
+    return isYearOutOfRange(year, this.min(), this.max());
+  }
 
   //! templates
   readonly monthsViewHeaderTemplate = input.required<TemplateRef<CalendarMonthsViewHeaderContext> | undefined>();
@@ -219,8 +219,8 @@ export class MonthsViewComponent {
       openDaysView: () => {
         this.triggerOpenDaysView.emit();
       },
-      canGoToNextPage: this.canGoToNextYear(),
-      canGoToPreviousPage: this.canGoToPreviousYear(),
+      canGoToNextPage: !this.isYearOutOfRange(this.activeYear() + 1),
+      canGoToPreviousPage: !this.isYearOutOfRange(this.activeYear() - 1),
       year: this.activeYear(),
       date: new Date(this.activeYear(), 0, 1),
       $implicit: this.activeYear(),

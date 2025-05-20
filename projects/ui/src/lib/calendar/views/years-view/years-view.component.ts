@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, HostListener, input, output, TemplateRef } from '@angular/core';
 import { CalendarYearContext, CalendarYearsViewHeaderContext, DateRange, YearRange } from '../../calendar.types';
-import { getCalendarYearsArray } from './years-view.helpers';
+import { getCalendarYearsArray, isYearOutOfRange } from './years-view.helpers';
 
 const TODAY = new Date();
 
@@ -25,10 +25,10 @@ export class YearsViewComponent {
 
   readonly activeYear = input.required<number>();
 
-  readonly canGoToNextPage = input.required<boolean>();
-  readonly canGoToPreviousPage = input.required<boolean>();
-
   readonly selectedDate = input.required<Date | null>();
+
+  readonly min = input.required<Date | null>();
+  readonly max = input.required<Date | null>();
 
   readonly currentYearRangeStart = input.required<number>();
   readonly yearsArray = computed(() => getCalendarYearsArray(this.currentYearRangeStart(), 24));
@@ -88,6 +88,9 @@ export class YearsViewComponent {
   isYearSelected(year: number | Date): boolean {
     if (year instanceof Date) year = year.getFullYear();
     return this.selectedDate() !== null && year === this.selectedDate()?.getFullYear();
+  }
+  isYearOutOfRange(year: number): number {
+    return isYearOutOfRange(year, this.min(), this.max());
   }
 
   //! keyboard controls
@@ -216,8 +219,8 @@ export class YearsViewComponent {
       openDaysView: () => {
         this.triggerOpenDaysView.emit();
       },
-      canGoToNextPage: this.canGoToNextPage(),
-      canGoToPreviousPage: this.canGoToPreviousPage(),
+      canGoToNextPage: !this.isYearOutOfRange(yearRangeEnd + 1),
+      canGoToPreviousPage: !this.isYearOutOfRange(yearRangeStart - 1),
       yearRange: yearRange,
       dateRange,
       $implicit: dateRange,

@@ -15,7 +15,8 @@ import {
   CalendarFloatingMonthContext,
   CalendarWeekdayContext,
 } from '../../calendar.types';
-import { getCalendarData, getCalendarWeekdayArray } from './days-view.helpers';
+import { isMonthOutOfRange } from '../months-view/months-view.helpers';
+import { getCalendarData, getCalendarWeekdayArray, isDayOutOfRange } from './days-view.helpers';
 
 const TODAY = new Date();
 
@@ -48,8 +49,8 @@ export class DaysViewComponent {
 
   readonly selectedDate = input.required<Date | null>();
 
-  readonly canGoToNextMonth = input.required<boolean>();
-  readonly canGoToPreviousMonth = input.required<boolean>();
+  readonly min = input.required<Date | null>();
+  readonly max = input.required<Date | null>();
 
   readonly highlightedDay = input.required<number | null>();
 
@@ -141,6 +142,19 @@ export class DaysViewComponent {
   //! helpers
   isDayToday(day: number | null): boolean {
     return this.activeYear() === TODAY.getFullYear() && this.activeMonth() === TODAY.getMonth() && day === TODAY.getDate();
+  }
+  isDayOutOfRange(day: number | null): number {
+    if (day === null) return 0;
+    return isDayOutOfRange(
+      this.activeYear(),
+      this.activeMonth(),
+      day,
+      this.min(),
+      this.max(),
+    )
+  }
+  isMonthOutOfRange(month: number): number {
+    return isMonthOutOfRange(month, this.activeYear(), this.min(), this.max());
   }
 
   //! keyboard controls
@@ -263,8 +277,8 @@ export class DaysViewComponent {
     openMonthsView: () => {
       this.triggerOpenMonthsView.emit();
     },
-    canGoToNextPage: this.canGoToNextMonth(),
-    canGoToPreviousPage: this.canGoToPreviousMonth(),
+    canGoToNextPage: !this.isMonthOutOfRange(this.activeMonth() + 1),
+    canGoToPreviousPage: !this.isMonthOutOfRange(this.activeMonth() - 1),
     year: this.activeYear(),
     month: this.activeMonth(),
     $implicit: new Date(this.activeYear(), this.activeMonth(), 1, 0, 0, 0, 0),

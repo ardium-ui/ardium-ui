@@ -99,6 +99,7 @@
       class="ard-calendar__entry"
       [class.ard-calendar__entry-empty]="day === null"
       [class.ard-calendar__entry-highlighted]="highlightedDay() === day"
+      [class.ard-calendar__entry-disabled]="isDayOutOfRange(day)"
       [class.ard-calendar__entry-selected]="isDaySelected(day)"
       [class.ard-calendar-today]="isDayToday(day)"
       (click)="onCalendarDayClick(day)"
