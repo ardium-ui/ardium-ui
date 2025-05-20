@@ -228,7 +228,7 @@ export class YearsViewComponent {
   });
   readonly yearContext = computed<(year: number) => CalendarYearContext>(() => {
     return (year: number) => {
-      const date = new Date(year, 0, 1);
+      const date = new Date(year, 1, 1);
       return {
         value: year,
         date,

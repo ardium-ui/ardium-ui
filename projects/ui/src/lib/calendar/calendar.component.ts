@@ -14,7 +14,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { coerceDateProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import { roundToMultiple } from 'more-rounding';
+import { roundFromZero } from 'more-rounding';
 import { isDefined, isNull } from 'simple-bool';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ComponentColor } from '../types/colors.types';
@@ -325,6 +325,10 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
     }
 
     this.__highlightedMonth.update(() => date.getMonth());
+
+    if (date.getFullYear() !== this.activeYear()) {
+      this.activeYear.set(date.getFullYear());
+    }
   }
 
   private _highlightMinMonth(): void {
@@ -435,10 +439,10 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
     this.__highlightedYear.update(() => newYear);
 
     if (newYear < this.currentYearRangeStart() || newYear >= this.currentYearRangeStart() + 24) {
-      //add the difference between the highlighted year and the displayed range start year
-      //rounded to a multiple of 24, away from the number zero
-      //the difference may be negative, if the first if condition is met
-      this.currentYearRangeStart.update(v => v + roundToMultiple(newYear - this.currentYearRangeStart(), 24, 'from_zero'));
+      // round the offset away from zero: 0.1 -> 1, -0.1 -> -1
+      // this is to ensure the range start is always shifted by 24 years
+      const offset = roundFromZero((newYear - this.currentYearRangeStart()) / 24);
+      this.currentYearRangeStart.update(v => v + offset * 24);
     }
   }
 
