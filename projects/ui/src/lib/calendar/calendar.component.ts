@@ -8,12 +8,14 @@ import {
   Inject,
   input,
   model,
+  output,
   signal,
   TemplateRef,
   ViewEncapsulation,
 } from '@angular/core';
-import { coerceNumberProperty } from '@ardium-ui/devkit';
-import { isDefined } from 'simple-bool';
+import { coerceDateProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { roundToMultiple } from 'more-rounding';
+import { isDefined, isNull } from 'simple-bool';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ComponentColor } from '../types/colors.types';
 import { ARD_CALENDAR_DEFAULTS, ArdCalendarDefaults } from './calendar.defaults';
@@ -29,6 +31,8 @@ import {
   CalendarYearsViewHeaderContext,
 } from './calendar.types';
 
+const TODAY = new Date();
+
 @Component({
   selector: 'ard-calendar',
   templateUrl: './calendar.component.html',
@@ -42,9 +46,9 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
     super(defaults);
 
     effect(() => {
-      this.selected(); // trigger effect
+      this.selectedDate(); // trigger effect
       this._emitChange();
-    })
+    });
   }
 
   //! appearance
@@ -103,20 +107,378 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
   }
 
   //! value
-  readonly selected = model<Date | null>(null);
+  readonly selectedDate = model<Date | null>(null, { alias: 'selected' });
+
+  readonly yearSelect = output<number>();
+  readonly monthSelect = output<number>();
+
+  readonly min = input<Date | null, any>(null, { transform: v => coerceDateProperty(v, null) });
+  readonly max = input<Date | null, any>(null, { transform: v => coerceDateProperty(v, null) });
 
   override writeValue(v: any): void {
     if (v instanceof Date) {
-      this.selected.set(v);
+      this.selectedDate.set(v);
     } else if (!isDefined(v)) {
-      this.selected.set(null);
+      this.selectedDate.set(null);
     } else {
       console.error(new Error(`ARD-NF2003: <ard-calendar> [writeValue] expected a Date or null, got "${v}".`));
     }
   }
 
   protected override _emitChange(): void {
-    this._onChangeRegistered?.(this.selected());
+    this._onChangeRegistered?.(this.selectedDate());
+  }
+
+  //! selecting days
+  isDaySelected(day: number | Date | null): boolean {
+    if (day instanceof Date) day = day.getDate();
+    return (
+      this.selectedDate() !== null &&
+      this.activeYear() === this.selectedDate()?.getFullYear() &&
+      this.activeMonth() === this.selectedDate()?.getMonth() &&
+      day === this.selectedDate()?.getDate()
+    );
+  }
+  isDayOutOfRange(day: number, month: number = this.activeMonth(), year: number = this.activeYear()): number {
+    const min = this.min();
+    const max = this.max();
+
+    const date = new Date(year, month, day);
+    if (isDefined(min) && date < min) return -1;
+    if (isDefined(max) && date > max) return 1;
+    return 0;
+  }
+  selectDay(day: number | Date | null): void {
+    if (this.isDaySelected(day)) return;
+    if (isNull(day)) {
+      if (!isDefined(this.selectedDate())) return;
+
+      this.selectedDate.set(null);
+      return;
+    }
+
+    if (day instanceof Date) day = day.getDate();
+    if (day && this.isDayOutOfRange(day)) return;
+
+    this.selectedDate.set(new Date(this.activeYear(), this.activeMonth(), day, 0, 0, 0, 0));
+  }
+  selectCurrentlyHighlightedDay(): void {
+    if (!isDefined(this.highlightedDay())) return;
+
+    this.selectDay(this.highlightedDay());
+  }
+
+  //! highlighting days
+  private readonly __highlightedDay = signal<number | null>(null);
+  readonly highlightedDay = this.__highlightedDay.asReadonly();
+
+  setHighlightedDay(day: number | null, month: number = this.activeMonth(), year: number = this.activeYear()): void {
+    if (isNull(day)) {
+      this.__highlightedDay.update(() => day);
+      return;
+    }
+    const date = new Date(year, month, day);
+    const outOfRange = this.isDayOutOfRange(day, month, year);
+
+    if (outOfRange === -1) {
+      this._highlightMinDay();
+      return;
+    }
+    if (outOfRange === 1) {
+      this._highlightMaxDay();
+      return;
+    }
+
+    this.__highlightedDay.update(() => date.getDate());
+  }
+
+  private _highlightMinDay(): void {
+    const min = this.min();
+    if (!isDefined(min)) return;
+
+    this.activeYear.set(min.getFullYear());
+    this.activeMonth.set(min.getMonth());
+    this.__highlightedDay.set(min.getDate());
+  }
+  private _highlightMaxDay(): void {
+    const max = this.max();
+    if (!isDefined(max)) return;
+
+    this.activeYear.set(max.getFullYear());
+    this.activeMonth.set(max.getMonth());
+    this.__highlightedDay.set(max.getDate());
+  }
+
+  highlightNextDay(offset = 1): void {
+    const currentDay = this.highlightedDay();
+    const newDay = currentDay ? currentDay + offset : 1;
+    this.setHighlightedDay(newDay);
+  }
+  highlightPreviousDay(offset = 1): void {
+    this.highlightNextDay(offset * -1);
+  }
+  highlightFirstDay(): void {
+    this.setHighlightedDay(1);
+  }
+  highlightLastDay(): void {
+    const daysInMonth = new Date(this.activeYear(), this.activeMonth() + 1, 0).getDate();
+    this.setHighlightedDay(daysInMonth);
+  }
+  highlightSameDayNextMonth(): void {
+    const month = this.activeMonth();
+    const year = this.activeYear();
+    const newMonth = month + 1;
+    const newYear = year + Math.floor(newMonth / 12);
+    this.setHighlightedDay(this.highlightedDay(), newMonth % 12, newYear);
+  }
+  highlightSameDayPreviousMonth(): void {
+    const month = this.activeMonth();
+    const year = this.activeYear();
+    const newMonth = month - 1;
+    const newYear = year + Math.floor(newMonth / 12);
+    this.setHighlightedDay(this.highlightedDay(), newMonth % 12, newYear);
+  }
+  highlightSameDayNextYear(): void {
+    this.setHighlightedDay(this.highlightedDay(), this.activeMonth(), this.activeYear() + 1);
+  }
+  highlightSameDayPreviousYear(): void {
+    this.setHighlightedDay(this.highlightedDay(), this.activeMonth(), this.activeYear() - 1);
+  }
+
+  //! selecting months
+  isMonthSelected(month: number | Date): boolean {
+    if (month instanceof Date) month = month.getMonth();
+    return (
+      this.selectedDate() !== null &&
+      this.activeYear() === this.selectedDate()?.getFullYear() &&
+      month === this.selectedDate()?.getMonth()
+    );
+  }
+  isMonthOutOfRange(month: number, year: number = this.activeYear()): number {
+    const min = this.min();
+    const max = this.max();
+
+    const dateForMinComparison = new Date(year, month + 1, 0); // last day of month
+    if (isDefined(min) && dateForMinComparison < min) return -1;
+
+    const dateForMaxComparison = new Date(year, month, 1); // first day of month
+    if (isDefined(max) && dateForMaxComparison > max) return 1;
+
+    return 0;
+  }
+  changeMonth(newMonth: number | null): boolean {
+    if (isNull(newMonth)) {
+      this.activeMonth.set(TODAY.getMonth());
+      return true;
+    }
+
+    if (this.isMonthOutOfRange(newMonth)) return false;
+
+    if (newMonth > 11) {
+      this.activeMonth.set(0);
+      this.activeYear.update(v => v + 1);
+    } else if (newMonth < 0) {
+      this.activeMonth.set(11);
+      this.activeYear.update(v => v - 1);
+    } else {
+      this.activeMonth.set(newMonth);
+    }
+
+    return true;
+  }
+  selectMonth(newMonth: number | null): void {
+    if (isNull(newMonth) || this.isMonthOutOfRange(newMonth)) return;
+
+    const wasSuccessful = this.changeMonth(newMonth);
+    if (!wasSuccessful) return;
+
+    this.activeView.set(ArdCalendarView.Days);
+    this.monthSelect.emit(newMonth);
+  }
+  selectCurrentlyHighlightedMonth(): void {
+    if (!isDefined(this.highlightedMonth())) return;
+
+    this.selectMonth(this.highlightedMonth()!);
+  }
+
+  //! highlighting months
+  private readonly __highlightedMonth = signal<number | null>(null);
+  readonly highlightedMonth = this.__highlightedMonth.asReadonly();
+
+  setHighlightedMonth(month: number | null, year: number = this.activeYear()): void {
+    if (isNull(month)) {
+      this.__highlightedMonth.update(() => month);
+      return;
+    }
+    const date = new Date(year, month);
+    const outOfRange = this.isMonthOutOfRange(month, year);
+
+    if (outOfRange === -1) {
+      this._highlightMinMonth();
+      return;
+    }
+    if (outOfRange === 1) {
+      this._highlightMaxMonth();
+      return;
+    }
+
+    this.__highlightedMonth.update(() => date.getMonth());
+  }
+
+  private _highlightMinMonth(): void {
+    const min = this.min();
+    if (!isDefined(min)) return;
+
+    this.activeYear.set(min.getFullYear());
+    this.__highlightedMonth.set(min.getDate());
+  }
+  private _highlightMaxMonth(): void {
+    const max = this.max();
+    if (!isDefined(max)) return;
+
+    this.activeYear.set(max.getFullYear());
+    this.__highlightedMonth.set(max.getDate());
+  }
+
+  highlightNextMonth(offset = 1): void {
+    const currentMonth = this.highlightedMonth();
+    const newMonth = currentMonth ? currentMonth + offset : 0;
+    this.setHighlightedMonth(newMonth);
+  }
+  highlightPreviousMonth(offset = 1): void {
+    this.highlightNextMonth(offset * -1);
+  }
+  highlightFirstMonth(): void {
+    this.setHighlightedMonth(0);
+  }
+  highlightLastMonth(): void {
+    this.setHighlightedMonth(11);
+  }
+  highlightSameMonthNextYear(multiple: boolean): void {
+    this.setHighlightedMonth(this.highlightedMonth(), this.activeYear() + (multiple ? 10 : 1));
+  }
+  highlightSameMonthPreviousYear(multiple: boolean): void {
+    this.setHighlightedMonth(this.highlightedMonth(), this.activeYear() - (multiple ? 10 : 1));
+  }
+
+  //! selecting years
+  isYearSelected(year: number | Date): boolean {
+    if (year instanceof Date) year = year.getFullYear();
+    return this.selectedDate() !== null && year === this.selectedDate()?.getFullYear();
+  }
+  isYearOutOfRange(year: number): number {
+    const min = this.min();
+    const max = this.max();
+
+    const dateForMinComparison = new Date(year, 0, 1);
+    if (isDefined(min) && dateForMinComparison < min) return -1;
+
+    const dateForMaxComparison = new Date(year, 11, 31);
+    if (isDefined(max) && dateForMaxComparison > max) return 1;
+
+    return 0;
+  }
+  changeYear(year: number | null): boolean {
+    if (isNull(year)) {
+      this.activeYear.set(TODAY.getFullYear());
+      return true;
+    }
+
+    if (this.isYearOutOfRange(year)) return false;
+
+    this.activeYear.set(year);
+
+    return true;
+  }
+  selectYear(year: number | Date | null): void {
+    if (isNull(year) || this.isYearSelected(year)) return;
+    if (year instanceof Date) year = year.getFullYear();
+
+    const wasSuccessful = this.changeYear(year);
+    if (!wasSuccessful) return;
+
+    this.activeView.set(ArdCalendarView.Months);
+    this.yearSelect.emit(year);
+  }
+  selectCurrentlyHighlightedYear(): void {
+    if (!isDefined(this.highlightedYear())) return;
+
+    this.selectYear(this.highlightedYear()!);
+  }
+
+  //! highlighting years
+  private readonly __highlightedYear = signal<number | null>(null);
+  readonly highlightedYear = this.__highlightedYear.asReadonly();
+
+  readonly currentYearRangeStart = signal<number>(TODAY.getFullYear() - (TODAY.getFullYear() % 4) - 8); // current year always in 3rd row
+
+  setHighlightedYear(year: number | null): void {
+    if (isNull(year)) {
+      this.__highlightedYear.update(() => year);
+      return;
+    }
+    const date = new Date(year, 0);
+    const outOfRange = this.isYearOutOfRange(year);
+
+    if (outOfRange === -1) {
+      this._highlightMinYear();
+      return;
+    }
+    if (outOfRange === 1) {
+      this._highlightMaxYear();
+      return;
+    }
+
+    const newYear = date.getFullYear();
+    this.__highlightedYear.update(() => newYear);
+
+    if (newYear < this.currentYearRangeStart() || newYear >= this.currentYearRangeStart() + 24) {
+      //add the difference between the highlighted year and the displayed range start year
+      //rounded to a multiple of 24, away from the number zero
+      //the difference may be negative, if the first if condition is met
+      this.currentYearRangeStart.update(v => v + roundToMultiple(newYear - this.currentYearRangeStart(), 24, 'from_zero'));
+    }
+  }
+
+  changeYearsViewPage(offset: number): void {
+    const newYearRangeStart = this.currentYearRangeStart() + offset * 24;
+    this.currentYearRangeStart.set(newYearRangeStart);
+  }
+
+  private _highlightMinYear(): void {
+    const min = this.min();
+    if (!isDefined(min)) return;
+
+    this.__highlightedYear.set(min.getFullYear());
+  }
+  private _highlightMaxYear(): void {
+    const max = this.max();
+    if (!isDefined(max)) return;
+
+    this.__highlightedYear.set(max.getFullYear());
+  }
+
+  highlightNextYear(offset = 1): void {
+    const currentYear = this.highlightedYear();
+    const newYear = currentYear ? currentYear + offset : 0;
+    this.setHighlightedYear(newYear);
+  }
+  highlightPreviousYear(offset = 1): void {
+    this.highlightNextYear(offset * -1);
+  }
+  highlightFirstYear(): void {
+    this.setHighlightedYear(this.currentYearRangeStart());
+  }
+  highlightLastYear(): void {
+    this.setHighlightedYear(this.currentYearRangeStart() + 23); // 24 years per page
+  }
+  highlightSameYearNextPage(multiple: boolean): void {
+    const year = this.highlightedYear() ?? this.currentYearRangeStart();
+    this.setHighlightedYear(year + (multiple ? 60 : 24));
+  }
+  highlightSameYearPreviousPage(multiple: boolean): void {
+    const year = this.highlightedYear() ?? this.currentYearRangeStart();
+    this.setHighlightedYear(year - (multiple ? 60 : 24));
   }
 
   //! internals

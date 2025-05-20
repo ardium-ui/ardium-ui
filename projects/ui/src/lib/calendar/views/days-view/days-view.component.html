@@ -6,6 +6,8 @@
       let-currDate
       let-nextMonth="nextMonth"
       let-prevMonth="prevMonth"
+      let-canGoToNextMonth="canGoToNextPage"
+      let-canGoToPreviousMonth="canGoToPreviousPage"
       let-openYearsView="openYearsView"
     >
       <div class="ard-calendar__calendar-header">
@@ -27,6 +29,7 @@
             color="none"
             (click)="prevMonth()"
             [tabIndex]="tabIndex()"
+            [disabled]="!canGoToPreviousMonth"
           >
             <ard-icon>chevron_left</ard-icon>
           </ard-icon-button>
@@ -36,6 +39,7 @@
             color="none"
             (click)="nextMonth()"
             [tabIndex]="tabIndex()"
+            [disabled]="!canGoToNextMonth"
           >
             <ard-icon>chevron_right</ard-icon>
           </ard-icon-button>

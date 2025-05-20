@@ -362,7 +362,6 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
     this.open();
   }
   open(): void {
-    console.log('open');
     if (this.disabled() || this.isOpen()) return;
 
     this.isOpen.set(true);
@@ -373,7 +372,6 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
     this.openEvent.emit();
   }
   close(): void {
-    console.log('close');
     if (!this.isOpen()) return;
 
     this.isOpen.set(false);

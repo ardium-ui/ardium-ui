@@ -1,16 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  HostListener,
-  input,
-  model,
-  output,
-  signal,
-  TemplateRef,
-} from '@angular/core';
-import { roundToMultiple } from 'more-rounding';
-import { isDefined, isNull } from 'simple-bool';
+import { ChangeDetectionStrategy, Component, computed, HostListener, input, output, TemplateRef } from '@angular/core';
 import { CalendarYearContext, CalendarYearsViewHeaderContext, DateRange, YearRange } from '../../calendar.types';
 import { getCalendarYearsArray } from './years-view.helpers';
 
@@ -32,14 +20,17 @@ export class YearsViewComponent {
   @HostListener('document:mousemove')
   onMouseMove(): void {
     if (this._isUsingKeyboard()) return;
-    if (this.highlightedYear()) this.highlightedYear.set(null);
+    if (this.highlightedYear()) this.triggerHighlightYear.emit(null);
   }
 
-  readonly activeYear = model.required<number>();
+  readonly activeYear = input.required<number>();
 
-  readonly selectedDate = model.required<Date | null>();
+  readonly canGoToNextPage = input.required<boolean>();
+  readonly canGoToPreviousPage = input.required<boolean>();
 
-  readonly currentYearRangeStart = signal<number>(TODAY.getFullYear() - (TODAY.getFullYear() % 4) - 8); // current year always in 3rd row
+  readonly selectedDate = input.required<Date | null>();
+
+  readonly currentYearRangeStart = input.required<number>();
   readonly yearsArray = computed(() => getCalendarYearsArray(this.currentYearRangeStart(), 24));
 
   readonly currentAriaLabel = computed(() => {
@@ -49,44 +40,45 @@ export class YearsViewComponent {
   //! outputs
   readonly triggerOpenMonthsView = output<void>();
   readonly triggerOpenDaysView = output<void>();
+
   readonly focusEvent = output<FocusEvent>({ alias: 'focus' });
   readonly blurEvent = output<FocusEvent>({ alias: 'blur' });
 
+  readonly triggerSelectYear = output<number>();
+  readonly triggerChangeYearsViewPage = output<number>();
+
+  readonly triggerHighlightYear = output<number | null>();
+  readonly triggerHighlightNextYear = output<number>();
+  readonly triggerHighlightPreviousYear = output<number>();
+  readonly triggerHighlightFirstYear = output<void>();
+  readonly triggerHighlightLastYear = output<void>();
+  readonly triggerHighlightSameYearPreviousPage = output<boolean>();
+  readonly triggerHighlightSameYearNextPage = output<boolean>();
+
   //! calendar entry hover & click
-  readonly highlightedYear = signal<number | null>(null);
-
-  setHighlightedYearAdjustPage(year: number): void {
-    this.highlightedYear.set(year);
-
-    if (year < this.currentYearRangeStart() || year >= this.currentYearRangeStart() + 24) {
-      //add the difference between the highlighted year and the displayed range start year
-      //rounded to a multiple of 24, away from the number zero
-      //the difference may be negative, if the first if condition is met
-      this.currentYearRangeStart.update(v => v + roundToMultiple(year - this.currentYearRangeStart(), 24, 'from_zero'));
-    }
-  }
+  readonly highlightedYear = input.required<number | null>();
 
   onCalendarYearMouseover(year: number): void {
     if (this._isUsingKeyboard() || this.disabled() || this.readOnly()) return;
 
-    this.highlightedYear.set(year);
+    this.triggerHighlightYear.emit(year);
   }
   onCalendarYearClick(year: number): void {
     if (this.disabled() || this.readOnly()) return;
-    this.selectYear(year);
+    this.triggerSelectYear.emit(year);
   }
   onYearGridFocus(): void {
     if (this.disabled() || this.readOnly()) return;
-    this.highlightedYear.set(this.currentYearRangeStart());
+    this.triggerHighlightFirstYear.emit();
   }
   onYearGridBlur(): void {
     if (this.disabled() || this.readOnly()) return;
-    this.highlightedYear.set(null);
+    this.triggerHighlightYear.emit(null);
   }
   onYearGridClick(): void {
     if (this.disabled() || this.readOnly()) return;
     if (this.highlightedYear() !== null) return;
-    this.highlightedYear.set(this.currentYearRangeStart());
+    this.triggerHighlightFirstYear.emit();
   }
 
   //! helpers
@@ -139,108 +131,60 @@ export class YearsViewComponent {
   private _onEnterPress(event: KeyboardEvent): void {
     event.preventDefault();
 
-    this.selectCurrentlyHighlighted();
-  }
-  //highlight the entry one line above
-  private _onArrowUpPress(event: KeyboardEvent): void {
-    event.preventDefault();
+    const year = this.highlightedYear();
+    if (year === null) return;
 
-    this.highlightPreviousYear(4); //4 years per line
+    this.triggerSelectYear.emit(year);
   }
   //highlight the entry one line below
   private _onArrowDownPress(event: KeyboardEvent): void {
     event.preventDefault();
 
-    this.highlightNextYear(4); //4 years per line
+    this.triggerHighlightNextYear.emit(4); //4 years per line
   }
-  //highlight previous entry
-  private _onArrowLeftPress(event: KeyboardEvent): void {
+  //highlight the entry one line above
+  private _onArrowUpPress(event: KeyboardEvent): void {
     event.preventDefault();
 
-    this.highlightPreviousYear();
+    this.triggerHighlightPreviousYear.emit(4); //4 years per line
   }
   //highlight next entry
   private _onArrowRightPress(event: KeyboardEvent): void {
     event.preventDefault();
 
-    this.highlightNextYear();
+    this.triggerHighlightNextYear.emit(1);
+  }
+  //highlight previous entry
+  private _onArrowLeftPress(event: KeyboardEvent): void {
+    event.preventDefault();
+
+    this.triggerHighlightPreviousYear.emit(1);
   }
   //highlight first entry on the page
   private _onHomePress(event: KeyboardEvent): void {
     event.preventDefault();
 
-    this.highlightFirstYear();
+    this.triggerHighlightFirstYear.emit();
   }
   //highlight last entry on the page
   private _onEndPress(event: KeyboardEvent): void {
     event.preventDefault();
 
-    this.highlightLastYear();
+    this.triggerHighlightLastYear.emit();
   }
   //alone: highlight same entry on the previous page
   //with alt: highlight same entry multiple pages before
   private _onPageUpPress(event: KeyboardEvent): void {
     event.preventDefault();
 
-    this.highlightSameYearPreviousPage(event.altKey);
+    this.triggerHighlightSameYearPreviousPage.emit(event.altKey);
   }
   //alone: highlight same entry on the next page
   //with alt: highlight same entry multiple pages after
   private _onPageDownPress(event: KeyboardEvent): void {
     event.preventDefault();
 
-    this.highlightSameYearNextPage(event.altKey);
-  }
-
-  //! manipulation methods
-  selectYear(year: number | Date | null): void {
-    if (isNull(year)) {
-      this.activeYear.set(TODAY.getFullYear());
-      return;
-    }
-    if (year instanceof Date) year = year.getFullYear();
-
-    this.activeYear.set(year);
-    this.triggerOpenMonthsView.emit();
-  }
-  selectCurrentlyHighlighted(): void {
-    this.selectYear(this.highlightedYear());
-  }
-  changeYearsViewPage(pages: number): void {
-    this.currentYearRangeStart.update(v => v + 24 * pages);
-  }
-  highlightNextYear(offset = 1): void {
-    const currentYear = this.highlightedYear();
-    if (!isDefined(currentYear)) {
-      this.highlightedYear.set(0);
-      return;
-    }
-    this.setHighlightedYearAdjustPage(currentYear + offset);
-  }
-  highlightPreviousYear(offset = 1): void {
-    this.highlightNextYear(offset * -1);
-  }
-  highlightFirstYear(): void {
-    this.highlightedYear.set(this.currentYearRangeStart());
-  }
-  highlightLastYear(): void {
-    this.highlightedYear.set(this.currentYearRangeStart() + 23); //24 years per page
-  }
-  highlightSameYearNextPage(multiple: boolean): void {
-    const year = this.highlightedYear();
-    if (!isDefined(year)) {
-      this.highlightedYear.set(this.currentYearRangeStart());
-      return;
-    }
-    this.setHighlightedYearAdjustPage(year + (multiple ? 60 : 24));
-  }
-  highlightSameYearPreviousPage(multiple: boolean): void {
-    const year = this.highlightedYear();
-    if (!isDefined(year)) {
-      this.highlightedYear.set(this.currentYearRangeStart());
-      return;
-    }
-    this.setHighlightedYearAdjustPage(year - (multiple ? 60 : 24));
+    this.triggerHighlightSameYearNextPage.emit(event.altKey);
   }
 
   //! templates
@@ -261,10 +205,10 @@ export class YearsViewComponent {
     };
     return {
       nextPage: () => {
-        this.changeYearsViewPage(+1);
+        this.triggerChangeYearsViewPage.emit(1);
       },
       prevPage: () => {
-        this.changeYearsViewPage(-1);
+        this.triggerChangeYearsViewPage.emit(-1);
       },
       openMonthsView: () => {
         this.triggerOpenMonthsView.emit();
@@ -272,6 +216,8 @@ export class YearsViewComponent {
       openDaysView: () => {
         this.triggerOpenDaysView.emit();
       },
+      canGoToNextPage: this.canGoToNextPage(),
+      canGoToPreviousPage: this.canGoToPreviousPage(),
       yearRange: yearRange,
       dateRange,
       $implicit: dateRange,
@@ -285,7 +231,7 @@ export class YearsViewComponent {
         date,
         $implicit: date,
         select: (year: number) => {
-          this.selectYear(year);
+          this.triggerSelectYear.emit(year);
         },
       };
     };

@@ -21,14 +21,20 @@ export interface CalendarYearsViewHeaderContext {
   prevPage: () => void;
   openMonthsView: () => void;
   openDaysView: () => void;
+  canGoToNextPage: boolean;
+  canGoToPreviousPage: boolean;
   yearRange: YearRange;
   dateRange: DateRange;
   $implicit: DateRange;
 }
 
 export interface CalendarMonthsViewHeaderContext {
+  nextPage: () => void;
+  prevPage: () => void;
   openDaysView: () => void;
   openYearsView: () => void;
+  canGoToNextPage: boolean;
+  canGoToPreviousPage: boolean;
   year: number;
   date: Date;
   $implicit: number;
@@ -41,6 +47,8 @@ export interface CalendarDaysViewHeaderContext {
   prevYear: () => void;
   openYearsView: () => void;
   openMonthsView: () => void;
+  canGoToNextPage: boolean;
+  canGoToPreviousPage: boolean;
   year: number;
   month: number;
   $implicit: Date;

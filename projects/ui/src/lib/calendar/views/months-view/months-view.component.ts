@@ -4,13 +4,10 @@ import {
   computed,
   HostListener,
   input,
-  model,
   output,
-  signal,
-  TemplateRef,
+  TemplateRef
 } from '@angular/core';
 import { ComponentColor } from 'projects/ui/src/public-api';
-import { isDefined, isNull } from 'simple-bool';
 import { CalendarMonthContext, CalendarMonthsViewHeaderContext } from '../../calendar.types';
 
 const TODAY = new Date();
@@ -31,15 +28,18 @@ export class MonthsViewComponent {
   @HostListener('document:mousemove')
   onMouseMove(): void {
     if (this._isUsingKeyboard()) return;
-    if (this.highlightedMonth()) this.highlightedMonth.set(null);
+    if (this.highlightedMonth()) this.triggerHighlightMonth.emit(null);
   }
 
   readonly color = input.required<ComponentColor>();
 
-  readonly activeYear = model.required<number>();
-  readonly activeMonth = model.required<number>();
+  readonly activeYear = input.required<number>();
+  readonly activeMonth = input.required<number>();
 
-  readonly selectedDate = model.required<Date | null>();
+  readonly canGoToNextYear = input.required<boolean>();
+  readonly canGoToPreviousYear = input.required<boolean>();
+
+  readonly selectedDate = input.required<Date | null>();
 
   readonly MONTHS_ARRAY: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
@@ -57,44 +57,48 @@ export class MonthsViewComponent {
   //! outputs
   readonly triggerOpenYearsView = output<void>();
   readonly triggerOpenDaysView = output<void>();
+
   readonly focusEvent = output<FocusEvent>({ alias: 'focus' });
   readonly blurEvent = output<FocusEvent>({ alias: 'blur' });
 
+  readonly triggerSelectMonth = output<number>();
+  readonly triggeChangeYear = output<number>();
+
+  readonly triggerHighlightMonth = output<number | null>();
+  readonly triggerHighlightNextMonth = output<number>();
+  readonly triggerHighlightPreviousMonth = output<number>();
+  readonly triggerHighlightFirstMonth = output<void>();
+  readonly triggerHighlightLastMonth = output<void>();
+  readonly triggerHighlightSameMonthPreviousPage = output<boolean>();
+  readonly triggerHighlightSameMonthNextPage = output<boolean>();
+
   //! calendar entry hover & click
-  readonly highlightedMonth = signal<number | null>(null);
-
-  setHighlightedMonthAdjustDate(month: number): void {
-    this.highlightedMonth.set(month);
-
-    const date = new Date(this.activeYear(), month, 1);
-
-    if (this.activeYear() !== date.getFullYear()) this.activeYear.set(date.getFullYear());
-  }
+  readonly highlightedMonth = input.required<number | null>();
 
   onCalendarMonthMouseover(month: number): void {
     if (this._isUsingKeyboard()) return;
     if (this.disabled() || this.readOnly()) return;
 
-    this.highlightedMonth.set(month);
+    this.triggerHighlightMonth.emit(month);
   }
 
   onCalendarMonthClick(month: number): void {
     if (this.disabled() || this.readOnly()) return;
-    this.selectMonth(month);
+    this.triggerSelectMonth.emit(month);
   }
 
   onMonthGridFocus(): void {
     if (this.disabled() || this.readOnly()) return;
-    this.highlightedMonth.set(0);
+    this.triggerHighlightMonth.emit(0);
   }
   onMonthGridBlur(): void {
     if (this.disabled() || this.readOnly()) return;
-    this.highlightedMonth.set(null);
+    this.triggerHighlightMonth.emit(null);
   }
   onMonthGridClick(): void {
     if (this.disabled() || this.readOnly()) return;
     if (this.highlightedMonth() !== null) return;
-    this.highlightedMonth.set(0);
+    this.triggerHighlightMonth.emit(0);
   }
 
   //! keyboard controls
@@ -138,49 +142,49 @@ export class MonthsViewComponent {
   private _onEnterPress(event: KeyboardEvent): void {
     event.preventDefault();
 
-    this.selectCurrentlyHighlighted();
-  }
-  //highlight the entry one line above
-  private _onArrowUpPress(event: KeyboardEvent): void {
-    event.preventDefault();
-    this.highlightPreviousMonth(4); //4 months per line
+    this.triggerHighlightMonth.emit(this.highlightedMonth());
   }
   //highlight the entry one line below
   private _onArrowDownPress(event: KeyboardEvent): void {
     event.preventDefault();
-    this.highlightNextMonth(4); //4 months per line
+    this.triggerHighlightNextMonth.emit(4); //4 months per line
   }
-  //highlight previous entry
-  private _onArrowLeftPress(event: KeyboardEvent): void {
+  //highlight the entry one line above
+  private _onArrowUpPress(event: KeyboardEvent): void {
     event.preventDefault();
-    this.highlightPreviousMonth();
+    this.triggerHighlightPreviousMonth.emit(4); //4 months per line
   }
   //highlight next entry
   private _onArrowRightPress(event: KeyboardEvent): void {
     event.preventDefault();
-    this.highlightNextMonth();
+    this.triggerHighlightNextMonth.emit(1);
+  }
+  //highlight previous entry
+  private _onArrowLeftPress(event: KeyboardEvent): void {
+    event.preventDefault();
+    this.triggerHighlightPreviousMonth.emit(1);
   }
   //highlight first entry on the page
   private _onHomePress(event: KeyboardEvent): void {
     event.preventDefault();
-    this.highlightFirstMonth();
+    this.triggerHighlightFirstMonth.emit();
   }
   //highlight last entry on the page
   private _onEndPress(event: KeyboardEvent): void {
     event.preventDefault();
-    this.highlightLastMonth();
-  }
-  //alone: highlight same entry on the previous page
-  //with alt: highlight same entry multiple pages before (days view: 12 pages, months view: 10 pages, years view: 5 pages)
-  private _onPageUpPress(event: KeyboardEvent): void {
-    event.preventDefault();
-    this.highlightSameMonthPreviousYear(event.altKey);
+    this.triggerHighlightLastMonth.emit();
   }
   //alone: highlight same entry on the next page
-  //with alt: highlight same entry multiple pages after (days view: 12 pages, months view: 10 pages, years view: 5 pages)
+  //with alt: highlight same entry multiple pages after (10 pages)
   private _onPageDownPress(event: KeyboardEvent): void {
     event.preventDefault();
-    this.highlightSameMonthNextYear(event.altKey);
+    this.triggerHighlightSameMonthNextPage.emit(event.altKey);
+  }
+  //alone: highlight same entry on the previous page
+  //with alt: highlight same entry multiple pages before (10 pages)
+  private _onPageUpPress(event: KeyboardEvent): void {
+    event.preventDefault();
+    this.triggerHighlightSameMonthPreviousPage.emit(event.altKey);
   }
 
   //! helpers
@@ -196,45 +200,6 @@ export class MonthsViewComponent {
     );
   }
 
-  //! manipulation methods
-  selectMonth(month: number | Date | null): void {
-    if (isNull(month)) {
-      this.activeMonth.set(0);
-      return;
-    }
-    if (month instanceof Date) month = month.getMonth();
-
-    this.activeMonth.set(month);
-
-    this.triggerOpenDaysView.emit();
-  }
-  selectCurrentlyHighlighted(): void {
-    this.selectMonth(this.highlightedMonth());
-  }
-  highlightNextMonth(offset = 1): void {
-    const currentMonth = this.highlightedMonth();
-    if (!isDefined(currentMonth)) {
-      this.highlightedMonth.set(0);
-      return;
-    }
-    this.setHighlightedMonthAdjustDate(currentMonth + offset);
-  }
-  highlightPreviousMonth(offset = 1): void {
-    this.highlightNextMonth(offset * -1);
-  }
-  highlightFirstMonth(): void {
-    this.highlightedMonth.set(0);
-  }
-  highlightLastMonth(): void {
-    this.highlightedMonth.set(11);
-  }
-  highlightSameMonthNextYear(multiple: boolean): void {
-    this.activeYear.update(v => v + (multiple ? 10 : 1));
-  }
-  highlightSameMonthPreviousYear(multiple: boolean): void {
-    this.activeYear.update(v => v - (multiple ? 10 : 1));
-  }
-
   //! templates
   readonly monthsViewHeaderTemplate = input.required<TemplateRef<CalendarMonthsViewHeaderContext> | undefined>();
   readonly monthTemplate = input.required<TemplateRef<CalendarMonthContext> | undefined>();
@@ -242,12 +207,20 @@ export class MonthsViewComponent {
   //! template contexts
   readonly monthsViewHeaderContext = computed(
     (): CalendarMonthsViewHeaderContext => ({
+      nextPage: () => {
+        this.triggeChangeYear.emit(this.activeYear() + 1);
+      },
+      prevPage: () => {
+        this.triggeChangeYear.emit(this.activeYear() - 1);
+      },
       openYearsView: () => {
         this.triggerOpenYearsView.emit();
       },
       openDaysView: () => {
         this.triggerOpenDaysView.emit();
       },
+      canGoToNextPage: this.canGoToNextYear(),
+      canGoToPreviousPage: this.canGoToPreviousYear(),
       year: this.activeYear(),
       date: new Date(this.activeYear(), 0, 1),
       $implicit: this.activeYear(),
@@ -261,7 +234,8 @@ export class MonthsViewComponent {
       date,
       $implicit: date,
       select: (month: number | Date) => {
-        this.selectMonth(month);
+        if (month instanceof Date) month = month.getMonth();
+        this.triggerSelectMonth.emit(month);
       },
     };
   });

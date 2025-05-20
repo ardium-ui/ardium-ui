@@ -5,13 +5,10 @@ import {
   ElementRef,
   HostListener,
   input,
-  model,
   output,
-  signal,
   TemplateRef,
   viewChild,
 } from '@angular/core';
-import { isDefined, isNull } from 'simple-bool';
 import {
   CalendarDayContext,
   CalendarDaysViewHeaderContext,
@@ -42,31 +39,19 @@ export class DaysViewComponent {
   @HostListener('document:mousemove')
   onMouseMove(): void {
     if (this._isUsingKeyboard()) return;
-    if (this.highlightedDay()) this.setHighlightedDay(null);
+    if (this.highlightedDay()) this.triggerHighlightDay.emit(null);
   }
 
   //! active year/month
-  readonly activeYear = model.required<number>();
-  readonly activeMonth = model.required<number>();
+  readonly activeYear = input.required<number>();
+  readonly activeMonth = input.required<number>();
 
-  changeMonth(offset: number): void {
-    const newMonth = this.activeMonth() + offset;
+  readonly selectedDate = input.required<Date | null>();
 
-    if (newMonth > 11) {
-      this.activeMonth.set(0);
-      this.activeYear.update(v => v + 1);
-    } else if (newMonth < 0) {
-      this.activeMonth.set(11);
-      this.activeYear.update(v => v - 1);
-    } else {
-      this.activeMonth.set(newMonth);
-    }
-  }
-  changeYear(offset: number): void {
-    this.activeYear.update(v => v + offset);
-  }
+  readonly canGoToNextMonth = input.required<boolean>();
+  readonly canGoToPreviousMonth = input.required<boolean>();
 
-  readonly selectedDate = model.required<Date | null>();
+  readonly highlightedDay = input.required<number | null>();
 
   //! focusing
   readonly focusableElement = viewChild.required<ElementRef<HTMLElement>>('focusableElement');
@@ -83,8 +68,14 @@ export class DaysViewComponent {
 
   readonly weekdayArray = computed(() => getCalendarWeekdayArray(this.firstWeekday()));
 
-  isDateToday(day: number): boolean {
-    return this.activeYear() === TODAY.getFullYear() && this.activeMonth() === TODAY.getMonth() && day === TODAY.getDate();
+  isDaySelected(day: number | Date | null): boolean {
+    if (day instanceof Date) day = day.getDate();
+    return (
+      this.selectedDate() !== null &&
+      this.activeYear() === this.selectedDate()?.getFullYear() &&
+      this.activeMonth() === this.selectedDate()?.getMonth() &&
+      day === this.selectedDate()?.getDate()
+    );
   }
 
   readonly currentAriaLabel = computed(() => {
@@ -103,72 +94,53 @@ export class DaysViewComponent {
   //! outputs
   readonly triggerOpenYearsView = output<void>();
   readonly triggerOpenMonthsView = output<void>();
+
+  readonly triggerSelectDay = output<number | null>();
+  readonly triggerChangeMonth = output<number | null>();
+  readonly triggerChangeYear = output<number | null>();
+
+  readonly triggerHighlightDay = output<number | null>();
+  readonly triggerHighlightNextDay = output<number>();
+  readonly triggerHighlightPreviousDay = output<number>();
+  readonly triggerHighlightFirstDay = output<void>();
+  readonly triggerHighlightLastDay = output<void>();
+  readonly triggerHighlightSameDayPreviousPage = output<boolean>();
+  readonly triggerHighlightSameDayNextPage = output<boolean>();
+
   readonly focusEvent = output<FocusEvent>({ alias: 'focus' });
   readonly blurEvent = output<FocusEvent>({ alias: 'blur' });
-
-  //! calendar entry hover & click
-  private readonly __highlightedDay = signal<number | null>(null);
-  readonly highlightedDay = this.__highlightedDay.asReadonly();
-
-  setHighlightedDay(day: number | null): void {
-    if (isNull(day)) {
-      this.__highlightedDay.update(() => day);
-      return;
-    }
-    const date = new Date(this.activeYear(), this.activeMonth(), day);
-    this.__highlightedDay.update(() => date.getDate());
-  }
-  setHighlightedDayAdjustDate(day: number): void {
-    this.setHighlightedDay(day);
-
-    const date = new Date(this.activeYear(), this.activeMonth(), day);
-
-    if (this.activeYear() !== date.getFullYear()) this.activeYear.update(() => date.getFullYear());
-
-    if (this.activeMonth() !== date.getMonth()) this.activeMonth.update(() => date.getMonth());
-  }
 
   onCalendarDayMouseover(day: number | null): void {
     if (this._isUsingKeyboard()) return;
     if (this.disabled() || this.readOnly()) return;
 
-    this.setHighlightedDay(day);
+    this.triggerHighlightDay.emit(day);
   }
   onCalendarDayClick(day: number | null): void {
     if (this.disabled() || this.readOnly()) return;
     if (day === null) return;
 
-    this.selectDay(day);
-
+    this.triggerHighlightDay.emit(day);
     this.focus();
-    this.setHighlightedDay(day);
+    this.triggerSelectDay.emit(day);
   }
   onDayGridFocus(): void {
     if (this.disabled() || this.readOnly()) return;
-    this.setHighlightedDay(1);
+    this.triggerHighlightFirstDay.emit();
   }
   onDayGridBlur(): void {
     if (this.disabled() || this.readOnly()) return;
-    this.setHighlightedDay(null);
+    this.triggerHighlightDay.emit(null);
   }
   onDayGridClick(): void {
     if (this.disabled() || this.readOnly()) return;
     if (this.highlightedDay() !== null) return;
-    this.setHighlightedDay(1);
+    this.triggerHighlightFirstDay.emit();
   }
 
   //! helpers
   isDayToday(day: number | null): boolean {
     return this.activeYear() === TODAY.getFullYear() && this.activeMonth() === TODAY.getMonth() && day === TODAY.getDate();
-  }
-  isDaySelected(day: number | Date | null): boolean {
-    if (day instanceof Date) day = day.getDate();
-    return (
-      this.selectedDate() !== null &&
-      this.activeYear() === this.selectedDate()?.getFullYear() &&
-      this.activeMonth() === this.selectedDate()?.getMonth() &&
-      day === this.selectedDate()?.getDate()
-    );
   }
 
   //! keyboard controls
@@ -212,175 +184,57 @@ export class DaysViewComponent {
   private _onEnterPress(event: KeyboardEvent): void {
     event.preventDefault();
 
-    this.selectCurrentlyHighlighted();
+    this.triggerSelectDay.emit(this.highlightedDay());
   }
+  //highlight the entry one line above
   private _onArrowUpPress(event: KeyboardEvent): void {
     event.preventDefault();
 
-    this.highlightPreviousDay(7);
+    this.triggerHighlightNextDay.emit(7);
   }
   //highlight the entry one line below
   private _onArrowDownPress(event: KeyboardEvent): void {
     event.preventDefault();
 
-    this.highlightNextDay(7);
-  }
-  //highlight previous entry
-  private _onArrowLeftPress(event: KeyboardEvent): void {
-    event.preventDefault();
-
-    this.highlightPreviousDay();
+    this.triggerHighlightPreviousDay.emit(7);
   }
   //highlight next entry
   private _onArrowRightPress(event: KeyboardEvent): void {
     event.preventDefault();
 
-    this.highlightNextDay();
+    this.triggerHighlightNextDay.emit(1);
+  }
+  //highlight previous entry
+  private _onArrowLeftPress(event: KeyboardEvent): void {
+    event.preventDefault();
+
+    this.triggerHighlightPreviousDay.emit(1);
   }
   //highlight first entry on the page
   private _onHomePress(event: KeyboardEvent): void {
     event.preventDefault();
 
-    this.highlightFirstDay();
+    this.triggerHighlightFirstDay.emit();
   }
   //highlight last entry on the page
   private _onEndPress(event: KeyboardEvent): void {
     event.preventDefault();
 
-    this.highlightLastDay();
-  }
-  //alone: highlight same entry on the previous page
-  //with alt: highlight same entry multiple pages before (days view: 12 pages, months view: 10 pages, years view: 5 pages)
-  private _onPageUpPress(event: KeyboardEvent): void {
-    event.preventDefault();
-
-    if (event.altKey) this.highlightSameDayPreviousYear();
-    else this.highlightSameDayPreviousMonth();
+    this.triggerHighlightLastDay.emit();
   }
   //alone: highlight same entry on the next page
-  //with alt: highlight same entry multiple pages after (days view: 12 pages, months view: 10 pages, years view: 5 pages)
+  //with alt: highlight same entry multiple pages after (12 pages)
   private _onPageDownPress(event: KeyboardEvent): void {
     event.preventDefault();
 
-    if (event.altKey) this.highlightSameDayNextYear();
-    else this.highlightSameDayNextMonth();
+    this.triggerHighlightSameDayNextPage.emit(event.altKey);
   }
-  //! manipulation methods
-  selectDay(day: number | Date | null): void {
-    if (this.isDaySelected(day)) return;
-    if (isNull(day)) {
-      if (!isDefined(this.selectedDate())) return;
+  //alone: highlight same entry on the previous page
+  //with alt: highlight same entry multiple pages before (12 pages)
+  private _onPageUpPress(event: KeyboardEvent): void {
+    event.preventDefault();
 
-      this.selectedDate.set(null);
-      return;
-    }
-
-    if (day instanceof Date) day = day.getDate();
-
-    this.selectedDate.set(new Date(this.activeYear(), this.activeMonth(), day, 0, 0, 0, 0));
-  }
-  selectCurrentlyHighlighted(): void {
-    if (!isDefined(this.highlightedDay())) return;
-
-    this.selectDay(this.highlightedDay());
-  }
-  //next/prev highlighting
-  highlightNextDay(offset = 1): void {
-    const currentDay = this.highlightedDay();
-    if (!isDefined(currentDay)) {
-      this.setHighlightedDay(1);
-      return;
-    }
-    this.setHighlightedDayAdjustDate(currentDay + offset);
-  }
-  highlightPreviousDay(offset = 1): void {
-    this.highlightNextDay(offset * -1);
-  }
-  //first/last highlighting
-  highlightFirstDay(): void {
-    this.setHighlightedDay(1);
-  }
-  highlightLastDay(): void {
-    switch (
-      this.activeMonth() + 1 // +1 because month is 0-indexed
-    ) {
-      case 1:
-      case 3:
-      case 5:
-      case 7:
-      case 8:
-      case 10:
-      case 12:
-        this.setHighlightedDay(31);
-        break;
-      case 4:
-      case 6:
-      case 9:
-      case 11:
-        this.setHighlightedDay(30);
-        break;
-      case 2:
-        if (isLeapYear(this.activeYear())) this.setHighlightedDay(29);
-        this.setHighlightedDay(28);
-    }
-  }
-  //same day next/prev month/year
-  highlightSameDayNextMonth(): void {
-    this.activeMonth.update(v => v + 1);
-
-    this._fixDateAfterMonthChange();
-  }
-  highlightSameDayPreviousMonth(): void {
-    this.activeMonth.update(v => v - 1);
-
-    this._fixDateAfterMonthChange();
-  }
-  private _fixDateAfterMonthChange(): void {
-    const day = this.highlightedDay();
-    switch (
-      this.activeMonth() + 1 // +1 because month is 0-indexed
-    ) {
-      case 1:
-      case 3:
-      case 5:
-      case 7:
-      case 8:
-      case 10:
-      case 12:
-        //do nothing
-        break;
-      case 4:
-      case 6:
-      case 9:
-      case 11:
-        //only do if day is 31
-        if (day === 31) this.setHighlightedDay(30);
-        break;
-      case 2: {
-        //skip if below 29 or null
-        if (!day || day < 29) break;
-
-        if (isLeapYear(this.activeYear())) this.setHighlightedDay(29);
-        else this.setHighlightedDay(28);
-      }
-    }
-  }
-  highlightSameDayNextYear(): void {
-    this.activeYear.update(v => v + 1);
-
-    this._fixDateAfterYearChange();
-  }
-  highlightSameDayPreviousYear(): void {
-    this.activeYear.update(v => v - 1);
-
-    this._fixDateAfterYearChange();
-  }
-  private _fixDateAfterYearChange(): void {
-    if (this.highlightedDay() !== 29) return; //skip if not 29th day is selected
-    if (this.activeMonth() !== 1) return; //skip if not february
-    if (isLeapYear(this.activeYear())) return; //skip if new year is a leap year
-
-    this.setHighlightedDay(28);
+    this.triggerHighlightSameDayPreviousPage.emit(event.altKey);
   }
 
   //! templates
@@ -392,16 +246,16 @@ export class DaysViewComponent {
   //! template contexts
   readonly daysViewHeaderContext = computed<CalendarDaysViewHeaderContext>(() => ({
     nextMonth: () => {
-      this.changeMonth(+1);
+      this.triggerChangeMonth.emit(this.activeMonth() + 1);
     },
     prevMonth: () => {
-      this.changeMonth(-1);
+      this.triggerChangeMonth.emit(this.activeMonth() - 1);
     },
     nextYear: () => {
-      this.changeYear(+1);
+      this.triggerChangeYear.emit(this.activeYear() + 1);
     },
     prevYear: () => {
-      this.changeYear(-1);
+      this.triggerChangeYear.emit(this.activeYear() - 1);
     },
     openYearsView: () => {
       this.triggerOpenYearsView.emit();
@@ -409,6 +263,8 @@ export class DaysViewComponent {
     openMonthsView: () => {
       this.triggerOpenMonthsView.emit();
     },
+    canGoToNextPage: this.canGoToNextMonth(),
+    canGoToPreviousPage: this.canGoToPreviousMonth(),
     year: this.activeYear(),
     month: this.activeMonth(),
     $implicit: new Date(this.activeYear(), this.activeMonth(), 1, 0, 0, 0, 0),
@@ -439,7 +295,7 @@ export class DaysViewComponent {
       date,
       $implicit: day,
       select: (dayOrDate: number | Date) => {
-        this.selectDay(dayOrDate);
+        this.triggerSelectDay.emit(dayOrDate instanceof Date ? dayOrDate.getDate() : dayOrDate);
       },
     };
   });

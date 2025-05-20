@@ -6,6 +6,8 @@
       let-year
       let-nextPage="nextPage"
       let-prevPage="prevPage"
+      let-canGoToNextPage="canGoToNextPage"
+      let-canGoToPreviousPage="canGoToPreviousPage"
       let-openDaysView="openDaysView"
     >
       <div class="ard-calendar__calendar-header">
@@ -26,6 +28,7 @@
             color="none"
             (click)="prevPage()"
             [tabIndex]="tabIndex()"
+            [disabled]="!canGoToPreviousPage"
           >
             <ard-icon>chevron_left</ard-icon>
           </ard-icon-button>
@@ -35,6 +38,7 @@
             color="none"
             (click)="nextPage()"
             [tabIndex]="tabIndex()"
+            [disabled]="!canGoToNextPage"
           >
             <ard-icon>chevron_right</ard-icon>
           </ard-icon-button>
