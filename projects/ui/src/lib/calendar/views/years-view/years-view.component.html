@@ -71,13 +71,13 @@
     @for (year of yearsArray(); track year) {
     <div
       class="ard-calendar__entry"
-      [class.ard-calendar__entry-highlighted]="highlightedYear() === year || activeYear() === year"
-      [class.ard-calendar__entry-disabled]="isYearOutOfRange(year)"
-      [class.ard-calendar__entry-selected]="isYearSelected(year)"
-      [class.ard-calendar-today]="isYearToday(year)"
-      (click)="onCalendarYearClick(year)"
+      [class.ard-calendar__entry-highlighted]="highlightedYear() === year.value"
+      [class.ard-calendar__entry-disabled]="year.disabled"
+      [class.ard-calendar__entry-selected]="isYearSelected(year.value)"
+      [class.ard-calendar-today]="isYearToday(year.value)"
+      (click)="onCalendarYearClick(year.value)"
       (mousemove)="$event.stopPropagation()"
-      (mouseover)="onCalendarYearMouseover(year)"
+      (mouseover)="onCalendarYearMouseover(year.value)"
       role="gridcell"
     >
       <button
@@ -96,7 +96,7 @@
           </ng-template>
           <ng-template
             [ngTemplateOutlet]="yearTemplate() || defaultYearTemplate"
-            [ngTemplateOutletContext]="yearContext()(year)"
+            [ngTemplateOutletContext]="yearContext()(year.value)"
           />
         </div>
       </button>

@@ -49,7 +49,6 @@ export const DEFAULT_DATE_INPUT_DESERIALIZE_FN: ArdDateInputDeserializeFn = (
     const year = parseInt(parts[2], 10);
     if (isNaN(day) || isNaN(month) || isNaN(year)) return null;
     const date = new Date(year, month, day);
-    console.log(date, year, month, day);
     return isNaN(date.getTime()) ? null : date;
   }
 

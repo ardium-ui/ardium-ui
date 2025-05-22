@@ -16,7 +16,7 @@ import {
   CalendarWeekdayContext,
 } from '../../calendar.types';
 import { isMonthOutOfRange } from '../months-view/months-view.helpers';
-import { getCalendarData, getCalendarWeekdayArray, isDayOutOfRange } from './days-view.helpers';
+import { getCalendarDayData, getCalendarWeekdayArray, isDayOutOfRange } from './days-view.helpers';
 
 const TODAY = new Date();
 
@@ -64,7 +64,7 @@ export class DaysViewComponent {
   //! calendar data
   readonly firstWeekday = input.required<number>();
 
-  readonly activeCalendarData = computed(() => getCalendarData(this.activeYear(), this.activeMonth(), this.firstWeekday()));
+  readonly activeCalendarData = computed(() => getCalendarDayData(this.activeYear(), this.activeMonth(), this.firstWeekday(), this.min(), this.max()));
   readonly reserveTopRow = computed<boolean>(() => this.activeCalendarData().leadingSpaces < 3);
 
   readonly weekdayArray = computed(() => getCalendarWeekdayArray(this.firstWeekday()));
@@ -145,13 +145,7 @@ export class DaysViewComponent {
   }
   isDayOutOfRange(day: number | null): number {
     if (day === null) return 0;
-    return isDayOutOfRange(
-      this.activeYear(),
-      this.activeMonth(),
-      day,
-      this.min(),
-      this.max(),
-    )
+    return isDayOutOfRange(day, this.activeMonth(), this.activeYear(), this.min(), this.max());
   }
   isMonthOutOfRange(month: number): number {
     return isMonthOutOfRange(month, this.activeYear(), this.min(), this.max());
@@ -200,14 +194,14 @@ export class DaysViewComponent {
 
     this.triggerSelectDay.emit(this.highlightedDay());
   }
-  //highlight the entry one line above
-  private _onArrowUpPress(event: KeyboardEvent): void {
+  //highlight the entry one line below
+  private _onArrowDownPress(event: KeyboardEvent): void {
     event.preventDefault();
 
     this.triggerHighlightNextDay.emit(7);
   }
-  //highlight the entry one line below
-  private _onArrowDownPress(event: KeyboardEvent): void {
+  //highlight the entry one line above
+  private _onArrowUpPress(event: KeyboardEvent): void {
     event.preventDefault();
 
     this.triggerHighlightPreviousDay.emit(7);

@@ -13,4 +13,7 @@ export class CalendarPage {
 
   constructor(private LoggerService: Logger) {}
   log = this.LoggerService.log;
+
+  minDate = new Date(new Date().getFullYear() - 3, 2, 8);
+  maxDate = new Date(new Date().getFullYear() + 3, 9, 15);
 }

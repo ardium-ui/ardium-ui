@@ -1,6 +1,7 @@
 import { isDefined } from 'simple-bool';
+import { CalendarArrayItem } from '../../calendar.internal-types';
 
-export type CalendarArray = (number | null)[][];
+export type CalendarArray = (CalendarArrayItem | null)[][];
 
 export interface CalendarData {
   array: CalendarArray;
@@ -18,7 +19,13 @@ export interface CalendarData {
  * @param firstWeekday The index of the first weekday in the calendar layout. Starts at Sunday (index 0), ends with Saturday (index 6). Defaults to 1.
  * @returns A {@link CalendarData} object.
  */
-export function getCalendarData(year: number, monthIndex: number, firstWeekday = 1): CalendarData {
+export function getCalendarDayData(
+  year: number,
+  monthIndex: number,
+  firstWeekday = 1,
+  min: Date | null,
+  max: Date | null
+): CalendarData {
   firstWeekday %= 7;
 
   const firstDayDate = new Date(year, monthIndex, 1);
@@ -35,7 +42,7 @@ export function getCalendarData(year: number, monthIndex: number, firstWeekday =
   let totalWeeks = NaN;
 
   for (let week = 0; week < 6; week++) {
-    const currentWeek: (number | null)[] = [];
+    const currentWeek: (CalendarArrayItem | null)[] = [];
     // add days for the whole week
     for (let weekday = 0; weekday < 7; weekday++) {
       currentDay++;
@@ -46,7 +53,10 @@ export function getCalendarData(year: number, monthIndex: number, firstWeekday =
         continue;
       }
       // add the day number
-      currentWeek.push(currentDay);
+      currentWeek.push({
+        value: currentDay,
+        disabled: !!isDayOutOfRange(currentDay, monthIndex, year, min, max),
+      });
     }
     calendarArray.push(currentWeek);
     if (currentDay > lastDay) {

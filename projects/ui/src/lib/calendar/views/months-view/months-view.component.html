@@ -65,16 +65,16 @@
     (keydown)="onMainGridKeydown($event)"
     role="grid"
   >
-    @for (month of MONTHS_ARRAY; track $index) {
+    @for (month of monthsArray(); track $index) {
     <div
       class="ard-calendar__entry"
-      [class.ard-calendar__entry-highlighted]="highlightedMonth() === month || activeMonth() === month"
-      [class.ard-calendar__entry-disabled]="isMonthOutOfRange(month)"
-      [class.ard-calendar__entry-selected]="isMonthSelected(month)"
-      [class.ard-calendar-today]="isMonthToday(month)"
-      (click)="onCalendarMonthClick(month)"
+      [class.ard-calendar__entry-highlighted]="highlightedMonth() === month.value"
+      [class.ard-calendar__entry-disabled]="month.disabled"
+      [class.ard-calendar__entry-selected]="isMonthSelected(month.value)"
+      [class.ard-calendar-today]="isMonthToday(month.value)"
+      (click)="onCalendarMonthClick(month.value)"
       (mousemove)="$event.stopPropagation()"
-      (mouseover)="onCalendarMonthMouseover(month)"
+      (mouseover)="onCalendarMonthMouseover(month.value)"
       role="gridcell"
     >
       <button
@@ -92,7 +92,7 @@
           </ng-template>
           <ng-template
             [ngTemplateOutlet]="monthTemplate() || defaultMonthTemplate"
-            [ngTemplateOutletContext]="monthContext()(month)"
+            [ngTemplateOutletContext]="monthContext()(month.value)"
           />
         </div>
       </button>

@@ -94,20 +94,21 @@
         [ngTemplateOutletContext]="floatingMonthContext()"
       ></ng-template>
     </div>
-    @for (week of activeCalendarData().array; track $index) { @for (day of week; track day) {
+    @for (week of activeCalendarData().array; track $index) { @for (day of week; track day ? day :
+    activeCalendarData().leadingSpaces - $index) { @if (day === null) {
+    <div class="ard-calendar__entry ard-calendar__entry-empty"></div>
+    } @else {
     <div
       class="ard-calendar__entry"
-      [class.ard-calendar__entry-empty]="day === null"
-      [class.ard-calendar__entry-highlighted]="highlightedDay() === day"
-      [class.ard-calendar__entry-disabled]="isDayOutOfRange(day)"
-      [class.ard-calendar__entry-selected]="isDaySelected(day)"
-      [class.ard-calendar-today]="isDayToday(day)"
-      (click)="onCalendarDayClick(day)"
+      [class.ard-calendar__entry-highlighted]="highlightedDay() === day.value"
+      [class.ard-calendar__entry-disabled]="day?.disabled"
+      [class.ard-calendar__entry-selected]="isDaySelected(day.value)"
+      [class.ard-calendar-today]="isDayToday(day.value)"
+      (click)="onCalendarDayClick(day.value)"
       (mousemove)="$event.stopPropagation()"
-      (mouseover)="onCalendarDayMouseover(day)"
+      (mouseover)="onCalendarDayMouseover(day.value)"
       role="gridcell"
     >
-      @if (day !== null) {
       <div class="ard-calendar__entry-button">
         <div class="ard-focus-overlay"></div>
         <div class="ard-button-content">
@@ -119,12 +120,11 @@
           </ng-template>
           <ng-template
             [ngTemplateOutlet]="dayTemplate() || defaultDayTemplate"
-            [ngTemplateOutletContext]="dayContext()(day)"
+            [ngTemplateOutletContext]="dayContext()(day.value)"
           />
         </div>
       </div>
-      }
     </div>
-    } }
+    } } }
   </div>
 </div>

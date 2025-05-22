@@ -31,6 +31,8 @@ import {
   CalendarYearsViewHeaderContext,
 } from './calendar.types';
 import { isDayOutOfRange } from './views/days-view/days-view.helpers';
+import { isMonthOutOfRange } from './views/months-view/months-view.helpers';
+import { isYearOutOfRange } from './views/years-view/years-view.helpers';
 
 const TODAY = new Date();
 
@@ -213,7 +215,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
 
   highlightNextDay(offset = 1): void {
     const currentDay = this.highlightedDay();
-    const newDay = currentDay ? currentDay + offset : 1;
+    const newDay = isDefined(currentDay) ? currentDay + offset : 1;
     this.setHighlightedDay(newDay);
   }
   highlightPreviousDay(offset = 1): void {
@@ -257,16 +259,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
     );
   }
   isMonthOutOfRange(month: number, year: number = this.activeYear()): number {
-    const min = this.min();
-    const max = this.max();
-
-    const dateForMinComparison = new Date(year, month + 1, 0); // last day of month
-    if (isDefined(min) && dateForMinComparison < min) return -1;
-
-    const dateForMaxComparison = new Date(year, month, 1); // first day of month
-    if (isDefined(max) && dateForMaxComparison > max) return 1;
-
-    return 0;
+    return isMonthOutOfRange(month, year, this.min(), this.max());
   }
   changeMonth(newMonth: number | null): boolean {
     if (isNull(newMonth)) {
@@ -312,7 +305,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
       this.__highlightedMonth.update(() => month);
       return;
     }
-    const date = new Date(year, month);
+    const date = new Date(year, month, 15);
     const outOfRange = this.isMonthOutOfRange(month, year);
 
     if (outOfRange === -1) {
@@ -336,19 +329,19 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
     if (!isDefined(min)) return;
 
     this.activeYear.set(min.getFullYear());
-    this.__highlightedMonth.set(min.getDate());
+    this.__highlightedMonth.set(min.getMonth());
   }
   private _highlightMaxMonth(): void {
     const max = this.max();
     if (!isDefined(max)) return;
 
     this.activeYear.set(max.getFullYear());
-    this.__highlightedMonth.set(max.getDate());
+    this.__highlightedMonth.set(max.getMonth());
   }
 
   highlightNextMonth(offset = 1): void {
     const currentMonth = this.highlightedMonth();
-    const newMonth = currentMonth ? currentMonth + offset : 0;
+    const newMonth = isDefined(currentMonth) ? currentMonth + offset : 0;
     this.setHighlightedMonth(newMonth);
   }
   highlightPreviousMonth(offset = 1): void {
@@ -373,16 +366,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
     return this.selectedDate() !== null && year === this.selectedDate()?.getFullYear();
   }
   isYearOutOfRange(year: number): number {
-    const min = this.min();
-    const max = this.max();
-
-    const dateForMinComparison = new Date(year, 0, 1);
-    if (isDefined(min) && dateForMinComparison < min) return -1;
-
-    const dateForMaxComparison = new Date(year, 11, 31);
-    if (isDefined(max) && dateForMaxComparison > max) return 1;
-
-    return 0;
+    return isYearOutOfRange(year, this.min(), this.max());
   }
   changeYear(year: number | null): boolean {
     if (isNull(year)) {
@@ -397,9 +381,9 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
     return true;
   }
   selectYear(year: number | Date | null): void {
-    if (isNull(year) || this.isYearSelected(year)) return;
+    if (isNull(year)) return;
     if (year instanceof Date) year = year.getFullYear();
-
+    
     const wasSuccessful = this.changeYear(year);
     if (!wasSuccessful) return;
 
@@ -466,7 +450,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
 
   highlightNextYear(offset = 1): void {
     const currentYear = this.highlightedYear();
-    const newYear = currentYear ? currentYear + offset : 0;
+    const newYear = isDefined(currentYear) ? currentYear + offset : null;
     this.setHighlightedYear(newYear);
   }
   highlightPreviousYear(offset = 1): void {

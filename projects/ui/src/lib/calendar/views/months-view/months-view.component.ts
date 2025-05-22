@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, HostListener, input, outp
 import { ComponentColor } from 'projects/ui/src/public-api';
 import { CalendarMonthContext, CalendarMonthsViewHeaderContext } from '../../calendar.types';
 import { isYearOutOfRange } from '../years-view/years-view.helpers';
-import { isMonthOutOfRange } from './months-view.helpers';
+import { getCalendarMonthsArray, isMonthOutOfRange } from './months-view.helpers';
 
 const TODAY = new Date();
 
@@ -35,7 +35,7 @@ export class MonthsViewComponent {
   readonly min = input.required<Date | null>();
   readonly max = input.required<Date | null>();
 
-  readonly MONTHS_ARRAY: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+  readonly monthsArray = computed(() => getCalendarMonthsArray(this.activeYear(), this.min(), this.max()));
 
   readonly currentAriaLabel = computed(() => {
     const month = this.highlightedMonth();

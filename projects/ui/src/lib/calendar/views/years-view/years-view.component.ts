@@ -31,7 +31,7 @@ export class YearsViewComponent {
   readonly max = input.required<Date | null>();
 
   readonly currentYearRangeStart = input.required<number>();
-  readonly yearsArray = computed(() => getCalendarYearsArray(this.currentYearRangeStart(), 24));
+  readonly yearsArray = computed(() => getCalendarYearsArray(this.currentYearRangeStart(), 24, this.min(), this.max()));
 
   readonly currentAriaLabel = computed(() => {
     return this.highlightedYear()?.toString() ?? '';

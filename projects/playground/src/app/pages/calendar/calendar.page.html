@@ -1,5 +1,5 @@
 <div class="flex horiz page-grid">
-  <div class="master">
+  <!-- <div class="master">
     <span class="title">Most basic calendar</span>
     <ard-calendar></ard-calendar>
   </div>
@@ -40,5 +40,9 @@
       (activeMonthChange)="log('activeMonthChange', $event)"
       (activeYearChange)="log('activeYearChange', $event)"
     ></ard-calendar>
+  </div> -->
+  <div class="master">
+    <span class="title">Calendar with min/max dates</span>
+    <ard-calendar [min]="minDate" [max]="maxDate"></ard-calendar>
   </div>
 </div>
