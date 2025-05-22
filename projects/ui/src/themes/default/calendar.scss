@@ -154,13 +154,18 @@ $grid-size: 2.5rem;
     }
     &.ard-calendar__entry-disabled {
       pointer-events: none;
-      opacity: 60%;
+      opacity: 50%;
 
       .ard-calendar__entry-button {
         cursor: default;
       }
       .ard-focus-overlay {
         background: var(--ard-cmpcl--overlay);
+      }
+      &.ard-calendar__entry-highlighted {
+        .ard-focus-overlay {
+          opacity: 15%;
+        }
       }
     }
   }

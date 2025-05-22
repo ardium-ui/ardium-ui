@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -16,7 +17,7 @@ import {
   CalendarWeekdayContext,
 } from '../../calendar.types';
 import { isMonthOutOfRange } from '../months-view/months-view.helpers';
-import { getCalendarDayData, getCalendarWeekdayArray, isDayOutOfRange } from './days-view.helpers';
+import { getCalendarDayData, getCalendarWeekdayArray } from './days-view.helpers';
 
 const TODAY = new Date();
 
@@ -30,17 +31,25 @@ function isLeapYear(year: number): boolean {
   styleUrl: './days-view.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DaysViewComponent {
+export class DaysViewComponent implements AfterViewInit {
   readonly tabIndex = input.required<number>();
   readonly readOnly = input.required<boolean>();
   readonly disabled = input.required<boolean>();
 
+  readonly autoFocus = input.required<boolean>();
+
   readonly _isUsingKeyboard = input.required<boolean>();
 
-  @HostListener('document:mousemove')
+  @HostListener('mousemove')
   onMouseMove(): void {
     if (this._isUsingKeyboard()) return;
     if (this.highlightedDay()) this.triggerHighlightDay.emit(null);
+  }
+
+  ngAfterViewInit(): void {
+    if (!this.autoFocus()) return;
+    this.focus();
+    this.triggerHighlightDay.emit(1);
   }
 
   //! active year/month
@@ -51,6 +60,8 @@ export class DaysViewComponent {
 
   readonly min = input.required<Date | null>();
   readonly max = input.required<Date | null>();
+
+  readonly isDayFilteredOut = input.required<(day: number, month?: number, year?: number) => boolean>();
 
   readonly highlightedDay = input.required<number | null>();
 
@@ -64,7 +75,9 @@ export class DaysViewComponent {
   //! calendar data
   readonly firstWeekday = input.required<number>();
 
-  readonly activeCalendarData = computed(() => getCalendarDayData(this.activeYear(), this.activeMonth(), this.firstWeekday(), this.min(), this.max()));
+  readonly activeCalendarData = computed(() =>
+    getCalendarDayData(this.activeYear(), this.activeMonth(), this.firstWeekday(), this.min(), this.max())
+  );
   readonly reserveTopRow = computed<boolean>(() => this.activeCalendarData().leadingSpaces < 3);
 
   readonly weekdayArray = computed(() => getCalendarWeekdayArray(this.firstWeekday()));
@@ -114,12 +127,14 @@ export class DaysViewComponent {
   onCalendarDayMouseover(day: number | null): void {
     if (this._isUsingKeyboard()) return;
     if (this.disabled() || this.readOnly()) return;
+    if (day && this.isDayFilteredOut()(day)) return;
 
     this.triggerHighlightDay.emit(day);
   }
   onCalendarDayClick(day: number | null): void {
     if (this.disabled() || this.readOnly()) return;
     if (day === null) return;
+    if (this.isDayFilteredOut()(day)) return;
 
     this.triggerHighlightDay.emit(day);
     this.focus();
@@ -142,10 +157,6 @@ export class DaysViewComponent {
   //! helpers
   isDayToday(day: number | null): boolean {
     return this.activeYear() === TODAY.getFullYear() && this.activeMonth() === TODAY.getMonth() && day === TODAY.getDate();
-  }
-  isDayOutOfRange(day: number | null): number {
-    if (day === null) return 0;
-    return isDayOutOfRange(day, this.activeMonth(), this.activeYear(), this.min(), this.max());
   }
   isMonthOutOfRange(month: number): number {
     return isMonthOutOfRange(month, this.activeYear(), this.min(), this.max());

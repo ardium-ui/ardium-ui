@@ -1,4 +1,16 @@
-import { ChangeDetectionStrategy, Component, computed, HostListener, input, output, TemplateRef } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  ElementRef,
+  HostListener,
+  input,
+  output,
+  TemplateRef,
+  viewChild,
+} from '@angular/core';
+import { isNull } from 'simple-bool';
 import { CalendarYearContext, CalendarYearsViewHeaderContext, DateRange, YearRange } from '../../calendar.types';
 import { getCalendarYearsArray, isYearOutOfRange } from './years-view.helpers';
 
@@ -10,17 +22,25 @@ const TODAY = new Date();
   styleUrl: './years-view.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class YearsViewComponent {
+export class YearsViewComponent implements AfterViewInit {
   readonly tabIndex = input.required<number>();
   readonly readOnly = input.required<boolean>();
   readonly disabled = input.required<boolean>();
 
+  readonly autoFocus = input.required<boolean>();
+
   readonly _isUsingKeyboard = input.required<boolean>();
 
-  @HostListener('document:mousemove')
+  @HostListener('mousemove')
   onMouseMove(): void {
     if (this._isUsingKeyboard()) return;
     if (this.highlightedYear()) this.triggerHighlightYear.emit(null);
+  }
+
+  ngAfterViewInit(): void {
+    if (!this.autoFocus()) return;
+    this.focus();
+    this.triggerHighlightYear.emit(this.currentYearRangeStart());
   }
 
   readonly activeYear = input.required<number>();
@@ -93,6 +113,13 @@ export class YearsViewComponent {
     return isYearOutOfRange(year, this.min(), this.max());
   }
 
+  //! focusing
+  readonly focusableElement = viewChild.required<ElementRef<HTMLElement>>('focusableElement');
+
+  focus(): void {
+    this.focusableElement().nativeElement.focus();
+  }
+
   //! keyboard controls
   onMainGridKeydown(event: KeyboardEvent): void {
     if (this.disabled() || this.readOnly()) return;
@@ -135,7 +162,7 @@ export class YearsViewComponent {
     event.preventDefault();
 
     const year = this.highlightedYear();
-    if (year === null) return;
+    if (isNull(year)) return;
 
     this.triggerSelectYear.emit(year);
   }

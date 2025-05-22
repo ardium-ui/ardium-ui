@@ -15,6 +15,8 @@ export interface YearRange {
   high: number;
 }
 
+export type ArdCalendarFilterFn = (date: Date) => boolean;
+
 //! template contexts
 export interface CalendarYearsViewHeaderContext {
   nextPage: () => void;

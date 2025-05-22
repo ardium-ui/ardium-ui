@@ -1,8 +1,20 @@
-import { ChangeDetectionStrategy, Component, computed, HostListener, input, output, TemplateRef } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  ElementRef,
+  HostListener,
+  input,
+  output,
+  TemplateRef,
+  viewChild,
+} from '@angular/core';
 import { ComponentColor } from 'projects/ui/src/public-api';
+import { isNull } from 'simple-bool';
 import { CalendarMonthContext, CalendarMonthsViewHeaderContext } from '../../calendar.types';
 import { isYearOutOfRange } from '../years-view/years-view.helpers';
-import { getCalendarMonthsArray, isMonthOutOfRange } from './months-view.helpers';
+import { getCalendarMonthsArray } from './months-view.helpers';
 
 const TODAY = new Date();
 
@@ -12,17 +24,25 @@ const TODAY = new Date();
   styleUrl: './months-view.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MonthsViewComponent {
+export class MonthsViewComponent implements AfterViewInit {
   readonly tabIndex = input.required<number>();
   readonly readOnly = input.required<boolean>();
   readonly disabled = input.required<boolean>();
 
+  readonly autoFocus = input.required<boolean>();
+
   readonly _isUsingKeyboard = input.required<boolean>();
 
-  @HostListener('document:mousemove')
+  @HostListener('mousemove')
   onMouseMove(): void {
     if (this._isUsingKeyboard()) return;
     if (this.highlightedMonth()) this.triggerHighlightMonth.emit(null);
+  }
+
+  ngAfterViewInit(): void {
+    if (!this.autoFocus()) return;
+    this.focus();
+    this.triggerHighlightMonth.emit(0);
   }
 
   readonly color = input.required<ComponentColor>();
@@ -95,6 +115,13 @@ export class MonthsViewComponent {
     this.triggerHighlightMonth.emit(0);
   }
 
+  //! focusing
+  readonly focusableElement = viewChild.required<ElementRef<HTMLElement>>('focusableElement');
+
+  focus(): void {
+    this.focusableElement().nativeElement.focus();
+  }
+
   //! keyboard controls
   onMainGridKeydown(event: KeyboardEvent): void {
     if (this.disabled() || this.readOnly()) return;
@@ -136,7 +163,9 @@ export class MonthsViewComponent {
   private _onEnterPress(event: KeyboardEvent): void {
     event.preventDefault();
 
-    this.triggerHighlightMonth.emit(this.highlightedMonth());
+    const month = this.highlightedMonth();
+    if (isNull(month)) return;
+    this.triggerSelectMonth.emit(month);
   }
   //highlight the entry one line below
   private _onArrowDownPress(event: KeyboardEvent): void {
@@ -192,9 +221,6 @@ export class MonthsViewComponent {
       this.activeYear() === this.selectedDate()?.getFullYear() &&
       month === this.selectedDate()?.getMonth()
     );
-  }
-  isMonthOutOfRange(month: number, year: number = this.activeYear()): number {
-    return isMonthOutOfRange(month, year, this.min(), this.max());
   }
   isYearOutOfRange(year: number): number {
     return isYearOutOfRange(year, this.min(), this.max());

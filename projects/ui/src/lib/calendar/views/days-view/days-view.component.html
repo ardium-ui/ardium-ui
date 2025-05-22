@@ -101,7 +101,7 @@
     <div
       class="ard-calendar__entry"
       [class.ard-calendar__entry-highlighted]="highlightedDay() === day.value"
-      [class.ard-calendar__entry-disabled]="day?.disabled"
+      [class.ard-calendar__entry-disabled]="day.disabled || isDayFilteredOut()(day.value)"
       [class.ard-calendar__entry-selected]="isDaySelected(day.value)"
       [class.ard-calendar-today]="isDayToday(day.value)"
       (click)="onCalendarDayClick(day.value)"

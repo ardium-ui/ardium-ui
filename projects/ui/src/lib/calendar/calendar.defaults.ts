@@ -1,7 +1,7 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { _ngModelComponentDefaults, _NgModelComponentDefaults } from '../_internal/ngmodel-component';
 import { ComponentColor } from '../types/colors.types';
-import { ArdCalendarView } from './calendar.types';
+import { ArdCalendarFilterFn, ArdCalendarView } from './calendar.types';
 
 export interface ArdCalendarDefaults extends _NgModelComponentDefaults {
   color: ComponentColor;
@@ -10,6 +10,10 @@ export interface ArdCalendarDefaults extends _NgModelComponentDefaults {
   activeMonth: number;
   firstWeekday: number;
   multipleYearPageChangeModifier: number;
+  autoFocus: boolean;
+  min: Date | null;
+  max: Date | null;
+  filter: ArdCalendarFilterFn | null;
 }
 
 const _calendarDefaults: ArdCalendarDefaults = {
@@ -20,6 +24,10 @@ const _calendarDefaults: ArdCalendarDefaults = {
   activeMonth: new Date().getMonth(),
   firstWeekday: 1,
   multipleYearPageChangeModifier: 5,
+  autoFocus: false,
+  min: null,
+  max: null,
+  filter: null,
 };
 
 export const ARD_CALENDAR_DEFAULTS = new InjectionToken<ArdCalendarDefaults>('ard-calendar-defaults', {

@@ -40,9 +40,13 @@
       (activeMonthChange)="log('activeMonthChange', $event)"
       (activeYearChange)="log('activeYearChange', $event)"
     ></ard-calendar>
-  </div> -->
+  </div>
   <div class="master">
     <span class="title">Calendar with min/max dates</span>
     <ard-calendar [min]="minDate" [max]="maxDate"></ard-calendar>
+  </div> -->
+  <div class="master">
+    <span class="title">Calendar filter function</span>
+    <ard-calendar [filter]="filterFn"></ard-calendar>
   </div>
 </div>

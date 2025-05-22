@@ -13,13 +13,14 @@ import {
   TemplateRef,
   ViewEncapsulation,
 } from '@angular/core';
-import { coerceDateProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { coerceBooleanProperty, coerceDateProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { roundFromZero } from 'more-rounding';
 import { isDefined, isNull } from 'simple-bool';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ComponentColor } from '../types/colors.types';
 import { ARD_CALENDAR_DEFAULTS, ArdCalendarDefaults } from './calendar.defaults';
 import {
+  ArdCalendarFilterFn,
   ArdCalendarView,
   CalendarDayContext,
   CalendarDaysViewHeaderContext,
@@ -99,6 +100,8 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
     },
   });
 
+  readonly autoFocus = input<boolean, any>(this._DEFAULTS.autoFocus, { transform: v => coerceBooleanProperty(v) });
+
   onTriggerOpenDaysView(): void {
     this.activeView.set(ArdCalendarView.Days);
   }
@@ -115,8 +118,10 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
   readonly yearSelect = output<number>();
   readonly monthSelect = output<number>();
 
-  readonly min = input<Date | null, any>(null, { transform: v => coerceDateProperty(v, null) });
-  readonly max = input<Date | null, any>(null, { transform: v => coerceDateProperty(v, null) });
+  readonly min = input<Date | null, any>(this._DEFAULTS.min, { transform: v => coerceDateProperty(v, this._DEFAULTS.min) });
+  readonly max = input<Date | null, any>(this._DEFAULTS.max, { transform: v => coerceDateProperty(v, this._DEFAULTS.max) });
+
+  readonly filter = input<ArdCalendarFilterFn | null>(this._DEFAULTS.filter);
 
   override writeValue(v: any): void {
     if (v instanceof Date) {
@@ -145,6 +150,12 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
   isDayOutOfRange(day: number, month: number = this.activeMonth(), year: number = this.activeYear()): number {
     return isDayOutOfRange(day, month, year, this.min(), this.max());
   }
+  readonly isDayFilteredOut = computed(() => {
+    return (day: number, month: number = this.activeMonth(), year: number = this.activeYear()): boolean => {
+      const filter = this.filter();
+      return filter?.(new Date(year, month, day)) ?? false;
+    };
+  });
   selectDay(day: number | Date | null): void {
     if (this.isDaySelected(day)) return;
     if (isNull(day)) {
@@ -155,7 +166,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
     }
 
     if (day instanceof Date) day = day.getDate();
-    if (day && this.isDayOutOfRange(day)) return;
+    if (day && this.isDayOutOfRange(day) || this.isDayFilteredOut()(day)) return;
 
     this.selectedDate.set(new Date(this.activeYear(), this.activeMonth(), day, 0, 0, 0, 0));
   }
@@ -383,7 +394,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
   selectYear(year: number | Date | null): void {
     if (isNull(year)) return;
     if (year instanceof Date) year = year.getFullYear();
-    
+
     const wasSuccessful = this.changeYear(year);
     if (!wasSuccessful) return;
 

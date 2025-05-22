@@ -16,4 +16,6 @@ export class CalendarPage {
 
   minDate = new Date(new Date().getFullYear() - 3, 2, 8);
   maxDate = new Date(new Date().getFullYear() + 3, 9, 15);
+
+  filterFn = (date: Date) => date.getDay() === 0 || date.getDay() === 6;
 }
