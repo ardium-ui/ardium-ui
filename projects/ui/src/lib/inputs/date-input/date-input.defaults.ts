@@ -1,6 +1,6 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { _FormFieldComponentDefaults, _formFieldComponentDefaults } from '../../_internal/form-field-component';
-import { ArdCalendarView } from '../../calendar/calendar.types';
+import { ArdCalendarFilterFn, ArdCalendarView } from '../../calendar/calendar.types';
 import { DropdownPanelAppearance, DropdownPanelVariant } from '../../dropdown-panel';
 import { ComponentColor } from '../../types/colors.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
@@ -24,6 +24,9 @@ export interface ArdDateInputDefaults extends _FormFieldComponentDefaults {
   activeMonth: number;
   firstWeekday: number;
   multipleYearPageChangeModifier: number;
+  min: Date | null;
+  max: Date | null;
+  filter: ArdCalendarFilterFn | null;
 }
 
 const _dateInputDefaults: ArdDateInputDefaults = {
@@ -44,6 +47,9 @@ const _dateInputDefaults: ArdDateInputDefaults = {
   activeMonth: new Date().getMonth(),
   firstWeekday: 1,
   multipleYearPageChangeModifier: 5,
+  min: null,
+  max: null,
+  filter: null,
 };
 
 export const ARD_DATE_INPUT_DEFAULTS = new InjectionToken<ArdDateInputDefaults>('ard-date-input-defaults', {

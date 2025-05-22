@@ -98,11 +98,16 @@
       [(activeYear)]="activeYear"
       [(activeView)]="activeView"
       [firstWeekday]="firstWeekday()"
+      [min]="min()"
+      [max]="max()"
+      autoFocus
       [multipleYearPageChangeModifier]="multipleYearPageChangeModifier()"
       [color]="color()"
       [disabled]="disabled() || calendarDisabled()"
       [tabIndex]="tabIndex()"
       (selectedChange)="onCalendarSelectedChange($event)"
+      (yearSelect)="yearSelect.emit($event)"
+      (monthSelect)="monthSelect.emit($event)"
     />
     @if (useAcceptButtonToSelect()) {
     <div class="ard-date-input__accept-buttons-container">

@@ -21,10 +21,10 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { coerceBooleanProperty, coerceDateProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { isDefined, isNull } from 'simple-bool';
 import { _FormFieldComponentBase } from '../../_internal/form-field-component';
-import { ArdCalendarView } from '../../calendar/calendar.types';
+import { ArdCalendarFilterFn, ArdCalendarView } from '../../calendar/calendar.types';
 import { ArdiumDropdownPanelComponent, DropdownPanelAppearance, DropdownPanelVariant } from '../../dropdown-panel';
 import { ComponentColor } from '../../types/colors.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
@@ -146,7 +146,7 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
   }
   private _processDateInputText(value: string): void {
     const date = this.deserializeFn()(value, this.value());
-    
+
     this.value.set(date);
     this.dateInputValue.set(this.serializeFn()(date));
   }
@@ -248,6 +248,17 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
       return value;
     },
   });
+
+  readonly min = input<Date | null, any>(this._DEFAULTS.min, { transform: v => coerceDateProperty(v, this._DEFAULTS.min) });
+  readonly max = input<Date | null, any>(this._DEFAULTS.max, { transform: v => coerceDateProperty(v, this._DEFAULTS.max) });
+
+  readonly filter = input<ArdCalendarFilterFn | null>(this._DEFAULTS.filter);
+
+  //! calendar outputs
+  readonly yearSelect = output<number>();
+  readonly monthSelect = output<number>();
+
+  //! calendar controls
 
   readonly useAcceptButtonToSelect = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
