@@ -40,6 +40,7 @@ import {
 import {
   ArdDateInputAcceptButtonsContext,
   ArdDateInputDeserializeFn,
+  ArdDateInputMinMaxStrategy,
   ArdDateInputSerializeFn,
   ArdDateInputValueContext,
 } from './date-input.types';
@@ -116,6 +117,8 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
   //! date input event handlers
   readonly dateInput = viewChild.required<ElementRef<HTMLInputElement>>('dateInput');
 
+  readonly minMaxStrategy = input<ArdDateInputMinMaxStrategy>(this._DEFAULTS.minMaxStrategy);
+
   private readonly _isDateInputFocused = signal<boolean>(false);
 
   onDateInputInput(event: Event): void {
@@ -145,7 +148,18 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
     this.focus();
   }
   private _processDateInputText(value: string): void {
-    const date = this.deserializeFn()(value, this.value());
+    let date = this.deserializeFn()(value, this.value());
+
+    if (this.minMaxStrategy() === ArdDateInputMinMaxStrategy.Adjust && date) {
+      const min = this.min();
+      const max = this.max();
+
+      if (min && date < min) {
+        date = new Date(min);
+      } else if (max && date > max) {
+        date = new Date(max);
+      }
+    }
 
     this.value.set(date);
     this.dateInputValue.set(this.serializeFn()(date));

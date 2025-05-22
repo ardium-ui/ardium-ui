@@ -5,7 +5,7 @@ import { DropdownPanelAppearance, DropdownPanelVariant } from '../../dropdown-pa
 import { ComponentColor } from '../../types/colors.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { DEFAULT_DATE_INPUT_DESERIALIZE_FN, DEFAULT_DATE_INPUT_SERIALIZE_FN } from './date-input.serializers';
-import { ArdDateInputDeserializeFn, ArdDateInputSerializeFn } from './date-input.types';
+import { ArdDateInputDeserializeFn, ArdDateInputMinMaxStrategy, ArdDateInputSerializeFn } from './date-input.types';
 
 export interface ArdDateInputDefaults extends _FormFieldComponentDefaults {
   inputAttrs: Record<string, any>;
@@ -18,6 +18,7 @@ export interface ArdDateInputDefaults extends _FormFieldComponentDefaults {
   compact: boolean;
   dropdownAppearance: DropdownPanelAppearance;
   dropdownVariant: DropdownPanelVariant;
+  minMaxStrategy: ArdDateInputMinMaxStrategy;
   // calendar defaults
   activeView: ArdCalendarView;
   activeYear: number;
@@ -41,6 +42,7 @@ const _dateInputDefaults: ArdDateInputDefaults = {
   compact: false,
   dropdownAppearance: DropdownPanelAppearance.Outlined,
   dropdownVariant: DropdownPanelVariant.Rounded,
+  minMaxStrategy: ArdDateInputMinMaxStrategy.Adjust,
   // calendar defaults
   activeView: ArdCalendarView.Days,
   activeYear: new Date().getFullYear(),

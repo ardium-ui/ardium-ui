@@ -11,3 +11,9 @@ export interface ArdDateInputAcceptButtonsContext {
   accept: () => void;
   disabled: boolean;
 }
+
+export const ArdDateInputMinMaxStrategy = {
+  Allow: 'allow',
+  Adjust: 'adjust',
+} as const;
+export type ArdDateInputMinMaxStrategy = typeof ArdDateInputMinMaxStrategy[keyof typeof ArdDateInputMinMaxStrategy];
