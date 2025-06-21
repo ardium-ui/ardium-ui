@@ -12,6 +12,7 @@ import {
   ViewEncapsulation,
   computed,
   contentChild,
+  effect,
   forwardRef,
   inject,
   input,
@@ -67,6 +68,11 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
   protected override readonly _DEFAULTS!: ArdDateInputDefaults;
   constructor(@Inject(ARD_DATE_INPUT_DEFAULTS) defaults: ArdDateInputDefaults) {
     super(defaults);
+
+    effect(() => {
+      this.value();
+      this._emitChange();
+    })
   }
 
   private readonly elementRef = inject(ElementRef<HTMLElement>);

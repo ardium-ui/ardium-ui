@@ -1,6 +1,12 @@
 <div class="flex horiz main-container">
   <div class="master">
     <span class="title">Most basic date input</span>
-    <ard-date-input />
+    <ard-date-input (valueChange)="log('valueChange', $event)" />
+  </div>
+</div>
+<div class="flex horiz main-container">
+  <div class="master">
+    <span class="title">Date input with reactive forms</span>
+    <ard-date-input [formControl]="formControl" />
   </div>
 </div>
