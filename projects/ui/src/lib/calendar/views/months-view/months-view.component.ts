@@ -10,10 +10,10 @@ import {
   TemplateRef,
   viewChild,
 } from '@angular/core';
-import { ComponentColor } from 'projects/ui/src/public-api';
 import { isNull } from 'simple-bool';
 import { CalendarMonthContext, CalendarMonthsViewHeaderContext } from '../../calendar.types';
 import { isYearOutOfRange } from '../years-view/years-view.helpers';
+import { ComponentColor } from './../../../types/colors.types';
 import { getCalendarMonthsArray } from './months-view.helpers';
 
 const TODAY = new Date();
