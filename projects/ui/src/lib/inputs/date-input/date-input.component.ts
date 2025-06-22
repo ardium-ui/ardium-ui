@@ -191,7 +191,7 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
     return isNull(this.value());
   });
   readonly shouldDisplayValue = computed(() => {
-    if (this._isDateInputFocused() && this.dateInputValue()) return false;
+    if (this._isDateInputFocused()) return false;
     return this.value() instanceof Date;
   });
   readonly shouldDisplayDateInput = computed(() => {
