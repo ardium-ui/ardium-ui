@@ -291,6 +291,10 @@ export class ItemStorage {
     }
 
     const selectItemByValue = (value: any) => {
+      if (value === null || value === undefined) {
+        this.unselectItem(...this._selectedItems());
+        return;
+      }
       const item = this.findItemByValue(value);
 
       if (item) {
