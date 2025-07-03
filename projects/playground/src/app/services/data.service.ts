@@ -9,6 +9,10 @@ export interface AnimalObject {
   name: string;
   classification: string;
 }
+export interface UserObject {
+  nameAndSurname: string;
+  email: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -326,4 +330,87 @@ export class DataService {
       }, delayMs);
     });
   }
+
+  public readonly peopleArray: readonly UserObject[] = [
+    {
+      nameAndSurname: 'Erv Riddich',
+      email: 'eriddich0@opera.com',
+    },
+    {
+      nameAndSurname: 'Ermina Kassidy',
+      email: 'ekassidy1@usnews.com',
+    },
+    {
+      nameAndSurname: 'Zelig Dyhouse',
+      email: 'zdyhouse2@issuu.com',
+    },
+    {
+      nameAndSurname: 'Wandis Abella',
+      email: 'wabella3@ox.ac.uk',
+    },
+    {
+      nameAndSurname: 'Harmonia Wareham',
+      email: 'hwareham4@miitbeian.gov.cn',
+    },
+    {
+      nameAndSurname: 'Evyn Morin',
+      email: 'emorin5@ox.ac.uk',
+    },
+    {
+      nameAndSurname: 'Bari Nuccitelli',
+      email: 'bnuccitelli6@admin.ch',
+    },
+    {
+      nameAndSurname: 'Tish Whayman',
+      email: 'twhayman7@baidu.com',
+    },
+    {
+      nameAndSurname: 'Sigismundo Parrot',
+      email: 'sparrot8@elpais.com',
+    },
+    {
+      nameAndSurname: 'Ronny Searsby',
+      email: 'rsearsby9@samsung.com',
+    },
+    {
+      nameAndSurname: 'Larina Chalfant',
+      email: 'lchalfanta@cbc.ca',
+    },
+    {
+      nameAndSurname: 'Natala Agass',
+      email: 'nagassb@marketwatch.com',
+    },
+    {
+      nameAndSurname: 'Avrom Swett',
+      email: 'aswettc@usnews.com',
+    },
+    {
+      nameAndSurname: 'Kelsey Kornel',
+      email: 'kkorneld@home.pl',
+    },
+    {
+      nameAndSurname: 'Ruthy Dossit',
+      email: 'rdossite@nps.gov',
+    },
+    {
+      nameAndSurname: 'Marya Dikes',
+      email: 'mdikesf@time.com',
+    },
+    {
+      nameAndSurname: 'Kennedy Kohn',
+      email: 'kkohng@dion.ne.jp',
+    },
+    {
+      nameAndSurname: 'Josie Squelch',
+      email: 'jsquelchh@berkeley.edu',
+    },
+    {
+      nameAndSurname: 'Madlin Nicklinson',
+      email: 'mnicklinsoni@altervista.org',
+    },
+    {
+      nameAndSurname: 'Gothart Dailly',
+      email: 'gdaillyj@mac.com',
+    },
+  ];
 }

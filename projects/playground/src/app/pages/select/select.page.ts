@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, effect, signal } from '@angular/core';
 import { ArdSearchFunction } from '@ardium-ui/ui';
 import { Logger } from '../../services/logger.service';
 import { DataService } from './../../services/data.service';
@@ -9,16 +9,18 @@ import { DataService } from './../../services/data.service';
   styleUrls: ['./select.page.scss'],
 })
 export class SelectPage {
-  constructor(
-    private _logger: Logger,
-    private _dataService: DataService
-  ) {}
+  constructor(private _logger: Logger, private _dataService: DataService) {}
   readonly log = this._logger.log;
 
   //* item lists
   animals = Array.from(this._dataService.animalsArray);
   fruits = Array.from(this._dataService.fruitArray);
   colors = Array.from(this._dataService.colorsArray);
+  people = Array.from(this._dataService.peopleArray);
+
+  readonly selectedPeople = signal<string[]>([]);
+
+  selectedPeopleLogger = effect(() => console.log(this.selectedPeople()));
 
   //* color search fn
   readonly colorSearchFn = ArdSearchFunction.byLabelAndGroup;

@@ -67,6 +67,21 @@
     </ng-template>
   </ard-select>
 </div>
+<span class="title">User selector example</span>
+<div class="grid master">
+  <ard-select
+    class="wide-select"
+    [items]="people"
+    valueFrom="email"
+    labelFrom="nameAndSurname"
+    multiselectable
+    clearable
+    clearButtonTitle="Wyczyść"
+    placeholder="Wybierz osoby"
+    keepOpen
+    [(value)]="selectedPeople"
+  />
+</div>
 <span class="title">Object options, customized with templates, custom search function (search by name or HEX)</span>
 <div class="grid master">
   <ard-select
