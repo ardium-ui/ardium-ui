@@ -143,6 +143,10 @@ export class SimpleItemStorage {
     if (!this._validateWriteValue(ngModel)) return;
 
     const selectItemByValue = (value: any) => {
+      if (value === null || value === undefined) {
+        this.unselectAll();
+        return;
+      }
       const item = this.findItemByValue(value);
 
       if (item) {
