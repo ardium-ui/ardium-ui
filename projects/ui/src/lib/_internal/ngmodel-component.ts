@@ -102,7 +102,9 @@ export abstract class _NgModelComponentBase extends _FocusableComponentBase impl
     this._ngControl = this._injector.get(NgControl, null);
 
     if (this._ngControl) {
-      this._ngControl.valueAccessor = this;
+      if (!this._ngControl.valueAccessor || this instanceof (this._ngControl.valueAccessor as any).constructor) {
+        this._ngControl.valueAccessor = this;
+      }
 
       this._hasErrorInControl.set(this._ngControl.status === 'INVALID');
 

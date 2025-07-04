@@ -17,4 +17,14 @@ export class DateInputPage {
   constructor() {
     this.formControl.valueChanges.pipe(takeUntilDestroyed()).subscribe(v => console.log('formControl changes', v));
   }
+
+  onSelectDate() {
+    console.log('onSelectDate');
+    if (this.formControl.value === null) return;
+    
+    setTimeout(() => {
+      console.log('%csetting to null', 'color:red');
+      this.formControl.setValue(null);
+    }, 3000);
+  }
 }

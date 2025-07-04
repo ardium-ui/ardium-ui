@@ -4,6 +4,7 @@ import {
   computed,
   contentChild,
   effect,
+  forwardRef,
   HostListener,
   Inject,
   input,
@@ -13,6 +14,7 @@ import {
   TemplateRef,
   ViewEncapsulation,
 } from '@angular/core';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceDateProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { roundFromZero } from 'more-rounding';
 import { isDefined, isNull } from 'simple-bool';
@@ -43,6 +45,13 @@ const TODAY = new Date();
   styleUrls: ['./calendar.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => ArdiumCalendarComponent),
+      multi: true,
+    },
+  ],
 })
 export class ArdiumCalendarComponent extends _NgModelComponentBase {
   protected override readonly _DEFAULTS!: ArdCalendarDefaults;
@@ -72,7 +81,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
         console.error(
           new Error(`ARD-NF2001A: [firstWeekday] must be a positive integer, got "${value}". Using default value instead.`)
         );
-        return 1;
+        return this._DEFAULTS.firstWeekday;
       }
       if (value < 0 || value > 6) {
         console.error(
@@ -94,7 +103,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
             `ARD-NF2002: [multipleYearPageChangeModifier] must be a positive integer, got "${value}". Using default value instead.`
           )
         );
-        return 5;
+        return this._DEFAULTS.multipleYearPageChangeModifier;
       }
       return value;
     },
@@ -166,7 +175,7 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
     }
 
     if (day instanceof Date) day = day.getDate();
-    if (day && this.isDayOutOfRange(day) || this.isDayFilteredOut()(day)) return;
+    if ((day && this.isDayOutOfRange(day)) || this.isDayFilteredOut()(day)) return;
 
     this.selectedDate.set(new Date(this.activeYear(), this.activeMonth(), day, 0, 0, 0, 0));
   }
