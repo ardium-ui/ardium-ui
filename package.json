@@ -11,8 +11,7 @@
     "ngg-uc": "ng g c --project=ui --change-detection=OnPush --export --view-encapsulation=None",
     "ngg-pm": "ng g m --project=playground",
     "ngg-pc": "ng g c --type=page --project=playground",
-    "publish-ui": "rmdir /s /Q dist & cd projects/ui && ng build --configuration=production && npm run build-sass && cd ../../ && node copy-scss.js && cd dist/ui && npm publish --access=public && cd ../../",
-    "version-ui": "cd projects/ui && npm version",
+    "release": "node ./scripts/release.js",
     "prettier": "prettier --write .",
     "lint": "ng lint"
   },
