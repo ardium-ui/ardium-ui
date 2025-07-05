@@ -103,8 +103,25 @@ try {
       console.log(`${ansis.yellowBright.bold('-')} Nothing to clean up (${new Date().valueOf() - startTime.valueOf()} ms)`);
     }
 
-    // Build and publish
+    startTime = new Date();
+    // Build library
     execSync('ng build --project=ui', { stdio: 'inherit' });
+
+    console.log(`${ansis.greenBright.bold('✓')} Built projects/ui (${new Date().valueOf() - startTime.valueOf()} ms)`);
+    
+    // Build SCSS int CSS
+    startTime = new Date();
+    execSync('sass ./projects/ui/src/themes:./dist/ui/prebuilt-themes/', { stdio: 'inherit' });
+    
+    console.log(`${ansis.greenBright.bold('✓')} Compiled SCSS theme files into CSS (${new Date().valueOf() - startTime.valueOf()} ms)`);
+    
+    // Copy SCSS files to dist
+    startTime = new Date();
+    fs.cpSync('./projects/ui/src/themes/', './dist/ui/themes/', { recursive: true });
+
+    console.log(`${ansis.greenBright.bold('✓')} Copied SCSS theme files to dist folder (${new Date().valueOf() - startTime.valueOf()} ms)`);
+
+    // Publish
     execSync(`cd dist/ui && npm publish --access public${isAlphaBump ? ' --tag alpha' : ''}`, {
       stdio: 'inherit',
     });
