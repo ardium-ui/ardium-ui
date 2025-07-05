@@ -6,6 +6,17 @@ const path = require('path');
 const ansis = require('ansis');
 const inquirer = require('inquirer').default;
 
+// Check if all changes are committed
+try {
+  execSync('git diff-index --quiet HEAD --');
+  console.log(
+    `${ansis.greenBright.bold('✓')} No uncommmitted changes. Proceeding... (${new Date().valueOf() - startTime.valueOf()} ms)`
+  );
+} catch (error) {
+  console.error(`${ansis.redBright.bold('✕')} Error: You have uncommitted changes. Please commit or stash them first.`);
+  process.exit(1);
+}
+
 (async () => {
   let bumpType = process.argv[2];
 
@@ -30,23 +41,12 @@ const inquirer = require('inquirer').default;
 
   let startTime = new Date();
 
-  // Check if all changes are committed
-  try {
-    execSync('git diff-index --quiet HEAD --');
-    console.log(
-      `${ansis.greenBright.bold('✓')} No uncommmitted changes. Proceeding... (${new Date().valueOf() - startTime.valueOf()} ms)`
-    );
-  } catch (error) {
-    console.error(`${ansis.redBright.bold('✕')} Error: You have uncommitted changes. Please commit or stash them first.`);
-    process.exit(1);
-  }
-
   const rootDir = path.join(__dirname, '..');
 
+  const libraryPackagePath = path.join(rootDir, 'projects', 'ui', 'package.json');
   function readVersion() {
-    const devkitPackagePath = path.join(rootDir, 'projects', 'devkit', 'package.json');
-    const devkitPackageJson = JSON.parse(fs.readFileSync(devkitPackagePath, 'utf8'));
-    return devkitPackageJson.version;
+    const libraryPackageJson = JSON.parse(fs.readFileSync(libraryPackagePath, 'utf8'));
+    return libraryPackageJson.version;
   }
 
   try {
