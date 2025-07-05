@@ -87,7 +87,7 @@ try {
       console.log(`${ansis.greenBright.bold('✓')} Created a version tag (${new Date().valueOf() - startTime.valueOf()} ms)`);
     } else {
       console.log(
-        `${ansis.greenBright.bold('✓')} Skipping version bump. Current version: ${ansis.blueBright.underline(oldVersion)} (${
+        `${ansis.blueBright.bold('-')} Skipping version bump. Current version: ${ansis.blueBright.underline(oldVersion)} (${
           new Date().valueOf() - startTime.valueOf()
         } ms)`
       );
@@ -100,7 +100,7 @@ try {
 
       console.log(`${ansis.greenBright.bold('✓')} Cleaned up dist directory (${new Date().valueOf() - startTime.valueOf()} ms)`);
     } else {
-      console.log(`${ansis.yellowBright.bold('-')} Nothing to clean up (${new Date().valueOf() - startTime.valueOf()} ms)`);
+      console.log(`${ansis.blueBright.bold('-')} Nothing to clean up (${new Date().valueOf() - startTime.valueOf()} ms)`);
     }
 
     startTime = new Date();
