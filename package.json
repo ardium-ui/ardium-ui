@@ -3,7 +3,7 @@
   "version": "3.3.0-alpha.9",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port=4240 --project=playground",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
@@ -45,7 +45,9 @@
     "@types/jasmine": "~5.1.0",
     "@types/node": "^20.14.2",
     "angular-eslint": "18.0.1",
+    "ansis": "^4.1.0",
     "eslint": "^9.3.0",
+    "inquirer": "^12.7.0",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
