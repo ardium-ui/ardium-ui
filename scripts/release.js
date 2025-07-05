@@ -6,6 +6,7 @@ const path = require('path');
 const ansis = require('ansis');
 const inquirer = require('inquirer').default;
 
+let startTime = new Date();
 // Check if all changes are committed
 try {
   execSync('git diff-index --quiet HEAD --');
@@ -39,8 +40,6 @@ try {
 
   const isAlphaBump = preVersions.includes(bumpType);
   const isNoVersionBump = bumpType === 'no-version';
-
-  let startTime = new Date();
 
   const rootDir = path.join(__dirname, '..');
 
