@@ -13,6 +13,7 @@ try {
     `${ansis.greenBright.bold('✓')} No uncommmitted changes. Proceeding... (${new Date().valueOf() - startTime.valueOf()} ms)`
   );
 } catch (error) {
+  console.error(error);
   console.error(`${ansis.redBright.bold('✕')} Error: You have uncommitted changes. Please commit or stash them first.`);
   process.exit(1);
 }
