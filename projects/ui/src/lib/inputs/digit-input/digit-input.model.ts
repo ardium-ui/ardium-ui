@@ -112,7 +112,7 @@ export class DigitInputModel {
     return this._writeValue(vArray);
   }
   private _writeValue(v: string[] | null): boolean {
-    const isOldValueTheSame = this.value() ? this.value()!.every((ch, i) => ch === v?.[i]) : !v;
+    const isOldValueTheSame = this.value()?.length ? this.value()!.every((ch, i) => ch === v?.[i]) : !v?.length;
     console.log('executing model _writeValue', v, 'current value', this.value(), isOldValueTheSame);
     if (isOldValueTheSame) return false;
     this.value.set(v && v.map(el => el || null));
