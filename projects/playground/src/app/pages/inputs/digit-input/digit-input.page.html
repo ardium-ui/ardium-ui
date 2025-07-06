@@ -45,13 +45,14 @@
 </div> -->
 <div class="master">
   <span class="title">Digit input with static items</span>
-    <label [attr.for]="'postalCode'">Zip code</label>
-    <ard-digit-input
-      [config]="configWithStatics"
-      [formControl]="group.controls.zipCode"
-      htmlId="zipCode"
-      outputAsString
-      [inputAttrs]="{ autocomplete: 'postal-code' }"
-      (valueChange)="log('valueChange', $event)"
-    />
+  <label [attr.for]="'postalCode'">Zip code</label>
+  <ard-digit-input
+    #digit
+    [config]="configWithStatics"
+    [formControl]="group.controls.zipCode"
+    htmlId="zipCode"
+    outputAsString
+    [inputAttrs]="{ autocomplete: 'postal-code' }"
+    (valueChange)="log('valueChange', $event)"
+  />
 </div>

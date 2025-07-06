@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, viewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { DigitInputConfig, DigitInputPrimitiveOption, TransformType } from 'projects/ui/src/public-api';
+import { ArdiumDigitInputComponent, DigitInputConfig, DigitInputPrimitiveOption, TransformType } from 'projects/ui/src/public-api';
 import { Logger } from '../../../services/logger.service';
 
 @Component({
@@ -9,7 +9,17 @@ import { Logger } from '../../../services/logger.service';
   styleUrls: ['./digit-input.page.scss'],
 })
 export class DigitInputPage {
-  constructor(private _logger: Logger) {}
+  readonly digitInput = viewChild<ArdiumDigitInputComponent>('digit');
+  
+  constructor(private _logger: Logger) {
+    setTimeout(() => {
+      this.group.controls.zipCode.setValue('44-100');
+      console.log('%cSet value to 44-100', 'color:yellow');
+    }, 3000);
+    setInterval(() => {
+      console.log('digit value', this.group.controls.zipCode.value, (this.digitInput() as any).model.value());
+    }, 1000);
+  }
   log = this._logger.log;
 
   readonly control = new FormControl();

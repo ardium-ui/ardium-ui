@@ -6,20 +6,20 @@ const path = require('path');
 const ansis = require('ansis');
 const inquirer = require('inquirer').default;
 
-let startTime = new Date();
-// Check if all changes are committed
-try {
-  execSync('git diff-index --quiet HEAD --');
-  console.log(
-    `${ansis.greenBright.bold('✓')} No uncommmitted changes. Proceeding... (${new Date().valueOf() - startTime.valueOf()} ms)`
-  );
-} catch (error) {
-  console.error(error);
-  console.error(`${ansis.redBright.bold('✕')} Error: You have uncommitted changes. Please commit or stash them first.`);
-  process.exit(1);
-}
-
 (async () => {
+  let startTime = new Date();
+  // Check if all changes are committed
+  try {
+    execSync('git diff-index --quiet HEAD --');
+    console.log(
+      `${ansis.greenBright.bold('✓')} No uncommmitted changes. Proceeding... (${new Date().valueOf() - startTime.valueOf()} ms)`
+    );
+  } catch (error) {
+    console.error(error);
+    console.error(`${ansis.redBright.bold('✕')} Error: You have uncommitted changes. Please commit or stash them first.`);
+    process.exit(1);
+  }
+
   let bumpType = process.argv[2];
 
   const preVersions = ['prerelease', 'prepatch', 'preminor', 'premajor'];
@@ -108,18 +108,22 @@ try {
     execSync('ng build --project=ui', { stdio: 'inherit' });
 
     console.log(`${ansis.greenBright.bold('✓')} Built projects/ui (${new Date().valueOf() - startTime.valueOf()} ms)`);
-    
+
     // Build SCSS int CSS
     startTime = new Date();
     execSync('sass ./projects/ui/src/themes:./dist/ui/prebuilt-themes/', { stdio: 'inherit' });
-    
-    console.log(`${ansis.greenBright.bold('✓')} Compiled SCSS theme files into CSS (${new Date().valueOf() - startTime.valueOf()} ms)`);
-    
+
+    console.log(
+      `${ansis.greenBright.bold('✓')} Compiled SCSS theme files into CSS (${new Date().valueOf() - startTime.valueOf()} ms)`
+    );
+
     // Copy SCSS files to dist
     startTime = new Date();
     fs.cpSync('./projects/ui/src/themes/', './dist/ui/themes/', { recursive: true });
 
-    console.log(`${ansis.greenBright.bold('✓')} Copied SCSS theme files to dist folder (${new Date().valueOf() - startTime.valueOf()} ms)`);
+    console.log(
+      `${ansis.greenBright.bold('✓')} Copied SCSS theme files to dist folder (${new Date().valueOf() - startTime.valueOf()} ms)`
+    );
 
     // Publish
     execSync(`cd dist/ui && npm publish --access public${isAlphaBump ? ' --tag alpha' : ''}`, {
