@@ -159,17 +159,13 @@ export class ArdiumDigitInputComponent
   //! control value accessor's write value implementation
   private _valueBeforeViewInit?: any;
   writeValue(v: any): void {
-    console.log('writeValue', v, this._wasViewInit);
     if (!this._wasViewInit) {
       this._valueBeforeViewInit = v;
-      console.log('returning from writeValue');
       return;
     }
-    console.log('calling _writeValue with value', v);
     this._writeValue(v);
   }
   private _writeValue(v: any): boolean {
-    console.log('_writeValue', v);
     return this.model.writeValue(v);
   }
 

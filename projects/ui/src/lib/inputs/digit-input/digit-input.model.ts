@@ -70,7 +70,6 @@ export class DigitInputModel {
   }
 
   writeValue(v: any): boolean {
-    console.log('executing model writeValue', v, this._ardHost.outputAsString());
     if (this._ardHost.outputAsString()) {
       if (!isAnyString(v) && !isNull(v)) {
         throw new Error(
@@ -78,7 +77,6 @@ export class DigitInputModel {
         );
       }
       const vArray = v?.split('') ?? [];
-      console.log('executing model writeValue - vArray', vArray, this._configArray());
 
       if (vArray.length > this._configArray().length) {
         console.warn(
@@ -113,7 +111,6 @@ export class DigitInputModel {
   }
   private _writeValue(v: string[] | null): boolean {
     const isOldValueTheSame = this.value()?.length ? this.value()!.every((ch, i) => ch === v?.[i]) : !v?.length;
-    console.log('executing model _writeValue', v, 'current value', this.value(), isOldValueTheSame);
     if (isOldValueTheSame) return false;
     this.value.set(v && v.map(el => el || null));
     this.validateValueAndUpdate();
