@@ -16,15 +16,14 @@ export class DigitInputModel {
     effect(
       () => {
         const configArr = this.configArrayData();
-        const length = configArr.length;
 
         this.value.update(arr => {
           if (!arr) arr = [];
           const newArr: (string | null)[] = [];
-          for (let i = 0; i < length; i++) {
+          for (let i = 0; i < configArr.length; i++) {
             const curr = arr[i];
             const config = configArr[i];
-            newArr.push(config.type === DigitInputConfigDataType.Static ? config.char! : curr ?? null);
+            newArr.push(config.type === DigitInputConfigDataType.Static ? null : curr ?? null);
           }
           return newArr;
         });
@@ -56,9 +55,22 @@ export class DigitInputModel {
 
   readonly value = signal<(string | null)[] | null>(null);
 
+  readonly valueWithStatics = computed<(string | null)[]>(() => {
+    const configArr = this.configArrayData();
+    const arr = this.value() ?? [];
+
+    const newArr: (string | null)[] = [];
+    for (let i = 0; i < configArr.length; i++) {
+      const curr = arr[i];
+      const config = configArr[i];
+      newArr.push(config.type === DigitInputConfigDataType.Static ? config.char! : curr ?? null);
+    }
+    return newArr;
+  });
+
   readonly stringValue = computed(
     (): string =>
-      this.value()
+      this.valueWithStatics()
         ?.map(v => v ?? ' ')
         .join('') ?? ''
   );

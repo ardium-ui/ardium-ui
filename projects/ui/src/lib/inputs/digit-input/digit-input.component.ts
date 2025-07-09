@@ -196,7 +196,7 @@ export class ArdiumDigitInputComponent
 
   readonly emittableValue = computed((): string | (string | null)[] | null => {
     if (this.outputAsString()) return this.model.stringValue();
-    return this.model.value();
+    return this.model.valueWithStatics();
   });
 
   //! event emitters
