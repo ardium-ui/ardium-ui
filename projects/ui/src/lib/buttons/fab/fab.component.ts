@@ -9,6 +9,9 @@ import { ARD_FAB_DEFAULTS, ArdFabDefaults } from './fab.defaults';
   styleUrls: ['./fab.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.ard-button-with-pointer-events-when-disabled]': 'pointerEventsWhenDisabled()',
+  },
 })
 export class ArdiumFabComponent extends _ButtonBase {
   constructor(@Inject(ARD_FAB_DEFAULTS) defaults: ArdFabDefaults) {

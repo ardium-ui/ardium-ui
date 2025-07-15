@@ -8,6 +8,7 @@ export interface _SimpleButtonDefaults extends _FocusableComponentDefaults {
   lightColoring: boolean;
   compact: boolean;
   type: ButtonType;
+  pointerEventsWhenDisabled: boolean;
 }
 export const _simpleButtonDefaults: _SimpleButtonDefaults = {
   ..._focusableComponentDefaults,
@@ -15,6 +16,7 @@ export const _simpleButtonDefaults: _SimpleButtonDefaults = {
   lightColoring: false,
   compact: false,
   type: ButtonType.Button,
+  pointerEventsWhenDisabled: false,
 };
 export interface _ButtonBaseDefaults extends _SimpleButtonDefaults {
   appearance: ButtonAppearance;

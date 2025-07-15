@@ -9,6 +9,7 @@ export interface ArdModalDefaults {
   noCloseButton: boolean;
   noBackdrop: boolean;
   disableBackdropClose: boolean;
+  
 }
 
 export const _modalDefaults: ArdModalDefaults = {

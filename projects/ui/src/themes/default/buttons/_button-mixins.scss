@@ -118,6 +118,7 @@
 @mixin button-disabled {
   pointer-events: none;
   opacity: 60%;
+  cursor: not-allowed;
 
   .ard-focus-overlay {
     opacity: 20%;
