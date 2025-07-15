@@ -8,6 +8,7 @@
           htmlId="appearance"
           [items]="appearances"
           [value]="appearance"
+          (valueChange)="appearance = $any($event)"
         />
       </div>
       <div class="form-field flex">
@@ -16,6 +17,7 @@
           htmlId="variant"
           [items]="variants"
           [value]="variant"
+          (valueChange)="variant = $any($event)"
         />
       </div>
     </div>
