@@ -22,8 +22,8 @@
   <div
     class="ard-modal-panel"
     cdkTrapFocus
-    [class.ard-modal-no-heading-text]="!heading"
-    [class.ard-modal-has-close-button]="!this.noCloseButton()"
+    [class.ard-modal-no-heading-text]="!heading()"
+    [class.ard-modal-has-close-button]="!noCloseButton()"
     (click)="$event.stopPropagation()"
   >
     <div class="ard-modal-heading">
