@@ -58,7 +58,7 @@
     box-shadow: ARD.$simple-shadow;
 
     &:hover,
-    &:focus {
+    &:focus-visible {
       box-shadow: ARD.$simple-shadow2;
     }
     &:active {
@@ -85,7 +85,6 @@
 
     transition: background-color 0.2s ease, color 0.2s ease;
     &:hover,
-    &:focus,
     &:focus-visible {
       background: var(--ard-cmpcl--bg-colored);
       color: var(--ard-cmpcl--on-bg-colored);
