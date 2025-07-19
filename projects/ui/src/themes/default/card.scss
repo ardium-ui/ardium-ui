@@ -90,6 +90,12 @@ ard-card-header {
     border-bottom-right-radius: inherit;
   }
 }
+ard-card,
+.ard-card {
+  .ard-appearance-outlined .ard-image {
+    border-bottom: 1px solid ARD.$border-light;
+  }
+}
 //! content
 .ard-card-content {
   padding: 0 1em;

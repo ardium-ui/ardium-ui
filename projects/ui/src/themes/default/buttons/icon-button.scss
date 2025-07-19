@@ -52,4 +52,11 @@ ard-icon-button.ard-disabled {
       opacity: 0;
     }
   }
+  &.ard-button-with-pointer-events-when-disabled {
+    pointer-events: all;
+
+    > .ard-button {
+      pointer-events: all;
+    }
+  }
 }

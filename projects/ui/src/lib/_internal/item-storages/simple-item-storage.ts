@@ -143,6 +143,10 @@ export class SimpleItemStorage {
     if (!this._validateWriteValue(ngModel)) return;
 
     const selectItemByValue = (value: any) => {
+      if (value === null || value === undefined) {
+        this.unselectAll();
+        return;
+      }
       const item = this.findItemByValue(value);
 
       if (item) {
@@ -154,9 +158,25 @@ export class SimpleItemStorage {
       );
     };
 
-    for (const modelValue of ngModel) {
-      selectItemByValue(modelValue);
+    if (this._ardParentComp.multiselectable()) {
+      for (const modelValue of ngModel) {
+        selectItemByValue(modelValue);
+      }
+    } else {
+      selectItemByValue(ngModel);
     }
+  }
+
+  private _validateSingleElementType(item: unknown): boolean {
+    if (!isDefined(this._ardParentComp.compareWith()) && isObject(item) && this._ardParentComp.valueFrom()) {
+      console.warn(
+        `ARD-FT${this._ardParentComp._componentId}0: Setting object(${JSON.stringify(
+          item
+        )}) as your model with [valueFrom] is not allowed unless [compareWith] is used.`
+      );
+      return false;
+    }
+    return true;
   }
   /**
    * Validates that all values of the value to be written are able to be accurately compared against the storage items.
@@ -169,23 +189,17 @@ export class SimpleItemStorage {
    * @returns true if all items are valid, otherwise false.
    */
   private _validateWriteValue(ngModel: unknown): boolean {
-    if (!isArray(ngModel)) {
-      throw new Error(
-        `ARD-FT${this._ardParentComp._componentId}0: <ard-${this._ardParentComp._componentName}> expects its value to be an array, got "${ngModel}".`
-      );
-    }
-    return ngModel.every(item => {
-      if (!isDefined(this._ardParentComp.compareWith()) && isObject(item) && this._ardParentComp.valueFrom()) {
-        console.warn(
-          `ARD-FT${this._ardParentComp._componentId}0: Setting object(${JSON.stringify(
-            item
-          )}) as your model with [valueFrom] is not allowed unless [compareWith] is used.`
+    if (this._ardParentComp.multiselectable()) {
+      if (!isArray(ngModel)) {
+        throw new Error(
+          `ARD-FT${this._ardParentComp._componentId}0: <ard-${this._ardParentComp._componentName}> expects its value to be an array, got "${ngModel}".`
         );
-        return false;
       }
-      return true;
-    });
+      return ngModel.every(this._validateSingleElementType);
+    }
+    return this._validateSingleElementType(ngModel);
   }
+
   findItemByValue(valueToFind: any): ArdOptionSimple | undefined {
     let findBy: (item: ArdOptionSimple) => boolean;
     const cmpFn = this._ardParentComp.compareWith();

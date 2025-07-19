@@ -59,6 +59,13 @@ ard-fab.ard-disabled {
   > .ard-fab {
     @include shared.button-disabled;
   }
+  &.ard-button-with-pointer-events-when-disabled {
+    pointer-events: all;
+
+    > .ard-button {
+      pointer-events: all;
+    }
+  }
 }
 
 @keyframes maxWidth {

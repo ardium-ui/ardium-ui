@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ArdiumRangeSliderModule } from 'projects/ui/src/public-api';
 import { RangeSliderPage } from './range-slider.page';
-import { ArdiumRangeSliderModule } from '@ardium-ui/ui';
 
 @NgModule({
   declarations: [RangeSliderPage],

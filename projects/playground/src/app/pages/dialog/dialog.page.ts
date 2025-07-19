@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { PanelAppearance, PanelVariant } from '@ardium-ui/ui';
+import { PanelAppearance, PanelVariant } from 'projects/ui/src/public-api';
 
 @Component({
   selector: 'app-dialog',
@@ -22,9 +22,6 @@ export class DialogPage {
   readonly isOpen2 = signal(false);
   readonly isOpen3 = signal(false);
   readonly isOpen4 = signal(false);
-  readonly isOpen5 = signal(false);
-  readonly isOpen6 = signal(false);
-  readonly isOpen7 = signal(false);
 
   //! delete confirmation
   readonly canConfirmDelete = signal<boolean>(false);
@@ -45,5 +42,19 @@ export class DialogPage {
   }
   onDeleteConfirm() {
     alert('File has been deleted.');
+  }
+
+  //! manual handling
+  performManualConfirm() {
+    console.log('dialog confirmed!');
+    setTimeout(() => {
+      this.isOpen4.set(false);
+    }, 2000);
+  }
+  performManualReject() {
+    console.log('dialog rejected!');
+    setTimeout(() => {
+      this.isOpen4.set(false);
+    }, 500);
   }
 }

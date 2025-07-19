@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { StarColor as SC, StarFillMode as SF } from '@ardium-ui/ui';
+import { StarColor as SC, StarFillMode as SF } from 'projects/ui/src/public-api';
 import { Logger } from '../../services/logger.service';
 
 @Component({

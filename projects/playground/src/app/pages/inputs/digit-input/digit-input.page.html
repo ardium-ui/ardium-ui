@@ -1,4 +1,4 @@
-<div class="master">
+<!-- <div class="master">
   <span class="title">Basic digit input</span>
   <ard-digit-input config="4" />
 </div>
@@ -42,15 +42,17 @@
     class="custom-styling"
     config="6"
   />
-</div>
+</div> -->
 <div class="master">
   <span class="title">Digit input with static items</span>
   <label [attr.for]="'postalCode'">Zip code</label>
   <ard-digit-input
+    #digit
     [config]="configWithStatics"
     [formControl]="group.controls.zipCode"
     htmlId="zipCode"
     outputAsString
+    [inputAttrs]="{ autocomplete: 'postal-code' }"
     (valueChange)="log('valueChange', $event)"
   />
 </div>

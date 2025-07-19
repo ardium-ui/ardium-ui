@@ -11,6 +11,9 @@ import { ARD_BUTTON_DEFAULTS, ArdButtonDefaults } from './button.defaults';
   styleUrls: ['./button.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.ard-button-with-pointer-events-when-disabled]': 'pointerEventsWhenDisabled()',
+  },
 })
 export class ArdiumButtonComponent extends _ButtonBase {
   protected override readonly _DEFAULTS!: ArdButtonDefaults;

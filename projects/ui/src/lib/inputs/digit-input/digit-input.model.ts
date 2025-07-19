@@ -16,15 +16,14 @@ export class DigitInputModel {
     effect(
       () => {
         const configArr = this.configArrayData();
-        const length = configArr.length;
 
         this.value.update(arr => {
           if (!arr) arr = [];
           const newArr: (string | null)[] = [];
-          for (let i = 0; i < length; i++) {
+          for (let i = 0; i < configArr.length; i++) {
             const curr = arr[i];
             const config = configArr[i];
-            newArr.push(config.type === DigitInputConfigDataType.Static ? config.char! : curr ?? null);
+            newArr.push(config.type === DigitInputConfigDataType.Static ? null : curr ?? null);
           }
           return newArr;
         });
@@ -56,9 +55,22 @@ export class DigitInputModel {
 
   readonly value = signal<(string | null)[] | null>(null);
 
+  readonly valueWithStatics = computed<(string | null)[]>(() => {
+    const configArr = this.configArrayData();
+    const arr = this.value() ?? [];
+
+    const newArr: (string | null)[] = [];
+    for (let i = 0; i < configArr.length; i++) {
+      const curr = arr[i];
+      const config = configArr[i];
+      newArr.push(config.type === DigitInputConfigDataType.Static ? config.char! : curr ?? null);
+    }
+    return newArr;
+  });
+
   readonly stringValue = computed(
     (): string =>
-      this.value()
+      this.valueWithStatics()
         ?.map(v => v ?? ' ')
         .join('') ?? ''
   );
@@ -110,7 +122,7 @@ export class DigitInputModel {
     return this._writeValue(vArray);
   }
   private _writeValue(v: string[] | null): boolean {
-    const isOldValueTheSame = this.value() ? this.value()!.every((ch, i) => ch === v?.[i]) : !v;
+    const isOldValueTheSame = this.value()?.length ? this.value()!.every((ch, i) => ch === v?.[i]) : !v?.length;
     if (isOldValueTheSame) return false;
     this.value.set(v && v.map(el => el || null));
     this.validateValueAndUpdate();
@@ -176,6 +188,33 @@ export class DigitInputModel {
         }
       })
     );
+  }
+
+  resetInputValue(index: number): void {
+    if (index < 0 || index > this._configArray().length) return;
+
+    const config = this._configArray()[index] as DigitInputOption;
+    let newValue = '';
+    if ('static' in config) {
+      newValue = config.static;
+    }
+
+    //get the corresponding HTML input element
+    const inputEl = this._ardHost.inputs()[index];
+    if (!inputEl) {
+      throw new Error(
+        "ARD-IS0048: <ard-digit-input>'s value changed, but its corresponding input element could not be found. If you are reading this, you probably experienced a problem with Ardium UI. Please report this issue to the creators."
+      );
+    }
+    //update the input element and value array
+    inputEl.nativeElement.value = newValue;
+
+    this.value.update(arr => {
+      if (!arr) arr = [];
+      const newArr = [...arr];
+      newArr[index] = newValue || null;
+      return newArr;
+    });
   }
 
   //! validate against the config

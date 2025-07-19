@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ArdiumSpinnerModule } from 'projects/ui/src/public-api';
 import { SpinnerPage } from './spinner.page';
-import { ArdiumSpinnerModule } from '@ardium-ui/ui';
 
 @NgModule({
   declarations: [SpinnerPage],

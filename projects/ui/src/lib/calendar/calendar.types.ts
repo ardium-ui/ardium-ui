@@ -1,9 +1,9 @@
-export const CalendarRangeVariant = {
-  Row: 'row',
-  OutlineRounded: 'outline-rounded',
-  OutlineSharp: 'outline-sharp',
+export const ArdCalendarView = {
+  Days: 'days',
+  Months: 'months',
+  Years: 'years',
 } as const;
-export type CalendarRangeVariant = (typeof CalendarRangeVariant)[keyof typeof CalendarRangeVariant];
+export type ArdCalendarView = (typeof ArdCalendarView)[keyof typeof ArdCalendarView];
 
 export interface DateRange {
   low: Date;
@@ -15,26 +15,28 @@ export interface YearRange {
   high: number;
 }
 
-export const CalendarView = {
-  Years: 'years',
-  Months: 'months',
-  Days: 'days',
-} as const;
-export type CalendarView = (typeof CalendarView)[keyof typeof CalendarView];
+export type ArdCalendarFilterFn = (date: Date) => boolean;
 
 //! template contexts
 export interface CalendarYearsViewHeaderContext {
   nextPage: () => void;
   prevPage: () => void;
+  openMonthsView: () => void;
   openDaysView: () => void;
+  canGoToNextPage: boolean;
+  canGoToPreviousPage: boolean;
   yearRange: YearRange;
   dateRange: DateRange;
   $implicit: DateRange;
 }
 
 export interface CalendarMonthsViewHeaderContext {
+  nextPage: () => void;
+  prevPage: () => void;
   openDaysView: () => void;
   openYearsView: () => void;
+  canGoToNextPage: boolean;
+  canGoToPreviousPage: boolean;
   year: number;
   date: Date;
   $implicit: number;
@@ -47,9 +49,10 @@ export interface CalendarDaysViewHeaderContext {
   prevYear: () => void;
   openYearsView: () => void;
   openMonthsView: () => void;
+  canGoToNextPage: boolean;
+  canGoToPreviousPage: boolean;
   year: number;
   month: number;
-  date: Date;
   $implicit: Date;
 }
 
@@ -68,7 +71,7 @@ export interface CalendarFloatingMonthContext {
 export interface CalendarYearContext {
   value: number;
   date: Date;
-  $implicit: number;
+  $implicit: Date;
   select: (year: number) => void;
 }
 

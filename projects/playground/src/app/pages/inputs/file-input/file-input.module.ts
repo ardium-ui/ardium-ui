@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ArdiumFileInputModule } from 'projects/ui/src/public-api';
 import { FileInputPage } from './file-input.page';
-import { ArdiumFileInputModule } from '@ardium-ui/ui';
 
 @NgModule({
   declarations: [FileInputPage],

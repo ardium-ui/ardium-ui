@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ArdiumProgressBarModule } from 'projects/ui/src/public-api';
 import { ProgressBarPage } from './progress-bar.page';
-import { ArdiumProgressBarModule } from '@ardium-ui/ui';
 
 @NgModule({
   declarations: [ProgressBarPage],

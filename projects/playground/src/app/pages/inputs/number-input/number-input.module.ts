@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NumberInputPage } from './number-input.page';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ArdiumNumberInputModule } from '@ardium-ui/ui';
+import { ArdiumNumberInputModule } from 'projects/ui/src/public-api';
+import { NumberInputPage } from './number-input.page';
 
 @NgModule({
   declarations: [NumberInputPage],

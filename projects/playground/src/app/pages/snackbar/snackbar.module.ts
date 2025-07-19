@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ArdiumButtonModule, ArdiumSnackbarService } from 'projects/ui/src/public-api';
 import { SnackbarPage } from './snackbar.page';
-import { ArdiumButtonModule, ArdiumSnackbarService } from '@ardium-ui/ui';
 
 @NgModule({
   declarations: [SnackbarPage],

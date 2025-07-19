@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SegmentAppearance, SegmentVariant, ComponentColor } from '@ardium-ui/ui';
+import { ComponentColor, SegmentAppearance, SegmentVariant } from 'projects/ui/src/public-api';
 import { Logger } from '../../services/logger.service';
 
 @Component({

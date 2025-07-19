@@ -1,5 +1,5 @@
-<!-- <div class="flex horiz page-grid">
-  <div class="master">
+<div class="flex horiz page-grid">
+  <!-- <div class="master">
     <span class="title">Most basic calendar</span>
     <ard-calendar></ard-calendar>
   </div>
@@ -10,8 +10,8 @@
   <div class="master">
     <span class="title">Calendar active date</span>
     <ard-calendar
-      activeYear="2025"
-      activeMonth="11"
+      [activeYear]="1970"
+      [activeMonth]="0"
     ></ard-calendar>
   </div>
   <div class="master">
@@ -19,8 +19,12 @@
     <ard-calendar [selected]="selectedDate"></ard-calendar>
   </div>
   <div class="master">
-    <span class="title">Nointeract calendar</span>
-    <ard-calendar nointeract></ard-calendar>
+    <span class="title">Read-only calendar</span>
+    <ard-calendar readonly></ard-calendar>
+  </div>
+  <div class="master">
+    <span class="title">Disabled calendar</span>
+    <ard-calendar disabled></ard-calendar>
   </div>
   <div class="master">
     <span class="title">Static height calendar</span>
@@ -32,12 +36,17 @@
       [(ngModel)]="eventsCalendarDate"
       (selectedChange)="log('selectedChange', $event)"
       (ngModelChange)="log('ngModelChange', $event)"
-      (change)="log('change', $event)"
-      (viewChange)="log('viewChange', $event)"
+      (activeViewChange)="log('activeViewChange', $event)"
       (activeMonthChange)="log('activeMonthChange', $event)"
       (activeYearChange)="log('activeYearChange', $event)"
-      (yearSelected)="log('yearSelected', $event)"
-      (monthSelected)="log('monthSelected', $event)"
     ></ard-calendar>
   </div>
-</div> -->
+  <div class="master">
+    <span class="title">Calendar with min/max dates</span>
+    <ard-calendar [min]="minDate" [max]="maxDate"></ard-calendar>
+  </div> -->
+  <div class="master">
+    <span class="title">Calendar filter function</span>
+    <ard-calendar [filter]="filterFn"></ard-calendar>
+  </div>
+</div>

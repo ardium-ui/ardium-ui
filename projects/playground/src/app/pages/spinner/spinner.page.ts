@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SimpleComponentColor as SCC } from '@ardium-ui/ui';
+import { SimpleComponentColor as SCC } from 'projects/ui/src/public-api';
 
 @Component({
   selector: 'app-spinner',

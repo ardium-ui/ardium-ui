@@ -11,6 +11,9 @@ import { ARD_ICON_BUTTON_DEFAULTS, ArdIconButtonDefaults } from './icon-button.d
   styleUrls: ['./icon-button.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.ard-button-with-pointer-events-when-disabled]': 'pointerEventsWhenDisabled()',
+  },
 })
 export class ArdiumIconButtonComponent extends _FocusableComponentBase {
   protected override readonly _DEFAULTS!: ArdIconButtonDefaults;
@@ -27,6 +30,10 @@ export class ArdiumIconButtonComponent extends _FocusableComponentBase {
 
   readonly lightColoring = input<boolean, any>(this._DEFAULTS.lightColoring, { transform: v => coerceBooleanProperty(v) });
   readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
+
+  readonly pointerEventsWhenDisabled = input<boolean, any>(this._DEFAULTS.pointerEventsWhenDisabled, {
+    transform: v => coerceBooleanProperty(v),
+  });
 
   readonly ngClasses = computed(() =>
     [

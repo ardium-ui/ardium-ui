@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ArdiumDialogModule, ArdiumSelectModule, ArdiumSlideToggleModule } from 'projects/ui/src/public-api';
 import { DialogPage } from './dialog.page';
-import { ArdiumDialogModule, ArdiumSelectModule, ArdiumSlideToggleModule } from '@ardium-ui/ui';
 
 @NgModule({
   declarations: [DialogPage],

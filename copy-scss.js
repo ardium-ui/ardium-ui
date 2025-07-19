@@ -1,1 +1,0 @@
-require('fs').cpSync('./projects/ui/src/themes/', './dist/ui/themes/', { recursive: true });

@@ -8,6 +8,7 @@
           htmlId="appearance"
           [items]="appearances"
           [value]="appearance"
+          (valueChange)="appearance = $any($event)"
         />
       </div>
       <div class="form-field flex">
@@ -16,6 +17,7 @@
           htmlId="variant"
           [items]="variants"
           [value]="variant"
+          (valueChange)="variant = $any($event)"
         />
       </div>
     </div>
@@ -108,5 +110,18 @@
     (close)="clearDeleteConfirmationTimeout()"
   >
     This action is irreversible.
+  </ard-dialog>
+</div>
+<div class="master">
+  <div class="title">Dialog without autoclose on button click</div>
+  <button (click)="isOpen4.set(true)">Open</button>
+  <ard-dialog
+    [open]="isOpen4()"
+    (openChange)="isOpen4.set($event)"
+    buttonActionType="no-op"
+    (confirm)="performManualConfirm()"
+    (reject)="performManualReject()"
+  >
+    Dialog content
   </ard-dialog>
 </div>

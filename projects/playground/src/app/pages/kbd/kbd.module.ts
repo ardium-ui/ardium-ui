@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ArdiumKbdModule } from 'projects/ui/src/public-api';
 import { KbdPage } from './kbd.page';
-import { ArdiumKbdModule } from '@ardium-ui/ui';
 
 @NgModule({
   declarations: [KbdPage],

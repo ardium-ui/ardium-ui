@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ArdiumColorInputModule } from 'projects/ui/src/public-api';
 import { ColorInputPage } from './color-input.page';
-import { ArdiumColorInputModule } from '@ardium-ui/ui';
 
 @NgModule({
   declarations: [ColorInputPage],

@@ -1,0 +1,128 @@
+<ard-form-field-frame
+  [appearance]="appearance()"
+  [variant]="variant()"
+  [compact]="compact()"
+  [isFocused]="isFocused()"
+  [hasError]="hasError()"
+  [isSuccess]="isSuccess()"
+  [prefixTemplate]="prefixTemplate()?.template"
+  [suffixTemplate]="suffixTemplate()?.template"
+>
+  <div
+    class="ard-date-input"
+    #dropdownHost
+    (click)="onGeneralClick($event)"
+    [class.ard-has-value]="!!value()"
+    [ngClass]="ngClasses()"
+  >
+    <div class="ard-date-input__value-container ard-input-container">
+      <div
+        class="ard-date-input__placeholder ard-placeholder"
+        [class.ard-date-input__placeholder-hidden]="!shouldDisplayPlaceholder()"
+      >
+        {{ placeholder() }}
+      </div>
+      <div
+        class="ard-date-input__value"
+        [class.ard-date-input__value-hidden]="!shouldDisplayValue()"
+      >
+        <ng-template
+          #defaultValueTemplate
+          let-date
+        >
+          {{ serializeFn()(date) }}
+        </ng-template>
+
+        <ng-template
+          [ngTemplateOutlet]="valueTemplate()?.template || defaultValueTemplate"
+          [ngTemplateOutletContext]="valueContext()"
+        />
+      </div>
+      <div
+        class="ard-date-input__input-container"
+        role="combobox"
+        aria-haspopup="listbox"
+        [attr.aria-expanded]="isOpen()"
+        [attr.aria-owns]="isOpen() ? htmlId() : null"
+        [class.ard-date-input__input-container-hidden]="!shouldDisplayDateInput()"
+      >
+        <input
+          #dateInput
+          #focusableElement
+          type="text"
+          class="ard-date-input__input"
+          [attr.tabindex]="tabIndex()"
+          [value]="dateInputValue()"
+          [attr.aria-controls]="isOpen() ? htmlId() : null"
+          (input)="onDateInputInput($event)"
+          (change)="$event.stopPropagation()"
+          (focus)="onDateInputFocus($event)"
+          (blur)="onDateInputBlur($event)"
+          (keydown)="onDateInputEnter($event)"
+        />
+      </div>
+    </div>
+
+    @if (!calendarHidden()) {
+    <ard-icon-button
+      color="none"
+      [disabled]="calendarDisabled()"
+      (click)="onCalendarButtonClick($event)"
+    >
+      <ng-template
+        #defaultCalendarIconTemplate
+        let-date
+      >
+        <ard-icon filled>today</ard-icon>
+      </ng-template>
+
+      <ng-template [ngTemplateOutlet]="calendarIconTemplate()?.template || defaultCalendarIconTemplate" />
+    </ard-icon-button>
+    }
+  </div>
+</ard-form-field-frame>
+
+<ng-template #dropdownTemplate>
+  <ard-dropdown-panel
+    class="ard-dropdown-panel ard-date-input__dropdown-panel"
+    [appearance]="dropdownAppearanceOrDefault()"
+    [variant]="dropdownVariantOrDefault()"
+    [isOpen]="true"
+    [panelId]="htmlId()"
+    [compact]="compact()"
+    (ardClickOutside)="onOutsideClick($event)"
+  >
+    <ard-calendar
+      class="ard-date-input__calendar"
+      [(activeMonth)]="activeMonth"
+      [(activeYear)]="activeYear"
+      [(activeView)]="activeView"
+      [firstWeekday]="firstWeekday()"
+      [min]="min()"
+      [max]="max()"
+      autoFocus
+      [multipleYearPageChangeModifier]="multipleYearPageChangeModifier()"
+      [color]="color()"
+      [disabled]="disabled() || calendarDisabled()"
+      [tabIndex]="tabIndex()"
+      (selectedChange)="onCalendarSelectedChange($event)"
+      (yearSelect)="yearSelect.emit($event)"
+      (monthSelect)="monthSelect.emit($event)"
+    />
+    @if (useAcceptButtonToSelect()) {
+    <div class="ard-date-input__accept-buttons-container">
+      <ng-template
+        #defaultAcceptButtonsTemplate
+        let-date
+      >
+        {{ serializeFn()(date) }}
+      </ng-template>
+
+      <ng-template
+        [ngTemplateOutlet]="acceptButtonsTemplate()?.template || defaultAcceptButtonsTemplate"
+        [ngTemplateOutletContext]="acceptButtonsContext()"
+      />
+    </div>
+    }
+  </ard-dropdown-panel>
+</ng-template>

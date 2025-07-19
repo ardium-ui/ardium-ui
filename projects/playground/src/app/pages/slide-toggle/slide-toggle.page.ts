@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ComponentColor as CC } from '@ardium-ui/ui';
+import { ComponentColor as CC } from 'projects/ui/src/public-api';
 import { Logger } from '../../services/logger.service';
 
 @Component({

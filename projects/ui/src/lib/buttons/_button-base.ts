@@ -26,5 +26,7 @@ export abstract class _ButtonBase extends _FocusableComponentBase {
   readonly lightColoring = input<boolean, any>(this._DEFAULTS.lightColoring, { transform: v => coerceBooleanProperty(v) });
   readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
+  readonly pointerEventsWhenDisabled = input<boolean, any>(this._DEFAULTS.pointerEventsWhenDisabled, { transform: v => coerceBooleanProperty(v) });
+
   abstract readonly ngClasses: Signal<string>;
 }
