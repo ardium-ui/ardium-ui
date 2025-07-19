@@ -1,5 +1,5 @@
 import { Component, effect, signal } from '@angular/core';
-import { ArdSearchFunction } from '@ardium-ui/ui';
+import { ArdSearchFunction } from 'projects/ui/src/public-api';
 import { Logger } from '../../services/logger.service';
 import { DataService } from './../../services/data.service';
 
