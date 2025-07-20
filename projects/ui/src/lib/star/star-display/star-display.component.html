@@ -2,10 +2,21 @@
   class="ard-star-display"
   [ngClass]="ngClasses()"
 >
-  @for (fillMode of starArray(); track $index) {
+  <ng-template
+    #defaultStarTemplate
+    let-fillMode="fillMode"
+    let-color="color"
+  >
     <ard-star
       [filled]="fillMode"
-      [color]="color()"
+      [color]="color"
     />
+  </ng-template>
+
+  @for (fillMode of starArray(); track $index) {
+  <ng-template
+    [ngTemplateOutlet]="starTemplate()?.template || defaultStarTemplate"
+    [ngTemplateOutletContext]="getStarTemplateContext()(fillMode)"
+  />
   }
 </div>

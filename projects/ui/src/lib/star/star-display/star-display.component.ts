@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, contentChild, inject, input } from '@angular/core';
 import { coerceNumberProperty } from '@ardium-ui/devkit';
 import { isArray } from 'simple-bool';
 import { StarColor, StarFillMode } from './../star.types';
 import { ARD_STAR_DISPLAY_DEFAULTS } from './star-display.defaults';
+import { ArdStarDisplayStarTemplateDirective } from './star-display.directives';
+import { ArdStarDisplayStarTemplateContext } from './star-display.types';
 
 @Component({
   selector: 'ard-star-display',
@@ -62,4 +64,13 @@ export class ArdiumStarDisplayComponent {
     }
     return newArr;
   });
+
+  //! template
+  readonly starTemplate = contentChild(ArdStarDisplayStarTemplateDirective);
+
+  readonly getStarTemplateContext = computed<(fillMode: StarFillMode) => ArdStarDisplayStarTemplateContext>(() => fillMode => ({
+    $implicit: fillMode,
+    fillMode: fillMode,
+    color: this.color(),
+  }));
 }
