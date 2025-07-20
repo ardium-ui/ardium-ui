@@ -28,8 +28,8 @@ export * from './lib/radio'; // 103
 export * from './lib/segment'; // 104
 export * from './lib/slide-toggle';
 export * from './lib/slider'; // 105 & 106
+export * from './lib/star/rating-input'; // 108
 export * from './lib/star/star-button'; // 107
-export * from './lib/star/star-input'; // 108
 export * from './lib/statebox'; // 109
 
 //! component group 2 - pickers
@@ -53,7 +53,7 @@ export * from './lib/form-field-frame'; // 500
 export * from './lib/kbd'; // 503
 export * from './lib/kbd-shortcut'; // 504
 export * from './lib/star'; // 508
-export * from './lib/star/star-display'; // 509
+export * from './lib/star/rating-display'; // 509
 export * from './lib/table'; // 505
 export * from './lib/table-from-csv'; // 507
 export * from './lib/table-pagination'; // 506

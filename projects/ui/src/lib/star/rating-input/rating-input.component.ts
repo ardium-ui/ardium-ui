@@ -16,36 +16,31 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceNumberProperty } from '@ardium-ui/devkit';
+import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { ArdiumStarButtonComponent } from '../star-button/star-button.component';
-import { _NgModelComponentBase } from './../../_internal/ngmodel-component';
-import { StarColor } from './../star.types';
-import { ARD_STAR_INPUT_DEFAULTS, ArdStarInputDefaults } from './star-input.defaults';
-import { ArdStarInputStarButtonTemplateDirective } from './star-input.directives';
-import { ArdStarInputStarButtonTemplateContext } from './star-input.types';
-
-interface StarInputObject {
-  filled: boolean;
-  isInValue: boolean;
-}
+import { StarColor } from '../star.types';
+import { ARD_RATING_INPUT_DEFAULTS, ArdRatingInputDefaults } from './rating-input.defaults';
+import { ArdRatingInputStarButtonTemplateDirective } from './rating-input.directives';
+import { ArdRatingInputStarButtonTemplateContext } from './rating-input.types';
 
 @Component({
-  selector: 'ard-star-input',
-  templateUrl: './star-input.component.html',
-  styleUrls: ['./star-input.component.scss'],
+  selector: 'ard-rating-input',
+  templateUrl: './rating-input.component.html',
+  styleUrls: ['./rating-input.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ArdiumStarInputComponent),
+      useExisting: forwardRef(() => ArdiumRatingInputComponent),
       multi: true,
     },
   ],
 })
-export class ArdiumStarInputComponent extends _NgModelComponentBase implements ControlValueAccessor {
+export class ArdiumRatingInputComponent extends _NgModelComponentBase implements ControlValueAccessor {
   readonly wrapperClasses = input<string>('');
 
-  protected override readonly _DEFAULTS!: ArdStarInputDefaults;
+  protected override readonly _DEFAULTS!: ArdRatingInputDefaults;
 
   //! appearance
   readonly color = input<StarColor>(this._DEFAULTS.color);
@@ -57,7 +52,7 @@ export class ArdiumStarInputComponent extends _NgModelComponentBase implements C
 
   readonly value = model<number | null>(null);
 
-  constructor(@Inject(ARD_STAR_INPUT_DEFAULTS) defaults: ArdStarInputDefaults) {
+  constructor(@Inject(ARD_RATING_INPUT_DEFAULTS) defaults: ArdRatingInputDefaults) {
     super(defaults);
     effect(() => {
       const hi = this._highlightedStarIndex();
@@ -193,9 +188,9 @@ export class ArdiumStarInputComponent extends _NgModelComponentBase implements C
   }
 
   //! template
-  readonly starButtonTemplate = contentChild(ArdStarInputStarButtonTemplateDirective);
+  readonly starButtonTemplate = contentChild(ArdRatingInputStarButtonTemplateDirective);
 
-  readonly getStarButtonTemplateContext = computed<(index: number) => ArdStarInputStarButtonTemplateContext>(() => index => ({
+  readonly getStarButtonTemplateContext = computed<(index: number) => ArdRatingInputStarButtonTemplateContext>(() => index => ({
     color: this.color(),
     index,
     highlightedIndex: this._highlightedStarIndex() ?? -1,

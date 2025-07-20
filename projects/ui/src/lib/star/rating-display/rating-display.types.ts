@@ -1,7 +1,6 @@
-import { StarColor, StarFillMode } from "../star.types";
+import { StarColor, StarFillMode } from '../star.types';
 
-
-export interface ArdStarDisplayStarTemplateContext {
+export interface ArdRatingDisplayStarTemplateContext {
   $implicit: StarFillMode;
   fillMode: StarFillMode;
   index: number;

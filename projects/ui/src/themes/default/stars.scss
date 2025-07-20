@@ -4,8 +4,8 @@
 
 .ard-star,
 .ard-star-button,
-.ard-star-display,
-.ard-star-input {
+.ard-rating-display,
+.ard-rating-input {
   @include coloringMixins.typeColors();
   color: var(--ard-cmpcl--bg-colored);
 
@@ -19,12 +19,12 @@
   height: 1.5em;
   position: relative;
 }
-.ard-star-display,
-.ard-star-input {
+.ard-rating-display,
+.ard-rating-input {
   display: flex;
   user-select: none;
 }
-.ard-star-input {
+.ard-rating-input {
   cursor: pointer;
 
   .ard-star-not-in-value {
@@ -78,7 +78,7 @@
 //! disabled state for star-button
 .ard-disabled {
   > .ard-star-button,
-  > .ard-star-input {
+  > .ard-rating-input {
     pointer-events: none;
     opacity: 50%;
   }

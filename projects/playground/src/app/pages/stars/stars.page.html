@@ -38,35 +38,35 @@
     <span class="mono">{{ color }}</span>
   </div>
 </div>
-<span class="title">star-display</span>
-<div class="master star-display">
+<span class="title">rating-display</span>
+<div class="master rating-display">
   <div
     class="flex horiz red"
     *ngFor="let color of colors"
   >
-    <ard-star-display
+    <ard-rating-display
       [color]="color"
       [value]="valueFor5"
-    ></ard-star-display>
-    <ard-star-display
+    ></ard-rating-display>
+    <ard-rating-display
       [color]="color"
       [max]="max"
       [value]="valueFor10"
-    ></ard-star-display>
+    ></ard-rating-display>
     <span class="mono black">{{ color }}</span>
   </div>
 </div>
-<span class="title">star-input</span>
-<div class="master star-input">
+<span class="title">rating-input</span>
+<div class="master rating-input">
   <div
     class="flex horiz red"
     *ngFor="let color of colors"
   >
-    <ard-star-input
+    <ard-rating-input
       [color]="color"
       (valueChange)="log('valueChange', $event)"
     />
-    <ard-star-input
+    <ard-rating-input
       *ngFor="let disabled of [false, true]"
       [value]="valueFor5"
       [color]="color"
@@ -75,7 +75,7 @@
       (blur)="log('blur', $event)"
       (valueChange)="log('valueChange', $event)"
     />
-    <ard-star-input
+    <ard-rating-input
       *ngFor="let disabled of [false, true]"
       [max]="max"
       [value]="valueFor10"
@@ -152,7 +152,7 @@
       value="3"
       (input)="ratingDisplayValue.set($any($event).target.valueAsNumber)"
     />
-    <ard-star-display [value]="ratingDisplayValue()">
+    <ard-rating-display [value]="ratingDisplayValue()">
       <ng-template
         ard-star-tmp
         let-index="index"
@@ -167,14 +167,14 @@
           sentiment-neutral } @case (3) { sentiment-satisfied } @case (4) { sentiment-very-satisfied } }
         </ard-icon>
       </ng-template>
-    </ard-star-display>
+    </ard-rating-display>
   </div>
 </div>
 
 <div class="master">
   <span class="title">Star input customized with template</span>
   <div class="flex horiz">
-    <ard-star-input color="none">
+    <ard-rating-input color="none">
       <ng-template
         ard-star-button-tmp
         let-index="index"
@@ -207,6 +207,6 @@
           </ng-template>
         </ard-star-button>
       </ng-template>
-    </ard-star-input>
+    </ard-rating-input>
   </div>
 </div>

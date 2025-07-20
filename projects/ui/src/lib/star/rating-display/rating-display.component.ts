@@ -2,21 +2,21 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, conten
 import { coerceNumberProperty } from '@ardium-ui/devkit';
 import { isArray, isNumber } from 'simple-bool';
 import { StarColor, StarFillMode } from './../star.types';
-import { ARD_STAR_DISPLAY_DEFAULTS } from './star-display.defaults';
-import { ArdStarDisplayStarTemplateDirective } from './star-display.directives';
-import { ArdStarDisplayStarTemplateContext } from './star-display.types';
+import { ARD_RATING_DISPLAY_DEFAULTS } from './rating-display.defaults';
+import { ArdRatingDisplayStarTemplateDirective } from './rating-display.directives';
+import { ArdRatingDisplayStarTemplateContext } from './rating-display.types';
 
 @Component({
-  selector: 'ard-star-display',
-  templateUrl: './star-display.component.html',
-  styleUrls: ['./star-display.component.scss'],
+  selector: 'ard-rating-display',
+  templateUrl: './rating-display.component.html',
+  styleUrls: ['./rating-display.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumStarDisplayComponent {
+export class ArdiumRatingDisplayComponent {
   readonly wrapperClasses = input<string>('');
 
-  protected readonly _DEFAULTS = inject(ARD_STAR_DISPLAY_DEFAULTS);
+  protected readonly _DEFAULTS = inject(ARD_RATING_DISPLAY_DEFAULTS);
 
   //! appearance
   readonly color = input<StarColor>(this._DEFAULTS.color);
@@ -66,9 +66,9 @@ export class ArdiumStarDisplayComponent {
   });
 
   //! template
-  readonly starTemplate = contentChild(ArdStarDisplayStarTemplateDirective);
+  readonly starTemplate = contentChild(ArdRatingDisplayStarTemplateDirective);
 
-  readonly getStarTemplateContext = computed<(fillMode: StarFillMode, index: number) => ArdStarDisplayStarTemplateContext>(
+  readonly getStarTemplateContext = computed<(fillMode: StarFillMode, index: number) => ArdRatingDisplayStarTemplateContext>(
     () => (fillMode, index) => ({
       $implicit: fillMode,
       fillMode,
