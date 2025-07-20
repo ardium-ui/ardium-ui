@@ -4,6 +4,6 @@ import { ArdStarIconContext } from "./star.types";
 @Directive({
   selector: 'ard-star > ng-template[ard-star-icon-tmp]',
 })
-export class ArdStarIconDirective {
+export class ArdStarIconTemplateDirective {
   constructor(public template: TemplateRef<ArdStarIconContext>) {}
 }

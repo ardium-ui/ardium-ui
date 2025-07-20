@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, contentChild, inject, input } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ARD_STAR_DEFAULTS } from './star.defaults';
-import { ArdStarIconDirective } from './star.directives';
+import { ArdStarIconTemplateDirective } from './star.directives';
 import { ArdStarIconContext, StarColor, StarFillMode } from './star.types';
 
 @Component({
@@ -37,7 +37,7 @@ export class ArdiumStarComponent {
   );
 
   //! template
-  readonly iconTemplate = contentChild(ArdStarIconDirective);
+  readonly iconTemplate = contentChild(ArdStarIconTemplateDirective);
 
   readonly iconTemplateContext = computed<ArdStarIconContext>(() => ({ $implicit: this.filled() }));
 }
