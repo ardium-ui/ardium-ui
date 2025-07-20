@@ -21,3 +21,26 @@
 .flex.horiz {
   gap: 2rem;
 }
+
+
+//! templates
+.sentiment {
+  font-size: 2.25rem;
+}
+.icon-has-value {
+  &.icon-color-0 {
+    color: red;
+  }
+  &.icon-color-1 {
+    color: orange;
+  }
+  &.icon-color-2 {
+    color: gold;
+  }
+  &.icon-color-3 {
+    color: lime;
+  }
+  &.icon-color-4 {
+    color: green;
+  }
+}

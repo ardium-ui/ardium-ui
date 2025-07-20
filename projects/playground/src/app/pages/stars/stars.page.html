@@ -88,3 +88,125 @@
     <span class="mono black">{{ color }}</span>
   </div>
 </div>
+
+<h2>Examples</h2>
+<div class="master">
+  <span class="title">Star customized with template</span>
+  <div class="flex horiz">
+    <ard-star
+      *ngFor="let state of fillModes"
+      [filled]="state"
+      color="danger"
+    >
+      <ng-template
+        ard-star-icon-tmp
+        let-fillMode
+      >
+        @if (fillMode === 'filled') {
+        <ard-icon filled>favorite</ard-icon>
+        } @else {
+        <ard-icon>favorite</ard-icon>
+        }
+      </ng-template>
+    </ard-star>
+  </div>
+</div>
+
+<div class="master">
+  <span class="title">Star button customized with template</span>
+  <div class="flex horiz">
+    <ard-star-button color="danger">
+      <ng-template
+        ard-star-tmp
+        let-fillMode="fillMode"
+        let-color="color"
+      >
+        <ard-star
+          [filled]="fillMode"
+          [color]="color"
+          class="custom-star-button-star"
+        >
+          <ng-template
+            ard-star-icon-tmp
+            let-fillMode
+          >
+            @if (fillMode === 'filled') {
+            <ard-icon filled>favorite</ard-icon>
+            } @else {
+            <ard-icon>favorite</ard-icon>
+            }
+          </ng-template>
+        </ard-star>
+      </ng-template>
+    </ard-star-button>
+  </div>
+</div>
+
+<div class="master">
+  <span class="title">Star display customized with template</span>
+  <div class="flex horiz">
+    <input
+      type="number"
+      min="0"
+      max="5"
+      value="3"
+      (input)="ratingDisplayValue.set($any($event).target.valueAsNumber)"
+    />
+    <ard-star-display [value]="ratingDisplayValue()">
+      <ng-template
+        ard-star-tmp
+        let-index="index"
+        let-valueIndex="valueIndex"
+      >
+        <ard-icon
+          [class]="'sentiment icon-color-'+index"
+          [class.icon-has-value]="index === valueIndex"
+          [filled]="index === valueIndex"
+        >
+          @switch (index) { @case (0) { sentiment-very-dissatisfied } @case (1) { sentiment-dissatisfied } @case (2) {
+          sentiment-neutral } @case (3) { sentiment-satisfied } @case (4) { sentiment-very-satisfied } }
+        </ard-icon>
+      </ng-template>
+    </ard-star-display>
+  </div>
+</div>
+
+<div class="master">
+  <span class="title">Star input customized with template</span>
+  <div class="flex horiz">
+    <ard-star-input color="none">
+      <ng-template
+        ard-star-button-tmp
+        let-index="index"
+        let-valueIndex="valueIndex"
+        let-highlightedIndex="highlightedIndex"
+        let-tabIndex="tabIndex"
+        let-onClick="onClick"
+        let-onFocus="onFocus"
+        let-onBlur="onBlur"
+        let-onHighlight="onHighlight"
+      >
+        <ard-star-button
+          clickStrategy="noop"
+          [selected]="index === valueIndex || index === highlightedIndex"
+          (click)="onClick()"
+          (focus)="onFocus($event)"
+          (blur)="onBlur($event)"
+          (mouseenter)="onHighlight()"
+          [tabIndex]="tabIndex"
+        >
+          <ng-template ard-star-tmp>
+            <ard-icon
+              [class]="'sentiment icon-color-'+index"
+              [class.icon-has-value]="index === valueIndex || index === highlightedIndex"
+              [filled]="highlightedIndex === -1 ? index === valueIndex : index === highlightedIndex"
+            >
+              @switch (index) { @case (0) { sentiment-very-dissatisfied } @case (1) { sentiment-dissatisfied } @case (2) {
+              sentiment-neutral } @case (3) { sentiment-satisfied } @case (4) { sentiment-very-satisfied } }
+            </ard-icon>
+          </ng-template>
+        </ard-star-button>
+      </ng-template>
+    </ard-star-input>
+  </div>
+</div>

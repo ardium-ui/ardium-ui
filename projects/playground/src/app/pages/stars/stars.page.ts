@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { StarColor as SC, StarFillMode as SF } from 'projects/ui/src/public-api';
 import { Logger } from '../../services/logger.service';
 
@@ -17,4 +17,6 @@ export class StarsPage {
 
   constructor(private _logger: Logger) {}
   log = this._logger.log;
+
+  readonly ratingDisplayValue = signal<number>(3);
 }
