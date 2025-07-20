@@ -9,52 +9,15 @@
   @include coloringMixins.typeColors();
   color: var(--ard-cmpcl--bg-colored);
 
-  &.ard-color-star {
-    color: ARD.$star;
+  &.ard-color-gold {
+    color: ARD.$gold;
   }
 }
 .ard-star {
-  font-size: 1.5em;
-  width: 1em;
-  height: 1em;
+  font-size: inherit;
+  width: 1.5em;
+  height: 1.5em;
   position: relative;
-
-  .ard-star-icon {
-    display: none;
-  }
-  .ard-star-icon {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
-  .ard-star-selected::after {
-    content: 'star';
-    @include defaultMixins.icon(1);
-    font-size: 1em;
-    line-height: unset;
-  }
-  .ard-star-half::after {
-    content: 'star_half';
-    @include defaultMixins.icon;
-    font-size: 1em;
-    line-height: unset;
-  }
-  .ard-star-unselected::after {
-    content: 'star';
-    @include defaultMixins.icon;
-    font-size: 1em;
-    line-height: unset;
-  }
-  &.ard-star-fill-none .ard-star-unselected {
-    display: block;
-  }
-  &.ard-star-fill-half .ard-star-half {
-    display: block;
-  }
-  &.ard-star-fill-filled .ard-star-selected {
-    display: block;
-  }
 }
 .ard-star-display,
 .ard-star-input {

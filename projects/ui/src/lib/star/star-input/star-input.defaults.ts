@@ -9,7 +9,7 @@ export interface ArdStarInputDefaults extends _NgModelComponentDefaults {
 
 const _starInputDefaults: ArdStarInputDefaults = {
   ..._ngModelComponentDefaults,
-  color: StarColor.Star,
+  color: StarColor.Gold,
   max: 5,
 };
 

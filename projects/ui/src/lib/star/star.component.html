@@ -2,7 +2,21 @@
   class="ard-star"
   [ngClass]="ngClasses()"
 >
-  <div class="ard-star-icon ard-star-selected"></div>
-  <div class="ard-star-icon ard-star-half"></div>
-  <div class="ard-star-icon ard-star-unselected"></div>
+  <ng-template
+    #defaultIconTemplate
+    let-fillMode
+  >
+    @if (fillMode === 'filled') {
+      <ard-icon filled>star</ard-icon>
+    } @else if (fillMode === 'half') {
+      <ard-icon>star-half</ard-icon>
+    } @else {
+      <ard-icon>star</ard-icon>
+    }
+  </ng-template>
+
+  <ng-template
+    [ngTemplateOutlet]="iconTemplate()?.template || defaultIconTemplate"
+    [ngTemplateOutletContext]="iconTemplateContext()"
+  />
 </div>

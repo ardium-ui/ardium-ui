@@ -11,7 +11,7 @@ export interface ArdStarButtonDefaults extends _BooleanComponentDefaults {
 const _starButtonDefaults: ArdStarButtonDefaults = {
   ..._booleanComponentDefaults,
   clickStrategy: ClickStrategy.Default,
-  color: StarColor.Star,
+  color: StarColor.Gold,
 };
 
 export const ARD_STAR_BUTTON_DEFAULTS = new InjectionToken<ArdStarButtonDefaults>('ard-star-button-defaults', {

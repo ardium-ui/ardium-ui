@@ -19,8 +19,12 @@ export type StarFillMode = (typeof StarFillMode)[keyof typeof StarFillMode];
 export const StarColor = {
   ...SimpleComponentColor,
   /**
-   * THe app's color set for all stars. Usually gold or yellow-gold.
+   * The app's color set for all stars. Usually gold or yellow-gold.
    */
-  Star: 'star',
+  Gold: 'gold',
 } as const;
 export type StarColor = (typeof StarColor)[keyof typeof StarColor];
+
+export interface ArdStarIconContext {
+  $implicit: StarFillMode;
+}
