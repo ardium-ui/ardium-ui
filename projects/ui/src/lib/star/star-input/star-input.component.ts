@@ -78,25 +78,6 @@ export class ArdiumStarInputComponent extends _NgModelComponentBase implements C
   private readonly _highlightedStarIndex = signal<number | null>(null);
 
   readonly starArray = computed<number[]>(() => new Array(this.max()).fill(0).map((_, i) => i));
-  // readonly starArray = computed<StarInputObject[]>(() => {
-  //   const v = this.value();
-  //   const max = this.max();
-  //   const hi = Math.round(this._highlightedStarIndex() ?? -1);
-
-  //   const arr = new Array(max);
-  //   for (let i = 0; i < max; i++) {
-  //     if (i <= hi) {
-  //       arr[i] = { filled: true, isInValue: true };
-  //       continue;
-  //     }
-  //     if (i < v) {
-  //       arr[i] = { filled: hi === -1, isInValue: true };
-  //       continue;
-  //     }
-  //     arr[i] = { filled: false, isInValue: false };
-  //   }
-  //   return arr;
-  // });
 
   //! ControlValueAccessor's writeValue
   writeValue(v: number): void {

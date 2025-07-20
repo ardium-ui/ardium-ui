@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, contentChild, inject, input } from '@angular/core';
 import { coerceNumberProperty } from '@ardium-ui/devkit';
-import { isArray } from 'simple-bool';
+import { isArray, isNumber } from 'simple-bool';
 import { StarColor, StarFillMode } from './../star.types';
 import { ARD_STAR_DISPLAY_DEFAULTS } from './star-display.defaults';
 import { ArdStarDisplayStarTemplateDirective } from './star-display.directives';
@@ -72,8 +72,9 @@ export class ArdiumStarDisplayComponent {
     () => (fillMode, index) => ({
       $implicit: fillMode,
       fillMode,
-      color: this.color(),
       index,
+      valueIndex: isNumber(this.value()) ? (this.value() as number) - 1 : -1,
+      color: this.color(),
     })
   );
 }
