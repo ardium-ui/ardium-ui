@@ -63,6 +63,10 @@
     *ngFor="let color of colors"
   >
     <ard-star-input
+      [color]="color"
+      (valueChange)="log('valueChange', $event)"
+    />
+    <ard-star-input
       *ngFor="let disabled of [false, true]"
       [value]="valueFor5"
       [color]="color"
@@ -70,7 +74,7 @@
       (focus)="log('focus', $event)"
       (blur)="log('blur', $event)"
       (valueChange)="log('valueChange', $event)"
-    ></ard-star-input>
+    />
     <ard-star-input
       *ngFor="let disabled of [false, true]"
       [max]="max"
@@ -80,7 +84,7 @@
       (focus)="log('focus', $event)"
       (blur)="log('blur', $event)"
       (valueChange)="log('valueChange', $event)"
-    ></ard-star-input>
+    />
     <span class="mono black">{{ color }}</span>
   </div>
 </div>
