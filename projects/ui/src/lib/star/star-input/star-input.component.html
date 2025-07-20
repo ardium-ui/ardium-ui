@@ -29,10 +29,17 @@
     />
   </ng-template>
 
-  @for (index of starArray(); track $index) {
+  @for (index of starArray(); track index) {
   <ng-template
     [ngTemplateOutlet]="starButtonTemplate()?.template || defaultStarButtonTemplate"
-    [ngTemplateOutletContext]="getStarButtonTemplateContext()($index)"
+    [ngTemplateOutletContext]="getStarButtonTemplateContext()(index)"
+  />
+  <input
+    type="radio"
+    class="ard-star-input__radio"
+    value="index"
+    [id]="htmlId() + index"
+    tabindex="-1"
   />
   }
 </div>

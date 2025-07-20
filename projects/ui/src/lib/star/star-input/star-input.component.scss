@@ -1,3 +1,9 @@
 .ard-star-input {
   width: max-content;
 }
+.ard-star-input__radio {
+  appearance: none;
+  opacity: 0;
+  position: absolute;
+  pointer-events: none;
+}
