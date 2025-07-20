@@ -68,9 +68,12 @@ export class ArdiumStarDisplayComponent {
   //! template
   readonly starTemplate = contentChild(ArdStarDisplayStarTemplateDirective);
 
-  readonly getStarTemplateContext = computed<(fillMode: StarFillMode) => ArdStarDisplayStarTemplateContext>(() => fillMode => ({
-    $implicit: fillMode,
-    fillMode: fillMode,
-    color: this.color(),
-  }));
+  readonly getStarTemplateContext = computed<(fillMode: StarFillMode, index: number) => ArdStarDisplayStarTemplateContext>(
+    () => (fillMode, index) => ({
+      $implicit: fillMode,
+      fillMode,
+      color: this.color(),
+      index,
+    })
+  );
 }

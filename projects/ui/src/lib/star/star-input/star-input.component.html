@@ -3,18 +3,36 @@
   [ngClass]="ngClasses()"
   (mouseleave)="setDisplayToValue()"
 >
-  @for (object of starArray(); track $index) {
+  <ng-template
+    #defaultStarButtonTemplate
+    let-color="color"
+    let-index="index"
+    let-highlightedIndex="highlightedIndex"
+    let-valueIndex="valueIndex"
+    let-tabIndex="tabIndex"
+    let-onClick="onClick"
+    let-onFocus="onFocus"
+    let-onBlur="onBlur"
+    let-onHighlight="onHighlight"
+  >
     <ard-star-button
       #starButton
-      [class.ard-star-not-in-value]="!object.isInValue"
-      [color]="object.isInValue ? color() : 'none'"
+      [class.ard-star-not-in-value]="index > valueIndex && index > highlightedIndex"
+      [color]="index <= valueIndex || index <= highlightedIndex ? color : 'none'"
       clickStrategy="noop"
-      [selected]="object.filled"
-      (click)="onStarClick($index)"
-      (focus)="onStarButtonFocus($index, $event)"
-      (blur)="onStarButtonBlur($event)"
-      (mouseenter)="onStarHighlight($index)"
-      [tabIndex]="tabIndex()"
+      [selected]="highlightedIndex === -1 ? index <= valueIndex : index <= highlightedIndex"
+      (click)="onClick()"
+      (focus)="onFocus($event)"
+      (blur)="onBlur($event)"
+      (mouseenter)="onHighlight()"
+      [tabIndex]="tabIndex"
     />
+  </ng-template>
+
+  @for (index of starArray(); track $index) {
+  <ng-template
+    [ngTemplateOutlet]="starButtonTemplate()?.template || defaultStarButtonTemplate"
+    [ngTemplateOutletContext]="getStarButtonTemplateContext()($index)"
+  />
   }
 </div>

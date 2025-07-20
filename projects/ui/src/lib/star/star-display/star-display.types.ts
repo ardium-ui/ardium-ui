@@ -5,4 +5,5 @@ export interface ArdStarDisplayStarTemplateContext {
   $implicit: StarFillMode;
   fillMode: StarFillMode;
   color: StarColor;
+  index: number;
 }

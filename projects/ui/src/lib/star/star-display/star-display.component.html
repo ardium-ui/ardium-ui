@@ -16,7 +16,7 @@
   @for (fillMode of starArray(); track $index) {
   <ng-template
     [ngTemplateOutlet]="starTemplate()?.template || defaultStarTemplate"
-    [ngTemplateOutletContext]="getStarTemplateContext()(fillMode)"
+    [ngTemplateOutletContext]="getStarTemplateContext()(fillMode, $index)"
   />
   }
 </div>
