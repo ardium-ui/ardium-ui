@@ -1,3 +1,15 @@
 ard-spinner {
   color: red;
 }
+.cover-image {
+  background-color: rgb(219, 242, 252);
+  padding: 10rem;
+  display: flex;
+  gap: 2.5rem;
+
+  ard-spinner {
+    width: 3rem;
+    height: unset;
+    aspect-ratio: 1;
+  }
+}
