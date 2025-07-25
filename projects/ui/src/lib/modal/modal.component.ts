@@ -62,6 +62,13 @@ export class ArdiumModalComponent {
     else this._destroyOverlay();
   }
 
+  openProgrammatically() {
+    this.open.set(true);
+  }
+  closeProgrammatically() {
+    this.open.set(false);
+  }
+
   readonly openChange = output<boolean>();
   readonly closeEvent = output<void>({ alias: 'close' });
 

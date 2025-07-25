@@ -57,6 +57,13 @@ export class ArdiumDialogComponent {
   readonly confirmEvent = output<void>({ alias: 'confirm' });
   readonly rejectEvent = output<void>({ alias: 'reject' });
 
+  openProgrammatically() {
+    this.open.set(true);
+  }
+  closeProgrammatically() {
+    this.open.set(false);
+  }
+
   //! button settings
   readonly confirmButtonText = input<string>(this._DEFAULTS.confirmButtonText);
   readonly confirmButtonColor = input<ComponentColor>(this._DEFAULTS.confirmButtonColor);
