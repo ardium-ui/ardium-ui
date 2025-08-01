@@ -82,8 +82,8 @@ export class ArdiumDialogComponent {
       this.open.set(false);
     }
     setTimeout(() => {
-      this.closeEvent.emit('confirm');
       this.confirmEvent.emit();
+      this.closeEvent.emit('confirm');
     }, 0);
   }
   onRejectClick() {
@@ -91,8 +91,8 @@ export class ArdiumDialogComponent {
       this.open.set(false);
     }
     setTimeout(() => {
-      this.closeEvent.emit('reject');
       this.rejectEvent.emit();
+      this.closeEvent.emit('reject');
     }, 0);
   }
   onModalClose() {
