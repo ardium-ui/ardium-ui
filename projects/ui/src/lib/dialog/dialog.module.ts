@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ArdiumDialogComponent } from './dialog.component';
+import { NgModule } from '@angular/core';
 import { ArdiumButtonModule } from '../buttons/button/button.module';
 import { ArdiumModalModule } from '../modal/modal.module';
-import { ArdDialogButtonsTemplateDirective } from './dialog.directives';
+import { ArdiumDialogComponent } from './dialog.component';
+import { ArdDialogButtonsTemplateDirective, ArdDialogCloseIconTemplateDirective } from './dialog.directives';
 
 @NgModule({
-  declarations: [ArdiumDialogComponent, ArdDialogButtonsTemplateDirective],
+  declarations: [ArdiumDialogComponent, ArdDialogButtonsTemplateDirective, ArdDialogCloseIconTemplateDirective],
   imports: [CommonModule, ArdiumButtonModule, ArdiumModalModule],
-  exports: [ArdiumDialogComponent, ArdDialogButtonsTemplateDirective],
+  exports: [ArdiumDialogComponent, ArdDialogButtonsTemplateDirective, ArdDialogCloseIconTemplateDirective],
 })
 export class ArdiumDialogModule {}

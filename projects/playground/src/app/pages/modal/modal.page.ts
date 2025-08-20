@@ -27,4 +27,5 @@ export class ModalPage {
   readonly isOpen1 = signal(false);
   readonly isOpen2 = signal(false);
   readonly isOpen3 = signal(false);
+  readonly isOpen4 = signal(false);
 }

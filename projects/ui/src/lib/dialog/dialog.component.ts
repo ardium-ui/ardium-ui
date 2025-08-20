@@ -14,7 +14,7 @@ import { ButtonAppearance } from '../buttons/general-button.types';
 import { ComponentColor } from '../types/colors.types';
 import { PanelAppearance, PanelVariant } from '../types/theming.types';
 import { ARD_DIALOG_DEFAULTS } from './dialog.defaults';
-import { ArdDialogButtonsTemplateDirective } from './dialog.directives';
+import { ArdDialogButtonsTemplateDirective, ArdDialogCloseIconTemplateDirective } from './dialog.directives';
 import { ArdDialogActionType, ArdDialogResult, DialogButtonsContext } from './dialog.types';
 
 @Component({
@@ -49,6 +49,8 @@ export class ArdiumDialogComponent {
 
   readonly buttonActionType = input<ArdDialogActionType>(this._DEFAULTS.buttonActionType);
 
+  readonly allActionsDisabled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+
   //! open state handling
   //all handled by modal component
   readonly open = model<boolean>(false);
@@ -76,7 +78,7 @@ export class ArdiumDialogComponent {
   readonly canConfirm = input<boolean, any>(this._DEFAULTS.canConfirm, { transform: v => coerceBooleanProperty(v) });
 
   onConfirmClick() {
-    if (!this.canConfirm()) return;
+    if (!this.canConfirm() || this.allActionsDisabled()) return;
 
     if (this.buttonActionType() === ArdDialogActionType.AutoClose) {
       this.open.set(false);
@@ -87,6 +89,8 @@ export class ArdiumDialogComponent {
     }, 0);
   }
   onRejectClick() {
+    if (this.allActionsDisabled()) return;
+
     if (this.buttonActionType() === ArdDialogActionType.AutoClose) {
       this.open.set(false);
     }
@@ -102,6 +106,8 @@ export class ArdiumDialogComponent {
   //! templates
   readonly buttonsTemplate = contentChild(ArdDialogButtonsTemplateDirective);
 
+  readonly closeIconTemplate = contentChild(ArdDialogCloseIconTemplateDirective);
+
   readonly getButtonsContext = computed<DialogButtonsContext>(() => {
     return {
       confirmButton: {
@@ -116,6 +122,7 @@ export class ArdiumDialogComponent {
         appearance: this.rejectButtonAppearance(),
       },
       canConfirm: this.canConfirm(),
+      allActionsDisabled: this.allActionsDisabled(),
       onConfirm: () => this.onConfirmClick(),
       onReject: () => this.onRejectClick(),
       dialogAppearance: this.appearance(),

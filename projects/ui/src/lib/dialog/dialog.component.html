@@ -6,8 +6,10 @@
   [noCloseButton]="noCloseButton()"
   [noBackdrop]="noBackdrop()"
   [disableBackdropClose]="disableBackdropClose()"
+  [allActionsDisabled]="allActionsDisabled()"
   [(open)]="open"
   (close)="onModalClose()"
+  [_closeIconTemplate]="closeIconTemplate()"
 >
   <div class="ard-dialog-container">
     <div class="ard-dialog-content">
@@ -19,6 +21,7 @@
         let-confirmButton="confirmButton"
         let-rejectButton="rejectButton"
         let-canConfirm="canConfirm"
+        let-allActionsDisabled="allActionsDisabled"
         let-onConfirm="onConfirm"
         let-onReject="onReject"
         let-dialogVariant="dialogVariant"
@@ -31,6 +34,7 @@
               [appearance]="rejectButton.appearance"
               [variant]="dialogVariant"
               [compact]="dialogCompact"
+              [disabled]="allActionsDisabled"
               (click)="onReject()"
             >
               {{ rejectButton.text }}
@@ -42,7 +46,7 @@
             [variant]="dialogVariant"
             [compact]="dialogCompact"
             (click)="onConfirm()"
-            [disabled]="!canConfirm"
+            [disabled]="!canConfirm || allActionsDisabled"
           >
             {{ confirmButton.text }}
           </ard-button>
@@ -52,7 +56,7 @@
       <ng-template
         [ngTemplateOutlet]="buttonsTemplate()?.template ?? defaultButtonsTemplate"
         [ngTemplateOutletContext]="getButtonsContext()"
-      ></ng-template>
+      />
     </div>
   </div>
 </ard-modal>

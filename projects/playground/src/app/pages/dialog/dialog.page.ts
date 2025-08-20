@@ -22,6 +22,7 @@ export class DialogPage {
   readonly isOpen2 = signal(false);
   readonly isOpen3 = signal(false);
   readonly isOpen4 = signal(false);
+  readonly isOpen5 = signal(false);
 
   //! delete confirmation
   readonly canConfirmDelete = signal<boolean>(false);

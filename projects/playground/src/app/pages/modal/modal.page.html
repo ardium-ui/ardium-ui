@@ -7,7 +7,7 @@
         <ard-select
           htmlId="appearance"
           [items]="appearances"
-          [value]="appearance"
+          [(value)]="appearance"
         />
       </div>
       <div class="form-field flex">
@@ -15,7 +15,7 @@
         <ard-select
           htmlId="variant"
           [items]="variants"
-          [value]="variant"
+          [(value)]="variant"
         />
       </div>
     </div>
@@ -100,6 +100,19 @@
     (openChange)="log('openChange', $event)"
     (close)="log('close', $event)"
   >
+    Modal content
+  </ard-modal>
+</div>
+<div class="master">
+  <div class="title">Modal with close icon template</div>
+  <button (click)="isOpen4.set(true)">Open</button>
+  <ard-modal
+    [(open)]="isOpen4"
+    heading="Modal heading"
+  >
+  <span *ard-close-icon-tmp>
+    x
+  </span>
     Modal content
   </ard-modal>
 </div>

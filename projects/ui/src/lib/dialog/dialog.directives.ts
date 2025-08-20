@@ -5,3 +5,8 @@ import { DialogButtonsContext } from './dialog.types';
 export class ArdDialogButtonsTemplateDirective {
   constructor(public template: TemplateRef<DialogButtonsContext>) {}
 }
+
+@Directive({ selector: 'ard-dialog > ng-template[ard-close-icon-tmp]' })
+export class ArdDialogCloseIconTemplateDirective {
+  constructor(public template: TemplateRef<undefined>) {}
+}

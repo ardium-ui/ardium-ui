@@ -8,6 +8,7 @@ import {
   ViewContainerRef,
   ViewEncapsulation,
   computed,
+  contentChild,
   inject,
   input,
   output,
@@ -17,6 +18,7 @@ import {
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { PanelAppearance, PanelVariant } from '../types/theming.types';
 import { ARD_MODAL_DEFAULTS } from './modal.defaults';
+import { ArdModalCloseIconTemplateDirective } from './modal.directives';
 
 @Component({
   selector: 'ard-modal',
@@ -52,6 +54,8 @@ export class ArdiumModalComponent {
   readonly disableBackdropClose = input<boolean, any>(this._DEFAULTS.disableBackdropClose, {
     transform: v => coerceBooleanProperty(v),
   });
+
+  readonly allActionsDisabled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! open state handling
   private readonly open = signal<boolean>(false);
@@ -102,10 +106,16 @@ export class ArdiumModalComponent {
 
   //! events
   onBackdropClick(): void {
-    if (this.disableBackdropClose()) return;
+    if (this.disableBackdropClose() || this.allActionsDisabled()) return;
     this._destroyOverlay();
   }
   onCloseButtonClick(): void {
+    if (this.allActionsDisabled()) return;
     this._destroyOverlay();
   }
+
+  //! templates
+  readonly closeIconTemplate = contentChild(ArdModalCloseIconTemplateDirective);
+
+  readonly _closeIconTemplate = input<ArdModalCloseIconTemplateDirective | undefined>(undefined);
 }
