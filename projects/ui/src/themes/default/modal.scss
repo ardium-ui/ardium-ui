@@ -13,7 +13,8 @@
     background: ARD.$darken-overlay-strong;
   }
   .ard-modal-panel {
-    padding: 1.25rem 3rem 1.5rem 3rem;
+    padding: 1.25rem;
+    padding-top: 1rem;
     background: ARD.$bg;
     max-width: calc(100vw - 4rem);
     position: relative;
@@ -33,7 +34,7 @@
     }
     &.ard-modal-has-close-button {
       .ard-modal-heading {
-        padding-right: 1rem;
+        padding-right: 2rem;
       }
     }
   }

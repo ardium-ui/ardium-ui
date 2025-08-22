@@ -7,8 +7,7 @@
         <ard-select
           htmlId="appearance"
           [items]="appearances"
-          [value]="appearance"
-          (valueChange)="appearance = $any($event)"
+          [(value)]="appearance"
         />
       </div>
       <div class="form-field flex">
@@ -16,40 +15,35 @@
         <ard-select
           htmlId="variant"
           [items]="variants"
-          [value]="variant"
-          (valueChange)="variant = $any($event)"
+          [(value)]="variant"
         />
       </div>
     </div>
     <div class="settings-right flex">
       <div class="list-item flex horiz">
         <ard-slide-toggle
-          [selected]="compact()"
-          (selectedChange)="compact.set($event)"
+          [(selected)]="compact"
           htmlId="compact"
         />
         <label for="compact">Compact</label>
       </div>
       <div class="list-item flex horiz">
         <ard-slide-toggle
-          [selected]="noCloseButton()"
-          (selectedChange)="noCloseButton.set($event)"
+          [(selected)]="noCloseButton"
           htmlId="noCloseButton"
         />
         <label for="noCloseButton">No close button?</label>
       </div>
       <div class="list-item flex horiz">
         <ard-slide-toggle
-          [selected]="noBackdrop()"
-          (selectedChange)="noBackdrop.set($event)"
+          [(selected)]="noBackdrop"
           htmlId="noBackdrop"
         />
         <label for="noBackdrop">No backdrop?</label>
       </div>
       <div class="list-item flex horiz">
         <ard-slide-toggle
-          [selected]="disableBackdropClose()"
-          (selectedChange)="disableBackdropClose.set($event)"
+          [(selected)]="disableBackdropClose"
           htmlId="disableBackdropClose"
         />
         <label for="disableBackdropClose">Disable backdrop close?</label>
@@ -60,8 +54,7 @@
     <button (click)="isOpenMain.set(true)">Open</button>
   </div>
   <ard-dialog
-    [open]="isOpenMain()"
-    (openChange)="isOpenMain.set($event)"
+    [(open)]="isOpenMain"
     [appearance]="appearance"
     [variant]="variant"
     [compact]="compact()"
@@ -122,6 +115,17 @@
     (confirm)="performManualConfirm()"
     (reject)="performManualReject()"
   >
+    Dialog content
+  </ard-dialog>
+</div>
+<div class="master">
+  <div class="title">Dialog with custom close icon</div>
+  <button (click)="isOpen5.set(true)">Open</button>
+  <ard-dialog
+    [(open)]="isOpen5"
+    heading="Dialog heading"
+  >
+    <span *ard-close-icon-tmp> x </span>
     Dialog content
   </ard-dialog>
 </div>

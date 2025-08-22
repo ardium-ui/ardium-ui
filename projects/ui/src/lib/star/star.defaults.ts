@@ -7,7 +7,7 @@ export interface ArdStarDefaults {
 }
 
 const _starDefaults: ArdStarDefaults = {
-  color: StarColor.Star,
+  color: StarColor.Gold,
   filled: StarFillMode.None,
 };
 

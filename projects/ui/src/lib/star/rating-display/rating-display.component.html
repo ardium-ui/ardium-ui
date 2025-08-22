@@ -1,0 +1,22 @@
+<div
+  class="ard-rating-display"
+  [ngClass]="ngClasses()"
+>
+  <ng-template
+    #defaultStarTemplate
+    let-fillMode="fillMode"
+    let-color="color"
+  >
+    <ard-star
+      [filled]="fillMode"
+      [color]="color"
+    />
+  </ng-template>
+
+  @for (fillMode of starArray(); track $index) {
+  <ng-template
+    [ngTemplateOutlet]="starTemplate()?.template || defaultStarTemplate"
+    [ngTemplateOutletContext]="getStarTemplateContext()(fillMode, $index)"
+  />
+  }
+</div>

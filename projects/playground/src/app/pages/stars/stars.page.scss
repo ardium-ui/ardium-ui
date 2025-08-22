@@ -10,14 +10,37 @@
 .star-button {
   --grid-cols: 4;
 }
-.star-display {
+.rating-display {
   grid-auto-columns: unset;
   grid-template-columns: 1fr 2fr;
 }
-.star-input {
+.rating-input {
   grid-auto-columns: unset;
   grid-template-columns: 1fr 1fr 2fr 2fr;
 }
 .flex.horiz {
   gap: 2rem;
+}
+
+
+//! templates
+.sentiment {
+  font-size: 2.25rem;
+}
+.icon-has-value {
+  &.icon-color-0 {
+    color: red;
+  }
+  &.icon-color-1 {
+    color: orange;
+  }
+  &.icon-color-2 {
+    color: gold;
+  }
+  &.icon-color-3 {
+    color: lime;
+  }
+  &.icon-color-4 {
+    color: green;
+  }
 }

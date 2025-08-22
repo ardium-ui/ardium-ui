@@ -14,7 +14,7 @@ import { ButtonAppearance } from '../buttons/general-button.types';
 import { ComponentColor } from '../types/colors.types';
 import { PanelAppearance, PanelVariant } from '../types/theming.types';
 import { ARD_DIALOG_DEFAULTS } from './dialog.defaults';
-import { ArdDialogButtonsTemplateDirective } from './dialog.directives';
+import { ArdDialogButtonsTemplateDirective, ArdDialogCloseIconTemplateDirective } from './dialog.directives';
 import { ArdDialogActionType, ArdDialogResult, DialogButtonsContext } from './dialog.types';
 
 @Component({
@@ -49,6 +49,8 @@ export class ArdiumDialogComponent {
 
   readonly buttonActionType = input<ArdDialogActionType>(this._DEFAULTS.buttonActionType);
 
+  readonly allActionsDisabled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+
   //! open state handling
   //all handled by modal component
   readonly open = model<boolean>(false);
@@ -56,6 +58,13 @@ export class ArdiumDialogComponent {
   readonly closeEvent = output<ArdDialogResult>({ alias: 'close' });
   readonly confirmEvent = output<void>({ alias: 'confirm' });
   readonly rejectEvent = output<void>({ alias: 'reject' });
+
+  openProgrammatically() {
+    this.open.set(true);
+  }
+  closeProgrammatically() {
+    this.open.set(false);
+  }
 
   //! button settings
   readonly confirmButtonText = input<string>(this._DEFAULTS.confirmButtonText);
@@ -69,23 +78,25 @@ export class ArdiumDialogComponent {
   readonly canConfirm = input<boolean, any>(this._DEFAULTS.canConfirm, { transform: v => coerceBooleanProperty(v) });
 
   onConfirmClick() {
-    if (!this.canConfirm()) return;
+    if (!this.canConfirm() || this.allActionsDisabled()) return;
 
     if (this.buttonActionType() === ArdDialogActionType.AutoClose) {
       this.open.set(false);
     }
     setTimeout(() => {
-      this.closeEvent.emit('confirm');
       this.confirmEvent.emit();
+      this.closeEvent.emit('confirm');
     }, 0);
   }
   onRejectClick() {
+    if (this.allActionsDisabled()) return;
+
     if (this.buttonActionType() === ArdDialogActionType.AutoClose) {
       this.open.set(false);
     }
     setTimeout(() => {
-      this.closeEvent.emit('reject');
       this.rejectEvent.emit();
+      this.closeEvent.emit('reject');
     }, 0);
   }
   onModalClose() {
@@ -94,6 +105,8 @@ export class ArdiumDialogComponent {
 
   //! templates
   readonly buttonsTemplate = contentChild(ArdDialogButtonsTemplateDirective);
+
+  readonly closeIconTemplate = contentChild(ArdDialogCloseIconTemplateDirective);
 
   readonly getButtonsContext = computed<DialogButtonsContext>(() => {
     return {
@@ -109,6 +122,7 @@ export class ArdiumDialogComponent {
         appearance: this.rejectButtonAppearance(),
       },
       canConfirm: this.canConfirm(),
+      allActionsDisabled: this.allActionsDisabled(),
       onConfirm: () => this.onConfirmClick(),
       onReject: () => this.onRejectClick(),
       dialogAppearance: this.appearance(),

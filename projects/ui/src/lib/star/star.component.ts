@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, contentChild, inject, input } from '@angular/core';
+import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ARD_STAR_DEFAULTS } from './star.defaults';
-import { StarColor, StarFillMode } from './star.types';
+import { ArdStarIconTemplateDirective } from './star.directives';
+import { ArdStarIconContext, StarColor, StarFillMode } from './star.types';
 
 @Component({
   selector: 'ard-star',
@@ -16,15 +18,26 @@ export class ArdiumStarComponent {
 
   //! appearance
   readonly color = input<StarColor>(this._DEFAULTS.color);
-  readonly filled = input<StarFillMode, StarFillMode | boolean>(this._transformFillMode(this._DEFAULTS.filled), {
-    transform: this._transformFillMode,
-  });
+  readonly filled = input<StarFillMode, StarFillMode | boolean | string | undefined>(
+    this._transformFillMode(this._DEFAULTS.filled),
+  {
+      transform: this._transformFillMode,
+    }
+  );
 
-  private _transformFillMode(value: StarFillMode | boolean): StarFillMode {
-    return typeof value === 'boolean' ? (value ? StarFillMode.Filled : StarFillMode.None) : value;
+  private _transformFillMode(value: StarFillMode | boolean | string | undefined): StarFillMode {
+    if (value === StarFillMode.None || value === StarFillMode.Half || value === StarFillMode.Filled) {
+      return value;
+    }
+    return coerceBooleanProperty(value) ? StarFillMode.Filled : StarFillMode.None;
   }
 
   readonly ngClasses = computed<string>(() =>
     [this.wrapperClasses(), `ard-color-${this.color()}`, `ard-star-fill-${this.filled()}`].join(' ')
   );
+
+  //! template
+  readonly iconTemplate = contentChild(ArdStarIconTemplateDirective);
+
+  readonly iconTemplateContext = computed<ArdStarIconContext>(() => ({ $implicit: this.filled() }));
 }

@@ -5,6 +5,7 @@ import {
   Inject,
   ViewEncapsulation,
   computed,
+  contentChild,
   effect,
   forwardRef,
   input,
@@ -15,34 +16,31 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceNumberProperty } from '@ardium-ui/devkit';
+import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { ArdiumStarButtonComponent } from '../star-button/star-button.component';
-import { _NgModelComponentBase } from './../../_internal/ngmodel-component';
-import { StarColor } from './../star.types';
-import { ARD_STAR_INPUT_DEFAULTS, ArdStarInputDefaults } from './star-input.defaults';
-
-interface StarInputObject {
-  filled: boolean;
-  isInValue: boolean;
-}
+import { StarColor } from '../star.types';
+import { ARD_RATING_INPUT_DEFAULTS, ArdRatingInputDefaults } from './rating-input.defaults';
+import { ArdRatingInputStarButtonTemplateDirective } from './rating-input.directives';
+import { ArdRatingInputStarButtonTemplateContext } from './rating-input.types';
 
 @Component({
-  selector: 'ard-star-input',
-  templateUrl: './star-input.component.html',
-  styleUrls: ['./star-input.component.scss'],
+  selector: 'ard-rating-input',
+  templateUrl: './rating-input.component.html',
+  styleUrls: ['./rating-input.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ArdiumStarInputComponent),
+      useExisting: forwardRef(() => ArdiumRatingInputComponent),
       multi: true,
     },
   ],
 })
-export class ArdiumStarInputComponent extends _NgModelComponentBase implements ControlValueAccessor {
+export class ArdiumRatingInputComponent extends _NgModelComponentBase implements ControlValueAccessor {
   readonly wrapperClasses = input<string>('');
 
-  protected override readonly _DEFAULTS!: ArdStarInputDefaults;
+  protected override readonly _DEFAULTS!: ArdRatingInputDefaults;
 
   //! appearance
   readonly color = input<StarColor>(this._DEFAULTS.color);
@@ -50,12 +48,11 @@ export class ArdiumStarInputComponent extends _NgModelComponentBase implements C
   readonly ngClasses = computed<string>(() => [this.wrapperClasses(), `ard-color-${this.color()}`].join(' '));
 
   //! events
-  readonly changeEvent = output<number>({ alias: 'change' });
   readonly highlightEvent = output<number>({ alias: 'highlight' });
 
-  readonly value = model<number>(0);
+  readonly value = model<number | null>(null);
 
-  constructor(@Inject(ARD_STAR_INPUT_DEFAULTS) defaults: ArdStarInputDefaults) {
+  constructor(@Inject(ARD_RATING_INPUT_DEFAULTS) defaults: ArdRatingInputDefaults) {
     super(defaults);
     effect(() => {
       const hi = this._highlightedStarIndex();
@@ -75,25 +72,7 @@ export class ArdiumStarInputComponent extends _NgModelComponentBase implements C
   readonly starButtonInstances = viewChildren<ArdiumStarButtonComponent>('starButton');
   private readonly _highlightedStarIndex = signal<number | null>(null);
 
-  readonly starArray = computed<StarInputObject[]>(() => {
-    const v = this.value();
-    const max = this.max();
-    const hi = Math.round(this._highlightedStarIndex() ?? -1);
-
-    const arr = new Array(max);
-    for (let i = 0; i < max; i++) {
-      if (i <= hi) {
-        arr[i] = { filled: true, isInValue: true };
-        continue;
-      }
-      if (i < v) {
-        arr[i] = { filled: hi === -1, isInValue: true };
-        continue;
-      }
-      arr[i] = { filled: false, isInValue: false };
-    }
-    return arr;
-  });
+  readonly starArray = computed<number[]>(() => new Array(this.max()).fill(0).map((_, i) => i));
 
   //! ControlValueAccessor's writeValue
   writeValue(v: number): void {
@@ -110,14 +89,13 @@ export class ArdiumStarInputComponent extends _NgModelComponentBase implements C
   }
   protected _emitChange(): void {
     this._onChangeRegistered?.(this.value());
-    this.changeEvent.emit(this.value());
   }
 
   //* focus handlers
   private _isFocusEventSuppressed = false;
   private _isBlurEventSuppressed = false;
   private _currentFocusIndex: number | null = null;
-  onStarButtonFocus(index: number, event: FocusEvent) {
+  onStarButtonFocus(event: FocusEvent, index: number) {
     this._currentFocusIndex = index;
     if (this._isFocusEventSuppressed) {
       this._isFocusEventSuppressed = false;
@@ -208,4 +186,27 @@ export class ArdiumStarInputComponent extends _NgModelComponentBase implements C
   private _onTabPress(): void {
     this.focusStarButtonByIndex(this.max() - 1);
   }
+
+  //! template
+  readonly starButtonTemplate = contentChild(ArdRatingInputStarButtonTemplateDirective);
+
+  readonly getStarButtonTemplateContext = computed<(index: number) => ArdRatingInputStarButtonTemplateContext>(() => index => ({
+    color: this.color(),
+    index,
+    highlightedIndex: this._highlightedStarIndex() ?? -1,
+    valueIndex: (this.value() ?? 0) - 1,
+    tabIndex: this.tabIndex(),
+    onClick: () => {
+      this.onStarClick(index);
+    },
+    onFocus: (event: FocusEvent) => {
+      this.onStarButtonFocus(event, index);
+    },
+    onBlur: (event: FocusEvent) => {
+      this.onStarButtonBlur(event);
+    },
+    onHighlight: () => {
+      this.onStarHighlight(index);
+    },
+  }));
 }

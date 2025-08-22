@@ -28,6 +28,7 @@ export interface DialogButtonsContext {
     appearance: ButtonAppearance;
   };
   canConfirm: boolean;
+  allActionsDisabled: boolean;
   onConfirm: () => void;
   onReject: () => void;
   dialogAppearance: PanelAppearance;

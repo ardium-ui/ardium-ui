@@ -1,20 +1,22 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, contentChild, inject, input } from '@angular/core';
 import { coerceNumberProperty } from '@ardium-ui/devkit';
-import { isArray } from 'simple-bool';
+import { isArray, isNumber } from 'simple-bool';
 import { StarColor, StarFillMode } from './../star.types';
-import { ARD_STAR_DISPLAY_DEFAULTS } from './star-display.defaults';
+import { ARD_RATING_DISPLAY_DEFAULTS } from './rating-display.defaults';
+import { ArdRatingDisplayStarTemplateDirective } from './rating-display.directives';
+import { ArdRatingDisplayStarTemplateContext } from './rating-display.types';
 
 @Component({
-  selector: 'ard-star-display',
-  templateUrl: './star-display.component.html',
-  styleUrls: ['./star-display.component.scss'],
+  selector: 'ard-rating-display',
+  templateUrl: './rating-display.component.html',
+  styleUrls: ['./rating-display.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumStarDisplayComponent {
+export class ArdiumRatingDisplayComponent {
   readonly wrapperClasses = input<string>('');
 
-  protected readonly _DEFAULTS = inject(ARD_STAR_DISPLAY_DEFAULTS);
+  protected readonly _DEFAULTS = inject(ARD_RATING_DISPLAY_DEFAULTS);
 
   //! appearance
   readonly color = input<StarColor>(this._DEFAULTS.color);
@@ -62,4 +64,17 @@ export class ArdiumStarDisplayComponent {
     }
     return newArr;
   });
+
+  //! template
+  readonly starTemplate = contentChild(ArdRatingDisplayStarTemplateDirective);
+
+  readonly getStarTemplateContext = computed<(fillMode: StarFillMode, index: number) => ArdRatingDisplayStarTemplateContext>(
+    () => (fillMode, index) => ({
+      $implicit: fillMode,
+      fillMode,
+      index,
+      valueIndex: isNumber(this.value()) ? (this.value() as number) - 1 : -1,
+      color: this.color(),
+    })
+  );
 }

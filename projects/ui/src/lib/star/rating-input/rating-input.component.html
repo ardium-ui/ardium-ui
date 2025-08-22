@@ -1,0 +1,45 @@
+<div
+  class="ard-rating-input"
+  [ngClass]="ngClasses()"
+  (mouseleave)="setDisplayToValue()"
+>
+  <ng-template
+    #defaultStarButtonTemplate
+    let-color="color"
+    let-index="index"
+    let-highlightedIndex="highlightedIndex"
+    let-valueIndex="valueIndex"
+    let-tabIndex="tabIndex"
+    let-onClick="onClick"
+    let-onFocus="onFocus"
+    let-onBlur="onBlur"
+    let-onHighlight="onHighlight"
+  >
+    <ard-star-button
+      #starButton
+      [class.ard-star-not-in-value]="index > valueIndex && index > highlightedIndex"
+      [color]="index <= valueIndex || index <= highlightedIndex ? color : 'none'"
+      clickStrategy="noop"
+      [selected]="highlightedIndex === -1 ? index <= valueIndex : index <= highlightedIndex"
+      (click)="onClick()"
+      (focus)="onFocus($event)"
+      (blur)="onBlur($event)"
+      (mouseenter)="onHighlight()"
+      [tabIndex]="tabIndex"
+    />
+  </ng-template>
+
+  @for (index of starArray(); track index) {
+  <ng-template
+    [ngTemplateOutlet]="starButtonTemplate()?.template || defaultStarButtonTemplate"
+    [ngTemplateOutletContext]="getStarButtonTemplateContext()(index)"
+  />
+  <input
+    type="radio"
+    class="ard-rating-input__radio"
+    value="index"
+    [id]="htmlId() + index"
+    tabindex="-1"
+  />
+  }
+</div>
