@@ -36,12 +36,10 @@
   <span class="title">Kbd appearances</span>
   <div class="flex">
     @for (appearance of appearances; track appearance) {
-      <div
-        class="flex horiz"
-        >
-        <ard-kbd [appearance]="appearance">Ctrl</ard-kbd>
-        <span class="mono">{{ appearance }}</span>
-      </div>
+    <div class="flex horiz">
+      <ard-kbd [appearance]="appearance">Ctrl</ard-kbd>
+      <span class="mono">{{ appearance }}</span>
+    </div>
     }
   </div>
 </div>
@@ -49,16 +47,14 @@
   <span class="title">Kbd directive appearances</span>
   <div class="flex">
     @for (appearance of appearances; track appearance) {
-      <div
-        class="flex horiz"
-        >
-        <kbd
-          ardKbd
-          [ardKbdAppearance]="appearance"
-          >Ctrl</kbd
-          >
-          <span class="mono">{{ appearance }}</span>
-        </div>
-      }
+    <div class="flex horiz">
+      <kbd
+        ardKbd
+        [ardKbdAppearance]="appearance"
+        >Ctrl</kbd
+      >
+      <span class="mono">{{ appearance }}</span>
     </div>
+    }
   </div>
+</div>

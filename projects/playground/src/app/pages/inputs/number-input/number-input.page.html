@@ -56,22 +56,19 @@
 <div class="master">
   <span class="title">Rainbow table</span>
   @for (variant of variants; track variant) {
-    <div
-      class="flex"
-      >
-      <span class="monospace">{{ variant }}</span>
-      <div class="grid master">
-        @for (appearance of appearances; track appearance) {
-          @for (disabled of [false, true]; track disabled) {
-            <ard-number-input
-              [disabled]="disabled"
-              [appearance]="appearance"
-              [variant]="variant"
-            ></ard-number-input>
-          }
-          <span class="monospace">{{ appearance }}</span>
-        }
-      </div>
+  <div class="flex">
+    <span class="monospace">{{ variant }}</span>
+    <div class="grid master">
+      @for (appearance of appearances; track appearance) { @for (disabled of [false, true]; track disabled) {
+      <ard-number-input
+        [disabled]="disabled"
+        [appearance]="appearance"
+        [variant]="variant"
+      ></ard-number-input>
+      }
+      <span class="monospace">{{ appearance }}</span>
+      }
     </div>
+  </div>
   }
 </div>

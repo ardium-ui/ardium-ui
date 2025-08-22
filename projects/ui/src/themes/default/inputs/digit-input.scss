@@ -39,7 +39,9 @@ ard-digit-input {
       background: var(--ard-appearance-background);
       border: var(--ard-appearance-border);
       border-radius: var(--ard-variant-border-radius);
-      transition: border-color 0.15s ARD.$timing-fn, background-color 0.15s ARD.$timing-fn;
+      transition:
+        border-color 0.15s ARD.$timing-fn,
+        background-color 0.15s ARD.$timing-fn;
 
       &::placeholder {
         color: ARD.$text3;

@@ -83,7 +83,9 @@
       display: none;
     }
 
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
     &:hover,
     &:focus-visible {
       background: var(--ard-cmpcl--bg-colored);

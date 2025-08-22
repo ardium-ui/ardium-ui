@@ -11,6 +11,6 @@ import { YearsViewComponent } from './views/years-view/years-view.component';
 @NgModule({
   declarations: [ArdiumCalendarComponent, DaysViewComponent, MonthsViewComponent, YearsViewComponent],
   imports: [CommonModule, DatePipe, UpperCasePipe, ArdiumIconButtonModule, ArdiumIconModule, ArdiumButtonModule],
-exports: [ArdiumCalendarComponent],
+  exports: [ArdiumCalendarComponent],
 })
 export class ArdiumCalendarModule {}

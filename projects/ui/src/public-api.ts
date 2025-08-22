@@ -82,4 +82,3 @@ export * from './lib/types/utility.types';
 
 //! miscellaneous
 export { searchFunctions as ArdSearchFunction, searchInString } from './lib/search-functions';
-

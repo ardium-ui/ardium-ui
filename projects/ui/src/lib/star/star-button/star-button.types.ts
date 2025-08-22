@@ -1,5 +1,4 @@
-import { StarColor, StarFillMode } from "../star.types";
-
+import { StarColor, StarFillMode } from '../star.types';
 
 export interface ArdStarButtonStarTemplateContext {
   $implicit: StarFillMode;

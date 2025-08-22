@@ -1,5 +1,5 @@
-import { Directive, TemplateRef } from "@angular/core";
-import { ArdStarButtonStarTemplateContext } from "./star-button.types";
+import { Directive, TemplateRef } from '@angular/core';
+import { ArdStarButtonStarTemplateContext } from './star-button.types';
 
 @Directive({
   selector: 'ard-star-button > ng-template[ard-star-tmp]',

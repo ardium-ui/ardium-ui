@@ -18,7 +18,7 @@
     <input
       type="number"
       [(ngModel)]="fontsize"
-      />
+    />
   </div>
   <div [style]="'font-size: ' + fontsize + 'px'">
     <ard-slide-toggle></ard-slide-toggle>
@@ -31,21 +31,17 @@
 <div class="flex master">
   <span class="title">Rainbow table</span>
   @for (color of colors; track color) {
-    <div
-      class="flex horiz"
-      >
-      <div class="grid">
-        @for (state of [false, true]; track state) {
-          @for (disabled of [false, true]; track disabled) {
-            <ard-slide-toggle
-              [selected]="state"
-              [color]="color"
-              [disabled]="disabled"
-            ></ard-slide-toggle>
-          }
-        }
-      </div>
-      <span class="mono">{{ color }}</span>
+  <div class="flex horiz">
+    <div class="grid">
+      @for (state of [false, true]; track state) { @for (disabled of [false, true]; track disabled) {
+      <ard-slide-toggle
+        [selected]="state"
+        [color]="color"
+        [disabled]="disabled"
+      ></ard-slide-toggle>
+      } }
     </div>
+    <span class="mono">{{ color }}</span>
+  </div>
   }
 </div>

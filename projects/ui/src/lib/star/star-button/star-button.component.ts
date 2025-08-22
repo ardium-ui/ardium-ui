@@ -6,7 +6,7 @@ import {
   computed,
   contentChild,
   forwardRef,
-  input
+  input,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { _BooleanComponentBase } from '../../_internal/boolean-component';

@@ -1,6 +1,10 @@
 import { AfterViewInit, computed, Directive, ElementRef, input, Input, output, viewChild } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import { _FormFieldComponentBase, _FormFieldComponentDefaults, _formFieldComponentDefaults } from '../_internal/form-field-component';
+import {
+  _FormFieldComponentBase,
+  _FormFieldComponentDefaults,
+  _formFieldComponentDefaults,
+} from '../_internal/form-field-component';
 import { SimpleOneAxisAlignment } from './../types/alignment.types';
 import { FormElementAppearance, FormElementVariant } from './../types/theming.types';
 import { Nullable } from './../types/utility.types';

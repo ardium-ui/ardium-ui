@@ -9,7 +9,7 @@
             htmlId="size"
             [items]="sizes"
             [(value)]="size"
-            />
+          />
         </div>
         <div class="form-field flex">
           <label for="appearance">Appearance</label>
@@ -17,7 +17,7 @@
             htmlId="appearance"
             [items]="appearances"
             [(value)]="appearance"
-            />
+          />
         </div>
         <div class="form-field flex">
           <label for="color">Color</label>
@@ -25,7 +25,7 @@
             htmlId="color"
             [items]="colors"
             [(value)]="color"
-            />
+          />
         </div>
       </div>
       <div class="settings-right">
@@ -37,80 +37,74 @@
             />
           <label for="extended">Extended</label>
         </div> -->
-        <div class="list-item flex horiz">
-          <ard-checkbox
-            [(selected)]="disabled"
-            htmlId="disabled"
+          <div class="list-item flex horiz">
+            <ard-checkbox
+              [(selected)]="disabled"
+              htmlId="disabled"
             />
-          <label for="disabled">Disabled</label>
+            <label for="disabled">Disabled</label>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="settings-bottom">
-    <div class="form-field flex">
-      <label for="icon">Icon</label>
-      <ard-simple-input
-        htmlId="icon"
-        [(value)]="icon"
+    <div class="settings-bottom">
+      <div class="form-field flex">
+        <label for="icon">Icon</label>
+        <ard-simple-input
+          htmlId="icon"
+          [(value)]="icon"
         />
-    </div>
-    <div class="form-field flex">
-      <label for="text">Extended Text</label>
-      <ard-simple-input
-        htmlId="text"
-        [(value)]="text"
+      </div>
+      <div class="form-field flex">
+        <label for="text">Extended Text</label>
+        <ard-simple-input
+          htmlId="text"
+          [(value)]="text"
         />
+      </div>
     </div>
   </div>
-</div>
-<div class="button-container">
-  <ard-fab
-    [appearance]="appearance[0]"
-    [color]="color[0]"
-    [disabled]="disabled"
-    [size]="size[0]"
+  <div class="button-container">
+    <ard-fab
+      [appearance]="appearance[0]"
+      [color]="color[0]"
+      [disabled]="disabled"
+      [size]="size[0]"
     >
-    <!-- [extended]="extended" -->
-    <ard-icon [icon]="icon"></ard-icon>
-    {{ text }}
-  </ard-fab>
-</div>
+      <!-- [extended]="extended" -->
+      <ard-icon [icon]="icon"></ard-icon>
+      {{ text }}
+    </ard-fab>
+  </div>
 </div>
 @for (size of sizes; track size) {
-  <div
-    class="flex master"
-    >
-    <p class="title">{{ size }}</p>
-    @for (appearance of appearances; track appearance) {
-      <div
-        class="flex horiz"
+<div class="flex master">
+  <p class="title">{{ size }}</p>
+  @for (appearance of appearances; track appearance) {
+  <div class="flex horiz">
+    <div class="flex">
+      @for (disabled of [false, true]; track disabled) {
+      <div class="grid">
+        @for (color of colors; track color) {
+        <ard-fab
+          [size]="size"
+          [appearance]="appearance"
+          [color]="color"
+          [disabled]="disabled"
+          (focus)="log('focus', $event)"
+          (blur)="log('blur', $event)"
+          (click)="log('click', $event)"
         >
-        <div class="flex">
-          @for (disabled of [false, true]; track disabled) {
-            <div
-              class="grid"
-              >
-              @for (color of colors; track color) {
-                <ard-fab
-                  [size]="size"
-                  [appearance]="appearance"
-                  [color]="color"
-                  [disabled]="disabled"
-                  (focus)="log('focus', $event)"
-                  (blur)="log('blur', $event)"
-                  (click)="log('click', $event)"
-                  >
-                  <ard-icon>home</ard-icon>
-                </ard-fab>
-              }
-            </div>
-          }
-        </div>
-        <span class="mono">{{ appearance }}</span>
+          <ard-icon>home</ard-icon>
+        </ard-fab>
+        }
       </div>
-    }
+      }
+    </div>
+    <span class="mono">{{ appearance }}</span>
   </div>
+  }
+</div>
 }
 <!-- <div
 class="flex master"

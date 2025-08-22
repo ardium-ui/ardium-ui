@@ -21,7 +21,7 @@ export class DateInputPage {
   onSelectDate() {
     console.log('onSelectDate');
     if (this.formControl.value === null) return;
-    
+
     setTimeout(() => {
       console.log('%csetting to null', 'color:red');
       this.formControl.setValue(null);

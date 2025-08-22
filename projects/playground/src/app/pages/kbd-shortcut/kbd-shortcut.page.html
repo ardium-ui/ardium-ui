@@ -39,12 +39,10 @@
   <span class="title">Kbd shortcut appearances</span>
   <div class="flex">
     @for (appearance of appearances; track appearance) {
-      <div
-        class="flex horiz"
-        >
-        <ard-kbd-shortcut [appearance]="appearance">Ctrl+A</ard-kbd-shortcut>
-        <span class="mono">{{ appearance }}</span>
-      </div>
+    <div class="flex horiz">
+      <ard-kbd-shortcut [appearance]="appearance">Ctrl+A</ard-kbd-shortcut>
+      <span class="mono">{{ appearance }}</span>
+    </div>
     }
   </div>
 </div>

@@ -1,96 +1,73 @@
 <span class="title">Chips</span>
 @for (compact of [false, true]; track compact) {
-  <div
-    class="flex"
+<div class="flex">
+  @for (variant of variants; track variant) {
+  <div class="grid master">
+    @for (appearance of appearances; track appearance) { @for (disabled of [false, true]; track disabled) { @for (color of colors;
+    track color) {
+    <ard-chip
+      [variant]="variant"
+      [appearance]="appearance"
+      [color]="color"
+      [disabled]="disabled"
+      [compact]="compact"
+      (focus)="log('focus', $event)"
+      (blur)="log('blur', $event)"
+      >Foo</ard-chip
     >
-    @for (variant of variants; track variant) {
-      <div
-        class="grid master"
-        >
-        @for (appearance of appearances; track appearance) {
-          @for (disabled of [false, true]; track disabled) {
-            @for (color of colors; track color) {
-              <ard-chip
-                [variant]="variant"
-                [appearance]="appearance"
-                [color]="color"
-                [disabled]="disabled"
-                [compact]="compact"
-                (focus)="log('focus', $event)"
-                (blur)="log('blur', $event)"
-                >Foo</ard-chip
-                >
-              }
-            }
-          }
-        </div>
-      }
-    </div>
+    } } }
+  </div>
   }
-  <span class="title">Deletable Chips</span>
-  @for (compact of [false, true]; track compact) {
-    <div
-      class="flex"
-      >
-      @for (variant of variants; track variant) {
-        <div
-          class="grid master"
-          [title]="variant"
-          >
-          @for (appearance of appearances; track appearance) {
-            @for (align of alignments; track align) {
-              @for (disabled of [false, true]; track disabled) {
-                @for (color of colors; track color) {
-                  <ard-deletable-chip
-                    [variant]="variant"
-                    [appearance]="appearance"
-                    [color]="color"
-                    [disabled]="disabled"
-                    [contentAlignment]="align"
-                    [compact]="compact"
-                    (focus)="log('focus', $event)"
-                    (blur)="log('blur', $event)"
-                    (delete)="log('delete', $event)"
-                    >Foo</ard-deletable-chip
-                    >
-                  }
-                }
-              }
-            }
-          </div>
-        }
-      </div>
-    }
-    <span class="title">Selectable Chips</span>
-    @for (compact of [false, true]; track compact) {
-      <div
-        class="flex"
-        >
-        @for (variant of variants; track variant) {
-          <div
-            class="grid master"
-            >
-            @for (appearance of appearances; track appearance) {
-              @for (selected of [false, true]; track selected) {
-                @for (disabled of [false, true]; track disabled) {
-                  @for (color of colors; track color) {
-                    <ard-selectable-chip
-                      [variant]="variant"
-                      [appearance]="appearance"
-                      [color]="color"
-                      [disabled]="disabled"
-                      [selected]="selected"
-                      [compact]="compact"
-                      (focus)="log('focus', $event)"
-                      (blur)="log('blur', $event)"
-                      (selectedChange)="log('selectedChange', $event)"
-                      >Foo</ard-selectable-chip
-                      >
-                    }
-                  }
-                }
-              }
-            </div>
-          }
-        </div>
-      }
+</div>
+}
+<span class="title">Deletable Chips</span>
+@for (compact of [false, true]; track compact) {
+<div class="flex">
+  @for (variant of variants; track variant) {
+  <div
+    class="grid master"
+    [title]="variant"
+  >
+    @for (appearance of appearances; track appearance) { @for (align of alignments; track align) { @for (disabled of [false,
+    true]; track disabled) { @for (color of colors; track color) {
+    <ard-deletable-chip
+      [variant]="variant"
+      [appearance]="appearance"
+      [color]="color"
+      [disabled]="disabled"
+      [contentAlignment]="align"
+      [compact]="compact"
+      (focus)="log('focus', $event)"
+      (blur)="log('blur', $event)"
+      (delete)="log('delete', $event)"
+      >Foo</ard-deletable-chip
+    >
+    } } } }
+  </div>
+  }
+</div>
+}
+<span class="title">Selectable Chips</span>
+@for (compact of [false, true]; track compact) {
+<div class="flex">
+  @for (variant of variants; track variant) {
+  <div class="grid master">
+    @for (appearance of appearances; track appearance) { @for (selected of [false, true]; track selected) { @for (disabled of
+    [false, true]; track disabled) { @for (color of colors; track color) {
+    <ard-selectable-chip
+      [variant]="variant"
+      [appearance]="appearance"
+      [color]="color"
+      [disabled]="disabled"
+      [selected]="selected"
+      [compact]="compact"
+      (focus)="log('focus', $event)"
+      (blur)="log('blur', $event)"
+      (selectedChange)="log('selectedChange', $event)"
+      >Foo</ard-selectable-chip
+    >
+    } } } }
+  </div>
+  }
+</div>
+}

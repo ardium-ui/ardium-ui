@@ -45,7 +45,7 @@
     maxDigits="6"
     value="000000"
     case="uppercase"
-    >
+  >
     <ng-template ard-prefix-tmp>
       <ard-icon>palette</ard-icon>
     </ng-template>
@@ -54,21 +54,17 @@
 <div class="master">
   <span class="title">Rainbow table</span>
   @for (variant of variants; track variant) {
-    <div
-      class="flex"
-      >
-      <span class="title">{{ variant }}</span>
-      <div class="grid">
-        @for (appearance of appearances; track appearance) {
-          @for (disabled of [false, true]; track disabled) {
-            <ard-hex-input
-              [disabled]="disabled"
-              [appearance]="appearance"
-              [variant]="variant"
-            ></ard-hex-input>
-          }
-        }
-      </div>
+  <div class="flex">
+    <span class="title">{{ variant }}</span>
+    <div class="grid">
+      @for (appearance of appearances; track appearance) { @for (disabled of [false, true]; track disabled) {
+      <ard-hex-input
+        [disabled]="disabled"
+        [appearance]="appearance"
+        [variant]="variant"
+      ></ard-hex-input>
+      } }
     </div>
+  </div>
   }
 </div>

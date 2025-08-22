@@ -7,18 +7,14 @@
   [isFocused]="isFocused()"
   [prefixTemplate]="prefixTemplate()?.template"
   [suffixTemplate]="suffixTemplate()?.template"
-  >
+>
   <div
     class="ard-hex-input"
     [class.ard-has-value]="value"
     (mouseup)="onMouseup()"
-    >
+  >
     @if (showHash()) {
-      <div
-        class="ard-hash-container"
-        >
-        #
-      </div>
+      <div class="ard-hash-container">#</div>
     }
     <div class="ard-input-container">
       @if (shouldDisplayPlaceholder()) {
@@ -43,14 +39,14 @@
         (change)="onChange($event)"
         (mouseup)="$event.stopPropagation()"
         (copy)="onCopy($event)"
-        />
-      </div>
+      />
+    </div>
 
-      @if (shouldShowClearButton()) {
-        <ard-clear-button
-          [title]="clearButtonTitle()"
-          (click)="onClearButtonClick($event)"
-          />
-        }
-      </div>
-    </ard-form-field-frame>
+    @if (shouldShowClearButton()) {
+      <ard-clear-button
+        [title]="clearButtonTitle()"
+        (click)="onClearButtonClick($event)"
+      />
+    }
+  </div>
+</ard-form-field-frame>

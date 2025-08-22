@@ -7,7 +7,7 @@ import {
   inject,
   input,
   OnInit,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _FormFieldComponentBase } from '../_internal/form-field-component';

@@ -81,11 +81,11 @@
     [value]="30 - currentTimerValue"
     max="30"
     reverse
-    >
+  >
     <ng-template
       ard-value-tmp
       let-value="value"
-      >
+    >
       0:{{ value | number : '2.0-0' }}
     </ng-template>
   </ard-progress-circle>
@@ -93,27 +93,23 @@
 <div class="master">
   <span class="title">Rainbow table</span>
   @for (variant of variants; track variant) {
-    <div
-      class="flex"
-      >
-      <span class="title">Variant: {{ variant }}</span>
-      <div class="grid rainbow">
-        @for (appearance of appearances; track appearance) {
-          @for (hideValue of [false, true]; track hideValue) {
-            @for (color of colors; track color) {
-              <ard-progress-circle
-                value="65"
-                [variant]="variant"
-                [appearance]="appearance"
-                [color]="color"
-                [hideValue]="hideValue"
-              ></ard-progress-circle>
-            }
-            <span class="mono">{{ appearance }}{{ hideValue ? ' + hidden value' : '' }}</span>
-          }
-        }
-      </div>
+  <div class="flex">
+    <span class="title">Variant: {{ variant }}</span>
+    <div class="grid rainbow">
+      @for (appearance of appearances; track appearance) { @for (hideValue of [false, true]; track hideValue) { @for (color of
+      colors; track color) {
+      <ard-progress-circle
+        value="65"
+        [variant]="variant"
+        [appearance]="appearance"
+        [color]="color"
+        [hideValue]="hideValue"
+      ></ard-progress-circle>
+      }
+      <span class="mono">{{ appearance }}{{ hideValue ? ' + hidden value' : '' }}</span>
+      } }
     </div>
+  </div>
   }
   <ard-progress-circle></ard-progress-circle>
 </div>

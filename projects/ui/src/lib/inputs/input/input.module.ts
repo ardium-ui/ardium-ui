@@ -6,11 +6,11 @@ import { ArdiumDropdownPanelModule } from '../../dropdown-panel/dropdown-panel.m
 import { ArdiumFormFieldFrameModule } from '../../form-field-frame/form-field-frame.module';
 import { ArdiumInputComponent } from './input.component';
 import {
-    ArdInputLoadingTemplateDirective,
-    ArdInputPlaceholderTemplateDirective,
-    ArdInputPrefixTemplateDirective,
-    ArdInputSuffixTemplateDirective,
-    ArdInputSuggestionTemplateDirective,
+  ArdInputLoadingTemplateDirective,
+  ArdInputPlaceholderTemplateDirective,
+  ArdInputPrefixTemplateDirective,
+  ArdInputSuffixTemplateDirective,
+  ArdInputSuggestionTemplateDirective,
 } from './input.directives';
 
 @NgModule({

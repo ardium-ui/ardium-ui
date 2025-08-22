@@ -2,11 +2,11 @@
   <div
     class="flex horiz"
     style="margin-bottom: 16px"
-    >
+  >
     <ard-checkbox
       htmlId="alt-coloring"
       [(selected)]="altColoring"
-      />
+    />
     <label for="alt-coloring">Alternate coloring?</label>
   </div>
   <span class="title">Button playground</span>
@@ -19,7 +19,7 @@
             htmlId="color"
             [items]="colors"
             [(value)]="color"
-            />
+          />
         </div>
       </div>
       <div class="settings-right">
@@ -28,14 +28,14 @@
             <ard-checkbox
               [(selected)]="compact"
               htmlId="compact"
-              />
+            />
             <label for="compact">Compact</label>
           </div>
           <div class="list-item flex horiz">
             <ard-checkbox
               [(selected)]="disabled"
               htmlId="disabled"
-              />
+            />
             <label for="disabled">Disabled</label>
           </div>
         </div>
@@ -47,14 +47,14 @@
         <ard-simple-input
           htmlId="text"
           [(value)]="text"
-          />
+        />
       </div>
       <div class="form-field flex">
         <label for="icon">Icon</label>
         <ard-simple-input
           htmlId="icon"
           [(value)]="icon"
-          />
+        />
       </div>
     </div>
   </div>
@@ -63,56 +63,50 @@
       [color]="color[0]"
       [disabled]="disabled"
       [compact]="compact"
-      >
+    >
       @if (icon) {
-        <ard-icon
-          [icon]="icon"
-          filled
-          ></ard-icon
-          >
-        }
-        {{ text }}
-      </ard-icon-button>
-    </div>
+      <ard-icon
+        [icon]="icon"
+        filled
+      ></ard-icon>
+      } {{ text }}
+    </ard-icon-button>
   </div>
-  @for (compact of [false, true]; track compact) {
-    <div
-      class="flex alt-coloring-host"
-      >
-      <div class="flex">
-        @for (disabled of [false, true]; track disabled) {
-          <div
-            class="grid"
-            >
-            @for (color of colors; track color) {
-              <ard-icon-button
-                [color]="color"
-                [disabled]="disabled"
-                [compact]="compact"
-                [lightColoring]="altColoring"
-                (focus)="log('focus', $event)"
-                (blur)="log('blur', $event)"
-                (click)="log('click', $event)"
-                >
-                <ard-icon>home</ard-icon>
-              </ard-icon-button>
-            }
-          </div>
-        }
-      </div>
-    </div>
-  }
-  <div class="master">
-    <span class="title">Changing font size</span>
-    <div class="flex">
-      <ard-icon-button style="font-size: 2rem">
-        <ard-icon>search</ard-icon>
-      </ard-icon-button>
+</div>
+@for (compact of [false, true]; track compact) {
+<div class="flex alt-coloring-host">
+  <div class="flex">
+    @for (disabled of [false, true]; track disabled) {
+    <div class="grid">
+      @for (color of colors; track color) {
       <ard-icon-button
-        style="font-size: 2rem"
-        compact
-        >
-        <ard-icon>search</ard-icon>
+        [color]="color"
+        [disabled]="disabled"
+        [compact]="compact"
+        [lightColoring]="altColoring"
+        (focus)="log('focus', $event)"
+        (blur)="log('blur', $event)"
+        (click)="log('click', $event)"
+      >
+        <ard-icon>home</ard-icon>
       </ard-icon-button>
+      }
     </div>
+    }
   </div>
+</div>
+}
+<div class="master">
+  <span class="title">Changing font size</span>
+  <div class="flex">
+    <ard-icon-button style="font-size: 2rem">
+      <ard-icon>search</ard-icon>
+    </ard-icon-button>
+    <ard-icon-button
+      style="font-size: 2rem"
+      compact
+    >
+      <ard-icon>search</ard-icon>
+    </ard-icon-button>
+  </div>
+</div>
