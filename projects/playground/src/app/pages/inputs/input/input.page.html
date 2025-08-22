@@ -1,31 +1,29 @@
 <span class="title">Simplest input</span>
 <div class="grid master">
-  <ard-input
-    *ngFor="let disabled of [false, true]"
-    [disabled]="disabled"
-  ></ard-input>
+  @for (disabled of [false, true]; track disabled) {
+  <ard-input [disabled]="disabled"></ard-input>
+  }
 </div>
 <span class="title">Input appearances, max length, text align, ngModel</span>
 <div class="grid master">
-  <ng-container *ngFor="let appearance of appearances">
-    <ard-input
-      *ngFor="let disabled of [false, true]"
-      [disabled]="disabled"
-      [appearance]="appearance"
-      [(ngModel)]="value"
-      alignText="right"
-      [maxLength]="maxLength"
-      (ngModelChange)="log('ngModelChange', $event)"
-      (change)="log('change', $event)"
-      (focus)="log('focus', $event)"
-      (blur)="log('blur', $event)"
-    ></ard-input>
-  </ng-container>
+  @for (appearance of appearances; track appearance) { @for (disabled of [false, true]; track disabled) {
+  <ard-input
+    [disabled]="disabled"
+    [appearance]="appearance"
+    [(ngModel)]="value"
+    alignText="right"
+    [maxLength]="maxLength"
+    (ngModelChange)="log('ngModelChange', $event)"
+    (change)="log('change', $event)"
+    (focus)="log('focus', $event)"
+    (blur)="log('blur', $event)"
+  ></ard-input>
+  } }
 </div>
 <span class="title">Input with character allowlist, case insensitive</span>
 <div class="grid master">
+  @for (disabled of [false, true]; track disabled) {
   <ard-input
-    *ngFor="let disabled of [false, true]"
     [disabled]="disabled"
     [charlist]="charlist"
     [charlistCaseInsensitive]="charlistCaseInsensitive"
@@ -33,17 +31,19 @@
     (ngModelChange)="log('ngModelChange', $event)"
     (change)="log('change', $event)"
   ></ard-input>
+  }
 </div>
 <span class="title">Input with autocomplete</span>
 <div class="grid master">
+  @for (disabled of [false, true]; track disabled) {
   <ard-input
-    *ngFor="let disabled of [false, true]"
     [disabled]="disabled"
     [(value)]="fruitInputValue"
     [autocomplete]="fruitAutocomplete$ | async"
     (valueChange)="onFruitInput($event)"
     (acceptAutocomplete)="onFruitAcceptAutocomplete()"
   ></ard-input>
+  }
 </div>
 <span class="title">Input with suggestions</span>
 <div class="grid master">

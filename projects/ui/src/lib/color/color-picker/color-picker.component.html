@@ -144,13 +144,14 @@
     [value]="hexInputValue"
     (valueChange)="onHexInputChange($event)"
   ></ard-hex-input>
-  <ard-number-input
-    *ngIf="withOpacity"
-    allowQuickChange="false"
-    [max]="tripleInputData4.max"
-    [value]="tripleInputData4.value"
-    (valueChange)="onTripleInputChange($event, 4)"
-  ></ard-number-input>
+  @if (withOpacity()) {
+    <ard-number-input
+      allowQuickChange="false"
+      [max]="tripleInputData4.max"
+      [value]="tripleInputData4.value"
+      (valueChange)="onTripleInputChange($event, 4)"
+    ></ard-number-input>
+  }
 </ng-template>
 
 <ng-template #tripleInput>
@@ -172,11 +173,12 @@
     [value]="tripleInputData3.value"
     (valueChange)="onTripleInputChange($event, 3)"
   ></ard-number-input>
-  <ard-number-input
-    *ngIf="withOpacity"
-    allowQuickChange="false"
-    [max]="tripleInputData4.max"
-    [value]="tripleInputData4.value"
-    (valueChange)="onTripleInputChange($event, 4)"
-  ></ard-number-input>
+  @if (withOpacity()) {
+    <ard-number-input
+      allowQuickChange="false"
+      [max]="tripleInputData4.max"
+      [value]="tripleInputData4.value"
+      (valueChange)="onTripleInputChange($event, 4)"
+    ></ard-number-input>
+  }
 </ng-template>

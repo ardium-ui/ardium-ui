@@ -64,20 +64,20 @@
     </div>
 
     @if (!calendarHidden()) {
-    <ard-icon-button
-      color="none"
-      [disabled]="calendarDisabled()"
-      (click)="onCalendarButtonClick($event)"
-    >
-      <ng-template
-        #defaultCalendarIconTemplate
-        let-date
+      <ard-icon-button
+        color="none"
+        [disabled]="calendarDisabled()"
+        (click)="onCalendarButtonClick($event)"
       >
-        <ard-icon filled>today</ard-icon>
-      </ng-template>
+        <ng-template
+          #defaultCalendarIconTemplate
+          let-date
+        >
+          <ard-icon filled>today</ard-icon>
+        </ng-template>
 
-      <ng-template [ngTemplateOutlet]="calendarIconTemplate()?.template || defaultCalendarIconTemplate" />
-    </ard-icon-button>
+        <ng-template [ngTemplateOutlet]="calendarIconTemplate()?.template || defaultCalendarIconTemplate" />
+      </ard-icon-button>
     }
   </div>
 </ard-form-field-frame>
@@ -110,19 +110,19 @@
       (monthSelect)="monthSelect.emit($event)"
     />
     @if (useAcceptButtonToSelect()) {
-    <div class="ard-date-input__accept-buttons-container">
-      <ng-template
-        #defaultAcceptButtonsTemplate
-        let-date
-      >
-        {{ serializeFn()(date) }}
-      </ng-template>
+      <div class="ard-date-input__accept-buttons-container">
+        <ng-template
+          #defaultAcceptButtonsTemplate
+          let-date
+        >
+          {{ serializeFn()(date) }}
+        </ng-template>
 
-      <ng-template
-        [ngTemplateOutlet]="acceptButtonsTemplate()?.template || defaultAcceptButtonsTemplate"
-        [ngTemplateOutletContext]="acceptButtonsContext()"
-      />
-    </div>
+        <ng-template
+          [ngTemplateOutlet]="acceptButtonsTemplate()?.template || defaultAcceptButtonsTemplate"
+          [ngTemplateOutletContext]="acceptButtonsContext()"
+        />
+      </div>
     }
   </ard-dropdown-panel>
 </ng-template>

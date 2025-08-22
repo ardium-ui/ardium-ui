@@ -35,22 +35,19 @@
 <div class="master">
   <span class="title">Kbd appearances</span>
   <div class="flex">
-    <div
-      class="flex horiz"
-      *ngFor="let appearance of appearances"
-    >
+    @for (appearance of appearances; track appearance) {
+    <div class="flex horiz">
       <ard-kbd [appearance]="appearance">Ctrl</ard-kbd>
       <span class="mono">{{ appearance }}</span>
     </div>
+    }
   </div>
 </div>
 <div class="master">
   <span class="title">Kbd directive appearances</span>
   <div class="flex">
-    <div
-      class="flex horiz"
-      *ngFor="let appearance of appearances"
-    >
+    @for (appearance of appearances; track appearance) {
+    <div class="flex horiz">
       <kbd
         ardKbd
         [ardKbdAppearance]="appearance"
@@ -58,5 +55,6 @@
       >
       <span class="mono">{{ appearance }}</span>
     </div>
+    }
   </div>
 </div>

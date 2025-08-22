@@ -7,6 +7,6 @@ import { ArdRatingDisplayStarTemplateDirective } from './rating-display.directiv
 @NgModule({
   declarations: [ArdiumRatingDisplayComponent, ArdRatingDisplayStarTemplateDirective],
   imports: [CommonModule, ArdiumStarModule],
-exports: [ArdiumRatingDisplayComponent, ArdRatingDisplayStarTemplateDirective],
+  exports: [ArdiumRatingDisplayComponent, ArdRatingDisplayStarTemplateDirective],
 })
 export class ArdiumRatingDisplayModule {}

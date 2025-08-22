@@ -14,16 +14,18 @@
           [ngTemplateOutletContext]="getIdleContext()"
         />
       }
-      <ng-template
-        *ngIf="currentViewState() === 'dragover'"
-        [ngTemplateOutlet]="dragoverTemplate ?? defaultDragoverTemplate"
-        [ngTemplateOutletContext]="getDragoverContext()"
-      ></ng-template>
-      <ng-template
-        *ngIf="currentViewState() === 'uploaded'"
-        [ngTemplateOutlet]="uploadedTemplate ?? defaultUploadedTemplate"
-        [ngTemplateOutletContext]="getUploadedContext()"
-      ></ng-template>
+      @if (currentViewState() === 'dragover') {
+        <ng-template
+          [ngTemplateOutlet]="dragoverTemplate ?? defaultDragoverTemplate"
+          [ngTemplateOutletContext]="getDragoverContext()"
+        ></ng-template>
+      }
+      @if (currentViewState() === 'uploaded') {
+        <ng-template
+          [ngTemplateOutlet]="uploadedTemplate ?? defaultUploadedTemplate"
+          [ngTemplateOutletContext]="getUploadedContext()"
+        ></ng-template>
+      }
     </div>
   </div>
 </div>
@@ -43,8 +45,11 @@
 >
   <ard-icon class="ard-file-drop-area-icon">upload</ard-icon>
   <strong class="ard-file-drop-area-drop-text">
-    <span *ngIf="!multiple">Drag & Drop a file</span>
-    <span *ngIf="multiple">Drag & Drop files</span>
+    @if (!multiple) {
+      <span>Drag & Drop a file</span>
+    } @else {
+      <span>Drag & Drop files</span>
+    }
     here
   </strong>
   <span class="ard-file-drop-area-or-text">or</span>

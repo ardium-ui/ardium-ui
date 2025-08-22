@@ -13,12 +13,9 @@
     [class.ard-has-value]="value"
     (mouseup)="onMouseup()"
   >
-    <div
-      class="ard-hash-container"
-      *ngIf="showHash"
-    >
-      #
-    </div>
+    @if (showHash()) {
+      <div class="ard-hash-container">#</div>
+    }
     <div class="ard-input-container">
       @if (shouldDisplayPlaceholder()) {
         <ng-template #defaultPlaceholderTemplate>

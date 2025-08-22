@@ -20,7 +20,7 @@ export class ArdiumStarComponent {
   readonly color = input<StarColor>(this._DEFAULTS.color);
   readonly filled = input<StarFillMode, StarFillMode | boolean | string | undefined>(
     this._transformFillMode(this._DEFAULTS.filled),
-  {
+    {
       transform: this._transformFillMode,
     }
   );

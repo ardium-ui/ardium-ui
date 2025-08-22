@@ -107,29 +107,21 @@
     </ard-button>
   </div>
 </div>
-<div
-  class="flex"
-  *ngFor="let compact of [false, true]"
->
-  <div
-    class="flex master"
-    *ngFor="let variant of variants"
-  >
+@for (compact of [false, true]; track compact) {
+<div class="flex">
+  @for (variant of variants; track variant) {
+  <div class="flex master">
     <p class="title">{{ compact ? 'compact' : 'non-compact' }} {{ variant }}</p>
-    <div
-      class="flex horiz"
-      *ngFor="let appearance of appearances"
-    >
+    @for (appearance of appearances; track appearance) {
+    <div class="flex horiz">
       <div
         class="flex"
         [class.alt-coloring-host]="appearance === 'transparent'"
       >
-        <div
-          class="grid"
-          *ngFor="let disabled of [false, true]"
-        >
+        @for (disabled of [false, true]; track disabled) {
+        <div class="grid">
+          @for (color of colors; track color) {
           <ard-button
-            *ngFor="let color of colors"
             icon="close"
             [variant]="variant"
             [appearance]="appearance"
@@ -142,13 +134,22 @@
             (click)="log('click', $event)"
             >Foo</ard-button
           >
+          }
         </div>
+        }
       </div>
       <span class="title appearance">{{ appearance }}</span>
     </div>
+    }
   </div>
+  }
 </div>
+}
 <div class="master">
   <div class="title">Button with pointer events when disabled</div>
-  <ard-button disabled pointerEventsWhenDisabled>Disabled</ard-button>
+  <ard-button
+    disabled
+    pointerEventsWhenDisabled
+    >Disabled</ard-button
+  >
 </div>

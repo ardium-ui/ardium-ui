@@ -44,10 +44,11 @@
 <div class="master">
   <span class="title">Rainbow table</span>
   <div class="grid">
+    @for (appearance of appearances; track appearance) {
     <ard-color-display
-      *ngFor="let appearance of appearances"
       color="red"
       [appearance]="appearance"
     ></ard-color-display>
+    }
   </div>
 </div>

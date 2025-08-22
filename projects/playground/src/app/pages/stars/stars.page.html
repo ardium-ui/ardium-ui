@@ -1,49 +1,45 @@
 <span class="title">star</span>
 <div class="master star">
-  <div
-    class="flex horiz"
-    *ngFor="let color of colors"
-  >
+  @for (color of colors; track color) {
+  <div class="flex horiz">
     <div class="grid red">
+      @for (state of fillModes; track state) {
       <ard-star
-        *ngFor="let state of fillModes"
         [filled]="state"
         [color]="color"
       ></ard-star>
+      }
     </div>
     <span class="mono">{{ color }}</span>
   </div>
+  }
 </div>
 <span class="title">star-button</span>
 <div class="master star-button">
-  <div
-    class="flex horiz"
-    *ngFor="let color of colors"
-  >
+  @for (color of colors; track color) {
+  <div class="flex horiz">
     <div class="grid red">
-      <ng-container *ngFor="let state of [false, true]">
-        <ard-star-button
-          *ngFor="let disabled of [false, true]"
-          [selected]="state"
-          [color]="color"
-          [disabled]="disabled"
-          (focus)="log('focus', $event)"
-          (blur)="log('blur', $event)"
-          (select)="log('select', $event)"
-          (unselect)="log('unselect', $event)"
-          (selectedChange)="log('selectedChange', $event)"
-        ></ard-star-button>
-      </ng-container>
+      @for (state of [false, true]; track state) { @for (disabled of [false, true]; track disabled) {
+      <ard-star-button
+        [selected]="state"
+        [color]="color"
+        [disabled]="disabled"
+        (focus)="log('focus', $event)"
+        (blur)="log('blur', $event)"
+        (select)="log('select', $event)"
+        (unselect)="log('unselect', $event)"
+        (selectedChange)="log('selectedChange', $event)"
+      ></ard-star-button>
+      } }
     </div>
     <span class="mono">{{ color }}</span>
   </div>
+  }
 </div>
 <span class="title">rating-display</span>
 <div class="master rating-display">
-  <div
-    class="flex horiz red"
-    *ngFor="let color of colors"
-  >
+  @for (color of colors; track color) {
+  <div class="flex horiz red">
     <ard-rating-display
       [color]="color"
       [value]="valueFor5"
@@ -55,19 +51,18 @@
     ></ard-rating-display>
     <span class="mono black">{{ color }}</span>
   </div>
+  }
 </div>
 <span class="title">rating-input</span>
 <div class="master rating-input">
-  <div
-    class="flex horiz red"
-    *ngFor="let color of colors"
-  >
+  @for (color of colors; track color) {
+  <div class="flex horiz red">
     <ard-rating-input
       [color]="color"
       (valueChange)="log('valueChange', $event)"
     />
+    @for (disabled of [false, true]; track disabled) {
     <ard-rating-input
-      *ngFor="let disabled of [false, true]"
       [value]="valueFor5"
       [color]="color"
       [disabled]="disabled"
@@ -75,8 +70,8 @@
       (blur)="log('blur', $event)"
       (valueChange)="log('valueChange', $event)"
     />
+    } @for (disabled of [false, true]; track disabled) {
     <ard-rating-input
-      *ngFor="let disabled of [false, true]"
       [max]="max"
       [value]="valueFor10"
       [color]="color"
@@ -85,16 +80,18 @@
       (blur)="log('blur', $event)"
       (valueChange)="log('valueChange', $event)"
     />
+    }
     <span class="mono black">{{ color }}</span>
   </div>
+  }
 </div>
 
 <h2>Examples</h2>
 <div class="master">
   <span class="title">Star customized with template</span>
   <div class="flex horiz">
+    @for (state of fillModes; track state) {
     <ard-star
-      *ngFor="let state of fillModes"
       [filled]="state"
       color="danger"
     >
@@ -109,6 +106,7 @@
         }
       </ng-template>
     </ard-star>
+    }
   </div>
 </div>
 

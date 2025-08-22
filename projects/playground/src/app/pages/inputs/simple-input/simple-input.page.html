@@ -8,20 +8,19 @@
 </div>
 <span class="title">Input appearances, max length, text align, ngModel</span>
 <div class="grid master">
-  <ng-container *ngFor="let appearance of appearances">
-    <ard-simple-input
-      *ngFor="let disabled of [false, true]"
-      [disabled]="disabled"
-      [appearance]="appearance"
-      [(ngModel)]="value"
-      alignText="right"
-      [maxLength]="maxLength"
-      (ngModelChange)="log('ngModelChange', $event)"
-      (change)="log('change', $event)"
-      (focus)="log('focus', $event)"
-      (blur)="log('blur', $event)"
-    ></ard-simple-input>
-  </ng-container>
+  @for (appearance of appearances; track appearance) { @for (disabled of [false, true]; track disabled) {
+  <ard-simple-input
+    [disabled]="disabled"
+    [appearance]="appearance"
+    [(ngModel)]="value"
+    alignText="right"
+    [maxLength]="maxLength"
+    (ngModelChange)="log('ngModelChange', $event)"
+    (change)="log('change', $event)"
+    (focus)="log('focus', $event)"
+    (blur)="log('blur', $event)"
+  ></ard-simple-input>
+  } }
 </div>
 <span class="title">Input prefix</span>
 <div class="grid master">

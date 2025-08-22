@@ -64,18 +64,17 @@
     }
   </div>
   @if (labelObjects().length) {
-    <div
-      class="ard-slider-label-container"
-      *ngIf="labelObjects.length"
-    >
-      @for (label of labelObjects(); track $index) {
-        <div
-          class="ard-slider-label"
-          [style]="{ left: label.positionPercent }"
-        >
-          {{ label.label }}
-        </div>
-      }
-    </div>
+    @if (labelObjects.length) {
+      <div class="ard-slider-label-container">
+        @for (label of labelObjects(); track $index) {
+          <div
+            class="ard-slider-label"
+            [style]="{ left: label.positionPercent }"
+          >
+            {{ label.label }}
+          </div>
+        }
+      </div>
+    }
   }
 </div>

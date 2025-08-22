@@ -23,7 +23,7 @@ import {
     },
     {
       provide: _FormFieldComponentBase,
-      useExisting: ArdiumSimpleInputComponent
+      useExisting: ArdiumSimpleInputComponent,
     },
   ],
 })

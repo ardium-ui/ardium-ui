@@ -72,7 +72,7 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
     effect(() => {
       this.value();
       this._emitChange();
-    })
+    });
   }
 
   private readonly elementRef = inject(ElementRef<HTMLElement>);

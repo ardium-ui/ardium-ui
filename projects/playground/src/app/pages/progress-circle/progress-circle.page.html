@@ -92,26 +92,24 @@
 </div>
 <div class="master">
   <span class="title">Rainbow table</span>
-  <div
-    class="flex"
-    *ngFor="let variant of variants"
-  >
+  @for (variant of variants; track variant) {
+  <div class="flex">
     <span class="title">Variant: {{ variant }}</span>
     <div class="grid rainbow">
-      <ng-container *ngFor="let appearance of appearances">
-        <ng-container *ngFor="let hideValue of [false, true]">
-          <ard-progress-circle
-            *ngFor="let color of colors"
-            value="65"
-            [variant]="variant"
-            [appearance]="appearance"
-            [color]="color"
-            [hideValue]="hideValue"
-          ></ard-progress-circle>
-          <span class="mono">{{ appearance }}{{ hideValue ? ' + hidden value' : '' }}</span>
-        </ng-container>
-      </ng-container>
+      @for (appearance of appearances; track appearance) { @for (hideValue of [false, true]; track hideValue) { @for (color of
+      colors; track color) {
+      <ard-progress-circle
+        value="65"
+        [variant]="variant"
+        [appearance]="appearance"
+        [color]="color"
+        [hideValue]="hideValue"
+      ></ard-progress-circle>
+      }
+      <span class="mono">{{ appearance }}{{ hideValue ? ' + hidden value' : '' }}</span>
+      } }
     </div>
   </div>
+  }
   <ard-progress-circle></ard-progress-circle>
 </div>

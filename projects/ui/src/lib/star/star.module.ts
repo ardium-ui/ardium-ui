@@ -7,6 +7,6 @@ import { ArdStarIconTemplateDirective } from './star.directives';
 @NgModule({
   declarations: [ArdiumStarComponent, ArdStarIconTemplateDirective],
   imports: [CommonModule, ArdiumIconModule],
-exports: [ArdiumStarComponent, ArdStarIconTemplateDirective],
+  exports: [ArdiumStarComponent, ArdStarIconTemplateDirective],
 })
 export class ArdiumStarModule {}

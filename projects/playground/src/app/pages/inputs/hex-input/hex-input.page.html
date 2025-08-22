@@ -53,20 +53,18 @@
 </div>
 <div class="master">
   <span class="title">Rainbow table</span>
-  <div
-    class="flex"
-    *ngFor="let variant of variants"
-  >
+  @for (variant of variants; track variant) {
+  <div class="flex">
     <span class="title">{{ variant }}</span>
     <div class="grid">
-      <ng-container *ngFor="let appearance of appearances">
-        <ard-hex-input
-          *ngFor="let disabled of [false, true]"
-          [disabled]="disabled"
-          [appearance]="appearance"
-          [variant]="variant"
-        ></ard-hex-input>
-      </ng-container>
+      @for (appearance of appearances; track appearance) { @for (disabled of [false, true]; track disabled) {
+      <ard-hex-input
+        [disabled]="disabled"
+        [appearance]="appearance"
+        [variant]="variant"
+      ></ard-hex-input>
+      } }
     </div>
   </div>
+  }
 </div>

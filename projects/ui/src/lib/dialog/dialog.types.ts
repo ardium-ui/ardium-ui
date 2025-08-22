@@ -13,7 +13,7 @@ export const ArdDialogActionType = {
   NoOp: 'no-op',
   AutoClose: 'autoclose',
 } as const;
-export type ArdDialogActionType = typeof ArdDialogActionType[keyof typeof ArdDialogActionType];
+export type ArdDialogActionType = (typeof ArdDialogActionType)[keyof typeof ArdDialogActionType];
 
 export interface DialogButtonsContext {
   confirmButton: {

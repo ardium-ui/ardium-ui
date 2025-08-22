@@ -16,4 +16,4 @@ export const ArdDateInputMinMaxStrategy = {
   Allow: 'allow',
   Adjust: 'adjust',
 } as const;
-export type ArdDateInputMinMaxStrategy = typeof ArdDateInputMinMaxStrategy[keyof typeof ArdDateInputMinMaxStrategy];
+export type ArdDateInputMinMaxStrategy = (typeof ArdDateInputMinMaxStrategy)[keyof typeof ArdDateInputMinMaxStrategy];

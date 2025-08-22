@@ -1,5 +1,4 @@
-import { StarColor } from "../star.types";
-
+import { StarColor } from '../star.types';
 
 export interface ArdRatingInputStarButtonTemplateContext {
   color: StarColor;

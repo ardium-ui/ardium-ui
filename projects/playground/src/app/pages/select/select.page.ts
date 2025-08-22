@@ -9,7 +9,10 @@ import { DataService } from './../../services/data.service';
   styleUrls: ['./select.page.scss'],
 })
 export class SelectPage {
-  constructor(private _logger: Logger, private _dataService: DataService) {}
+  constructor(
+    private _logger: Logger,
+    private _dataService: DataService
+  ) {}
   readonly log = this._logger.log;
 
   //* item lists

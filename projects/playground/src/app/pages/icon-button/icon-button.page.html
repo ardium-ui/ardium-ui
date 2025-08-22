@@ -64,27 +64,22 @@
       [disabled]="disabled"
       [compact]="compact"
     >
-      <ng-container *ngIf="icon"
-        ><ard-icon
-          [icon]="icon"
-          filled
-        ></ard-icon
-      ></ng-container>
-      {{ text }}
+      @if (icon) {
+      <ard-icon
+        [icon]="icon"
+        filled
+      ></ard-icon>
+      } {{ text }}
     </ard-icon-button>
   </div>
 </div>
-<div
-  class="flex alt-coloring-host"
-  *ngFor="let compact of [false, true]"
->
+@for (compact of [false, true]; track compact) {
+<div class="flex alt-coloring-host">
   <div class="flex">
-    <div
-      class="grid"
-      *ngFor="let disabled of [false, true]"
-    >
+    @for (disabled of [false, true]; track disabled) {
+    <div class="grid">
+      @for (color of colors; track color) {
       <ard-icon-button
-        *ngFor="let color of colors"
         [color]="color"
         [disabled]="disabled"
         [compact]="compact"
@@ -95,9 +90,12 @@
       >
         <ard-icon>home</ard-icon>
       </ard-icon-button>
+      }
     </div>
+    }
   </div>
 </div>
+}
 <div class="master">
   <span class="title">Changing font size</span>
   <div class="flex">

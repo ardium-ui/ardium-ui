@@ -13,10 +13,9 @@
 <div class="master">
   <div class="title">Spinner rainbow table</div>
   <div>
-    <ard-spinner
-      *ngFor="let color of colors"
-      [color]="color"
-    ></ard-spinner>
+    @for (color of colors; track color) {
+    <ard-spinner [color]="color"></ard-spinner>
+    }
   </div>
 </div>
 

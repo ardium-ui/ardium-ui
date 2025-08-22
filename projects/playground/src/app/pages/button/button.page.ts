@@ -1,5 +1,10 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { ButtonAppearance as BA, ButtonVariant as BV, ComponentColor as CC, SimpleOneAxisAlignment as SOAA } from 'projects/ui/src/public-api';
+import {
+  ButtonAppearance as BA,
+  ButtonVariant as BV,
+  ComponentColor as CC,
+  SimpleOneAxisAlignment as SOAA,
+} from 'projects/ui/src/public-api';
 import { Logger } from '../../services/logger.service';
 
 @Component({

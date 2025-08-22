@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { ComponentColor, DecorationElementAppearance, FormElementVariant, SimpleOneAxisAlignment } from 'projects/ui/src/public-api';
+import {
+  ComponentColor,
+  DecorationElementAppearance,
+  FormElementVariant,
+  SimpleOneAxisAlignment,
+} from 'projects/ui/src/public-api';
 import { Logger } from '../../services/logger.service';
 
 @Component({

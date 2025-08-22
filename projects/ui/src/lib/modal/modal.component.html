@@ -1,20 +1,20 @@
 <ng-template #modalTemplate>
   @if (noBackdrop()) {
-  <div
-    class="ard-modal"
-    [ngClass]="ngClasses()"
-    (click)="onBackdropClick()"
-  >
-    <ng-template [ngTemplateOutlet]="_modalInsidePanel"></ng-template>
-  </div>
+    <div
+      class="ard-modal"
+      [ngClass]="ngClasses()"
+      (click)="onBackdropClick()"
+    >
+      <ng-template [ngTemplateOutlet]="_modalInsidePanel"></ng-template>
+    </div>
   } @else {
-  <div
-    class="ard-modal ard-modal-backdrop"
-    [ngClass]="ngClasses()"
-    (click)="onBackdropClick()"
-  >
-    <ng-template [ngTemplateOutlet]="_modalInsidePanel"></ng-template>
-  </div>
+    <div
+      class="ard-modal ard-modal-backdrop"
+      [ngClass]="ngClasses()"
+      (click)="onBackdropClick()"
+    >
+      <ng-template [ngTemplateOutlet]="_modalInsidePanel"></ng-template>
+    </div>
   }
 </ng-template>
 
@@ -29,21 +29,21 @@
     <div class="ard-modal-heading">
       <div class="ard-modal-heading-text">{{ heading() || (noCloseButton() ? '' : '&nbsp;') }}</div>
       @if (!noCloseButton()) {
-      <ard-icon-button
-        class="ard-modal-close-button"
-        color="none"
-        [compact]="compact()"
-        [disabled]="allActionsDisabled()"
-        (click)="onCloseButtonClick()"
-      >
-        <ng-template #defaultCloseIconTemplate>
-          <ard-icon>close</ard-icon>
-        </ng-template>
+        <ard-icon-button
+          class="ard-modal-close-button"
+          color="none"
+          [compact]="compact()"
+          [disabled]="allActionsDisabled()"
+          (click)="onCloseButtonClick()"
+        >
+          <ng-template #defaultCloseIconTemplate>
+            <ard-icon>close</ard-icon>
+          </ng-template>
 
-        <ng-template
-          [ngTemplateOutlet]="closeIconTemplate()?.template ?? _closeIconTemplate()?.template ?? defaultCloseIconTemplate"
-        />
-      </ard-icon-button>
+          <ng-template
+            [ngTemplateOutlet]="closeIconTemplate()?.template ?? _closeIconTemplate()?.template ?? defaultCloseIconTemplate"
+          />
+        </ard-icon-button>
       }
     </div>
     <div class="ard-modal-content">

@@ -23,8 +23,8 @@
 <div class="master flex">
   <span class="title">Compact & with error number input</span>
   <ard-number-input
-  compact
-  hasError
+    compact
+    hasError
   ></ard-number-input>
 </div>
 <div class="master flex">
@@ -55,21 +55,20 @@
 </div>
 <div class="master">
   <span class="title">Rainbow table</span>
-  <div
-    class="flex"
-    *ngFor="let variant of variants"
-  >
+  @for (variant of variants; track variant) {
+  <div class="flex">
     <span class="monospace">{{ variant }}</span>
     <div class="grid master">
-      <ng-container *ngFor="let appearance of appearances">
-        <ard-number-input
-          *ngFor="let disabled of [false, true]"
-          [disabled]="disabled"
-          [appearance]="appearance"
-          [variant]="variant"
-        ></ard-number-input>
-        <span class="monospace">{{ appearance }}</span>
-      </ng-container>
+      @for (appearance of appearances; track appearance) { @for (disabled of [false, true]; track disabled) {
+      <ard-number-input
+        [disabled]="disabled"
+        [appearance]="appearance"
+        [variant]="variant"
+      ></ard-number-input>
+      }
+      <span class="monospace">{{ appearance }}</span>
+      }
     </div>
   </div>
+  }
 </div>

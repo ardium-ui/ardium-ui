@@ -86,8 +86,8 @@
     </div>
   </div>
   <div class="button-container">
+    @if (addTo === 'text') {
     <p
-      *ngIf="addTo === 'text'"
       [ardBadge]="text ?? ''"
       [ardBadgeVariant]="variant[0]"
       [ardBadgeColor]="color[0]"
@@ -99,8 +99,8 @@
     >
       Lorem, ipsum.
     </p>
+    } @if (addTo === 'button') {
     <ard-button
-      *ngIf="addTo === 'button'"
       color="none"
       [ardBadge]="text ?? ''"
       [ardBadgeVariant]="variant[0]"
@@ -112,6 +112,7 @@
       [ardBadgeAriaLabel]="ariaLabel ?? ''"
       >Action</ard-button
     >
+    }
   </div>
 </div>
 
