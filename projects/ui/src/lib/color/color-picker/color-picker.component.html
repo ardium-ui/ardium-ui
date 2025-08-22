@@ -2,14 +2,14 @@
   class="ard-color-picker"
   [ngClass]="ngClasses"
   (keydown)="onKeydown($event)"
->
+  >
   <div
     class="ard-color-picker-click-areas"
     [style]="{
       '--ard-color-picker-current-hue': currentShadeMapColor,
       '--ard-color-picker-current-color': currentOpacityMapColor
     }"
-  >
+    >
     <div
       #shadeMap
       [tabIndex]="tabIndex()"
@@ -20,11 +20,11 @@
       (blur)="focusedArea.set(null)"
       (mousedown)="onShadeAreaMouseDown($event)"
       (pointerdown)="onShadeAreaMouseDown($event)"
-    >
+      >
       <div
         class="ard-color-picker-shade-indicator-container"
         [style]="getShadeIndicatorPosition()"
-      >
+        >
         <ng-template #defaultShadeIndicatorTemplate>
           <div class="ard-color-picker-shade-indicator"></div>
         </ng-template>
@@ -45,11 +45,11 @@
       (blur)="focusedArea.set(null)"
       (mousedown)="onHueAreaMouseDown($event)"
       (pointerdown)="onHueAreaMouseDown($event)"
-    >
+      >
       <div
         class="ard-color-picker-hue-indicator-container"
         [style]="getHueIndicatorPosition()"
-      >
+        >
         <ng-template #defaultHueIndicatorTemplate>
           <div class="ard-color-picker-hue-indicator"></div>
         </ng-template>
@@ -71,11 +71,11 @@
         (blur)="focusedArea.set(null)"
         (mousedown)="onOpacityAreaMouseDown($event)"
         (pointerdown)="onOpacityAreaMouseDown($event)"
-      >
+        >
         <div
           class="ard-color-picker-opacity-indicator-container"
           [style]="getOpacityIndicatorPosition()"
-        >
+          >
           <ng-template #defaultOpacityIndicatorTemplate>
             <div class="ard-color-picker-opacity-indicator"></div>
           </ng-template>
@@ -105,7 +105,7 @@
           #defaultColorReferenceTemplate
           let-col
           let-refcol="referenceColor"
-        >
+          >
           <div class="ard-color-picker-reference">
             <div
               class="ard-color-picker-reference-reference"
@@ -130,7 +130,7 @@
           'ard-mode-triple': currentInputType !== 'HEX',
           'ard-mode-opacity': withOpacity()
         }"
-      >
+        >
         <ng-template [ngTemplateOutlet]="currentInputType === 'HEX' ? hexInput : tripleInput"></ng-template>
       </div>
     </div>
@@ -144,13 +144,14 @@
     [value]="hexInputValue"
     (valueChange)="onHexInputChange($event)"
   ></ard-hex-input>
-  <ard-number-input
-    *ngIf="withOpacity"
-    allowQuickChange="false"
-    [max]="tripleInputData4.max"
-    [value]="tripleInputData4.value"
-    (valueChange)="onTripleInputChange($event, 4)"
-  ></ard-number-input>
+  @if (withOpacity()) {
+    <ard-number-input
+      allowQuickChange="false"
+      [max]="tripleInputData4.max"
+      [value]="tripleInputData4.value"
+      (valueChange)="onTripleInputChange($event, 4)"
+    ></ard-number-input>
+  }
 </ng-template>
 
 <ng-template #tripleInput>
@@ -172,11 +173,12 @@
     [value]="tripleInputData3.value"
     (valueChange)="onTripleInputChange($event, 3)"
   ></ard-number-input>
-  <ard-number-input
-    *ngIf="withOpacity"
-    allowQuickChange="false"
-    [max]="tripleInputData4.max"
-    [value]="tripleInputData4.value"
-    (valueChange)="onTripleInputChange($event, 4)"
-  ></ard-number-input>
+  @if (withOpacity()) {
+    <ard-number-input
+      allowQuickChange="false"
+      [max]="tripleInputData4.max"
+      [value]="tripleInputData4.value"
+      (valueChange)="onTripleInputChange($event, 4)"
+    ></ard-number-input>
+  }
 </ng-template>

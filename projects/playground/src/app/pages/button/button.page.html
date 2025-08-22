@@ -2,153 +2,158 @@
   <div
     class="flex horiz"
     style="margin-bottom: 16px"
-  >
+    >
     <ard-checkbox
       htmlId="alt-coloring"
       [(selected)]="altColoring"
-    />
-    <label for="alt-coloring">Alternate coloring?</label>
-  </div>
-  <span class="title">Button playground</span>
-  <div class="settings-form">
-    <div class="settings-top">
-      <div class="settings-left">
-        <div class="form-field flex">
-          <label for="appearance">Appearance</label>
-          <ard-select
-            htmlId="appearance"
-            [items]="appearances"
-            [(value)]="appearance"
-          />
-        </div>
-        <div class="form-field flex">
-          <label for="variant">Variant</label>
-          <ard-select
-            htmlId="variant"
-            [items]="variants"
-            [(value)]="variant"
-          />
-        </div>
-        <div class="form-field flex">
-          <label for="color">Color</label>
-          <ard-select
-            htmlId="color"
-            [items]="colors"
-            [(value)]="color"
-          />
-        </div>
-      </div>
-      <div class="settings-right">
-        <div class="form-field flex">
-          <label for="align">Align</label>
-          <ard-radio-group
-            id="align"
-            [(value)]="align"
-          >
-            <ard-radio value="left">Left</ard-radio>
-            <ard-radio value="right">Right</ard-radio>
-          </ard-radio-group>
-        </div>
-        <div class="form-field flex checkboxes">
-          <div class="list-item flex horiz">
-            <ard-checkbox
-              [(selected)]="compact"
-              htmlId="compact"
-            />
-            <label for="compact">Compact</label>
-          </div>
-          <div class="list-item flex horiz">
-            <ard-checkbox
-              [(selected)]="vertical"
-              htmlId="vertical"
-            />
-            <label for="vertical">Vertical</label>
-          </div>
-          <div class="list-item flex horiz">
-            <ard-checkbox
-              [(selected)]="disabled"
-              htmlId="disabled"
-            />
-            <label for="disabled">Disabled</label>
-          </div>
-        </div>
-      </div>
+      />
+      <label for="alt-coloring">Alternate coloring?</label>
     </div>
-    <div class="settings-bottom">
-      <div class="form-field flex">
-        <label for="text">Text</label>
-        <ard-simple-input
-          htmlId="text"
-          [(value)]="text"
-        />
-      </div>
-      <div class="form-field flex">
-        <label for="icon">Icon</label>
-        <ard-simple-input
-          htmlId="icon"
-          [(value)]="icon"
-        />
-      </div>
-    </div>
-  </div>
-  <div class="button-container alt-coloring-host">
-    <ard-button
-      [icon]="icon ?? ''"
-      [appearance]="appearance[0]"
-      [variant]="variant[0]"
-      [color]="color[0]"
-      [disabled]="disabled"
-      [compact]="compact"
-      [vertical]="vertical"
-      [alignIcon]="align"
-      [lightColoring]="altColoring"
-    >
-      {{ text }}
-    </ard-button>
-  </div>
-</div>
-<div
-  class="flex"
-  *ngFor="let compact of [false, true]"
->
-  <div
-    class="flex master"
-    *ngFor="let variant of variants"
-  >
-    <p class="title">{{ compact ? 'compact' : 'non-compact' }} {{ variant }}</p>
-    <div
-      class="flex horiz"
-      *ngFor="let appearance of appearances"
-    >
-      <div
-        class="flex"
-        [class.alt-coloring-host]="appearance === 'transparent'"
-      >
-        <div
-          class="grid"
-          *ngFor="let disabled of [false, true]"
-        >
-          <ard-button
-            *ngFor="let color of colors"
-            icon="close"
-            [variant]="variant"
-            [appearance]="appearance"
-            [color]="color"
-            [disabled]="disabled"
-            [compact]="compact"
-            [lightColoring]="altColoring"
-            (focus)="log('focus', $event)"
-            (blur)="log('blur', $event)"
-            (click)="log('click', $event)"
-            >Foo</ard-button
-          >
-        </div>
-      </div>
-      <span class="title appearance">{{ appearance }}</span>
-    </div>
-  </div>
-</div>
-<div class="master">
-  <div class="title">Button with pointer events when disabled</div>
-  <ard-button disabled pointerEventsWhenDisabled>Disabled</ard-button>
-</div>
+    <span class="title">Button playground</span>
+    <div class="settings-form">
+      <div class="settings-top">
+        <div class="settings-left">
+          <div class="form-field flex">
+            <label for="appearance">Appearance</label>
+            <ard-select
+              htmlId="appearance"
+              [items]="appearances"
+              [(value)]="appearance"
+              />
+            </div>
+            <div class="form-field flex">
+              <label for="variant">Variant</label>
+              <ard-select
+                htmlId="variant"
+                [items]="variants"
+                [(value)]="variant"
+                />
+              </div>
+              <div class="form-field flex">
+                <label for="color">Color</label>
+                <ard-select
+                  htmlId="color"
+                  [items]="colors"
+                  [(value)]="color"
+                  />
+                </div>
+              </div>
+              <div class="settings-right">
+                <div class="form-field flex">
+                  <label for="align">Align</label>
+                  <ard-radio-group
+                    id="align"
+                    [(value)]="align"
+                    >
+                    <ard-radio value="left">Left</ard-radio>
+                    <ard-radio value="right">Right</ard-radio>
+                  </ard-radio-group>
+                </div>
+                <div class="form-field flex checkboxes">
+                  <div class="list-item flex horiz">
+                    <ard-checkbox
+                      [(selected)]="compact"
+                      htmlId="compact"
+                      />
+                      <label for="compact">Compact</label>
+                    </div>
+                    <div class="list-item flex horiz">
+                      <ard-checkbox
+                        [(selected)]="vertical"
+                        htmlId="vertical"
+                        />
+                        <label for="vertical">Vertical</label>
+                      </div>
+                      <div class="list-item flex horiz">
+                        <ard-checkbox
+                          [(selected)]="disabled"
+                          htmlId="disabled"
+                          />
+                          <label for="disabled">Disabled</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="settings-bottom">
+                    <div class="form-field flex">
+                      <label for="text">Text</label>
+                      <ard-simple-input
+                        htmlId="text"
+                        [(value)]="text"
+                        />
+                      </div>
+                      <div class="form-field flex">
+                        <label for="icon">Icon</label>
+                        <ard-simple-input
+                          htmlId="icon"
+                          [(value)]="icon"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="button-container alt-coloring-host">
+                      <ard-button
+                        [icon]="icon ?? ''"
+                        [appearance]="appearance[0]"
+                        [variant]="variant[0]"
+                        [color]="color[0]"
+                        [disabled]="disabled"
+                        [compact]="compact"
+                        [vertical]="vertical"
+                        [alignIcon]="align"
+                        [lightColoring]="altColoring"
+                        >
+                        {{ text }}
+                      </ard-button>
+                    </div>
+                  </div>
+                  @for (compact of [false, true]; track compact) {
+                    <div
+                      class="flex"
+                      >
+                      @for (variant of variants; track variant) {
+                        <div
+                          class="flex master"
+                          >
+                          <p class="title">{{ compact ? 'compact' : 'non-compact' }} {{ variant }}</p>
+                          @for (appearance of appearances; track appearance) {
+                            <div
+                              class="flex horiz"
+                              >
+                              <div
+                                class="flex"
+                                [class.alt-coloring-host]="appearance === 'transparent'"
+                                >
+                                @for (disabled of [false, true]; track disabled) {
+                                  <div
+                                    class="grid"
+                                    >
+                                    @for (color of colors; track color) {
+                                      <ard-button
+                                        icon="close"
+                                        [variant]="variant"
+                                        [appearance]="appearance"
+                                        [color]="color"
+                                        [disabled]="disabled"
+                                        [compact]="compact"
+                                        [lightColoring]="altColoring"
+                                        (focus)="log('focus', $event)"
+                                        (blur)="log('blur', $event)"
+                                        (click)="log('click', $event)"
+                                        >Foo</ard-button
+                                        >
+                                      }
+                                    </div>
+                                  }
+                                </div>
+                                <span class="title appearance">{{ appearance }}</span>
+                              </div>
+                            }
+                          </div>
+                        }
+                      </div>
+                    }
+                    <div class="master">
+                      <div class="title">Button with pointer events when disabled</div>
+                      <ard-button disabled pointerEventsWhenDisabled>Disabled</ard-button>
+                    </div>

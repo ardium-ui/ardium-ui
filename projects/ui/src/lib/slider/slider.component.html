@@ -3,13 +3,13 @@
   [ngClass]="ngClasses()"
   [class.ard-slider-handle-grabbed]="isSliderHandleGrabbed()"
   [style]="{ '--_ard-slider-transition': sliderTransition() }"
->
+  >
   <div class="ard-slider-container">
     <div
       #track
       class="ard-slider-track"
       (pointerdown)="onTrackHitboxPointerDown($event)"
-    >
+      >
       <div class="ard-hitbox"></div>
       <div class="ard-slider-track-overlay ard-slider-track-inactive"></div>
       <div
@@ -38,7 +38,7 @@
       (focus)="onFocus($event)"
       (blur)="onBlur($event)"
       [style]="{ left: getHandlePosition(1) }"
-    >
+      >
       <div class="ard-focus-overlay"></div>
       <div class="ard-hitbox"></div>
     </button>
@@ -47,35 +47,36 @@
         class="ard-slider-tooltip-wrapper"
         [class.ard-tooltip-always]="tooltipBehavior() === 'always'"
         [style]="{ left: getHandlePosition(1) }"
-      >
+        >
         <ng-template
           #defaultTooltipTemplate
           let-value
-        >
+          >
           <div class="ard-slider-tooltip">{{ value }}</div>
         </ng-template>
 
         <ng-template
           [ngTemplateOutlet]="tooltipTemplate()?.template || defaultTooltipTemplate"
           [ngTemplateOutletContext]="getTooltipContext()"
-        >
+          >
         </ng-template>
       </div>
     }
   </div>
   @if (labelObjects().length) {
-    <div
-      class="ard-slider-label-container"
-      *ngIf="labelObjects.length"
-    >
-      @for (label of labelObjects(); track $index) {
-        <div
-          class="ard-slider-label"
-          [style]="{ left: label.positionPercent }"
+    @if (labelObjects.length) {
+      <div
+        class="ard-slider-label-container"
         >
-          {{ label.label }}
-        </div>
-      }
-    </div>
+        @for (label of labelObjects(); track $index) {
+          <div
+            class="ard-slider-label"
+            [style]="{ left: label.positionPercent }"
+            >
+            {{ label.label }}
+          </div>
+        }
+      </div>
+    }
   }
 </div>

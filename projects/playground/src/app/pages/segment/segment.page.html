@@ -63,11 +63,11 @@
     variant="rounded"
     appearance="transparent"
     iconBased
-  >
+    >
     <ng-template
       ard-segm-option-tmp
       let-option
-    >
+      >
       <span class="material-symbols-outlined"> {{ option.label() }} </span>
     </ng-template>
   </ard-segment>
@@ -82,34 +82,38 @@
 </div>
 <div class="div flex master">
   <h2 class="title">Rainbow table</h2>
-  <div
-    class="flex master"
-    *ngFor="let variant of variants"
-  >
-    <p class="title">{{ variant }}</p>
+  @for (variant of variants; track variant) {
     <div
-      class="flex horiz"
-      *ngFor="let appearance of appearances"
-    >
-      <div class="flex">
+      class="flex master"
+      >
+      <p class="title">{{ variant }}</p>
+      @for (appearance of appearances; track appearance) {
         <div
-          class="grid"
-          *ngFor="let disabled of [false, true]"
-        >
-          <ard-segment
-            *ngFor="let color of colors"
-            icon="close"
-            [variant]="variant"
-            [appearance]="appearance"
-            [color]="color"
-            [disabled]="disabled"
-            [items]="optionsComplex"
-            valueFrom="type"
-            labelFrom="label"
-          ></ard-segment>
+          class="flex horiz"
+          >
+          <div class="flex">
+            @for (disabled of [false, true]; track disabled) {
+              <div
+                class="grid"
+                >
+                @for (color of colors; track color) {
+                  <ard-segment
+                    icon="close"
+                    [variant]="variant"
+                    [appearance]="appearance"
+                    [color]="color"
+                    [disabled]="disabled"
+                    [items]="optionsComplex"
+                    valueFrom="type"
+                    labelFrom="label"
+                  ></ard-segment>
+                }
+              </div>
+            }
+          </div>
+          <span class="title appearance">{{ appearance }}</span>
         </div>
-      </div>
-      <span class="title appearance">{{ appearance }}</span>
+      }
     </div>
-  </div>
+  }
 </div>

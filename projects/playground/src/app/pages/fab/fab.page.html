@@ -9,7 +9,7 @@
             htmlId="size"
             [items]="sizes"
             [(value)]="size"
-          />
+            />
         </div>
         <div class="form-field flex">
           <label for="appearance">Appearance</label>
@@ -17,7 +17,7 @@
             htmlId="appearance"
             [items]="appearances"
             [(value)]="appearance"
-          />
+            />
         </div>
         <div class="form-field flex">
           <label for="color">Color</label>
@@ -25,119 +25,123 @@
             htmlId="color"
             [items]="colors"
             [(value)]="color"
-          />
+            />
         </div>
       </div>
       <div class="settings-right">
         <div class="form-field flex checkboxes">
           <!-- <div class="list-item flex horiz">
-            <ard-checkbox
-              [(selected)]="extended"
-              htmlId="extended"
+          <ard-checkbox
+            [(selected)]="extended"
+            htmlId="extended"
             />
-            <label for="extended">Extended</label>
-          </div> -->
-          <div class="list-item flex horiz">
-            <ard-checkbox
-              [(selected)]="disabled"
-              htmlId="disabled"
+          <label for="extended">Extended</label>
+        </div> -->
+        <div class="list-item flex horiz">
+          <ard-checkbox
+            [(selected)]="disabled"
+            htmlId="disabled"
             />
-            <label for="disabled">Disabled</label>
-          </div>
+          <label for="disabled">Disabled</label>
         </div>
       </div>
     </div>
-    <div class="settings-bottom">
-      <div class="form-field flex">
-        <label for="icon">Icon</label>
-        <ard-simple-input
-          htmlId="icon"
-          [(value)]="icon"
+  </div>
+  <div class="settings-bottom">
+    <div class="form-field flex">
+      <label for="icon">Icon</label>
+      <ard-simple-input
+        htmlId="icon"
+        [(value)]="icon"
         />
-      </div>
-      <div class="form-field flex">
-        <label for="text">Extended Text</label>
-        <ard-simple-input
-          htmlId="text"
-          [(value)]="text"
+    </div>
+    <div class="form-field flex">
+      <label for="text">Extended Text</label>
+      <ard-simple-input
+        htmlId="text"
+        [(value)]="text"
         />
-      </div>
     </div>
   </div>
-  <div class="button-container">
-    <ard-fab
-      [appearance]="appearance[0]"
-      [color]="color[0]"
-      [disabled]="disabled"
-      [size]="size[0]"
+</div>
+<div class="button-container">
+  <ard-fab
+    [appearance]="appearance[0]"
+    [color]="color[0]"
+    [disabled]="disabled"
+    [size]="size[0]"
     >
-      <!-- [extended]="extended" -->
-      <ard-icon [icon]="icon"></ard-icon>
-      {{ text }}
-    </ard-fab>
-  </div>
+    <!-- [extended]="extended" -->
+    <ard-icon [icon]="icon"></ard-icon>
+    {{ text }}
+  </ard-fab>
 </div>
-<div
-  class="flex master"
-  *ngFor="let size of sizes"
->
-  <p class="title">{{ size }}</p>
+</div>
+@for (size of sizes; track size) {
   <div
-    class="flex horiz"
-    *ngFor="let appearance of appearances"
-  >
-    <div class="flex">
+    class="flex master"
+    >
+    <p class="title">{{ size }}</p>
+    @for (appearance of appearances; track appearance) {
       <div
-        class="grid"
-        *ngFor="let disabled of [false, true]"
-      >
-        <ard-fab
-          *ngFor="let color of colors"
-          [size]="size"
-          [appearance]="appearance"
-          [color]="color"
-          [disabled]="disabled"
-          (focus)="log('focus', $event)"
-          (blur)="log('blur', $event)"
-          (click)="log('click', $event)"
+        class="flex horiz"
         >
-          <ard-icon>home</ard-icon>
-        </ard-fab>
+        <div class="flex">
+          @for (disabled of [false, true]; track disabled) {
+            <div
+              class="grid"
+              >
+              @for (color of colors; track color) {
+                <ard-fab
+                  [size]="size"
+                  [appearance]="appearance"
+                  [color]="color"
+                  [disabled]="disabled"
+                  (focus)="log('focus', $event)"
+                  (blur)="log('blur', $event)"
+                  (click)="log('click', $event)"
+                  >
+                  <ard-icon>home</ard-icon>
+                </ard-fab>
+              }
+            </div>
+          }
+        </div>
+        <span class="mono">{{ appearance }}</span>
       </div>
-    </div>
-    <span class="mono">{{ appearance }}</span>
+    }
   </div>
-</div>
+}
 <!-- <div
-  class="flex master"
-  *ngFor="let size of sizes"
+class="flex master"
+*ngFor="let size of sizes"
 >
-  <p class="title">{{ size }} extended</p>
-  <div
-    class="flex horiz"
-    *ngFor="let appearance of appearances"
+<p class="title">{{ size }} extended</p>
+<div
+  class="flex horiz"
+  *ngFor="let appearance of appearances"
   >
-    <div class="flex">
-      <div
-        class="grid"
-        *ngFor="let disabled of [false, true]"
+  <div class="flex">
+    <div
+      class="grid"
+      *ngFor="let disabled of [false, true]"
       >
-        <ard-fab
-          *ngFor="let color of colors"
-          [size]="size"
-          [appearance]="appearance"
-          extended
-          [color]="color"
-          [disabled]="disabled"
-          (focus)="log('focus', $event)"
-          (blur)="log('blur', $event)"
-          (click)="log('click', $event)"
+      <ard-fab
+        *ngFor="let color of colors"
+        [size]="size"
+        [appearance]="appearance"
+        extended
+        [color]="color"
+        [disabled]="disabled"
+        (focus)="log('focus', $event)"
+        (blur)="log('blur', $event)"
+        (click)="log('click', $event)"
         >
-          <ard-icon>edit</ard-icon>
-          Edit
-        </ard-fab>
-      </div>
+        <ard-icon>edit</ard-icon>
+        Edit
+      </ard-fab>
     </div>
-    <span class="mono">{{ appearance }}</span>
   </div>
+  <span class="mono">{{ appearance }}</span>
+</div>
 </div> -->

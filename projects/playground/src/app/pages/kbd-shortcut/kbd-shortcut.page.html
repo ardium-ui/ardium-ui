@@ -38,13 +38,14 @@
 <div class="master">
   <span class="title">Kbd shortcut appearances</span>
   <div class="flex">
-    <div
-      class="flex horiz"
-      *ngFor="let appearance of appearances"
-    >
-      <ard-kbd-shortcut [appearance]="appearance">Ctrl+A</ard-kbd-shortcut>
-      <span class="mono">{{ appearance }}</span>
-    </div>
+    @for (appearance of appearances; track appearance) {
+      <div
+        class="flex horiz"
+        >
+        <ard-kbd-shortcut [appearance]="appearance">Ctrl+A</ard-kbd-shortcut>
+        <span class="mono">{{ appearance }}</span>
+      </div>
+    }
   </div>
 </div>
 

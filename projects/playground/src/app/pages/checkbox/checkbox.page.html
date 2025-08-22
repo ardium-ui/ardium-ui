@@ -17,7 +17,7 @@
     <input
       type="number"
       [(ngModel)]="fontsize"
-    />
+      />
   </div>
   <div [style]="'font-size: ' + fontsize + 'px'">
     <ard-checkbox></ard-checkbox>
@@ -25,20 +25,22 @@
 </div>
 <div class="flex master">
   <span class="title">Rainbow table</span>
-  <div
-    class="flex horiz color-flex"
-    *ngFor="let color of colors"
-  >
-    <div class="grid red">
-      <ng-container *ngFor="let state of states">
-        <ard-checkbox
-          *ngFor="let disabled of [false, true]"
-          [state]="state"
-          [color]="color"
-          [disabled]="disabled"
-        ></ard-checkbox>
-      </ng-container>
+  @for (color of colors; track color) {
+    <div
+      class="flex horiz color-flex"
+      >
+      <div class="grid red">
+        @for (state of states; track state) {
+          @for (disabled of [false, true]; track disabled) {
+            <ard-checkbox
+              [state]="state"
+              [color]="color"
+              [disabled]="disabled"
+            ></ard-checkbox>
+          }
+        }
+      </div>
+      <span class="title color">{{ color }}</span>
     </div>
-    <span class="title color">{{ color }}</span>
-  </div>
+  }
 </div>

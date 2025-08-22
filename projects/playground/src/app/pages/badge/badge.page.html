@@ -9,7 +9,7 @@
             htmlId="variant"
             [items]="variants"
             [(value)]="variant"
-          />
+            />
         </div>
         <div class="form-field flex">
           <label for="color">Color</label>
@@ -17,7 +17,7 @@
             htmlId="color"
             [items]="colors"
             [(value)]="color"
-          />
+            />
         </div>
         <div class="form-field flex">
           <label for="size">Size</label>
@@ -25,7 +25,7 @@
             htmlId="size"
             [items]="sizes"
             [(value)]="size"
-          />
+            />
         </div>
       </div>
       <div class="settings-right">
@@ -42,7 +42,7 @@
             <ard-checkbox
               [(selected)]="hidden"
               htmlId="hidden"
-            />
+              />
             <label for="hidden">Hidden</label>
           </div>
           <div class="list-item flex horiz">
@@ -50,7 +50,7 @@
               [(selected)]="overlap"
               htmlId="overlap"
               (selectedChange)="log('selectedChange', $event)"
-            />
+              />
             <label for="overlap">Overlap</label>
           </div>
         </div>
@@ -63,14 +63,14 @@
           <ard-simple-input
             htmlId="text"
             [(value)]="text"
-          />
+            />
         </div>
         <div class="form-field flex">
           <label for="ariaLabel">Aria label</label>
           <ard-simple-input
             htmlId="ariaLabel"
             [(value)]="ariaLabel"
-          />
+            />
         </div>
       </div>
       <div class="settings-right">
@@ -78,7 +78,7 @@
         <ard-radio-group
           id="add-to"
           [(value)]="addTo"
-        >
+          >
           <ard-radio value="text">Text</ard-radio>
           <ard-radio value="button">Button</ard-radio>
         </ard-radio-group>
@@ -86,83 +86,85 @@
     </div>
   </div>
   <div class="button-container">
-    <p
-      *ngIf="addTo === 'text'"
-      [ardBadge]="text ?? ''"
-      [ardBadgeVariant]="variant[0]"
-      [ardBadgeColor]="color[0]"
-      [ardBadgeSize]="size[0]"
-      [ardBadgePosition]="position[0]"
-      [ardBadgeHidden]="hidden"
-      [ardBadgeOverlap]="overlap"
-      [ardBadgeAriaLabel]="ariaLabel ?? ''"
-    >
-      Lorem, ipsum.
-    </p>
-    <ard-button
-      *ngIf="addTo === 'button'"
-      color="none"
-      [ardBadge]="text ?? ''"
-      [ardBadgeVariant]="variant[0]"
-      [ardBadgeColor]="color[0]"
-      [ardBadgeSize]="size[0]"
-      [ardBadgePosition]="position[0]"
-      [ardBadgeHidden]="hidden"
-      [ardBadgeOverlap]="overlap"
-      [ardBadgeAriaLabel]="ariaLabel ?? ''"
-      >Action</ard-button
-    >
+    @if (addTo === 'text') {
+      <p
+        [ardBadge]="text ?? ''"
+        [ardBadgeVariant]="variant[0]"
+        [ardBadgeColor]="color[0]"
+        [ardBadgeSize]="size[0]"
+        [ardBadgePosition]="position[0]"
+        [ardBadgeHidden]="hidden"
+        [ardBadgeOverlap]="overlap"
+        [ardBadgeAriaLabel]="ariaLabel ?? ''"
+        >
+        Lorem, ipsum.
+      </p>
+    }
+    @if (addTo === 'button') {
+      <ard-button
+        color="none"
+        [ardBadge]="text ?? ''"
+        [ardBadgeVariant]="variant[0]"
+        [ardBadgeColor]="color[0]"
+        [ardBadgeSize]="size[0]"
+        [ardBadgePosition]="position[0]"
+        [ardBadgeHidden]="hidden"
+        [ardBadgeOverlap]="overlap"
+        [ardBadgeAriaLabel]="ariaLabel ?? ''"
+        >Action</ard-button
+        >
+      }
+    </div>
   </div>
-</div>
 
-<div class="master">
-  <span class="title">Most basic badge</span>
-  <p
-    ardBadge="Text"
-    ardBadgeOverlap="false"
-    ardBadgePosition="below"
-    ardBadgeSize="small"
-  >
-    Lorem ipsum dolor sit amet.
-  </p>
-  <p
-    ardBadge="Text"
-    ardBadgeOverlap="false"
-    ardBadgePosition="below"
-    ardBadgeSize="medium"
-  >
-    Lorem ipsum dolor sit amet.
-  </p>
-  <p
-    ardBadge="Text"
-    ardBadgeOverlap="false"
-    ardBadgePosition="below"
-    ardBadgeSize="large"
-  >
-    Lorem ipsum dolor sit amet.
-  </p>
-</div>
-<div class="master">
-  <span class="title">Badge on a button</span>
-  <ard-button
-    color="none"
-    appearance="raised-strong"
-    ardBadge="Text"
-    ardBadgeSize="small"
-    >Action</ard-button
-  >
-  <ard-button
-    color="none"
-    appearance="raised-strong"
-    ardBadge="Text"
-    ardBadgeSize="medium"
-    >Action</ard-button
-  >
-  <ard-button
-    color="none"
-    appearance="raised-strong"
-    ardBadge="Text"
-    ardBadgeSize="large"
-    >Action</ard-button
-  >
-</div>
+  <div class="master">
+    <span class="title">Most basic badge</span>
+    <p
+      ardBadge="Text"
+      ardBadgeOverlap="false"
+      ardBadgePosition="below"
+      ardBadgeSize="small"
+      >
+      Lorem ipsum dolor sit amet.
+    </p>
+    <p
+      ardBadge="Text"
+      ardBadgeOverlap="false"
+      ardBadgePosition="below"
+      ardBadgeSize="medium"
+      >
+      Lorem ipsum dolor sit amet.
+    </p>
+    <p
+      ardBadge="Text"
+      ardBadgeOverlap="false"
+      ardBadgePosition="below"
+      ardBadgeSize="large"
+      >
+      Lorem ipsum dolor sit amet.
+    </p>
+  </div>
+  <div class="master">
+    <span class="title">Badge on a button</span>
+    <ard-button
+      color="none"
+      appearance="raised-strong"
+      ardBadge="Text"
+      ardBadgeSize="small"
+      >Action</ard-button
+      >
+      <ard-button
+        color="none"
+        appearance="raised-strong"
+        ardBadge="Text"
+        ardBadgeSize="medium"
+        >Action</ard-button
+        >
+        <ard-button
+          color="none"
+          appearance="raised-strong"
+          ardBadge="Text"
+          ardBadgeSize="large"
+          >Action</ard-button
+          >
+        </div>
