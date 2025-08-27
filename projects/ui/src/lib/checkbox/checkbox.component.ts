@@ -15,6 +15,7 @@ import { SimpleComponentColor } from '../types/colors.types';
 import { _BooleanComponentBase } from './../_internal/boolean-component';
 import { ARD_CHECKBOX_DEFAULTS, ArdCheckboxDefaults } from './checkbox.defaults';
 import { ArdCheckboxTemplateDirective } from './checkbox.directives';
+import { _CheckboxTemplateRepositoryDirective } from './checkbox.internal-directives';
 import { CheckboxState, CheckboxTemplateContext } from './checkbox.types';
 
 @Component({
@@ -69,6 +70,8 @@ export class ArdiumCheckboxComponent extends _BooleanComponentBase implements Co
   }
 
   //! templates
+  readonly templateRepository = contentChild(_CheckboxTemplateRepositoryDirective);
+
   readonly checkboxTemplate = contentChild(ArdCheckboxTemplateDirective);
 
   readonly checkboxTemplateContext = computed<CheckboxTemplateContext>(() => ({

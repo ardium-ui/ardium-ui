@@ -7,6 +7,7 @@ import {
   Input,
   ViewEncapsulation,
   computed,
+  contentChild,
   input,
   output,
   signal,
@@ -18,6 +19,7 @@ import { ComponentColor } from '../types/colors.types';
 import { ArdOptionSimple, CompareWithFn } from '../types/item-storage.types';
 import { Nullable } from '../types/utility.types';
 import { ARD_CHECKBOX_LIST_DEFAULTS, ArdCheckboxListDefaults } from './checkbox-list.defaults';
+import { ArdCheckboxListCheckboxTemplateDirective } from './checkbox-list.directives';
 import { CheckboxListAlignType } from './checkbox-list.types';
 
 @Component({
@@ -138,4 +140,7 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
     }
     this.selectItem(v);
   }
+
+  //! templates
+  readonly checkboxTemplate = contentChild(ArdCheckboxListCheckboxTemplateDirective);
 }
