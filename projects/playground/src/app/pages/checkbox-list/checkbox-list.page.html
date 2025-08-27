@@ -27,3 +27,13 @@
     (change)="log('change', $event)"
   />
 </div>
+<div class="master">
+  <span class="title">Checkbox list with custom checkbox template</span>
+  <ard-checkbox-list
+    [items]="fruitItems"
+  >
+    <ng-template ard-checkbox-tmp let-selected>
+      {{ selected ? '☑' : '☐' }}
+    </ng-template>
+</ard-checkbox-list>
+</div>

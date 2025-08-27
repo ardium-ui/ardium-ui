@@ -23,6 +23,14 @@
     <ard-checkbox></ard-checkbox>
   </div>
 </div>
+<div class="master">
+  <span class="title">Checkbox with template</span>
+  <ard-checkbox>
+    <ng-template ard-checkbox-tmp let-selected>
+      {{ selected ? '☑' : '☐' }}
+    </ng-template>
+  </ard-checkbox>
+</div>
 <div class="flex master">
   <span class="title">Rainbow table</span>
   @for (color of colors; track color) {
