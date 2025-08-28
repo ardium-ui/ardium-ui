@@ -153,6 +153,8 @@ export class ArdiumNumberInputComponent
   //! incerement/decrement buttons
   readonly noButtons = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
+  readonly keepFocusOnQuickChangeButton = input<boolean, any>(true, { transform: v => coerceBooleanProperty(v) });
+
   readonly stepSize = input<number, any>(1, {
     transform: v => {
       const newValue = coerceNumberProperty(v, 1);
@@ -184,7 +186,14 @@ export class ArdiumNumberInputComponent
     this._focusInputIfCantQuickChange();
   }
   private _focusInputIfCantQuickChange(): void {
+    if (this.keepFocusOnQuickChangeButton()) return;
     if (!this.canDecrement() || !this.canIncrement()) this.focus();
+  }
+  onQuickChangeButtonMouseup(event: MouseEvent): void {
+    // prevent the event from reaching the parent element
+    if (this.keepFocusOnQuickChangeButton()) {
+      event.stopPropagation();
+    }
   }
 
   canIncrement(): boolean {
