@@ -125,7 +125,6 @@ export class NumberInputModel {
   
   private _updateInputEl(): void {
     const stringV = this.stringValue();
-    console.log('Updating input element to', stringV, this.value());
     const el = this._ardHostCmp.inputEl()?.nativeElement;
     if (!el) return;
 
@@ -149,15 +148,11 @@ export class NumberInputModel {
   }
   protected _writeValue(v: string | number | null): boolean {
     //constraints
-    console.log('Writing value 1', v);
     if (v) {
       v = this._removeDecimalPlaces(v);
-      console.log('Writing value 2', v);
       v = this._applyNumberConstraint(v);
-      console.log('Writing value 3', v);
       v = this._applyMinMaxConstraints(v);
     }
-    console.log('Writing value 4', v);
     //update view
     const oldVal = this._value();
     this.setValue(v);
