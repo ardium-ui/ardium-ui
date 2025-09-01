@@ -34,3 +34,10 @@ export class ArdiumFileInputDragoverContentTemplateDirective {
 export class ArdiumFileInputUploadedContentTemplateDirective {
   constructor(public template: TemplateRef<FileInputFilesContext>) {}
 }
+
+@Directive({
+  selector: 'ard-file-input > ng-template[ard-folder-icon-tmp]',
+})
+export class ArdiumFileInputFolderIconTemplateDirective {
+  constructor(public template: TemplateRef<undefined>) {}
+}

@@ -2,7 +2,7 @@ export interface FileInputBrowseContext {
   browse: () => void;
 }
 
-export interface FileInputFileAmountContext {
+export interface FileInputFileAmountContext extends FileInputBrowseContext {
   amount: number;
 }
 

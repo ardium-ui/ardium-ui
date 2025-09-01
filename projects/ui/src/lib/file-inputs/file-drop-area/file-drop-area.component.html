@@ -9,22 +9,20 @@
   <div class="ard-file-drop-area-outline">
     <div class="ard-file-drop-area-content">
       @if (currentViewState() === 'idle') {
-        <ng-template
-          [ngTemplateOutlet]="idleTemplate ?? defaultIdleTemplate"
-          [ngTemplateOutletContext]="getIdleContext()"
-        />
-      }
-      @if (currentViewState() === 'dragover') {
-        <ng-template
-          [ngTemplateOutlet]="dragoverTemplate ?? defaultDragoverTemplate"
-          [ngTemplateOutletContext]="getDragoverContext()"
-        ></ng-template>
-      }
-      @if (currentViewState() === 'uploaded') {
-        <ng-template
-          [ngTemplateOutlet]="uploadedTemplate ?? defaultUploadedTemplate"
-          [ngTemplateOutletContext]="getUploadedContext()"
-        ></ng-template>
+      <ng-template
+        [ngTemplateOutlet]="idleTemplate()?.template ?? defaultIdleTemplate"
+        [ngTemplateOutletContext]="getIdleContext()"
+      />
+      } @if (currentViewState() === 'dragover') {
+      <ng-template
+        [ngTemplateOutlet]="dragoverTemplate()?.template ?? defaultDragoverTemplate"
+        [ngTemplateOutletContext]="getDragoverContext()"
+      />
+      } @if (currentViewState() === 'uploaded') {
+      <ng-template
+        [ngTemplateOutlet]="uploadedTemplate()?.template ?? defaultUploadedTemplate"
+        [ngTemplateOutletContext]="getUploadedContext()"
+      />
       }
     </div>
   </div>
@@ -46,11 +44,10 @@
   <ard-icon class="ard-file-drop-area-icon">upload</ard-icon>
   <strong class="ard-file-drop-area-drop-text">
     @if (!multiple) {
-      <span>Drag & Drop a file</span>
+    <span>Drag & Drop a file</span>
     } @else {
-      <span>Drag & Drop files</span>
-    }
-    here
+    <span>Drag & Drop files</span>
+    } here
   </strong>
   <span class="ard-file-drop-area-or-text">or</span>
   <ard-button
@@ -60,8 +57,9 @@
     [variant]="variant()"
     [color]="color()"
     (click)="browse()"
-    >Browse files</ard-button
   >
+    Browse files
+  </ard-button>
 </ng-template>
 
 <ng-template
@@ -78,7 +76,7 @@
   </span>
   <span class="ard-file-drop-area-dragover-text"> here to upload. </span>
   @if (amount > 1 && !multiple()) {
-    <strong class="ard-file-drop-area-dragover-warning"> Only the first file will be uploaded! </strong>
+  <strong class="ard-file-drop-area-dragover-warning"> Only the first file will be uploaded! </strong>
   }
 </ng-template>
 
@@ -100,16 +98,16 @@
     </div>
     <div class="ard-file-drop-area-uploaded-files">
       @for (file of files; track $index) {
-        <div class="ard-file-drop-area-file">
-          <ard-icon>draft</ard-icon>
-          <div class="ard-file-drop-area-file-info">
-            <span class="ard-file-drop-area-filename">
-              <span class="ard-file-drop-area-filename-name">{{ file | filename }}</span>
-              <span class="ard-file-drop-area-filename-ext">{{ file | fileext: true }}</span>
-            </span>
-            <span class="ard-file-drop-area-filesize">{{ file.size | filesize }}</span>
-          </div>
+      <div class="ard-file-drop-area-file">
+        <ard-icon>draft</ard-icon>
+        <div class="ard-file-drop-area-file-info">
+          <span class="ard-file-drop-area-filename">
+            <span class="ard-file-drop-area-filename-name">{{ file | filename }}</span>
+            <span class="ard-file-drop-area-filename-ext">{{ file | fileext : true }}</span>
+          </span>
+          <span class="ard-file-drop-area-filesize">{{ file.size | filesize }}</span>
         </div>
+      </div>
       }
     </div>
   </div>

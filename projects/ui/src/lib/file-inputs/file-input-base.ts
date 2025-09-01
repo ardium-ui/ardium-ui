@@ -1,11 +1,11 @@
 import { AfterViewInit, Directive, ElementRef, Input, OnInit, input, output, signal, viewChild } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { isDefined } from 'simple-bool';
-import { _NgModelComponentBase } from '../_internal/ngmodel-component';
+import { _FormFieldComponentBase } from '../_internal/form-field-component';
 import { _FileInputBaseDefaults } from './file-input-base.defaults';
 
 @Directive()
-export abstract class _FileInputComponentBase extends _NgModelComponentBase implements OnInit, AfterViewInit {
+export abstract class _FileInputComponentBase extends _FormFieldComponentBase implements OnInit, AfterViewInit {
   protected override readonly _DEFAULTS!: _FileInputBaseDefaults;
 
   abstract readonly componentId: string;
@@ -19,7 +19,7 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
     if (!(window.File && window.FileReader && window.Blob)) {
       console.error(
         new Error(
-          `ARD-${this.componentId}0: Cannot use Ardium UI file features because this browser does not support file handling!`
+          `ARD-FT${this.componentId}0: Cannot use Ardium UI file features because this browser does not support file handling!`
         )
       );
     }
@@ -61,11 +61,28 @@ export abstract class _FileInputComponentBase extends _NgModelComponentBase impl
     this._writeValue(v, false);
   }
   protected _writeValue(v: File | File[] | null, emitEvents = true): void {
+    if (!(v instanceof File) && !Array.isArray(v) && v !== null) {
+      console.error(new Error(`ARD-FT${this.componentId}1: <ard-file-input>'s value must be a File, an array of Files, or null.`));
+      return;
+    }
     if (v instanceof File) {
       v = [v];
     }
+    if (Array.isArray(v) && !this.multiple() && v.length > 1) {
+      console.warn(
+        `ARD-WA${this.componentId}2: <ard-file-input> received an array of files but the 'multiple' input is not set to true. Only the first file will be used.`
+      );
+      v = [v[0]];
+    }
+    if (Array.isArray(v) && v.length === 0) {
+      v = null;
+    }
 
-    this.currentViewState.set('uploaded');
+    if (v === null) {
+      this.currentViewState.set('idle');
+    } else {
+      this.currentViewState.set('uploaded');
+    }
     this._value = v;
 
     if (this._wasViewInit) this._updateElementValue();

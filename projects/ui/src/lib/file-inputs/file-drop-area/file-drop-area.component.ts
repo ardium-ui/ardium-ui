@@ -1,12 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ContentChild,
   Inject,
-  TemplateRef,
   ViewEncapsulation,
   computed,
-  input,
+  contentChild,
+  input
 } from '@angular/core';
 import { ComponentColor } from '../../types/colors.types';
 import { FormElementVariant } from '../../types/theming.types';
@@ -55,18 +54,9 @@ export class ArdiumFileDropAreaComponent extends _FileInputComponentBase {
   }
 
   //! templates
-  @ContentChild(ArdiumFileDropAreaIdleContentTemplateDirective, {
-    read: TemplateRef,
-  })
-  idleTemplate: TemplateRef<FileInputBrowseContext> | null = null;
-  @ContentChild(ArdiumFileDropAreaDragoverContentTemplateDirective, {
-    read: TemplateRef,
-  })
-  dragoverTemplate: TemplateRef<FileInputFilesContext> | null = null;
-  @ContentChild(ArdiumFileDropAreaUploadedContentTemplateDirective, {
-    read: TemplateRef,
-  })
-  uploadedTemplate: TemplateRef<FileInputFilesContext> | null = null;
+  readonly idleTemplate = contentChild(ArdiumFileDropAreaIdleContentTemplateDirective);
+  readonly dragoverTemplate = contentChild(ArdiumFileDropAreaDragoverContentTemplateDirective);
+  readonly uploadedTemplate = contentChild(ArdiumFileDropAreaUploadedContentTemplateDirective);
 
   getIdleContext(): FileInputBrowseContext {
     return {
@@ -78,6 +68,9 @@ export class ArdiumFileDropAreaComponent extends _FileInputComponentBase {
   getDragoverContext(): FileInputFileAmountContext {
     return {
       amount: this._draggedFiles!,
+      browse: () => {
+        this.openBrowseDialog();
+      },
     };
   }
   getUploadedContext(): FileInputFilesContext {
@@ -86,6 +79,9 @@ export class ArdiumFileDropAreaComponent extends _FileInputComponentBase {
       $implicit: files,
       amount: files.length,
       files,
+      browse: () => {
+        this.openBrowseDialog();
+      },
     };
   }
 }

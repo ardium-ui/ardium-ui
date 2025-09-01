@@ -1,11 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ContentChild,
   Inject,
-  TemplateRef,
   ViewEncapsulation,
   computed,
+  contentChild,
   forwardRef,
   input,
   output,
@@ -13,6 +12,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { _FormFieldComponentBase } from '../../_internal/form-field-component';
 import { ComponentColor } from '../../types/colors.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { _FileInputComponentBase } from '../file-input-base';
@@ -23,8 +23,9 @@ import {
   ArdFileInputPrefixTemplateDirective,
   ArdFileInputSuffixTemplateDirective,
   ArdiumFileInputDragoverContentTemplateDirective,
+  ArdiumFileInputFolderIconTemplateDirective,
   ArdiumFileInputIdleContentTemplateDirective,
-  ArdiumFileInputUploadedContentTemplateDirective,
+  ArdiumFileInputUploadedContentTemplateDirective
 } from './file-input.directives';
 
 @Component({
@@ -38,6 +39,10 @@ import {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => ArdiumFileInputComponent),
       multi: true,
+    },
+    {
+      provide: _FormFieldComponentBase,
+      useExisting: forwardRef(() => ArdiumFileInputComponent),
     },
   ],
 })
@@ -66,13 +71,10 @@ export class ArdiumFileInputComponent extends _FileInputComponentBase {
     [`ard-color-${this.color()}`, `ard-state-${this.currentViewState()}`, this.value ? 'ard-has-value' : ''].join(' ')
   );
 
-  @ContentChild(ArdFileInputPlaceholderTemplateDirective, {
-    read: TemplateRef,
-  })
-  placeholderTemplate?: TemplateRef<any>;
+  readonly placeholderTemplate = contentChild(ArdFileInputPlaceholderTemplateDirective);
 
   get shouldDisplayPlaceholder(): boolean {
-    return Boolean(this.placeholder()) && !this.value;
+    return !!this.placeholder() && !this.value;
   }
 
   //! clear button
@@ -104,23 +106,13 @@ export class ArdiumFileInputComponent extends _FileInputComponentBase {
   readonly touched = signal<boolean>(false);
 
   //! prefix & suffix
-  @ContentChild(ArdFileInputPrefixTemplateDirective, { read: TemplateRef })
-  prefixTemplate?: TemplateRef<any>;
-  @ContentChild(ArdFileInputSuffixTemplateDirective, { read: TemplateRef })
-  suffixTemplate?: TemplateRef<any>;
+  readonly prefixTemplate = contentChild(ArdFileInputPrefixTemplateDirective);
+  readonly suffixTemplate = contentChild(ArdFileInputSuffixTemplateDirective);
   //! templates
-  @ContentChild(ArdiumFileInputIdleContentTemplateDirective, {
-    read: TemplateRef,
-  })
-  idleTemplate: TemplateRef<FileInputBrowseContext> | null = null;
-  @ContentChild(ArdiumFileInputDragoverContentTemplateDirective, {
-    read: TemplateRef,
-  })
-  dragoverTemplate: TemplateRef<FileInputFilesContext> | null = null;
-  @ContentChild(ArdiumFileInputUploadedContentTemplateDirective, {
-    read: TemplateRef,
-  })
-  uploadedTemplate: TemplateRef<FileInputFilesContext> | null = null;
+  readonly idleTemplate = contentChild(ArdiumFileInputIdleContentTemplateDirective);
+  readonly dragoverTemplate = contentChild(ArdiumFileInputDragoverContentTemplateDirective);
+  readonly uploadedTemplate = contentChild(ArdiumFileInputUploadedContentTemplateDirective);
+  readonly folderIconTemplate = contentChild(ArdiumFileInputFolderIconTemplateDirective);
 
   getIdleContext(): FileInputBrowseContext {
     return {
@@ -132,6 +124,9 @@ export class ArdiumFileInputComponent extends _FileInputComponentBase {
   getDragoverContext(): FileInputFileAmountContext {
     return {
       amount: this._draggedFiles!,
+      browse: () => {
+        this.openBrowseDialog();
+      },
     };
   }
   getUploadedContext(): FileInputFilesContext {
@@ -140,6 +135,9 @@ export class ArdiumFileInputComponent extends _FileInputComponentBase {
       $implicit: files,
       amount: files.length,
       files,
+      browse: () => {
+        this.openBrowseDialog();
+      },
     };
   }
 }
