@@ -1,10 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
-  ArdiumClickOutsideEventModule,
-  ArdiumFileextPipeModule,
-  ArdiumFilenamePipeModule,
-  ArdiumFilesizePipeModule,
+  ArdiumClickOutsideModule,
+  ArdiumFilePipesModule
 } from '@ardium-ui/devkit';
 import { ArdiumButtonModule } from '../../buttons/button/button.module';
 import { ArdiumIconModule } from '../../icon/icon.module';
@@ -26,10 +24,8 @@ import {
     CommonModule,
     ArdiumButtonModule,
     ArdiumIconModule,
-    ArdiumFilesizePipeModule,
-    ArdiumFilenamePipeModule,
-    ArdiumFileextPipeModule,
-    ArdiumClickOutsideEventModule,
+    ArdiumFilePipesModule,
+    ArdiumClickOutsideModule,
   ],
   exports: [
     ArdiumFileDropAreaComponent,

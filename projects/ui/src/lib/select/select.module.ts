@@ -1,10 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-
-import { ArdiumChipModule } from './../chip/chip.module';
-
-import { ArdiumClickOutsideEventModule, ArdiumInnerHTMLModule } from '@ardium-ui/devkit';
 import { ArdiumDropdownPanelModule } from '../dropdown-panel/dropdown-panel.module';
+import { ArdiumChipModule } from './../chip/chip.module';
 import { ArdiumSelectComponent } from './select.component';
 import {
   ArdAddCustomTemplateDirective,
@@ -24,8 +21,9 @@ import {
   ArdValueTemplateDirective,
 } from './select.directive';
 
-import { _ClearButtonModule } from './../_internal/clear-button/clear-button.module';
+import { ArdiumClickOutsideModule, ArdiumEscapeHTMLModule } from '@ardium-ui/devkit';
 import { ArdiumFormFieldFrameModule } from '../form-field-frame/form-field-frame.module';
+import { _ClearButtonModule } from './../_internal/clear-button/clear-button.module';
 
 @NgModule({
   declarations: [
@@ -48,13 +46,13 @@ import { ArdiumFormFieldFrameModule } from '../form-field-frame/form-field-frame
     ArdSelectSuffixTemplateDirective,
   ],
   imports: [
-    CommonModule,
+  CommonModule,
     ArdiumFormFieldFrameModule,
     ArdiumDropdownPanelModule,
     ArdiumChipModule,
-    ArdiumClickOutsideEventModule,
+    ArdiumClickOutsideModule,
     _ClearButtonModule,
-    ArdiumInnerHTMLModule,
+    ArdiumEscapeHTMLModule,
   ],
   exports: [
     ArdiumSelectComponent,

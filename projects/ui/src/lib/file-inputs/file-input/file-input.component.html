@@ -73,6 +73,7 @@
   [name]="name()"
   [multiple]="multiple()"
   [attr.id]="htmlId()"
+  [accept]="acceptString()"
   (change)="onInputChange()"
 />
 
@@ -111,8 +112,19 @@
 <ng-template
   #defaultUploadedTemplate
   let-amount="amount"
+  let-files="files"
 >
   <div class="ard-file-input__uploaded">
+    @if (amount === 1) {
+    <div class="ard-file-input__full-file-name">
+      <span class="ard-file-input__file-name">
+        {{ files?.[0]?.name | filename }}
+      </span>
+      <span class="ard-file-input__file-ext">
+        {{ files?.[0]?.name | fileext:true }}
+      </span>
+    </div>
+    } @else {
     <span class="ard-file-input__uploaded-amount">
       {{ amount }}
       <ng-container [ngPlural]="amount">
@@ -121,5 +133,6 @@
       </ng-container>
     </span>
     <span class="ard-file-input__uploaded-text"> uploaded.</span>
+    }
   </div>
 </ng-template>

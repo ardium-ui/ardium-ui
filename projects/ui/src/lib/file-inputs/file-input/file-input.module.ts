@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ArdiumFilePipesModule } from '@ardium-ui/devkit';
 import { _ClearButtonModule } from '../../_internal/clear-button/clear-button.module';
 import { ArdiumFormFieldFrameModule } from '../../form-field-frame/form-field-frame.module';
 import { ArdiumIconModule } from '../../icon/icon.module';
@@ -25,7 +26,7 @@ import {
     ArdFileInputPrefixTemplateDirective,
     ArdFileInputPlaceholderTemplateDirective,
   ],
-  imports: [CommonModule, ArdiumFormFieldFrameModule, _ClearButtonModule, ArdiumIconModule],
+  imports: [CommonModule, ArdiumFormFieldFrameModule, _ClearButtonModule, ArdiumIconModule, ArdiumFilePipesModule],
   exports: [
     ArdiumFileInputComponent,
     ArdiumFileInputFolderIconTemplateDirective,

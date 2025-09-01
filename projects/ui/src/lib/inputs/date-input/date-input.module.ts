@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { ArdiumClickOutsideEventModule } from '@ardium-ui/devkit';
+import { ArdiumClickOutsideModule } from '@ardium-ui/devkit';
 import { ArdiumDropdownPanelModule } from '../../dropdown-panel/dropdown-panel.module';
 
 import { ArdiumIconButtonModule } from '../../buttons/icon-button';
@@ -19,7 +19,7 @@ import { ArdiumDateInputComponent } from './date-input.component';
     CommonModule,
     ArdiumFormFieldFrameModule,
     ArdiumDropdownPanelModule,
-    ArdiumClickOutsideEventModule,
+    ArdiumClickOutsideModule,
     ArdiumCalendarModule,
     ArdiumIconButtonModule,
     ArdiumIconModule,

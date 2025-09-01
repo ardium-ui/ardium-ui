@@ -1,12 +1,34 @@
-import { AfterViewInit, Directive, ElementRef, Input, OnInit, input, output, signal, viewChild } from '@angular/core';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import {
+  AfterViewInit,
+  computed,
+  Directive,
+  ElementRef,
+  inject,
+  Input,
+  input,
+  OnInit,
+  output,
+  signal,
+  viewChild,
+} from '@angular/core';
+import {
+  coerceBooleanProperty,
+  coerceNumberProperty,
+  FileSystemMethod,
+  FileSystemService,
+  FileSystemStartDirectory,
+} from '@ardium-ui/devkit';
 import { isDefined } from 'simple-bool';
 import { _FormFieldComponentBase } from '../_internal/form-field-component';
+import { Nullable } from '../types/utility.types';
 import { _FileInputBaseDefaults } from './file-input-base.defaults';
+import { FileInputFailedUpload, FileInputFailedUploadReason, FileInputFileTypes } from './file-input-types';
 
 @Directive()
 export abstract class _FileInputComponentBase extends _FormFieldComponentBase implements OnInit, AfterViewInit {
   protected override readonly _DEFAULTS!: _FileInputBaseDefaults;
+
+  private readonly _fileSystemService = inject(FileSystemService);
 
   abstract readonly componentId: string;
 
@@ -36,11 +58,63 @@ export abstract class _FileInputComponentBase extends _FormFieldComponentBase im
 
   //! settings
   readonly multiple = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly maxFiles = input<Nullable<number>, any>(null, { transform: v => coerceNumberProperty(v, null) });
+
+  readonly maxFilesWithMultiple = computed<number>(() => (this.multiple() ? this.maxFiles() ?? Infinity : 1));
+
   readonly blockAfterUpload = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   get shouldBeBlocked(): boolean {
     return this.blockAfterUpload() && isDefined(this.value);
   }
+
+  readonly maxFileSizeBytes = input<Nullable<number>, any>(null, { transform: v => coerceNumberProperty(v, null) });
+
+  readonly accept = input<string | string[]>('*');
+  readonly directoryId = input<Nullable<string>>(undefined);
+  readonly startDirectory = input<Nullable<FileSystemStartDirectory>>(undefined);
+  readonly fileTypes = input<Nullable<FileInputFileTypes>>(undefined);
+
+  readonly acceptString = computed<string>(() => {
+    const types = this.fileTypes();
+    if (types) {
+      const acceptEntries: string[] = [];
+      for (const type of types) {
+        if (type.accept) {
+          for (const mimeType in type.accept) {
+            const extensions = type.accept[mimeType];
+            if (extensions && extensions.length > 0) {
+              acceptEntries.push(...extensions);
+            }
+          }
+        }
+      }
+      return acceptEntries.join(',');
+    }
+
+    const accept = this.accept();
+    if (Array.isArray(accept)) {
+      return accept.join(',');
+    }
+
+    return accept;
+  });
+
+  readonly acceptedMimeTypes = computed<{ mimeType: string; extensions: Set<string> }[] | null>(() => {
+    const types = this.fileTypes();
+    if (types) {
+      const mimeTypes: { mimeType: string; extensions: Set<string> }[] = [];
+      for (const type of types) {
+        if (type.accept) {
+          for (const mimeType in type.accept) {
+            mimeTypes.push({ mimeType, extensions: new Set(type.accept[mimeType]) });
+          }
+        }
+      }
+      return mimeTypes;
+    }
+    return null;
+  });
 
   //! value
   protected _value: File[] | null = null;
@@ -54,7 +128,8 @@ export abstract class _FileInputComponentBase extends _FormFieldComponentBase im
 
   readonly valueChange = output<File[] | null>();
   readonly changeEvent = output<File[] | null>({ alias: 'change' });
-  readonly dragFilesEvent = output<File[] | null>({ alias: 'dragFiles' });
+  readonly dragFilesEvent = output<File[]>({ alias: 'dragFiles' });
+  readonly failedUploadEvent = output<FileInputFailedUpload[]>({ alias: 'failedUpload' });
 
   protected _valueBeforeInit: File[] | null = null;
   writeValue(v: File | File[] | null): void {
@@ -62,7 +137,9 @@ export abstract class _FileInputComponentBase extends _FormFieldComponentBase im
   }
   protected _writeValue(v: File | File[] | null, emitEvents = true): void {
     if (!(v instanceof File) && !Array.isArray(v) && v !== null) {
-      console.error(new Error(`ARD-FT${this.componentId}1: <ard-file-input>'s value must be a File, an array of Files, or null.`));
+      console.error(
+        new Error(`ARD-FT${this.componentId}1: <ard-file-input>'s value must be a File, an array of Files, or null.`)
+      );
       return;
     }
     if (v instanceof File) {
@@ -100,6 +177,36 @@ export abstract class _FileInputComponentBase extends _FormFieldComponentBase im
   }
 
   openBrowseDialog(): void {
+    if (
+      this._fileSystemService.isFileSystemAPISupported('showOpenFilePicker') &&
+      (this.directoryId() || this.startDirectory() || this.fileTypes())
+    ) {
+      this._fileSystemService
+        .requestFileUpload({
+          method: FileSystemMethod.PreferFileSystem,
+          multiple: this.multiple(),
+          directoryId: this.directoryId() ?? undefined,
+          startDirectory: this.startDirectory() ?? undefined,
+          types: this.fileTypes() ?? undefined,
+          accept: this.accept() === '*' ? undefined : this.accept(),
+        })
+        .then(fileOrFiles => {
+          if (!fileOrFiles) {
+            this._writeValue(null);
+            this.currentViewState.set('idle');
+            return;
+          }
+          const files = Array.isArray(fileOrFiles) ? fileOrFiles : [fileOrFiles];
+          if (files.length === 0) {
+            this._writeValue(null);
+            this.currentViewState.set('idle');
+            return;
+          }
+          this._writeValue(files);
+          this.currentViewState.set('uploaded');
+        });
+      return;
+    }
     this.fileInputEl()?.nativeElement.click();
   }
 
@@ -150,9 +257,76 @@ export abstract class _FileInputComponentBase extends _FormFieldComponentBase im
       this.currentViewState.set('idle');
       return;
     }
+    const filteredFiles: File[] = [];
+    const failedFiles: FileInputFailedUpload[] = [];
+    const acceptedMimeTypes = this.acceptedMimeTypes();
+    if (acceptedMimeTypes) {
+      let mimeTypeMatched = false;
+      fileLoop: for (const file of files) {
+        const { shouldAccept, reason } = this._filterFilesBasedOnSizeAndCount(file, filteredFiles.length);
+        if (!shouldAccept) {
+          failedFiles.push({ file, reason: reason! });
+          continue;
+        }
+
+        mimeTypeMatched = false;
+        for (const mimeTypeObj of acceptedMimeTypes) {
+          if (isMimeTypeMatching(file, mimeTypeObj.mimeType)) {
+            mimeTypeMatched = true;
+
+            const extension = '.' + file.name.split('.').pop()?.toLowerCase();
+            if (mimeTypeObj.extensions.size === 0 || mimeTypeObj.extensions.has('*') || mimeTypeObj.extensions.has(extension)) {
+              filteredFiles.push(file);
+              continue fileLoop;
+            }
+          }
+        }
+        if (!mimeTypeMatched) {
+          failedFiles.push({ file, reason: FileInputFailedUploadReason.InvalidMimeType });
+        } else {
+          failedFiles.push({ file, reason: FileInputFailedUploadReason.MimeTypeFoundButExtensionNotAllowed });
+        }
+      }
+    } else {
+      const accept = this.accept();
+      let acceptEntries: string[] = [];
+      if (Array.isArray(accept)) {
+        acceptEntries = accept.map(e => e.trim().toLowerCase());
+      } else {
+        acceptEntries = accept.split(',').map(e => e.trim().toLowerCase());
+      }
+      if (typeof accept === 'string' && accept === '*') {
+        for (const file of files) {
+          const { shouldAccept, reason } = this._filterFilesBasedOnSizeAndCount(file, filteredFiles.length);
+          if (!shouldAccept) {
+            failedFiles.push({ file, reason: reason! });
+          }
+        }
+      } else {
+        fileLoop: for (const file of files) {
+          const { shouldAccept, reason } = this._filterFilesBasedOnSizeAndCount(file, filteredFiles.length);
+          if (!shouldAccept) {
+            failedFiles.push({ file, reason: reason! });
+            continue;
+          }
+
+          const extension = '.' + file.name.split('.').at(-1)?.toLowerCase();
+          for (const entry of acceptEntries) {
+            if (extension === entry) {
+              filteredFiles.push(file);
+              continue fileLoop;
+            }
+          }
+          failedFiles.push({ file, reason: FileInputFailedUploadReason.InvalidExtension });
+        }
+      }
+    }
+
+    this.dragFilesEvent.emit(filteredFiles);
+    this.failedUploadEvent.emit(failedFiles);
 
     this.currentViewState.set('uploaded');
-    this._writeValue(files);
+    this._writeValue(filteredFiles.length > 0 ? filteredFiles : null);
   }
   onInputChange(): void {
     const files = Array.from(this.fileInputEl()?.nativeElement.files ?? []);
@@ -166,6 +340,21 @@ export abstract class _FileInputComponentBase extends _FormFieldComponentBase im
   }
 
   //! helpers
+  private _filterFilesBasedOnSizeAndCount(
+    file: File,
+    existingFileCount: number
+  ): { shouldAccept: boolean; reason?: FileInputFailedUploadReason } {
+    // check count
+    if (existingFileCount >= this.maxFilesWithMultiple()) {
+      return { shouldAccept: false, reason: FileInputFailedUploadReason.TooManyFiles };
+    }
+    // check size
+    if (file.size > 0 && this.maxFileSizeBytes() !== null && file.size > this.maxFileSizeBytes()!) {
+      return { shouldAccept: false, reason: FileInputFailedUploadReason.FileTooBig };
+    }
+    // all good
+    return { shouldAccept: true };
+  }
   protected _countDragenterFiles(data: DataTransfer | null): number | null {
     if (!data) return null;
 
@@ -188,4 +377,13 @@ export abstract class _FileInputComponentBase extends _FormFieldComponentBase im
     }
     inputEl.files = dataTransfer.files;
   }
+}
+
+function isMimeTypeMatching(file: File, mimeType: string): boolean {
+  if (mimeType === '*') return true;
+  if (mimeType.endsWith('/*')) {
+    const prefix = mimeType.slice(0, -2);
+    return file.type.startsWith(prefix);
+  }
+  return file.type === mimeType;
 }

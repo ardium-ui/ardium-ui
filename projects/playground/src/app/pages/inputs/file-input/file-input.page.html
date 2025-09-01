@@ -4,5 +4,27 @@
 </div>
 <div class="master">
   <span class="title">File input with control</span>
-  <ard-file-input [formControl]="control" />
+  <ard-file-input
+    [formControl]="control"
+    (valueChange)="log('valueChange', $event?.[0])"
+  />
+</div>
+<div class="master">
+  <span class="title">File input with accept (pdf only)</span>
+  <ard-file-input
+    [formControl]="control2"
+    (valueChange)="log('valueChange', $event?.[0])"
+    accept=".pdf"
+  />
+</div>
+<div class="master">
+  <span class="title">File input with file types (images only)</span>
+  <ard-file-input
+    [formControl]="control2"
+    (valueChange)="log('valueChange', $event?.[0])"
+    directoryId="File-input-with-FileSystemApi"
+    [fileTypes]="FILE_TYPES"
+    (dragFiles)="log('dragFiles', $event)"
+    (failedUpload)="log('failedUpload', $event)"
+  />
 </div>

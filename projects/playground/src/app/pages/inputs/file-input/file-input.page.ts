@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { FileInputFileTypes } from 'projects/ui/src/lib/file-inputs/file-input-types';
+import { Logger } from '../../../services/logger.service';
 
 @Component({
   selector: 'app-file-input',
@@ -7,5 +9,17 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./file-input.page.scss'],
 })
 export class FileInputPage {
+  readonly log = inject(Logger).log;
+
   readonly control = new FormControl<File | null>(null);
+  readonly control2 = new FormControl<File | null>(null);
+
+  readonly FILE_TYPES: FileInputFileTypes = [
+    {
+      description: 'Images',
+      accept: {
+        'image/*': ['.png', '.jpg', '.jpeg', '.webp', '.bmp', '.svg', '.tiff'],
+      }
+    }
+  ]
 }
