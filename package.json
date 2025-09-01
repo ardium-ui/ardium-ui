@@ -55,6 +55,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "ng-packagr": "^18.0.0",
+    "sass": "^1.91.0",
     "typescript": "~5.4.2",
     "typescript-eslint": "8.0.0-alpha.20"
   }
