@@ -46,7 +46,7 @@ export * from './lib/progress-circle'; // 402
 export * from './lib/spinner'; // 400
 
 //! component group 5 - data display components
-export * from './lib/color/color-display'; // 502
+// export * from './lib/color/color-display'; // 502
 export * from './lib/dropdown-panel'; // 501
 export * from './lib/form-field'; // 511-514
 export * from './lib/form-field-frame'; // 500
@@ -82,3 +82,4 @@ export * from './lib/types/utility.types';
 
 //! miscellaneous
 export { searchFunctions as ArdSearchFunction, searchInString } from './lib/search-functions';
+

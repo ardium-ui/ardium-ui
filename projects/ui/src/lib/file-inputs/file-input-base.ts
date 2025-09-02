@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   computed,
   Directive,
   ElementRef,
@@ -29,6 +30,7 @@ export abstract class _FileInputComponentBase extends _FormFieldComponentBase im
   protected override readonly _DEFAULTS!: _FileInputBaseDefaults;
 
   private readonly _fileSystemService = inject(FileSystemService);
+  private readonly _changeDetectorRef = inject(ChangeDetectorRef);
 
   abstract readonly componentId: string;
 
@@ -204,6 +206,7 @@ export abstract class _FileInputComponentBase extends _FormFieldComponentBase im
           }
           this._writeValue(files);
           this.currentViewState.set('uploaded');
+          // this._changeDetectorRef.markForCheck();
         });
       return;
     }
