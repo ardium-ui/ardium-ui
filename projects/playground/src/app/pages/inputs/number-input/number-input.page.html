@@ -57,6 +57,10 @@
   <span class="title">Number input with [keepFocusOnQuickChange]</span>
   <ard-number-input keepFocusOnQuickChangeButton max="10"></ard-number-input>
 </div>
+<div class="master flex">
+  <span class="title">Number input with [keepFocusOnQuickChange] and button gets disabled for a while after number change</span>
+  <ard-number-input keepFocusOnQuickChangeButton value="0" (valueChange)="increaseMax()" [max]="maxSignal()"></ard-number-input>
+</div>
 <div class="master">
   <span class="title">Rainbow table</span>
   @for (variant of variants; track variant) {

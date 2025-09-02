@@ -11,7 +11,6 @@ import { CardModule } from './pages/card/card.module';
 import { CheckboxListModule } from './pages/checkbox-list/checkbox-list.module';
 import { CheckboxModule } from './pages/checkbox/checkbox.module';
 import { ChipsModule } from './pages/chips/chips.module';
-import { ColorDisplayModule } from './pages/color-display/color-display.module';
 import { ColorPickerModule } from './pages/color-picker/color-picker.module';
 import { DialogModule } from './pages/dialog/dialog.module';
 import { DividerModule } from './pages/divider/divider.module';
@@ -60,7 +59,7 @@ import { TableModule } from './pages/table/table.module';
     SegmentModule,
     SlidersModule,
     IconModule,
-    ColorDisplayModule,
+    // ColorDisplayModule,
     ColorPickerModule,
     CalendarModule,
     ProgressCircleModule,

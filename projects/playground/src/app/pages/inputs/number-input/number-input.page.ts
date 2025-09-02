@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormElementAppearance as FA, FormElementVariant as FV } from 'projects/ui/src/public-api';
 import { Logger } from '../../../services/logger.service';
 
@@ -16,4 +16,12 @@ export class NumberInputPage {
 
   constructor(private _logger: Logger) {}
   log = this._logger.log;
+
+  readonly maxSignal = signal<number>(0);
+
+  increaseMax() {
+    setTimeout(() => {
+      this.maxSignal.update(v => v + 1);
+    }, 3000);
+  }
 }

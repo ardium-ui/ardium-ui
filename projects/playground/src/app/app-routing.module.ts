@@ -7,7 +7,6 @@ import { CardPage } from './pages/card/card.page';
 import { CheckboxListPage } from './pages/checkbox-list/checkbox-list.page';
 import { CheckboxPage } from './pages/checkbox/checkbox.page';
 import { ChipsPage } from './pages/chips/chips.page';
-import { ColorDisplayPage } from './pages/color-display/color-display.page';
 import { ColorPickerPage } from './pages/color-picker/color-picker.page';
 import { DialogPage } from './pages/dialog/dialog.page';
 import { DividerPage } from './pages/divider/divider.page';
@@ -50,7 +49,7 @@ const routes: Routes = [
   { path: 'chips', component: ChipsPage },
   { path: 'icon', component: IconPage },
   { path: 'table', component: TablePage },
-  { path: 'color-display', component: ColorDisplayPage },
+  // { path: 'color-display', component: ColorDisplayPage },
   { path: 'color-picker', component: ColorPickerPage },
   { path: 'calendar', component: CalendarPage },
   { path: 'progress-circle', component: ProgressCirclePage },
