@@ -12,6 +12,9 @@
         "@schematics/angular:component": {
           "style": "scss",
           "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
         }
       },
       "root": "projects/ui",

@@ -95,6 +95,7 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
   //! control value accessor
   readonly value = model<Date | null>(null);
   readonly dateInputValue = model<string>('');
+  private readonly _wasDateInputChanged = signal<boolean>(false);
 
   writeValue(v: Date | null): void {
     if (v instanceof Date) {
@@ -129,11 +130,13 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
 
   onDateInputInput(event: Event): void {
     const v = (event.target as HTMLInputElement).value;
+    console.log(v);
     this.dateInputValue.set(v);
   }
   onDateInputFocus(event: FocusEvent): void {
     this.onFocus(event);
     this._isDateInputFocused.set(true);
+    this._wasDateInputChanged.set(false);
   }
   onDateInputBlur(event: FocusEvent): void {
     this.onBlur(event);
@@ -155,6 +158,7 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
   }
   private _processDateInputText(value: string): void {
     let date = this.deserializeFn()(value, this.value());
+    console.log(value, date);
 
     if (this.minMaxStrategy() === ArdDateInputMinMaxStrategy.Adjust && date) {
       const min = this.min();
@@ -271,6 +275,10 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
 
   readonly min = input<Date | null, any>(this._DEFAULTS.min, { transform: v => coerceDateProperty(v, this._DEFAULTS.min) });
   readonly max = input<Date | null, any>(this._DEFAULTS.max, { transform: v => coerceDateProperty(v, this._DEFAULTS.max) });
+
+  fndjufd = effect(() => {
+    console.log('minmax', this.min(), this.max());
+  })
 
   readonly filter = input<ArdCalendarFilterFn | null>(this._DEFAULTS.filter);
 

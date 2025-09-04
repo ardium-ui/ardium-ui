@@ -18,12 +18,10 @@ import { TakeChance as Random } from 'take-chance';
 import { _FocusableComponentBase, _focusableComponentDefaults, _FocusableComponentDefaults } from './focusable-component';
 
 export interface _NgModelComponentDefaults extends _FocusableComponentDefaults {
-  required: boolean | undefined;
 }
 
 export const _ngModelComponentDefaults: _NgModelComponentDefaults = {
   ..._focusableComponentDefaults,
-  required: undefined,
 };
 
 /**

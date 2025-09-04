@@ -11,57 +11,57 @@ import {
 } from './calendar.types';
 
 @Directive({
-  selector: 'ard-calendar > ng-template[ard-header-tmp], ard-datepicker > ng-template[ard-header-tmp]',
+  selector: 'ard-calendar > ng-template[ard-header-tmp]',
 })
-export class ArdDaysViewHeaderTemplateDirective {
+export class ArdCalendarDaysViewHeaderTemplateDirective {
   constructor(public template: TemplateRef<CalendarDaysViewHeaderContext>) {}
 }
 
 @Directive({
-  selector: 'ard-calendar > ng-template[ard-year-picker-header-tmp], ard-datepicker > ng-template[ard-year-picker-header-tmp]',
+  selector: 'ard-calendar > ng-template[ard-year-picker-header-tmp]',
 })
-export class ArdYearsViewHeaderTemplateDirective {
+export class ArdCalendarYearsViewHeaderTemplateDirective {
   constructor(public template: TemplateRef<CalendarYearsViewHeaderContext>) {}
 }
 
 @Directive({
-  selector: 'ard-calendar > ng-template[ard-month-picker-header-tmp], ard-datepicker > ng-template[ard-month-picker-header-tmp]',
+  selector: 'ard-calendar > ng-template[ard-month-picker-header-tmp]',
 })
-export class ArdMonthsViewHeaderTemplateDirective {
+export class ArdCalendarMonthsViewHeaderTemplateDirective {
   constructor(public template: TemplateRef<CalendarMonthsViewHeaderContext>) {}
 }
 
 @Directive({
-  selector: 'ard-calendar > ng-template[ard-weekday-tmp], ard-datepicker > ng-template[ard-weekday-tmp]',
+  selector: 'ard-calendar > ng-template[ard-weekday-tmp]',
 })
-export class ArdWeekdayTemplateDirective {
+export class ArdCalendarWeekdayTemplateDirective {
   constructor(public template: TemplateRef<CalendarWeekdayContext>) {}
 }
 
 @Directive({
-  selector: 'ard-calendar > ng-template[ard-floating-month-tmp], ard-datepicker > ng-template[ard-floating-month-tmp]',
+  selector: 'ard-calendar > ng-template[ard-floating-month-tmp]',
 })
-export class ArdFloatingMonthTemplateDirective {
+export class ArdCalendarFloatingMonthTemplateDirective {
   constructor(public template: TemplateRef<CalendarFloatingMonthContext>) {}
 }
 
 @Directive({
-  selector: 'ard-calendar > ng-template[ard-year-tmp], ard-datepicker > ng-template[ard-year-tmp]',
+  selector: 'ard-calendar > ng-template[ard-year-tmp]',
 })
-export class ArdYearTemplateDirective {
+export class ArdCalendarYearTemplateDirective {
   constructor(public template: TemplateRef<CalendarYearContext>) {}
 }
 
 @Directive({
-  selector: 'ard-calendar > ng-template[ard-month-tmp], ard-datepicker > ng-template[ard-month-tmp]',
+  selector: 'ard-calendar > ng-template[ard-month-tmp]',
 })
-export class ArdMonthTemplateDirective {
+export class ArdCalendarMonthTemplateDirective {
   constructor(public template: TemplateRef<CalendarMonthContext>) {}
 }
 
 @Directive({
-  selector: 'ard-calendar > ng-template[ard-day-tmp], ard-datepicker > ng-template[ard-day-tmp]',
+  selector: 'ard-calendar > ng-template[ard-day-tmp]',
 })
-export class ArdDayTemplateDirective {
+export class ArdCalendarDayTemplateDirective {
   constructor(public template: TemplateRef<CalendarDayContext>) {}
 }

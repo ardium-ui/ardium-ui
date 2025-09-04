@@ -16,7 +16,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TakeChance as Random } from 'take-chance';
-import { _NgModelComponentBase, _ngModelComponentDefaults } from '../_internal/ngmodel-component';
+import { _FormFieldComponentBase, _formFieldComponentDefaults } from '../_internal/form-field-component';
 import { Nullable } from '../types/utility.types';
 import { ArdiumRadioComponent } from './radio/radio.component';
 
@@ -40,7 +40,7 @@ import { ArdiumRadioComponent } from './radio/radio.component';
     },
   ],
 })
-export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements AfterContentInit, OnDestroy {
+export class ArdiumRadioGroupComponent extends _FormFieldComponentBase implements AfterContentInit, OnDestroy {
   private readonly _radios = contentChildren<ArdiumRadioComponent>(ArdiumRadioComponent, { descendants: true });
 
   @HostBinding('attr.id')
@@ -49,7 +49,7 @@ export class ArdiumRadioGroupComponent extends _NgModelComponentBase implements 
   }
 
   constructor() {
-    super(_ngModelComponentDefaults); // no need for injecting a token with default values
+    super(_formFieldComponentDefaults); // no need for injecting a token with default values
 
     effect(
       () => {
