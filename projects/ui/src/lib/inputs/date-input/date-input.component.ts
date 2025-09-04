@@ -138,7 +138,6 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
 
   onDateInputInput(event: Event): void {
     const v = (event.target as HTMLInputElement).value;
-    console.log(v);
     this.dateInputValue.set(v);
   }
   onDateInputFocus(event: FocusEvent): void {
