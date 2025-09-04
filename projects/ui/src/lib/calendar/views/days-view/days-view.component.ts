@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   ElementRef,
   HostListener,
   input,
@@ -261,6 +262,10 @@ export class DaysViewComponent implements AfterViewInit {
   readonly floatingMonthTemplate = input.required<TemplateRef<CalendarFloatingMonthContext> | undefined>();
   readonly weekdayTemplate = input.required<TemplateRef<CalendarWeekdayContext> | undefined>();
   readonly dayTemplate = input.required<TemplateRef<CalendarDayContext> | undefined>();
+
+  fbdjfd = effect(() => {
+    console.log('daysViewHeaderTemplate', this.daysViewHeaderTemplate());
+  })
 
   //! template contexts
   readonly daysViewHeaderContext = computed<CalendarDaysViewHeaderContext>(() => ({

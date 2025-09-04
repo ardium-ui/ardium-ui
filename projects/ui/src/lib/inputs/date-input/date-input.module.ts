@@ -3,11 +3,26 @@ import { NgModule } from '@angular/core';
 import { ArdiumClickOutsideModule } from '@ardium-ui/devkit';
 import { ArdiumIconButtonModule } from '../../buttons/icon-button';
 import { ArdiumCalendarModule } from '../../calendar';
+import { _CalendarTemplateRepositoryDirective } from '../../calendar/calendar.internal-directives';
 import { ArdiumDropdownPanelModule } from '../../dropdown-panel/dropdown-panel.module';
 import { ArdiumFormFieldFrameModule } from '../../form-field-frame/form-field-frame.module';
 import { ArdiumIconModule } from '../../icon';
 import { ArdiumDateInputComponent } from './date-input.component';
-import { ArdDateInputAcceptButtonsTemplateDirective, ArdDateInputCalendarIconTemplateDirective, ArdDateInputPrefixTemplateDirective, ArdDateInputSuffixTemplateDirective, ArdDateInputValueTemplateDirective } from './date-input.directive';
+import {
+  ArdDateInputAcceptButtonsTemplateDirective,
+  ArdDateInputCalendarIconTemplateDirective,
+  ArdDateInputDaysViewHeaderTemplateDirective,
+  ArdDateInputDayTemplateDirective,
+  ArdDateInputFloatingMonthTemplateDirective,
+  ArdDateInputMonthsViewHeaderTemplateDirective,
+  ArdDateInputMonthTemplateDirective,
+  ArdDateInputPrefixTemplateDirective,
+  ArdDateInputSuffixTemplateDirective,
+  ArdDateInputValueTemplateDirective,
+  ArdDateInputWeekdayTemplateDirective,
+  ArdDateInputYearsViewHeaderTemplateDirective,
+  ArdDateInputYearTemplateDirective,
+} from './date-input.directive';
 
 @NgModule({
   declarations: [
@@ -17,7 +32,15 @@ import { ArdDateInputAcceptButtonsTemplateDirective, ArdDateInputCalendarIconTem
     ArdDateInputSuffixTemplateDirective,
     ArdDateInputValueTemplateDirective,
     ArdDateInputCalendarIconTemplateDirective,
-    ArdDateInputAcceptButtonsTemplateDirective
+    ArdDateInputAcceptButtonsTemplateDirective,
+    ArdDateInputDaysViewHeaderTemplateDirective,
+    ArdDateInputDayTemplateDirective,
+    ArdDateInputFloatingMonthTemplateDirective,
+    ArdDateInputMonthsViewHeaderTemplateDirective,
+    ArdDateInputMonthTemplateDirective,
+    ArdDateInputWeekdayTemplateDirective,
+    ArdDateInputYearsViewHeaderTemplateDirective,
+    ArdDateInputYearTemplateDirective,
   ],
   imports: [
     CommonModule,
@@ -27,6 +50,7 @@ import { ArdDateInputAcceptButtonsTemplateDirective, ArdDateInputCalendarIconTem
     ArdiumCalendarModule,
     ArdiumIconButtonModule,
     ArdiumIconModule,
+    _CalendarTemplateRepositoryDirective,
   ],
   exports: [
     ArdiumDateInputComponent,
@@ -35,7 +59,15 @@ import { ArdDateInputAcceptButtonsTemplateDirective, ArdDateInputCalendarIconTem
     ArdDateInputSuffixTemplateDirective,
     ArdDateInputValueTemplateDirective,
     ArdDateInputCalendarIconTemplateDirective,
-    ArdDateInputAcceptButtonsTemplateDirective
+    ArdDateInputAcceptButtonsTemplateDirective,
+    ArdDateInputDaysViewHeaderTemplateDirective,
+    ArdDateInputDayTemplateDirective,
+    ArdDateInputFloatingMonthTemplateDirective,
+    ArdDateInputMonthsViewHeaderTemplateDirective,
+    ArdDateInputMonthTemplateDirective,
+    ArdDateInputWeekdayTemplateDirective,
+    ArdDateInputYearsViewHeaderTemplateDirective,
+    ArdDateInputYearTemplateDirective,
   ],
 })
 export class ArdiumDateInputModule {}

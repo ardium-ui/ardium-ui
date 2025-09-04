@@ -4,22 +4,22 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
-  Inject,
-  OnDestroy,
-  TemplateRef,
-  ViewContainerRef,
-  ViewEncapsulation,
   computed,
   contentChild,
   effect,
+  ElementRef,
   forwardRef,
+  Inject,
   inject,
   input,
   model,
+  OnDestroy,
   output,
   signal,
+  TemplateRef,
   viewChild,
+  ViewContainerRef,
+  ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceDateProperty, coerceNumberProperty } from '@ardium-ui/devkit';
@@ -34,9 +34,17 @@ import { ARD_DATE_INPUT_DEFAULTS, ArdDateInputDefaults } from './date-input.defa
 import {
   ArdDateInputAcceptButtonsTemplateDirective,
   ArdDateInputCalendarIconTemplateDirective,
+  ArdDateInputDaysViewHeaderTemplateDirective,
+  ArdDateInputDayTemplateDirective,
+  ArdDateInputFloatingMonthTemplateDirective,
+  ArdDateInputMonthsViewHeaderTemplateDirective,
+  ArdDateInputMonthTemplateDirective,
   ArdDateInputPrefixTemplateDirective,
   ArdDateInputSuffixTemplateDirective,
   ArdDateInputValueTemplateDirective,
+  ArdDateInputWeekdayTemplateDirective,
+  ArdDateInputYearsViewHeaderTemplateDirective,
+  ArdDateInputYearTemplateDirective,
 } from './date-input.directive';
 import {
   ArdDateInputAcceptButtonsContext,
@@ -278,7 +286,7 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
 
   fndjufd = effect(() => {
     console.log('minmax', this.min(), this.max());
-  })
+  });
 
   readonly filter = input<ArdCalendarFilterFn | null>(this._DEFAULTS.filter);
 
@@ -428,6 +436,15 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
 
   readonly prefixTemplate = contentChild(ArdDateInputPrefixTemplateDirective);
   readonly suffixTemplate = contentChild(ArdDateInputSuffixTemplateDirective);
+
+  readonly calendarDaysViewHeaderTemplate = contentChild(ArdDateInputDaysViewHeaderTemplateDirective);
+  readonly calendarYearsViewHeaderTemplate = contentChild(ArdDateInputYearsViewHeaderTemplateDirective);
+  readonly calendarMonthsViewHeaderTemplate = contentChild(ArdDateInputMonthsViewHeaderTemplateDirective);
+  readonly calendarWeekdayTemplate = contentChild(ArdDateInputWeekdayTemplateDirective);
+  readonly calendarFloatingMonthTemplate = contentChild(ArdDateInputFloatingMonthTemplateDirective);
+  readonly calendarYearTemplate = contentChild(ArdDateInputYearTemplateDirective);
+  readonly calendarMonthTemplate = contentChild(ArdDateInputMonthTemplateDirective);
+  readonly calendarDayTemplate = contentChild(ArdDateInputDayTemplateDirective);
 
   //! context providers
   readonly valueContext = computed<ArdDateInputValueContext>(() => ({

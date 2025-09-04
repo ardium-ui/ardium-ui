@@ -11,8 +11,7 @@ import {
   model,
   output,
   signal,
-  TemplateRef,
-  ViewEncapsulation,
+  ViewEncapsulation
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceDateProperty, coerceNumberProperty } from '@ardium-ui/devkit';
@@ -21,17 +20,11 @@ import { isDefined, isNull } from 'simple-bool';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ComponentColor } from '../types/colors.types';
 import { ARD_CALENDAR_DEFAULTS, ArdCalendarDefaults } from './calendar.defaults';
+import { ArdCalendarDaysViewHeaderTemplateDirective, ArdCalendarDayTemplateDirective, ArdCalendarFloatingMonthTemplateDirective, ArdCalendarMonthsViewHeaderTemplateDirective, ArdCalendarMonthTemplateDirective, ArdCalendarWeekdayTemplateDirective, ArdCalendarYearsViewHeaderTemplateDirective, ArdCalendarYearTemplateDirective } from './calendar.directives';
+import { _CalendarTemplateRepositoryDirective } from './calendar.internal-directives';
 import {
   ArdCalendarFilterFn,
-  ArdCalendarView,
-  CalendarDayContext,
-  CalendarDaysViewHeaderContext,
-  CalendarFloatingMonthContext,
-  CalendarMonthContext,
-  CalendarMonthsViewHeaderContext,
-  CalendarWeekdayContext,
-  CalendarYearContext,
-  CalendarYearsViewHeaderContext,
+  ArdCalendarView
 } from './calendar.types';
 import { isDayOutOfRange } from './views/days-view/days-view.helpers';
 import { isMonthOutOfRange } from './views/months-view/months-view.helpers';
@@ -503,12 +496,18 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
   }
 
   //! templates
-  readonly yearsViewHeaderTemplate = contentChild<TemplateRef<CalendarYearsViewHeaderContext>>(TemplateRef);
-  readonly monthsViewHeaderTemplate = contentChild<TemplateRef<CalendarMonthsViewHeaderContext>>(TemplateRef);
-  readonly daysViewHeaderTemplate = contentChild<TemplateRef<CalendarDaysViewHeaderContext>>(TemplateRef);
-  readonly floatingMonthTemplate = contentChild<TemplateRef<CalendarFloatingMonthContext>>(TemplateRef);
-  readonly yearTemplate = contentChild<TemplateRef<CalendarYearContext>>(TemplateRef);
-  readonly monthTemplate = contentChild<TemplateRef<CalendarMonthContext>>(TemplateRef);
-  readonly dayTemplate = contentChild<TemplateRef<CalendarDayContext>>(TemplateRef);
-  readonly weekdayTemplate = contentChild<TemplateRef<CalendarWeekdayContext>>(TemplateRef);
+  readonly templateRepository = contentChild(_CalendarTemplateRepositoryDirective);
+
+  effectfd = effect(() => {
+    console.log(this.templateRepository(), this.templateRepository()?.dayTmp());
+  })
+
+  readonly yearsViewHeaderTemplate = contentChild(ArdCalendarYearsViewHeaderTemplateDirective);
+  readonly monthsViewHeaderTemplate = contentChild(ArdCalendarMonthsViewHeaderTemplateDirective);
+  readonly daysViewHeaderTemplate = contentChild(ArdCalendarDaysViewHeaderTemplateDirective);
+  readonly floatingMonthTemplate = contentChild(ArdCalendarFloatingMonthTemplateDirective);
+  readonly yearTemplate = contentChild(ArdCalendarYearTemplateDirective);
+  readonly monthTemplate = contentChild(ArdCalendarMonthTemplateDirective);
+  readonly dayTemplate = contentChild(ArdCalendarDayTemplateDirective);
+  readonly weekdayTemplate = contentChild(ArdCalendarWeekdayTemplateDirective);
 }

@@ -24,6 +24,7 @@ import { YearsViewComponent } from './views/years-view/years-view.component';
     DaysViewComponent,
     MonthsViewComponent,
     YearsViewComponent,
+    // template directives
     ArdCalendarDaysViewHeaderTemplateDirective,
     ArdCalendarYearsViewHeaderTemplateDirective,
     ArdCalendarMonthsViewHeaderTemplateDirective,
@@ -36,6 +37,7 @@ import { YearsViewComponent } from './views/years-view/years-view.component';
   imports: [CommonModule, DatePipe, UpperCasePipe, ArdiumIconButtonModule, ArdiumIconModule, ArdiumButtonModule],
   exports: [
     ArdiumCalendarComponent,
+    // template directives
     ArdCalendarDaysViewHeaderTemplateDirective,
     ArdCalendarYearsViewHeaderTemplateDirective,
     ArdCalendarMonthsViewHeaderTemplateDirective,
