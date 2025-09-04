@@ -1,10 +1,22 @@
-import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation, computed, forwardRef, input, model } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  ViewEncapsulation,
+  computed,
+  contentChild,
+  forwardRef,
+  input,
+  model,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { SimpleComponentColor } from '../types/colors.types';
 import { _BooleanComponentBase } from './../_internal/boolean-component';
 import { ARD_CHECKBOX_DEFAULTS, ArdCheckboxDefaults } from './checkbox.defaults';
-import { CheckboxState } from './checkbox.types';
+import { ArdCheckboxTemplateDirective } from './checkbox.directives';
+import { _CheckboxTemplateRepositoryDirective } from './checkbox.internal-directives';
+import { CheckboxState, CheckboxTemplateContext } from './checkbox.types';
 
 @Component({
   selector: 'ard-checkbox',
@@ -43,6 +55,8 @@ export class ArdiumCheckboxComponent extends _BooleanComponentBase implements Co
 
   readonly state = model<CheckboxState>(CheckboxState.Unselected);
 
+  readonly State = CheckboxState;
+
   //! click action
   toggleState() {
     let newState: CheckboxState = CheckboxState.Unselected;
@@ -54,4 +68,15 @@ export class ArdiumCheckboxComponent extends _BooleanComponentBase implements Co
 
     this._emitChange();
   }
+
+  //! templates
+  readonly templateRepository = contentChild(_CheckboxTemplateRepositoryDirective);
+
+  readonly checkboxTemplate = contentChild(ArdCheckboxTemplateDirective);
+
+  readonly checkboxTemplateContext = computed<CheckboxTemplateContext>(() => ({
+    $implicit: this.selected(),
+    selected: this.selected(),
+    state: this.state(),
+  }));
 }

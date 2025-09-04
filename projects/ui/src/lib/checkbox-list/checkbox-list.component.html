@@ -25,7 +25,9 @@
         (select)="selectItem(item)"
         (unselect)="unselectItem(item)"
         (click)="$event.stopPropagation()"
-      />
+      >
+        <ng-template _ard-tmp-repository [checkboxTmp]="checkboxTemplate()" />
+      </ard-checkbox>
       <label [for]="htmlId() + item.index">
         {{ item.label() }}
       </label>

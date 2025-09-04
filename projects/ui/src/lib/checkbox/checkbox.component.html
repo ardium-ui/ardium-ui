@@ -12,7 +12,26 @@
 >
   <div class="ard-hitbox"></div>
   <div class="ard-focus-overlay"></div>
-  <div class="ard-checkbox-icon ard-icon-for-selected"></div>
-  <div class="ard-checkbox-icon ard-icon-for-indeterminate"></div>
-  <div class="ard-checkbox-icon ard-icon-for-unselected"></div>
+
+  <ng-template
+    #defaultCheckboxTemplate
+    let-state="state"
+    let-selected="selected"
+  >
+    <ard-icon
+      [icon]="
+        state === State.Selected
+          ? 'check_box'
+          : state === State.Unselected
+          ? 'check_box_outline_blank'
+          : 'indeterminate_check_box'
+      "
+      [filled]="selected"
+    />
+  </ng-template>
+
+  <ng-template
+    [ngTemplateOutlet]="templateRepository()?.checkboxTmp()?.template ?? checkboxTemplate()?.template ?? defaultCheckboxTemplate"
+    [ngTemplateOutletContext]="checkboxTemplateContext()"
+  />
 </button>
