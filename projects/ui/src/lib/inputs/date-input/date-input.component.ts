@@ -166,7 +166,6 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
   }
   private _processDateInputText(value: string): void {
     let date = this.deserializeFn()(value, this.value());
-    console.log(value, date);
 
     if (this.minMaxStrategy() === ArdDateInputMinMaxStrategy.Adjust && date) {
       const min = this.min();
@@ -291,7 +290,6 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
   readonly monthSelect = output<number>();
 
   //! calendar controls
-
   readonly useAcceptButtonToSelect = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
 
   private _valueToAccept: Date | null = null;
