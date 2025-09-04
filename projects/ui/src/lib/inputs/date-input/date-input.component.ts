@@ -257,7 +257,7 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
       if (value < 0 || value > 6) {
         console.error(
           new Error(
-            `ARD-NF0081B: [firstWeekday] must be between 0 and 6, got "${value}". Using modulo operator to adjust the value.`
+            `ARD-WA0081B: [firstWeekday] must be between 0 and 6, got "${value}". Using modulo operator to adjust the value.`
           )
         );
       }
