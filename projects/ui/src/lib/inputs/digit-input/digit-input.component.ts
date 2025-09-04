@@ -53,6 +53,13 @@ export class ArdiumDigitInputComponent
   protected override readonly _DEFAULTS!: ArdDigitInputDefaults;
   constructor(@Inject(ARD_DIGIT_INPUT_DEFAULTS) defaults: ArdDigitInputDefaults) {
     super(defaults);
+
+    effect(() => {
+      if (this.configArrayData().length === this._oldConfigArrayDataLength) return;
+
+      this._oldConfigArrayDataLength = this.configArrayData().length;
+      this._emitChange();
+    });
   }
 
   private readonly _autoFillMonitor = inject(AutofillMonitor);
@@ -140,13 +147,6 @@ export class ArdiumDigitInputComponent
   readonly transform = input<DigitInputTransform>(this._DEFAULTS.transform);
 
   private _oldConfigArrayDataLength = -1;
-  readonly configArrayDataEffect = effect(() => {
-    if (this.configArrayData().length === this._oldConfigArrayDataLength) return;
-
-    this._oldConfigArrayDataLength = this.configArrayData().length;
-    this._emitChange();
-  });
-
   override ngOnInit(): void {
     super.ngOnInit();
     this._oldConfigArrayDataLength = this.configArrayData().length;

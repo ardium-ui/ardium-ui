@@ -498,10 +498,6 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
   //! templates
   readonly templateRepository = contentChild(_CalendarTemplateRepositoryDirective);
 
-  effectfd = effect(() => {
-    console.log(this.templateRepository(), this.templateRepository()?.dayTmp());
-  })
-
   readonly yearsViewHeaderTemplate = contentChild(ArdCalendarYearsViewHeaderTemplateDirective);
   readonly monthsViewHeaderTemplate = contentChild(ArdCalendarMonthsViewHeaderTemplateDirective);
   readonly daysViewHeaderTemplate = contentChild(ArdCalendarDaysViewHeaderTemplateDirective);

@@ -284,10 +284,6 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
   readonly min = input<Date | null, any>(this._DEFAULTS.min, { transform: v => coerceDateProperty(v, this._DEFAULTS.min) });
   readonly max = input<Date | null, any>(this._DEFAULTS.max, { transform: v => coerceDateProperty(v, this._DEFAULTS.max) });
 
-  fndjufd = effect(() => {
-    console.log('minmax', this.min(), this.max());
-  });
-
   readonly filter = input<ArdCalendarFilterFn | null>(this._DEFAULTS.filter);
 
   //! calendar outputs
