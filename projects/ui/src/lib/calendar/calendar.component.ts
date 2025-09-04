@@ -120,8 +120,8 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
   readonly yearSelect = output<number>();
   readonly monthSelect = output<number>();
 
-  readonly min = input<Date | null, any>(this._DEFAULTS.min, { transform: v => coerceDateProperty(v, this._DEFAULTS.min) });
-  readonly max = input<Date | null, any>(this._DEFAULTS.max, { transform: v => coerceDateProperty(v, this._DEFAULTS.max) });
+  readonly min = input<Date | null, any>(this._DEFAULTS.min, { transform: v => v === null ? null : coerceDateProperty(v, this._DEFAULTS.min) });
+  readonly max = input<Date | null, any>(this._DEFAULTS.max, { transform: v => v === null ? null : coerceDateProperty(v, this._DEFAULTS.max) });
 
   readonly filter = input<ArdCalendarFilterFn | null>(this._DEFAULTS.filter);
 
