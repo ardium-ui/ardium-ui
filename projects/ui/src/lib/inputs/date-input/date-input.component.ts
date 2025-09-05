@@ -77,10 +77,14 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
   constructor(@Inject(ARD_DATE_INPUT_DEFAULTS) defaults: ArdDateInputDefaults) {
     super(defaults);
 
-    effect(() => {
-      this.value();
-      this._emitChange();
-    });
+    effect(
+      () => {
+        this.value();
+        this._emitChange();
+        this._serializeValueIntoDateInput();
+      },
+      { allowSignalWrites: true }
+    );
   }
 
   private readonly elementRef = inject(ElementRef<HTMLElement>);
@@ -178,7 +182,6 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
     }
 
     this.value.set(date);
-    this.dateInputValue.set(this.serializeFn()(date));
   }
   private _setDateInputAttributes() {
     const input = this.dateInput()!.nativeElement;
@@ -302,8 +305,10 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
   }
   private _acceptSelectedDate(date: Date | null): void {
     this.value.set(date);
-    this.dateInputValue.set(this.serializeFn()(date));
     this.close();
+  }
+  private _serializeValueIntoDateInput() {
+    this.dateInputValue.set(this.serializeFn()(this.value()));
   }
   private _cancelCalendarSelection(): void {
     this.close();

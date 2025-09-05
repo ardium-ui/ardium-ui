@@ -1,6 +1,5 @@
 import {
   AfterViewInit,
-  ChangeDetectorRef,
   computed,
   Directive,
   ElementRef,
@@ -10,7 +9,7 @@ import {
   OnInit,
   output,
   signal,
-  viewChild,
+  viewChild
 } from '@angular/core';
 import {
   coerceBooleanProperty,
@@ -30,7 +29,6 @@ export abstract class _FileInputComponentBase extends _FormFieldComponentBase im
   protected override readonly _DEFAULTS!: _FileInputBaseDefaults;
 
   private readonly _fileSystemService = inject(FileSystemService);
-  private readonly _changeDetectorRef = inject(ChangeDetectorRef);
 
   abstract readonly componentId: string;
 

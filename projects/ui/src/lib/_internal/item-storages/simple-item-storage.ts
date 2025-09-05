@@ -195,7 +195,7 @@ export class SimpleItemStorage {
           `ARD-FT${this._ardParentComp._componentId}0: <ard-${this._ardParentComp._componentName}> expects its value to be an array, got "${ngModel}".`
         );
       }
-      return ngModel.every(this._validateSingleElementType);
+      return ngModel.every(v => this._validateSingleElementType(v));
     }
     return this._validateSingleElementType(ngModel);
   }

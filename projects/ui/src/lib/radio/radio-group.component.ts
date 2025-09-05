@@ -38,6 +38,10 @@ import { ArdiumRadioComponent } from './radio/radio.component';
       useExisting: forwardRef(() => ArdiumRadioGroupComponent),
       multi: true,
     },
+    {
+      provide: _FormFieldComponentBase,
+      useExisting: ArdiumRadioGroupComponent,
+    },
   ],
 })
 export class ArdiumRadioGroupComponent extends _FormFieldComponentBase implements AfterContentInit, OnDestroy {

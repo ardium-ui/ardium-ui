@@ -7,6 +7,7 @@ ard-date-input .ard-date-input {
 
   .ard-date-input__value-container {
     flex-grow: 1;
+    position: unset;
   }
   .ard-date-input__placeholder {
     position: absolute;
