@@ -1,9 +1,9 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { _ngModelComponentDefaults, _NgModelComponentDefaults } from '../_internal/ngmodel-component';
+import { _FormFieldComponentDefaults, _formFieldComponentDefaults } from '../_internal/form-field-component';
 import { ComponentColor } from '../types/colors.types';
 import { ArdCalendarFilterFn, ArdCalendarView } from './calendar.types';
 
-export interface ArdCalendarDefaults extends _NgModelComponentDefaults {
+export interface ArdCalendarDefaults extends _FormFieldComponentDefaults {
   color: ComponentColor;
   activeView: ArdCalendarView;
   activeYear: number;
@@ -17,7 +17,7 @@ export interface ArdCalendarDefaults extends _NgModelComponentDefaults {
 }
 
 const _calendarDefaults: ArdCalendarDefaults = {
-  ..._ngModelComponentDefaults,
+  ..._formFieldComponentDefaults,
   color: ComponentColor.Primary,
   activeView: ArdCalendarView.Days,
   activeYear: new Date().getFullYear(),

@@ -11,21 +11,28 @@ import {
   model,
   output,
   signal,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceDateProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { roundFromZero } from 'more-rounding';
 import { isDefined, isNull } from 'simple-bool';
-import { _NgModelComponentBase } from '../_internal/ngmodel-component';
+import { _FormFieldComponentBase } from '../_internal/form-field-component';
+import { ARD_FORM_FIELD_CONTROL } from '../form-field/form-field-child.token';
 import { ComponentColor } from '../types/colors.types';
 import { ARD_CALENDAR_DEFAULTS, ArdCalendarDefaults } from './calendar.defaults';
-import { ArdCalendarDaysViewHeaderTemplateDirective, ArdCalendarDayTemplateDirective, ArdCalendarFloatingMonthTemplateDirective, ArdCalendarMonthsViewHeaderTemplateDirective, ArdCalendarMonthTemplateDirective, ArdCalendarWeekdayTemplateDirective, ArdCalendarYearsViewHeaderTemplateDirective, ArdCalendarYearTemplateDirective } from './calendar.directives';
-import { _CalendarTemplateRepositoryDirective } from './calendar.internal-directives';
 import {
-  ArdCalendarFilterFn,
-  ArdCalendarView
-} from './calendar.types';
+  ArdCalendarDaysViewHeaderTemplateDirective,
+  ArdCalendarDayTemplateDirective,
+  ArdCalendarFloatingMonthTemplateDirective,
+  ArdCalendarMonthsViewHeaderTemplateDirective,
+  ArdCalendarMonthTemplateDirective,
+  ArdCalendarWeekdayTemplateDirective,
+  ArdCalendarYearsViewHeaderTemplateDirective,
+  ArdCalendarYearTemplateDirective,
+} from './calendar.directives';
+import { _CalendarTemplateRepositoryDirective } from './calendar.internal-directives';
+import { ArdCalendarFilterFn, ArdCalendarView } from './calendar.types';
 import { isDayOutOfRange } from './views/days-view/days-view.helpers';
 import { isMonthOutOfRange } from './views/months-view/months-view.helpers';
 import { isYearOutOfRange } from './views/years-view/years-view.helpers';
@@ -44,9 +51,13 @@ const TODAY = new Date();
       useExisting: forwardRef(() => ArdiumCalendarComponent),
       multi: true,
     },
+    {
+      provide: ARD_FORM_FIELD_CONTROL,
+      useExisting: ArdiumCalendarComponent,
+    },
   ],
 })
-export class ArdiumCalendarComponent extends _NgModelComponentBase {
+export class ArdiumCalendarComponent extends _FormFieldComponentBase {
   protected override readonly _DEFAULTS!: ArdCalendarDefaults;
   constructor(@Inject(ARD_CALENDAR_DEFAULTS) defaults: ArdCalendarDefaults) {
     super(defaults);
@@ -120,8 +131,12 @@ export class ArdiumCalendarComponent extends _NgModelComponentBase {
   readonly yearSelect = output<number>();
   readonly monthSelect = output<number>();
 
-  readonly min = input<Date | null, any>(this._DEFAULTS.min, { transform: v => v === null ? null : coerceDateProperty(v, this._DEFAULTS.min) });
-  readonly max = input<Date | null, any>(this._DEFAULTS.max, { transform: v => v === null ? null : coerceDateProperty(v, this._DEFAULTS.max) });
+  readonly min = input<Date | null, any>(this._DEFAULTS.min, {
+    transform: v => (v === null ? null : coerceDateProperty(v, this._DEFAULTS.min)),
+  });
+  readonly max = input<Date | null, any>(this._DEFAULTS.max, {
+    transform: v => (v === null ? null : coerceDateProperty(v, this._DEFAULTS.max)),
+  });
 
   readonly filter = input<ArdCalendarFilterFn | null>(this._DEFAULTS.filter);
 
