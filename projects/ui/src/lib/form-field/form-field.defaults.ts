@@ -4,11 +4,15 @@ import { SimpleOneAxisAlignment } from './../types/alignment.types';
 export interface ArdFormFieldDefaults {
   defaultHintAlign: SimpleOneAxisAlignment;
   reserveHintLine: boolean;
+  labelRequiredText: string;
+  labelOptionalText: string;
 }
 
 const _formFieldDefaults: ArdFormFieldDefaults = {
   defaultHintAlign: SimpleOneAxisAlignment.Left,
   reserveHintLine: false,
+  labelRequiredText: '*',
+  labelOptionalText: '(optional)',
 };
 
 export const ARD_FORM_FIELD_DEFAULTS = new InjectionToken<ArdFormFieldDefaults>('ard-form-field-defaults', {

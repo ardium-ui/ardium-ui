@@ -1,7 +1,14 @@
 <div
-  class="ard-label-text"
-  [class.ard-label-optional]="optional()"
-  [class.ard-label-required]="required()"
+  class="ard-label__text"
+  [class.ard-label__required]="required()"
+  [class.ard-label__optional]="optional()"
 >
   <ng-content />
+  <span class="ard-label__required-optional-text">
+    @if (required() && !optional()) {
+    {{ requiredText() }}
+    } @else if (optional() && !required()) {
+    {{ optionalText() }}
+    }
+  </span>
 </div>
