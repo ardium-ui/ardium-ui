@@ -3,7 +3,11 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   ArdiumDigitInputModule,
+  ArdiumFileInputModule,
   ArdiumFormFieldModule,
+  ArdiumInputModule,
+  ArdiumNumberInputModule,
+  ArdiumRadioModule,
   ArdiumSegmentModule,
   ArdiumSelectModule,
   ArdiumSimpleInputModule,
@@ -20,6 +24,12 @@ import { FormFieldPage } from './form-field.page';
     ArdiumSelectModule,
     ArdiumDigitInputModule,
     ArdiumSegmentModule,
+    ArdiumSimpleInputModule,
+    ArdiumInputModule,
+    ArdiumSelectModule,
+    ArdiumRadioModule,
+    ArdiumNumberInputModule,
+    ArdiumFileInputModule,
   ],
 })
 export class FormFieldModule {}
