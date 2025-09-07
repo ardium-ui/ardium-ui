@@ -27,6 +27,7 @@ import { isDefined, isNull } from 'simple-bool';
 import { _FormFieldComponentBase } from '../../_internal/form-field-component';
 import { ArdCalendarFilterFn, ArdCalendarView } from '../../calendar/calendar.types';
 import { ArdiumDropdownPanelComponent, DropdownPanelAppearance, DropdownPanelVariant } from '../../dropdown-panel';
+import { ARD_FORM_FIELD_CONTROL } from '../../form-field/form-field-child.token';
 import { ComponentColor } from '../../types/colors.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { Nullable } from '../../types/utility.types';
@@ -67,7 +68,7 @@ import {
       multi: true,
     },
     {
-      provide: _FormFieldComponentBase,
+      provide: ARD_FORM_FIELD_CONTROL,
       useExisting: ArdiumDateInputComponent,
     },
   ],

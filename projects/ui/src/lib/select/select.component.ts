@@ -40,6 +40,7 @@ import { _FormFieldComponentBase } from '../_internal/form-field-component';
 import { ItemStorage, ItemStorageHost } from '../_internal/item-storages/dropdown-item-storage';
 import { ArdiumDropdownPanelComponent } from '../dropdown-panel/dropdown-panel.component';
 import { DropdownPanelAppearance, DropdownPanelVariant } from '../dropdown-panel/dropdown-panel.types';
+import { ARD_FORM_FIELD_CONTROL } from '../form-field/form-field-child.token';
 import { ArdiumOptionComponent } from '../option/option.component';
 import { ArdOption, ArdOptionGroup, ArdPanelPosition, GroupByFn, OptionContext, SearchFn } from '../types/item-storage.types';
 import { FormElementAppearance } from '../types/theming.types';
@@ -87,7 +88,7 @@ import {
       multi: true,
     },
     {
-      provide: _FormFieldComponentBase,
+      provide: ARD_FORM_FIELD_CONTROL,
       useExisting: ArdiumSelectComponent,
     },
   ],

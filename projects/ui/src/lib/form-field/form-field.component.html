@@ -1,12 +1,12 @@
 <div
   class="ard-form-field"
-  [class.ard-form-field__with-error]="control()?.hasError()"
-  [class.ard-form-field__is-success]="control()?.isSuccess()"
-  [class.ard-form-field__control-disabled]="control()?.disabled()"
+  [class.ard-form-field__with-error]="controlHasError"
+  [class.ard-form-field__is-success]="controlIsSuccess"
+  [class.ard-form-field__control-disabled]="controlDisabled"
 >
   <label
-    class="ard-label"
-    [attr.for]="control()?.htmlId()"
+    class="ard-form-field__label"
+    [attr.for]="controlHtmlId"
   >
     <ng-content select="ard-label, [ard-label]" />
   </label>
@@ -19,22 +19,22 @@
     [class.ard-form-field__hints-default-left]="alignHintToLeftByDefault"
   >
     @if (hasAnyError()) {
-      <div class="ard-form-field__error">
-        <ng-content select="ard-error, [ard-error]" />
-      </div>
+    <div class="ard-form-field__error">
+      <ng-content select="ard-error, [ard-error]" />
+    </div>
     } @else {
-      <div class="ard-form-field__hints-left">
-        <div class="ard-form-field__default-hint">
-          <ng-content select="ard-hint:not([left]):not([right]), [ard-hint]:not([left]):not([right])" />
-        </div>
-        <ng-content select="ard-hint[left], [ard-hint][left]" />
+    <div class="ard-form-field__hints-left">
+      <div class="ard-form-field__default-hint">
+        <ng-content select="ard-hint:not([left]):not([right]), [ard-hint]:not([left]):not([right])" />
       </div>
-      <div class="ard-form-field__hints-right">
-        <div class="ard-form-field__default-hint">
-          <ng-content select="ard-hint:not([left]):not([right]), [ard-hint]:not([left]):not([right])" />
-        </div>
-        <ng-content select="ard-hint[right], [ard-hint][right]" />
+      <ng-content select="ard-hint[left], [ard-hint][left]" />
+    </div>
+    <div class="ard-form-field__hints-right">
+      <div class="ard-form-field__default-hint">
+        <ng-content select="ard-hint:not([left]):not([right]), [ard-hint]:not([left]):not([right])" />
       </div>
+      <ng-content select="ard-hint[right], [ard-hint][right]" />
+    </div>
     }
   </div>
 </div>

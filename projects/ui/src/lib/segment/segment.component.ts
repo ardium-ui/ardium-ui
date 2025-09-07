@@ -11,8 +11,8 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import { _FormFieldComponentBase } from '../_internal/form-field-component';
 import { _SelectableListComponentBase } from '../_internal/selectable-list-component';
+import { ARD_FORM_FIELD_CONTROL } from '../form-field/form-field-child.token';
 import { OneAxisAlignment } from '../types/alignment.types';
 import { ComponentColor } from '../types/colors.types';
 import { ArdOptionSimple } from '../types/item-storage.types';
@@ -39,7 +39,7 @@ interface SegmentRow {
       multi: true,
     },
     {
-      provide: _FormFieldComponentBase,
+      provide: ARD_FORM_FIELD_CONTROL,
       useExisting: ArdiumSegmentComponent,
     },
   ],

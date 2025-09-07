@@ -17,6 +17,7 @@ import {
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TakeChance as Random } from 'take-chance';
 import { _FormFieldComponentBase, _formFieldComponentDefaults } from '../_internal/form-field-component';
+import { ARD_FORM_FIELD_CONTROL } from '../form-field/form-field-child.token';
 import { Nullable } from '../types/utility.types';
 import { ArdiumRadioComponent } from './radio/radio.component';
 
@@ -39,7 +40,7 @@ import { ArdiumRadioComponent } from './radio/radio.component';
       multi: true,
     },
     {
-      provide: _FormFieldComponentBase,
+      provide: ARD_FORM_FIELD_CONTROL,
       useExisting: ArdiumRadioGroupComponent,
     },
   ],

@@ -17,6 +17,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { isAnyString, isDefined } from 'simple-bool';
 import { _FormFieldComponentBase } from '../../_internal/form-field-component';
+import { ARD_FORM_FIELD_CONTROL } from '../../form-field/form-field-child.token';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { Nullable } from '../../types/utility.types';
 import { ARD_PASSWORD_INPUT_DEFAULTS, ArdPasswordInputDefaults } from './password-input.defaults';
@@ -41,7 +42,7 @@ import { PasswordInputRevealButtonContext } from './password-input.types';
       multi: true,
     },
     {
-      provide: _FormFieldComponentBase,
+      provide: ARD_FORM_FIELD_CONTROL,
       useExisting: ArdiumPasswordInputComponent,
     },
   ],

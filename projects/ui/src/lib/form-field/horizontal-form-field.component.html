@@ -1,13 +1,13 @@
 <div
   class="ard-horizontal-form-field"
-  [class.ard-form-field__with-error]="control()?.hasError()"
-  [class.ard-form-field__is-success]="control()?.isSuccess()"
-  [class.ard-form-field__control-disabled]="control()?.disabled()"
+  [class.ard-form-field__with-error]="controlHasError"
+  [class.ard-form-field__is-success]="controlIsSuccess"
+  [class.ard-form-field__control-disabled]="controlDisabled"
 >
   <div class="ard-form-field__label-container">
     <label
-      class="ard-label"
-      [attr.for]="control()?.htmlId()"
+      class="ard-form-field__label"
+      [attr.for]="controlHtmlId"
     >
       <ng-content select="ard-label, [ard-label]" />
     </label>

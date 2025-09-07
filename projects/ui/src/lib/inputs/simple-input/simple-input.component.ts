@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, contentChild, forwardRef, Inject, ViewEncapsulation } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { _FormFieldComponentBase } from '../../_internal/form-field-component';
+import { ARD_FORM_FIELD_CONTROL } from '../../form-field/form-field-child.token';
 import { _SimpleInputComponentBase } from '../_simple-input-base';
 import { ARD_SIMPLE_INPUT_DEFAULTS, ArdSimpleInputDefaults } from './simple-input.defaults';
 import {
@@ -22,7 +22,7 @@ import {
       multi: true,
     },
     {
-      provide: _FormFieldComponentBase,
+      provide: ARD_FORM_FIELD_CONTROL,
       useExisting: ArdiumSimpleInputComponent,
     },
   ],

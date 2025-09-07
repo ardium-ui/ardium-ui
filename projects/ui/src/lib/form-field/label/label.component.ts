@@ -4,6 +4,9 @@ import { coerceBooleanProperty } from '@ardium-ui/devkit';
 @Component({
   selector: 'ard-label',
   templateUrl: './label.component.html',
+  host: {
+    '[class.ard-label]': 'true',
+  }
 })
 export class ArdiumLabelComponent {
   readonly required = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });

@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { ArdFormFieldControl } from '../form-field/form-field-child.token';
 import { ArdOptionSimple, CompareWithFn, OptionContext } from '../types/item-storage.types';
 import { Nullable } from '../types/utility.types';
 import { _FormFieldComponentBase, _FormFieldComponentDefaults, _formFieldComponentDefaults } from './form-field-component';
@@ -42,7 +43,7 @@ export const _selectableListComponentDefaults: _SelectableListComponentDefaults 
 @Directive()
 export abstract class _SelectableListComponentBase
   extends _FormFieldComponentBase
-  implements ControlValueAccessor, SimpleItemStorageHost
+  implements ControlValueAccessor, SimpleItemStorageHost, ArdFormFieldControl
 {
   protected override readonly _DEFAULTS!: _SelectableListComponentDefaults;
 

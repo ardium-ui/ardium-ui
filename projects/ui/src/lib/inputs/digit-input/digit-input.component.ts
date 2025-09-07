@@ -22,6 +22,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { Subscription } from 'rxjs';
 import { _FormFieldComponentBase } from '../../_internal/form-field-component';
+import { ARD_FORM_FIELD_CONTROL } from '../../form-field/form-field-child.token';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { ARD_DIGIT_INPUT_DEFAULTS, ArdDigitInputDefaults } from './digit-input.defaults';
 import { DigitInputModel } from './digit-input.model';
@@ -41,7 +42,7 @@ import { DigitInputModelHost } from './digit-input.utils';
       multi: true,
     },
     {
-      provide: _FormFieldComponentBase,
+      provide: ARD_FORM_FIELD_CONTROL,
       useExisting: ArdiumDigitInputComponent,
     },
   ],

@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
-import { _FormFieldComponentBase } from '../../_internal/form-field-component';
+import { ARD_FORM_FIELD_CONTROL } from '../../form-field/form-field-child.token';
 import { ComponentColor } from '../../types/colors.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { _FileInputComponentBase } from '../file-input-base';
@@ -41,7 +41,7 @@ import {
       multi: true,
     },
     {
-      provide: _FormFieldComponentBase,
+      provide: ARD_FORM_FIELD_CONTROL,
       useExisting: forwardRef(() => ArdiumFileInputComponent),
     },
   ],

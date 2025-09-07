@@ -20,6 +20,7 @@ import { roundToPrecision } from 'more-rounding';
 import { isDefined } from 'simple-bool';
 import { _FormFieldComponentBase } from '../../_internal/form-field-component';
 import { ButtonAppearance, ButtonVariant } from '../../buttons/general-button.types';
+import { ARD_FORM_FIELD_CONTROL } from '../../form-field/form-field-child.token';
 import { OneAxisAlignment } from '../../types/alignment.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { Nullable } from '../../types/utility.types';
@@ -40,7 +41,7 @@ import { ArdNumberInputPlaceholderTemplateDirective } from './number-input.direc
       multi: true,
     },
     {
-      provide: _FormFieldComponentBase,
+      provide: ARD_FORM_FIELD_CONTROL,
       useExisting: ArdiumNumberInputComponent,
     },
   ],
