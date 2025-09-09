@@ -167,13 +167,13 @@ export abstract class _SelectableListComponentBase
   //! value input & output
   @Input()
   set value(newValue: any) {
-    if (!Array.isArray(newValue)) newValue = coerceArrayProperty(newValue);
+    if (this.multiselectable() && !Array.isArray(newValue)) newValue = coerceArrayProperty(newValue);
     this.writeValue(newValue);
   }
-  readonly valueChange = output<any[]>();
+  readonly valueChange = output<any[] | any>();
 
   //! output events
-  readonly changeEvent = output<any[]>({ alias: 'change' });
+  readonly changeEvent = output<any[] | any>({ alias: 'change' });
   readonly addEvent = output<any[]>({ alias: 'add' });
   readonly removeEvent = output<any[]>({ alias: 'remove' });
 

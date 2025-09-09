@@ -153,8 +153,8 @@ export class SimpleItemStorage {
         this.selectItem(item);
         return;
       }
-      console.warn(
-        `ARD-WA${this._ardParentComp._componentId}1: Couldn't find an item with value ${value?.toString?.() || String(value)}.`
+      console.error(
+        `ARD-WA${this._ardParentComp._componentId}3: Couldn't find an item with value ${value?.toString?.() || String(value)}.`
       );
     };
 
@@ -169,10 +169,22 @@ export class SimpleItemStorage {
 
   private _validateSingleElementType(item: unknown): boolean {
     if (!isDefined(this._ardParentComp.compareWith()) && isObject(item) && this._ardParentComp.valueFrom()) {
-      console.warn(
-        `ARD-FT${this._ardParentComp._componentId}0: Setting object(${JSON.stringify(
-          item
-        )}) as your model with [valueFrom] is not allowed unless [compareWith] is used.`
+      if (!this._ardParentComp.multiselectable() && Array.isArray(item)) {
+        console.error(
+          `ARD-FT${this._ardParentComp._componentId}0s: a non-multiselectable <ard-${this._ardParentComp._componentName}> expects its value not to be an array, got "[${item}]". If the value is supposed to be an array, use [compareWith].`
+        );
+        return false;
+      }
+
+      let jsonItemString = `${item}`;
+      try {
+        jsonItemString = JSON.stringify(item);
+      } catch (error) {
+        /* ignore */
+      }
+
+      console.error(
+        `ARD-FT${this._ardParentComp._componentId}2: Setting object ${jsonItemString} as your value with [valueFrom] is not allowed unless [compareWith] is used.`
       );
       return false;
     }
@@ -192,7 +204,7 @@ export class SimpleItemStorage {
     if (this._ardParentComp.multiselectable()) {
       if (!isArray(ngModel)) {
         throw new Error(
-          `ARD-FT${this._ardParentComp._componentId}0: <ard-${this._ardParentComp._componentName}> expects its value to be an array, got "${ngModel}".`
+          `ARD-FT${this._ardParentComp._componentId}0m: a multiselectable <ard-${this._ardParentComp._componentName}> expects its value to be an array, got "${ngModel}".`
         );
       }
       return ngModel.every(v => this._validateSingleElementType(v));

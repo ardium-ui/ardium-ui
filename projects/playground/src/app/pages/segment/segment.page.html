@@ -1,11 +1,21 @@
-<!-- <ard-segment [items]="options" variant="pill"></ard-segment>
-<ard-segment [items]="options" variant="rounded"></ard-segment>
-<ard-segment [items]="options" variant="semirounded"></ard-segment>
-<ard-segment [items]="options" variant="sharp"></ard-segment> -->
+<!-- <ard-segment [items]="options" variant="pill"/>
+<ard-segment [items]="options" variant="rounded"/>
+<ard-segment [items]="options" variant="semirounded"/>
+<ard-segment [items]="options" variant="sharp"/> -->
 
 <div class="master">
   <span class="title">Most basic segment</span>
-  <ard-segment [items]="options"></ard-segment>
+  <ard-segment [items]="options"/>
+</div>
+<div class="master">
+  <span class="title">Simple segment with two-way value binding</span>
+  <ard-segment
+    [items]="optionsPesel"
+    [(value)]="peselOrBirthdate"
+  />
+  <p>
+    Current value: "{{ peselOrBirthdate() }}"
+  </p>
 </div>
 <div class="master">
   <span class="title">Multiselectable segment (max 3 items, one option pre-selected)</span>
@@ -14,7 +24,7 @@
     [value]="optionsAnimals[1]"
     multiselectable
     maxSelectedItems="3"
-  ></ard-segment>
+  />
 </div>
 <div class="master">
   <span class="title">Segment events, singleselectable</span>
@@ -26,7 +36,7 @@
     (focus)="log('focus', $event)"
     (blur)="log('blur', $event)"
     (change)="log('change', $event)"
-  ></ard-segment>
+  />
 </div>
 <div class="master">
   <span class="title">Segment events, multiselectable, uniform widths</span>
@@ -40,7 +50,7 @@
     (focus)="log('focus', $event)"
     (blur)="log('blur', $event)"
     (change)="log('change', $event)"
-  ></ard-segment>
+  />
 </div>
 <div class="master">
   <span class="title">Custom segment data bindings</span>
@@ -51,7 +61,7 @@
     valueFrom="type"
     disabledFrom="active"
     invertDisabled
-  ></ard-segment>
+  />
 </div>
 <div class="master">
   <span class="title">Custom option template (using iconBased)</span>
@@ -78,7 +88,7 @@
     [items]="optionsAnimals"
     itemsPerRow="3"
     multiselectable
-  ></ard-segment>
+  />
 </div>
 <div class="div flex master">
   <h2 class="title">Rainbow table</h2>
@@ -100,7 +110,7 @@
             [items]="optionsComplex"
             valueFrom="type"
             labelFrom="label"
-          ></ard-segment>
+          />
           }
         </div>
         }

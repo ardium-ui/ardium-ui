@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentColor, SegmentAppearance, SegmentVariant } from 'projects/ui/src/public-api';
 import { Logger } from '../../services/logger.service';
 
@@ -25,6 +25,18 @@ export class SegmentPage {
     { value: 'right', icon: 'format_align_right' },
     { value: 'justify', icon: 'format_align_justify' },
   ];
+
+  readonly optionsPesel: any[] = [
+    {
+      label: 'PESEL',
+      value: 'pesel',
+    },
+    {
+      label: 'Birthdate',
+      value: 'birthdate',
+    },
+  ];
+  readonly peselOrBirthdate = signal<string>('pesel');
 
   appearances = Object.values(SegmentAppearance);
   variants = Object.values(SegmentVariant);
