@@ -3,11 +3,27 @@
   <ard-file-input />
 </div>
 <div class="master">
-  <span class="title">File input with control</span>
+  <span class="title">File input events</span>
   <ard-file-input
-    [formControl]="control"
-    (valueChange)="log('valueChange', $event?.[0])"
+    (valueChange)="log('valueChange', $event)"
+    (change)="log('change', $event)"
+    (dragFile)="log('dragFile', $event)"
+    (failedUpload)="log('failedUpload', $event)"
+    (clear)="log('clear', $event)"
+    (focus)="log('focus', $event)"
+    (blur)="log('blur', $event)"
   />
+</div>
+<div class="master">
+  <span class="title">File input with control</span>
+  <ard-form-field>
+    <ard-label>My file input</ard-label>
+    <ard-file-input
+      [formControl]="control"
+      (valueChange)="log('valueChange', $event?.[0])"
+    />
+    <ard-hint>touched: {{ control.touched}}, errors: {{ control.errors }}, value: {{ control.value }}</ard-hint>
+  </ard-form-field>
 </div>
 <div class="master">
   <span class="title">File input with accept (pdf only)</span>

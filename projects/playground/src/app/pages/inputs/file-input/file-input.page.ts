@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { FileInputFileTypes } from 'projects/ui/src/lib/file-inputs/file-input-types';
 import { Logger } from '../../../services/logger.service';
 
@@ -11,7 +11,7 @@ import { Logger } from '../../../services/logger.service';
 export class FileInputPage {
   readonly log = inject(Logger).log;
 
-  readonly control = new FormControl<File | null>(null);
+  readonly control = new FormControl<File | null>(null, [Validators.required]);
   readonly control2 = new FormControl<File | null>(null);
 
   readonly FILE_TYPES: FileInputFileTypes = [

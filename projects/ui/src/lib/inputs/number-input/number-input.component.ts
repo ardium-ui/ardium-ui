@@ -183,6 +183,7 @@ export class ArdiumNumberInputComponent
     this.writeValue(newValuePrecise);
     this.quickChangeEvent.emit({ direction, value: newValuePrecise });
     this._emitChange();
+    this._emitTouched();
 
     this._focusInputIfCantQuickChange();
   }
@@ -223,6 +224,10 @@ export class ArdiumNumberInputComponent
   }
   onBlurMaster(event: FocusEvent): void {
     this.onBlur(event);
+  }
+  private _emitTouched() {
+    this.wasTouched.set(true);
+    this._onTouchedRegistered?.();
   }
   //change
   onChange(event: Event): void {

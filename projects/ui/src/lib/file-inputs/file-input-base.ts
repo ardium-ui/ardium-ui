@@ -9,7 +9,7 @@ import {
   OnInit,
   output,
   signal,
-  viewChild
+  viewChild,
 } from '@angular/core';
 import {
   coerceBooleanProperty,
@@ -127,7 +127,6 @@ export abstract class _FileInputComponentBase extends _FormFieldComponentBase im
   }
 
   readonly valueChange = output<File[] | null>();
-  readonly changeEvent = output<File[] | null>({ alias: 'change' });
   readonly dragFilesEvent = output<File[]>({ alias: 'dragFiles' });
   readonly failedUploadEvent = output<FileInputFailedUpload[]>({ alias: 'failedUpload' });
 
@@ -173,14 +172,16 @@ export abstract class _FileInputComponentBase extends _FormFieldComponentBase im
     const v = this.value;
     this._onChangeRegistered?.(v);
     this.valueChange.emit(v);
-    this.changeEvent.emit(v);
   }
 
   openBrowseDialog(): void {
+    // use FileSystemAPI if supported & needed
     if (
       this._fileSystemService.isFileSystemAPISupported('showOpenFilePicker') &&
       (this.directoryId() || this.startDirectory() || this.fileTypes())
     ) {
+      this._isFilePickerOpen = true;
+
       this._fileSystemService
         .requestFileUpload({
           method: FileSystemMethod.PreferFileSystem,
@@ -197,17 +198,13 @@ export abstract class _FileInputComponentBase extends _FormFieldComponentBase im
             return;
           }
           const files = Array.isArray(fileOrFiles) ? fileOrFiles : [fileOrFiles];
-          if (files.length === 0) {
-            this._writeValue(null);
-            this.currentViewState.set('idle');
-            return;
-          }
-          this._writeValue(files);
-          this.currentViewState.set('uploaded');
-          // this._changeDetectorRef.markForCheck();
+          this._writeFilesToValue(files);
+          this._isFilePickerOpen = false;
         });
       return;
     }
+    // else use the old-school method by clicking directly on the input
+    this._isFilePickerOpen = true;
     this.fileInputEl()?.nativeElement.click();
   }
 
@@ -328,16 +325,46 @@ export abstract class _FileInputComponentBase extends _FormFieldComponentBase im
 
     this.currentViewState.set('uploaded');
     this._writeValue(filteredFiles.length > 0 ? filteredFiles : null);
+    this._emitTouched();
   }
   onInputChange(): void {
+    this._isFilePickerOpen = false;
     const files = Array.from(this.fileInputEl()?.nativeElement.files ?? []);
+    this._writeFilesToValue(files);
+  }
+  private _writeFilesToValue(files: File[]) {
     if (files.length === 0) {
       this._writeValue(null);
       this.currentViewState.set('idle');
+      this._emitTouched();
       return;
     }
     this._writeValue(files);
     this.currentViewState.set('uploaded');
+    this._emitTouched();
+  }
+
+  //! touched event handling
+  private _isFilePickerOpen = false;
+
+  private _emitTouched() {
+    this.wasTouched.set(true);
+    this._onTouchedRegistered?.();
+  }
+  override onFocus(event: FocusEvent): void {
+    if (this._isFilePickerOpen) {
+      setTimeout(() => {
+        this._emitTouched();
+      }, 200);
+    }
+    this._isFilePickerOpen = false;
+
+    super.onFocus(event);
+  }
+  override onBlur(event: FocusEvent): void {
+    super.onBlur(event);
+
+    this._shouldEmitTouched = !this._isFilePickerOpen;
   }
 
   //! helpers

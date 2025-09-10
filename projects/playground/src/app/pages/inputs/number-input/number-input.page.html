@@ -55,11 +55,30 @@
 </div>
 <div class="master flex">
   <span class="title">Number input with [keepFocusOnQuickChange]</span>
-  <ard-number-input keepFocusOnQuickChangeButton max="10"></ard-number-input>
+  <ard-number-input
+    keepFocusOnQuickChangeButton
+    max="10"
+  ></ard-number-input>
 </div>
 <div class="master flex">
   <span class="title">Number input with [keepFocusOnQuickChange] and button gets disabled for a while after number change</span>
-  <ard-number-input keepFocusOnQuickChangeButton value="0" (valueChange)="increaseMax()" [max]="maxSignal()"></ard-number-input>
+  <ard-number-input
+    keepFocusOnQuickChangeButton
+    value="0"
+    (valueChange)="increaseMax()"
+    [max]="maxSignal()"
+  ></ard-number-input>
+</div>
+<div class="master flex">
+  <span class="title">Number input within a form field</span>
+  <ard-form-field reserveHintLine>
+    <ard-label>Simple number input</ard-label>
+    <ard-number-input [formControl]="control" />
+    @if (control.touched && control.errors) {
+    <ard-error>It has an error</ard-error>
+    }
+    <ard-hint>Touched: {{ control.touched}}, errors: {{ control.errors }}, value: {{ control.value }} </ard-hint>
+  </ard-form-field>
 </div>
 <div class="master">
   <span class="title">Rainbow table</span>

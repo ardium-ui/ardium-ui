@@ -1,4 +1,5 @@
 import { Component, signal } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { FormElementAppearance as FA, FormElementVariant as FV } from 'projects/ui/src/public-api';
 import { Logger } from '../../../services/logger.service';
 
@@ -24,4 +25,6 @@ export class NumberInputPage {
       this.maxSignal.update(v => v + 1);
     }, 3000);
   }
+
+  readonly control = new FormControl(null, [Validators.max(10)]);
 }
