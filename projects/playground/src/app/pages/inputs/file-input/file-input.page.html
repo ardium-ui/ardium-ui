@@ -34,6 +34,14 @@
   />
 </div>
 <div class="master">
+  <span class="title">File input test for resetting the control</span>
+  <ard-file-input
+    [formControl]="control3"
+    (valueChange)="log('valueChange', $event?.[0])"
+  />
+  <button (click)="onClickReset()">Reset</button>
+</div>
+<div class="master">
   <span class="title">File input with file types (images only)</span>
   <ard-file-input
     [formControl]="control2"

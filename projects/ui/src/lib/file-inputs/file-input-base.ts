@@ -327,8 +327,9 @@ export abstract class _FileInputComponentBase extends _FormFieldComponentBase im
     this._writeValue(filteredFiles.length > 0 ? filteredFiles : null);
     this._emitTouched();
   }
-  onInputChange(): void {
+  onFileInputChange(): void {
     this._isFilePickerOpen = false;
+    console.log('onFileInputChange');
     const files = Array.from(this.fileInputEl()?.nativeElement.files ?? []);
     this._writeFilesToValue(files);
   }
@@ -395,7 +396,7 @@ export abstract class _FileInputComponentBase extends _FormFieldComponentBase im
     const inputEl = this.fileInputEl()?.nativeElement;
     if (!inputEl) return;
     if (!v) {
-      inputEl.files = null;
+      inputEl.value = '';
       return;
     }
 

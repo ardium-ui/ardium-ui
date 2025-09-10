@@ -13,6 +13,7 @@ export class FileInputPage {
 
   readonly control = new FormControl<File | null>(null, [Validators.required]);
   readonly control2 = new FormControl<File | null>(null);
+  readonly control3 = new FormControl<File | null>(null);
 
   readonly FILE_TYPES: FileInputFileTypes = [
     {
@@ -22,4 +23,8 @@ export class FileInputPage {
       }
     }
   ]
+
+  onClickReset() {
+    this.control3.reset();
+  }
 }
