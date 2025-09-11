@@ -4,11 +4,11 @@ import { Logger } from './../../../services/logger.service';
 
 @Component({
   standalone: false,
-  selector: 'app-simple-input',
-  templateUrl: './simple-input.page.html',
-  styleUrls: ['./simple-input.page.scss'],
+  selector: 'app-input',
+  templateUrl: './input.page.html',
+  styleUrls: ['./input.page.scss'],
 })
-export class SimpleInputPage {
+export class InputPage {
   appearances: FormElementAppearance[] = Object.values(FormElementAppearance);
   value: string = 'Hello world!';
   maxLength = 15;

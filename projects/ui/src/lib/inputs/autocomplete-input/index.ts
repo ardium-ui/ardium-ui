@@ -1,3 +1,4 @@
-export * from './input.module';
-export * from './input.component';
-export * from './input.directives';
+export * from './autocomplete-input.component';
+export * from './autocomplete-input.directives';
+export * from './autocomplete-input.module';
+

@@ -6,12 +6,12 @@ import { HexInputModule } from './hex-input/hex-input.module';
 import { AutocompleteInputModule } from './autocomplete-input/autocomplete-input.module';
 import { DateInputModule } from './date-input/date-input.module';
 import { DigitInputModule } from './digit-input/digit-input.module';
+import { InputModule } from './input/input.module';
 import { InputsHomeModule } from './inputs-home/inputs-home.module';
 import { InputsRoutingModule } from './inputs-routing.module';
 import { InputsPage } from './inputs.page';
 import { NumberInputModule } from './number-input/number-input.module';
 import { PasswordInputModule } from './password-input/password-input.module';
-import { SimpleInputModule } from './simple-input/simple-input.module';
 
 @NgModule({
   declarations: [InputsPage],
@@ -19,7 +19,7 @@ import { SimpleInputModule } from './simple-input/simple-input.module';
     CommonModule,
     InputsRoutingModule,
     InputsHomeModule,
-    SimpleInputModule,
+    InputModule,
     AutocompleteInputModule,
     NumberInputModule,
     HexInputModule,

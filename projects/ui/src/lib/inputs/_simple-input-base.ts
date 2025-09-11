@@ -8,7 +8,7 @@ import {
 import { SimpleOneAxisAlignment } from './../types/alignment.types';
 import { FormElementAppearance, FormElementVariant } from './../types/theming.types';
 import { Nullable } from './../types/utility.types';
-import { SimpleInputModel } from './input-utils';
+import { InputModel } from './input-utils';
 
 export interface _SimpleInputComponentDefaults extends _FormFieldComponentDefaults {
   appearance: FormElementAppearance;
@@ -42,7 +42,7 @@ export abstract class _SimpleInputComponentBase extends _FormFieldComponentBase 
   //! input view
   readonly textInputEl = viewChild<ElementRef<HTMLInputElement>>('textInput');
 
-  protected readonly inputModel = new SimpleInputModel(this);
+  protected readonly inputModel = new InputModel(this);
   private _wasViewInit = false;
   ngAfterViewInit(): void {
     this._wasViewInit = true;

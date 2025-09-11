@@ -1,12 +1,12 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { _formFieldComponentDefaults } from '../../_internal/form-field-component';
+import { SimpleOneAxisAlignment } from '../../types/alignment.types';
+import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { _SimpleInputComponentDefaults } from '../_simple-input-base';
-import { SimpleOneAxisAlignment } from './../../types/alignment.types';
-import { FormElementAppearance, FormElementVariant } from './../../types/theming.types';
 
-export interface ArdSimpleInputDefaults extends _SimpleInputComponentDefaults {}
+export interface ArdInputDefaults extends _SimpleInputComponentDefaults {}
 
-const _simpleInputDefaults: ArdSimpleInputDefaults = {
+const _simpleInputDefaults: ArdInputDefaults = {
   ..._formFieldComponentDefaults,
   appearance: FormElementAppearance.Outlined,
   variant: FormElementVariant.Rounded,
@@ -19,12 +19,12 @@ const _simpleInputDefaults: ArdSimpleInputDefaults = {
   maxLength: undefined,
 };
 
-export const ARD_SIMPLE_INPUT_DEFAULTS = new InjectionToken<ArdSimpleInputDefaults>('ard-simple-input-defaults', {
+export const ARD_SIMPLE_INPUT_DEFAULTS = new InjectionToken<ArdInputDefaults>('ard-input-defaults', {
   factory: () => ({
     ..._simpleInputDefaults,
   }),
 });
 
-export function provideSimpleInputDefaults(config: Partial<ArdSimpleInputDefaults>): Provider {
+export function provideInputDefaults(config: Partial<ArdInputDefaults>): Provider {
   return { provide: ARD_SIMPLE_INPUT_DEFAULTS, useValue: { ..._simpleInputDefaults, ...config } };
 }

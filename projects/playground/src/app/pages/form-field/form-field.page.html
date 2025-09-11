@@ -2,14 +2,14 @@
   <span class="title">Simplest form field</span>
   <ard-form-field>
     <ard-label>Test</ard-label>
-    <ard-simple-input />
+    <ard-input />
   </ard-form-field>
 </div>
 <div class="master first">
   <span class="title">Form field with hint</span>
   <ard-form-field>
     <ard-label>Test</ard-label>
-    <ard-simple-input [formControl]="control" />
+    <ard-input [formControl]="control" />
     <ard-hint>Lorem ipsum dolor sit amet consectetur.</ard-hint>
   </ard-form-field>
 </div>
@@ -17,7 +17,7 @@
   <span class="title">Form field with 3 hints</span>
   <ard-form-field>
     <ard-label>Test</ard-label>
-    <ard-simple-input [formControl]="control" />
+    <ard-input [formControl]="control" />
     <ard-hint left>Left 1</ard-hint>
     <ard-hint left>Left 2</ard-hint>
     <ard-hint right>Right</ard-hint>
@@ -27,7 +27,7 @@
   <span class="title">Form field with hint and error</span>
   <ard-form-field>
     <ard-label>Test</ard-label>
-    <ard-simple-input [formControl]="control2" />
+    <ard-input [formControl]="control2" />
     <ard-hint>Lorem ipsum dolor sit amet consectetur.</ard-hint>
     @if (control2.invalid && control2.touched) {
     <ard-error>This field is required.</ard-error>
@@ -39,7 +39,7 @@
   <span class="title">Form field with success state</span>
   <ard-form-field>
     <ard-label>Test</ard-label>
-    <ard-simple-input
+    <ard-input
       [formControl]="control"
       isSuccess
     />
@@ -50,7 +50,7 @@
   <span class="title">Form field with reserved hint line</span>
   <ard-form-field reserveHintLine>
     <ard-label>Test</ard-label>
-    <ard-simple-input [formControl]="control" />
+    <ard-input [formControl]="control" />
     @if (showHint()) {
     <ard-hint>Lorem ipsum dolor sit amet consectetur.</ard-hint>
     }
@@ -60,7 +60,7 @@
   <span class="title">Form field with disabled input</span>
   <ard-form-field>
     <ard-label>Test</ard-label>
-    <ard-simple-input [formControl]="control3" />
+    <ard-input [formControl]="control3" />
     <ard-hint>Example hint</ard-hint>
   </ard-form-field>
 </div>
@@ -103,7 +103,7 @@
   <span class="title">Horizontal form field</span>
   <ard-horizontal-form-field>
     <ard-label>Test</ard-label>
-    <ard-simple-input [formControl]="control" />
+    <ard-input [formControl]="control" />
     <ard-hint>My hint</ard-hint>
   </ard-horizontal-form-field>
 </div>
@@ -127,8 +127,8 @@
   <span class="title">All possible form controls</span>
   <div class="flex horiz">
     <ard-form-field>
-      <ard-label>simple-input</ard-label>
-      <ard-simple-input hasError />
+      <ard-label>input</ard-label>
+      <ard-input hasError />
       <ard-error>Error here</ard-error>
     </ard-form-field>
     <ard-form-field>

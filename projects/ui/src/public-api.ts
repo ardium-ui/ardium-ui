@@ -4,10 +4,10 @@
 import 'first-last';
 
 //! component group 0 - inputs and selects
+export * from './lib/inputs/autocomplete-input'; // 003
 export * from './lib/inputs/digit-input'; // 004
-export * from './lib/inputs/input'; // 003
+export * from './lib/inputs/input'; // 002
 export * from './lib/inputs/password-input'; // 005
-export * from './lib/inputs/simple-input'; // 002
 export * from './lib/option'; // 001
 export * from './lib/select'; // 000
 // export * from './lib/inputs/color-input'; // 006

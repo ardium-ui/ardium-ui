@@ -1,7 +1,6 @@
 @use './shared' as inputMixin;
 @use '../mixins' as defaultMixins;
 @use '../clear-button' as CB;
-@use '../../variables' as ARD;
 
 .ard-input {
   @include inputMixin.genericInput();
@@ -10,37 +9,4 @@
   max-width: 100%;
 
   @include CB.clearButton();
-
-  .ard-autocomplete {
-    opacity: 37.5%;
-  }
-}
-//! suggestions
-.ard-input-suggestions-panel {
-  .ard-option {
-    padding: 0.375rem 0.625rem;
-    font-size: 1rem;
-    color: ARD.$text2;
-    cursor: pointer;
-
-    &.ard-option-highlighted {
-      background: ARD.$darken-overlay-light;
-    }
-
-    &.ard-option-selected {
-      font-weight: 500;
-      background: ARD.$darken-overlay-medium;
-    }
-
-    &.ard-option-disabled {
-      pointer-events: none;
-      opacity: 50%;
-    }
-  }
-  .ard-compact {
-    .ard-option {
-      padding: 0.25rem 0.5rem;
-      font-size: 0.9rem;
-    }
-  }
 }

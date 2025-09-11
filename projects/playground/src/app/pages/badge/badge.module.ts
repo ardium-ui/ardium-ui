@@ -4,10 +4,10 @@ import {
   ArdiumBadgeModule,
   ArdiumButtonModule,
   ArdiumCheckboxModule,
+  ArdiumInputModule,
   ArdiumRadioModule,
   ArdiumSegmentModule,
   ArdiumSelectModule,
-  ArdiumSimpleInputModule,
 } from 'projects/ui/src/public-api';
 import { BadgePage } from './badge.page';
 
@@ -19,7 +19,7 @@ import { BadgePage } from './badge.page';
     ArdiumButtonModule,
     ArdiumSelectModule,
     ArdiumSegmentModule,
-    ArdiumSimpleInputModule,
+    ArdiumInputModule,
     ArdiumCheckboxModule,
     ArdiumRadioModule,
   ],

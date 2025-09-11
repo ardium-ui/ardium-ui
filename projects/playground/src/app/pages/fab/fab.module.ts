@@ -1,16 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
-  ArdiumCheckboxModule,
-  ArdiumFabModule,
-  ArdiumIconModule,
-  ArdiumSelectModule,
-  ArdiumSimpleInputModule,
+    ArdiumCheckboxModule,
+    ArdiumFabModule,
+    ArdiumIconModule,
+    ArdiumInputModule,
+    ArdiumSelectModule,
 } from 'projects/ui/src/public-api';
 import { FabPage } from './fab.page';
 
 @NgModule({
   declarations: [FabPage],
-  imports: [CommonModule, ArdiumFabModule, ArdiumIconModule, ArdiumSelectModule, ArdiumCheckboxModule, ArdiumSimpleInputModule],
+  imports: [CommonModule, ArdiumFabModule, ArdiumIconModule, ArdiumSelectModule, ArdiumCheckboxModule, ArdiumInputModule],
 })
 export class FabModule {}

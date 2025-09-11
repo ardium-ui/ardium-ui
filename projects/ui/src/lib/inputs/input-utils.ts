@@ -3,12 +3,12 @@ import { isAnyString, isDefined, isNull, isNumber } from 'simple-bool';
 import { Nullable } from '../types/utility.types';
 import { ArdTransformer, RegExpTransformer } from './input-transformers';
 
-export interface SimpleInputModelHost {
+export interface InputModelHost {
   readonly maxLength: Signal<Nullable<number>>;
   readonly textInputEl: Signal<ElementRef<HTMLInputElement> | undefined>;
 }
-export class SimpleInputModel {
-  constructor(protected readonly _ardHostCmp: SimpleInputModelHost) {}
+export class InputModel {
+  constructor(protected readonly _ardHostCmp: InputModelHost) {}
 
   readonly value = signal<string | null>(null);
   readonly stringValue = computed<string>(() => this.value() ?? '');
@@ -18,7 +18,7 @@ export class SimpleInputModel {
       //warn when using non-string/non-null value
       console.warn(
         new Error(
-          `ARD-WA0020: Trying to set <ard-simple-input>'s value to "${v}" (of type ${typeof v}), expected string or null.`
+          `ARD-WA0020: Trying to set <ard-input>'s value to "${v}" (of type ${typeof v}), expected string or null.`
         )
       );
       //normalize the value
@@ -65,11 +65,11 @@ export class SimpleInputModel {
     return v;
   }
 }
-export interface InputModelHost extends SimpleInputModelHost {
+export interface AutocompleteInputModelHost extends InputModelHost {
   charlist: Signal<RegExp | undefined>;
 }
-export class InputModel extends SimpleInputModel {
-  constructor(protected override readonly _ardHostCmp: InputModelHost) {
+export class AutocompleteInputModel extends InputModel {
+  constructor(protected override readonly _ardHostCmp: AutocompleteInputModelHost) {
     super(_ardHostCmp);
   }
   protected override _writeValue(v: string | null): boolean {
