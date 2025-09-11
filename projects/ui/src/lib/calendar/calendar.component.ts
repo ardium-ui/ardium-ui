@@ -9,8 +9,10 @@ import {
   Inject,
   input,
   model,
+  OnChanges,
   output,
   signal,
+  SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -18,6 +20,7 @@ import { coerceBooleanProperty, coerceDateProperty, coerceNumberProperty } from 
 import { roundFromZero } from 'more-rounding';
 import { isDefined, isNull } from 'simple-bool';
 import { _FormFieldComponentBase } from '../_internal/form-field-component';
+import { getUTCDate } from '../_internal/utils/date.utils';
 import { ARD_FORM_FIELD_CONTROL } from '../form-field/form-field-child.token';
 import { ComponentColor } from '../types/colors.types';
 import { ARD_CALENDAR_DEFAULTS, ArdCalendarDefaults } from './calendar.defaults';
@@ -37,8 +40,6 @@ import { isDayOutOfRange } from './views/days-view/days-view.helpers';
 import { isMonthOutOfRange } from './views/months-view/months-view.helpers';
 import { isYearOutOfRange } from './views/years-view/years-view.helpers';
 
-const TODAY = new Date();
-
 @Component({
   selector: 'ard-calendar',
   templateUrl: './calendar.component.html',
@@ -57,7 +58,7 @@ const TODAY = new Date();
     },
   ],
 })
-export class ArdiumCalendarComponent extends _FormFieldComponentBase {
+export class ArdiumCalendarComponent extends _FormFieldComponentBase implements OnChanges {
   protected override readonly _DEFAULTS!: ArdCalendarDefaults;
   constructor(@Inject(ARD_CALENDAR_DEFAULTS) defaults: ArdCalendarDefaults) {
     super(defaults);
@@ -67,6 +68,8 @@ export class ArdiumCalendarComponent extends _FormFieldComponentBase {
       this._emitChange();
     });
   }
+
+  readonly TODAY = computed<Date>(() => this._createDate(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()));
 
   //! appearance
   readonly color = input<ComponentColor>(this._DEFAULTS.color);
@@ -138,6 +141,9 @@ export class ArdiumCalendarComponent extends _FormFieldComponentBase {
     transform: v => (v === null ? null : coerceDateProperty(v, this._DEFAULTS.max)),
   });
 
+  readonly UTC = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  private readonly _UTCAfterInit = signal<boolean>(false);
+
   readonly filter = input<ArdCalendarFilterFn | null>(this._DEFAULTS.filter);
 
   override writeValue(v: any): void {
@@ -152,6 +158,18 @@ export class ArdiumCalendarComponent extends _FormFieldComponentBase {
 
   protected override _emitChange(): void {
     this._onChangeRegistered?.(this.selectedDate());
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['UTC']) {
+      if (changes['UTC'].firstChange) {
+        this._UTCAfterInit.set(changes['UTC'].currentValue);
+      } else {
+        console.error(
+          `ARD-NF2003: <ard-calendar>'s [UTC] attribute should not be changed dynamically. This change will be ignored.`
+        );
+      }
+    }
   }
 
   //! selecting days
@@ -169,8 +187,7 @@ export class ArdiumCalendarComponent extends _FormFieldComponentBase {
   }
   readonly isDayFilteredOut = computed(() => {
     return (day: number, month: number = this.activeMonth(), year: number = this.activeYear()): boolean => {
-      const filter = this.filter();
-      return filter?.(new Date(year, month, day)) ?? false;
+      return this.filter()?.(this._createDate(year, month, day)) ?? false;
     };
   });
   selectDay(day: number | Date | null): void {
@@ -185,7 +202,7 @@ export class ArdiumCalendarComponent extends _FormFieldComponentBase {
     if (day instanceof Date) day = day.getDate();
     if ((day && this.isDayOutOfRange(day)) || this.isDayFilteredOut()(day)) return;
 
-    this.selectedDate.set(new Date(this.activeYear(), this.activeMonth(), day, 0, 0, 0, 0));
+    this.selectedDate.set(this._createDate(this.activeYear(), this.activeMonth(), day));
   }
   selectCurrentlyHighlightedDay(): void {
     if (!isDefined(this.highlightedDay())) return;
@@ -202,7 +219,7 @@ export class ArdiumCalendarComponent extends _FormFieldComponentBase {
       this.__highlightedDay.update(() => day);
       return;
     }
-    const date = new Date(year, month, day);
+    const date = this._createDate(year, month, day);
     const outOfRange = this.isDayOutOfRange(day, month, year);
 
     if (outOfRange === -1) {
@@ -253,7 +270,7 @@ export class ArdiumCalendarComponent extends _FormFieldComponentBase {
     this.setHighlightedDay(1);
   }
   highlightLastDay(): void {
-    const daysInMonth = new Date(this.activeYear(), this.activeMonth() + 1, 0).getDate();
+    const daysInMonth = this._createDate(this.activeYear(), this.activeMonth() + 1, 0).getDate();
     this.setHighlightedDay(daysInMonth);
   }
   highlightSameDayNextMonth(): void {
@@ -291,7 +308,7 @@ export class ArdiumCalendarComponent extends _FormFieldComponentBase {
   }
   changeMonth(newMonth: number | null): boolean {
     if (isNull(newMonth)) {
-      this.activeMonth.set(TODAY.getMonth());
+      this.activeMonth.set(this.TODAY().getMonth());
       return true;
     }
 
@@ -333,7 +350,7 @@ export class ArdiumCalendarComponent extends _FormFieldComponentBase {
       this.__highlightedMonth.update(() => month);
       return;
     }
-    const date = new Date(year, month, 15);
+    const date = this._createDate(year, month, 15);
     const outOfRange = this.isMonthOutOfRange(month, year);
 
     if (outOfRange === -1) {
@@ -398,7 +415,7 @@ export class ArdiumCalendarComponent extends _FormFieldComponentBase {
   }
   changeYear(year: number | null): boolean {
     if (isNull(year)) {
-      this.activeYear.set(TODAY.getFullYear());
+      this.activeYear.set(this.TODAY().getFullYear());
       return true;
     }
 
@@ -428,14 +445,14 @@ export class ArdiumCalendarComponent extends _FormFieldComponentBase {
   private readonly __highlightedYear = signal<number | null>(null);
   readonly highlightedYear = this.__highlightedYear.asReadonly();
 
-  readonly currentYearRangeStart = signal<number>(TODAY.getFullYear() - (TODAY.getFullYear() % 4) - 8); // current year always in 3rd row
+  readonly currentYearRangeStart = signal<number>(this.TODAY().getFullYear() - (this.TODAY().getFullYear() % 4) - 8); // current year always in 3rd row
 
   setHighlightedYear(year: number | null): void {
     if (isNull(year)) {
       this.__highlightedYear.update(() => year);
       return;
     }
-    const date = new Date(year, 0);
+    const date = this._createDate(year, 0, 1);
     const outOfRange = this.isYearOutOfRange(year);
 
     if (outOfRange === -1) {
@@ -508,6 +525,13 @@ export class ArdiumCalendarComponent extends _FormFieldComponentBase {
   @HostListener('document:keydown')
   onDocumentKeydown(): void {
     this._isUsingKeyboard.set(true);
+  }
+
+  private _createDate(year: number, monthIndex: number, day: number): Date {
+    if (this._UTCAfterInit()) {
+      return getUTCDate(year, monthIndex, day);
+    }
+    return new Date(year, monthIndex, day);
   }
 
   //! templates
