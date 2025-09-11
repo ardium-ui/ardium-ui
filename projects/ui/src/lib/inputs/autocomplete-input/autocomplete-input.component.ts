@@ -1,24 +1,24 @@
 import { ConnectedPosition, Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    HostListener,
-    Inject,
-    Input,
-    TemplateRef,
-    ViewContainerRef,
-    ViewEncapsulation,
-    computed,
-    contentChild,
-    forwardRef,
-    inject,
-    input,
-    output,
-    signal,
-    viewChild,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  Inject,
+  Input,
+  TemplateRef,
+  ViewContainerRef,
+  ViewEncapsulation,
+  computed,
+  contentChild,
+  forwardRef,
+  inject,
+  input,
+  output,
+  signal,
+  viewChild,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty } from '@ardium-ui/devkit';
@@ -32,35 +32,35 @@ import { Nullable } from '../../types/utility.types';
 import { _SimpleInputComponentBase } from '../_simple-input-base';
 import { OptionContext } from './../../types/item-storage.types';
 import { InputModel, InputModelHost, escapeAndCreateRegex } from './../input-utils';
-import { ARD_INPUT_DEFAULTS, ArdInputDefaults } from './input.defaults';
+import { ARD_AUTOCOMPLETE_INPUT_DEFAULTS, ArdAutocompleteInputDefaults } from './autocomplete-input.defaults';
 import {
-    ArdInputLoadingTemplateDirective,
-    ArdInputPlaceholderTemplateDirective,
-    ArdInputPrefixTemplateDirective,
-    ArdInputSuffixTemplateDirective,
-    ArdInputSuggestionTemplateDirective,
-} from './input.directives';
+  ArdAutocompleteInputLoadingTemplateDirective,
+  ArdAutocompleteInputPlaceholderTemplateDirective,
+  ArdAutocompleteInputPrefixTemplateDirective,
+  ArdAutocompleteInputSuffixTemplateDirective,
+  ArdAutocompleteInputSuggestionTemplateDirective,
+} from './autocomplete-input.directives';
 
 @Component({
   standalone: false,
-  selector: 'ard-input',
-  templateUrl: './input.component.html',
-  styleUrls: ['./input.component.scss'],
+  selector: 'ard-autocomplete-input',
+  templateUrl: './autocomplete-input.component.html',
+  styleUrls: ['./autocomplete-input.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ArdiumInputComponent),
+      useExisting: forwardRef(() => ArdiumAutocompleteInputComponent),
       multi: true,
     },
     {
       provide: ARD_FORM_FIELD_CONTROL,
-      useExisting: ArdiumInputComponent,
+      useExisting: ArdiumAutocompleteInputComponent,
     },
   ],
 })
-export class ArdiumInputComponent
+export class ArdiumAutocompleteInputComponent
   extends _SimpleInputComponentBase
   implements InputModelHost, SimplestItemStorageHost, AfterViewInit
 {
@@ -68,9 +68,9 @@ export class ArdiumInputComponent
   private readonly scrollStrategyOpts = inject(ScrollStrategyOptions);
   private readonly viewContainerRef = inject(ViewContainerRef);
 
-  protected override readonly _DEFAULTS!: ArdInputDefaults;
-  public readonly DEFAULTS!: ArdInputDefaults;
-  constructor(@Inject(ARD_INPUT_DEFAULTS) defaults: ArdInputDefaults) {
+  protected override readonly _DEFAULTS!: ArdAutocompleteInputDefaults;
+  public readonly DEFAULTS!: ArdAutocompleteInputDefaults;
+  constructor(@Inject(ARD_AUTOCOMPLETE_INPUT_DEFAULTS) defaults: ArdAutocompleteInputDefaults) {
     super(defaults);
 
     this.DEFAULTS = this._DEFAULTS;
@@ -117,11 +117,11 @@ export class ArdiumInputComponent
   readonly acceptAutocompleteEvent = output({ alias: 'acceptAutocomplete' });
 
   //! prefix & suffix
-  override readonly prefixTemplate = contentChild(ArdInputPrefixTemplateDirective);
-  override readonly suffixTemplate = contentChild(ArdInputSuffixTemplateDirective);
+  override readonly prefixTemplate = contentChild(ArdAutocompleteInputPrefixTemplateDirective);
+  override readonly suffixTemplate = contentChild(ArdAutocompleteInputSuffixTemplateDirective);
 
   //! placeholder
-  override readonly placeholderTemplate = contentChild(ArdInputPlaceholderTemplateDirective);
+  override readonly placeholderTemplate = contentChild(ArdAutocompleteInputPlaceholderTemplateDirective);
 
   //! suggestions
   readonly suggestionStorage = new SimplestItemStorage(this);
@@ -152,8 +152,8 @@ export class ArdiumInputComponent
   readonly areSuggestionsLoading = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
   readonly suggestionsLoadingText = input<string>(this._DEFAULTS.suggestionsLoadingText);
 
-  readonly suggestionTemplate = contentChild(ArdInputSuggestionTemplateDirective);
-  readonly suggestionLoadingTemplate = contentChild(ArdInputLoadingTemplateDirective);
+  readonly suggestionTemplate = contentChild(ArdAutocompleteInputSuggestionTemplateDirective);
+  readonly suggestionLoadingTemplate = contentChild(ArdAutocompleteInputLoadingTemplateDirective);
 
   //! suggestions overlay
   readonly dropdownHost = viewChild<ElementRef<HTMLDivElement>>('suggestionsHost');

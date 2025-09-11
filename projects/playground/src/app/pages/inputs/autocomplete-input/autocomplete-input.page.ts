@@ -7,11 +7,11 @@ import { Logger } from './../../../services/logger.service';
 
 @Component({
   standalone: false,
-  selector: 'app-input',
-  templateUrl: './input.page.html',
-  styleUrls: ['./input.page.scss'],
+  selector: 'app-autocomplete-input',
+  templateUrl: './autocomplete-input.page.html',
+  styleUrls: ['./autocomplete-input.page.scss'],
 })
-export class InputPage {
+export class AutocompleteInputPage {
   appearances: FormElementAppearance[] = Object.values(FormElementAppearance);
   value: string = 'Hello world!';
   maxLength = 15;

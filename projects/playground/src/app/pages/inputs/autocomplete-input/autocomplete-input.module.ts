@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ArdiumIconModule, ArdiumInputModule } from 'projects/ui/src/public-api';
-import { InputPage } from './input.page';
+import { AutocompleteInputPage } from './autocomplete-input.page';
 
 @NgModule({
-  declarations: [InputPage],
+  declarations: [AutocompleteInputPage],
   imports: [CommonModule, FormsModule, ArdiumInputModule, ArdiumIconModule],
 })
-export class InputModule {}
+export class AutocompleteInputModule {}

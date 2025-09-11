@@ -3,7 +3,7 @@ import { DropdownPanelAppearance, DropdownPanelVariant } from '../../dropdown-pa
 import { Nullable } from '../../types/utility.types';
 import { _SimpleInputComponentDefaults, _simpleInputComponentDefaults } from '../_simple-input-base';
 
-export interface ArdInputDefaults extends _SimpleInputComponentDefaults {
+export interface ArdAutocompleteInputDefaults extends _SimpleInputComponentDefaults {
   suggValueFrom: string;
   suggLabelFrom: string;
   suggestionsLoadingText: string;
@@ -13,7 +13,7 @@ export interface ArdInputDefaults extends _SimpleInputComponentDefaults {
   dropdownVariant: Nullable<DropdownPanelVariant>;
 }
 
-const _inputDefaults: ArdInputDefaults = {
+const _inputDefaults: ArdAutocompleteInputDefaults = {
   ..._simpleInputComponentDefaults,
   suggValueFrom: 'value',
   suggLabelFrom: 'label',
@@ -24,12 +24,12 @@ const _inputDefaults: ArdInputDefaults = {
   dropdownVariant: undefined,
 };
 
-export const ARD_INPUT_DEFAULTS = new InjectionToken<ArdInputDefaults>('ard-input-defaults', {
+export const ARD_AUTOCOMPLETE_INPUT_DEFAULTS = new InjectionToken<ArdAutocompleteInputDefaults>('ard-autocomplete-input-defaults', {
   factory: () => ({
     ..._inputDefaults,
   }),
 });
 
-export function provideInputDefaults(config: Partial<ArdInputDefaults>): Provider {
-  return { provide: ARD_INPUT_DEFAULTS, useValue: { ..._inputDefaults, ...config } };
+export function provideAutocompleteInputDefaults(config: Partial<ArdAutocompleteInputDefaults>): Provider {
+  return { provide: ARD_AUTOCOMPLETE_INPUT_DEFAULTS, useValue: { ..._inputDefaults, ...config } };
 }

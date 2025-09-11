@@ -1,30 +1,32 @@
 import { Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    contentChild,
-    effect,
-    ElementRef,
-    forwardRef,
-    Inject,
-    inject,
-    input,
-    model,
-    OnDestroy,
-    output,
-    signal,
-    TemplateRef,
-    viewChild,
-    ViewContainerRef,
-    ViewEncapsulation,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  contentChild,
+  effect,
+  ElementRef,
+  forwardRef,
+  Inject,
+  inject,
+  input,
+  model,
+  OnDestroy,
+  output,
+  signal,
+  SimpleChanges,
+  TemplateRef,
+  viewChild,
+  ViewContainerRef,
+  ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceDateProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { isDefined, isNull } from 'simple-bool';
 import { _FormFieldComponentBase } from '../../_internal/form-field-component';
+import { getUTCDate } from '../../_internal/utils/date.utils';
 import { ArdCalendarFilterFn, ArdCalendarView } from '../../calendar/calendar.types';
 import { ArdiumDropdownPanelComponent, DropdownPanelAppearance, DropdownPanelVariant } from '../../dropdown-panel';
 import { ARD_FORM_FIELD_CONTROL } from '../../form-field/form-field-child.token';
@@ -33,26 +35,26 @@ import { FormElementAppearance, FormElementVariant } from '../../types/theming.t
 import { Nullable } from '../../types/utility.types';
 import { ARD_DATE_INPUT_DEFAULTS, ArdDateInputDefaults } from './date-input.defaults';
 import {
-    ArdDateInputAcceptButtonsTemplateDirective,
-    ArdDateInputCalendarIconTemplateDirective,
-    ArdDateInputDaysViewHeaderTemplateDirective,
-    ArdDateInputDayTemplateDirective,
-    ArdDateInputFloatingMonthTemplateDirective,
-    ArdDateInputMonthsViewHeaderTemplateDirective,
-    ArdDateInputMonthTemplateDirective,
-    ArdDateInputPrefixTemplateDirective,
-    ArdDateInputSuffixTemplateDirective,
-    ArdDateInputValueTemplateDirective,
-    ArdDateInputWeekdayTemplateDirective,
-    ArdDateInputYearsViewHeaderTemplateDirective,
-    ArdDateInputYearTemplateDirective,
+  ArdDateInputAcceptButtonsTemplateDirective,
+  ArdDateInputCalendarIconTemplateDirective,
+  ArdDateInputDaysViewHeaderTemplateDirective,
+  ArdDateInputDayTemplateDirective,
+  ArdDateInputFloatingMonthTemplateDirective,
+  ArdDateInputMonthsViewHeaderTemplateDirective,
+  ArdDateInputMonthTemplateDirective,
+  ArdDateInputPrefixTemplateDirective,
+  ArdDateInputSuffixTemplateDirective,
+  ArdDateInputValueTemplateDirective,
+  ArdDateInputWeekdayTemplateDirective,
+  ArdDateInputYearsViewHeaderTemplateDirective,
+  ArdDateInputYearTemplateDirective,
 } from './date-input.directive';
 import {
-    ArdDateInputAcceptButtonsContext,
-    ArdDateInputDeserializeFn,
-    ArdDateInputMinMaxStrategy,
-    ArdDateInputSerializeFn,
-    ArdDateInputValueContext,
+  ArdDateInputAcceptButtonsContext,
+  ArdDateInputDeserializeFn,
+  ArdDateInputMinMaxStrategy,
+  ArdDateInputSerializeFn,
+  ArdDateInputValueContext,
 } from './date-input.types';
 
 @Component({
@@ -183,6 +185,10 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
       }
     }
 
+    if (date && this._UTCAfterInit()) {
+      date = getUTCDate(date.getFullYear(), date.getMonth(), date.getDate());
+    }
+
     this.value.set(date);
   }
   private _setDateInputAttributes() {
@@ -287,7 +293,22 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
   readonly min = input<Date | null, any>(this._DEFAULTS.min, { transform: v => coerceDateProperty(v, this._DEFAULTS.min) });
   readonly max = input<Date | null, any>(this._DEFAULTS.max, { transform: v => coerceDateProperty(v, this._DEFAULTS.max) });
 
+  readonly UTC = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly _UTCAfterInit = signal<boolean>(false);
+
   readonly filter = input<ArdCalendarFilterFn | null>(this._DEFAULTS.filter);
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['UTC']) {
+      if (changes['UTC'].firstChange) {
+        this._UTCAfterInit.set(changes['UTC'].currentValue);
+      } else {
+        console.error(
+          `ARD-NF2003: <ard-calendar>'s [UTC] attribute should not be changed dynamically. This change will be ignored.`
+        );
+      }
+    }
+  }
 
   //! calendar outputs
   readonly yearSelect = output<number>();

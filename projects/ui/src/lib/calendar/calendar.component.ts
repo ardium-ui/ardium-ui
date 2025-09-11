@@ -1,19 +1,20 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    contentChild,
-    effect,
-    forwardRef,
-    HostListener,
-    Inject,
-    input,
-    model,
-    OnChanges,
-    output,
-    signal,
-    SimpleChanges,
-    ViewEncapsulation,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  contentChild,
+  effect,
+  forwardRef,
+  HostListener,
+  Inject,
+  input,
+  linkedSignal,
+  model,
+  OnChanges,
+  output,
+  signal,
+  SimpleChanges,
+  ViewEncapsulation,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceDateProperty, coerceNumberProperty } from '@ardium-ui/devkit';
@@ -25,14 +26,14 @@ import { ARD_FORM_FIELD_CONTROL } from '../form-field/form-field-child.token';
 import { ComponentColor } from '../types/colors.types';
 import { ARD_CALENDAR_DEFAULTS, ArdCalendarDefaults } from './calendar.defaults';
 import {
-    ArdCalendarDaysViewHeaderTemplateDirective,
-    ArdCalendarDayTemplateDirective,
-    ArdCalendarFloatingMonthTemplateDirective,
-    ArdCalendarMonthsViewHeaderTemplateDirective,
-    ArdCalendarMonthTemplateDirective,
-    ArdCalendarWeekdayTemplateDirective,
-    ArdCalendarYearsViewHeaderTemplateDirective,
-    ArdCalendarYearTemplateDirective,
+  ArdCalendarDaysViewHeaderTemplateDirective,
+  ArdCalendarDayTemplateDirective,
+  ArdCalendarFloatingMonthTemplateDirective,
+  ArdCalendarMonthsViewHeaderTemplateDirective,
+  ArdCalendarMonthTemplateDirective,
+  ArdCalendarWeekdayTemplateDirective,
+  ArdCalendarYearsViewHeaderTemplateDirective,
+  ArdCalendarYearTemplateDirective,
 } from './calendar.directives';
 import { _CalendarTemplateRepositoryDirective } from './calendar.internal-directives';
 import { ArdCalendarFilterFn, ArdCalendarView } from './calendar.types';
@@ -446,7 +447,7 @@ export class ArdiumCalendarComponent extends _FormFieldComponentBase implements 
   private readonly __highlightedYear = signal<number | null>(null);
   readonly highlightedYear = this.__highlightedYear.asReadonly();
 
-  readonly currentYearRangeStart = signal<number>(this.TODAY().getFullYear() - (this.TODAY().getFullYear() % 4) - 8); // current year always in 3rd row
+  readonly currentYearRangeStart = linkedSignal<number>(() => this.TODAY().getFullYear() - (this.TODAY().getFullYear() % 4) - 8); // current year always in 3rd row
 
   setHighlightedYear(year: number | null): void {
     if (isNull(year)) {

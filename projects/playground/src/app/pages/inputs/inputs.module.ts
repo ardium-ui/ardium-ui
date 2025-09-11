@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 // import { ColorInputModule } from './color-input/color-input.module';
 import { HexInputModule } from './hex-input/hex-input.module';
-import { InputModule } from './input/input.module';
 
+import { AutocompleteInputModule } from './autocomplete-input/autocomplete-input.module';
 import { DateInputModule } from './date-input/date-input.module';
 import { DigitInputModule } from './digit-input/digit-input.module';
 import { InputsHomeModule } from './inputs-home/inputs-home.module';
@@ -20,7 +20,7 @@ import { SimpleInputModule } from './simple-input/simple-input.module';
     InputsRoutingModule,
     InputsHomeModule,
     SimpleInputModule,
-    InputModule,
+    AutocompleteInputModule,
     NumberInputModule,
     HexInputModule,
     // ColorInputModule,
