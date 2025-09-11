@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, input, ViewEncapsulation } from '@a
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 
 @Component({
+  standalone: false,
   selector: 'ard-text-list',
   templateUrl: './text-list.component.html',
   styleUrl: './text-list.component.scss',

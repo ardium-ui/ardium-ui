@@ -4,12 +4,13 @@ import { ARD_FORM_FIELD_CONTROL } from '../../form-field/form-field-child.token'
 import { _SimpleInputComponentBase } from '../_simple-input-base';
 import { ARD_SIMPLE_INPUT_DEFAULTS, ArdSimpleInputDefaults } from './simple-input.defaults';
 import {
-  ArdSimpleInputPlaceholderTemplateDirective,
-  ArdSimpleInputPrefixTemplateDirective,
-  ArdSimpleInputSuffixTemplateDirective,
+    ArdSimpleInputPlaceholderTemplateDirective,
+    ArdSimpleInputPrefixTemplateDirective,
+    ArdSimpleInputSuffixTemplateDirective,
 } from './simple-input.directives';
 
 @Component({
+  standalone: false,
   selector: 'ard-simple-input',
   templateUrl: './simple-input.component.html',
   styleUrls: ['./simple-input.component.scss'],

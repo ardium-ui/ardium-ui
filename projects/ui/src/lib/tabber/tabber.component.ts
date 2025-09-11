@@ -17,6 +17,7 @@ import { ArdiumTabComponent } from './tab/tab.component';
 import { ARD_TABBER_DEFAULTS } from './tabber.defaults';
 
 @Component({
+  standalone: false,
   selector: 'ard-tabber',
   templateUrl: './tabber.component.html',
   styleUrl: './tabber.component.scss',

@@ -1,13 +1,13 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  TemplateRef,
-  ViewEncapsulation,
-  computed,
-  contentChild,
-  effect,
-  inject,
-  input,
+    ChangeDetectionStrategy,
+    Component,
+    TemplateRef,
+    ViewEncapsulation,
+    computed,
+    contentChild,
+    effect,
+    inject,
+    input,
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { SimpleComponentColor } from '../types/colors.types';
@@ -16,6 +16,7 @@ import { ArdProgressBarValueTemplateDirective } from './progress-bar.directive';
 import { ProgressBarMode, ProgressBarSize, ProgressBarValueContext, ProgressBarVariant } from './progress-bar.types';
 
 @Component({
+  standalone: false,
   selector: 'ard-progress-bar',
   templateUrl: './progress-bar.component.html',
   styleUrls: ['./progress-bar.component.scss'],

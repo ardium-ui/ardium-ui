@@ -6,6 +6,7 @@ import { ARD_SLIDER_DEFAULTS, ArdSliderDefaults } from '../slider.defaults';
 import { SliderRange, SliderTooltipContext } from '../slider.types';
 
 @Component({
+  standalone: false,
   selector: 'ard-range-slider',
   templateUrl: './range-slider.component.html',
   styleUrls: ['./range-slider.component.scss'],

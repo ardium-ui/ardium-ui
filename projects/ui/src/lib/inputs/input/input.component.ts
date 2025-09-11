@@ -1,24 +1,24 @@
 import { ConnectedPosition, Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostListener,
-  Inject,
-  Input,
-  TemplateRef,
-  ViewContainerRef,
-  ViewEncapsulation,
-  computed,
-  contentChild,
-  forwardRef,
-  inject,
-  input,
-  output,
-  signal,
-  viewChild,
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    HostListener,
+    Inject,
+    Input,
+    TemplateRef,
+    ViewContainerRef,
+    ViewEncapsulation,
+    computed,
+    contentChild,
+    forwardRef,
+    inject,
+    input,
+    output,
+    signal,
+    viewChild,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty } from '@ardium-ui/devkit';
@@ -34,14 +34,15 @@ import { OptionContext } from './../../types/item-storage.types';
 import { InputModel, InputModelHost, escapeAndCreateRegex } from './../input-utils';
 import { ARD_INPUT_DEFAULTS, ArdInputDefaults } from './input.defaults';
 import {
-  ArdInputLoadingTemplateDirective,
-  ArdInputPlaceholderTemplateDirective,
-  ArdInputPrefixTemplateDirective,
-  ArdInputSuffixTemplateDirective,
-  ArdInputSuggestionTemplateDirective,
+    ArdInputLoadingTemplateDirective,
+    ArdInputPlaceholderTemplateDirective,
+    ArdInputPrefixTemplateDirective,
+    ArdInputSuffixTemplateDirective,
+    ArdInputSuggestionTemplateDirective,
 } from './input.directives';
 
 @Component({
+  standalone: false,
   selector: 'ard-input',
   templateUrl: './input.component.html',
   styleUrls: ['./input.component.scss'],

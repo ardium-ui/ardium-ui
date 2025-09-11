@@ -6,6 +6,7 @@ import { ButtonVariant } from '../general-button.types';
 import { ARD_BUTTON_DEFAULTS, ArdButtonDefaults } from './button.defaults';
 
 @Component({
+  standalone: false,
   selector: 'ard-button',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],

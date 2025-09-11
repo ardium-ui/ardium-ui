@@ -3,6 +3,7 @@ import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ARD_DIVIDER_DEFAULTS } from './divider.defaults';
 
 @Component({
+  standalone: false,
   selector: 'ard-divider',
   template: '',
   styleUrls: ['./divider.component.scss'],

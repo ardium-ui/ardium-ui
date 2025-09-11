@@ -1,21 +1,22 @@
 import {
-  AfterViewChecked,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  OnChanges,
-  OnDestroy,
-  SimpleChanges,
-  ViewEncapsulation,
-  computed,
-  inject,
-  input,
+    AfterViewChecked,
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    OnChanges,
+    OnDestroy,
+    SimpleChanges,
+    ViewEncapsulation,
+    computed,
+    inject,
+    input,
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { Subject } from 'rxjs';
 import { Nullable } from '../types/utility.types';
 
 @Component({
+  standalone: false,
   selector: 'ard-option',
   template: '<ng-content></ng-content>',
   encapsulation: ViewEncapsulation.None,

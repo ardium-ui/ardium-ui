@@ -7,6 +7,7 @@ import { TakeChance as Random } from 'take-chance';
 import { ARD_FORM_FIELD_CONTROL, ArdFormFieldControl } from './form-field-child.token';
 
 @Directive({
+  standalone: false,
   selector:
     'ard-form-field > input, ard-form-field > textarea, ard-form-field > select, ard-horizontal-form-field > input, ard-horizontal-form-field > textarea, ard-horizontal-form-field > select',
   providers: [

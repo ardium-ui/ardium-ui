@@ -1,22 +1,22 @@
 import { AutofillMonitor } from '@angular/cdk/text-field';
 import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Inject,
-  Input,
-  OnDestroy,
-  OnInit,
-  ViewEncapsulation,
-  computed,
-  effect,
-  forwardRef,
-  inject,
-  input,
-  output,
-  signal,
-  viewChildren,
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    Inject,
+    Input,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation,
+    computed,
+    effect,
+    forwardRef,
+    inject,
+    input,
+    output,
+    signal,
+    viewChildren,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
@@ -30,6 +30,7 @@ import { DigitInputAutoFillParseFn, DigitInputConfig, DigitInputShape, DigitInpu
 import { DigitInputModelHost } from './digit-input.utils';
 
 @Component({
+  standalone: false,
   selector: 'ard-digit-input',
   templateUrl: './digit-input.component.html',
   styleUrls: ['./digit-input.component.scss'],

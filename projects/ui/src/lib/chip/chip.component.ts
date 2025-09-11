@@ -7,6 +7,7 @@ import { _DisablableComponentBase } from './../_internal/disablable-component';
 import { ARD_CHIP_DEFAULTS, ArdChipDefaults } from './chip.defaults';
 
 @Component({
+  standalone: false,
   selector: 'ard-chip',
   templateUrl: './chip.component.html',
   styleUrls: ['./chip.component.scss'],

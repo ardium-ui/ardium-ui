@@ -1,19 +1,19 @@
 import {
-  AfterContentInit,
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  Input,
-  OnChanges,
-  SimpleChanges,
-  TemplateRef,
-  ViewEncapsulation,
-  computed,
-  contentChild,
-  contentChildren,
-  input,
-  model,
-  output,
+    AfterContentInit,
+    ChangeDetectionStrategy,
+    Component,
+    Inject,
+    Input,
+    OnChanges,
+    SimpleChanges,
+    TemplateRef,
+    ViewEncapsulation,
+    computed,
+    contentChild,
+    contentChildren,
+    input,
+    model,
+    output,
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { isDefined, isNumber } from 'simple-bool';
@@ -26,27 +26,28 @@ import { Nullable } from '../types/utility.types';
 import { ArdTableRow, HeaderCell, TableItemStorage, TableItemStorageHost } from './table-item-storage';
 import { ARD_TABLE_DEFAULTS, ArdTableDefaults } from './table.defaults';
 import {
-  ArdiumTableCaptionTemplateDirective,
-  ArdiumTableCheckboxTemplateDirective,
-  ArdiumTableHeaderCheckboxTemplateDirective,
-  ArdiumTableTemplateDirective,
+    ArdiumTableCaptionTemplateDirective,
+    ArdiumTableCheckboxTemplateDirective,
+    ArdiumTableHeaderCheckboxTemplateDirective,
+    ArdiumTableTemplateDirective,
 } from './table.directives';
 import {
-  TableAlignType,
-  TableAppearance,
-  TableCaptionContext,
-  TableCheckboxContext,
-  TableDataColumn,
-  TableHeaderCheckboxContext,
-  TableHeaderContext,
-  TablePaginationStrategy,
-  TableSubheader,
-  TableSubheaderContext,
-  TableVariant,
+    TableAlignType,
+    TableAppearance,
+    TableCaptionContext,
+    TableCheckboxContext,
+    TableDataColumn,
+    TableHeaderCheckboxContext,
+    TableHeaderContext,
+    TablePaginationStrategy,
+    TableSubheader,
+    TableSubheaderContext,
+    TableVariant,
 } from './table.types';
 import { isTableSubheader } from './utils';
 
 @Component({
+  standalone: false,
   selector: 'ard-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],

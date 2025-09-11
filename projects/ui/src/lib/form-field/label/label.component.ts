@@ -3,6 +3,7 @@ import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ARD_FORM_FIELD_DEFAULTS } from '../form-field.defaults';
 
 @Component({
+  standalone: false,
   selector: 'ard-label',
   templateUrl: './label.component.html',
   host: {

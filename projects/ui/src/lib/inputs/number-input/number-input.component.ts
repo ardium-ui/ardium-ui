@@ -1,18 +1,18 @@
 import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Inject,
-  Input,
-  ViewEncapsulation,
-  computed,
-  contentChild,
-  effect,
-  forwardRef,
-  input,
-  output,
-  viewChild,
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    Inject,
+    Input,
+    ViewEncapsulation,
+    computed,
+    contentChild,
+    effect,
+    forwardRef,
+    input,
+    output,
+    viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
@@ -29,6 +29,7 @@ import { ARD_NUMBER_INPUT_DEFAULTS, ArdNumberInputDefaults } from './number-inpu
 import { ArdNumberInputPlaceholderTemplateDirective } from './number-input.directives';
 
 @Component({
+  standalone: false,
   selector: 'ard-number-input',
   templateUrl: './number-input.component.html',
   styleUrls: ['./number-input.component.scss'],

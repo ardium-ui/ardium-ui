@@ -1,19 +1,20 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-  ViewEncapsulation,
-  computed,
-  inject,
-  input,
-  output,
-  signal,
+    ChangeDetectionStrategy,
+    Component,
+    HostBinding,
+    Input,
+    ViewEncapsulation,
+    computed,
+    inject,
+    input,
+    output,
+    signal,
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ARD_TAB_DEFAULTS } from './tab.defaults';
 
 @Component({
+  standalone: false,
   selector: 'ard-tab',
   templateUrl: './tab.component.html',
   styleUrl: './tab.component.scss',

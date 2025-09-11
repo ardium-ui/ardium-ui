@@ -6,6 +6,7 @@ import { ARD_SLIDER_DEFAULTS, ArdSliderDefaults } from './slider.defaults';
 import { SliderTooltipContext } from './slider.types';
 
 @Component({
+  standalone: false,
   selector: 'ard-slider',
   templateUrl: './slider.component.html',
   styleUrls: ['./slider.component.scss'],

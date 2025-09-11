@@ -1,13 +1,13 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  ViewEncapsulation,
-  computed,
-  contentChild,
-  forwardRef,
-  input,
-  model,
+    ChangeDetectionStrategy,
+    Component,
+    Inject,
+    ViewEncapsulation,
+    computed,
+    contentChild,
+    forwardRef,
+    input,
+    model,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
@@ -19,6 +19,7 @@ import { _CheckboxTemplateRepositoryDirective } from './checkbox.internal-direct
 import { CheckboxState, CheckboxTemplateContext } from './checkbox.types';
 
 @Component({
+  standalone: false,
   selector: 'ard-checkbox',
   templateUrl: './checkbox.component.html',
   styleUrls: ['./checkbox.component.scss'],

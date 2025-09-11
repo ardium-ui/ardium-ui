@@ -1,11 +1,11 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  ViewEncapsulation,
-  computed,
-  contentChild,
-  input
+    ChangeDetectionStrategy,
+    Component,
+    Inject,
+    ViewEncapsulation,
+    computed,
+    contentChild,
+    input
 } from '@angular/core';
 import { ComponentColor } from '../../types/colors.types';
 import { FormElementVariant } from '../../types/theming.types';
@@ -13,12 +13,13 @@ import { _FileInputComponentBase } from '../file-input-base';
 import { FileInputBrowseContext, FileInputFileAmountContext, FileInputFilesContext } from '../file-input-types';
 import { ARD_FILE_DROP_AREA_DEFAULTS, ArdFileDropAreaDefaults } from './file-drop-area.defaults';
 import {
-  ArdiumFileDropAreaDragoverContentTemplateDirective,
-  ArdiumFileDropAreaIdleContentTemplateDirective,
-  ArdiumFileDropAreaUploadedContentTemplateDirective,
+    ArdiumFileDropAreaDragoverContentTemplateDirective,
+    ArdiumFileDropAreaIdleContentTemplateDirective,
+    ArdiumFileDropAreaUploadedContentTemplateDirective,
 } from './file-drop-area.directives';
 
 @Component({
+  standalone: false,
   selector: 'ard-file-drop-area',
   templateUrl: './file-drop-area.component.html',
   styleUrls: ['./file-drop-area.component.scss'],

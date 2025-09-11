@@ -1,14 +1,14 @@
 import {
-  AfterContentInit,
-  ChangeDetectionStrategy,
-  Component,
-  OnChanges,
-  SimpleChanges,
-  ViewEncapsulation,
-  computed,
-  inject,
-  input,
-  model,
+    AfterContentInit,
+    ChangeDetectionStrategy,
+    Component,
+    OnChanges,
+    SimpleChanges,
+    ViewEncapsulation,
+    computed,
+    inject,
+    input,
+    model,
 } from '@angular/core';
 import { CurrentItemsFormatFn, PaginationAlign } from '../table-pagination/table-pagination.types';
 import { TableDataColumn, TablePaginationStrategy } from '../table/table.types';
@@ -17,6 +17,7 @@ import { Nullable } from '../types/utility.types';
 import { ARD_TABLE_FROM_CSV_DEFAULTS } from './table-from-csv.defaults';
 
 @Component({
+  standalone: false,
   selector: 'ard-table-from-csv',
   templateUrl: './table-from-csv.component.html',
   encapsulation: ViewEncapsulation.None,

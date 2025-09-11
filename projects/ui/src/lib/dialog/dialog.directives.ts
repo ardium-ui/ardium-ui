@@ -1,12 +1,12 @@
 import { Directive, TemplateRef } from '@angular/core';
 import { DialogButtonsContext } from './dialog.types';
 
-@Directive({ selector: 'ard-dialog > ng-template[ard-buttons-tmp]' })
+@Directive({ standalone: false, selector: 'ard-dialog > ng-template[ard-buttons-tmp]' })
 export class ArdDialogButtonsTemplateDirective {
   constructor(public template: TemplateRef<DialogButtonsContext>) {}
 }
 
-@Directive({ selector: 'ard-dialog > ng-template[ard-close-icon-tmp]' })
+@Directive({ standalone: false, selector: 'ard-dialog > ng-template[ard-close-icon-tmp]' })
 export class ArdDialogCloseIconTemplateDirective {
   constructor(public template: TemplateRef<undefined>) {}
 }

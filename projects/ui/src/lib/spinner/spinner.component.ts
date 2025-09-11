@@ -3,6 +3,7 @@ import { SimpleComponentColor } from '../types/colors.types';
 import { ARD_SPINNER_DEFAULTS } from './spinner.defaults';
 
 @Component({
+  standalone: false,
   selector: 'ard-spinner',
   templateUrl: './spinner.component.html',
   styleUrls: ['./spinner.component.scss'],

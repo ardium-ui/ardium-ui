@@ -4,6 +4,7 @@ import { FabSize } from '../general-button.types';
 import { ARD_FAB_DEFAULTS, ArdFabDefaults } from './fab.defaults';
 
 @Component({
+  standalone: false,
   selector: 'ard-fab',
   templateUrl: './fab.component.html',
   styleUrls: ['./fab.component.scss'],

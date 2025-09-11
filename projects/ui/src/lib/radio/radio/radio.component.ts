@@ -1,16 +1,16 @@
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  HostBinding,
-  Inject,
-  Input,
-  ViewEncapsulation,
-  computed,
-  inject,
-  input,
-  output,
-  signal,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    HostBinding,
+    Inject,
+    Input,
+    ViewEncapsulation,
+    computed,
+    inject,
+    input,
+    output,
+    signal,
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { TakeChance as Random } from 'take-chance';
@@ -19,6 +19,7 @@ import { SimpleComponentColor } from '../../types/colors.types';
 import { ARD_RADIO_DEFAULTS, ArdRadioDefaults } from './radio.defaults';
 
 @Component({
+  standalone: false,
   selector: 'ard-radio',
   templateUrl: './radio.component.html',
   styleUrls: ['./radio.component.scss'],

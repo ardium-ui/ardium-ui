@@ -7,6 +7,7 @@ import { ARD_SLIDE_TOGGLE_DEFAULTS, ArdSlideToggleDefaults } from './slide-toggl
 import { ArdSlideToggleAppearance } from './slide-toggle.types';
 
 @Component({
+  standalone: false,
   selector: 'ard-slide-toggle',
   templateUrl: './slide-toggle.component.html',
   styleUrls: ['./slide-toggle.component.scss'],

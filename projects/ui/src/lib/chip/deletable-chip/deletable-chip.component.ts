@@ -1,12 +1,12 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  forwardRef,
-  Inject,
-  input,
-  output,
-  ViewEncapsulation,
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    forwardRef,
+    Inject,
+    input,
+    output,
+    ViewEncapsulation,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
@@ -17,6 +17,7 @@ import { DecorationElementAppearance, FormElementVariant } from '../../types/the
 import { ARD_DELETABLE_CHIP_DEFAULTS, ArdDeletableChipDefaults } from './deletable-chip.defaults';
 
 @Component({
+  standalone: false,
   selector: 'ard-deletable-chip',
   templateUrl: './deletable-chip.component.html',
   styleUrls: ['../chip.component.scss'],

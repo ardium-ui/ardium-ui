@@ -6,6 +6,7 @@ import { ComponentColor } from '../../types/colors.types';
 import { ARD_ICON_BUTTON_DEFAULTS, ArdIconButtonDefaults } from './icon-button.defaults';
 
 @Component({
+  standalone: false,
   selector: 'ard-icon-button',
   templateUrl: './icon-button.component.html',
   styleUrls: ['./icon-button.component.scss'],

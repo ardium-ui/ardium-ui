@@ -8,6 +8,7 @@ import { _BooleanComponentBase } from './../../_internal/boolean-component';
 import { ARD_SELECTABLE_CHIP_DEFAULTS, ArdSelectableChipDefaults } from './selectable-chip.defaults';
 
 @Component({
+  standalone: false,
   selector: 'ard-selectable-chip',
   templateUrl: './selectable-chip.component.html',
   styleUrls: ['../chip.component.scss'],

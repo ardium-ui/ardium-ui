@@ -1,12 +1,12 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  TemplateRef,
-  ViewEncapsulation,
-  computed,
-  contentChild,
-  inject,
-  input,
+    ChangeDetectionStrategy,
+    Component,
+    TemplateRef,
+    ViewEncapsulation,
+    computed,
+    contentChild,
+    inject,
+    input,
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { SimpleComponentColor } from '../types/colors.types';
@@ -15,6 +15,7 @@ import { ArdProgressCircleValueTemplateDirective } from './progress-circle.direc
 import { ProgressCircleAppearance, ProgressCircleValueContext, ProgressCircleVariant } from './progress-circle.types';
 
 @Component({
+  standalone: false,
   selector: 'ard-progress-circle',
   templateUrl: './progress-circle.component.html',
   styleUrls: ['./progress-circle.component.scss'],

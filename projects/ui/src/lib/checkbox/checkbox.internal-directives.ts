@@ -1,7 +1,7 @@
 import { Directive, input, TemplateRef } from '@angular/core';
 import { ArdCheckboxTemplateDirective } from './checkbox.directives';
 
-@Directive({ selector: 'ard-checkbox > ng-template[_ard-tmp-repository]', standalone: true })
+@Directive({ standalone: true, selector: 'ard-checkbox > ng-template[_ard-tmp-repository]' })
 export class _CheckboxTemplateRepositoryDirective {
   constructor(public template: TemplateRef<undefined>) {}
 

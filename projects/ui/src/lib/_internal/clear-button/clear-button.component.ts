@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { _FocusableComponentBase, _focusableComponentDefaults } from './../focusable-component';
 
 @Component({
+  standalone: false,
   selector: 'ard-clear-button',
   templateUrl: './clear-button.component.html',
   styleUrls: ['./clear-button.component.scss'],

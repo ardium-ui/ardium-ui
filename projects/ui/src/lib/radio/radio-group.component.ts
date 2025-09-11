@@ -1,18 +1,18 @@
 import {
-  AfterContentInit,
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-  OnDestroy,
-  OutputRefSubscription,
-  ViewEncapsulation,
-  contentChildren,
-  effect,
-  forwardRef,
-  input,
-  model,
-  output,
+    AfterContentInit,
+    ChangeDetectionStrategy,
+    Component,
+    HostBinding,
+    Input,
+    OnDestroy,
+    OutputRefSubscription,
+    ViewEncapsulation,
+    contentChildren,
+    effect,
+    forwardRef,
+    input,
+    model,
+    output,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TakeChance as Random } from 'take-chance';
@@ -22,6 +22,7 @@ import { Nullable } from '../types/utility.types';
 import { ArdiumRadioComponent } from './radio/radio.component';
 
 @Component({
+  standalone: false,
   selector: 'ard-radio-group',
   template: '<ng-content></ng-content>',
   encapsulation: ViewEncapsulation.None,

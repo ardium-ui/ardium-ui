@@ -7,6 +7,7 @@ import { ArdRatingDisplayStarTemplateDirective } from './rating-display.directiv
 import { ArdRatingDisplayStarTemplateContext } from './rating-display.types';
 
 @Component({
+  standalone: false,
   selector: 'ard-rating-display',
   templateUrl: './rating-display.component.html',
   styleUrls: ['./rating-display.component.scss'],

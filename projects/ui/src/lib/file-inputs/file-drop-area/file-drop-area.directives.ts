@@ -2,6 +2,7 @@ import { Directive, TemplateRef } from '@angular/core';
 import { FileInputBrowseContext, FileInputFilesContext } from '../file-input-types';
 
 @Directive({
+  standalone: false,
   selector: 'ard-file-drop-area > ng-template[ard-idle-content-tmp]',
 })
 export class ArdiumFileDropAreaIdleContentTemplateDirective {
@@ -9,6 +10,7 @@ export class ArdiumFileDropAreaIdleContentTemplateDirective {
 }
 
 @Directive({
+  standalone: false,
   selector: 'ard-file-drop-area > ng-template[ard-dragover-content-tmp]',
 })
 export class ArdiumFileDropAreaDragoverContentTemplateDirective {
@@ -16,6 +18,7 @@ export class ArdiumFileDropAreaDragoverContentTemplateDirective {
 }
 
 @Directive({
+  standalone: false,
   selector: 'ard-file-drop-area > ng-template[ard-dropped-content-tmp]',
 })
 export class ArdiumFileDropAreaUploadedContentTemplateDirective {

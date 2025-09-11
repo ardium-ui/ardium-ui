@@ -2,6 +2,7 @@ import { Directive, TemplateRef } from '@angular/core';
 import { ArdRatingInputStarButtonTemplateContext } from './rating-input.types';
 
 @Directive({
+  standalone: false,
   selector: 'ard-rating-input > ng-template[ard-star-button-tmp]',
 })
 export class ArdRatingInputStarButtonTemplateDirective {

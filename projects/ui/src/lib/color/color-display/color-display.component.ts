@@ -6,6 +6,7 @@ import { ARD_COLOR_DISPLAY_DEFAULTS } from './color-display.defaults';
 import { ColorDisplayAppearance } from './color-display.types';
 
 @Component({
+  standalone: false,
   selector: 'ard-color-display',
   templateUrl: './color-display.component.html',
   styleUrls: ['./color-display.component.scss'],

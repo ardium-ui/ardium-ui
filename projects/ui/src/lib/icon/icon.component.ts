@@ -1,13 +1,13 @@
 import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  ViewEncapsulation,
-  computed,
-  inject,
-  input,
-  viewChild,
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    ViewEncapsulation,
+    computed,
+    inject,
+    input,
+    viewChild,
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { isDefined } from 'simple-bool';
@@ -27,6 +27,7 @@ type OpticalSizeString = '20' | '24' | '40' | '48';
 export type OpticalSize = OpticalSizeNumber | OpticalSizeString;
 
 @Component({
+  standalone: false,
   selector: 'ard-icon',
   templateUrl: `./icon.component.html`,
   styleUrls: ['./icon.component.scss'],

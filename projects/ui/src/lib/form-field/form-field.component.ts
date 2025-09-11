@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@
 import { _FormFieldBase } from './form-field-base';
 
 @Component({
+  standalone: false,
   selector: 'ard-form-field',
   templateUrl: './form-field.component.html',
   styleUrl: './form-field.component.scss',

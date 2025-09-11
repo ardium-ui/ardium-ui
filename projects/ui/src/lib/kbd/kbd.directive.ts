@@ -2,6 +2,7 @@ import { computed, Directive, effect, ElementRef, inject, input, Renderer2 } fro
 import { FormElementAppearance } from './../types/theming.types';
 
 @Directive({
+  standalone: false,
   selector: '[ardKbd]',
 })
 export class ArdiumKbdDirective {

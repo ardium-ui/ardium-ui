@@ -1,16 +1,16 @@
 import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Inject,
-  Input,
-  ViewEncapsulation,
-  computed,
-  contentChild,
-  input,
-  output,
-  signal,
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    HostBinding,
+    Inject,
+    Input,
+    ViewEncapsulation,
+    computed,
+    contentChild,
+    input,
+    output,
+    signal,
 } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { SimpleItemStorage, SimpleItemStorageHost } from '../_internal/item-storages/simple-item-storage';
@@ -23,6 +23,7 @@ import { ArdCheckboxListCheckboxTemplateDirective } from './checkbox-list.direct
 import { CheckboxListAlignType } from './checkbox-list.types';
 
 @Component({
+  standalone: false,
   selector: 'ard-checkbox-list',
   templateUrl: './checkbox-list.component.html',
   styleUrls: ['./checkbox-list.component.scss'],

@@ -1,90 +1,91 @@
 import { Directive, TemplateRef } from '@angular/core';
 import { ArdOption, OptionContext } from '../types/item-storage.types';
 import {
-  CustomOptionContext,
-  GroupContext,
-  ItemDisplayLimitContext,
-  ItemLimitContext,
-  PlaceholderContext,
-  SearchContext,
-  ValueContext,
+    CustomOptionContext,
+    GroupContext,
+    ItemDisplayLimitContext,
+    ItemLimitContext,
+    PlaceholderContext,
+    SearchContext,
+    ValueContext,
 } from './select.types';
 
 //public (exported)
 
-@Directive({ selector: 'ard-select > ng-template[ard-prefix-tmp]' })
+@Directive({ standalone: false, selector: 'ard-select > ng-template[ard-prefix-tmp]' })
 export class ArdSelectPrefixTemplateDirective {
   constructor(public template: TemplateRef<undefined>) {}
 }
 
-@Directive({ selector: 'ard-select > ng-template[ard-suffix-tmp]' })
+@Directive({ standalone: false, selector: 'ard-select > ng-template[ard-suffix-tmp]' })
 export class ArdSelectSuffixTemplateDirective {
   constructor(public template: TemplateRef<undefined>) {}
 }
 
-@Directive({ selector: 'ard-select > ng-template[ard-value-tmp]' })
+@Directive({ standalone: false, selector: 'ard-select > ng-template[ard-value-tmp]' })
 export class ArdValueTemplateDirective {
   constructor(public template: TemplateRef<ValueContext>) {}
 }
 
-@Directive({ selector: 'ard-select > ng-template[ard-value-chip-tmp]' })
+@Directive({ standalone: false, selector: 'ard-select > ng-template[ard-value-chip-tmp]' })
 export class ArdValueChipTemplateDirective {
   constructor(public template: TemplateRef<ValueContext>) {}
 }
 
-@Directive({ selector: 'ard-select > ng-template[ard-option-tmp]' })
+@Directive({ standalone: false, selector: 'ard-select > ng-template[ard-option-tmp]' })
 export class ArdOptionTemplateDirective {
   constructor(public template: TemplateRef<OptionContext<ArdOption>>) {}
 }
 
-@Directive({ selector: 'ard-select > ng-template[ard-optgroup-tmp]' })
+@Directive({ standalone: false, selector: 'ard-select > ng-template[ard-optgroup-tmp]' })
 export class ArdOptgroupTemplateDirective {
   constructor(public template: TemplateRef<GroupContext>) {}
 }
 
-@Directive({ selector: 'ard-select > ng-template[ard-placeholder-tmp]' })
+@Directive({ standalone: false, selector: 'ard-select > ng-template[ard-placeholder-tmp]' })
 export class ArdSelectPlaceholderTemplateDirective {
   constructor(public template: TemplateRef<PlaceholderContext>) {}
 }
 
-@Directive({ selector: 'ard-select > ng-template[ard-loading-spinner-tmp]' })
+@Directive({ standalone: false, selector: 'ard-select > ng-template[ard-loading-spinner-tmp]' })
 export class ArdLoadingSpinnerTemplateDirective {
   constructor(public template: TemplateRef<null>) {}
 }
 
 @Directive({
+  standalone: false,
   selector: 'ard-select > ng-template[ard-loading-placeholder-tmp]',
 })
 export class ArdLoadingPlaceholderTemplateDirective {
   constructor(public template: TemplateRef<SearchContext>) {}
 }
 
-@Directive({ selector: 'ard-select > ng-template[ard-dropdown-header-tmp]' })
+@Directive({ standalone: false, selector: 'ard-select > ng-template[ard-dropdown-header-tmp]' })
 export class ArdDropdownHeaderTemplateDirective {
   constructor(public template: TemplateRef<SearchContext>) {}
 }
 
-@Directive({ selector: 'ard-select > ng-template[ard-dropdown-footer-tmp]' })
+@Directive({ standalone: false, selector: 'ard-select > ng-template[ard-dropdown-footer-tmp]' })
 export class ArdDropdownFooterTemplateDirective {
   constructor(public template: TemplateRef<SearchContext>) {}
 }
 
-@Directive({ selector: 'ard-select > ng-template[ard-no-items-found-tmp]' })
+@Directive({ standalone: false, selector: 'ard-select > ng-template[ard-no-items-found-tmp]' })
 export class ArdNoItemsFoundTemplateDirective {
   constructor(public template: TemplateRef<SearchContext>) {}
 }
 
-@Directive({ selector: 'ard-select > ng-template[ard-add-custom-tmp]' })
+@Directive({ standalone: false, selector: 'ard-select > ng-template[ard-add-custom-tmp]' })
 export class ArdAddCustomTemplateDirective {
   constructor(public template: TemplateRef<CustomOptionContext>) {}
 }
 
-@Directive({ selector: 'ard-select > ng-template[ard-item-limit-reached-tmp]' })
+@Directive({ standalone: false, selector: 'ard-select > ng-template[ard-item-limit-reached-tmp]' })
 export class ArdItemLimitReachedTemplateDirective {
   constructor(public template: TemplateRef<ItemLimitContext>) {}
 }
 
-@Directive({ selector: 'ard-select > ng-template[ard-item-display-limit-tmp]' })
+@Directive({ standalone: false, selector: 'ard-select > ng-template[ard-item-display-limit-tmp]' })
 export class ArdItemDisplayLimitTemplateDirective {
   constructor(public template: TemplateRef<ItemDisplayLimitContext>) {}
 }

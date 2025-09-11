@@ -11,6 +11,7 @@ import {
 } from './calendar.types';
 
 @Directive({
+  standalone: false,
   selector: 'ard-calendar > ng-template[ard-header-tmp]',
 })
 export class ArdCalendarDaysViewHeaderTemplateDirective {
@@ -18,6 +19,7 @@ export class ArdCalendarDaysViewHeaderTemplateDirective {
 }
 
 @Directive({
+  standalone: false,
   selector: 'ard-calendar > ng-template[ard-year-picker-header-tmp]',
 })
 export class ArdCalendarYearsViewHeaderTemplateDirective {
@@ -25,6 +27,7 @@ export class ArdCalendarYearsViewHeaderTemplateDirective {
 }
 
 @Directive({
+  standalone: false,
   selector: 'ard-calendar > ng-template[ard-month-picker-header-tmp]',
 })
 export class ArdCalendarMonthsViewHeaderTemplateDirective {
@@ -32,6 +35,7 @@ export class ArdCalendarMonthsViewHeaderTemplateDirective {
 }
 
 @Directive({
+  standalone: false,
   selector: 'ard-calendar > ng-template[ard-weekday-tmp]',
 })
 export class ArdCalendarWeekdayTemplateDirective {
@@ -39,6 +43,7 @@ export class ArdCalendarWeekdayTemplateDirective {
 }
 
 @Directive({
+  standalone: false,
   selector: 'ard-calendar > ng-template[ard-floating-month-tmp]',
 })
 export class ArdCalendarFloatingMonthTemplateDirective {
@@ -46,6 +51,7 @@ export class ArdCalendarFloatingMonthTemplateDirective {
 }
 
 @Directive({
+  standalone: false,
   selector: 'ard-calendar > ng-template[ard-year-tmp]',
 })
 export class ArdCalendarYearTemplateDirective {
@@ -53,6 +59,7 @@ export class ArdCalendarYearTemplateDirective {
 }
 
 @Directive({
+  standalone: false,
   selector: 'ard-calendar > ng-template[ard-month-tmp]',
 })
 export class ArdCalendarMonthTemplateDirective {
@@ -60,6 +67,7 @@ export class ArdCalendarMonthTemplateDirective {
 }
 
 @Directive({
+  standalone: false,
   selector: 'ard-calendar > ng-template[ard-day-tmp]',
 })
 export class ArdCalendarDayTemplateDirective {

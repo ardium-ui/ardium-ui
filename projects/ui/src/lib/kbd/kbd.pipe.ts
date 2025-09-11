@@ -3,6 +3,7 @@ import { keyToString } from 'key-display-names';
 import { ARD_KBD_DEFAULTS } from './kbd.defaults';
 
 @Pipe({
+  standalone: false,
   name: 'kbd',
 })
 export class ArdiumKbdPipe implements PipeTransform {

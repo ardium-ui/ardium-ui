@@ -1,27 +1,28 @@
 import { Directive, TemplateRef } from '@angular/core';
 import { FileInputBrowseContext, FileInputFilesContext } from '../file-input-types';
 
-@Directive({ selector: 'ard-file-input > ng-template[ard-placeholder-tmp]' })
+@Directive({ standalone: false, selector: 'ard-file-input > ng-template[ard-placeholder-tmp]' })
 export class ArdFileInputPlaceholderTemplateDirective {
   constructor(public template: TemplateRef<undefined>) {}
 }
 
-@Directive({ selector: 'ard-file-input > ng-template[ard-prefix-tmp]' })
+@Directive({ standalone: false, selector: 'ard-file-input > ng-template[ard-prefix-tmp]' })
 export class ArdFileInputPrefixTemplateDirective {
   constructor(public template: TemplateRef<undefined>) {}
 }
 
-@Directive({ selector: 'ard-file-input > ng-template[ard-suffix-tmp]' })
+@Directive({ standalone: false, selector: 'ard-file-input > ng-template[ard-suffix-tmp]' })
 export class ArdFileInputSuffixTemplateDirective {
   constructor(public template: TemplateRef<undefined>) {}
 }
 
-@Directive({ selector: 'ard-file-input > ng-template[ard-idle-content-tmp]' })
+@Directive({ standalone: false, selector: 'ard-file-input > ng-template[ard-idle-content-tmp]' })
 export class ArdiumFileInputIdleContentTemplateDirective {
   constructor(public template: TemplateRef<FileInputBrowseContext>) {}
 }
 
 @Directive({
+  standalone: false,
   selector: 'ard-file-input > ng-template[ard-dragover-content-tmp]',
 })
 export class ArdiumFileInputDragoverContentTemplateDirective {
@@ -29,6 +30,7 @@ export class ArdiumFileInputDragoverContentTemplateDirective {
 }
 
 @Directive({
+  standalone: false,
   selector: 'ard-file-input > ng-template[ard-dropped-content-tmp]',
 })
 export class ArdiumFileInputUploadedContentTemplateDirective {
@@ -36,6 +38,7 @@ export class ArdiumFileInputUploadedContentTemplateDirective {
 }
 
 @Directive({
+  standalone: false,
   selector: 'ard-file-input > ng-template[ard-folder-icon-tmp]',
 })
 export class ArdiumFileInputFolderIconTemplateDirective {

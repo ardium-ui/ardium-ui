@@ -1,5 +1,7 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ArdiumFormFieldFrameModule } from '../../form-field-frame/form-field-frame.module';
+import { ArdiumIconModule } from '../../icon/icon.module';
 import { ArdiumPasswordInputComponent } from './password-input.component';
 import {
   ArdPasswordInputPlaceholderTemplateDirective,
@@ -7,8 +9,6 @@ import {
   ArdPasswordInputRevealButtonTemplateDirective,
   ArdPasswordInputSuffixTemplateDirective,
 } from './password-input.directives';
-import { ArdiumFormFieldFrameModule } from '../../form-field-frame/form-field-frame.module';
-import { ArdiumIconModule } from '../../icon/icon.module';
 
 @NgModule({
   declarations: [

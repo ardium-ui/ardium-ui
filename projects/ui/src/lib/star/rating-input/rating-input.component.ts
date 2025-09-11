@@ -1,18 +1,18 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  HostListener,
-  Inject,
-  ViewEncapsulation,
-  computed,
-  contentChild,
-  effect,
-  forwardRef,
-  input,
-  model,
-  output,
-  signal,
-  viewChildren,
+    ChangeDetectionStrategy,
+    Component,
+    HostListener,
+    Inject,
+    ViewEncapsulation,
+    computed,
+    contentChild,
+    effect,
+    forwardRef,
+    input,
+    model,
+    output,
+    signal,
+    viewChildren,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceNumberProperty } from '@ardium-ui/devkit';
@@ -24,6 +24,7 @@ import { ArdRatingInputStarButtonTemplateDirective } from './rating-input.direct
 import { ArdRatingInputStarButtonTemplateContext } from './rating-input.types';
 
 @Component({
+  standalone: false,
   selector: 'ard-rating-input',
   templateUrl: './rating-input.component.html',
   styleUrls: ['./rating-input.component.scss'],

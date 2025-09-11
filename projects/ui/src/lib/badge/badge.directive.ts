@@ -18,6 +18,7 @@ import { ARD_BADGE_DEFAULTS } from './badge.defaults';
 import { BadgePosition, BadgeSize } from './badge.types';
 
 @Directive({
+  standalone: false,
   selector: '[ardBadge]',
 })
 export class ArdiumBadgeDirective implements OnChanges, AfterViewInit, OnDestroy {

@@ -10,7 +10,7 @@ import {
   ArdCalendarYearTemplateDirective,
 } from './calendar.directives';
 
-@Directive({ selector: 'ard-calendar > ng-template[_ard-tmp-repository]', standalone: true })
+@Directive({ standalone: true, selector: 'ard-calendar > ng-template[_ard-tmp-repository]' })
 export class _CalendarTemplateRepositoryDirective {
   constructor(public template: TemplateRef<undefined>) {}
 

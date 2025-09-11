@@ -5,6 +5,7 @@ import { ArdStarIconTemplateDirective } from './star.directives';
 import { ArdStarIconContext, StarColor, StarFillMode } from './star.types';
 
 @Component({
+  standalone: false,
   selector: 'ard-star',
   templateUrl: './star.component.html',
   styleUrls: ['./star.component.scss'],

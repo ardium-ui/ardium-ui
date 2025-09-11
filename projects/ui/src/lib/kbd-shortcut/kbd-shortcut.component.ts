@@ -1,13 +1,13 @@
 import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  ViewEncapsulation,
-  computed,
-  inject,
-  input,
-  viewChild,
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    ViewEncapsulation,
+    computed,
+    inject,
+    input,
+    viewChild,
 } from '@angular/core';
 import { coerceArrayProperty, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ARD_KBD_DEFAULTS } from '../kbd/kbd.defaults';
@@ -16,6 +16,7 @@ import { Nullable } from '../types/utility.types';
 import { ARD_KBD_SHORTCUT_DEFAULTS } from './kbd-shortcut.defaults';
 
 @Component({
+  standalone: false,
   selector: 'ard-kbd-shortcut',
   templateUrl: './kbd-shortcut.component.html',
   styleUrls: ['./kbd-shortcut.component.scss'],

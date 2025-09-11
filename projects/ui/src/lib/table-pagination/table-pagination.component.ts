@@ -1,13 +1,13 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  OnInit,
-  ViewEncapsulation,
-  computed,
-  input,
-  model,
-  output,
+    ChangeDetectionStrategy,
+    Component,
+    Inject,
+    OnInit,
+    ViewEncapsulation,
+    computed,
+    input,
+    model,
+    output,
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
@@ -17,6 +17,7 @@ import { ARD_TABLE_PAGINATION_DEFAULTS, ArdTablePaginationDefaults } from './tab
 import { CurrentItemsFormatFn, PaginationAlign } from './table-pagination.types';
 
 @Component({
+  standalone: false,
   selector: 'ard-table-pagination',
   templateUrl: './table-pagination.component.html',
   styleUrls: ['./table-pagination.component.scss'],

@@ -1,14 +1,14 @@
 import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  ElementRef,
-  HostListener,
-  input,
-  output,
-  TemplateRef,
-  viewChild,
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    ElementRef,
+    HostListener,
+    input,
+    output,
+    TemplateRef,
+    viewChild,
 } from '@angular/core';
 import { isNull } from 'simple-bool';
 import { CalendarMonthContext, CalendarMonthsViewHeaderContext } from '../../calendar.types';
@@ -19,6 +19,7 @@ import { getCalendarMonthsArray } from './months-view.helpers';
 const TODAY = new Date();
 
 @Component({
+  standalone: false,
   selector: 'ard-months-view',
   templateUrl: './months-view.component.html',
   styleUrl: './months-view.component.scss',

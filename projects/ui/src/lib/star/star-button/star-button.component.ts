@@ -1,12 +1,12 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  ViewEncapsulation,
-  computed,
-  contentChild,
-  forwardRef,
-  input,
+    ChangeDetectionStrategy,
+    Component,
+    Inject,
+    ViewEncapsulation,
+    computed,
+    contentChild,
+    forwardRef,
+    input,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { _BooleanComponentBase } from '../../_internal/boolean-component';
@@ -18,6 +18,7 @@ import { ArdStarButtonStarTemplateDirective } from './star-button.directives';
 import { ArdStarButtonStarTemplateContext } from './star-button.types';
 
 @Component({
+  standalone: false,
   selector: 'ard-star-button',
   templateUrl: './star-button.component.html',
   styleUrls: ['./star-button.component.scss'],

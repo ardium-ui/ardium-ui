@@ -1,13 +1,13 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewEncapsulation,
-  computed,
-  contentChild,
-  inject,
-  input,
-  model,
-  output,
+    ChangeDetectionStrategy,
+    Component,
+    ViewEncapsulation,
+    computed,
+    contentChild,
+    inject,
+    input,
+    model,
+    output,
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ButtonAppearance } from '../buttons/general-button.types';
@@ -18,6 +18,7 @@ import { ArdDialogButtonsTemplateDirective, ArdDialogCloseIconTemplateDirective 
 import { ArdDialogActionType, ArdDialogResult, DialogButtonsContext } from './dialog.types';
 
 @Component({
+  standalone: false,
   selector: 'ard-dialog',
   templateUrl: './dialog.component.html',
   styleUrl: './dialog.component.scss',

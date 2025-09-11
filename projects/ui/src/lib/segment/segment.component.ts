@@ -1,13 +1,13 @@
 import {
-  AfterContentInit,
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  ViewEncapsulation,
-  computed,
-  contentChild,
-  forwardRef,
-  input,
+    AfterContentInit,
+    ChangeDetectionStrategy,
+    Component,
+    Inject,
+    ViewEncapsulation,
+    computed,
+    contentChild,
+    forwardRef,
+    input,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
@@ -27,6 +27,7 @@ interface SegmentRow {
 }
 
 @Component({
+  standalone: false,
   selector: 'ard-segment',
   templateUrl: './segment.component.html',
   styleUrls: ['./segment.component.scss'],

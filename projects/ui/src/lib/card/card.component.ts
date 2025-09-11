@@ -1,17 +1,17 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  Directive,
-  HostBinding,
-  ViewEncapsulation,
-  computed,
-  inject,
-  input,
+    ChangeDetectionStrategy,
+    Component,
+    Directive,
+    HostBinding,
+    ViewEncapsulation,
+    computed,
+    inject,
+    input,
 } from '@angular/core';
 import { ARD_CARD_DEFAULTS } from './card.defaults';
 import { CardAppearance, CardVariant } from './card.types';
 
-@Directive({ selector: '[ard-card]' })
+@Directive({ standalone: false, selector: '[ard-card]' })
 export class ArdiumCardDirective {
   private readonly _DEFAULTS = inject(ARD_CARD_DEFAULTS);
 
@@ -30,6 +30,7 @@ export class ArdiumCardDirective {
 }
 
 @Component({
+  standalone: false,
   selector: 'ard-card',
   template: '<ng-content></ng-content>',
   encapsulation: ViewEncapsulation.None,

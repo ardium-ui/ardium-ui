@@ -1,14 +1,14 @@
 import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  ElementRef,
-  HostListener,
-  input,
-  output,
-  TemplateRef,
-  viewChild,
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    ElementRef,
+    HostListener,
+    input,
+    output,
+    TemplateRef,
+    viewChild,
 } from '@angular/core';
 import { isNull } from 'simple-bool';
 import { CalendarYearContext, CalendarYearsViewHeaderContext, DateRange, YearRange } from '../../calendar.types';
@@ -17,6 +17,7 @@ import { getCalendarYearsArray, isYearOutOfRange } from './years-view.helpers';
 const TODAY = new Date();
 
 @Component({
+  standalone: false,
   selector: 'ard-years-view',
   templateUrl: './years-view.component.html',
   styleUrl: './years-view.component.scss',

@@ -1,13 +1,13 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  Input,
-  TemplateRef,
-  ViewEncapsulation,
-  computed,
-  contentChild,
-  input,
+    ChangeDetectionStrategy,
+    Component,
+    Inject,
+    Input,
+    TemplateRef,
+    ViewEncapsulation,
+    computed,
+    contentChild,
+    input,
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
@@ -17,6 +17,7 @@ import { ARD_FORM_FIELD_FRAME_DEFAULTS, ArdFormFieldFrameDefaults } from './form
 import { ArdFormFieldPrefixTemplateDirective, ArdFormFieldSuffixTemplateDirective } from './form-field-frame.directives';
 
 @Component({
+  standalone: false,
   selector: 'ard-form-field-frame',
   templateUrl: './form-field-frame.component.html',
   styleUrls: ['./form-field-frame.component.scss'],

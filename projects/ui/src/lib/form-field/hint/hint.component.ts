@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ArdiumHintDirective } from './hint.directive';
 
 @Component({
+  standalone: false,
   selector: 'ard-hint',
   template: '<ng-content />',
   hostDirectives: [{ directive: ArdiumHintDirective, inputs: ['left', 'right'] }],

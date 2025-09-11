@@ -1,20 +1,20 @@
 import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  ElementRef,
-  HostListener,
-  input,
-  output,
-  TemplateRef,
-  viewChild
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    ElementRef,
+    HostListener,
+    input,
+    output,
+    TemplateRef,
+    viewChild
 } from '@angular/core';
 import {
-  CalendarDayContext,
-  CalendarDaysViewHeaderContext,
-  CalendarFloatingMonthContext,
-  CalendarWeekdayContext,
+    CalendarDayContext,
+    CalendarDaysViewHeaderContext,
+    CalendarFloatingMonthContext,
+    CalendarWeekdayContext,
 } from '../../calendar.types';
 import { isMonthOutOfRange } from '../months-view/months-view.helpers';
 import { getCalendarDayData, getCalendarWeekdayArray } from './days-view.helpers';
@@ -26,6 +26,7 @@ function isLeapYear(year: number): boolean {
 }
 
 @Component({
+  standalone: false,
   selector: 'ard-days-view',
   templateUrl: './days-view.component.html',
   styleUrl: './days-view.component.scss',

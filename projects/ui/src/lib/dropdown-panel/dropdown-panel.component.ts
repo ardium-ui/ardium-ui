@@ -1,15 +1,15 @@
 import {
-  AfterViewChecked,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  TemplateRef,
-  ViewEncapsulation,
-  computed,
-  inject,
-  input,
-  output,
-  viewChild,
+    AfterViewChecked,
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    TemplateRef,
+    ViewEncapsulation,
+    computed,
+    inject,
+    input,
+    output,
+    viewChild,
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { Nullable } from '../types/utility.types';
@@ -17,6 +17,7 @@ import { ARD_DROPDOWN_PANEL_DEFAULTS } from './dropdown-panel.defaults';
 import { DropdownPanelAppearance, DropdownPanelVariant, ScrollAlignment } from './dropdown-panel.types';
 
 @Component({
+  standalone: false,
   selector: 'ard-dropdown-panel',
   templateUrl: './dropdown-panel.component.html',
   styleUrls: ['./dropdown-panel.component.scss'],
