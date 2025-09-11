@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import {
-  ComponentColor,
-  DecorationElementAppearance,
-  FormElementVariant,
-  SimpleOneAxisAlignment,
+    ComponentColor,
+    DecorationElementAppearance,
+    FormElementVariant,
+    SimpleOneAxisAlignment,
 } from 'projects/ui/src/public-api';
 import { Logger } from '../../services/logger.service';
 
 @Component({
+  standalone: false,
   selector: 'app-chips',
   templateUrl: './chips.page.html',
   styleUrls: ['./chips.page.scss'],

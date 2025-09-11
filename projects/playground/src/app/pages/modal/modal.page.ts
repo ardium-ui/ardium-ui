@@ -3,6 +3,7 @@ import { PanelAppearance, PanelVariant } from 'projects/ui/src/public-api';
 import { Logger } from '../../services/logger.service';
 
 @Component({
+  standalone: false,
   selector: 'app-modal',
   templateUrl: './modal.page.html',
   styleUrl: './modal.page.scss',

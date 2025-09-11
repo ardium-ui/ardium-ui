@@ -4,6 +4,7 @@ import { FileInputFileTypes } from 'projects/ui/src/lib/file-inputs/file-input-t
 import { Logger } from '../../../services/logger.service';
 
 @Component({
+  standalone: false,
   selector: 'app-file-input',
   templateUrl: './file-input.page.html',
   styleUrls: ['./file-input.page.scss'],

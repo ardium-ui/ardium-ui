@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormElementAppearance } from 'projects/ui/src/public-api';
 
 @Component({
+  standalone: false,
   selector: 'app-kbd-shortcut',
   templateUrl: './kbd-shortcut.page.html',
   styleUrls: ['./kbd-shortcut.page.scss'],

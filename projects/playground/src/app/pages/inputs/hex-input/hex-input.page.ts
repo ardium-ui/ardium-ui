@@ -3,6 +3,7 @@ import { FormElementAppearance as FA, FormElementVariant as FV } from 'projects/
 import { Logger } from '../../../services/logger.service';
 
 @Component({
+  standalone: false,
   selector: 'app-hex-input',
   templateUrl: './hex-input.page.html',
   styleUrls: ['./hex-input.page.scss'],

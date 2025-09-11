@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { PanelAppearance, PanelVariant } from 'projects/ui/src/public-api';
 
 @Component({
+  standalone: false,
   selector: 'app-dialog',
   templateUrl: './dialog.page.html',
   styleUrl: './dialog.page.scss',

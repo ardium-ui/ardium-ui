@@ -4,6 +4,7 @@ import { ColorDisplayAppearance } from 'projects/ui/src/public-api';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-color-display',
   templateUrl: './color-display.page.html',
   styleUrls: ['./color-display.page.scss'],

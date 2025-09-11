@@ -2,6 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({
+  standalone: false,
   selector: 'app-form-field',
   templateUrl: './form-field.page.html',
   styleUrls: ['./form-field.page.scss'],

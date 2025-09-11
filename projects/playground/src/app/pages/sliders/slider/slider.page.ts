@@ -3,6 +3,7 @@ import { SliderTooltipFormatFn } from 'projects/ui/src/public-api';
 import { Logger } from '../../../services/logger.service';
 
 @Component({
+  standalone: false,
   selector: 'app-slider',
   templateUrl: './slider.page.html',
   styleUrls: ['./slider.page.scss'],

@@ -3,6 +3,7 @@ import { TableDataColumn, TableSubheader } from 'projects/ui/src/public-api';
 import { Logger } from '../../services/logger.service';
 
 @Component({
+  standalone: false,
   selector: 'app-table',
   templateUrl: './table.page.html',
   styleUrls: ['./table.page.scss'],

@@ -4,6 +4,7 @@ import { FormElementAppearance as FA, FormElementVariant as FV } from 'projects/
 import { Logger } from '../../../services/logger.service';
 
 @Component({
+  standalone: false,
   templateUrl: './number-input.page.html',
   styleUrls: ['./number-input.page.scss'],
 })

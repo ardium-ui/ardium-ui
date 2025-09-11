@@ -3,6 +3,7 @@ import { ComponentColor, SegmentAppearance, SegmentVariant } from 'projects/ui/s
 import { Logger } from '../../services/logger.service';
 
 @Component({
+  standalone: false,
   selector: 'app-segment',
   templateUrl: './segment.page.html',
   styleUrls: ['./segment.page.scss'],

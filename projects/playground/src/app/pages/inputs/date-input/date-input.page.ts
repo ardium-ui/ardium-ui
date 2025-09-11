@@ -5,6 +5,7 @@ import { ArdCalendarView } from 'projects/ui/src/public-api';
 import { Logger } from '../../../services/logger.service';
 
 @Component({
+  standalone: false,
   selector: 'app-date-input',
   templateUrl: './date-input.page.html',
   styleUrl: './date-input.page.scss',

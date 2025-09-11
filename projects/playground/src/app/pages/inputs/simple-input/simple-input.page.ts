@@ -3,6 +3,7 @@ import { FormElementAppearance } from 'projects/ui/src/public-api';
 import { Logger } from './../../../services/logger.service';
 
 @Component({
+  standalone: false,
   selector: 'app-simple-input',
   templateUrl: './simple-input.page.html',
   styleUrls: ['./simple-input.page.scss'],

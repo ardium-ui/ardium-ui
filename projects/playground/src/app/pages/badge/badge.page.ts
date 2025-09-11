@@ -5,6 +5,7 @@ import { Logger } from '../../services/logger.service';
 const nbspString = '\xa0'.repeat(9);
 
 @Component({
+  standalone: false,
   selector: 'app-badge',
   templateUrl: './badge.page.html',
   styleUrls: ['./badge.page.scss'],

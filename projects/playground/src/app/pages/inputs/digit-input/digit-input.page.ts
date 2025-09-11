@@ -1,14 +1,15 @@
 import { Component, viewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
-  ArdiumDigitInputComponent,
-  DigitInputConfig,
-  DigitInputPrimitiveOption,
-  TransformType,
+    ArdiumDigitInputComponent,
+    DigitInputConfig,
+    DigitInputPrimitiveOption,
+    TransformType,
 } from 'projects/ui/src/public-api';
 import { Logger } from '../../../services/logger.service';
 
 @Component({
+  standalone: false,
   selector: 'app-digit-input',
   templateUrl: './digit-input.page.html',
   styleUrls: ['./digit-input.page.scss'],

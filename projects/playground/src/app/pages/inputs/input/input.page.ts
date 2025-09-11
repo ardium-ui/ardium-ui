@@ -6,6 +6,7 @@ import { DataService } from './../../../services/data.service';
 import { Logger } from './../../../services/logger.service';
 
 @Component({
+  standalone: false,
   selector: 'app-input',
   templateUrl: './input.page.html',
   styleUrls: ['./input.page.scss'],

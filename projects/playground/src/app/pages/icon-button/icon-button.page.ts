@@ -3,6 +3,7 @@ import { ComponentColor as CC } from 'projects/ui/src/public-api';
 import { Logger } from '../../services/logger.service';
 
 @Component({
+  standalone: false,
   selector: 'app-icon-button',
   templateUrl: './icon-button.page.html',
   styleUrls: ['./icon-button.page.scss'],

@@ -3,6 +3,7 @@ import { CheckboxState, SimpleComponentColor as SCC } from 'projects/ui/src/publ
 import { Logger } from '../../services/logger.service';
 
 @Component({
+  standalone: false,
   selector: 'app-checkbox',
   templateUrl: './checkbox.page.html',
   styleUrls: ['./checkbox.page.scss'],

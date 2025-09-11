@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation, signal } from '@angular/core';
 import { CardAppearance, CardVariant, OneAxisAlignment } from 'projects/ui/src/public-api';
 
 @Component({
+  standalone: false,
   selector: 'app-card',
   templateUrl: './card.page.html',
   styleUrls: ['./card.page.scss'],

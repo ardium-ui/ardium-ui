@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProgressCircleAppearance, ProgressCircleVariant, SimpleComponentColor } from 'projects/ui/src/public-api';
 
 @Component({
+  standalone: false,
   selector: 'app-progress-circle',
   templateUrl: './progress-circle.page.html',
   styleUrls: ['./progress-circle.page.scss'],

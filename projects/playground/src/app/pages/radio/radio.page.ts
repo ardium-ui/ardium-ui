@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Logger } from '../../services/logger.service';
 
 @Component({
+  standalone: false,
   selector: 'app-radio',
   templateUrl: './radio.page.html',
   styleUrls: ['./radio.page.scss'],

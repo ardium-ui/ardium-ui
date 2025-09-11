@@ -3,6 +3,7 @@ import { StateboxState } from 'projects/ui/src/public-api';
 import { Logger } from '../../services/logger.service';
 
 @Component({
+  standalone: false,
   selector: 'app-statebox',
   templateUrl: './statebox.page.html',
   styleUrls: ['./statebox.page.scss'],

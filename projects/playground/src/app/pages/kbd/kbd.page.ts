@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormElementAppearance } from 'projects/ui/src/public-api';
 
 @Component({
+  standalone: false,
   selector: 'app-kbd',
   templateUrl: './kbd.page.html',
   styleUrls: ['./kbd.page.scss'],

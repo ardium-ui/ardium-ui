@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-progress-bar',
   templateUrl: './progress-bar.page.html',
   styleUrls: ['./progress-bar.page.scss'],

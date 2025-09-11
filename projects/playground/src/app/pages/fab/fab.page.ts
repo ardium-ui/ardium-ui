@@ -3,6 +3,7 @@ import { ButtonAppearance as BA, ComponentColor as CC, FabSize as FS } from 'pro
 import { Logger } from '../../services/logger.service';
 
 @Component({
+  standalone: false,
   selector: 'app-fab',
   templateUrl: './fab.page.html',
   styleUrls: ['./fab.page.scss'],

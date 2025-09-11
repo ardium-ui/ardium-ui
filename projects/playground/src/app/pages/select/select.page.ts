@@ -4,6 +4,7 @@ import { Logger } from '../../services/logger.service';
 import { DataService } from './../../services/data.service';
 
 @Component({
+  standalone: false,
   selector: 'app-select',
   templateUrl: './select.page.html',
   styleUrls: ['./select.page.scss'],

@@ -3,6 +3,7 @@ import { ComponentColor as CC } from 'projects/ui/src/public-api';
 import { Logger } from '../../services/logger.service';
 
 @Component({
+  standalone: false,
   selector: 'app-slide-toggle',
   templateUrl: './slide-toggle.page.html',
   styleUrls: ['./slide-toggle.page.scss'],

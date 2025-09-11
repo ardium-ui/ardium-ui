@@ -3,6 +3,7 @@ import { StarColor as SC, StarFillMode as SF } from 'projects/ui/src/public-api'
 import { Logger } from '../../services/logger.service';
 
 @Component({
+  standalone: false,
   selector: 'app-stars',
   templateUrl: './stars.page.html',
   styleUrls: ['./stars.page.scss'],
