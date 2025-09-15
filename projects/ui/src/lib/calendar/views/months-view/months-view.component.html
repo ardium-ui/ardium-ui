@@ -88,7 +88,7 @@
               #defaultMonthTemplate
               let-month
             >
-              {{ month | date: 'MMM' | uppercase }}
+              {{ month | date: 'MMM' : '+0000' | uppercase }}
             </ng-template>
             <ng-template
               [ngTemplateOutlet]="monthTemplate() || defaultMonthTemplate"

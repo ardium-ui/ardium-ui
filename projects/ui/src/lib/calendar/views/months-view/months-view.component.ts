@@ -1,14 +1,14 @@
 import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    ElementRef,
-    HostListener,
-    input,
-    output,
-    TemplateRef,
-    viewChild,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  ElementRef,
+  HostListener,
+  input,
+  output,
+  TemplateRef,
+  viewChild,
 } from '@angular/core';
 import { isNull } from 'simple-bool';
 import { CalendarMonthContext, CalendarMonthsViewHeaderContext } from '../../calendar.types';
@@ -255,7 +255,7 @@ export class MonthsViewComponent implements AfterViewInit {
   );
 
   readonly monthContext = computed(() => (month: number): CalendarMonthContext => {
-    const date = new Date(this.activeYear(), month, 1);
+    const date = new Date(this.activeYear(), month, 2); // second day of month to prevent timezone issues
     return {
       month,
       date,

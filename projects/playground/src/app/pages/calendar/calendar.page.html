@@ -33,7 +33,6 @@
   <div class="master">
     <span class="title">Calendar events</span>
     <ard-calendar
-    [UTC]="utc.checked"
       [(ngModel)]="eventsCalendarDate"
       (selectedChange)="log('selectedChange', $event)"
       (ngModelChange)="log('ngModelChange', $event)"
@@ -41,9 +40,18 @@
       (activeMonthChange)="log('activeMonthChange', $event)"
       (activeYearChange)="log('activeYearChange', $event)"
     ></ard-calendar>
-    <label for="UTC">
-      <input type="checkbox" name="UTC" id="UTC" #utc> UTC?
-    </label>
+  </div>
+  <div class="master">
+    <span class="title">Calendar events (UTC)</span>
+    <ard-calendar
+      [(ngModel)]="eventsCalendarDateUTC"
+      (selectedChange)="log('selectedChange', $event)"
+      (ngModelChange)="log('ngModelChange', $event)"
+      (activeViewChange)="log('activeViewChange', $event)"
+      (activeMonthChange)="log('activeMonthChange', $event)"
+      (activeYearChange)="log('activeYearChange', $event)"
+      UTC
+    ></ard-calendar>
   </div>
   <div class="master">
     <span class="title">Calendar with min/max dates</span>

@@ -11,6 +11,7 @@ export class CalendarPage {
   selectedDate: Date = new Date();
 
   eventsCalendarDate: Date | null = null;
+  eventsCalendarDateUTC: Date | null = null;
 
   constructor(private LoggerService: Logger) {}
   log = this.LoggerService.log;

@@ -1,20 +1,20 @@
 import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    ElementRef,
-    HostListener,
-    input,
-    output,
-    TemplateRef,
-    viewChild
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  ElementRef,
+  HostListener,
+  input,
+  output,
+  TemplateRef,
+  viewChild
 } from '@angular/core';
 import {
-    CalendarDayContext,
-    CalendarDaysViewHeaderContext,
-    CalendarFloatingMonthContext,
-    CalendarWeekdayContext,
+  CalendarDayContext,
+  CalendarDaysViewHeaderContext,
+  CalendarFloatingMonthContext,
+  CalendarWeekdayContext,
 } from '../../calendar.types';
 import { isMonthOutOfRange } from '../months-view/months-view.helpers';
 import { getCalendarDayData, getCalendarWeekdayArray } from './days-view.helpers';
@@ -287,7 +287,7 @@ export class DaysViewComponent implements AfterViewInit {
     canGoToPreviousPage: !this.isMonthOutOfRange(this.activeMonth() - 1),
     year: this.activeYear(),
     month: this.activeMonth(),
-    $implicit: new Date(this.activeYear(), this.activeMonth(), 1, 0, 0, 0, 0),
+    $implicit: new Date(this.activeYear(), this.activeMonth(), 2, 0, 0, 0, 0),  // second day of month to prevent timezone issues
   }));
 
   readonly weekdayContext = computed<(dayIndex: number) => CalendarWeekdayContext>(() => (dayIndex: number) => {
@@ -300,7 +300,7 @@ export class DaysViewComponent implements AfterViewInit {
   });
 
   readonly floatingMonthContext = computed<CalendarFloatingMonthContext>(() => {
-    const date = new Date(this.activeYear(), this.activeMonth(), 1, 0, 0, 0, 0);
+    const date = new Date(this.activeYear(), this.activeMonth(), 2, 0, 0, 0, 0); // second day of month to prevent timezone issues
     return {
       month: this.activeMonth(),
       date,
