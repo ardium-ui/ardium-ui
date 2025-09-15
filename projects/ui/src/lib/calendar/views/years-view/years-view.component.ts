@@ -1,14 +1,14 @@
 import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    ElementRef,
-    HostListener,
-    input,
-    output,
-    TemplateRef,
-    viewChild,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  ElementRef,
+  HostListener,
+  input,
+  output,
+  TemplateRef,
+  viewChild,
 } from '@angular/core';
 import { isNull } from 'simple-bool';
 import { CalendarYearContext, CalendarYearsViewHeaderContext, DateRange, YearRange } from '../../calendar.types';
@@ -43,8 +43,6 @@ export class YearsViewComponent implements AfterViewInit {
     this.focus();
     this.triggerHighlightYear.emit(this.currentYearRangeStart());
   }
-
-  readonly activeYear = input.required<number>();
 
   readonly selectedDate = input.required<Date | null>();
 
@@ -227,8 +225,8 @@ export class YearsViewComponent implements AfterViewInit {
     const yearRangeStart = this.currentYearRangeStart();
     const yearRangeEnd = yearRangeStart + 23;
     const dateRange: DateRange = {
-      low: new Date(yearRangeStart, 0, 1),
-      high: new Date(yearRangeEnd, 0, 1),
+      low: new Date(yearRangeStart, 0, 2), // second day of month to prevent timezone issues
+      high: new Date(yearRangeEnd, 0, 2),
     };
     const yearRange: YearRange = {
       low: yearRangeStart,
@@ -256,7 +254,7 @@ export class YearsViewComponent implements AfterViewInit {
   });
   readonly yearContext = computed<(year: number) => CalendarYearContext>(() => {
     return (year: number) => {
-      const date = new Date(year, 1, 1);
+      const date = new Date(year, 1, 2); // second day of month to prevent timezone issues
       return {
         value: year,
         date,

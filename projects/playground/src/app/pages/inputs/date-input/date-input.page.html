@@ -13,9 +13,12 @@
 <div class="flex horiz main-container">
   <div class="master">
     <span class="title">Date input with starting view as year selector</span>
-    <ard-date-input
-      [(activeView)]="activeView"
-      (isOpenChange)="onCalendarOpen()"
-    />
+    <ard-date-input startView="years" />
+  </div>
+</div>
+<div class="flex horiz main-container">
+  <div class="master">
+    <span class="title">Date input that remembers its last selected year</span>
+    <ard-date-input startView="years" />
   </div>
 </div>

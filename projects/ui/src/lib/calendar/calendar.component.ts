@@ -18,7 +18,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceDateProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import { roundFromZero } from 'more-rounding';
+import { roundFromZero, roundToMultiple } from 'more-rounding';
 import { isDefined, isNull } from 'simple-bool';
 import { _FormFieldComponentBase } from '../_internal/form-field-component';
 import { getUTCDate } from '../_internal/utils/date.utils';
@@ -447,7 +447,15 @@ export class ArdiumCalendarComponent extends _FormFieldComponentBase implements 
   private readonly __highlightedYear = signal<number | null>(null);
   readonly highlightedYear = this.__highlightedYear.asReadonly();
 
-  readonly currentYearRangeStart = linkedSignal<number>(() => this.TODAY().getFullYear() - (this.TODAY().getFullYear() % 4) - 8); // current year always in 3rd row
+  readonly currentYearRangeStart = linkedSignal<number>(() => {
+    const rangeStartForCurrentYear = this.TODAY().getFullYear() - (this.TODAY().getFullYear() % 4) - 8; // current year always in 3rd row
+
+    const activeYear = this.activeYear();
+
+    const offset = roundToMultiple(activeYear - rangeStartForCurrentYear + 1, 24, 'up') - 24; // check how many 24-year pages need to be turned
+
+    return rangeStartForCurrentYear + offset;
+  });
 
   setHighlightedYear(year: number | null): void {
     if (isNull(year)) {

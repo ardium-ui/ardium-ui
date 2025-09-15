@@ -81,14 +81,19 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
   constructor(@Inject(ARD_DATE_INPUT_DEFAULTS) defaults: ArdDateInputDefaults) {
     super(defaults);
 
-    effect(
-      () => {
-        this.value();
-        this._emitChange();
-        this._serializeValueIntoDateInput();
-      },
-      { allowSignalWrites: true }
-    );
+    // emit value whenever it changes
+    effect(() => {
+      this.value();
+      this._emitChange();
+      this._serializeValueIntoDateInput();
+    });
+    // set active view when start view is defined
+    effect(() => {
+      const startView = this.startView();
+      if (startView && this.isOpen()) {
+        this.activeView.set(startView);
+      }
+    });
   }
 
   private readonly elementRef = inject(ElementRef<HTMLElement>);
@@ -252,6 +257,8 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
 
   //! calendar attributes
   readonly activeView = model<ArdCalendarView>(this._DEFAULTS.activeView);
+  readonly startView = input<Nullable<ArdCalendarView>>(this._DEFAULTS.startView);
+
   readonly activeYear = model<number>(this._DEFAULTS.activeYear);
   readonly activeMonth = model<number>(this._DEFAULTS.activeMonth);
 

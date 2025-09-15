@@ -1,7 +1,6 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl } from '@angular/forms';
-import { ArdCalendarView } from 'projects/ui/src/public-api';
 import { Logger } from '../../../services/logger.service';
 
 @Component({
@@ -26,11 +25,5 @@ export class DateInputPage {
         this.formControl.setValue(null);
       }, 3000);
     });
-  }
-
-  readonly activeView = signal<ArdCalendarView>(ArdCalendarView.Years);
-
-  onCalendarOpen() {
-    this.activeView.set(ArdCalendarView.Years);
   }
 }
