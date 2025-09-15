@@ -28,6 +28,7 @@ export interface ArdDateInputDefaults extends _FormFieldComponentDefaults {
   min: Date | null;
   max: Date | null;
   filter: ArdCalendarFilterFn | null;
+  UTC: boolean;
 }
 
 const _dateInputDefaults: ArdDateInputDefaults = {
@@ -52,6 +53,7 @@ const _dateInputDefaults: ArdDateInputDefaults = {
   min: null,
   max: null,
   filter: null,
+  UTC: false,
 };
 
 export const ARD_DATE_INPUT_DEFAULTS = new InjectionToken<ArdDateInputDefaults>('ard-date-input-defaults', {

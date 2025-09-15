@@ -143,8 +143,8 @@ export class ArdiumCalendarComponent extends _FormFieldComponentBase implements 
     transform: v => (v === null ? null : coerceDateProperty(v, this._DEFAULTS.max)),
   });
 
-  readonly UTC = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  private readonly _UTCAfterInit = signal<boolean>(false);
+  readonly UTC = input<boolean, any>(this._DEFAULTS.UTC, { transform: v => coerceBooleanProperty(v) });
+  private readonly _UTCAfterInit = signal<boolean>(this._DEFAULTS.UTC);
 
   readonly filter = input<ArdCalendarFilterFn | null>(this._DEFAULTS.filter);
 

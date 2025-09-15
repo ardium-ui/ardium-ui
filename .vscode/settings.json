@@ -4,17 +4,13 @@
       "splitTerminals": [
         {
           "name": "ng",
-          "commands": ["cd client"]
+          "commands": []
+        },
+        {
+          "name": "ng serve",
+          "commands": ["pnpm start"]
         }
       ]
     },
-    {
-      "splitTerminals": [
-        {
-          "name": "ng serve",
-          "commands": ["ng serve --port=4240"]
-        }
-      ]
-    }
   ]
 }

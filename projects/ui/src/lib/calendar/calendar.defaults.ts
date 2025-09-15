@@ -14,6 +14,7 @@ export interface ArdCalendarDefaults extends _FormFieldComponentDefaults {
   min: Date | null;
   max: Date | null;
   filter: ArdCalendarFilterFn | null;
+  UTC: boolean;
 }
 
 const _calendarDefaults: ArdCalendarDefaults = {
@@ -28,6 +29,7 @@ const _calendarDefaults: ArdCalendarDefaults = {
   min: null,
   max: null,
   filter: null,
+  UTC: false,
 };
 
 export const ARD_CALENDAR_DEFAULTS = new InjectionToken<ArdCalendarDefaults>('ard-calendar-defaults', {
