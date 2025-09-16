@@ -1,10 +1,25 @@
-import { Directive } from '@angular/core';
+import { Directive, effect, input } from '@angular/core';
+import { coerceBooleanProperty } from '@ardium-ui/devkit';
 
 @Directive({
   selector: '[ard-error]',
   standalone: true,
   host: {
     '[class.ard-error]': 'true',
+    '[class.ard-error-default]': '!left() && !right()',
+    '[class.ard-error-left]': 'left() && !right()',
+    '[class.ard-error-right]': '!left() && right()',
   },
 })
-export class ArdiumErrorDirective {}
+export class ArdiumErrorDirective {
+  readonly left = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly right = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+
+  constructor() {
+    effect(() => {
+      if (this.left() && this.right()) {
+        console.error(`ARD-NF5130: Cannot align a form field error to both left and right.`);
+      }
+    });
+  }
+}

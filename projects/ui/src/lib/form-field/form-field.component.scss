@@ -2,12 +2,30 @@
   display: block;
 }
 
-.ard-form-field__hints {
+.ard-horizontal-form-field {
+  display: flex;
+}
+.ard-form-field__hints,
+.ard-form-field__errors {
   display: flex;
   justify-content: space-between;
 
   > * {
     display: flex;
     flex-direction: column;
+  }
+  .ard-form-field__hints-left .ard-form-field__default-hint,
+  .ard-form-field__errors-left .ard-form-field__default-error {
+    display: none;
+  }
+  &.ard-form-field__hints-default-left {
+    .ard-form-field__hints-left .ard-form-field__default-hint,
+    .ard-form-field__errors-left .ard-form-field__default-error {
+      display: block;
+    }
+    .ard-form-field__hints-right .ard-form-field__default-hint,
+    .ard-form-field__errors-right .ard-form-field__default-error {
+      display: none;
+    }
   }
 }

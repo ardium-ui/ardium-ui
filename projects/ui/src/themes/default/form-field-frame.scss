@@ -3,7 +3,7 @@
 
 .ard-form-field-frame {
   box-sizing: border-box;
-  min-height: 2.3125rem;
+  min-height: ARD.$form-field-height;
   height: max-content;
   max-width: 100%;
   display: flex;
@@ -38,7 +38,7 @@
 
   //! compact
   &.ard-compact {
-    min-height: 1.6875rem;
+    min-height: ARD.$form-field-compact-height;
     font-size: 0.85rem;
     line-height: 1;
   }

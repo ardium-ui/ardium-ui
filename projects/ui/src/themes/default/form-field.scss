@@ -42,7 +42,8 @@ ard-horizontal-form-field {
       min-height: 1.1em;
     }
   }
-  .ard-form-field__hints-right {
+  .ard-form-field__hints-right,
+  .ard-form-field__errors-right {
     > * {
       padding-left: 0.25rem;
     }
@@ -90,7 +91,7 @@ ard-horizontal-form-field {
 
   .ard-form-field__label-container {
     width: var(--ard-horizontal-form-field-label-width, 12rem);
-    height: 2.3125rem;
+    height: ARD.$form-field-height;
     display: flex;
     align-items: center;
     justify-content: var(--ard-horizontal-form-field-label-align, flex-start);
@@ -101,7 +102,7 @@ ard-horizontal-form-field {
 
   &:has(.ard-form-field__input .ard-compact) {
     .ard-form-field__label-container {
-      height: 1.5625rem;
+      height: ARD.$form-field-compact-height;
     }
   }
 }

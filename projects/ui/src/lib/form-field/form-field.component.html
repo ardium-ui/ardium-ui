@@ -16,25 +16,50 @@
   <div
     class="ard-form-field__hints"
     [class.ard-form-field__reserve-hint-line]="reserveHintLine()"
-    [class.ard-form-field__hints-default-left]="alignHintToLeftByDefault"
+    [class.ard-form-field__hints-default-left]="alignHintToLeftByDefault()"
   >
     @if (hasAnyError()) {
-    <div class="ard-form-field__error">
-      <ng-content select="ard-error, [ard-error]" />
+    <div class="ard-form-field__errors-left">
+      @if (alignHintToLeftByDefault()) {
+      <div class="ard-form-field__default-error">
+        <ng-template [ngTemplateOutlet]="defaultErrors" />
+      </div>
+      }
+      <ng-content select="ard-error[left], [ard-error][left]" />
+    </div>
+    <div class="ard-form-field__errors-right">
+      @if (!alignHintToLeftByDefault()) {
+      <div class="ard-form-field__default-error">
+        <ng-template [ngTemplateOutlet]="defaultErrors" />
+      </div>
+      }
+      <ng-content select="ard-error[right], [ard-error][right]" />
     </div>
     } @else {
     <div class="ard-form-field__hints-left">
+      @if (alignHintToLeftByDefault()) {
       <div class="ard-form-field__default-hint">
-        <ng-content select="ard-hint:not([left]):not([right]), [ard-hint]:not([left]):not([right])" />
+        <ng-template [ngTemplateOutlet]="defaultHints" />
       </div>
+      }
       <ng-content select="ard-hint[left], [ard-hint][left]" />
     </div>
     <div class="ard-form-field__hints-right">
+      @if (!alignHintToLeftByDefault()) {
       <div class="ard-form-field__default-hint">
-        <ng-content select="ard-hint:not([left]):not([right]), [ard-hint]:not([left]):not([right])" />
+        <ng-template [ngTemplateOutlet]="defaultHints" />
       </div>
+      }
       <ng-content select="ard-hint[right], [ard-hint][right]" />
     </div>
     }
   </div>
 </div>
+
+<ng-template #defaultHints>
+  <ng-content select="ard-hint:not([left]):not([right]), [ard-hint]:not([left]):not([right])" />
+</ng-template>
+
+<ng-template #defaultErrors>
+  <ng-content select="ard-error:not([left]):not([right]), [ard-error]:not([left]):not([right])" />
+</ng-template>

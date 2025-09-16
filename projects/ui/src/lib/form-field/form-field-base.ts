@@ -12,7 +12,9 @@ import { ArdiumLabelComponent } from './label/label.component';
 export abstract class _FormFieldBase {
   protected readonly _DEFAULTS = inject(ARD_FORM_FIELD_DEFAULTS);
 
-  public readonly alignHintToLeftByDefault = this._DEFAULTS.defaultHintAlign === SimpleOneAxisAlignment.Left;
+  readonly defaultHintAlign = input<SimpleOneAxisAlignment>(this._DEFAULTS.defaultHintAlign);
+
+  public readonly alignHintToLeftByDefault = computed(() => this.defaultHintAlign() === SimpleOneAxisAlignment.Left)
 
   readonly control = contentChild<ArdFormFieldControl>(ARD_FORM_FIELD_CONTROL);
 

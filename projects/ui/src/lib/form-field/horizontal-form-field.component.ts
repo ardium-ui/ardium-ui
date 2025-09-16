@@ -5,7 +5,7 @@ import { _FormFieldBase } from './form-field-base';
   standalone: false,
   selector: 'ard-horizontal-form-field',
   templateUrl: './horizontal-form-field.component.html',
-  styleUrl: './horizontal-form-field.component.scss',
+  styleUrl: './form-field.component.scss',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

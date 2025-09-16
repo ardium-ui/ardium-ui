@@ -14,6 +14,14 @@
   </ard-form-field>
 </div>
 <div class="master first">
+  <span class="title">Form field with hint aligned to right by default</span>
+  <ard-form-field defaultHintAlign="right">
+    <ard-label>Test</ard-label>
+    <ard-input [formControl]="control" />
+    <ard-hint>Lorem ipsum dolor sit amet consectetur.</ard-hint>
+  </ard-form-field>
+</div>
+<div class="master first">
   <span class="title">Form field with 3 hints</span>
   <ard-form-field>
     <ard-label>Test</ard-label>
@@ -105,6 +113,18 @@
     <ard-label>Test</ard-label>
     <ard-input [formControl]="control" />
     <ard-hint>My hint</ard-hint>
+  </ard-horizontal-form-field>
+</div>
+<div class="master">
+  <span class="title">Horizontal form field with many hints</span>
+  <ard-horizontal-form-field>
+    <ard-label>Test</ard-label>
+    <ard-input [formControl]="control" />
+    <ard-hint>Hint 1</ard-hint>
+    <ard-hint>Hint 2</ard-hint>
+    <ard-hint>Hint 3</ard-hint>
+    <ard-hint>Hint 4</ard-hint>
+    <ard-hint>Hint 5</ard-hint>
   </ard-horizontal-form-field>
 </div>
 <div class="master first">
