@@ -4,6 +4,7 @@ import { ArdiumErrorComponent } from './error/error.component';
 import { ArdiumErrorDirective } from './error/error.directive';
 import { ArdiumFormFieldNativeInputAdapterDirective } from './form-field-native-inputs';
 import { ArdiumFormFieldComponent } from './form-field.component';
+import { ArdiumHintErrorComponent } from './hint-error/hint-error.component';
 import { ArdiumHintComponent } from './hint/hint.component';
 import { ArdiumHintDirective } from './hint/hint.directive';
 import { ArdiumHorizontalFormFieldComponent } from './horizontal-form-field.component';
@@ -17,6 +18,7 @@ import { ArdiumLabelComponent } from './label/label.component';
     ArdiumLabelComponent,
     ArdiumHintComponent,
     ArdiumErrorComponent,
+    ArdiumHintErrorComponent,
   ],
   imports: [CommonModule, ArdiumHintDirective, ArdiumErrorDirective],
   exports: [
@@ -26,6 +28,7 @@ import { ArdiumLabelComponent } from './label/label.component';
     ArdiumLabelComponent,
     ArdiumHintComponent,
     ArdiumErrorComponent,
+    ArdiumHintErrorComponent,
   ],
 })
 export class ArdiumFormFieldModule {}

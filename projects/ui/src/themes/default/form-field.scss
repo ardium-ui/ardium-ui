@@ -58,9 +58,12 @@ ard-horizontal-form-field {
   .ard-hint {
     color: ARD.$text2;
   }
-  .ard-error {
+  .ard-error:not(.ard-hint-error),
+  .ard-form-field__errors .ard-hint-error {
     color: ARD.$danger700;
     overflow: hidden;
+  }
+  .ard-error:not(.ard-hint-error) {
     animation: errorAppear 0.25s ARD.$timing-fn forwards;
   }
 

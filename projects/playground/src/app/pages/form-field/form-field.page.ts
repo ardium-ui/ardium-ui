@@ -12,6 +12,7 @@ export class FormFieldPage implements OnInit {
   readonly control2 = new FormControl('', [Validators.required]);
   readonly control3 = new FormControl('Example text 3');
   readonly controlSelect = new FormControl('');
+  readonly controlCharCount = new FormControl('', [Validators.pattern(/^[a-z0-9]{9}$/i)]);
   readonly controlDigit = new FormControl('123456');
   readonly controlSegment = new FormControl(['yes']);
   readonly controlNativeInput = new FormControl(['native'], [Validators.required]);

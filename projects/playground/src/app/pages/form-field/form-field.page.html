@@ -84,6 +84,20 @@
   </ard-form-field>
 </div>
 <div class="master first">
+  <span class="title">Form field with character counter</span>
+  <ard-form-field>
+    <ard-label>Passport Number</ard-label>
+    <ard-input
+      [formControl]="controlCharCount"
+      maxLength="9"
+    />
+    <ard-hint-error right>{{ controlCharCount.value?.length ?? 0 }}/9</ard-hint-error>
+    @if (controlCharCount.touched && controlCharCount.errors) {
+      <ard-error>Not a valid passport number</ard-error>
+    }
+  </ard-form-field>
+</div>
+<div class="master first">
   <span class="title">Form field with digit input control</span>
   <ard-form-field>
     <ard-label required>Test</ard-label>
@@ -131,7 +145,10 @@
   <span class="title">Form field with native input control</span>
   <ard-form-field>
     <ard-label>Native input</ard-label>
-    <input type="text" [formControl]="controlNativeInput">
+    <input
+      type="text"
+      [formControl]="controlNativeInput"
+    />
     <ard-hint>Lorem ipsum dolor sit amet consectetur.</ard-hint>
   </ard-form-field>
 </div>
@@ -139,7 +156,10 @@
   <span class="title">Form field with native textarea control</span>
   <ard-form-field>
     <ard-label>Native textarea</ard-label>
-    <textarea type="text" [formControl]="controlNativeTextarea"></textarea>
+    <textarea
+      type="text"
+      [formControl]="controlNativeTextarea"
+    ></textarea>
     <ard-hint>Lorem ipsum dolor sit amet consectetur.</ard-hint>
   </ard-form-field>
 </div>
@@ -158,7 +178,10 @@
     </ard-form-field>
     <ard-form-field>
       <ard-label>segment</ard-label>
-      <ard-segment items="1,2" hasError />
+      <ard-segment
+        items="1,2"
+        hasError
+      />
       <ard-error>Error here</ard-error>
     </ard-form-field>
     <ard-form-field>

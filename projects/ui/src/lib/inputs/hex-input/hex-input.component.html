@@ -33,6 +33,7 @@
         [attr.tabindex]="tabIndex()"
         [readonly]="readonly()"
         [disabled]="disabled()"
+        [maxLength]="maxDigits()"
         (input)="onInput(textInput.value, $event)"
         (focus)="onFocus($event)"
         (blur)="onBlur($event)"

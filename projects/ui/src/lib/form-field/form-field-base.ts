@@ -5,6 +5,7 @@ import { SimpleOneAxisAlignment } from '../types/alignment.types';
 import { ArdiumErrorDirective } from './error/error.directive';
 import { ARD_FORM_FIELD_CONTROL, ArdFormFieldControl } from './form-field-child.token';
 import { ARD_FORM_FIELD_DEFAULTS } from './form-field.defaults';
+import { ArdiumHintErrorDirective } from './hint-error/hint-error.directive';
 import { ArdiumHintDirective } from './hint/hint.directive';
 import { ArdiumLabelComponent } from './label/label.component';
 
@@ -41,9 +42,13 @@ export abstract class _FormFieldBase {
 
   readonly label = contentChild<ArdiumLabelComponent>(ArdiumLabelComponent);
 
-  readonly hints = contentChildren<ArdiumHintDirective>(ArdiumHintDirective);
-  readonly errors = contentChildren<ArdiumErrorDirective>(ArdiumErrorDirective);
-  readonly hasAnyError = computed<boolean>(() => this.errors()?.length > 0);
+  readonly hints = contentChildren(ArdiumHintDirective);
+  readonly errors = contentChildren(ArdiumErrorDirective);
+  readonly hintErrors = contentChildren(ArdiumHintErrorDirective);
+
+  readonly hasAnyHint = computed<boolean>(() => this.hints().length > 0 || this.hintErrors().length > 0);
+  readonly hasAnyError = computed<boolean>(() => this.errors().length > 0);
+
   readonly reserveHintLine = input<boolean, any>(this._DEFAULTS.reserveHintLine, { transform: v => coerceBooleanProperty(v) });
 
   ngOnInit(): void {
