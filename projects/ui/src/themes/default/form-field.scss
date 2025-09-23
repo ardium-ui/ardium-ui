@@ -45,15 +45,15 @@ ard-horizontal-form-field {
   .ard-form-field__hints-right,
   .ard-form-field__errors-right {
     > * {
-      padding-left: 0.25rem;
+      padding-left: 0.5rem;
     }
   }
   .ard-hint,
   .ard-error {
     font-size: 1em;
     line-height: 1.1;
-    display: block;
-    height: 1.1em;
+    display: inline-grid;
+    min-height: 1.1em;
   }
   .ard-hint {
     color: ARD.$text2;
@@ -65,6 +65,9 @@ ard-horizontal-form-field {
   }
   .ard-error:not(.ard-hint-error) {
     animation: errorAppear 0.25s ARD.$timing-fn forwards;
+  }
+  .ard-form-field__default-hint, .ard-form-field__default-error {
+    gap: 0.375em;
   }
 
   &.ard-form-field__with-error {
@@ -112,9 +115,9 @@ ard-horizontal-form-field {
 
 @keyframes errorAppear {
   from {
-    height: 0;
+    grid-template-rows: 0fr;
   }
   to {
-    height: 1.1em;
+    grid-template-rows: 1fr;
   }
 }

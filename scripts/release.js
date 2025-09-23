@@ -6,6 +6,17 @@ const path = require('path');
 const ansis = require('ansis');
 const inquirer = require('inquirer').default;
 
+const VERSION_ALIAS_MAP = {
+  prer: 'prerelease',
+  prep: 'prepatch',
+  premi: 'preminor',
+  prema: 'premajor',
+  p: 'patch',
+  mi: 'minor',
+  ma: 'major',
+  nv: 'no-version',
+};
+
 (async () => {
   let startTime = new Date();
   // Check if all changes are committed
@@ -21,6 +32,9 @@ const inquirer = require('inquirer').default;
   }
 
   let bumpType = process.argv[2];
+  if (VERSION_ALIAS_MAP[bumpType]) {
+    bumpType = VERSION_ALIAS_MAP[bumpType];
+  }
 
   const preVersions = ['prerelease', 'prepatch', 'preminor', 'premajor'];
   const allowedBumpTypes = ['patch', 'minor', 'major', ...preVersions, 'no-version'];

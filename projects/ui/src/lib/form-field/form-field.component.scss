@@ -21,7 +21,8 @@
   &.ard-form-field__hints-default-left {
     .ard-form-field__hints-left .ard-form-field__default-hint,
     .ard-form-field__errors-left .ard-form-field__default-error {
-      display: block;
+      display: flex;
+      flex-direction: column;
     }
     .ard-form-field__hints-right .ard-form-field__default-hint,
     .ard-form-field__errors-right .ard-form-field__default-error {
