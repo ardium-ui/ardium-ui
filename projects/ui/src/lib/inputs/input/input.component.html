@@ -31,7 +31,7 @@
         [attr.tabindex]="tabIndex()"
         [readonly]="readonly()"
         [disabled]="disabled()"
-        [maxLength]="maxLength()"
+        [maxLength]="maxLengthAsInt()"
         (input)="onInput(textInput.value)"
         (focus)="onFocusMaster($event)"
         (blur)="onBlurMaster($event)"

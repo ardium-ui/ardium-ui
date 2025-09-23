@@ -1,17 +1,17 @@
 import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    contentChild,
-    ElementRef,
-    forwardRef,
-    Inject,
-    input,
-    Input,
-    output,
-    viewChild,
-    ViewEncapsulation,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  contentChild,
+  ElementRef,
+  forwardRef,
+  Inject,
+  input,
+  Input,
+  output,
+  viewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
@@ -22,9 +22,9 @@ import { Nullable } from '../../types/utility.types';
 import { CaseTransformerType } from '../input-types';
 import { ARD_HEX_INPUT_DEFAULTS, ArdHexInputDefaults } from './hex-input.defaults';
 import {
-    ArdHexInputPlaceholderTemplateDirective,
-    ArdHexInputPrefixTemplateDirective,
-    ArdHexInputSuffixTemplateDirective,
+  ArdHexInputPlaceholderTemplateDirective,
+  ArdHexInputPrefixTemplateDirective,
+  ArdHexInputSuffixTemplateDirective,
 } from './hex-input.directives';
 import { HexInputModel, HexInputModelHost } from './hex-input.model';
 
@@ -96,6 +96,7 @@ export class ArdiumHexInputComponent
   readonly maxDigits = input<Nullable<number>, any>(this._DEFAULTS.maxDigits, {
     transform: v => coerceNumberProperty(v, this._DEFAULTS.maxDigits),
   });
+  readonly maxDigitsAsInt = computed<number>(() => this.maxDigits() ?? 2_147_483_647);
 
   readonly hideHash = input<boolean, any>(this._DEFAULTS.hideHash, { transform: v => coerceBooleanProperty(v) });
   readonly showHash = computed(() => !this.hideHash());

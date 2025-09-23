@@ -92,6 +92,8 @@ export abstract class _SimpleInputComponentBase extends _FormFieldComponentBase 
     transform: v => coerceNumberProperty(v, this._DEFAULTS.maxLength),
   });
 
+  readonly maxLengthAsInt = computed<number>(() => this.maxLength() ?? 2_147_483_647);
+
   //! no-value attribute setters/getters
   readonly clearable = input<boolean, any>(this._DEFAULTS.clearable, { transform: v => coerceBooleanProperty(v) });
 
