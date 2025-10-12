@@ -1,19 +1,19 @@
 import { Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import {
-    ChangeDetectionStrategy,
-    Component,
-    Input,
-    TemplateRef,
-    ViewContainerRef,
-    ViewEncapsulation,
-    computed,
-    contentChild,
-    inject,
-    input,
-    output,
-    signal,
-    viewChild,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  TemplateRef,
+  ViewContainerRef,
+  ViewEncapsulation,
+  computed,
+  contentChild,
+  inject,
+  input,
+  output,
+  signal,
+  viewChild,
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { PanelAppearance, PanelVariant } from '../types/theming.types';

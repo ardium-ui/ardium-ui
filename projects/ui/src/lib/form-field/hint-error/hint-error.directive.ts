@@ -23,7 +23,7 @@ export class ArdiumHintErrorDirective {
   constructor() {
     effect(() => {
       if (this.left() && this.right()) {
-        console.error(`ARD-NF5130: Cannot align a form field hint-error to both left and right.`);
+        console.error(`ARD-NF5150: Cannot align a form field hint-error to both left and right.`);
       }
     });
   }

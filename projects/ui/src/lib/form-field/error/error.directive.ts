@@ -18,7 +18,7 @@ export class ArdiumErrorDirective {
   constructor() {
     effect(() => {
       if (this.left() && this.right()) {
-        console.error(`ARD-NF5130: Cannot align a form field error to both left and right.`);
+        console.error(`ARD-NF5140: Cannot align a form field error to both left and right.`);
       }
     });
   }

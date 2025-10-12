@@ -22,7 +22,7 @@ export class ArdiumLabelComponent {
   constructor() {
     effect(() => {
       if (this.required() && this.optional()) {
-        console.error(`ARD-NF5110: Cannot set a form field label to be both required and optional.`);
+        console.error(`ARD-NF5120: Cannot set a form field label to be both required and optional.`);
       }
     });
   }
