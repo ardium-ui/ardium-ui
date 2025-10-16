@@ -1,36 +1,36 @@
 import { Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import {
-    AfterContentInit,
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    ContentChildren,
-    ElementRef,
-    HostBinding,
-    HostListener,
-    Inject,
-    Input,
-    OnChanges,
-    OnDestroy,
-    OnInit,
-    QueryList,
-    Signal,
-    SimpleChanges,
-    TemplateRef,
-    ViewChild,
-    ViewContainerRef,
-    ViewEncapsulation,
-    computed,
-    contentChild,
-    forwardRef,
-    inject,
-    input,
-    model,
-    output,
-    signal,
-    viewChild,
+  AfterContentInit,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ContentChildren,
+  ElementRef,
+  HostBinding,
+  HostListener,
+  Inject,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  Signal,
+  SimpleChanges,
+  TemplateRef,
+  ViewChild,
+  ViewContainerRef,
+  ViewEncapsulation,
+  computed,
+  contentChild,
+  forwardRef,
+  inject,
+  input,
+  model,
+  output,
+  signal,
+  viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
@@ -48,32 +48,33 @@ import { Nullable } from '../types/utility.types';
 import { FormElementVariant } from './../types/theming.types';
 import { ARD_SELECT_DEFAULTS, ArdSelectDefaults } from './select.defaults';
 import {
-    ArdAddCustomTemplateDirective,
-    ArdDropdownFooterTemplateDirective,
-    ArdDropdownHeaderTemplateDirective,
-    ArdItemDisplayLimitTemplateDirective,
-    ArdItemLimitReachedTemplateDirective,
-    ArdLoadingPlaceholderTemplateDirective,
-    ArdLoadingSpinnerTemplateDirective,
-    ArdNoItemsFoundTemplateDirective,
-    ArdOptgroupTemplateDirective,
-    ArdOptionTemplateDirective,
-    ArdSelectPlaceholderTemplateDirective,
-    ArdSelectPrefixTemplateDirective,
-    ArdSelectSuffixTemplateDirective,
-    ArdValueTemplateDirective,
+  ArdAddCustomTemplateDirective,
+  ArdDropdownFooterTemplateDirective,
+  ArdDropdownHeaderTemplateDirective,
+  ArdItemDisplayLimitTemplateDirective,
+  ArdItemLimitReachedTemplateDirective,
+  ArdLoadingPlaceholderTemplateDirective,
+  ArdLoadingSpinnerTemplateDirective,
+  ArdNoItemsFoundTemplateDirective,
+  ArdOptgroupTemplateDirective,
+  ArdOptionTemplateDirective,
+  ArdSelectPlaceholderTemplateDirective,
+  ArdSelectPrefixTemplateDirective,
+  ArdSelectSuffixTemplateDirective,
+  ArdValueTemplateDirective,
 } from './select.directive';
 import {
-    AddCustomFn,
-    CustomOptionContext,
-    GroupContext,
-    ItemDisplayLimitContext,
-    ItemLimitContext,
-    PlaceholderContext,
-    SearchContext,
-    StatsContext,
-    ValueContext,
+  AddCustomFn,
+  CustomOptionContext,
+  GroupContext,
+  ItemDisplayLimitContext,
+  ItemLimitContext,
+  PlaceholderContext,
+  SearchContext,
+  StatsContext,
+  ValueContext,
 } from './select.types';
+import { transformDropdownPanelSize } from './select.utils';
 
 @Component({
   standalone: false,
@@ -475,12 +476,36 @@ export class ArdiumSelectComponent
   @ViewChild('dropdownTemplate', { read: TemplateRef })
   dropdownTemplate!: TemplateRef<any>;
 
+  readonly dropdownPanelWidth = input<Nullable<number | string>, Nullable<number | string>>(this._DEFAULTS.dropdownPanelWidth, {
+    transform: transformDropdownPanelSize,
+  });
+  readonly dropdownPanelHeight = input<Nullable<number | string>, Nullable<number | string>>(this._DEFAULTS.dropdownPanelHeight, {
+    transform: transformDropdownPanelSize,
+  });
+  readonly dropdownPanelMinWidth = input<Nullable<number | string>, Nullable<number | string>>(
+    this._DEFAULTS.dropdownPanelMinWidth,
+    { transform: transformDropdownPanelSize }
+  );
+  readonly dropdownPanelMinHeight = input<Nullable<number | string>, Nullable<number | string>>(
+    this._DEFAULTS.dropdownPanelMinHeight,
+    { transform: transformDropdownPanelSize }
+  );
+  readonly dropdownPanelMaxWidth = input<Nullable<number | string>, Nullable<number | string>>(
+    this._DEFAULTS.dropdownPanelMaxWidth,
+    { transform: transformDropdownPanelSize }
+  );
+  readonly dropdownPanelMaxHeight = input<Nullable<number | string>, Nullable<number | string>>(
+    this._DEFAULTS.dropdownPanelMaxHeight,
+    { transform: transformDropdownPanelSize }
+  );
+
   private dropdownOverlay?: OverlayRef;
 
   private _createOverlay(): void {
     const strategy = this.overlay
       .position()
       .flexibleConnectedTo(this.dropdownHost)
+      .withFlexibleDimensions(false)
       .withPositions([
         {
           originX: 'start',
@@ -494,12 +519,30 @@ export class ArdiumSelectComponent
           overlayX: 'start',
           overlayY: 'bottom',
         },
+        {
+          originX: 'end',
+          originY: 'bottom',
+          overlayX: 'end',
+          overlayY: 'top',
+        },
+        {
+          originX: 'end',
+          originY: 'top',
+          overlayX: 'end',
+          overlayY: 'bottom',
+        },
       ]);
 
     const config = new OverlayConfig({
       positionStrategy: strategy,
       scrollStrategy: this.scrollStrategyOpts.block(),
       hasBackdrop: false,
+      width: this.dropdownPanelWidth() ?? undefined,
+      height: this.dropdownPanelHeight() ?? undefined,
+      minWidth: this.dropdownPanelMinWidth() ?? undefined,
+      minHeight: this.dropdownPanelMinHeight() ?? undefined,
+      maxWidth: this.dropdownPanelMaxWidth() ?? undefined,
+      maxHeight: this.dropdownPanelMaxHeight() ?? undefined,
     });
 
     this.dropdownOverlay = this.overlay.create(config);

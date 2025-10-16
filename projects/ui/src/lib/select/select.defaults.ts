@@ -40,6 +40,12 @@ export interface ArdSelectDefaults extends _FormFieldComponentDefaults {
   appearance: FormElementAppearance;
   variant: FormElementVariant;
   compact: boolean;
+  dropdownPanelWidth: Nullable<number | string>;
+  dropdownPanelHeight: Nullable<number | string>;
+  dropdownPanelMinWidth: Nullable<number | string>;
+  dropdownPanelMinHeight: Nullable<number | string>;
+  dropdownPanelMaxWidth: Nullable<number | string>;
+  dropdownPanelMaxHeight: Nullable<number | string>;
   dropdownAppearance: Nullable<DropdownPanelAppearance>;
   dropdownVariant: Nullable<DropdownPanelVariant>;
   multiselectable: boolean;
@@ -82,6 +88,12 @@ const _selectDefaults: ArdSelectDefaults = {
   appearance: FormElementAppearance.Outlined,
   variant: FormElementVariant.Rounded,
   compact: false,
+  dropdownPanelWidth: undefined,
+  dropdownPanelHeight: undefined,
+  dropdownPanelMinWidth: 'max-content',
+  dropdownPanelMinHeight: undefined,
+  dropdownPanelMaxWidth: undefined,
+  dropdownPanelMaxHeight: undefined,
   dropdownAppearance: undefined,
   dropdownVariant: undefined,
   multiselectable: false,

@@ -82,6 +82,10 @@
     [(value)]="selectedPeople"
   />
 </div>
+<div class="master flex align-right">
+  <span class="title">Select aligned to the left</span>
+  <ard-select [items]="fruits" style="width: 5rem; margin-left: auto;" />
+</div>
 <span class="title">Object options, customized with templates, custom search function (search by name or HEX)</span>
 <div class="grid master">
   <ard-select
@@ -142,4 +146,8 @@
     [isLoading]="isFetchingFromBackend"
     (valueChange)="log('valueChange', $event)"
   />
+</div>
+<div class="master flex align-right">
+  <span class="title">Select aligned to the left</span>
+  <ard-select [items]="fruits" />
 </div>
