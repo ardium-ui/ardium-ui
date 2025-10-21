@@ -1,25 +1,25 @@
 import { AutofillMonitor } from '@angular/cdk/text-field';
 import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    Inject,
-    Input,
-    OnDestroy,
-    OnInit,
-    ViewEncapsulation,
-    computed,
-    effect,
-    forwardRef,
-    inject,
-    input,
-    output,
-    signal,
-    viewChildren,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewEncapsulation,
+  computed,
+  effect,
+  forwardRef,
+  inject,
+  input,
+  output,
+  signal,
+  viewChildren,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { Subscription } from 'rxjs';
 import { _FormFieldComponentBase } from '../../_internal/form-field-component';
 import { ARD_FORM_FIELD_CONTROL } from '../../form-field/form-field-child.token';
@@ -128,7 +128,7 @@ export class ArdiumDigitInputComponent
   readonly variant = input<FormElementVariant>(this._DEFAULTS.variant);
   readonly shape = input<DigitInputShape>(this._DEFAULTS.shape);
 
-  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, BooleanLike>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed((): string =>
     [
@@ -184,9 +184,9 @@ export class ArdiumDigitInputComponent
   }
 
   //! value two-way binding
-  readonly outputAsString = input<boolean, any>(this._DEFAULTS.outputAsString, { transform: v => coerceBooleanProperty(v) });
+  readonly outputAsString = input<boolean, BooleanLike>(this._DEFAULTS.outputAsString, { transform: v => coerceBooleanProperty(v) });
 
-  readonly outputControlValueAccessorOnFinish = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly outputControlValueAccessorOnFinish = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
   @Input()
   set value(v: string | (string | null)[] | null) {

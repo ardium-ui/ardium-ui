@@ -1,21 +1,21 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    HostListener,
-    Inject,
-    ViewEncapsulation,
-    computed,
-    contentChild,
-    effect,
-    forwardRef,
-    input,
-    model,
-    output,
-    signal,
-    viewChildren,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  contentChild,
+  effect,
+  forwardRef,
+  HostListener,
+  Inject,
+  input,
+  model,
+  output,
+  signal,
+  viewChildren,
+  ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { coerceNumberProperty } from '@ardium-ui/devkit';
+import { coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { ArdiumStarButtonComponent } from '../star-button/star-button.component';
 import { StarColor } from '../star.types';
@@ -68,7 +68,7 @@ export class ArdiumRatingInputComponent extends _NgModelComponentBase implements
   }
 
   //! stars
-  readonly max = input<number, any>(this._DEFAULTS.max, { transform: v => coerceNumberProperty(v, this._DEFAULTS.max) });
+  readonly max = input<number, NumberLike>(this._DEFAULTS.max, { transform: v => coerceNumberProperty(v, this._DEFAULTS.max) });
 
   readonly starButtonInstances = viewChildren<ArdiumStarButtonComponent>('starButton');
   private readonly _highlightedStarIndex = signal<number | null>(null);

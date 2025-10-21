@@ -1,15 +1,15 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    Inject,
-    OnInit,
-    ViewEncapsulation,
-    computed,
-    input,
-    model,
-    output,
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnInit,
+  ViewEncapsulation,
+  computed,
+  input,
+  model,
+  output,
 } from '@angular/core';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
 import { PaginationModel } from '../_internal/models/pagination.model';
 import { ComponentColor } from '../types/colors.types';
@@ -52,16 +52,16 @@ export class ArdiumTablePaginationComponent extends _FocusableComponentBase impl
   readonly color = input<ComponentColor>(ComponentColor.Primary);
   readonly align = input<PaginationAlign>(PaginationAlign.Split);
 
-  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed(() =>
     [`ard-color-${this.color()}`, `ard-align-${this.align()}`, this.compact() ? 'ard-compact' : ''].join(' ')
   );
 
   //! miscellaneous
-  readonly useFirstLastButtons = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly useFirstLastButtons = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
-  readonly isLoading = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly isLoading = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
   readonly itemsPerPageText = input<string>('Items per page:');
 

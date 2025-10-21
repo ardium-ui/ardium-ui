@@ -1,7 +1,7 @@
 import { computed, Directive, inject, Injector, input, runInInjectionContext, Signal, signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { NgControl, Validators } from '@angular/forms';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { map, Subscription } from 'rxjs';
 import { TakeChance as Random } from 'take-chance';
 import { ARD_FORM_FIELD_CONTROL, ArdFormFieldControl } from './form-field-child.token';
@@ -30,8 +30,8 @@ export class ArdiumFormFieldNativeInputAdapterDirective implements ArdFormFieldC
     return this._required() ?? !!this._ngControl?.control?.hasValidator(Validators.required);
   }
 
-  readonly isSuccess = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly disabled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly isSuccess = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly disabled = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! form field related
   protected readonly _injector = inject(Injector);

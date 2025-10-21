@@ -11,7 +11,7 @@ import {
   signal,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { ArdFormFieldControl } from '../form-field/form-field-child.token';
 import { ArdOptionSimple, CompareWithFn, OptionContext } from '../types/item-storage.types';
 import { Nullable } from '../types/utility.types';
@@ -75,7 +75,7 @@ export abstract class _SelectableListComponentBase
   }
 
   //! multiselectable
-  readonly multiselectable = input<boolean, any>(this._DEFAULTS.multiselectable, { transform: v => coerceBooleanProperty(v) });
+  readonly multiselectable = input<boolean, BooleanLike>(this._DEFAULTS.multiselectable, { transform: v => coerceBooleanProperty(v) });
 
   @HostBinding('attr.multiple')
   @HostBinding('class.ard-multiselect')
@@ -86,7 +86,7 @@ export abstract class _SelectableListComponentBase
   readonly singleselectable = computed(() => !this.multiselectable());
 
   //! require value
-  readonly requireValue = input<boolean, any>(this._DEFAULTS.requireValue, { transform: v => coerceBooleanProperty(v) });
+  readonly requireValue = input<boolean, BooleanLike>(this._DEFAULTS.requireValue, { transform: v => coerceBooleanProperty(v) });
 
   readonly isValueRequired = computed(() => this.requireValue() || !this.multiselectable());
 
@@ -96,7 +96,7 @@ export abstract class _SelectableListComponentBase
   }
 
   //! coerced properties
-  readonly invertDisabled = input<boolean, any>(this._DEFAULTS.invertDisabled, { transform: v => coerceBooleanProperty(v) });
+  readonly invertDisabled = input<boolean, BooleanLike>(this._DEFAULTS.invertDisabled, { transform: v => coerceBooleanProperty(v) });
   readonly maxSelectedItems = input<Nullable<number>, any>(this._DEFAULTS.maxSelectedItems, {
     transform: v => coerceNumberProperty(v, undefined),
   });

@@ -1,6 +1,6 @@
 import { Directive, input } from '@angular/core';
 import { ControlValueAccessor, Validators } from '@angular/forms';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ArdFormFieldControl } from '../form-field/form-field-child.token';
 import { _NgModelComponentBase, _NgModelComponentDefaults, _ngModelComponentDefaults } from './ngmodel-component';
 
@@ -30,5 +30,5 @@ export abstract class _FormFieldComponentBase extends _NgModelComponentBase impl
     return this._required() ?? !!this._ngControl?.control?.hasValidator(Validators.required);
   }
 
-  readonly isSuccess = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly isSuccess = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 }

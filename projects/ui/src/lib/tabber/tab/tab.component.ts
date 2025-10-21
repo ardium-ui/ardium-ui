@@ -1,16 +1,16 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    HostBinding,
-    Input,
-    ViewEncapsulation,
-    computed,
-    inject,
-    input,
-    output,
-    signal,
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  Input,
+  ViewEncapsulation,
+  computed,
+  inject,
+  input,
+  output,
+  signal,
 } from '@angular/core';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ARD_TAB_DEFAULTS } from './tab.defaults';
 
 @Component({
@@ -24,7 +24,7 @@ import { ARD_TAB_DEFAULTS } from './tab.defaults';
 export class ArdiumTabComponent {
   protected readonly _DEFAULTS = inject(ARD_TAB_DEFAULTS);
 
-  readonly disabled = input<boolean, any>(this._DEFAULTS.disabled, { transform: v => coerceBooleanProperty(v) });
+  readonly disabled = input<boolean, BooleanLike>(this._DEFAULTS.disabled, { transform: v => coerceBooleanProperty(v) });
 
   readonly selected = signal<boolean>(false);
   @Input('selected')

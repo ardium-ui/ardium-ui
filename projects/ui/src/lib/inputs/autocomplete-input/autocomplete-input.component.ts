@@ -21,7 +21,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { coerceArrayProperty, coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceArrayProperty, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { isString } from 'simple-bool';
 import { SimplestItemStorage, SimplestItemStorageHost } from '../../_internal/item-storages/simplest-item-storage';
 import { DropdownPanelAppearance, DropdownPanelVariant } from '../../dropdown-panel/dropdown-panel.types';
@@ -96,7 +96,7 @@ export class ArdiumAutocompleteInputComponent
       },
     }
   );
-  readonly charlistCaseInsensitive = input<boolean, any>(this._DEFAULTS.charlistCaseInsensitive, {
+  readonly charlistCaseInsensitive = input<boolean, BooleanLike>(this._DEFAULTS.charlistCaseInsensitive, {
     transform: v => coerceBooleanProperty(v),
   });
 
@@ -149,7 +149,7 @@ export class ArdiumAutocompleteInputComponent
     () => !this.disabled() && (this.suggestionItems().length > 0 || this.areSuggestionsLoading()) && this._suggestionDropdowOpen()
   );
 
-  readonly areSuggestionsLoading = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly areSuggestionsLoading = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
   readonly suggestionsLoadingText = input<string>(this._DEFAULTS.suggestionsLoadingText);
 
   readonly suggestionTemplate = contentChild(ArdAutocompleteInputSuggestionTemplateDirective);

@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ViewEncapsulation, computed, inject, input } from '@angular/core';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import * as Color from 'color';
 import { Nullable } from '../../types/utility.types';
 import { ARD_COLOR_DISPLAY_DEFAULTS } from './color-display.defaults';
@@ -18,7 +18,7 @@ export class ArdiumColorDisplayComponent implements AfterViewInit {
 
   readonly ariaLabel = input<string>(this._DEFAULTS.ariaLabel);
 
-  readonly withLabel = input<boolean, any>(this._DEFAULTS.withLabel, { transform: v => coerceBooleanProperty(v) });
+  readonly withLabel = input<boolean, BooleanLike>(this._DEFAULTS.withLabel, { transform: v => coerceBooleanProperty(v) });
 
   //! appearance
   readonly appearance = input<ColorDisplayAppearance>(this._DEFAULTS.appearance);

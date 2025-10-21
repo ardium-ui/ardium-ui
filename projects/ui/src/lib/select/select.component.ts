@@ -33,7 +33,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { BooleanLike, NumberLike, coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { Subject, merge, startWith, takeUntil } from 'rxjs';
 import { isAnyString, isArray, isFunction } from 'simple-bool';
 import { _FormFieldComponentBase } from '../_internal/form-field-component';
@@ -139,38 +139,38 @@ export class ArdiumSelectComponent
   readonly searchInputId = input<Nullable<string>>(undefined);
   readonly inputAttrs = input<Record<string, any>>(this._DEFAULTS.inputAttrs);
   //! other inputs
-  readonly isLoading = input<boolean, any>(this._DEFAULTS.isLoading, { transform: v => coerceBooleanProperty(v) });
+  readonly isLoading = input<boolean, BooleanLike>(this._DEFAULTS.isLoading, { transform: v => coerceBooleanProperty(v) });
 
   //! boolean settings
-  readonly itemsAlreadyGrouped = input<boolean, any>(this._DEFAULTS.itemsAlreadyGrouped, {
+  readonly itemsAlreadyGrouped = input<boolean, BooleanLike>(this._DEFAULTS.itemsAlreadyGrouped, {
     transform: v => coerceBooleanProperty(v),
   });
 
-  readonly invertDisabled = input<boolean, any>(this._DEFAULTS.invertDisabled, { transform: v => coerceBooleanProperty(v) });
+  readonly invertDisabled = input<boolean, BooleanLike>(this._DEFAULTS.invertDisabled, { transform: v => coerceBooleanProperty(v) });
 
-  readonly noGroupActions = input<boolean, any>(this._DEFAULTS.noGroupActions, { transform: v => coerceBooleanProperty(v) });
-  readonly autoHighlightFirst = input<boolean, any>(this._DEFAULTS.autoHighlightFirst, {
+  readonly noGroupActions = input<boolean, BooleanLike>(this._DEFAULTS.noGroupActions, { transform: v => coerceBooleanProperty(v) });
+  readonly autoHighlightFirst = input<boolean, BooleanLike>(this._DEFAULTS.autoHighlightFirst, {
     transform: v => coerceBooleanProperty(v),
   });
-  readonly autoFocus = input<boolean, any>(this._DEFAULTS.autoFocus, { transform: v => coerceBooleanProperty(v) });
-  readonly keepOpen = input<boolean, any>(this._DEFAULTS.keepOpen, { transform: v => coerceBooleanProperty(v) });
-  readonly hideSelected = input<boolean, any>(this._DEFAULTS.hideSelected, { transform: v => coerceBooleanProperty(v) });
-  readonly noBackspaceClear = input<boolean, any>(this._DEFAULTS.noBackspaceClear, { transform: v => coerceBooleanProperty(v) });
-  readonly sortMultipleValues = input<boolean, any>(this._DEFAULTS.sortMultipleValues, {
+  readonly autoFocus = input<boolean, BooleanLike>(this._DEFAULTS.autoFocus, { transform: v => coerceBooleanProperty(v) });
+  readonly keepOpen = input<boolean, BooleanLike>(this._DEFAULTS.keepOpen, { transform: v => coerceBooleanProperty(v) });
+  readonly hideSelected = input<boolean, BooleanLike>(this._DEFAULTS.hideSelected, { transform: v => coerceBooleanProperty(v) });
+  readonly noBackspaceClear = input<boolean, BooleanLike>(this._DEFAULTS.noBackspaceClear, { transform: v => coerceBooleanProperty(v) });
+  readonly sortMultipleValues = input<boolean, BooleanLike>(this._DEFAULTS.sortMultipleValues, {
     transform: v => coerceBooleanProperty(v),
   });
-  readonly searchCaseSensitive = input<boolean, any>(this._DEFAULTS.searchCaseSensitive, {
+  readonly searchCaseSensitive = input<boolean, BooleanLike>(this._DEFAULTS.searchCaseSensitive, {
     transform: v => coerceBooleanProperty(v),
   });
-  readonly keepSearchAfterSelect = input<boolean, any>(this._DEFAULTS.keepSearchAfterSelect, {
+  readonly keepSearchAfterSelect = input<boolean, BooleanLike>(this._DEFAULTS.keepSearchAfterSelect, {
     transform: v => coerceBooleanProperty(v),
   });
 
   //! number inputs
-  readonly maxSelectedItems = input<number, any>(this._DEFAULTS.maxSelectedItems, {
+  readonly maxSelectedItems = input<number, NumberLike>(this._DEFAULTS.maxSelectedItems, {
     transform: v => coerceNumberProperty(v, this._DEFAULTS.maxSelectedItems),
   });
-  readonly itemDisplayLimit = input<number, any>(this._DEFAULTS.itemDisplayLimit, {
+  readonly itemDisplayLimit = input<number, NumberLike>(this._DEFAULTS.itemDisplayLimit, {
     transform: v => coerceNumberProperty(v, this._DEFAULTS.itemDisplayLimit),
   });
 
@@ -182,7 +182,7 @@ export class ArdiumSelectComponent
   readonly appearance = input<FormElementAppearance>(this._DEFAULTS.appearance);
   readonly variant = input<FormElementVariant>(this._DEFAULTS.variant);
 
-  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, BooleanLike>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed(() =>
     [
@@ -278,9 +278,9 @@ export class ArdiumSelectComponent
   }
 
   //! attribute and/or class setters/getters
-  readonly multiselectable = input<boolean, any>(this._DEFAULTS.multiselectable, { transform: v => coerceBooleanProperty(v) });
-  readonly clearable = input<boolean, any>(this._DEFAULTS.clearable, { transform: v => coerceBooleanProperty(v) });
-  readonly searchable = input<boolean, any>(this._DEFAULTS.searchable, { transform: v => coerceBooleanProperty(v) });
+  readonly multiselectable = input<boolean, BooleanLike>(this._DEFAULTS.multiselectable, { transform: v => coerceBooleanProperty(v) });
+  readonly clearable = input<boolean, BooleanLike>(this._DEFAULTS.clearable, { transform: v => coerceBooleanProperty(v) });
+  readonly searchable = input<boolean, BooleanLike>(this._DEFAULTS.searchable, { transform: v => coerceBooleanProperty(v) });
 
   readonly filtered = computed<boolean>(() => this.searchable() && this.searchTerm() !== '');
 

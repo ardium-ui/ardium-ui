@@ -9,7 +9,7 @@ import {
   contentChild,
   input,
 } from '@angular/core';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
 import { FormElementAppearance, FormElementVariant } from '../types/theming.types';
 import { Nullable } from '../types/utility.types';
@@ -30,8 +30,8 @@ export class ArdiumFormFieldFrameComponent extends _FocusableComponentBase {
     super(defaults);
   }
 
-  readonly hasError = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly isSuccess = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly hasError = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly isSuccess = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! focused state
   @Input({ alias: 'isFocused' })
@@ -52,7 +52,7 @@ export class ArdiumFormFieldFrameComponent extends _FocusableComponentBase {
   /**
    * Whether to use the compact styling or not.
    */
-  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed<string>(() =>
     [

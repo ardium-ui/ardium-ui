@@ -14,7 +14,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { _FormFieldComponentBase } from '../../_internal/form-field-component';
 import { ARD_FORM_FIELD_CONTROL } from '../../form-field/form-field-child.token';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
@@ -88,7 +88,7 @@ export class ArdiumHexInputComponent
   readonly appearance = input<FormElementAppearance>(this._DEFAULTS.appearance);
   readonly variant = input<FormElementVariant>(this._DEFAULTS.variant);
 
-  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, BooleanLike>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   //! settings
   readonly case = input<CaseTransformerType>(this._DEFAULTS.case);
@@ -98,11 +98,11 @@ export class ArdiumHexInputComponent
   });
   readonly maxDigitsAsInt = computed<number>(() => this.maxDigits() ?? 2_147_483_647);
 
-  readonly hideHash = input<boolean, any>(this._DEFAULTS.hideHash, { transform: v => coerceBooleanProperty(v) });
+  readonly hideHash = input<boolean, BooleanLike>(this._DEFAULTS.hideHash, { transform: v => coerceBooleanProperty(v) });
   readonly showHash = computed(() => !this.hideHash());
 
   //! clear button
-  readonly clearable = input<boolean, any>(this._DEFAULTS.clearable, { transform: v => coerceBooleanProperty(v) });
+  readonly clearable = input<boolean, BooleanLike>(this._DEFAULTS.clearable, { transform: v => coerceBooleanProperty(v) });
 
   readonly clearButtonTitle = input<string>(this._DEFAULTS.clearButtonTitle);
 

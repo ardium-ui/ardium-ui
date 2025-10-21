@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, contentChild, inject, input } from '@angular/core';
-import { coerceNumberProperty } from '@ardium-ui/devkit';
+import { ChangeDetectionStrategy, Component, computed, contentChild, inject, input, ViewEncapsulation } from '@angular/core';
+import { coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
 import { isArray, isNumber } from 'simple-bool';
 import { StarColor, StarFillMode } from './../star.types';
 import { ARD_RATING_DISPLAY_DEFAULTS } from './rating-display.defaults';
@@ -25,7 +25,7 @@ export class ArdiumRatingDisplayComponent {
   readonly ngClasses = computed<string>(() => [this.wrapperClasses(), `ard-color-${this.color}`].join(' '));
 
   //! stars
-  readonly max = input<number, any>(this._DEFAULTS.max, { transform: v => coerceNumberProperty(v, this._DEFAULTS.max) });
+  readonly max = input<number, NumberLike>(this._DEFAULTS.max, { transform: v => coerceNumberProperty(v, this._DEFAULTS.max) });
 
   readonly value = input<number | StarFillMode[], string | number | StarFillMode[]>(this._DEFAULTS.value, {
     transform: v => {

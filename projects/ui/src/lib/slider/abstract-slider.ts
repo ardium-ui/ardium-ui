@@ -15,7 +15,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { BooleanLike, NumberLike, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { roundToMultiple, roundToPrecision } from 'more-rounding';
 import { isDefined, isObject } from 'simple-bool';
 import { _NgModelComponentBase, _NgModelComponentDefaults, _ngModelComponentDefaults } from '../_internal/ngmodel-component';
@@ -78,17 +78,17 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   protected readonly scrollStrategyOpts = inject(ScrollStrategyOptions);
   protected readonly viewContainerRef = inject(ViewContainerRef);
 
-  readonly noTooltip = input<boolean, any>(this._DEFAULTS.noTooltip, { transform: v => coerceBooleanProperty(v) });
+  readonly noTooltip = input<boolean, BooleanLike>(this._DEFAULTS.noTooltip, { transform: v => coerceBooleanProperty(v) });
 
   readonly tooltipFormatFn = input<Nullable<SliderTooltipFormatFn>>(this._DEFAULTS.formatTooltipFn);
 
   protected abstract _updateTooltipValue(): void;
 
   //! min, max, step sizes
-  readonly min = input<number, any>(this._DEFAULTS.min, { transform: v => coerceNumberProperty(v, this._DEFAULTS.min) });
-  readonly max = input<number, any>(this._DEFAULTS.max, { transform: v => coerceNumberProperty(v, this._DEFAULTS.max) });
+  readonly min = input<number, NumberLike>(this._DEFAULTS.min, { transform: v => coerceNumberProperty(v, this._DEFAULTS.min) });
+  readonly max = input<number, NumberLike>(this._DEFAULTS.max, { transform: v => coerceNumberProperty(v, this._DEFAULTS.max) });
 
-  readonly step = input<number, any>(this._DEFAULTS.step, {
+  readonly step = input<number, NumberLike>(this._DEFAULTS.step, {
     transform: v => {
       const step = coerceNumberProperty(v, this._DEFAULTS.step);
       if (step === 0) {
@@ -103,14 +103,14 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     },
   });
 
-  readonly shiftMultiplier = input<number, any>(this._DEFAULTS.shiftMultiplier, {
+  readonly shiftMultiplier = input<number, NumberLike>(this._DEFAULTS.shiftMultiplier, {
     transform: v => coerceNumberProperty(v, this._DEFAULTS.shiftMultiplier),
   });
 
   protected readonly _stepSizeComputed = computed<number>(() => this.step() / Math.abs(this.min() - this.max()));
 
   //! value ticks
-  readonly showValueTicks = input<boolean, any>(this._DEFAULTS.showValueTicks, { transform: v => coerceBooleanProperty(v) });
+  readonly showValueTicks = input<boolean, BooleanLike>(this._DEFAULTS.showValueTicks, { transform: v => coerceBooleanProperty(v) });
 
   readonly percentStepSize = computed<number>(() => this._stepSizeComputed() * 100);
 
@@ -151,7 +151,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   //! appearance
   readonly color = input<SimpleComponentColor>(SimpleComponentColor.Primary);
 
-  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed<string>(() =>
     [

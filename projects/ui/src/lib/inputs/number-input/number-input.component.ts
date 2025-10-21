@@ -1,21 +1,21 @@
 import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    Inject,
-    Input,
-    ViewEncapsulation,
-    computed,
-    contentChild,
-    effect,
-    forwardRef,
-    input,
-    output,
-    viewChild,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  contentChild,
+  effect,
+  ElementRef,
+  forwardRef,
+  Inject,
+  Input,
+  input,
+  output,
+  viewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty, coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
 import { roundToPrecision } from 'more-rounding';
 import { isDefined } from 'simple-bool';
 import { _FormFieldComponentBase } from '../../_internal/form-field-component';
@@ -91,7 +91,7 @@ export class ArdiumNumberInputComponent
   readonly variant = input<FormElementVariant>(FormElementVariant.Rounded);
   readonly alignText = input<OneAxisAlignment>(OneAxisAlignment.Middle);
 
-  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed((): string => {
     return [
@@ -147,17 +147,17 @@ export class ArdiumNumberInputComponent
   }>({ alias: 'quickChange' });
 
   //! min/max and number type
-  readonly min = input<number, any>(0, { transform: v => coerceNumberProperty(v, 0) });
-  readonly max = input<number, any>(999999, { transform: v => coerceNumberProperty(v, 999999) });
+  readonly min = input<number, NumberLike>(0, { transform: v => coerceNumberProperty(v, 0) });
+  readonly max = input<number, NumberLike>(999999, { transform: v => coerceNumberProperty(v, 999999) });
 
-  readonly allowFloat = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly allowFloat = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! incerement/decrement buttons
-  readonly noButtons = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly noButtons = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
-  readonly keepFocusOnQuickChangeButton = input<boolean, any>(true, { transform: v => coerceBooleanProperty(v) });
+  readonly keepFocusOnQuickChangeButton = input<boolean, BooleanLike>(true, { transform: v => coerceBooleanProperty(v) });
 
-  readonly stepSize = input<number, any>(1, {
+  readonly stepSize = input<number, NumberLike>(1, {
     transform: v => {
       const newValue = coerceNumberProperty(v, 1);
       if (newValue === 0) throw new Error(`ARD-FT0071a: Cannot set <ard-number-input>'s [stepSize] to 0.`);

@@ -1,15 +1,15 @@
 import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    ViewEncapsulation,
-    computed,
-    inject,
-    input,
-    viewChild,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  ViewEncapsulation,
+  computed,
+  inject,
+  input,
+  viewChild,
 } from '@angular/core';
-import { coerceArrayProperty, coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceArrayProperty, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ARD_KBD_DEFAULTS } from '../kbd/kbd.defaults';
 import { FormElementAppearance } from '../types/theming.types';
 import { Nullable } from '../types/utility.types';
@@ -40,7 +40,7 @@ export class ArdiumKbdShortcutComponent implements AfterViewInit {
     transform: v => coerceArrayProperty(v, this.splitRegex),
   });
 
-  readonly full = input<boolean, any>(this._DEFAULTS.full ?? this._KBD_DEFAULTS.full, {
+  readonly full = input<boolean, BooleanLike>(this._DEFAULTS.full ?? this._KBD_DEFAULTS.full, {
     transform: v => coerceBooleanProperty(v),
   });
 

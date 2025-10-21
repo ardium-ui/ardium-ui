@@ -23,7 +23,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { coerceBooleanProperty, coerceDateProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty, coerceDateProperty, coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
 import { isDefined, isNull } from 'simple-bool';
 import { _FormFieldComponentBase } from '../../_internal/form-field-component';
 import { getUTCDate } from '../../_internal/utils/date.utils';
@@ -105,9 +105,9 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
 
   readonly placeholder = input<string>(this._DEFAULTS.placeholder);
 
-  readonly inputReadOnly = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly calendarDisabled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly calendarHidden = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly inputReadOnly = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly calendarDisabled = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly calendarHidden = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! serialization/deserialization
   readonly serializeFn = input<ArdDateInputSerializeFn>(this._DEFAULTS.serializeFn);
@@ -229,7 +229,7 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
   readonly variant = input<FormElementVariant>(this._DEFAULTS.variant);
   readonly color = input<ComponentColor>(this._DEFAULTS.color);
 
-  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, BooleanLike>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed(() =>
     [
@@ -262,7 +262,7 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
   readonly activeYear = model<number>(this._DEFAULTS.activeYear);
   readonly activeMonth = model<number>(this._DEFAULTS.activeMonth);
 
-  readonly firstWeekday = input<number, any>(this._DEFAULTS.firstWeekday, {
+  readonly firstWeekday = input<number, NumberLike>(this._DEFAULTS.firstWeekday, {
     transform: v => {
       const value = coerceNumberProperty(v, this._DEFAULTS.firstWeekday);
       if (!Number.isInteger(value)) {
@@ -282,7 +282,7 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
     },
   });
 
-  readonly multipleYearPageChangeModifier = input<number, any>(this._DEFAULTS.multipleYearPageChangeModifier, {
+  readonly multipleYearPageChangeModifier = input<number, NumberLike>(this._DEFAULTS.multipleYearPageChangeModifier, {
     transform: v => {
       const value = coerceNumberProperty(v, this._DEFAULTS.multipleYearPageChangeModifier);
       if (!Number.isInteger(value) || value < 1) {
@@ -300,7 +300,7 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
   readonly min = input<Date | null, any>(this._DEFAULTS.min, { transform: v => coerceDateProperty(v, this._DEFAULTS.min) });
   readonly max = input<Date | null, any>(this._DEFAULTS.max, { transform: v => coerceDateProperty(v, this._DEFAULTS.max) });
 
-  readonly UTC = input<boolean, any>(this._DEFAULTS.UTC, { transform: v => coerceBooleanProperty(v) });
+  readonly UTC = input<boolean, BooleanLike>(this._DEFAULTS.UTC, { transform: v => coerceBooleanProperty(v) });
   readonly _UTCAfterInit = signal<boolean>(this._DEFAULTS.UTC);
 
   readonly filter = input<ArdCalendarFilterFn | null>(this._DEFAULTS.filter);
@@ -322,7 +322,7 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
   readonly monthSelect = output<number>();
 
   //! calendar controls
-  readonly useAcceptButtonToSelect = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly useAcceptButtonToSelect = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
   private _valueToAccept: Date | null = null;
 

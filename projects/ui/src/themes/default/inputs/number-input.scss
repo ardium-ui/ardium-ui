@@ -24,11 +24,13 @@ ard-number-input {
 
     & > input {
       width: 100%;
+      padding: 0 0.5rem;
     }
   }
 
   .ard-quick-change-button {
     position: relative;
+    min-width: 2.1875rem;
 
     .ard-button {
       height: 100%;
@@ -114,6 +116,10 @@ ard-number-input {
     min-height: 1.6875rem;
     height: 1.6875rem;
     font-size: 0.925rem;
+
+    .ard-quick-change-button {
+      min-width: 1.6875rem;
+    }
   }
 }
 

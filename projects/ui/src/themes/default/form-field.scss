@@ -51,9 +51,9 @@ ard-horizontal-form-field {
   .ard-hint,
   .ard-error {
     font-size: 1em;
-    line-height: 1.1;
+    line-height: 1.2;
     display: inline-grid;
-    min-height: 1.1em;
+    min-height: 1.2em;
   }
   .ard-hint {
     color: ARD.$text2;
@@ -66,17 +66,20 @@ ard-horizontal-form-field {
   .ard-error:not(.ard-hint-error) {
     animation: errorAppear 0.25s ARD.$timing-fn forwards;
   }
-  .ard-form-field__default-hint, .ard-form-field__default-error {
+  .ard-form-field__default-hint,
+  .ard-form-field__default-error {
     gap: 0.375em;
   }
 
   &.ard-form-field__with-error {
-    .ard-label {
+    .ard-label,
+    ard-label {
       color: ARD.$danger700;
     }
   }
   &.ard-form-field__is-success {
-    .ard-label {
+    .ard-label,
+    ard-label {
       color: ARD.$success700;
     }
   }
@@ -97,6 +100,7 @@ ard-horizontal-form-field {
 
   .ard-form-field__label-container {
     width: var(--ard-horizontal-form-field-label-width, 12rem);
+    min-width: var(--ard-horizontal-form-field-label-width, 12rem);
     height: ARD.$form-field-height;
     display: flex;
     align-items: center;
@@ -111,6 +115,10 @@ ard-horizontal-form-field {
       height: ARD.$form-field-compact-height;
     }
   }
+}
+
+ard-label {
+  display: flex;
 }
 
 @keyframes errorAppear {

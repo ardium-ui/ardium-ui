@@ -12,6 +12,7 @@ import {
   viewChild,
 } from '@angular/core';
 import {
+  BooleanLike,
   coerceBooleanProperty,
   coerceNumberProperty,
   FileSystemMethod,
@@ -54,15 +55,15 @@ export abstract class _FileInputComponentBase extends _FormFieldComponentBase im
   }
 
   //! appearance
-  readonly compact = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! settings
-  readonly multiple = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly multiple = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
   readonly maxFiles = input<Nullable<number>, any>(null, { transform: v => coerceNumberProperty(v, null) });
 
   readonly maxFilesWithMultiple = computed<number>(() => (this.multiple() ? this.maxFiles() ?? Infinity : 1));
 
-  readonly blockAfterUpload = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly blockAfterUpload = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
   get shouldBeBlocked(): boolean {
     return this.blockAfterUpload() && isDefined(this.value);

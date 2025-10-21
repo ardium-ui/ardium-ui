@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, forwardRef, Inject, input, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { SimpleOneAxisAlignment } from '../../types/alignment.types';
 import { ComponentColor } from '../../types/colors.types';
 import { DecorationElementAppearance, FormElementVariant } from '../../types/theming.types';
@@ -29,7 +29,7 @@ export class ArdiumSelectableChipComponent extends _BooleanComponentBase impleme
   }
 
   readonly chipTitle = input<string>(this._DEFAULTS.chipTitle);
-  readonly hideSelectionIcon = input<boolean, any>(this._DEFAULTS.hideSelectionIcon, {
+  readonly hideSelectionIcon = input<boolean, BooleanLike>(this._DEFAULTS.hideSelectionIcon, {
     transform: v => coerceBooleanProperty(v),
   });
 
@@ -39,7 +39,7 @@ export class ArdiumSelectableChipComponent extends _BooleanComponentBase impleme
   readonly variant = input<FormElementVariant>(this._DEFAULTS.variant);
   readonly color = input<ComponentColor>(this._DEFAULTS.color);
 
-  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, BooleanLike>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   readonly wrapperClasses = input<string>('');
 

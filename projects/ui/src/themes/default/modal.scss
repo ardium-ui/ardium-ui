@@ -15,8 +15,9 @@
   .ard-modal-panel {
     padding: 1.25rem;
     padding-top: 1rem;
-    background: ARD.$bg;
     max-width: calc(100vw - 4rem);
+    max-height: calc(100vh - 4rem);
+    background: ARD.$bg;
     position: relative;
     display: flex;
     flex-direction: column;

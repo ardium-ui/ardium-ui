@@ -15,7 +15,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { PanelAppearance, PanelVariant } from '../types/theming.types';
 import { ARD_MODAL_DEFAULTS } from './modal.defaults';
 import { ArdModalCloseIconTemplateDirective } from './modal.directives';
@@ -39,7 +39,7 @@ export class ArdiumModalComponent {
   readonly appearance = input<PanelAppearance>(this._DEFAULTS.appearance);
   readonly variant = input<PanelVariant>(this._DEFAULTS.variant);
 
-  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, BooleanLike>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed(() =>
     [`ard-variant-${this.variant()}`, `ard-appearance-${this.appearance()}`, this.compact() ? 'ard-compact' : ''].join(' ')
@@ -48,15 +48,15 @@ export class ArdiumModalComponent {
   //! heading
   readonly heading = input<string>(this._DEFAULTS.heading);
 
-  readonly noCloseButton = input<boolean, any>(this._DEFAULTS.noCloseButton, { transform: v => coerceBooleanProperty(v) });
+  readonly noCloseButton = input<boolean, BooleanLike>(this._DEFAULTS.noCloseButton, { transform: v => coerceBooleanProperty(v) });
 
   //! options
-  readonly noBackdrop = input<boolean, any>(this._DEFAULTS.noBackdrop, { transform: v => coerceBooleanProperty(v) });
-  readonly disableBackdropClose = input<boolean, any>(this._DEFAULTS.disableBackdropClose, {
+  readonly noBackdrop = input<boolean, BooleanLike>(this._DEFAULTS.noBackdrop, { transform: v => coerceBooleanProperty(v) });
+  readonly disableBackdropClose = input<boolean, BooleanLike>(this._DEFAULTS.disableBackdropClose, {
     transform: v => coerceBooleanProperty(v),
   });
 
-  readonly allActionsDisabled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly allActionsDisabled = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! open state handling
   private readonly open = signal<boolean>(false);

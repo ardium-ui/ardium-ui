@@ -1,16 +1,16 @@
 import {
-    AfterContentInit,
-    ChangeDetectionStrategy,
-    Component,
-    Inject,
-    ViewEncapsulation,
-    computed,
-    contentChild,
-    forwardRef,
-    input,
+  AfterContentInit,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  contentChild,
+  forwardRef,
+  Inject,
+  input,
+  ViewEncapsulation,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty, coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
 import { _SelectableListComponentBase } from '../_internal/selectable-list-component';
 import { ARD_FORM_FIELD_CONTROL } from '../form-field/form-field-child.token';
 import { OneAxisAlignment } from '../types/alignment.types';
@@ -60,8 +60,8 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
   readonly color = input<ComponentColor>(this._DEFAULTS.color);
   readonly align = input<OneAxisAlignment>(this._DEFAULTS.align);
 
-  readonly iconBased = input<boolean, any>(this._DEFAULTS.iconBased, { transform: v => coerceBooleanProperty(v) });
-  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
+  readonly iconBased = input<boolean, BooleanLike>(this._DEFAULTS.iconBased, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, BooleanLike>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed<string>(() =>
     [
@@ -76,10 +76,10 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
   );
 
   //! coerced properties
-  readonly autoFocus = input<boolean, any>(this._DEFAULTS.autoFocus, { transform: v => coerceBooleanProperty(v) });
-  readonly uniformWidths = input<boolean, any>(this._DEFAULTS.uniformWidths, { transform: v => coerceBooleanProperty(v) });
+  readonly autoFocus = input<boolean, BooleanLike>(this._DEFAULTS.autoFocus, { transform: v => coerceBooleanProperty(v) });
+  readonly uniformWidths = input<boolean, BooleanLike>(this._DEFAULTS.uniformWidths, { transform: v => coerceBooleanProperty(v) });
 
-  readonly itemsPerRow = input<number, any>(this._DEFAULTS.itemsPerRow, {
+  readonly itemsPerRow = input<number, NumberLike>(this._DEFAULTS.itemsPerRow, {
     transform: v => {
       const newValue = coerceNumberProperty(v, this._DEFAULTS.itemsPerRow);
       if (newValue === 0) throw new Error(`ARD-FT1040a: Cannot set <ard-segment>'s [itemsPerRow] to 0.`);

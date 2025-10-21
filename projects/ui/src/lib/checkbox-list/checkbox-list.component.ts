@@ -1,18 +1,18 @@
 import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    Component,
-    HostBinding,
-    Inject,
-    Input,
-    ViewEncapsulation,
-    computed,
-    contentChild,
-    input,
-    output,
-    signal,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  contentChild,
+  HostBinding,
+  Inject,
+  Input,
+  input,
+  output,
+  signal,
+  ViewEncapsulation,
 } from '@angular/core';
-import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty, coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
 import { SimpleItemStorage, SimpleItemStorageHost } from '../_internal/item-storages/simple-item-storage';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ComponentColor } from '../types/colors.types';
@@ -64,9 +64,9 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
 
   readonly compareWith = input<Nullable<CompareWithFn>>(this._DEFAULTS.compareWith);
 
-  readonly invertDisabled = input<boolean, any>(this._DEFAULTS.invertDisabled, { transform: v => coerceBooleanProperty(v) });
+  readonly invertDisabled = input<boolean, BooleanLike>(this._DEFAULTS.invertDisabled, { transform: v => coerceBooleanProperty(v) });
 
-  readonly maxSelectedItems = input<number, any>(this._DEFAULTS.maxSelectedItems, {
+  readonly maxSelectedItems = input<number, NumberLike>(this._DEFAULTS.maxSelectedItems, {
     transform: v => coerceNumberProperty(v, this._DEFAULTS.maxSelectedItems),
   });
 
@@ -74,7 +74,7 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
   readonly color = input<ComponentColor>(this._DEFAULTS.color);
   readonly align = input<CheckboxListAlignType>(this._DEFAULTS.align);
 
-  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, BooleanLike>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed(() =>
     [`ard-color-${this.color()}`, `ard-align-${this.align()}`, this.compact() ? 'ard-compact' : ''].join(' ')

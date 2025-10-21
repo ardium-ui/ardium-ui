@@ -1,5 +1,5 @@
 import { computed, contentChild, contentChildren, Directive, inject, input } from '@angular/core';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { isFunction } from 'simple-bool';
 import { SimpleOneAxisAlignment } from '../types/alignment.types';
 import { ArdiumErrorDirective } from './error/error.directive';
@@ -49,7 +49,7 @@ export abstract class _FormFieldBase {
   readonly hasAnyHint = computed<boolean>(() => this.hints().length > 0 || this.hintErrors().length > 0);
   readonly hasAnyError = computed<boolean>(() => this.errors().length > 0);
 
-  readonly reserveHintLine = input<boolean, any>(this._DEFAULTS.reserveHintLine, { transform: v => coerceBooleanProperty(v) });
+  readonly reserveHintLine = input<boolean, BooleanLike>(this._DEFAULTS.reserveHintLine, { transform: v => coerceBooleanProperty(v) });
 
   ngOnInit(): void {
     if (!this.control()) {

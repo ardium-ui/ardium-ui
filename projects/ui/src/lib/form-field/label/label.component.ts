@@ -1,5 +1,5 @@
 import { Component, effect, inject, input } from '@angular/core';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ARD_FORM_FIELD_DEFAULTS } from '../form-field.defaults';
 
 @Component({
@@ -13,8 +13,8 @@ import { ARD_FORM_FIELD_DEFAULTS } from '../form-field.defaults';
 export class ArdiumLabelComponent {
   protected readonly _DEFAULTS = inject(ARD_FORM_FIELD_DEFAULTS);
 
-  readonly required = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly optional = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly required = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly optional = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
   readonly requiredText = input<string>(this._DEFAULTS.labelRequiredText);
   readonly optionalText = input<string>(this._DEFAULTS.labelOptionalText);

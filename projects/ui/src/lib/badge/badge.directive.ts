@@ -10,7 +10,7 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ComponentColor } from '../types/colors.types';
 import { FormElementVariant } from '../types/theming.types';
 import { Nullable } from '../types/utility.types';
@@ -53,8 +53,8 @@ export class ArdiumBadgeDirective implements OnChanges, AfterViewInit, OnDestroy
 
   readonly ariaLabel = input<string>('', { alias: 'ardBadgeAriaLabel' });
 
-  readonly hidden = input<boolean, any>(false, { alias: 'ardBadgeHidden', transform: v => coerceBooleanProperty(v) });
-  readonly overlap = input<boolean, any>(this._DEFAULTS.overlap, {
+  readonly hidden = input<boolean, BooleanLike>(false, { alias: 'ardBadgeHidden', transform: v => coerceBooleanProperty(v) });
+  readonly overlap = input<boolean, BooleanLike>(this._DEFAULTS.overlap, {
     alias: 'ardBadgeOverlap',
     transform: v => coerceBooleanProperty(v),
   });

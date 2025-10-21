@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, ViewEncapsulation } from '@angular/core';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 
 @Component({
   standalone: false,
@@ -14,5 +14,5 @@ export class ArdiumTextListComponent {
 
   readonly separator = input<string>(', ');
 
-  readonly filter = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly filter = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 }

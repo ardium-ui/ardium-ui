@@ -1,5 +1,5 @@
 import { Directive, input, Signal } from '@angular/core';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
 import { ButtonType } from '../types/button.types';
 import { ComponentColor } from '../types/colors.types';
@@ -23,10 +23,10 @@ export abstract class _ButtonBase extends _FocusableComponentBase {
   readonly appearance = input<ButtonAppearance>(this._DEFAULTS.appearance);
   readonly color = input<ComponentColor>(this._DEFAULTS.color);
 
-  readonly lightColoring = input<boolean, any>(this._DEFAULTS.lightColoring, { transform: v => coerceBooleanProperty(v) });
-  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
+  readonly lightColoring = input<boolean, BooleanLike>(this._DEFAULTS.lightColoring, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, BooleanLike>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
-  readonly pointerEventsWhenDisabled = input<boolean, any>(this._DEFAULTS.pointerEventsWhenDisabled, {
+  readonly pointerEventsWhenDisabled = input<boolean, BooleanLike>(this._DEFAULTS.pointerEventsWhenDisabled, {
     transform: v => coerceBooleanProperty(v),
   });
 

@@ -1,21 +1,21 @@
 import {
-    AfterContentInit,
-    ChangeDetectionStrategy,
-    Component,
-    Inject,
-    Input,
-    OnChanges,
-    SimpleChanges,
-    TemplateRef,
-    ViewEncapsulation,
-    computed,
-    contentChild,
-    contentChildren,
-    input,
-    model,
-    output,
+  AfterContentInit,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  contentChild,
+  contentChildren,
+  Inject,
+  Input,
+  input,
+  model,
+  OnChanges,
+  output,
+  SimpleChanges,
+  TemplateRef,
+  ViewEncapsulation,
 } from '@angular/core';
-import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty, coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
 import { isDefined, isNumber } from 'simple-bool';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
 import { CheckboxState } from '../checkbox/checkbox.types';
@@ -26,23 +26,23 @@ import { Nullable } from '../types/utility.types';
 import { ArdTableRow, HeaderCell, TableItemStorage, TableItemStorageHost } from './table-item-storage';
 import { ARD_TABLE_DEFAULTS, ArdTableDefaults } from './table.defaults';
 import {
-    ArdiumTableCaptionTemplateDirective,
-    ArdiumTableCheckboxTemplateDirective,
-    ArdiumTableHeaderCheckboxTemplateDirective,
-    ArdiumTableTemplateDirective,
+  ArdiumTableCaptionTemplateDirective,
+  ArdiumTableCheckboxTemplateDirective,
+  ArdiumTableHeaderCheckboxTemplateDirective,
+  ArdiumTableTemplateDirective,
 } from './table.directives';
 import {
-    TableAlignType,
-    TableAppearance,
-    TableCaptionContext,
-    TableCheckboxContext,
-    TableDataColumn,
-    TableHeaderCheckboxContext,
-    TableHeaderContext,
-    TablePaginationStrategy,
-    TableSubheader,
-    TableSubheaderContext,
-    TableVariant,
+  TableAlignType,
+  TableAppearance,
+  TableCaptionContext,
+  TableCheckboxContext,
+  TableDataColumn,
+  TableHeaderCheckboxContext,
+  TableHeaderContext,
+  TablePaginationStrategy,
+  TableSubheader,
+  TableSubheaderContext,
+  TableVariant,
 } from './table.types';
 import { isTableSubheader } from './utils';
 
@@ -64,25 +64,25 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
 
   readonly rowDisabledFrom = input<string>(this._DEFAULTS.rowDisabledFrom);
   readonly rowBoldFrom = input<string>(this._DEFAULTS.rowBoldFrom);
-  readonly invertRowDisabled = input<boolean, any>(this._DEFAULTS.invertRowDisabled, {
+  readonly invertRowDisabled = input<boolean, BooleanLike>(this._DEFAULTS.invertRowDisabled, {
     transform: v => coerceBooleanProperty(v),
   });
-  readonly invertRowBold = input<boolean, any>(this._DEFAULTS.invertRowBold, { transform: v => coerceBooleanProperty(v) });
+  readonly invertRowBold = input<boolean, BooleanLike>(this._DEFAULTS.invertRowBold, { transform: v => coerceBooleanProperty(v) });
 
-  readonly selectableRows = input<boolean, any>(this._DEFAULTS.selectableRows, { transform: v => coerceBooleanProperty(v) });
+  readonly selectableRows = input<boolean, BooleanLike>(this._DEFAULTS.selectableRows, { transform: v => coerceBooleanProperty(v) });
   readonly maxSelectedItems = input<Nullable<number>, any>(this._DEFAULTS.maxSelectedItems, {
     transform: v => coerceNumberProperty(v, this._DEFAULTS.maxSelectedItems),
   });
 
-  readonly clickableRows = input<boolean, any>(this._DEFAULTS.clickableRows, { transform: v => coerceBooleanProperty(v) });
+  readonly clickableRows = input<boolean, BooleanLike>(this._DEFAULTS.clickableRows, { transform: v => coerceBooleanProperty(v) });
 
   readonly caption = input<Nullable<string>>(this._DEFAULTS.caption);
 
-  readonly isLoading = input<boolean, any>(this._DEFAULTS.isLoading, { transform: v => coerceBooleanProperty(v) });
-  readonly loadingProgress = input<number, any>(this._DEFAULTS.loadingProgress, {
+  readonly isLoading = input<boolean, BooleanLike>(this._DEFAULTS.isLoading, { transform: v => coerceBooleanProperty(v) });
+  readonly loadingProgress = input<number, NumberLike>(this._DEFAULTS.loadingProgress, {
     transform: v => coerceNumberProperty(v, this._DEFAULTS.loadingProgress),
   });
-  readonly loadingProgressBuffer = input<number, any>(this._DEFAULTS.loadingProgressBuffer, {
+  readonly loadingProgressBuffer = input<number, NumberLike>(this._DEFAULTS.loadingProgressBuffer, {
     transform: v => coerceNumberProperty(v, this._DEFAULTS.loadingProgressBuffer),
   });
   readonly loadingBarMode = input<ProgressBarMode>(this._DEFAULTS.loadingBarMode);
@@ -95,9 +95,9 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
   readonly align = input<TableAlignType>(this._DEFAULTS.align);
   readonly headerAlign = input<TableAlignType>(this._DEFAULTS.headerAlign);
 
-  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
-  readonly zebra = input<boolean, any>(this._DEFAULTS.zebra, { transform: v => coerceBooleanProperty(v) });
-  readonly stickyHeader = input<boolean, any>(this._DEFAULTS.stickyHeader, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, BooleanLike>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
+  readonly zebra = input<boolean, BooleanLike>(this._DEFAULTS.zebra, { transform: v => coerceBooleanProperty(v) });
+  readonly stickyHeader = input<boolean, BooleanLike>(this._DEFAULTS.stickyHeader, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed(() =>
     [
@@ -115,7 +115,7 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
   );
 
   //! pagination
-  readonly paginated = input<boolean, any>(this._DEFAULTS.paginated, { transform: v => coerceBooleanProperty(v) });
+  readonly paginated = input<boolean, BooleanLike>(this._DEFAULTS.paginated, { transform: v => coerceBooleanProperty(v) });
   readonly paginationStrategy = input<TablePaginationStrategy>(this._DEFAULTS.paginationStrategy);
   readonly paginationOptions = input<
     number[] | { value: number; label: string }[],
@@ -144,13 +144,13 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
   readonly itemsPerPageText = input<string>(this._DEFAULTS.itemsPerPageText);
   readonly currentItemsFormatFn = input<CurrentItemsFormatFn>(this._DEFAULTS.currentItemsFormatFn);
 
-  readonly pageFillRemaining = input<boolean, any>(this._DEFAULTS.pageFillRemaining, {
+  readonly pageFillRemaining = input<boolean, BooleanLike>(this._DEFAULTS.pageFillRemaining, {
     transform: v => coerceBooleanProperty(v),
   });
-  readonly paginationDisabled = input<boolean, any>(this._DEFAULTS.paginationDisabled, {
+  readonly paginationDisabled = input<boolean, BooleanLike>(this._DEFAULTS.paginationDisabled, {
     transform: v => coerceBooleanProperty(v),
   });
-  readonly useFirstLastButtons = input<boolean, any>(this._DEFAULTS.useFirstLastButtons, {
+  readonly useFirstLastButtons = input<boolean, BooleanLike>(this._DEFAULTS.useFirstLastButtons, {
     transform: v => coerceBooleanProperty(v),
   });
 
@@ -222,7 +222,7 @@ export class ArdiumTableComponent extends _FocusableComponentBase implements Tab
     return this._data;
   }
 
-  readonly treatDataSourceAsString = input<boolean, any>(this._DEFAULTS.treatDataSourceAsString, {
+  readonly treatDataSourceAsString = input<boolean, BooleanLike>(this._DEFAULTS.treatDataSourceAsString, {
     transform: v => coerceBooleanProperty(v),
   });
 

@@ -22,7 +22,7 @@ export class ArdiumFabComponent extends _ButtonBase {
   //! appearance
   readonly size = input<FabSize>(FabSize.Standard);
 
-  // readonly extended = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  // readonly extended = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed(() =>
     [

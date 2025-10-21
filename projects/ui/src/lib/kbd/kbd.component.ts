@@ -1,15 +1,15 @@
 import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    ViewEncapsulation,
-    computed,
-    inject,
-    input,
-    viewChild,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  ViewEncapsulation,
+  computed,
+  inject,
+  input,
+  viewChild,
 } from '@angular/core';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { FormElementAppearance } from './../types/theming.types';
 import { ARD_KBD_DEFAULTS } from './kbd.defaults';
 
@@ -33,7 +33,7 @@ export class ArdiumKbdComponent implements AfterViewInit {
   }
 
   readonly key = input<string>('');
-  readonly full = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly full = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! appearance
   readonly appearance = input<FormElementAppearance>(FormElementAppearance.Filled);

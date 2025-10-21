@@ -19,14 +19,16 @@ ard-radio {
   outline: none;
   font-size: 1em;
   display: flex;
-  gap: 0.375em;
+  align-items: center;
+  gap: 0.75rem;
   padding: 0;
   width: 100%;
 
   > .ard-radio-circles {
     position: relative;
     width: 1.25em;
-    height: 1.25em;
+    min-width: 1.25em;
+    aspect-ratio: 1;
 
     > .ard-radio-outer-circle {
       position: absolute;
@@ -34,7 +36,7 @@ ard-radio {
       right: 0;
       top: 0;
       bottom: 0;
-      border: 2px solid ARD.$detail;
+      border: 0.125em solid ARD.$detail;
       border-radius: 9999px;
       transition: border-color 0.2s ARD.$timing-fn;
     }

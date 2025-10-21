@@ -1,5 +1,5 @@
 import { AfterViewInit, computed, Directive, ElementRef, input, Input, output, viewChild } from '@angular/core';
-import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import {
   _FormFieldComponentBase,
   _FormFieldComponentDefaults,
@@ -72,7 +72,7 @@ export abstract class _SimpleInputComponentBase extends _FormFieldComponentBase 
   readonly variant = input<FormElementVariant>(this._DEFAULTS.variant);
   readonly alignText = input<SimpleOneAxisAlignment>(this._DEFAULTS.alignText);
 
-  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, BooleanLike>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed((): string =>
     [
@@ -95,7 +95,7 @@ export abstract class _SimpleInputComponentBase extends _FormFieldComponentBase 
   readonly maxLengthAsInt = computed<number>(() => this.maxLength() ?? 2_147_483_647);
 
   //! no-value attribute setters/getters
-  readonly clearable = input<boolean, any>(this._DEFAULTS.clearable, { transform: v => coerceBooleanProperty(v) });
+  readonly clearable = input<boolean, BooleanLike>(this._DEFAULTS.clearable, { transform: v => coerceBooleanProperty(v) });
 
   //! control value accessor's write value implementation
   writeValue(v: any) {

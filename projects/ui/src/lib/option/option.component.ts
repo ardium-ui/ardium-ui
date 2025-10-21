@@ -1,17 +1,17 @@
 import {
-    AfterViewChecked,
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    OnChanges,
-    OnDestroy,
-    SimpleChanges,
-    ViewEncapsulation,
-    computed,
-    inject,
-    input,
+  AfterViewChecked,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  OnChanges,
+  OnDestroy,
+  SimpleChanges,
+  ViewEncapsulation,
+  computed,
+  inject,
+  input,
 } from '@angular/core';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { Subject } from 'rxjs';
 import { Nullable } from '../types/utility.types';
 
@@ -35,7 +35,7 @@ export class ArdiumOptionComponent implements OnChanges, AfterViewChecked, OnDes
     return this.label() ?? (this.elementRef.nativeElement.innerHTML || '').trim();
   }
 
-  readonly disabled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly disabled = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! state change listener
   readonly stateChange$ = new Subject<{

@@ -1,17 +1,17 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    Inject,
-    ViewEncapsulation,
-    computed,
-    contentChild,
-    forwardRef,
-    input,
-    output,
-    signal,
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  ViewEncapsulation,
+  computed,
+  contentChild,
+  forwardRef,
+  input,
+  output,
+  signal,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ARD_FORM_FIELD_CONTROL } from '../../form-field/form-field-child.token';
 import { ComponentColor } from '../../types/colors.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
@@ -19,13 +19,13 @@ import { _FileInputComponentBase } from '../file-input-base';
 import { FileInputBrowseContext, FileInputFileAmountContext, FileInputFilesContext } from '../file-input-types';
 import { ARD_FILE_INPUT_DEFAULTS, ArdFileInputDefaults } from './file-input.defaults';
 import {
-    ArdFileInputPlaceholderTemplateDirective,
-    ArdFileInputPrefixTemplateDirective,
-    ArdFileInputSuffixTemplateDirective,
-    ArdiumFileInputDragoverContentTemplateDirective,
-    ArdiumFileInputFolderIconTemplateDirective,
-    ArdiumFileInputIdleContentTemplateDirective,
-    ArdiumFileInputUploadedContentTemplateDirective
+  ArdFileInputPlaceholderTemplateDirective,
+  ArdFileInputPrefixTemplateDirective,
+  ArdFileInputSuffixTemplateDirective,
+  ArdiumFileInputDragoverContentTemplateDirective,
+  ArdiumFileInputFolderIconTemplateDirective,
+  ArdiumFileInputIdleContentTemplateDirective,
+  ArdiumFileInputUploadedContentTemplateDirective
 } from './file-input.directives';
 
 @Component({
@@ -79,7 +79,7 @@ export class ArdiumFileInputComponent extends _FileInputComponentBase {
   }
 
   //! clear button
-  readonly clearable = input<boolean, any>(this._DEFAULTS.clearable, { transform: v => coerceBooleanProperty(v) });
+  readonly clearable = input<boolean, BooleanLike>(this._DEFAULTS.clearable, { transform: v => coerceBooleanProperty(v) });
 
   readonly clearButtonTitle = input<string>(this._DEFAULTS.clearButtonTitle);
 

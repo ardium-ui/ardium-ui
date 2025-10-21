@@ -1,17 +1,17 @@
 import {
-    AfterViewChecked,
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    TemplateRef,
-    ViewEncapsulation,
-    computed,
-    inject,
-    input,
-    output,
-    viewChild,
+  AfterViewChecked,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  TemplateRef,
+  ViewEncapsulation,
+  computed,
+  inject,
+  input,
+  output,
+  viewChild,
 } from '@angular/core';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { Nullable } from '../types/utility.types';
 import { ARD_DROPDOWN_PANEL_DEFAULTS } from './dropdown-panel.defaults';
 import { DropdownPanelAppearance, DropdownPanelVariant, ScrollAlignment } from './dropdown-panel.types';
@@ -43,7 +43,7 @@ export class ArdiumDropdownPanelComponent implements AfterViewChecked {
   readonly appearance = input<DropdownPanelAppearance>(this._DEFAULTS.appearance);
   readonly variant = input<DropdownPanelVariant>(this._DEFAULTS.variant);
 
-  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, BooleanLike>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed((): string =>
     [`ard-appearance-${this.appearance()}`, `ard-variant-${this.variant()}`, this.compact() ? 'ard-compact' : ''].join(' ')

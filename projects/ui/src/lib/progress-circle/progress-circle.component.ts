@@ -1,14 +1,14 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    TemplateRef,
-    ViewEncapsulation,
-    computed,
-    contentChild,
-    inject,
-    input,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  contentChild,
+  inject,
+  input,
+  TemplateRef,
+  ViewEncapsulation,
 } from '@angular/core';
-import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty, coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
 import { SimpleComponentColor } from '../types/colors.types';
 import { ARD_PROGRESS_CIRCLE_DEFAULTS } from './progress-circle.defaults';
 import { ArdProgressCircleValueTemplateDirective } from './progress-circle.directive';
@@ -25,8 +25,8 @@ import { ProgressCircleAppearance, ProgressCircleValueContext, ProgressCircleVar
 export class ArdiumProgressCircleComponent {
   protected readonly _DEFAULTS = inject(ARD_PROGRESS_CIRCLE_DEFAULTS);
 
-  readonly value = input<number, any>(this._DEFAULTS.value, { transform: v => coerceNumberProperty(v, this._DEFAULTS.value) });
-  readonly max = input<number, any>(this._DEFAULTS.max, { transform: v => coerceNumberProperty(v, this._DEFAULTS.max) });
+  readonly value = input<number, NumberLike>(this._DEFAULTS.value, { transform: v => coerceNumberProperty(v, this._DEFAULTS.value) });
+  readonly max = input<number, NumberLike>(this._DEFAULTS.max, { transform: v => coerceNumberProperty(v, this._DEFAULTS.max) });
 
   readonly percentValue = computed<number>(() => (this.value() / this.max()) * 100);
 
@@ -35,8 +35,8 @@ export class ArdiumProgressCircleComponent {
   readonly color = input<SimpleComponentColor>(this._DEFAULTS.color);
   readonly variant = input<ProgressCircleVariant>(this._DEFAULTS.variant);
 
-  readonly hideValue = input<boolean, any>(this._DEFAULTS.hideValue, { transform: v => coerceBooleanProperty(v) });
-  readonly reverse = input<boolean, any>(this._DEFAULTS.reverse, { transform: v => coerceBooleanProperty(v) });
+  readonly hideValue = input<boolean, BooleanLike>(this._DEFAULTS.hideValue, { transform: v => coerceBooleanProperty(v) });
+  readonly reverse = input<boolean, BooleanLike>(this._DEFAULTS.reverse, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed<string>(() =>
     [

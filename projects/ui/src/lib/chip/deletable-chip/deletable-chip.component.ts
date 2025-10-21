@@ -1,15 +1,15 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    forwardRef,
-    Inject,
-    input,
-    output,
-    ViewEncapsulation,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  forwardRef,
+  Inject,
+  input,
+  output,
+  ViewEncapsulation,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _FocusableComponentBase } from '../../_internal/focusable-component';
 import { SimpleOneAxisAlignment } from '../../types/alignment.types';
 import { ComponentColor } from '../../types/colors.types';
@@ -45,7 +45,7 @@ export class ArdiumDeletableChipComponent extends _FocusableComponentBase {
   readonly variant = input<FormElementVariant>(this._DEFAULTS.variant);
   readonly color = input<ComponentColor>(this._DEFAULTS.color);
 
-  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, BooleanLike>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   readonly wrapperClasses = input<string>('');
 

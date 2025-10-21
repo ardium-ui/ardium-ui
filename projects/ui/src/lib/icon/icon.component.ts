@@ -1,15 +1,15 @@
 import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    ViewEncapsulation,
-    computed,
-    inject,
-    input,
-    viewChild,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  ViewEncapsulation,
+  computed,
+  inject,
+  input,
+  viewChild,
 } from '@angular/core';
-import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { isDefined } from 'simple-bool';
 import { Nullable } from '../types/utility.types';
 import { ARD_ICON_DEFAULTS } from './icon.defaults';
@@ -40,7 +40,7 @@ export class ArdiumIconComponent implements AfterViewInit {
   readonly ariaLabel = input<string>('');
   readonly icon = input<Nullable<string>>(undefined);
 
-  readonly filled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly filled = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
   readonly weight = input<WeightNumber | undefined, Nullable<Weight>>(400, {
     transform: v => coerceNumberProperty(v, 400) as WeightNumber,
   });

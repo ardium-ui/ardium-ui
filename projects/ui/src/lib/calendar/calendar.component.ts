@@ -17,7 +17,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { coerceBooleanProperty, coerceDateProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty, coerceDateProperty, coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
 import { roundFromZero, roundToMultiple } from 'more-rounding';
 import { isDefined, isNull } from 'simple-bool';
 import { _FormFieldComponentBase } from '../_internal/form-field-component';
@@ -83,7 +83,7 @@ export class ArdiumCalendarComponent extends _FormFieldComponentBase implements 
   readonly activeYear = model<number>(this._DEFAULTS.activeYear);
   readonly activeMonth = model<number>(this._DEFAULTS.activeMonth);
 
-  readonly firstWeekday = input<number, any>(this._DEFAULTS.firstWeekday, {
+  readonly firstWeekday = input<number, NumberLike>(this._DEFAULTS.firstWeekday, {
     transform: v => {
       const value = coerceNumberProperty(v, this._DEFAULTS.firstWeekday);
       if (!Number.isInteger(value)) {
@@ -103,7 +103,7 @@ export class ArdiumCalendarComponent extends _FormFieldComponentBase implements 
     },
   });
 
-  readonly multipleYearPageChangeModifier = input<number, any>(this._DEFAULTS.multipleYearPageChangeModifier, {
+  readonly multipleYearPageChangeModifier = input<number, NumberLike>(this._DEFAULTS.multipleYearPageChangeModifier, {
     transform: v => {
       const value = coerceNumberProperty(v, this._DEFAULTS.multipleYearPageChangeModifier);
       if (!Number.isInteger(value) || value < 1) {
@@ -118,7 +118,7 @@ export class ArdiumCalendarComponent extends _FormFieldComponentBase implements 
     },
   });
 
-  readonly autoFocus = input<boolean, any>(this._DEFAULTS.autoFocus, { transform: v => coerceBooleanProperty(v) });
+  readonly autoFocus = input<boolean, BooleanLike>(this._DEFAULTS.autoFocus, { transform: v => coerceBooleanProperty(v) });
 
   onTriggerOpenDaysView(): void {
     this.activeView.set(ArdCalendarView.Days);
@@ -143,7 +143,7 @@ export class ArdiumCalendarComponent extends _FormFieldComponentBase implements 
     transform: v => (v === null ? null : coerceDateProperty(v, this._DEFAULTS.max)),
   });
 
-  readonly UTC = input<boolean, any>(this._DEFAULTS.UTC, { transform: v => coerceBooleanProperty(v) });
+  readonly UTC = input<boolean, BooleanLike>(this._DEFAULTS.UTC, { transform: v => coerceBooleanProperty(v) });
   private readonly _UTCAfterInit = signal<boolean>(this._DEFAULTS.UTC);
 
   readonly filter = input<ArdCalendarFilterFn | null>(this._DEFAULTS.filter);

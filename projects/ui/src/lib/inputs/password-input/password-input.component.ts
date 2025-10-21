@@ -1,20 +1,20 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    Inject,
-    OnDestroy,
-    OnInit,
-    ViewEncapsulation,
-    computed,
-    contentChild,
-    forwardRef,
-    input,
-    model,
-    viewChild,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Inject,
+  OnDestroy,
+  OnInit,
+  ViewEncapsulation,
+  computed,
+  contentChild,
+  forwardRef,
+  input,
+  model,
+  viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { isAnyString, isDefined } from 'simple-bool';
 import { _FormFieldComponentBase } from '../../_internal/form-field-component';
 import { ARD_FORM_FIELD_CONTROL } from '../../form-field/form-field-child.token';
@@ -22,10 +22,10 @@ import { FormElementAppearance, FormElementVariant } from '../../types/theming.t
 import { Nullable } from '../../types/utility.types';
 import { ARD_PASSWORD_INPUT_DEFAULTS, ArdPasswordInputDefaults } from './password-input.defaults';
 import {
-    ArdPasswordInputPlaceholderTemplateDirective,
-    ArdPasswordInputPrefixTemplateDirective,
-    ArdPasswordInputRevealButtonTemplateDirective,
-    ArdPasswordInputSuffixTemplateDirective,
+  ArdPasswordInputPlaceholderTemplateDirective,
+  ArdPasswordInputPrefixTemplateDirective,
+  ArdPasswordInputRevealButtonTemplateDirective,
+  ArdPasswordInputSuffixTemplateDirective,
 } from './password-input.directives';
 import { PasswordInputRevealButtonContext } from './password-input.types';
 
@@ -75,8 +75,8 @@ export class ArdiumPasswordInputComponent extends _FormFieldComponentBase implem
   readonly shouldDisplayPlaceholder = computed(() => !!this.placeholder() && !this.value());
 
   //! revealing
-  readonly revealable = input<boolean, any>(this._DEFAULTS.revealable, { transform: v => coerceBooleanProperty(v) });
-  readonly holdToReveal = input<boolean, any>(this._DEFAULTS.holdToReveal, { transform: v => coerceBooleanProperty(v) });
+  readonly revealable = input<boolean, BooleanLike>(this._DEFAULTS.revealable, { transform: v => coerceBooleanProperty(v) });
+  readonly holdToReveal = input<boolean, BooleanLike>(this._DEFAULTS.holdToReveal, { transform: v => coerceBooleanProperty(v) });
 
   readonly autoHideTimeoutMs = input<Nullable<number>, any>(this._DEFAULTS.autoHideTimeoutMs, {
     transform: v => coerceNumberProperty(v, this._DEFAULTS.autoHideTimeoutMs),
@@ -116,7 +116,7 @@ export class ArdiumPasswordInputComponent extends _FormFieldComponentBase implem
   readonly appearance = input<FormElementAppearance>(this._DEFAULTS.appearance);
   readonly variant = input<FormElementVariant>(this._DEFAULTS.variant);
 
-  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, BooleanLike>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed(() =>
     [

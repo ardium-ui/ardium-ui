@@ -1,5 +1,5 @@
 import { Directive, effect, input } from '@angular/core';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 
 @Directive({
   selector: '[ard-hint-error]',
@@ -17,8 +17,8 @@ import { coerceBooleanProperty } from '@ardium-ui/devkit';
   },
 })
 export class ArdiumHintErrorDirective {
-  readonly left = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly right = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly left = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly right = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
   constructor() {
     effect(() => {

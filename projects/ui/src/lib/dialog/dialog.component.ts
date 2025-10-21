@@ -1,15 +1,15 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    ViewEncapsulation,
-    computed,
-    contentChild,
-    inject,
-    input,
-    model,
-    output,
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  computed,
+  contentChild,
+  inject,
+  input,
+  model,
+  output,
 } from '@angular/core';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ButtonAppearance } from '../buttons/general-button.types';
 import { ComponentColor } from '../types/colors.types';
 import { PanelAppearance, PanelVariant } from '../types/theming.types';
@@ -33,24 +33,24 @@ export class ArdiumDialogComponent {
   readonly appearance = input<PanelAppearance>(this._DEFAULTS.appearance);
   readonly variant = input<PanelVariant>(this._DEFAULTS.variant);
 
-  readonly compact = input<boolean, any>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, BooleanLike>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   //! heading
   //all handled by modal component
   readonly heading = input<string>(this._DEFAULTS.heading);
 
-  readonly noCloseButton = input<boolean, any>(this._DEFAULTS.noCloseButton, { transform: v => coerceBooleanProperty(v) });
+  readonly noCloseButton = input<boolean, BooleanLike>(this._DEFAULTS.noCloseButton, { transform: v => coerceBooleanProperty(v) });
 
   //! options
   //all handled by modal component
-  readonly noBackdrop = input<boolean, any>(this._DEFAULTS.noBackdrop, { transform: v => coerceBooleanProperty(v) });
-  readonly disableBackdropClose = input<boolean, any>(this._DEFAULTS.disableBackdropClose, {
+  readonly noBackdrop = input<boolean, BooleanLike>(this._DEFAULTS.noBackdrop, { transform: v => coerceBooleanProperty(v) });
+  readonly disableBackdropClose = input<boolean, BooleanLike>(this._DEFAULTS.disableBackdropClose, {
     transform: v => coerceBooleanProperty(v),
   });
 
   readonly buttonActionType = input<ArdDialogActionType>(this._DEFAULTS.buttonActionType);
 
-  readonly allActionsDisabled = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly allActionsDisabled = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! open state handling
   //all handled by modal component
@@ -75,8 +75,8 @@ export class ArdiumDialogComponent {
   readonly rejectButtonColor = input<ComponentColor>(this._DEFAULTS.rejectButtonColor);
   readonly rejectButtonAppearance = input<ButtonAppearance>(this._DEFAULTS.rejectButtonAppearance);
 
-  readonly noRejectButton = input<boolean, any>(this._DEFAULTS.noRejectButton, { transform: v => coerceBooleanProperty(v) });
-  readonly canConfirm = input<boolean, any>(this._DEFAULTS.canConfirm, { transform: v => coerceBooleanProperty(v) });
+  readonly noRejectButton = input<boolean, BooleanLike>(this._DEFAULTS.noRejectButton, { transform: v => coerceBooleanProperty(v) });
+  readonly canConfirm = input<boolean, BooleanLike>(this._DEFAULTS.canConfirm, { transform: v => coerceBooleanProperty(v) });
 
   onConfirmClick() {
     if (!this.canConfirm() || this.allActionsDisabled()) return;

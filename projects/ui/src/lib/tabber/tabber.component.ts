@@ -10,7 +10,7 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { OneAxisAlignment } from '../types/alignment.types';
 import { ComponentColor } from '../types/colors.types';
 import { ArdiumTabComponent } from './tab/tab.component';
@@ -104,8 +104,8 @@ export class ArdiumTabberComponent implements AfterContentInit {
   readonly ngClasses = computed(() => [`ard-color-${this.color()}`].join(' '));
 
   //! tab container settings
-  readonly stretchTabs = input<boolean, any>(this._DEFAULTS.stretchTabs, { transform: v => coerceBooleanProperty(v) });
-  readonly uniformTabWidths = input<boolean, any>(this._DEFAULTS.uniformTabWidths, { transform: v => coerceBooleanProperty(v) });
+  readonly stretchTabs = input<boolean, BooleanLike>(this._DEFAULTS.stretchTabs, { transform: v => coerceBooleanProperty(v) });
+  readonly uniformTabWidths = input<boolean, BooleanLike>(this._DEFAULTS.uniformTabWidths, { transform: v => coerceBooleanProperty(v) });
   readonly tabAlignment = input<OneAxisAlignment>(this._DEFAULTS.tabAlignment);
 
   readonly tabContainerClasses = computed(() =>

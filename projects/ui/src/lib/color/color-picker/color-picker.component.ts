@@ -1,37 +1,37 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    ContentChild,
-    ElementRef,
-    HostListener,
-    Input,
-    OnChanges,
-    OnInit,
-    SimpleChanges,
-    TemplateRef,
-    ViewEncapsulation,
-    computed,
-    input,
-    model,
-    output,
-    signal,
-    viewChild,
+  ChangeDetectionStrategy,
+  Component,
+  ContentChild,
+  ElementRef,
+  HostListener,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  TemplateRef,
+  ViewEncapsulation,
+  computed,
+  input,
+  model,
+  output,
+  signal,
+  viewChild,
 } from '@angular/core';
-import { coerceBooleanProperty, coerceNumberProperty, getEventRelativePos } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty, coerceNumberProperty, getEventRelativePos } from '@ardium-ui/devkit';
 import * as Color from 'color';
 import { round, roundToMultiple, roundToPrecision } from 'more-rounding';
 import { _NgModelComponentBase, _ngModelComponentDefaults } from '../../_internal/ngmodel-component';
 import {
-    ArdColorPickerColorReferenceTemplateDirective,
-    ArdColorPickerHueIndicatorTemplateDirective,
-    ArdColorPickerOpacityIndicatorTemplateDirective,
-    ArdColorPickerShadeIndicatorTemplateDirective,
+  ArdColorPickerColorReferenceTemplateDirective,
+  ArdColorPickerHueIndicatorTemplateDirective,
+  ArdColorPickerOpacityIndicatorTemplateDirective,
+  ArdColorPickerShadeIndicatorTemplateDirective,
 } from './color-picker.directives';
 import {
-    ColorPickerColorReferenceContext,
-    ColorPickerIndicatorContext,
-    ColorPickerVariant,
-    _ColorPickerInputsSectionType,
+  ColorPickerColorReferenceContext,
+  ColorPickerIndicatorContext,
+  ColorPickerVariant,
+  _ColorPickerInputsSectionType,
 } from './color-picker.types';
 
 const validHexColorRegex = /^#[0-9a-f]{3}(?:[0-9a-f]{3})?$/i;
@@ -55,7 +55,7 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
     super(_ngModelComponentDefaults); // stub definition for now. Will change when fixing the component.
   }
 
-  readonly withOpacity = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly withOpacity = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
   // if (this.focusedArea === 'opacity') this.focusedArea = null; // TODO
 
   readonly referenceColor = model<Color>(Color('transparent'));
@@ -72,7 +72,7 @@ export class ArdiumColorPickerComponent extends _NgModelComponentBase implements
 
   readonly variant = input<ColorPickerVariant>(ColorPickerVariant.Rounded);
 
-  readonly vertical = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) }); //TODO implement in CSS
+  readonly vertical = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) }); //TODO implement in CSS
 
   readonly ngClasses = computed(() =>
     [this.wrapperClasses(), `ard-variant-${this.variant()}`, this.vertical() ? 'ard-vertical' : ''].join(' ')

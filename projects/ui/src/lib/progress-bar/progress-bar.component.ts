@@ -1,15 +1,15 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    TemplateRef,
-    ViewEncapsulation,
-    computed,
-    contentChild,
-    effect,
-    inject,
-    input,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  contentChild,
+  effect,
+  inject,
+  input,
+  TemplateRef,
+  ViewEncapsulation,
 } from '@angular/core';
-import { coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty, coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
 import { SimpleComponentColor } from '../types/colors.types';
 import { ARD_PROGRESS_BAR_DEFAULTS } from './progress-bar.defaults';
 import { ArdProgressBarValueTemplateDirective } from './progress-bar.directive';
@@ -26,8 +26,8 @@ import { ProgressBarMode, ProgressBarSize, ProgressBarValueContext, ProgressBarV
 export class ArdiumProgressBarComponent {
   protected readonly _DEFAULTS = inject(ARD_PROGRESS_BAR_DEFAULTS);
 
-  readonly value = input<number, any>(this._DEFAULTS.value, { transform: v => coerceNumberProperty(v, this._DEFAULTS.value) });
-  readonly bufferValue = input<number, any>(this._DEFAULTS.bufferValue, {
+  readonly value = input<number, NumberLike>(this._DEFAULTS.value, { transform: v => coerceNumberProperty(v, this._DEFAULTS.value) });
+  readonly bufferValue = input<number, NumberLike>(this._DEFAULTS.bufferValue, {
     transform: v => coerceNumberProperty(v, this._DEFAULTS.bufferValue),
   });
 
@@ -37,7 +37,7 @@ export class ArdiumProgressBarComponent {
   readonly size = input<ProgressBarSize>(this._DEFAULTS.size);
   readonly mode = input<ProgressBarMode>(this._DEFAULTS.mode);
 
-  readonly hideValue = input<boolean, any>(this._DEFAULTS.hideValue, { transform: v => coerceBooleanProperty(v) });
+  readonly hideValue = input<boolean, BooleanLike>(this._DEFAULTS.hideValue, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed<string>(() =>
     [

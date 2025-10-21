@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation, computed, input } from '@angular/core';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { SimpleOneAxisAlignment } from '../../types/alignment.types';
 import { _ButtonBase } from '../_button-base';
 import { ButtonVariant } from '../general-button.types';
@@ -29,7 +29,7 @@ export class ArdiumButtonComponent extends _ButtonBase {
   readonly variant = input<ButtonVariant>(this._DEFAULTS.variant);
   readonly alignIcon = input<SimpleOneAxisAlignment>(this._DEFAULTS.alignIcon);
 
-  readonly vertical = input<boolean, any>(this._DEFAULTS.vertical, { transform: v => coerceBooleanProperty(v) });
+  readonly vertical = input<boolean, BooleanLike>(this._DEFAULTS.vertical, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed(() =>
     [
