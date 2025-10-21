@@ -195,7 +195,7 @@ export class ArdiumSelectComponent
       this.touched() ? 'ard-touched' : '',
       this.isOpen() ? 'ard-dropdown-open' : '',
       this._searchBarFocused() ? 'ard-select-focused' : '',
-      this._searchBarFocused() ? 'ard-select-focused' : '',
+      this.disabled() || this.readonly() ? 'ard-touch-disabled' : 'ard-touch-enabled',
     ].join(' ')
   );
 
@@ -610,7 +610,11 @@ export class ArdiumSelectComponent
     () => this.itemStorage.isAnyItemSelected() && (!this.searchTerm() || this.multiselectable())
   );
   readonly shouldShowClearButton = computed<boolean>(
-    () => this.clearable() && !this.disabled() && (this.itemStorage.isAnyItemSelected() || this.searchTerm() !== '')
+    () =>
+      this.clearable() &&
+      !this.disabled() &&
+      !this.readonly() &&
+      (this.itemStorage.isAnyItemSelected() || this.searchTerm() !== '')
   );
   readonly itemsToDisplay = computed<IterableIterator<ArdOptionGroup>>(() => this.itemStorage.groups().values());
   readonly shouldShowNoItemsFound = computed<boolean>(
@@ -787,7 +791,7 @@ export class ArdiumSelectComponent
 
     this._isClickedWithin.set(true);
 
-    if (!this._searchBarFocused()) {
+    if (!this._searchBarFocused() && !this.readonly()) {
       this.focus();
     }
 
@@ -810,7 +814,7 @@ export class ArdiumSelectComponent
     this.open();
   }
   open(): void {
-    if (this.disabled() || this.isOpen()) return;
+    if (this.disabled() || this.readonly() || this.isOpen()) return;
 
     this.isOpen.set(true);
     if (this.autoHighlightFirst()) this.itemStorage.highlightFirstItem();

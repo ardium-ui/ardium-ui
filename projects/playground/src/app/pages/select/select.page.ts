@@ -24,6 +24,8 @@ export class SelectPage {
 
   readonly selectedPeople = signal<string[]>([]);
 
+  readonly isReadOnly = signal<boolean>(true);
+
   selectedPeopleLogger = effect(() => console.log(this.selectedPeople()));
 
   //* color search fn

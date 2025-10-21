@@ -53,9 +53,7 @@
   .ard-form-field-overlay {
     background: ARD.$overlay;
     opacity: 0;
-    transition:
-      opacity 0.15s ARD.$timing-fn,
-      background-color 0.15s ARD.$timing-fn;
+    transition: opacity 0.15s ARD.$timing-fn, background-color 0.15s ARD.$timing-fn;
   }
 
   &:hover {
@@ -76,6 +74,13 @@
   &.ard-appearance-transparent {
     .ard-form-field-overlay {
       opacity: 4.5%;
+    }
+  }
+}
+.ard-readonly .ard-form-field-frame {
+  &:hover {
+    .ard-form-field-overlay {
+      opacity: 0;
     }
   }
 }

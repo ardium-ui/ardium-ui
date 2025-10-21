@@ -9,6 +9,16 @@
     searchable
   />
 </div>
+<div class="master flex">
+  <span class="title">Primitive options, readonly</span>
+  <ard-select
+    [items]="fruits"
+    [readonly]="isReadOnly()"
+  />
+  <button (click)="isReadOnly.set(true)">Read only: enable</button>
+  <button (click)="isReadOnly.set(false)">Read only: disable</button>
+  <p>Current read only state: {{ isReadOnly() }}</p>
+</div>
 <span class="title">Prefix template, primitive options</span>
 <div class="grid master">
   <ard-select [items]="fruits">
@@ -83,8 +93,11 @@
   />
 </div>
 <div class="master flex align-right">
-  <span class="title">Select aligned to the left</span>
-  <ard-select [items]="fruits" style="width: 5rem; margin-left: auto;" />
+  <span class="title">Select aligned to the right</span>
+  <ard-select
+    [items]="fruits"
+    style="width: 5rem; margin-left: auto"
+  />
 </div>
 <span class="title">Object options, customized with templates, custom search function (search by name or HEX)</span>
 <div class="grid master">

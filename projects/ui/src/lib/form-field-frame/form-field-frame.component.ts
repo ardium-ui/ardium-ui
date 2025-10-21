@@ -1,13 +1,13 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    Inject,
-    Input,
-    TemplateRef,
-    ViewEncapsulation,
-    computed,
-    contentChild,
-    input,
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  Input,
+  TemplateRef,
+  ViewEncapsulation,
+  computed,
+  contentChild,
+  input,
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
@@ -61,7 +61,7 @@ export class ArdiumFormFieldFrameComponent extends _FocusableComponentBase {
       this.compact() ? 'ard-compact' : '',
       this.hasError() ? 'ard-has-error' : '',
       this.isSuccess() ? 'ard-is-success' : '',
-      this.isFocused() ? 'ard-focused' : 'ard-unfocused',
+      this.isFocused() && !this.readonly() ? 'ard-focused' : 'ard-unfocused',
     ].join(' ')
   );
 
