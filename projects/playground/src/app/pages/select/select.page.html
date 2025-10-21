@@ -161,6 +161,17 @@
   />
 </div>
 <div class="master flex align-right">
-  <span class="title">Select aligned to the left</span>
+  <span class="title">Select aligned to the right</span>
   <ard-select [items]="fruits" />
+</div>
+<div class="master flex">
+  <span class="title">Select with editing mode changing</span>
+  <ard-select
+    [items]="fruits"
+    [formControl]="form.controls.fruit"
+    [readonly]="!isEditMode()"
+    [appearance]="isEditMode() ? 'outlined' : 'transparent'"
+    placeholder=""
+  />
+  <button (click)="toggleEditMode()">Toggle edit mode</button>
 </div>

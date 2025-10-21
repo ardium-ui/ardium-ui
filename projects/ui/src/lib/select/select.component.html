@@ -42,7 +42,7 @@
         #defaultValueTemplate
         let-item
       >
-        <div [innerHTML]="isItemsInputUsed ? (item.label() | escapeHTML) : item.label()"></div>
+        <div class="ard-select-value" [innerHTML]="isItemsInputUsed ? (item.label() | escapeHTML) : item.label()"></div>
       </ng-template>
       <ng-template
         #defaultMultiValueTemplate
@@ -116,15 +116,17 @@
       />
       }
 
-      <button
-        type="button"
-        class="ard-dropdown-arrow-wrapper"
-        (click)="handleDropdownArrowClick($event)"
-        [attr.tabindex]="tabIndex()"
-      >
-        <span class="ard-dropdown-arrow"></span>
-        <div class="ard-hitbox"></div>
-      </button>
+      @if (!readonly()) {
+        <button
+          type="button"
+          class="ard-dropdown-arrow-wrapper"
+          (click)="handleDropdownArrowClick($event)"
+          [attr.tabindex]="tabIndex()"
+          >
+          <span class="ard-dropdown-arrow"></span>
+          <div class="ard-hitbox"></div>
+        </button>
+      }
     </div>
   </div>
 </ard-form-field-frame>

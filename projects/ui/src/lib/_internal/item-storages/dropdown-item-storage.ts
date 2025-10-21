@@ -275,42 +275,42 @@ export class ItemStorage {
   private readonly _valueToWriteAfterItemsLoad = signal<any>(undefined);
   private readonly _wasValueWriteDeferred = signal<boolean>(false);
   handleWriteValue(ngModel: any[]): void {
-    if (!isArray(ngModel)) {
-      ngModel = [ngModel];
-    }
     //defer writing the value if no options are yet loaded
     if (!this._wasValueWriteDeferred() && this._items().length === 0) {
       this._valueToWriteAfterItemsLoad.set(ngModel);
       return;
     }
+    // if null or undefined clear selection
+    if (!isDefined(ngModel)) {
+      this.clearAllSelected();
+      return;
+    }
 
-    this.clearAllSelected();
-
+    // convert from single item to items array
+    if (!isArray(ngModel)) {
+      ngModel = [ngModel];
+    }
+    // check value validity
     if (!this._isWriteValueValid(ngModel)) {
       return;
     }
 
-    const selectItemByValue = (value: any) => {
-      if (value === null || value === undefined) {
-        this.unselectItem(...this._selectedItems());
-        return;
-      }
-      const item = this.findItemByValue(value);
+    const itemsToSelect = ngModel
+      .map(v => {
+        const item = this.findItemByValue(v);
+        if (item) {
+          return item;
+        }
+        console.warn(
+          `ARD-WA${this._ardParentComp._componentId}1: Couldn't find an item with value ${
+            v?.toString?.() || String(v)
+          } when trying to select it.`
+        );
+        return null;
+      })
+      .filter(Boolean) as ArdOption[];
 
-      if (item) {
-        this.selectItem(item);
-        return;
-      }
-      console.warn(
-        `ARD-WA${this._ardParentComp._componentId}1: Couldn't find an item with value ${
-          value?.toString?.() || String(value)
-        } when trying to select it.`
-      );
-    };
-
-    for (const modelValue of ngModel) {
-      selectItemByValue(modelValue);
-    }
+    this.selectItem(...itemsToSelect);
   }
   findItemByValue(valueToFind: any): ArdOption | undefined {
     let findBy: (item: ArdOption) => boolean;
@@ -346,7 +346,9 @@ export class ItemStorage {
       item.selected.set(false);
     }
     const removedItemValues = this._itemsToValue(this._selectedItems());
-    this._selectedItems.set([]);
+    if (this._selectedItems().length) {
+      this._selectedItems.set([]);
+    }
 
     if (repopulateGroups && this._ardParentComp.hideSelected()) this._populateGroups();
 
@@ -362,13 +364,8 @@ export class ItemStorage {
     if (this.isItemLimitReached()) {
       return [[], [], this._itemsToValue(items)];
     }
-    let unselected = [];
-    if (!this._ardParentComp.multiselectable()) {
-      unselected = this.clearAllSelected(false);
-    }
 
     let itemsSelectedCount = 0;
-    const itemsSelected = [];
     for (const item of items) {
       itemsSelectedCount++;
       if (item.selected()) continue;
@@ -376,16 +373,23 @@ export class ItemStorage {
         break;
       }
       item.selected.set(true);
-      this._selectedItems.update(v => [...v, item]);
-      itemsSelected.push(item);
     }
 
     if (this._ardParentComp.hideSelected()) {
       this._populateGroups();
     }
 
+    const itemsUnselected = this._selectedItems().filter(item => !items.find(v => v.value === item.value));
+    const itemsSelected = items.slice(0, itemsSelectedCount);
     const itemsFailedToSelect = items.slice(itemsSelectedCount - 1);
-    return [this._itemsToValue(itemsSelected), unselected, this._itemsToValue(itemsFailedToSelect)];
+
+    const isAnyNewItemToBeSelected = !!itemsSelected.find(item => !this._selectedItems().find(v => v.value === item.value));
+
+    if (isAnyNewItemToBeSelected) {
+      this._selectedItems.set(itemsSelected);
+    }
+
+    return [this._itemsToValue(itemsSelected), itemsUnselected, this._itemsToValue(itemsFailedToSelect)];
   }
   unselectItem(...items: ArdOption[]): any[] {
     for (const item of items) {

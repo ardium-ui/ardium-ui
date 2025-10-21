@@ -1,4 +1,5 @@
 import { Component, effect, signal } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ArdSearchFunction } from 'projects/ui/src/public-api';
 import { Logger } from '../../services/logger.service';
 import { DataService } from './../../services/data.service';
@@ -10,10 +11,7 @@ import { DataService } from './../../services/data.service';
   styleUrls: ['./select.page.scss'],
 })
 export class SelectPage {
-  constructor(
-    private _logger: Logger,
-    private _dataService: DataService
-  ) {}
+  constructor(private _logger: Logger, private _dataService: DataService) {}
   readonly log = this._logger.log;
 
   //* item lists
@@ -47,4 +45,28 @@ export class SelectPage {
       }, 1000);
     });
   };
+
+  //! editing mode
+  editModeEffect = effect(() => {
+    this.isEditMode();
+
+    this.form.reset({
+      fruit: this.fruits.at(7)!,
+    });
+  });
+
+  readonly isEditMode = signal<boolean>(false);
+
+  toggleEditMode() {
+    this.isEditMode.update(v => !v);
+  }
+
+  readonly form = new FormGroup({
+    fruit: new FormControl<string>(this.fruits.at(7)!),
+  });
 }
+
+
+// @Component({
+//   selector: 'app-select-display'
+// })
