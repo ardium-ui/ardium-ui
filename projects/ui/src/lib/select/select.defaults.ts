@@ -19,6 +19,7 @@ export interface ArdSelectDefaults extends _FormFieldComponentDefaults {
   clearButtonTitle: string;
   dropdownPosition: ArdPanelPosition;
   noItemsFoundText: string;
+  addCustomOptionText: string;
   loadingPlaceholderText: string;
   inputAttrs: Record<string, any>;
   isLoading: boolean;
@@ -65,6 +66,7 @@ const _selectDefaults: ArdSelectDefaults = {
   searchFn: searchFunctions.byLabel,
   clearButtonTitle: 'Clear',
   noItemsFoundText: 'No items found.',
+  addCustomOptionText: 'Add option',
   loadingPlaceholderText: 'Loading...',
   placeholder: 'Select item',
   searchPlaceholder: 'Search...',

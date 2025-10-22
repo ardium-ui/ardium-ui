@@ -42,7 +42,10 @@
         #defaultValueTemplate
         let-item
       >
-        <div class="ard-select-value" [innerHTML]="isItemsInputUsed ? (item.label() | escapeHTML) : item.label()"></div>
+        <div
+          class="ard-select-value"
+          [innerHTML]="isItemsInputUsed ? (item.label() | escapeHTML) : item.label()"
+        ></div>
       </ng-template>
       <ng-template
         #defaultMultiValueTemplate
@@ -114,18 +117,16 @@
         [title]="clearButtonTitle()"
         (click)="handleClearButtonClick($event)"
       />
-      }
-
-      @if (!readonly()) {
-        <button
-          type="button"
-          class="ard-dropdown-arrow-wrapper"
-          (click)="handleDropdownArrowClick($event)"
-          [attr.tabindex]="tabIndex()"
-          >
-          <span class="ard-dropdown-arrow"></span>
-          <div class="ard-hitbox"></div>
-        </button>
+      } @if (!readonly()) {
+      <button
+        type="button"
+        class="ard-dropdown-arrow-wrapper"
+        (click)="handleDropdownArrowClick($event)"
+        [attr.tabindex]="tabIndex()"
+      >
+        <span class="ard-dropdown-arrow"></span>
+        <div class="ard-hitbox"></div>
+      </button>
       }
     </div>
   </div>
@@ -219,18 +220,18 @@
       [ngTemplateOutletContext]="getSearchContext()"
     />
     } @if (shouldShowAddCustom()) {
-    <ng-template
-      #defaultAddCustomTemplate
-      let-searchTerm
+    <div
+      class="ard-option ard-option-highlighted ard-add-custom"
+      (click)="addCustomOption(searchTerm())"
     >
-      <div
-        class="ard-option ard-option-highlighted ard-add-custom"
-        (click)="addCustomOption(searchTerm)"
+      <ng-template
+        #defaultAddCustomTemplate
+        let-searchTerm
       >
-        <span class="ard-add-custom-label">Add option</span>
+        <span class="ard-add-custom-label">{{ addCustomOptionText() }}</span>
         <span class="ard-add-custom-value">"{{ searchTerm }}"</span>
-      </div>
-    </ng-template>
+      </ng-template>
+    </div>
 
     <ng-template
       [ngTemplateOutlet]="addCustomTemplate()?.template || defaultAddCustomTemplate"

@@ -134,6 +134,7 @@ export class ArdiumSelectComponent
   readonly dropdownPosition = input<ArdPanelPosition>(this._DEFAULTS.dropdownPosition);
   //! template-related settings
   readonly noItemsFoundText = input<string>(this._DEFAULTS.noItemsFoundText);
+  readonly addCustomOptionText = input<string>(this._DEFAULTS.addCustomOptionText);
   readonly loadingPlaceholderText = input<string>(this._DEFAULTS.loadingPlaceholderText);
   //! search-related options
   readonly searchInputId = input<Nullable<string>>(undefined);
