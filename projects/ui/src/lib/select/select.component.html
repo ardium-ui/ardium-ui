@@ -220,23 +220,23 @@
       [ngTemplateOutletContext]="getSearchContext()"
     />
     } @if (shouldShowAddCustom()) {
+    <ng-template
+      #defaultAddCustomTemplate
+      let-searchTerm
+    >
+      <span class="ard-add-custom-label">{{ addCustomOptionText() }}</span>
+      <span class="ard-add-custom-value">"{{ searchTerm }}"</span>
+    </ng-template>
+
     <div
       class="ard-option ard-option-highlighted ard-add-custom"
       (click)="addCustomOption(searchTerm())"
     >
       <ng-template
-        #defaultAddCustomTemplate
-        let-searchTerm
-      >
-        <span class="ard-add-custom-label">{{ addCustomOptionText() }}</span>
-        <span class="ard-add-custom-value">"{{ searchTerm }}"</span>
-      </ng-template>
+        [ngTemplateOutlet]="addCustomTemplate()?.template || defaultAddCustomTemplate"
+        [ngTemplateOutletContext]="getCustomOptionContext()"
+      />
     </div>
-
-    <ng-template
-      [ngTemplateOutlet]="addCustomTemplate()?.template || defaultAddCustomTemplate"
-      [ngTemplateOutletContext]="getCustomOptionContext()"
-    />
     } @if (isLoading()) {
     <ng-template #defaultLoadingPlaceholderTemplate>
       <div class="ard-option ard-option-disabled">{{ loadingPlaceholderText() }}</div>
