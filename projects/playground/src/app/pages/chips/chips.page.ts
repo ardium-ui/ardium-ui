@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import {
-    ComponentColor,
-    DecorationElementAppearance,
-    FormElementVariant,
-    SimpleOneAxisAlignment,
+  ComponentColor,
+  DecorationElementAppearance,
+  FormElementVariant,
+  SimpleOneAxisAlignment,
 } from 'projects/ui/src/public-api';
 import { Logger } from '../../services/logger.service';
 
@@ -21,4 +21,6 @@ export class ChipsPage {
 
   constructor(private _logger: Logger) {}
   log = this._logger.log;
+
+  options = ['Gliwice', 'Katowice', 'Kraków', 'Łódź', 'Warszawa', 'Żory'];
 }

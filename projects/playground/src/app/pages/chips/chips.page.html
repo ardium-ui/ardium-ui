@@ -71,3 +71,15 @@
   }
 </div>
 }
+
+<span class="title">Multiple Selectable Chips Example</span>
+<div class="master flex horiz">
+  @for (item of options; track $index) {
+  <ard-selectable-chip
+    appearance="outlined-strong"
+    color="primary"
+  >
+    {{ item }}
+  </ard-selectable-chip>
+  }
+</div>

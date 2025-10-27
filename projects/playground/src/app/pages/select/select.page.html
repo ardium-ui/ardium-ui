@@ -92,6 +92,32 @@
     [(value)]="selectedPeople"
   />
 </div>
+<span class="title">City selector example</span>
+<div class="grid master">
+  <ard-select
+    [items]="cities"
+    multiselectable
+    clearable
+    clearButtonTitle="Wyczyść"
+    placeholder="Wybierz osoby"
+    keepOpen
+    [(value)]="selectedCities"
+  >
+    <ng-template
+      ard-value-chip-tmp
+      let-item
+      let-unselect="unselect"
+    >
+      <ard-deletable-chip
+        (delete)="unselect(item)"
+        compact
+        appearance="outlined"
+      >
+        <div [innerHTML]="item.label()"></div>
+      </ard-deletable-chip>
+    </ng-template>
+  </ard-select>
+</div>
 <div class="master flex align-right">
   <span class="title">Select aligned to the right</span>
   <ard-select

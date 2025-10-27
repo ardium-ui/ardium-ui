@@ -56,7 +56,7 @@
           (delete)="unselect(item)"
           [variant]="variant()"
           compact
-          appearance="outlined-strong"
+          appearance="outlined"
         >
           <div [innerHTML]="isItemsInputUsed ? (item.label() | escapeHTML) : item.label()"></div>
         </ard-deletable-chip>

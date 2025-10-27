@@ -20,7 +20,10 @@ export class SelectPage {
   colors = Array.from(this._dataService.colorsArray);
   people = Array.from(this._dataService.peopleArray);
 
+  cities = ['Gliwice', 'Katowice', 'Kraków', 'Łódź', 'Warszawa', 'Żory'];
+
   readonly selectedPeople = signal<string[]>([]);
+  readonly selectedCities = signal<string[]>(['Kraków', 'Łódź']);
 
   readonly isReadOnly = signal<boolean>(true);
 

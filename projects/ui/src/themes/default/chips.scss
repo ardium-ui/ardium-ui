@@ -68,10 +68,7 @@
     &.ard-chip-selectable {
       background-color: ARD.$bg-f;
       color: ARD.$text2;
-      transition:
-        color 0.15s ease,
-        border-color 0.15s ease,
-        background-color 0.15s ease;
+      transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
 
       &.ard-chip-selected {
         color: var(--ard-cmpcl--on-bg-colored);
@@ -88,9 +85,7 @@
     font-weight: 600;
 
     &.ard-chip-selectable {
-      transition:
-        color 0.15s ease,
-        border-color 0.15s ease;
+      transition: color 0.15s ease, border-color 0.15s ease;
 
       > .ard-focus-overlay {
         opacity: 0;
@@ -110,19 +105,20 @@
 
       &.ard-chip-selected {
         color: var(--ard-cmpcl--content);
+        border-color: var(--ard-cmpcl--content);
 
         > .ard-focus-overlay {
-          opacity: 7.5%;
+          opacity: 12%;
         }
         &:hover,
         &:focus {
           > .ard-focus-overlay {
-            opacity: 15%;
+            opacity: 17%;
           }
         }
         &:active {
           > .ard-focus-overlay {
-            opacity: 20%;
+            opacity: 22%;
           }
         }
       }
@@ -130,8 +126,12 @@
   }
   &.ard-appearance-outlined-strong {
     > .ard-focus-overlay {
-      opacity: 7.5%;
+      opacity: 12%;
       background: var(--ard-cmpcl--bg-colored);
+    }
+    &.ard-chip-selectable {
+      color: var(--ard-text2);
+      border: 1px solid var(--ard-detail-light);
     }
   }
 
