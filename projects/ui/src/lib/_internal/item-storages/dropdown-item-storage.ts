@@ -47,7 +47,7 @@ export class ItemStorage {
 
   readonly selectedItems = computed(() => {
     if (this._ardParentComp.sortMultipleValues()) {
-      return this._selectedItems().sort((a, b) => {
+      return [...this._selectedItems()].sort((a, b) => {
         return a.index - b.index;
       });
     }
@@ -379,14 +379,20 @@ export class ItemStorage {
       this._populateGroups();
     }
 
-    const itemsUnselected = this._selectedItems().filter(item => !items.find(v => v.value === item.value));
+    const itemsUnselected = this._ardParentComp.multiselectable()
+      ? []
+      : this._selectedItems().filter(item => !items.find(v => v.value === item.value));
     const itemsSelected = items.slice(0, itemsSelectedCount);
-    const itemsFailedToSelect = items.slice(itemsSelectedCount - 1);
+    const itemsFailedToSelect = items.slice(itemsSelectedCount);
 
     const isAnyNewItemToBeSelected = !!itemsSelected.find(item => !this._selectedItems().find(v => v.value === item.value));
 
     if (isAnyNewItemToBeSelected) {
-      this._selectedItems.set(itemsSelected);
+      if (this._ardParentComp.multiselectable()) {
+        this._selectedItems.update(v => [...v, ...itemsSelected]);
+      } else {
+        this._selectedItems.set(itemsSelected);
+      }
     }
 
     return [this._itemsToValue(itemsSelected), itemsUnselected, this._itemsToValue(itemsFailedToSelect)];
