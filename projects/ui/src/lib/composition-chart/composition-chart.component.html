@@ -1,0 +1,19 @@
+<div
+  class="ard-composition-chart"
+  [ngClass]="ngClasses()"
+>
+  @for (item of items(); track item.index) {
+  <div
+    class="ard-composition-chart__item"
+    [style.backgroundColor]="item.color"
+    [style.--ard-_chart-value]="item.value"
+    [style.--ard-_chart-percent-value]="item.percentValue + '%'"
+    [class.ard-composition-chart__item-highlighted]="item.highlighted()"
+    [ariaLabel]="item.label + ': ' + item.value"
+  >
+    <div class="ard-composition-chart__item-label">
+      {{ item.label }}
+    </div>
+  </div>
+  }
+</div>

@@ -33,6 +33,7 @@ import { StarsPage } from './pages/stars/stars.page';
 import { StateboxPage } from './pages/statebox/statebox.page';
 import { TabberPage } from './pages/tabber/tabber.page';
 import { TablePage } from './pages/table/table.page';
+import { TooltipPage } from './pages/tooltip/tooltip.page';
 
 const routes: Routes = [
   { path: '', component: HomePage },
@@ -67,6 +68,7 @@ const routes: Routes = [
   { path: 'snackbar', component: SnackbarPage },
   { path: 'tabber', component: TabberPage },
   { path: 'form-field', component: FormFieldPage },
+  { path: 'tooltip', component: TooltipPage },
   {
     path: 'sliders',
     component: SlidersPage,

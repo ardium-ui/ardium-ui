@@ -38,6 +38,7 @@ import { StarsModule } from './pages/stars/stars.module';
 import { StateboxModule } from './pages/statebox/statebox.module';
 import { TabberModule } from './pages/tabber/tabber.module';
 import { TableModule } from './pages/table/table.module';
+import { TooltipModule } from './pages/tooltip/tooltip.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -79,6 +80,7 @@ import { TableModule } from './pages/table/table.module';
     SnackbarModule,
     TabberModule,
     FormFieldModule,
+    TooltipModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
