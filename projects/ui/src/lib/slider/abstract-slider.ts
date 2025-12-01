@@ -250,8 +250,8 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
 
   abstract onPointerMove(event: MouseEvent | TouchEvent): void; //* abstact
 
-  @HostListener('document:pointerup', ['$event'])
-  @HostListener('document:touchend', ['$event'])
+  @HostListener('document:pointerup')
+  @HostListener('document:touchend')
   onPointerUp(): void {
     if (!this._shouldCheckForMovement) return;
     this._grabbedHandleId.set(null);

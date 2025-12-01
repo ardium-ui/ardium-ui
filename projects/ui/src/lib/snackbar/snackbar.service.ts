@@ -185,7 +185,7 @@ export class ArdiumSnackbarService implements OnDestroy {
       panelClass: options.panelClass,
     });
 
-    return this._overlay.create(config);
+    return  this._overlay.create(config);
   }
 
   //! public actions
