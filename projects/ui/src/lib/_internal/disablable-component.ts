@@ -1,4 +1,6 @@
-import { Directive, HostBinding, Input, input, signal } from '@angular/core';
+import { BooleanInput } from '@angular/cdk/coercion';
+import { Directive, HostBinding, input, signal } from '@angular/core';
+import { FormUiControl } from '@angular/forms/signals';
 import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 
 export interface _DisablableComponentDefaults {
@@ -11,22 +13,22 @@ export const _disablableComponentDefaults: _DisablableComponentDefaults = {
 };
 
 @Directive()
-export abstract class _DisablableComponentBase {
+export abstract class _DisablableComponentBase implements Pick<FormUiControl, 'disabled' | 'readonly'> {
   constructor(protected readonly _DEFAULTS: _DisablableComponentDefaults) {}
   //! no value arguments
   /**
    * Whether the component is read-only. Defines the `readonly` host attribute and `ard-readonly` host class. Coercible into a boolean.
    */
-  readonly readonly = input<boolean, BooleanLike>(this._DEFAULTS.readonly, { transform: v => coerceBooleanProperty(v) });
+  readonly readonly = input<boolean, BooleanInput>(this._DEFAULTS.readonly, { transform: v => coerceBooleanProperty(v) });
 
   /**
    * Whether the component is disabled. Defines the `disabled` host attribute and `ard-disabled` host class. Coercible into a boolean.
    */
-  readonly disabled = signal<boolean>(this._DEFAULTS.disabled);
-  @Input('disabled')
-  set _disabled(v: any) {
-    this.disabled.set(coerceBooleanProperty(v));
-  }
+  readonly disabled = input<boolean, BooleanLike>(this._DEFAULTS.disabled, { transform: v => coerceBooleanProperty(v) });
+  
+  readonly disabledComputed = signal<boolean>(this._DEFAULTS.disabled);
+
+  readonly disabledManual = signal<boolean>(false);
 
   @HostBinding('attr.readonly')
   @HostBinding('class.ard-readonly')
@@ -36,6 +38,6 @@ export abstract class _DisablableComponentBase {
   @HostBinding('attr.disabled')
   @HostBinding('class.ard-disabled')
   get _disabledHostAttribute(): boolean {
-    return this.disabled();
+    return this.disabledComputed();
   }
 }

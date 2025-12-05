@@ -11,6 +11,7 @@ import {
   signal,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
+import { FormValueControl } from '@angular/forms/signals';
 import { BooleanLike, coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { ArdFormFieldControl } from '../form-field/form-field-child.token';
 import { ArdOptionSimple, CompareWithFn, OptionContext } from '../types/item-storage.types';
@@ -43,7 +44,7 @@ export const _selectableListComponentDefaults: _SelectableListComponentDefaults 
 @Directive()
 export abstract class _SelectableListComponentBase
   extends _FormFieldComponentBase
-  implements ControlValueAccessor, SimpleItemStorageHost, ArdFormFieldControl
+  implements ControlValueAccessor, SimpleItemStorageHost, ArdFormFieldControl, FormValueControl<any | any[]>
 {
   protected override readonly _DEFAULTS!: _SelectableListComponentDefaults;
 
@@ -104,7 +105,7 @@ export abstract class _SelectableListComponentBase
   //! control value accessor
   //override the writeValue and setDisabledState defined in _NgModelComponent
   override setDisabledState(state: boolean): void {
-    this.disabled.set(state);
+    this.disabledComputed.set(state);
     this._cd.markForCheck();
   }
   writeValue(ngModel: any[]): void {
@@ -113,8 +114,6 @@ export abstract class _SelectableListComponentBase
   }
 
   //! change & touch event emitters
-  readonly touched = signal<boolean>(false);
-
   @HostBinding('class.ard-touched')
   get _touchedHostAttribute(): boolean {
     return this.touched();

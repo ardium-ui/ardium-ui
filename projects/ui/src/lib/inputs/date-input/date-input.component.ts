@@ -1,26 +1,26 @@
 import { Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  contentChild,
-  effect,
-  ElementRef,
-  forwardRef,
-  Inject,
-  inject,
-  input,
-  model,
-  OnDestroy,
-  output,
-  signal,
-  SimpleChanges,
-  TemplateRef,
-  viewChild,
-  ViewContainerRef,
-  ViewEncapsulation,
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    contentChild,
+    effect,
+    ElementRef,
+    forwardRef,
+    Inject,
+    inject,
+    input,
+    model,
+    OnDestroy,
+    output,
+    signal,
+    SimpleChanges,
+    TemplateRef,
+    viewChild,
+    ViewContainerRef,
+    ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BooleanLike, coerceBooleanProperty, coerceDateProperty, coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
@@ -35,26 +35,26 @@ import { FormElementAppearance, FormElementVariant } from '../../types/theming.t
 import { Nullable } from '../../types/utility.types';
 import { ARD_DATE_INPUT_DEFAULTS, ArdDateInputDefaults } from './date-input.defaults';
 import {
-  ArdDateInputAcceptButtonsTemplateDirective,
-  ArdDateInputCalendarIconTemplateDirective,
-  ArdDateInputDaysViewHeaderTemplateDirective,
-  ArdDateInputDayTemplateDirective,
-  ArdDateInputFloatingMonthTemplateDirective,
-  ArdDateInputMonthsViewHeaderTemplateDirective,
-  ArdDateInputMonthTemplateDirective,
-  ArdDateInputPrefixTemplateDirective,
-  ArdDateInputSuffixTemplateDirective,
-  ArdDateInputValueTemplateDirective,
-  ArdDateInputWeekdayTemplateDirective,
-  ArdDateInputYearsViewHeaderTemplateDirective,
-  ArdDateInputYearTemplateDirective,
+    ArdDateInputAcceptButtonsTemplateDirective,
+    ArdDateInputCalendarIconTemplateDirective,
+    ArdDateInputDaysViewHeaderTemplateDirective,
+    ArdDateInputDayTemplateDirective,
+    ArdDateInputFloatingMonthTemplateDirective,
+    ArdDateInputMonthsViewHeaderTemplateDirective,
+    ArdDateInputMonthTemplateDirective,
+    ArdDateInputPrefixTemplateDirective,
+    ArdDateInputSuffixTemplateDirective,
+    ArdDateInputValueTemplateDirective,
+    ArdDateInputWeekdayTemplateDirective,
+    ArdDateInputYearsViewHeaderTemplateDirective,
+    ArdDateInputYearTemplateDirective,
 } from './date-input.directive';
 import {
-  ArdDateInputAcceptButtonsContext,
-  ArdDateInputDeserializeFn,
-  ArdDateInputMinMaxStrategy,
-  ArdDateInputSerializeFn,
-  ArdDateInputValueContext,
+    ArdDateInputAcceptButtonsContext,
+    ArdDateInputDeserializeFn,
+    ArdDateInputMinMaxStrategy,
+    ArdDateInputSerializeFn,
+    ArdDateInputValueContext,
 } from './date-input.types';
 
 @Component({
@@ -437,7 +437,7 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
     this.open();
   }
   open(): void {
-    if (this.disabled() || this.isOpen()) return;
+    if (this.disabledComputed() || this.isOpen()) return;
 
     this.isOpen.set(true);
 
@@ -483,6 +483,6 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
     $implicit: () => this.onAcceptButtonClick(),
     accept: () => this.onAcceptButtonClick(),
     cancel: () => this.onCancelButtonClick(),
-    disabled: this.disabled() || this.calendarDisabled(),
+    disabled: this.disabledComputed() || this.calendarDisabled(),
   }));
 }

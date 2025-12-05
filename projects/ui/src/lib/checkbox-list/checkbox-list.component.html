@@ -13,7 +13,7 @@
     >
       <div class="ard-focus-overlay"></div>
       <ard-checkbox
-        [selected]="item.selected()"
+        [value]="!!item.selected()"
         [disabled]="item.disabled()"
         [color]="color()"
         [htmlId]="htmlId() + item.index"

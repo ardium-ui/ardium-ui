@@ -1,17 +1,17 @@
 import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  contentChild,
-  ElementRef,
-  forwardRef,
-  Inject,
-  input,
-  Input,
-  output,
-  viewChild,
-  ViewEncapsulation,
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    contentChild,
+    ElementRef,
+    forwardRef,
+    Inject,
+    input,
+    Input,
+    output,
+    viewChild,
+    ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BooleanLike, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
@@ -22,9 +22,9 @@ import { Nullable } from '../../types/utility.types';
 import { CaseTransformerType } from '../input-types';
 import { ARD_HEX_INPUT_DEFAULTS, ArdHexInputDefaults } from './hex-input.defaults';
 import {
-  ArdHexInputPlaceholderTemplateDirective,
-  ArdHexInputPrefixTemplateDirective,
-  ArdHexInputSuffixTemplateDirective,
+    ArdHexInputPlaceholderTemplateDirective,
+    ArdHexInputPrefixTemplateDirective,
+    ArdHexInputSuffixTemplateDirective,
 } from './hex-input.directives';
 import { HexInputModel, HexInputModelHost } from './hex-input.model';
 
@@ -107,7 +107,7 @@ export class ArdiumHexInputComponent
   readonly clearButtonTitle = input<string>(this._DEFAULTS.clearButtonTitle);
 
   readonly shouldShowClearButton = computed<boolean>(
-    () => this.clearable() && !this.disabled() && Boolean(this.inputModel?.value())
+    () => this.clearable() && !this.disabledComputed() && Boolean(this.inputModel?.value())
   );
 
   onClearButtonClick(event: MouseEvent): void {

@@ -196,7 +196,7 @@ export class ArdiumSelectComponent
       this.touched() ? 'ard-touched' : '',
       this.isOpen() ? 'ard-dropdown-open' : '',
       this._searchBarFocused() ? 'ard-select-focused' : '',
-      this.disabled() || this.readonly() ? 'ard-touch-disabled' : 'ard-touch-enabled',
+      this.disabledComputed() || this.readonly() ? 'ard-touch-disabled' : 'ard-touch-enabled',
     ].join(' ')
   );
 
@@ -285,8 +285,6 @@ export class ArdiumSelectComponent
 
   readonly filtered = computed<boolean>(() => this.searchable() && this.searchTerm() !== '');
 
-  readonly touched = signal<boolean>(false);
-
   //! custom options
   private _defaultAddCustomFn: AddCustomFn<any> = (value: string) => value;
 
@@ -320,7 +318,7 @@ export class ArdiumSelectComponent
   //! control value accessor
   //override the writeValue and setDisabledState defined in _NgModelComponent
   override setDisabledState(state: boolean): void {
-    this._disabled = state;
+    this.disabledManual.set(state);
     this._cd.markForCheck();
   }
   writeValue(ngModel: any[]): void {
@@ -613,7 +611,7 @@ export class ArdiumSelectComponent
   readonly shouldShowClearButton = computed<boolean>(
     () =>
       this.clearable() &&
-      !this.disabled() &&
+      !this.disabledComputed() &&
       !this.readonly() &&
       (this.itemStorage.isAnyItemSelected() || this.searchTerm() !== '')
   );
@@ -815,7 +813,7 @@ export class ArdiumSelectComponent
     this.open();
   }
   open(): void {
-    if (this.disabled() || this.readonly() || this.isOpen()) return;
+    if (this.disabledComputed() || this.readonly() || this.isOpen()) return;
 
     this.isOpen.set(true);
     if (this.autoHighlightFirst()) this.itemStorage.highlightFirstItem();

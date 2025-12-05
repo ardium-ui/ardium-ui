@@ -227,7 +227,7 @@ export class ArdiumNumberInputComponent
     this.onBlur(event);
   }
   private _emitTouched() {
-    this.wasTouched.set(true);
+    this.touched.set(true);
     this._onTouchedRegistered?.();
   }
   //change

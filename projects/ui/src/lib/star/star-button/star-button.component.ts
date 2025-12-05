@@ -1,12 +1,12 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    Inject,
-    ViewEncapsulation,
-    computed,
-    contentChild,
-    forwardRef,
-    input,
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  ViewEncapsulation,
+  computed,
+  contentChild,
+  forwardRef,
+  input,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { _BooleanComponentBase } from '../../_internal/boolean-component';
@@ -47,7 +47,7 @@ export class ArdiumStarButtonComponent extends _BooleanComponentBase implements 
 
   readonly ngClasses = computed<string>(() => [this.wrapperClasses(), `ard-color-${this.color}`].join(' '));
 
-  readonly starFillState = computed<StarFillMode>(() => (this.selected() ? StarFillMode.Filled : StarFillMode.None));
+  readonly starFillState = computed<StarFillMode>(() => (this.value() ? StarFillMode.Filled : StarFillMode.None));
 
   onClick(): void {
     if (this.clickStrategy() === ClickStrategy.Noop) return;

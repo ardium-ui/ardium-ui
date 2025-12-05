@@ -4,6 +4,7 @@ import {
   inject,
   Injector,
   input,
+  model,
   OnDestroy,
   OnInit,
   runInInjectionContext,
@@ -12,13 +13,13 @@ import {
 } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { FormUiControl } from '@angular/forms/signals';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { map, Subscription } from 'rxjs';
 import { TakeChance as Random } from 'take-chance';
 import { _FocusableComponentBase, _focusableComponentDefaults, _FocusableComponentDefaults } from './focusable-component';
 
-export interface _NgModelComponentDefaults extends _FocusableComponentDefaults {
-}
+export interface _NgModelComponentDefaults extends _FocusableComponentDefaults {}
 
 export const _ngModelComponentDefaults: _NgModelComponentDefaults = {
   ..._focusableComponentDefaults,
@@ -30,7 +31,14 @@ export const _ngModelComponentDefaults: _NgModelComponentDefaults = {
  * **Warning**: `writeValue` function should be implemented on the child component!
  */
 @Directive()
-export abstract class _NgModelComponentBase extends _FocusableComponentBase implements ControlValueAccessor, OnInit, OnDestroy {
+export abstract class _NgModelComponentBase
+  extends _FocusableComponentBase
+  implements
+    ControlValueAccessor,
+    OnInit,
+    OnDestroy,
+    Pick<FormUiControl, 'disabled' | 'readonly' | 'touched' | 'invalid'>
+{
   protected override readonly _DEFAULTS!: _NgModelComponentDefaults;
 
   //! control value accessor
@@ -55,7 +63,7 @@ export abstract class _NgModelComponentBase extends _FocusableComponentBase impl
    * @param isDisabled the new disabled state.
    */
   setDisabledState(isDisabled: boolean): void {
-    this.disabled.set(isDisabled);
+    this.disabledComputed.set(isDisabled);
   }
 
   /**
@@ -73,7 +81,7 @@ export abstract class _NgModelComponentBase extends _FocusableComponentBase impl
   protected abstract _emitChange(): void; //* abstract
 
   //! event handlers
-  readonly wasTouched = signal<boolean>(false);
+  readonly touched = model<boolean>(false);
 
   override onFocus(event: FocusEvent): void {
     super.onFocus(event);
@@ -89,7 +97,7 @@ export abstract class _NgModelComponentBase extends _FocusableComponentBase impl
       // if the component is immediately focused back (i.e. when changing focus between elements within the component)
       // the touched event will not be fired
       if (!this._shouldEmitTouched) return;
-      this.wasTouched.set(true);
+      this.touched.set(true);
       this._onTouchedRegistered?.();
     }, 0);
   }
@@ -120,7 +128,7 @@ export abstract class _NgModelComponentBase extends _FocusableComponentBase impl
         // I didn't find any other feasible way to detect when the control changes its touched state
         // so it had to be hacked like this
         toObservable((this._ngControl?.control as any | undefined)?.touchedReactive as Signal<boolean>)?.subscribe(v =>
-          this.wasTouched.set(v)
+          this.touched.set(v)
         );
       });
     }
@@ -129,12 +137,10 @@ export abstract class _NgModelComponentBase extends _FocusableComponentBase impl
 
   readonly htmlId = input<string>(Random.id());
 
-  readonly _hasError = input<boolean | undefined, any>(undefined, {
-    transform: v => coerceBooleanProperty(v),
-    alias: 'hasError',
-  });
+  readonly invalid = input<boolean, any>(false, { transform: v => coerceBooleanProperty(v) });
+
   private readonly _hasErrorInControl = signal<boolean>(false);
-  readonly hasError = computed<boolean>(() => this._hasError() ?? (this.wasTouched() && this._hasErrorInControl()));
+  readonly hasError = computed<boolean>(() => this.invalid() ?? (this.touched() && this._hasErrorInControl()));
 
   ngOnDestroy(): void {
     this._statusChangesSub?.unsubscribe();

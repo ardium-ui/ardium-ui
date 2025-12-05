@@ -1,24 +1,24 @@
 import { ConnectedPosition, Overlay, OverlayConfig, OverlayRef, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostListener,
-  Inject,
-  Input,
-  TemplateRef,
-  ViewContainerRef,
-  ViewEncapsulation,
-  computed,
-  contentChild,
-  forwardRef,
-  inject,
-  input,
-  output,
-  signal,
-  viewChild,
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    HostListener,
+    Inject,
+    Input,
+    TemplateRef,
+    ViewContainerRef,
+    ViewEncapsulation,
+    computed,
+    contentChild,
+    forwardRef,
+    inject,
+    input,
+    output,
+    signal,
+    viewChild,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BooleanLike, coerceArrayProperty, coerceBooleanProperty } from '@ardium-ui/devkit';
@@ -34,11 +34,11 @@ import { OptionContext } from './../../types/item-storage.types';
 import { InputModel, InputModelHost, escapeAndCreateRegex } from './../input-utils';
 import { ARD_AUTOCOMPLETE_INPUT_DEFAULTS, ArdAutocompleteInputDefaults } from './autocomplete-input.defaults';
 import {
-  ArdAutocompleteInputLoadingTemplateDirective,
-  ArdAutocompleteInputPlaceholderTemplateDirective,
-  ArdAutocompleteInputPrefixTemplateDirective,
-  ArdAutocompleteInputSuffixTemplateDirective,
-  ArdAutocompleteInputSuggestionTemplateDirective,
+    ArdAutocompleteInputLoadingTemplateDirective,
+    ArdAutocompleteInputPlaceholderTemplateDirective,
+    ArdAutocompleteInputPrefixTemplateDirective,
+    ArdAutocompleteInputSuffixTemplateDirective,
+    ArdAutocompleteInputSuggestionTemplateDirective,
 } from './autocomplete-input.directives';
 
 @Component({
@@ -111,7 +111,7 @@ export class ArdiumAutocompleteInputComponent
   //! autocomplete
   readonly autocomplete = input<Nullable<string>>(undefined);
 
-  readonly shouldDisplayAutocomplete = computed<boolean>(() => !this.disabled() && Boolean(this.autocomplete()));
+  readonly shouldDisplayAutocomplete = computed<boolean>(() => !this.disabledComputed() && Boolean(this.autocomplete()));
 
   //autocomplete event
   readonly acceptAutocompleteEvent = output({ alias: 'acceptAutocomplete' });
@@ -146,7 +146,7 @@ export class ArdiumAutocompleteInputComponent
   private readonly _suggestionDropdowOpen = signal<boolean>(false);
 
   readonly shouldDisplaySuggestions = computed(
-    () => !this.disabled() && (this.suggestionItems().length > 0 || this.areSuggestionsLoading()) && this._suggestionDropdowOpen()
+    () => !this.disabledComputed() && (this.suggestionItems().length > 0 || this.areSuggestionsLoading()) && this._suggestionDropdowOpen()
   );
 
   readonly areSuggestionsLoading = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });

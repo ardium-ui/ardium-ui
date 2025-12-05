@@ -52,18 +52,18 @@
 <div class="flex">
   @for (variant of variants; track variant) {
   <div class="grid master">
-    @for (appearance of appearances; track appearance) { @for (selected of [false, true]; track selected) { @for (disabled of
+    @for (appearance of appearances; track appearance) { @for (value of [false, true]; track value) { @for (disabled of
     [false, true]; track disabled) { @for (color of colors; track color) {
     <ard-selectable-chip
       [variant]="variant"
       [appearance]="appearance"
       [color]="color"
       [disabled]="disabled"
-      [selected]="selected"
+      [value]="value"
       [compact]="compact"
       (focus)="log('focus', $event)"
       (blur)="log('blur', $event)"
-      (selectedChange)="log('selectedChange', $event)"
+      (valueChange)="log('valueChange', $event)"
       >Foo</ard-selectable-chip
     >
     } } } }

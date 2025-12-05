@@ -1,8 +1,8 @@
 <div
   #focusableElement
   class="ard-segment-container"
-  [class.ard-disabled]="disabled()"
-  [ariaDisabled]="disabled()"
+  [class.ard-disabled]="disabledComputed()"
+  [ariaDisabled]="disabledComputed()"
   [ngClass]="ngClasses()"
   [class.ard-focus-visible]="isFocused() && !isMouseBeingUsed"
   [class.ard-using-keyboard]="!isMouseBeingUsed()"

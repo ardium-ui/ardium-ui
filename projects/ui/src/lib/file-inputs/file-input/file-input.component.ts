@@ -7,8 +7,7 @@ import {
   contentChild,
   forwardRef,
   input,
-  output,
-  signal,
+  output
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
@@ -84,7 +83,7 @@ export class ArdiumFileInputComponent extends _FileInputComponentBase {
   readonly clearButtonTitle = input<string>(this._DEFAULTS.clearButtonTitle);
 
   get shouldShowClearButton(): boolean {
-    return this.clearable() && !this.disabled() && Boolean(this.value);
+    return this.clearable() && !this.disabledComputed() && Boolean(this.value);
   }
   onClearButtonClick(event: MouseEvent): void {
     event.stopPropagation();
@@ -103,12 +102,10 @@ export class ArdiumFileInputComponent extends _FileInputComponentBase {
 
   readonly clearEvent = output({ alias: 'clear' });
 
-  //! state
-  readonly touched = signal<boolean>(false);
-
   //! prefix & suffix
   readonly prefixTemplate = contentChild(ArdFileInputPrefixTemplateDirective);
   readonly suffixTemplate = contentChild(ArdFileInputSuffixTemplateDirective);
+  
   //! templates
   readonly idleTemplate = contentChild(ArdiumFileInputIdleContentTemplateDirective);
   readonly dragoverTemplate = contentChild(ArdiumFileInputDragoverContentTemplateDirective);

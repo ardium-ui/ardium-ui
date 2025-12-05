@@ -1,16 +1,16 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    Inject,
-    ViewEncapsulation,
-    computed,
-    contentChild,
-    forwardRef,
-    input,
-    model,
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  ViewEncapsulation,
+  computed,
+  contentChild,
+  effect,
+  forwardRef,
+  input,
+  model,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { SimpleComponentColor } from '../types/colors.types';
 import { _BooleanComponentBase } from './../_internal/boolean-component';
 import { ARD_CHECKBOX_DEFAULTS, ArdCheckboxDefaults } from './checkbox.defaults';
@@ -37,6 +37,11 @@ export class ArdiumCheckboxComponent extends _BooleanComponentBase implements Co
   protected override readonly _DEFAULTS!: ArdCheckboxDefaults;
   constructor(@Inject(ARD_CHECKBOX_DEFAULTS) defaults: ArdCheckboxDefaults) {
     super(defaults);
+
+    effect(() => {
+      const isSelected = this.value();
+      this.state.set(isSelected ? CheckboxState.Selected : CheckboxState.Unselected);
+    });
   }
 
   //! appearance
@@ -46,13 +51,6 @@ export class ArdiumCheckboxComponent extends _BooleanComponentBase implements Co
   readonly ngClasses = computed(() =>
     [`ard-color-${this.color()}`, `ard-unselected-color-${this.unselectedColor()}`, `ard-checkbox-${this.state()}`].join(' ')
   );
-
-  //override the "selected" setter, so it changes the state too.
-  override set _selected(v: any) {
-    const selected = coerceBooleanProperty(v);
-    this.selected.set(selected);
-    this.state.set(selected ? CheckboxState.Selected : CheckboxState.Unselected);
-  }
 
   readonly state = model<CheckboxState>(CheckboxState.Unselected);
 
@@ -65,7 +63,7 @@ export class ArdiumCheckboxComponent extends _BooleanComponentBase implements Co
       newState = CheckboxState.Selected;
     }
     this.state.set(newState);
-    this.selected.set(this.state() === CheckboxState.Selected);
+    this.value.set(this.state() === CheckboxState.Selected);
 
     this._emitChange();
   }
@@ -76,8 +74,8 @@ export class ArdiumCheckboxComponent extends _BooleanComponentBase implements Co
   readonly checkboxTemplate = contentChild(ArdCheckboxTemplateDirective);
 
   readonly checkboxTemplateContext = computed<CheckboxTemplateContext>(() => ({
-    $implicit: this.selected(),
-    selected: this.selected(),
+    $implicit: this.value(),
+    selected: this.value(),
     state: this.state(),
   }));
 }
