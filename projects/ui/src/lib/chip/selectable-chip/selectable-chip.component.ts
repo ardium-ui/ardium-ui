@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, forwardRef, Inject, input, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormValueControl } from '@angular/forms/signals';
 import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { SimpleOneAxisAlignment } from '../../types/alignment.types';
 import { ComponentColor } from '../../types/colors.types';
@@ -22,7 +23,7 @@ import { ARD_SELECTABLE_CHIP_DEFAULTS, ArdSelectableChipDefaults } from './selec
     },
   ],
 })
-export class ArdiumSelectableChipComponent extends _BooleanComponentBase implements ControlValueAccessor {
+export class ArdiumSelectableChipComponent extends _BooleanComponentBase implements ControlValueAccessor, FormValueControl<boolean> {
   protected override readonly _DEFAULTS!: ArdSelectableChipDefaults;
   constructor(@Inject(ARD_SELECTABLE_CHIP_DEFAULTS) defaults: ArdSelectableChipDefaults) {
     super(defaults);

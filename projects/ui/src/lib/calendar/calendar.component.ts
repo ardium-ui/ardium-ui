@@ -60,13 +60,14 @@ import { isYearOutOfRange } from './views/years-view/years-view.helpers';
     },
   ],
 })
+// TODO: add support for for FormValueControl<Date | null>
 export class ArdiumCalendarComponent extends _FormFieldComponentBase implements OnChanges {
   protected override readonly _DEFAULTS!: ArdCalendarDefaults;
   constructor(@Inject(ARD_CALENDAR_DEFAULTS) defaults: ArdCalendarDefaults) {
     super(defaults);
 
     effect(() => {
-      this.selectedDate(); // trigger effect
+      this.value(); // trigger effect
       this._emitChange();
     });
   }
@@ -131,7 +132,7 @@ export class ArdiumCalendarComponent extends _FormFieldComponentBase implements 
   }
 
   //! value
-  readonly selectedDate = model<Date | null>(null, { alias: 'selected' });
+  readonly value = model<Date | null>(null);
 
   readonly yearSelect = output<number>();
   readonly monthSelect = output<number>();
@@ -150,16 +151,16 @@ export class ArdiumCalendarComponent extends _FormFieldComponentBase implements 
 
   override writeValue(v: any): void {
     if (v instanceof Date) {
-      this.selectedDate.set(v);
+      this.value.set(v);
     } else if (!isDefined(v)) {
-      this.selectedDate.set(null);
+      this.value.set(null);
     } else {
       console.error(new Error(`ARD-NF2003: <ard-calendar> [writeValue] expected a Date or null, got "${v}".`));
     }
   }
 
   protected override _emitChange(): void {
-    this._onChangeRegistered?.(this.selectedDate());
+    this._onChangeRegistered?.(this.value());
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -178,10 +179,10 @@ export class ArdiumCalendarComponent extends _FormFieldComponentBase implements 
   isDaySelected(day: number | Date | null): boolean {
     if (day instanceof Date) day = day.getDate();
     return (
-      this.selectedDate() !== null &&
-      this.activeYear() === this.selectedDate()?.getFullYear() &&
-      this.activeMonth() === this.selectedDate()?.getMonth() &&
-      day === this.selectedDate()?.getDate()
+      this.value() !== null &&
+      this.activeYear() === this.value()?.getFullYear() &&
+      this.activeMonth() === this.value()?.getMonth() &&
+      day === this.value()?.getDate()
     );
   }
   isDayOutOfRange(day: number, month: number = this.activeMonth(), year: number = this.activeYear()): number {
@@ -195,16 +196,16 @@ export class ArdiumCalendarComponent extends _FormFieldComponentBase implements 
   selectDay(day: number | Date | null): void {
     if (this.isDaySelected(day)) return;
     if (isNull(day)) {
-      if (!isDefined(this.selectedDate())) return;
+      if (!isDefined(this.value())) return;
 
-      this.selectedDate.set(null);
+      this.value.set(null);
       return;
     }
 
     if (day instanceof Date) day = day.getDate();
     if ((day && this.isDayOutOfRange(day)) || this.isDayFilteredOut()(day)) return;
 
-    this.selectedDate.set(this._createDate(this.activeYear(), this.activeMonth(), day));
+    this.value.set(this._createDate(this.activeYear(), this.activeMonth(), day));
   }
   selectCurrentlyHighlightedDay(): void {
     if (!isDefined(this.highlightedDay())) return;
@@ -300,9 +301,9 @@ export class ArdiumCalendarComponent extends _FormFieldComponentBase implements 
   isMonthSelected(month: number | Date): boolean {
     if (month instanceof Date) month = month.getMonth();
     return (
-      this.selectedDate() !== null &&
-      this.activeYear() === this.selectedDate()?.getFullYear() &&
-      month === this.selectedDate()?.getMonth()
+      this.value() !== null &&
+      this.activeYear() === this.value()?.getFullYear() &&
+      month === this.value()?.getMonth()
     );
   }
   isMonthOutOfRange(month: number, year: number = this.activeYear()): number {
@@ -410,7 +411,7 @@ export class ArdiumCalendarComponent extends _FormFieldComponentBase implements 
   //! selecting years
   isYearSelected(year: number | Date): boolean {
     if (year instanceof Date) year = year.getFullYear();
-    return this.selectedDate() !== null && year === this.selectedDate()?.getFullYear();
+    return this.value() !== null && year === this.value()?.getFullYear();
   }
   isYearOutOfRange(year: number): number {
     return isYearOutOfRange(year, this.min(), this.max());

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation, computed, forwardRef, input } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormValueControl } from '@angular/forms/signals';
 import { ComponentColor } from '../types/colors.types';
 import { Nullable } from '../types/utility.types';
 import { _BooleanComponentBase } from './../_internal/boolean-component';
@@ -21,7 +22,7 @@ import { ArdSlideToggleAppearance } from './slide-toggle.types';
     },
   ],
 })
-export class ArdiumSlideToggleComponent extends _BooleanComponentBase {
+export class ArdiumSlideToggleComponent extends _BooleanComponentBase implements FormValueControl<boolean> {
   protected override readonly _DEFAULTS!: ArdSlideToggleDefaults;
   constructor(@Inject(ARD_SLIDE_TOGGLE_DEFAULTS) defaults: ArdSlideToggleDefaults) {
     super(defaults);

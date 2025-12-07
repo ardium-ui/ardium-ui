@@ -1,18 +1,18 @@
 import {
-    AfterContentInit,
-    ChangeDetectionStrategy,
-    Component,
-    HostBinding,
-    Input,
-    OnDestroy,
-    OutputRefSubscription,
-    ViewEncapsulation,
-    contentChildren,
-    effect,
-    forwardRef,
-    input,
-    model,
-    output,
+  AfterContentInit,
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  Input,
+  OnDestroy,
+  OutputRefSubscription,
+  ViewEncapsulation,
+  contentChildren,
+  effect,
+  forwardRef,
+  input,
+  model,
+  output,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TakeChance as Random } from 'take-chance';
@@ -136,7 +136,7 @@ export class ArdiumRadioGroupComponent extends _FormFieldComponentBase implement
   private _findRadioByValue(v: any): void {
     if (!this._radios) return;
 
-    this.selected.set(this._radios().find(radio => v === radio.value()) ?? null);
+    this.selected.set(this._radios().find(radio => v === radio.value()) ?? undefined);
   }
 
   /** Updates all child radios depending on the currently selected radio. */
@@ -153,7 +153,7 @@ export class ArdiumRadioGroupComponent extends _FormFieldComponentBase implement
    * The currently selected radio button. If set to a new radio button, the radio group value
    * will be updated to match the new selected button.
    */
-  readonly selected = model<Nullable<ArdiumRadioComponent>>(null);
+  readonly selected = model<Nullable<ArdiumRadioComponent>>(undefined);
 
   private _checkSelectedRadioButton() {
     const s = this.selected();

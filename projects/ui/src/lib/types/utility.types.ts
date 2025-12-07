@@ -11,4 +11,4 @@ export type ClickStrategy = (typeof ClickStrategy)[keyof typeof ClickStrategy];
  */
 export type NonEmptyArray<T> = [T, ...T[]];
 
-export type Nullable<T> = T | undefined | null;
+export type Nullable<T> = T | undefined;

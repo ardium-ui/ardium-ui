@@ -50,3 +50,15 @@
     </ng-template>
   </ard-slider>
 </div>
+<div class="master flex">
+  <span class="title">Slider with Reactive Forms support</span>
+  <ard-slider [formControl]="formControl"></ard-slider>
+</div>
+<!-- <div class="master flex">
+  <span class="title">Slider with Signal Forms support</span>
+  <ard-slider [field]="signalForm.slider"></ard-slider>
+</div> -->
+
+<ard-test-slider [field]="signalForm.slider"></ard-test-slider>
+
+<input type="number" [field]="signalForm.slider" placeholder="Signal Forms Textbox" />

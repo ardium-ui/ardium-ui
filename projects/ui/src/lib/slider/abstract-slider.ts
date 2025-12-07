@@ -4,14 +4,15 @@ import {
   Directive,
   ElementRef,
   HostListener,
-  Input,
+  ModelSignal,
+  OnChanges,
   Renderer2,
+  SimpleChanges,
   ViewContainerRef,
   computed,
   contentChild,
   inject,
   input,
-  output,
   signal,
   viewChild,
 } from '@angular/core';
@@ -25,6 +26,7 @@ import { ArdSliderTooltipDirective } from './slider.directive';
 import {
   SliderDecorationPosition,
   SliderLabelObject,
+  SliderRange,
   SliderTooltipBehavior,
   SliderTooltipFormatFn,
   _InternalSliderLabelObject,
@@ -64,7 +66,10 @@ export const _asbtractSliderDefaults: _AsbtractSliderDefaults = {
 };
 
 @Directive()
-export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
+export abstract class _AbstractSlider<T extends number | SliderRange>
+  extends _NgModelComponentBase
+  implements OnChanges
+{
   abstract readonly componentId: string;
   abstract readonly componentName: string;
 
@@ -78,15 +83,19 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   protected readonly scrollStrategyOpts = inject(ScrollStrategyOptions);
   protected readonly viewContainerRef = inject(ViewContainerRef);
 
-  readonly noTooltip = input<boolean, BooleanLike>(this._DEFAULTS.noTooltip, { transform: v => coerceBooleanProperty(v) });
-
-  readonly tooltipFormatFn = input<Nullable<SliderTooltipFormatFn>>(this._DEFAULTS.formatTooltipFn);
-
-  protected abstract _updateTooltipValue(): void;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['value']) {
+      const v = changes['value'].currentValue;
+      this.writeValue(v);
+    }
+  }
 
   //! min, max, step sizes
-  readonly min = input<number, NumberLike>(this._DEFAULTS.min, { transform: v => coerceNumberProperty(v, this._DEFAULTS.min) });
-  readonly max = input<number, NumberLike>(this._DEFAULTS.max, { transform: v => coerceNumberProperty(v, this._DEFAULTS.max) });
+  readonly min = input<number | undefined, NumberLike>(this._DEFAULTS.min, { transform: v => coerceNumberProperty(v, this._DEFAULTS.min) });
+  readonly minNumber = computed<number>(() => this.min() ?? this._DEFAULTS.min);
+
+  readonly max = input<number | undefined, NumberLike>(this._DEFAULTS.max, { transform: v => coerceNumberProperty(v, this._DEFAULTS.max) });
+  readonly maxNumber = computed<number>(() => this.max() ?? this._DEFAULTS.max);
 
   readonly step = input<number, NumberLike>(this._DEFAULTS.step, {
     transform: v => {
@@ -107,10 +116,12 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     transform: v => coerceNumberProperty(v, this._DEFAULTS.shiftMultiplier),
   });
 
-  protected readonly _stepSizeComputed = computed<number>(() => this.step() / Math.abs(this.min() - this.max()));
+  protected readonly _stepSizeComputed = computed<number>(() => this.step() / Math.abs(this.minNumber() - this.maxNumber()));
 
   //! value ticks
-  readonly showValueTicks = input<boolean, BooleanLike>(this._DEFAULTS.showValueTicks, { transform: v => coerceBooleanProperty(v) });
+  readonly showValueTicks = input<boolean, BooleanLike>(this._DEFAULTS.showValueTicks, {
+    transform: v => coerceBooleanProperty(v),
+  });
 
   readonly percentStepSize = computed<number>(() => this._stepSizeComputed() * 100);
 
@@ -176,19 +187,11 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     const transitionDuration = Math.min(80, formulaResultRounded);
     return transitionDuration + 'ms';
   });
-  private readonly _totalSteps = computed<number>(() => (this.max() - this.min()) / this.step());
+  private readonly _totalSteps = computed<number>(() => (this.maxNumber() - this.minNumber()) / this.step());
 
   //! value input & output
   //! abstract here
-  protected abstract _value: T;
-  @Input()
-  set value(newValue: T) {
-    this.writeValue(newValue);
-  }
-  get value(): T {
-    return this._value;
-  }
-  readonly valueChange = output<T>();
+  protected abstract readonly value: ModelSignal<T>;
 
   //! writeValue
   //! abstract here
@@ -198,7 +201,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
 
   protected _offset(offset: number, hasShift: boolean, handleId = 1): void {
     const stepSize = this._stepSizeComputed() * (hasShift ? this.shiftMultiplier() : 1);
-    let newPercent = this._positionPercent[handleId - 1] + stepSize * offset;
+    let newPercent = this.positionPercent()[handleId - 1] + stepSize * offset;
     newPercent = this._clampPercentValue(newPercent);
     this._setValueFromPercent(newPercent);
   }
@@ -206,22 +209,21 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   //! helper methods
   protected _clampValue(v: number): number {
     //clamp between min and max
-    v = Math.min(v, this.max());
-    v = Math.max(v, this.min());
+    v = Math.min(v, this.maxNumber());
+    v = Math.max(v, this.minNumber());
     //round to the nearest step
-    v -= this.min();
+    v -= this.minNumber();
     v = roundToMultiple(v, this.step());
-    v += this.min();
+    v += this.minNumber();
     return v;
   }
   protected _valueToPercent(v: number): number {
-    const minMaxDifference = Math.abs(this.min() - this.max());
-    return (v - this.min()) / minMaxDifference;
+    const minMaxDifference = Math.abs(this.minNumber() - this.maxNumber());
+    return (v - this.minNumber()) / minMaxDifference;
   }
   protected _emitChange(): void {
-    const v = this.value;
+    const v = this.value();
     this._onChangeRegistered?.(v);
-    this.valueChange.emit(v);
   }
 
   //! tooltip
@@ -229,6 +231,10 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
 
   readonly tooltipPosition = input<SliderDecorationPosition>(SliderDecorationPosition.Top);
   readonly tooltipBehavior = input<SliderTooltipBehavior>(SliderTooltipBehavior.Auto);
+
+  readonly noTooltip = input<boolean, BooleanLike>(this._DEFAULTS.noTooltip, { transform: v => coerceBooleanProperty(v) });
+
+  readonly tooltipFormatFn = input<Nullable<SliderTooltipFormatFn>>(this._DEFAULTS.formatTooltipFn);
 
   //! event handlers
   protected readonly _grabbedHandleId = signal<null | number>(null);
@@ -263,19 +269,26 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   }
 
   //! position calculators
-  protected _positionPercent: [number] | [number, number] = [0];
-  getHandlePosition(handleId = 1): string {
-    return this._positionPercent[handleId - 1] * 100 + '%';
-  }
+  protected readonly positionPercent = computed((): [number] | [number, number] => {
+    const v = this.value();
+    const min = this.minNumber();
+    const max = this.maxNumber();
+    const minMaxDifference = Math.abs(min - max);
+
+    if (typeof v !== 'number') {
+      return [(v.low - min) / minMaxDifference, (v.high - min) / minMaxDifference];
+    }
+    return [(v - min) / minMaxDifference];
+  });
+  readonly getHandlePosition = computed<(handleId: number) => string>(
+    () => handleId => this.positionPercent()[handleId - 1] * 100 + '%'
+  );
+
   protected _setValueFromPercent(percent: number, handleId: number | null = 1): void {
     if (!handleId) return;
-    if (this._positionPercent[handleId - 1] === percent) return;
-    this._positionPercent[handleId - 1] = percent;
-    this._value = this._percentValueToValue(percent, handleId);
+    if (this.positionPercent()[handleId - 1] === percent) return;
 
-    this._updateTooltipValue();
-
-    this._emitChange();
+    this.value.set(this._percentValueToValue(percent, handleId));
   }
   protected _writeValueFromEvent(event: MouseEvent | TouchEvent, handleId?: number | null): void {
     const percent = this._getPercentValueFromEvent(event);

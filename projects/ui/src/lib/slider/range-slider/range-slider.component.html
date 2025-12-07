@@ -15,19 +15,19 @@
       <div
         class="ard-slider-track-overlay ard-slider-track-active"
         [style]="{
-          left: trackOverlayLeft,
-          width: trackOverlayWidth
+          left: trackOverlayLeft(),
+          width: trackOverlayWidth()
         }"
       ></div>
       @if (showValueTicks()) {
-        <div class="ard-value-tick-container">
-          @for (tick of _tickArray(); track tick) {
-            <div
-              class="ard-value-tick"
-              [style]="{ left: tick }"
-            ></div>
-          }
-        </div>
+      <div class="ard-value-tick-container">
+        @for (tick of _tickArray(); track tick) {
+        <div
+          class="ard-value-tick"
+          [style]="{ left: tick }"
+        ></div>
+        }
+      </div>
       }
     </div>
     <button
@@ -39,30 +39,30 @@
       (pointerdown)="onPointerDownOnHandle($event, 1)"
       (focus)="onHandleFocus($event, 1)"
       (blur)="onBlur($event)"
-      [style]="{ left: getHandlePosition(1) }"
+      [style]="{ left: getHandlePosition()(1) }"
     >
       <div class="ard-focus-overlay"></div>
       <div class="ard-hitbox"></div>
     </button>
     @if (tooltipBehavior() !== 'never') {
-      <div
-        class="ard-slider-tooltip-wrapper"
-        [class.ard-tooltip-always]="tooltipBehavior() === 'always'"
-        [style]="{ left: getHandlePosition(1) }"
+    <div
+      class="ard-slider-tooltip-wrapper"
+      [class.ard-tooltip-always]="tooltipBehavior() === 'always'"
+      [style]="{ left: getHandlePosition()(1) }"
+    >
+      <ng-template
+        #defaultTooltipTemplate
+        let-value
       >
-        <ng-template
-          #defaultTooltipTemplate
-          let-value
-        >
-          <div class="ard-slider-tooltip">{{ value }}</div>
-        </ng-template>
+        <div class="ard-slider-tooltip">{{ value }}</div>
+      </ng-template>
 
-        <ng-template
-          [ngTemplateOutlet]="tooltipTemplate()?.template || defaultTooltipTemplate"
-          [ngTemplateOutletContext]="getTooltipContext('low')"
-        >
-        </ng-template>
-      </div>
+      <ng-template
+        [ngTemplateOutlet]="tooltipTemplate()?.template || defaultTooltipTemplate"
+        [ngTemplateOutletContext]="getTooltipContexts().low"
+      >
+      </ng-template>
+    </div>
     }
     <button
       #focusableElement
@@ -73,46 +73,43 @@
       (pointerdown)="onPointerDownOnHandle($event, 2)"
       (focus)="onHandleFocus($event, 2)"
       (blur)="onBlur($event)"
-      [style]="{ left: getHandlePosition(2) }"
+      [style]="{ left: getHandlePosition()(2) }"
     >
       <div class="ard-focus-overlay"></div>
       <div class="ard-hitbox"></div>
     </button>
     @if (tooltipBehavior() !== 'never') {
-      <div
-        class="ard-slider-tooltip-wrapper"
-        [class.ard-tooltip-always]="tooltipBehavior() === 'always'"
-        [style]="{ left: getHandlePosition(2) }"
+    <div
+      class="ard-slider-tooltip-wrapper"
+      [class.ard-tooltip-always]="tooltipBehavior() === 'always'"
+      [style]="{ left: getHandlePosition()(2) }"
+    >
+      <ng-template
+        #defaultTooltipTemplate
+        let-value
       >
-        <ng-template
-          #defaultTooltipTemplate
-          let-value
-        >
-          <div class="ard-slider-tooltip">{{ value }}</div>
-        </ng-template>
+        <div class="ard-slider-tooltip">{{ value }}</div>
+      </ng-template>
 
-        <ng-template
-          [ngTemplateOutlet]="tooltipTemplate()?.template || defaultTooltipTemplate"
-          [ngTemplateOutletContext]="getTooltipContext('high')"
-        >
-        </ng-template>
-      </div>
+      <ng-template
+        [ngTemplateOutlet]="tooltipTemplate()?.template || defaultTooltipTemplate"
+        [ngTemplateOutletContext]="getTooltipContexts().high"
+      >
+      </ng-template>
+    </div>
     }
   </div>
   @if (labelObjects().length) {
+  <div class="ard-slider-label-container">
+    @for (label of labelObjects(); track $index) {
     <div
-      class="ard-slider-label-container"
-      *ngIf="labelObjects.length"
+      class="ard-slider-label"
+      [style]="{ left: label.positionPercent }"
     >
-      @for (label of labelObjects(); track $index) {
-        <div
-          class="ard-slider-label"
-          [style]="{ left: label.positionPercent }"
-        >
-          {{ label.label }}
-        </div>
-      }
+      {{ label.label }}
     </div>
+    }
+  </div>
   }
 </div>
 

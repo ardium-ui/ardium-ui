@@ -11,6 +11,7 @@ import {
   model,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormValueControl } from '@angular/forms/signals';
 import { SimpleComponentColor } from '../types/colors.types';
 import { _BooleanComponentBase } from './../_internal/boolean-component';
 import { ARD_CHECKBOX_DEFAULTS, ArdCheckboxDefaults } from './checkbox.defaults';
@@ -33,7 +34,7 @@ import { CheckboxState, CheckboxTemplateContext } from './checkbox.types';
     },
   ],
 })
-export class ArdiumCheckboxComponent extends _BooleanComponentBase implements ControlValueAccessor {
+export class ArdiumCheckboxComponent extends _BooleanComponentBase implements ControlValueAccessor, FormValueControl<boolean> {
   protected override readonly _DEFAULTS!: ArdCheckboxDefaults;
   constructor(@Inject(ARD_CHECKBOX_DEFAULTS) defaults: ArdCheckboxDefaults) {
     super(defaults);

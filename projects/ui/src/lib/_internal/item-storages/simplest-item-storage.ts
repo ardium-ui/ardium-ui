@@ -16,7 +16,7 @@ export interface SimplestItemStorageHost {
 
 export class SimplestItemStorage {
   private readonly _items = signal<ArdSimplestStorageItem[]>([]);
-  private readonly _highlightedItem = signal<Nullable<ArdSimplestStorageItem>>(null);
+  private readonly _highlightedItem = signal<Nullable<ArdSimplestStorageItem>>(undefined);
 
   constructor(private readonly _ardParentComp: SimplestItemStorageHost) {}
 
@@ -108,7 +108,7 @@ export class SimplestItemStorage {
     if (hi) {
       hi.highlighted.set(false);
     }
-    this._highlightedItem.set(null);
+    this._highlightedItem.set(undefined);
   }
   /**
    * Highlights a given item.
@@ -128,7 +128,7 @@ export class SimplestItemStorage {
   unhighlightItem(item: ArdSimplestStorageItem): void {
     item.highlighted.set(false);
 
-    if (this._highlightedItem()?.index === item.index) this._highlightedItem.set(null);
+    if (this._highlightedItem()?.index === item.index) this._highlightedItem.set(undefined);
   }
   /**
    * Highlights the first item out of all items.

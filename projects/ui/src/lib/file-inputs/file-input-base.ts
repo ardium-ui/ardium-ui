@@ -59,7 +59,7 @@ export abstract class _FileInputComponentBase extends _FormFieldComponentBase im
 
   //! settings
   readonly multiple = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly maxFiles = input<Nullable<number>, any>(null, { transform: v => coerceNumberProperty(v, null) });
+  readonly maxFiles = input<Nullable<number>, any>(undefined, { transform: v => coerceNumberProperty(v, undefined) });
 
   readonly maxFilesWithMultiple = computed<number>(() => (this.multiple() ? this.maxFiles() ?? Infinity : 1));
 
@@ -69,7 +69,7 @@ export abstract class _FileInputComponentBase extends _FormFieldComponentBase im
     return this.blockAfterUpload() && isDefined(this.value);
   }
 
-  readonly maxFileSizeBytes = input<Nullable<number>, any>(null, { transform: v => coerceNumberProperty(v, null) });
+  readonly maxFileSizeBytes = input<Nullable<number>, any>(undefined, { transform: v => coerceNumberProperty(v, undefined) });
 
   readonly accept = input<string | string[]>('*');
   readonly directoryId = input<Nullable<string>>(undefined);

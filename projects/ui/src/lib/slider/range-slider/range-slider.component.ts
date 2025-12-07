@@ -1,4 +1,16 @@
-import { ChangeDetectionStrategy, Component, HostListener, Inject, OnInit, ViewEncapsulation, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  Inject,
+  OnChanges,
+  SimpleChanges,
+  ViewEncapsulation,
+  computed,
+  model,
+  signal
+} from '@angular/core';
+import { FormValueControl } from '@angular/forms/signals';
 import { roundToPrecision } from 'more-rounding';
 import { isNumber, isObject } from 'simple-bool';
 import { _AbstractSlider } from '../abstract-slider';
@@ -13,7 +25,7 @@ import { SliderRange, SliderTooltipContext } from '../slider.types';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> implements OnInit {
+export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> implements OnChanges, FormValueControl<SliderRange> {
   readonly componentId = '106';
   readonly componentName = 'range-slider';
 
@@ -22,13 +34,30 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
     super(defaults);
   }
 
-  protected _value: SliderRange = { low: -Infinity, high: Infinity };
+  readonly value = model<SliderRange>({ low: this._DEFAULTS.min, high: this._DEFAULTS.max });
 
-  override ngOnInit(): void {
-    super.ngOnInit();
-    if (this._value.low !== -Infinity && this._value.high !== Infinity) return;
+  readonly normalizedValue = computed<SliderRange>(() => this._normalizeSliderRange(this.value()));
 
-    this.writeValue({ low: this.min(), high: this.max() });
+  // private readonly _ = effect(() => {
+  //   this.normalizedValue();
+  //   this._emitChange();
+  // });
+
+  override ngOnChanges(changes: SimpleChanges): void {
+    if (changes['min'] || changes['max']) {
+      const v = changes['value']?.currentValue ?? this.value();
+      if (
+        (changes['min'] && changes['min'].currentValue !== changes['min'].previousValue && changes['min'].currentValue > v.low) ||
+        (changes['max'] && changes['max'].currentValue !== changes['max'].previousValue && changes['max'].currentValue < v.high)
+      ) {
+        this.writeValue({
+          low: Math.max(changes['min'].currentValue ?? this.minNumber(), v.low),
+          high: Math.min(changes['max'].currentValue ?? this.maxNumber(), v.high),
+        });
+      }
+    } else {
+      super.ngOnChanges(changes);
+    }
   }
 
   //! writeValue
@@ -61,53 +90,44 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
     }
     const lowClamped = this._clampValue(low);
     const highClamped = this._clampValue(high);
-    const value: SliderRange = this._arrayValueToObjectValue([lowClamped, highClamped]);
-    this._value = value;
-    this._positionPercent[0] = this._valueToPercent(lowClamped);
-    this._positionPercent[1] = this._valueToPercent(highClamped);
-    this._updateTooltipValue();
-  }
-  override get value(): SliderRange {
-    return this._normalizeSliderRange(this._value);
-  }
-  override set value(v: any) {
-    this.writeValue(v);
+    const value: SliderRange = this._normalizeSliderRange(this._arrayValueToObjectValue([lowClamped, highClamped]));
+    this.value.set(value);
   }
 
   //! tooltip updater
-  _tooltipValue: SliderRange<string | number> = this.value;
-
-  protected _updateTooltipValue(): void {
-    const v: SliderRange<string | number> = Object.create(this._value);
+  protected readonly _tooltipValue = computed<SliderRange<string | number>>(() => {
+    const v: SliderRange<string | number> = Object.create(this.value());
     const formatFn = this.tooltipFormatFn();
     if (formatFn) {
       v.low = formatFn(v.low as number);
       v.high = formatFn(v.high as number);
     }
-    this._tooltipValue = v;
-  }
+    return v;
+  });
 
-  getTooltipContext(type: 'low' | 'high'): SliderTooltipContext {
+  readonly getTooltipContexts = computed((): SliderRange<SliderTooltipContext> => {
     return {
-      value: this._tooltipValue[type],
-      $implicit: this._tooltipValue[type],
+      low: {
+        value: this._tooltipValue().low,
+        $implicit: this._tooltipValue().low,
+      },
+      high: {
+        value: this._tooltipValue().high,
+        $implicit: this._tooltipValue().high,
+      },
     };
-  }
+  });
 
   //! methods for programmatic manipulation
   reset(): void {
-    this._value = { low: -Infinity, high: Infinity };
-    this._positionPercent[0] = 0;
-    this._positionPercent[1] = 1;
+    this.value.set({ low: this.minNumber(), high: this.maxNumber() });
   }
 
   //! track overlay getters
-  get trackOverlayLeft(): string {
-    return Math.min(...this._positionPercent) * 100 + '%';
-  }
-  get trackOverlayWidth(): string {
-    return Math.abs(this._positionPercent[0] - this._positionPercent[1]!) * 100 + '%';
-  }
+  readonly trackOverlayLeft = computed<string>(() => Math.min(...this.positionPercent()) * 100 + '%');
+  readonly trackOverlayWidth = computed<string>(
+    () => Math.abs(this.positionPercent()[0] - this.positionPercent()[1]!) * 100 + '%'
+  );
 
   //! event handlers
   onTrackHitboxPointerDown(event: MouseEvent | TouchEvent): void {
@@ -127,13 +147,13 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
 
   //! position calculators
   protected _percentValueToValue(percent: number, handleId: number): SliderRange {
-    const minMaxDifference = Math.abs(this.min() - this.max());
-    let newVal = percent * minMaxDifference + this.min();
+    const minMaxDifference = Math.abs(this.minNumber() - this.maxNumber());
+    let newVal = percent * minMaxDifference + this.minNumber();
     //round to 9 decimal places to avoid floating point arithmetic errors
     //9 is an arbitrary number that just works well. ¯\_(ツ)_/¯
     newVal = roundToPrecision(newVal, 9);
 
-    const newValObj = { low: this._value.low, high: this._value.high };
+    const newValObj = { low: this.normalizedValue().low, high: this.normalizedValue().high };
     if (handleId === 1) {
       newValObj.low = newVal;
     } else {

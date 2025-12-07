@@ -38,7 +38,7 @@ export class ArdiumIconComponent implements AfterViewInit {
   protected readonly _DEFAULTS = inject(ARD_ICON_DEFAULTS);
 
   readonly ariaLabel = input<string>('');
-  readonly icon = input<Nullable<string>>(undefined);
+  readonly icon = input<string | null | undefined>(undefined);
 
   readonly filled = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
   readonly weight = input<WeightNumber | undefined, Nullable<Weight>>(400, {

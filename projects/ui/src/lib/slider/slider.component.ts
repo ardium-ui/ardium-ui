@@ -1,5 +1,16 @@
-import { ChangeDetectionStrategy, Component, forwardRef, HostListener, Inject, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  forwardRef,
+  HostListener,
+  Inject,
+  model,
+  ViewEncapsulation,
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormValueControl } from '@angular/forms/signals';
 import { roundToPrecision } from 'more-rounding';
 import { _AbstractSlider } from './abstract-slider';
 import { ARD_SLIDER_DEFAULTS, ArdSliderDefaults } from './slider.defaults';
@@ -20,7 +31,7 @@ import { SliderTooltipContext } from './slider.types';
     },
   ],
 })
-export class ArdiumSliderComponent extends _AbstractSlider<number> {
+export class ArdiumSliderComponent extends _AbstractSlider<number> implements FormValueControl<number> {
   readonly componentId = '105';
   readonly componentName = 'slider';
 
@@ -30,24 +41,27 @@ export class ArdiumSliderComponent extends _AbstractSlider<number> {
   }
 
   //! value input & output
-  protected _value = 0;
+  readonly value = model<number>(0);
+
+  private readonly _ = effect(() => {
+    this.value();
+    this._emitChange();
+  });
 
   //! tooltip updater
-  _tooltipValue = String(this.value);
-
-  protected _updateTooltipValue(): void {
-    let v: string | number = this._value;
+  protected readonly _tooltipValue = computed<string>(() => {
+    let v: string | number = this.value();
     const formatFn = this.tooltipFormatFn();
     if (formatFn) v = formatFn(v);
-    this._tooltipValue = String(v);
-  }
+    return String(v);
+  });
 
-  getTooltipContext(): SliderTooltipContext {
+  readonly getTooltipContext = computed((): SliderTooltipContext => {
     return {
-      value: this._tooltipValue,
-      $implicit: this._tooltipValue,
+      value: this._tooltipValue(),
+      $implicit: this._tooltipValue(),
     };
-  }
+  });
 
   //! writeValue
   writeValue(v: any): void {
@@ -57,15 +71,12 @@ export class ArdiumSliderComponent extends _AbstractSlider<number> {
       return;
     }
     v = this._clampValue(v);
-    this._value = v;
-    this._positionPercent[0] = this._valueToPercent(v);
-    this._updateTooltipValue();
+    this.value.set(v);
   }
 
   //! methods for programmatic manipulation
   reset(): void {
-    this._value = 0;
-    this._positionPercent[0] = 0;
+    this.writeValue(this.minNumber());
   }
   increment(steps = 1): void {
     this._offset(steps, false);
@@ -88,8 +99,8 @@ export class ArdiumSliderComponent extends _AbstractSlider<number> {
 
   //! position calculators
   protected _percentValueToValue(percent: number): number {
-    const minMaxDifference = Math.abs(this.min() - this.max());
-    const newVal = percent * minMaxDifference + this.min();
+    const minMaxDifference = Math.abs(this.minNumber() - this.maxNumber());
+    const newVal = percent * minMaxDifference + this.minNumber();
     //round to 9 decimal places to avoid floating point arithmetic errors
     //9 is an arbitrary number that just works well. ¯\_(ツ)_/¯
     return roundToPrecision(newVal, 9);

@@ -139,7 +139,7 @@ export abstract class _SelectableListComponentBase
 
     const lbt = this.lastBlurTimestamp();
     if (this.touched() || !lbt || lbt + 1 < Date.now()) return;
-    this.lastBlurTimestamp.set(null);
+    this.lastBlurTimestamp.set(undefined);
 
     this._onTouched();
   }

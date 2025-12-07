@@ -22,7 +22,7 @@ const _checkboxListDefaults: ArdCheckboxListDefaults = {
   valueFrom: 'value',
   labelFrom: 'label',
   disabledFrom: 'disabled',
-  compareWith: null,
+  compareWith: undefined,
   invertDisabled: false,
   maxSelectedItems: Infinity,
   color: ComponentColor.Primary,

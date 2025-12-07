@@ -39,7 +39,7 @@
   <ard-autocomplete-input
     [disabled]="disabled"
     [(value)]="fruitInputValue"
-    [autocomplete]="fruitAutocomplete$ | async"
+    [autocomplete]="(fruitAutocomplete$ | async) || undefined"
     (valueChange)="onFruitInput($event)"
     (acceptAutocomplete)="onFruitAcceptAutocomplete()"
   ></ard-autocomplete-input>

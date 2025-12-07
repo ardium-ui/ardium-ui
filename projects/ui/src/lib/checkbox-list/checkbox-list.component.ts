@@ -12,6 +12,7 @@ import {
   signal,
   ViewEncapsulation,
 } from '@angular/core';
+import { FormValueControl } from '@angular/forms/signals';
 import { BooleanLike, coerceBooleanProperty, coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
 import { SimpleItemStorage, SimpleItemStorageHost } from '../_internal/item-storages/simple-item-storage';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
@@ -30,7 +31,8 @@ import { CheckboxListAlignType } from './checkbox-list.types';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumCheckboxListComponent extends _NgModelComponentBase implements SimpleItemStorageHost, AfterViewInit {
+// TODO: rewrite to support FormValueControl<any>
+export class ArdiumCheckboxListComponent extends _NgModelComponentBase implements SimpleItemStorageHost, AfterViewInit, FormValueControl<any> {
   protected override readonly _DEFAULTS!: ArdCheckboxListDefaults;
   constructor(@Inject(ARD_CHECKBOX_LIST_DEFAULTS) defaults: ArdCheckboxListDefaults) {
     super(defaults);

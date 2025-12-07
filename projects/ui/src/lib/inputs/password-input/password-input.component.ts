@@ -145,7 +145,7 @@ export class ArdiumPasswordInputComponent extends _FormFieldComponentBase implem
     }
     this._writeValue(v);
   }
-  protected _writeValue(v: string | null | undefined): boolean {
+  protected _writeValue(v: string | undefined): boolean {
     const oldVal = this.value();
     this.value.set(v);
     return oldVal !== v;
