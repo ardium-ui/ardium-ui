@@ -33,11 +33,7 @@ export const _ngModelComponentDefaults: _NgModelComponentDefaults = {
 @Directive()
 export abstract class _NgModelComponentBase
   extends _FocusableComponentBase
-  implements
-    ControlValueAccessor,
-    OnInit,
-    OnDestroy,
-    Pick<FormUiControl, 'disabled' | 'readonly' | 'touched' | 'invalid'>
+  implements ControlValueAccessor, OnInit, OnDestroy, Pick<FormUiControl, 'disabled' | 'readonly' | 'touched' | 'invalid'>
 {
   protected override readonly _DEFAULTS!: _NgModelComponentDefaults;
 
@@ -120,16 +116,15 @@ export abstract class _NgModelComponentBase
         ?.pipe(map(v => v === 'INVALID'))
         .subscribe(v => this._hasErrorInControl.set(v));
 
-      if (!this._ngControl.control) return;
-
       runInInjectionContext(this._injector, () => {
         // do not read the next line of code if you are easily frightened
         // I'm not proud of this part, but it had to be done. God please forgive me
         // I didn't find any other feasible way to detect when the control changes its touched state
         // so it had to be hacked like this
-        toObservable((this._ngControl?.control as any | undefined)?.touchedReactive as Signal<boolean>)?.subscribe(v =>
-          this.touched.set(v)
-        );
+        const touchedSignal = (this._ngControl?.control as any | undefined)?.touchedReactive as Signal<boolean> | undefined;
+        if (!touchedSignal || !(touchedSignal instanceof Function)) return;
+        
+        toObservable(touchedSignal)?.subscribe(v => this.touched.set(v));
       });
     }
   }

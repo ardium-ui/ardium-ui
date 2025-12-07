@@ -7,6 +7,7 @@ import {
   SimpleChanges,
   ViewEncapsulation,
   computed,
+  effect,
   model,
   signal
 } from '@angular/core';
@@ -38,10 +39,10 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
 
   readonly normalizedValue = computed<SliderRange>(() => this._normalizeSliderRange(this.value()));
 
-  // private readonly _ = effect(() => {
-  //   this.normalizedValue();
-  //   this._emitChange();
-  // });
+  private readonly _ = effect(() => {
+    this.normalizedValue();
+    this._emitChange();
+  });
 
   override ngOnChanges(changes: SimpleChanges): void {
     if (changes['min'] || changes['max']) {
