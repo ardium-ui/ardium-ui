@@ -1,5 +1,5 @@
 import { BooleanInput } from '@angular/cdk/coercion';
-import { Directive, HostBinding, input, signal } from '@angular/core';
+import { computed, Directive, HostBinding, input, signal } from '@angular/core';
 import { FormUiControl } from '@angular/forms/signals';
 import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 
@@ -26,7 +26,7 @@ export abstract class _DisablableComponentBase implements Pick<FormUiControl, 'd
    */
   readonly disabled = input<boolean, BooleanLike>(this._DEFAULTS.disabled, { transform: v => coerceBooleanProperty(v) });
   
-  readonly disabledComputed = signal<boolean>(this._DEFAULTS.disabled);
+  readonly disabledComputed = computed<boolean>(() => this.disabled() || this.disabledManual());
 
   readonly disabledManual = signal<boolean>(false);
 

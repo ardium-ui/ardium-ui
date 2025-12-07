@@ -1,18 +1,26 @@
 <div class="grid master">
-  @for (disabled of [false, true]; track disabled) {
   <ard-statebox
-    [disabled]="disabled"
     (focus)="log('focus', $event)"
     (blur)="log('blur', $event)"
-    (stateChange)="log('stateChange', $event)"
-  ></ard-statebox>
-  } @for (disabled of [false, true]; track disabled) {
+    (valueChange)="log('valueChange', $event)"
+  />
+  <ard-statebox
+    disabled
+    (focus)="log('focus', $event)"
+    (blur)="log('blur', $event)"
+    (valueChange)="log('valueChange', $event)"
+  />
   <ard-statebox
     [states]="states"
-    [disabled]="disabled"
     (focus)="log('focus', $event)"
     (blur)="log('blur', $event)"
-    (stateChange)="log('stateChange', $event)"
-  ></ard-statebox>
-  }
+    (valueChange)="log('valueChange', $event)"
+  />
+  <ard-statebox
+    [states]="states"
+    disabled
+    (focus)="log('focus', $event)"
+    (blur)="log('blur', $event)"
+    (valueChange)="log('valueChange', $event)"
+  />
 </div>

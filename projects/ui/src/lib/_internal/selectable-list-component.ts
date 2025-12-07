@@ -105,7 +105,7 @@ export abstract class _SelectableListComponentBase
   //! control value accessor
   //override the writeValue and setDisabledState defined in _NgModelComponent
   override setDisabledState(state: boolean): void {
-    this.disabledComputed.set(state);
+    this.disabledManual.set(state);
     this._cd.markForCheck();
   }
   writeValue(ngModel: any[]): void {

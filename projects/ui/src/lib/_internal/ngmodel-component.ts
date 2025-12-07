@@ -59,7 +59,7 @@ export abstract class _NgModelComponentBase
    * @param isDisabled the new disabled state.
    */
   setDisabledState(isDisabled: boolean): void {
-    this.disabledComputed.set(isDisabled);
+    this.disabledManual.set(isDisabled);
   }
 
   /**

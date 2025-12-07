@@ -1,15 +1,16 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    Inject,
-    ViewEncapsulation,
-    computed,
-    effect,
-    forwardRef,
-    input,
-    model,
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  ViewEncapsulation,
+  computed,
+  effect,
+  forwardRef,
+  input,
+  model,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormValueControl } from '@angular/forms/signals';
 import { _NgModelComponentBase } from './../_internal/ngmodel-component';
 import { ArdiumStarButtonComponent } from './../star/star-button/star-button.component';
 import { ClickStrategy } from './../types/utility.types';
@@ -31,13 +32,16 @@ import { StateboxState, StateboxValue, _StateboxInternalState } from './statebox
     },
   ],
 })
-export class ArdiumStateboxComponent extends _NgModelComponentBase implements ControlValueAccessor {
+export class ArdiumStateboxComponent
+  extends _NgModelComponentBase
+  implements ControlValueAccessor, FormValueControl<StateboxValue>
+{
   protected override readonly _DEFAULTS!: ArdStateboxDefaults;
   constructor(@Inject(ARD_STATEBOX_DEFAULTS) defaults: ArdStateboxDefaults) {
     super(defaults);
 
     effect(() => {
-      this.state(); // let the effect know when to fire
+      this.value(); // let the effect know when to fire
       this._emitChange();
     });
   }
@@ -62,16 +66,17 @@ export class ArdiumStateboxComponent extends _NgModelComponentBase implements Co
   );
 
   //! state handlers
-  readonly state = model<StateboxValue>(this._defaultState().value);
+  readonly value = model<StateboxValue>(this._defaultState().value);
+
   private readonly _stateIndex = computed<number>(() => {
-    const v = this.state();
+    const v = this.value();
     const foundStateIndex = this._states().findIndex(state => state.value === v);
     return foundStateIndex === -1 ? 0 : foundStateIndex;
   });
   readonly internalState = computed<_StateboxInternalState>(() => this._states()[this._stateIndex()]);
 
   writeValue(v: StateboxValue) {
-    this.state.set(v);
+    this.value.set(v);
   }
 
   //! change handlers
@@ -111,11 +116,11 @@ export class ArdiumStateboxComponent extends _NgModelComponentBase implements Co
     if (newIndex >= this._states().length) {
       newIndex = 0;
     }
-    this.state.set(this._states()[newIndex].value);
+    this.value.set(this._states()[newIndex].value);
   }
 
   protected _emitChange() {
-    this._onChangeRegistered?.(this.state());
+    this._onChangeRegistered?.(this.value());
   }
 
   readonly ngStyle = computed<Record<string, any>>(() => {
