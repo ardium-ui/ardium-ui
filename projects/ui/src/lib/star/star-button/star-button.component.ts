@@ -9,6 +9,7 @@ import {
   input,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormValueControl } from '@angular/forms/signals';
 import { _BooleanComponentBase } from '../../_internal/boolean-component';
 import { ClickStrategy } from '../../types/utility.types';
 import { StarColor } from '../star.types';
@@ -32,7 +33,7 @@ import { ArdStarButtonStarTemplateContext } from './star-button.types';
     },
   ],
 })
-export class ArdiumStarButtonComponent extends _BooleanComponentBase implements ControlValueAccessor {
+export class ArdiumStarButtonComponent extends _BooleanComponentBase implements ControlValueAccessor, FormValueControl<boolean> {
   readonly wrapperClasses = input<string>('');
 
   protected override readonly _DEFAULTS!: ArdStarButtonDefaults;

@@ -15,6 +15,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormValueControl } from '@angular/forms/signals';
 import { coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
 import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
 import { ArdiumStarButtonComponent } from '../star-button/star-button.component';
@@ -38,7 +39,7 @@ import { ArdRatingInputStarButtonTemplateContext } from './rating-input.types';
     },
   ],
 })
-export class ArdiumRatingInputComponent extends _NgModelComponentBase implements ControlValueAccessor {
+export class ArdiumRatingInputComponent extends _NgModelComponentBase implements ControlValueAccessor, FormValueControl<number | null> {
   readonly wrapperClasses = input<string>('');
 
   protected override readonly _DEFAULTS!: ArdRatingInputDefaults;
@@ -68,7 +69,8 @@ export class ArdiumRatingInputComponent extends _NgModelComponentBase implements
   }
 
   //! stars
-  readonly max = input<number, NumberLike>(this._DEFAULTS.max, { transform: v => coerceNumberProperty(v, this._DEFAULTS.max) });
+  readonly max = input<number | undefined, NumberLike>(this._DEFAULTS.max, { transform: v => coerceNumberProperty(v, this._DEFAULTS.max) });
+  readonly maxNumber = computed<number>(() => this.max() ?? this._DEFAULTS.max);
 
   readonly starButtonInstances = viewChildren<ArdiumStarButtonComponent>('starButton');
   private readonly _highlightedStarIndex = signal<number | null>(null);
@@ -120,7 +122,7 @@ export class ArdiumRatingInputComponent extends _NgModelComponentBase implements
     if (!this.starButtonInstances() || this._currentFocusIndex === null) return;
 
     let nextIndex = this._currentFocusIndex + offset;
-    nextIndex = Math.min(nextIndex, this.max() - 1);
+    nextIndex = Math.min(nextIndex, this.maxNumber() - 1);
     nextIndex = Math.max(nextIndex, 0);
 
     this.focusStarButtonByIndex(nextIndex);
@@ -185,7 +187,7 @@ export class ArdiumRatingInputComponent extends _NgModelComponentBase implements
     this._onTabPress();
   }
   private _onTabPress(): void {
-    this.focusStarButtonByIndex(this.max() - 1);
+    this.focusStarButtonByIndex(this.maxNumber() - 1);
   }
 
   //! template
