@@ -7,6 +7,7 @@ import {
   ModelSignal,
   OnChanges,
   Renderer2,
+  Signal,
   SimpleChanges,
   ViewContainerRef,
   computed,
@@ -269,27 +270,14 @@ export abstract class _AbstractSlider<T extends number | SliderRange>
   }
 
   //! position calculators
-  protected readonly positionPercent = computed((): [number] | [number, number] => {
-    const v = this.value();
-    const min = this.minNumber();
-    const max = this.maxNumber();
-    const minMaxDifference = Math.abs(min - max);
+  protected abstract readonly positionPercent: Signal<[number] | [number, number]>; //* abstact
 
-    if (typeof v !== 'number') {
-      return [(v.low - min) / minMaxDifference, (v.high - min) / minMaxDifference];
-    }
-    return [(v - min) / minMaxDifference];
-  });
   readonly getHandlePosition = computed<(handleId: number) => string>(
     () => handleId => this.positionPercent()[handleId - 1] * 100 + '%'
   );
 
-  protected _setValueFromPercent(percent: number, handleId: number | null = 1): void {
-    if (!handleId) return;
-    if (this.positionPercent()[handleId - 1] === percent) return;
+  protected abstract _setValueFromPercent(percent: number, handleId?: number | null): void; //* abstact
 
-    this.value.set(this._percentValueToValue(percent, handleId));
-  }
   protected _writeValueFromEvent(event: MouseEvent | TouchEvent, handleId?: number | null): void {
     const percent = this._getPercentValueFromEvent(event);
     this._setValueFromPercent(percent, handleId);

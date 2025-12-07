@@ -9,7 +9,7 @@ import {
   computed,
   effect,
   model,
-  signal
+  signal,
 } from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 import { roundToPrecision } from 'more-rounding';
@@ -35,12 +35,12 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
     super(defaults);
   }
 
+  readonly innerValue = signal<SliderRange>({ low: this._DEFAULTS.min, high: this._DEFAULTS.max });
+
   readonly value = model<SliderRange>({ low: this._DEFAULTS.min, high: this._DEFAULTS.max });
 
-  readonly normalizedValue = computed<SliderRange>(() => this._normalizeSliderRange(this.value()));
-
   private readonly _ = effect(() => {
-    this.normalizedValue();
+    this.value.set(this._normalizeSliderRange(this.innerValue()));
     this._emitChange();
   });
 
@@ -60,6 +60,14 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
       super.ngOnChanges(changes);
     }
   }
+  protected readonly positionPercent = computed((): [number, number] => {
+    const v = this.innerValue();
+    const min = this.minNumber();
+    const max = this.maxNumber();
+    const minMaxDifference = Math.abs(min - max);
+
+    return [(v.low - min) / minMaxDifference, (v.high - min) / minMaxDifference];
+  });
 
   //! writeValue
   private _isValidObject(v: any): v is SliderRange {
@@ -91,13 +99,13 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
     }
     const lowClamped = this._clampValue(low);
     const highClamped = this._clampValue(high);
-    const value: SliderRange = this._normalizeSliderRange(this._arrayValueToObjectValue([lowClamped, highClamped]));
-    this.value.set(value);
+    const value: SliderRange = this._arrayValueToObjectValue([lowClamped, highClamped]);
+    this.innerValue.set(value);
   }
 
   //! tooltip updater
   protected readonly _tooltipValue = computed<SliderRange<string | number>>(() => {
-    const v: SliderRange<string | number> = Object.create(this.value());
+    const v: SliderRange<string | number> = { ...this.innerValue() };
     const formatFn = this.tooltipFormatFn();
     if (formatFn) {
       v.low = formatFn(v.low as number);
@@ -121,7 +129,7 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
 
   //! methods for programmatic manipulation
   reset(): void {
-    this.value.set({ low: this.minNumber(), high: this.maxNumber() });
+    this.innerValue.set({ low: this.minNumber(), high: this.maxNumber() });
   }
 
   //! track overlay getters
@@ -147,6 +155,16 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
   }
 
   //! position calculators
+  protected _setValueFromPercent(percent: number, handleId: number | null = 1): void {
+    if (!handleId) return;
+
+    const newValue = this._percentValueToValue(percent, handleId);
+    if (handleId === 1 && this.innerValue().low === newValue.low) return;
+    if (handleId === 2 && this.innerValue().high === newValue.high) return;
+
+    this.innerValue.set(newValue);
+  }
+
   protected _percentValueToValue(percent: number, handleId: number): SliderRange {
     const minMaxDifference = Math.abs(this.minNumber() - this.maxNumber());
     let newVal = percent * minMaxDifference + this.minNumber();
@@ -154,7 +172,7 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
     //9 is an arbitrary number that just works well. ¯\_(ツ)_/¯
     newVal = roundToPrecision(newVal, 9);
 
-    const newValObj = { low: this.normalizedValue().low, high: this.normalizedValue().high };
+    const newValObj = { low: this.innerValue().low, high: this.innerValue().high };
     if (handleId === 1) {
       newValObj.low = newVal;
     } else {

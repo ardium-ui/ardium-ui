@@ -54,9 +54,7 @@
         height: calc(100% + 0.125em);
         top: math.div(-1em, 16);
         opacity: 100%;
-        transition:
-          width var(--_ard-slider-transition) ease,
-          left var(--_ard-slider-transition) ease;
+        transition: width var(--_ard-slider-transition) ease, left var(--_ard-slider-transition) ease;
       }
     }
     .ard-hitbox {
@@ -97,9 +95,7 @@
     outline: none;
     cursor: pointer;
 
-    transition:
-      box-shadow 0.15s ease,
-      left var(--_ard-slider-transition) ease;
+    transition: box-shadow 0.15s ease, left var(--_ard-slider-transition) ease;
     box-shadow: ARD.$simple-shadow;
 
     // cursor: grab;
@@ -180,6 +176,7 @@
   &.ard-tooltip-top {
     .ard-slider-tooltip {
       bottom: 0.5em;
+      transform-origin: bottom center;
 
       &::before {
         bottom: 0;
@@ -191,6 +188,7 @@
   &.ard-tooltip-bottom {
     .ard-slider-tooltip {
       top: 0.5em;
+      transform-origin: top center;
 
       &::before {
         top: 0;

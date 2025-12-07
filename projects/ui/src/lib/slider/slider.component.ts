@@ -98,6 +98,12 @@ export class ArdiumSliderComponent extends _AbstractSlider<number> implements Fo
   }
 
   //! position calculators
+  protected _setValueFromPercent(percent: number): void {
+    if (this.positionPercent()[0] === percent) return;
+
+    this.value.set(this._percentValueToValue(percent));
+  }
+
   protected _percentValueToValue(percent: number): number {
     const minMaxDifference = Math.abs(this.minNumber() - this.maxNumber());
     const newVal = percent * minMaxDifference + this.minNumber();
@@ -105,4 +111,13 @@ export class ArdiumSliderComponent extends _AbstractSlider<number> implements Fo
     //9 is an arbitrary number that just works well. ¯\_(ツ)_/¯
     return roundToPrecision(newVal, 9);
   }
+
+  protected readonly positionPercent = computed((): [number] => {
+    const v = this.value();
+    const min = this.minNumber();
+    const max = this.maxNumber();
+    const minMaxDifference = Math.abs(min - max);
+
+    return [(v - min) / minMaxDifference];
+  });
 }
