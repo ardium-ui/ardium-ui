@@ -80,18 +80,18 @@ export class ArdiumNumberInputComponent
   readonly inputId = input<Nullable<string>>();
 
   //! placeholder
-  readonly placeholder = input<Nullable<string>>();
+  readonly placeholder = input<Nullable<string>>(this._DEFAULTS.placeholder);
 
   readonly placeholderTemplate = contentChild(ArdNumberInputPlaceholderTemplateDirective);
 
   readonly shouldDisplayPlaceholder = computed<boolean>(() => !!this.placeholder() && !this.inputModel.stringValue());
 
   //! appearance
-  readonly appearance = input<FormElementAppearance>(FormElementAppearance.Outlined);
-  readonly variant = input<FormElementVariant>(FormElementVariant.Rounded);
-  readonly alignText = input<OneAxisAlignment>(OneAxisAlignment.Middle);
+  readonly appearance = input<FormElementAppearance>(this._DEFAULTS.appearance);
+  readonly variant = input<FormElementVariant>(this._DEFAULTS.variant);
+  readonly alignText = input<OneAxisAlignment>(this._DEFAULTS.alignText);
 
-  readonly compact = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly compact = input<boolean, BooleanLike>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed((): string => {
     return [
@@ -147,17 +147,17 @@ export class ArdiumNumberInputComponent
   }>({ alias: 'quickChange' });
 
   //! min/max and number type
-  readonly min = input<number, NumberLike>(0, { transform: v => coerceNumberProperty(v, 0) });
-  readonly max = input<number, NumberLike>(999999, { transform: v => coerceNumberProperty(v, 999999) });
+  readonly min = input<number, NumberLike>(this._DEFAULTS.min, { transform: v => coerceNumberProperty(v, this._DEFAULTS.min) });
+  readonly max = input<number, NumberLike>(this._DEFAULTS.max, { transform: v => coerceNumberProperty(v, this._DEFAULTS.max) });
 
-  readonly allowFloat = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly allowFloat = input<boolean, BooleanLike>(this._DEFAULTS.allowFloat, { transform: v => coerceBooleanProperty(v) });
 
   //! incerement/decrement buttons
-  readonly noButtons = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly noButtons = input<boolean, BooleanLike>(this._DEFAULTS.noButtons, { transform: v => coerceBooleanProperty(v) });
 
-  readonly keepFocusOnQuickChangeButton = input<boolean, BooleanLike>(true, { transform: v => coerceBooleanProperty(v) });
+  readonly keepFocusOnQuickChangeButton = input<boolean, BooleanLike>(this._DEFAULTS.keepFocusOnQuickChangeButton, { transform: v => coerceBooleanProperty(v) });
 
-  readonly stepSize = input<number, NumberLike>(1, {
+  readonly stepSize = input<number, NumberLike>(this._DEFAULTS.stepSize, {
     transform: v => {
       const newValue = coerceNumberProperty(v, 1);
       if (newValue === 0) throw new Error(`ARD-FT0071a: Cannot set <ard-number-input>'s [stepSize] to 0.`);

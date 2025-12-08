@@ -15,6 +15,7 @@ export interface ArdNumberInputDefaults extends _FormFieldComponentDefaults {
   allowFloat: boolean;
   noButtons: boolean;
   stepSize: number;
+  keepFocusOnQuickChangeButton: boolean;
 }
 
 const _numberInputDefaults: ArdNumberInputDefaults = {
@@ -30,6 +31,7 @@ const _numberInputDefaults: ArdNumberInputDefaults = {
   allowFloat: false,
   noButtons: false,
   stepSize: 1,
+  keepFocusOnQuickChangeButton: true,
 };
 
 export const ARD_NUMBER_INPUT_DEFAULTS = new InjectionToken<ArdNumberInputDefaults>('ard-number-input-defaults', {
