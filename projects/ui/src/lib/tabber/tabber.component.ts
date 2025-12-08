@@ -2,8 +2,10 @@ import {
   AfterContentInit,
   ChangeDetectionStrategy,
   Component,
+  TemplateRef,
   ViewEncapsulation,
   computed,
+  contentChild,
   contentChildren,
   inject,
   input,
@@ -15,6 +17,8 @@ import { OneAxisAlignment } from '../types/alignment.types';
 import { ComponentColor } from '../types/colors.types';
 import { ArdiumTabComponent } from './tab/tab.component';
 import { ARD_TABBER_DEFAULTS } from './tabber.defaults';
+import { ArdTabberLabelTemplateDirective } from './tabber.directives';
+import { TabberLabelContext } from './tabber.types';
 
 @Component({
   standalone: false,
@@ -105,7 +109,9 @@ export class ArdiumTabberComponent implements AfterContentInit {
 
   //! tab container settings
   readonly stretchTabs = input<boolean, BooleanLike>(this._DEFAULTS.stretchTabs, { transform: v => coerceBooleanProperty(v) });
-  readonly uniformTabWidths = input<boolean, BooleanLike>(this._DEFAULTS.uniformTabWidths, { transform: v => coerceBooleanProperty(v) });
+  readonly uniformTabWidths = input<boolean, BooleanLike>(this._DEFAULTS.uniformTabWidths, {
+    transform: v => coerceBooleanProperty(v),
+  });
   readonly tabAlignment = input<OneAxisAlignment>(this._DEFAULTS.tabAlignment);
 
   readonly tabContainerClasses = computed(() =>
@@ -118,4 +124,18 @@ export class ArdiumTabberComponent implements AfterContentInit {
 
   //! other
   readonly tabIndex = input<number | string>(0);
+
+  //! tab label template
+  readonly labelTemplate = contentChild(ArdTabberLabelTemplateDirective);
+
+  readonly tabsWithTemplates = computed(() =>
+    this.tabs().map(tab => ({
+      tab,
+      template: typeof tab.label() === 'string' ? null : (tab.label() as TemplateRef<any>),
+      templateContext:
+        typeof tab.label() === 'string'
+          ? ({ $implicit: tab.label(), tabId: tab.tabId(), label: tab.label() } as TabberLabelContext)
+          : null,
+    }))
+  );
 }

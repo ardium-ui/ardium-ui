@@ -6,6 +6,13 @@
   </ard-tabber>
 </div>
 <div class="master">
+  <div class="title">Tabber with custom labels</div>
+  <ard-tabber>
+    <ard-tab tabId="tab1" label="Animals"> Dog, Cow, Shark </ard-tab>
+    <ard-tab tabId="tab2" label="Plants & fungi"> Wheat, Grass, Yeast </ard-tab>
+  </ard-tabber>
+</div>
+<div class="master">
   <div class="title">Tabber events</div>
   <ard-tabber
     (changeTab)="log('changeTab', $event)"
@@ -103,5 +110,33 @@
     <ard-tab tabId="tab28"> This is tab 28 </ard-tab>
     <ard-tab tabId="tab29"> This is tab 29 </ard-tab>
     <ard-tab tabId="tab30"> This is tab 30 </ard-tab>
+  </ard-tabber>
+</div>
+<div class="master">
+  <div class="title">Tabber with global label template</div>
+  <ard-tabber>
+    <ard-tab tabId="tab1"> This is tab 1 </ard-tab>
+    <ard-tab tabId="tab2"> This is tab 2 </ard-tab>
+    <ard-tab tabId="tab3"> This is tab 3 </ard-tab>
+    <ng-template ard-tabber-label-tmp let-label>
+      <div style="color: red">{{ label }}</div>
+    </ng-template>
+  </ard-tabber>
+</div>
+<div class="master">
+  <div class="title">Tabber with single label templates</div>
+  <ard-tabber>
+    <ard-tab tabId="tab1" [label]="red"> This is tab 1 </ard-tab>
+    <ard-tab tabId="tab2" [label]="green"> This is tab 2 </ard-tab>
+    <ard-tab tabId="tab3" [label]="blue"> This is tab 3 </ard-tab>
+    <ng-template #red>
+      <div style="color: red">Label 1</div>
+    </ng-template>
+    <ng-template #green>
+      <div style="color: green">Label 2</div>
+    </ng-template>
+    <ng-template #blue>
+      <div style="color: blue">Label 3</div>
+    </ng-template>
   </ard-tabber>
 </div>

@@ -3,6 +3,7 @@ import {
   Component,
   HostBinding,
   Input,
+  TemplateRef,
   ViewEncapsulation,
   computed,
   inject,
@@ -48,7 +49,7 @@ export class ArdiumTabComponent {
 
   readonly focused = signal<boolean>(false);
 
-  readonly _label = input<string | null>(null, { alias: 'label' });
+  readonly _label = input<string | TemplateRef<any> | null>(null, { alias: 'label' });
   readonly label = computed(() => this._label() ?? this.tabId());
 
   readonly tabId = input.required<string>();

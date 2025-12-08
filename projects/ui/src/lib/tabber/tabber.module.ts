@@ -1,11 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ArdiumTabberComponent } from './tabber.component';
+import { NgModule } from '@angular/core';
 import { ArdiumTabComponent } from './tab/tab.component';
+import { ArdiumTabberComponent } from './tabber.component';
+import { ArdTabberLabelTemplateDirective } from './tabber.directives';
 
 @NgModule({
-  declarations: [ArdiumTabberComponent, ArdiumTabComponent],
+  declarations: [ArdiumTabberComponent, ArdiumTabComponent, ArdTabberLabelTemplateDirective],
   imports: [CommonModule],
-  exports: [ArdiumTabberComponent, ArdiumTabComponent],
+  exports: [ArdiumTabberComponent, ArdiumTabComponent, ArdTabberLabelTemplateDirective],
 })
 export class ArdiumTabberModule {}

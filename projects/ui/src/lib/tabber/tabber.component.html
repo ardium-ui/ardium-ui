@@ -7,23 +7,35 @@
     [ngClass]="tabContainerClasses()"
     [style]="{ '--ard-_tabber-tabs': tabs().length }"
   >
-    @for (tab of tabs(); track tab) {
-      <button
-        #focusableElement
-        type="button"
-        role="tab"
-        class="ard-tab-button"
-        [id]="tab.tabId()"
-        [class.ard-tab-active]="tab === currentTab()"
-        [class.ard-tab-focused]="tab === currentFocusedTab()"
-        (click)="!tab.selected() && onTabClick(tab)"
-        (focus)="onTabFocus(tab)"
-        (blur)="onTabBlur(tab)"
-        [tabindex]="tabIndex()"
-      >
-        <div class="ard-focus-overlay"></div>
-        {{ tab.label() }}
-      </button>
+    @for (tabObj of tabsWithTemplates(); track tabObj) {
+    <button
+      #focusableElement
+      type="button"
+      role="tab"
+      class="ard-tab-button"
+      [id]="tabObj.tab.tabId()"
+      [class.ard-tab-active]="tabObj.tab === currentTab()"
+      [class.ard-tab-focused]="tabObj.tab === currentFocusedTab()"
+      (click)="!tabObj.tab.selected() && onTabClick(tabObj.tab)"
+      (focus)="onTabFocus(tabObj.tab)"
+      (blur)="onTabBlur(tabObj.tab)"
+      [tabindex]="tabIndex()"
+    >
+      <div class="ard-focus-overlay"></div>
+      <div class="ard-button-content">
+        <ng-template
+          #defaultLabelTemplate
+          let-label
+        >
+          {{ label }}
+        </ng-template>
+
+        <ng-template
+          [ngTemplateOutlet]="tabObj.template ?? labelTemplate()?.template ?? defaultLabelTemplate"
+          [ngTemplateOutletContext]="tabObj.templateContext"
+        />
+      </div>
+    </button>
     }
   </div>
   <div
