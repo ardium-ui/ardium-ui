@@ -1,20 +1,28 @@
 <div class="master">
   <span class="title">Basic checkbox list</span>
+  <div>text left - checkbox left</div>
   <ard-checkbox-list
     [items]="fruitItems"
-    align="left-clumped"
+    textAlign="left"
+    checkboxAlign="left"
   />
+  <div>text right - checkbox right</div>
   <ard-checkbox-list
     [items]="fruitItems"
-    align="left-split"
+    textAlign="right"
+    checkboxAlign="right"
   />
+  <div>text left - checkbox right</div>
   <ard-checkbox-list
     [items]="fruitItems"
-    align="right-split"
+    textAlign="left"
+    checkboxAlign="right"
   />
+  <div>text right - checkbox left</div>
   <ard-checkbox-list
     [items]="fruitItems"
-    align="right-clumped"
+    textAlign="right"
+    checkboxAlign="left"
   />
 </div>
 <div class="master">
@@ -36,4 +44,18 @@
       {{ selected ? '☑' : '☐' }}
     </ng-template>
 </ard-checkbox-list>
+</div>
+<div class="master">
+  <span class="title">Checkbox list with FormControl support</span>
+  <ard-checkbox-list
+    [items]="fruitItems"
+    [formControl]="formControl"
+  />
+</div>
+<div class="master">
+  <span class="title">Checkbox list with Signal Forms support</span>
+  <ard-checkbox-list
+    [items]="fruitItems"
+    [field]="signalForm.fruits"
+  />
 </div>

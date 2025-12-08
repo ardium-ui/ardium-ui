@@ -61,6 +61,7 @@ import { isYearOutOfRange } from './views/years-view/years-view.helpers';
   ],
 })
 // TODO: add support for for FormValueControl<Date | null>
+// waiting for Date support in FormUiControl min/max
 export class ArdiumCalendarComponent extends _FormFieldComponentBase implements OnChanges {
   protected override readonly _DEFAULTS!: ArdCalendarDefaults;
   constructor(@Inject(ARD_CALENDAR_DEFAULTS) defaults: ArdCalendarDefaults) {

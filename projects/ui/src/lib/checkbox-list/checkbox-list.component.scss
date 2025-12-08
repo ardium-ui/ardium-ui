@@ -1,0 +1,18 @@
+.ard-checkbox-list {
+  //! align types
+  &.ard-align-checkbox-right {
+    .ard-checkbox-list__item {
+      flex-direction: row-reverse;
+    }
+    &.ard-align-text-left {
+      .ard-checkbox-list__item {
+        justify-content: space-between;
+      }
+    }
+  }
+  &.ard-align-text-right.ard-align-checkbox-left {
+    .ard-checkbox-list__item {
+        justify-content: space-between;
+    }
+  }
+}

@@ -1,9 +1,9 @@
 import { InjectionToken, Provider } from '@angular/core';
+import { SimpleOneAxisAlignment } from 'dist/ui';
 import { _ngModelComponentDefaults, _NgModelComponentDefaults } from '../_internal/ngmodel-component';
 import { CompareWithFn } from '../types/item-storage.types';
 import { Nullable } from '../types/utility.types';
 import { ComponentColor } from './../types/colors.types';
-import { CheckboxListAlignType } from './checkbox-list.types';
 
 export interface ArdCheckboxListDefaults extends _NgModelComponentDefaults {
   valueFrom: string;
@@ -13,7 +13,8 @@ export interface ArdCheckboxListDefaults extends _NgModelComponentDefaults {
   invertDisabled: boolean;
   maxSelectedItems: number;
   color: ComponentColor;
-  align: CheckboxListAlignType;
+  textAlign: SimpleOneAxisAlignment;
+  checkboxAlign: SimpleOneAxisAlignment;
   compact: boolean;
 }
 
@@ -26,7 +27,8 @@ const _checkboxListDefaults: ArdCheckboxListDefaults = {
   invertDisabled: false,
   maxSelectedItems: Infinity,
   color: ComponentColor.Primary,
-  align: CheckboxListAlignType.LeftClumped,
+  textAlign: SimpleOneAxisAlignment.Left,
+  checkboxAlign: SimpleOneAxisAlignment.Left,
   compact: false,
 };
 

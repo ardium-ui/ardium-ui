@@ -58,29 +58,4 @@
       height: 2rem;
     }
   }
-  //! ALIGN TYPES
-  &.ard-align-left-clumped,
-  &.ard-align-left-split {
-    .ard-checkbox-list__item {
-      flex-direction: row;
-    }
-  }
-  &.ard-align-right-clumped,
-  &.ard-align-right-split {
-    .ard-checkbox-list__item {
-      flex-direction: row-reverse;
-    }
-  }
-  &.ard-align-left-clumped,
-  &.ard-align-right-clumped {
-    .ard-checkbox-list__item {
-      justify-content: flex-start;
-    }
-  }
-  &.ard-align-left-split,
-  &.ard-align-right-split {
-    .ard-checkbox-list__item {
-      justify-content: space-between;
-    }
-  }
 }

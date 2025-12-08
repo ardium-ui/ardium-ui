@@ -4,16 +4,20 @@ import {
   Component,
   computed,
   contentChild,
+  effect,
   HostBinding,
   Inject,
   Input,
   input,
-  output,
+  model,
+  OnChanges,
   signal,
+  SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 import { BooleanLike, coerceBooleanProperty, coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
+import { SimpleOneAxisAlignment } from 'dist/ui';
 import { SimpleItemStorage, SimpleItemStorageHost } from '../_internal/item-storages/simple-item-storage';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ComponentColor } from '../types/colors.types';
@@ -21,7 +25,6 @@ import { ArdOptionSimple, CompareWithFn } from '../types/item-storage.types';
 import { Nullable } from '../types/utility.types';
 import { ARD_CHECKBOX_LIST_DEFAULTS, ArdCheckboxListDefaults } from './checkbox-list.defaults';
 import { ArdCheckboxListCheckboxTemplateDirective } from './checkbox-list.directives';
-import { CheckboxListAlignType } from './checkbox-list.types';
 
 @Component({
   standalone: false,
@@ -31,11 +34,18 @@ import { CheckboxListAlignType } from './checkbox-list.types';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-// TODO: rewrite to support FormValueControl<any>
-export class ArdiumCheckboxListComponent extends _NgModelComponentBase implements SimpleItemStorageHost, AfterViewInit, FormValueControl<any> {
+export class ArdiumCheckboxListComponent
+  extends _NgModelComponentBase
+  implements SimpleItemStorageHost, AfterViewInit, FormValueControl<any[] | null>, OnChanges
+{
   protected override readonly _DEFAULTS!: ArdCheckboxListDefaults;
   constructor(@Inject(ARD_CHECKBOX_LIST_DEFAULTS) defaults: ArdCheckboxListDefaults) {
     super(defaults);
+
+    effect(() => {
+      this.value();
+      this._emitChange();
+    });
   }
 
   @HostBinding('attr.id')
@@ -66,7 +76,9 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
 
   readonly compareWith = input<Nullable<CompareWithFn>>(this._DEFAULTS.compareWith);
 
-  readonly invertDisabled = input<boolean, BooleanLike>(this._DEFAULTS.invertDisabled, { transform: v => coerceBooleanProperty(v) });
+  readonly invertDisabled = input<boolean, BooleanLike>(this._DEFAULTS.invertDisabled, {
+    transform: v => coerceBooleanProperty(v),
+  });
 
   readonly maxSelectedItems = input<number, NumberLike>(this._DEFAULTS.maxSelectedItems, {
     transform: v => coerceNumberProperty(v, this._DEFAULTS.maxSelectedItems),
@@ -74,25 +86,29 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
 
   //! appearance
   readonly color = input<ComponentColor>(this._DEFAULTS.color);
-  readonly align = input<CheckboxListAlignType>(this._DEFAULTS.align);
+  readonly textAlign = input<SimpleOneAxisAlignment>(this._DEFAULTS.textAlign);
+  readonly checkboxAlign = input<SimpleOneAxisAlignment>(this._DEFAULTS.checkboxAlign);
 
   readonly compact = input<boolean, BooleanLike>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed(() =>
-    [`ard-color-${this.color()}`, `ard-align-${this.align()}`, this.compact() ? 'ard-compact' : ''].join(' ')
+    [
+      `ard-color-${this.color()}`,
+      `ard-align-text-${this.textAlign()}`,
+      `ard-align-checkbox-${this.checkboxAlign()}`,
+      this.compact() ? 'ard-compact' : '',
+    ].join(' ')
   );
 
   //! value
-  @Input()
-  get value(): any {
-    return this._itemStorage.value();
-  }
-  set value(v: any) {
-    this.writeValue(v);
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['value']) {
+      const v = changes['value'].currentValue;
+      this.writeValue(v);
+    }
   }
 
-  readonly valueChange = output<any>();
-  readonly changeEvent = output<any>({ alias: 'change' });
+  readonly value = model<any>([]);
 
   private _valueBeforeInit: any;
   writeValue(v: any): void {
@@ -113,10 +129,8 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
   }
 
   protected _emitChange(): void {
-    const v = this.value;
+    const v = this.value();
     this._onChangeRegistered?.(v);
-    this.changeEvent.emit(v);
-    this.valueChange.emit(v);
   }
 
   onItemHighlight(v: ArdOptionSimple): void {
@@ -130,11 +144,9 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
   }
   selectItem(v: ArdOptionSimple): void {
     this._itemStorage.selectItem(v);
-    this._emitChange();
   }
   unselectItem(v: ArdOptionSimple): void {
     this._itemStorage.unselectItem(v);
-    this._emitChange();
   }
   toggleItem(v: ArdOptionSimple): void {
     if (v.selected()) {

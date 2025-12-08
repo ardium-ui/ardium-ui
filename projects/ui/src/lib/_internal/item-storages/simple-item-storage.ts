@@ -1,6 +1,6 @@
-import { Signal, computed, signal } from '@angular/core';
+import { ModelSignal, Signal, computed, effect, signal, untracked } from '@angular/core';
 import { resolvePath } from 'resolve-object-path';
-import { evaluate, isArray, isDefined, isObject, isPrimitive } from 'simple-bool';
+import { evaluate, isArray, isDefined, isNull, isObject, isPrimitive } from 'simple-bool';
 import { ArdOptionSimple, CompareWithFn } from '../../types/item-storage.types';
 import { Nullable } from '../../types/utility.types';
 
@@ -10,6 +10,7 @@ export interface ItemStorageHostDefaults {
   disabledFrom: string;
 }
 export interface SimpleItemStorageHost {
+  readonly value: ModelSignal<any>;
   readonly valueFrom: Signal<Nullable<string>>;
   readonly labelFrom: Signal<Nullable<string>>;
   readonly disabledFrom: Signal<Nullable<string>>;
@@ -24,11 +25,28 @@ export interface SimpleItemStorageHost {
 }
 
 export class SimpleItemStorage {
+  private _wasParentValueInitialized = false;
+  constructor(private readonly _ardParentComp: SimpleItemStorageHost) {
+    effect(() => {
+      const parentValue = untracked(() => this._ardParentComp.value());
+      const value = this.value();
+      //only act if parent value is defined and not empty (for arrays)
+      if ((isNull(parentValue) || (isArray(parentValue) && parentValue.length === 0)) && value.length === 0) return;
+
+      if (!this._wasParentValueInitialized) {
+        this._wasParentValueInitialized = true;
+        return;
+      }
+
+      this._ardParentComp.value.set(value);
+    });
+  }
+
   private readonly _items = signal<ArdOptionSimple[]>([]);
   private readonly _highlightedItems = signal<ArdOptionSimple[]>([]);
-  private readonly _selectedItems = signal<ArdOptionSimple[]>([]);
-
-  constructor(private readonly _ardParentComp: SimpleItemStorageHost) {}
+  private readonly _selectedItems = signal<ArdOptionSimple[]>([], {
+    equal: (a, b) => a.length === b.length && a.every((v, i) => v === b[i]),
+  });
 
   /**
    * Gets all items.
@@ -138,9 +156,13 @@ export class SimpleItemStorage {
    * @param ngModel The value of the ngModel to set.
    */
   writeValue(ngModel: any[]): void {
-    this._forceUnselectAll();
-
+    // validate the ngModel before proceeding.
     if (!this._validateWriteValue(ngModel)) return;
+    
+    // skip if the new value is the same as the current value.
+    if (ngModel.every((v, i) => v === this.value()[i])) return;
+    
+    this._forceUnselectAll();
 
     const selectItemByValue = (value: any) => {
       if (value === null || value === undefined) {
