@@ -153,6 +153,7 @@ export class NumberInputModel {
       v = this._applyNumberConstraint(v);
       v = this._applyMinMaxConstraints(v);
     }
+    if (v === '') v = null;
     //update view
     const oldVal = this._value();
     this.setValue(v);

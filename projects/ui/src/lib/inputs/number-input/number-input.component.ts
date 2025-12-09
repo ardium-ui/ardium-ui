@@ -4,7 +4,6 @@ import {
   Component,
   computed,
   contentChild,
-  effect,
   ElementRef,
   forwardRef,
   Inject,
@@ -55,11 +54,11 @@ export class ArdiumNumberInputComponent
   constructor(@Inject(ARD_NUMBER_INPUT_DEFAULTS) defaults: ArdNumberInputDefaults) {
     super(defaults);
 
-    effect(() => {
-      const v = this.inputModel.numberValue();
-      this.valueChange.emit(v);
-      this._onChangeRegistered?.(v);
-    });
+    // effect(() => {
+    //   const v = this.inputModel.numberValue();
+    //   this.valueChange.emit(v);
+    //   this._onChangeRegistered?.(v);
+    // });
   }
 
   //! input view
@@ -125,7 +124,7 @@ export class ArdiumNumberInputComponent
   }
 
   //! value two-way binding
-  protected _valueBeforeInit?: string | null = '0';
+  protected _valueBeforeInit?: string | null = null;
   @Input()
   set value(v: string | number | null) {
     if (typeof v === 'number') v = v.toString();
@@ -155,7 +154,9 @@ export class ArdiumNumberInputComponent
   //! incerement/decrement buttons
   readonly noButtons = input<boolean, BooleanLike>(this._DEFAULTS.noButtons, { transform: v => coerceBooleanProperty(v) });
 
-  readonly keepFocusOnQuickChangeButton = input<boolean, BooleanLike>(this._DEFAULTS.keepFocusOnQuickChangeButton, { transform: v => coerceBooleanProperty(v) });
+  readonly keepFocusOnQuickChangeButton = input<boolean, BooleanLike>(this._DEFAULTS.keepFocusOnQuickChangeButton, {
+    transform: v => coerceBooleanProperty(v),
+  });
 
   readonly stepSize = input<number, NumberLike>(this._DEFAULTS.stepSize, {
     transform: v => {
@@ -238,6 +239,7 @@ export class ArdiumNumberInputComponent
   protected _emitChange(): void {
     const v = this.inputModel.numberValue();
     this.changeEvent.emit(v);
+    this._onChangeRegistered?.(v);
   }
 
   //smart focus

@@ -74,10 +74,7 @@
   <ard-form-field reserveHintLine>
     <ard-label>Simple number input</ard-label>
     <ard-number-input [formControl]="control" />
-    @if (control.touched && control.errors) {
-    <ard-error>It has an error</ard-error>
-    }
-    <ard-hint>Touched: {{ control.touched}}, errors: {{ control.errors }}, value: {{ control.value }} </ard-hint>
+    <ard-hint>Touched: {{ control.touched}}, errors: {{ control.errors | json }}, value: {{ control.value | json }} </ard-hint>
   </ard-form-field>
 </div>
 <div class="master">

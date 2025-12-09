@@ -27,5 +27,5 @@ export class NumberInputPage {
     }, 3000);
   }
 
-  readonly control = new FormControl(null, [Validators.max(10)]);
+  readonly control = new FormControl(null, [Validators.max(1000)]);
 }
