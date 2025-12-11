@@ -1,0 +1,13 @@
+.item-container {
+  width: 100%;
+
+  .id {
+    padding: 0.125rem 0.5rem;
+    border: 1px solid var(--ard-border-light);
+    border-radius: 0.25rem;
+
+    &::before {
+      content: '#';
+    }
+  }
+}

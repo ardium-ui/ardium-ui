@@ -10,16 +10,16 @@ import {
   input,
   output,
   signal,
-  ViewEncapsulation,
+  ViewEncapsulation
 } from '@angular/core';
 import { BooleanLike, coerceBooleanProperty, coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
 import { SimpleItemStorage, SimpleItemStorageHost } from '../_internal/item-storages/simple-item-storage';
 import { _NgModelComponentBase } from '../_internal/ngmodel-component';
 import { ComponentColor } from '../types/colors.types';
-import { ArdOptionSimple, CompareWithFn } from '../types/item-storage.types';
+import { ArdOptionSimple, CompareWithFn, OptionContext } from '../types/item-storage.types';
 import { Nullable } from '../types/utility.types';
 import { ARD_CHECKBOX_LIST_DEFAULTS, ArdCheckboxListDefaults } from './checkbox-list.defaults';
-import { ArdCheckboxListCheckboxTemplateDirective } from './checkbox-list.directives';
+import { ArdCheckboxListCheckboxTemplateDirective, ArdCheckboxListLabelTemplateDirective } from './checkbox-list.directives';
 import { CheckboxListAlignType } from './checkbox-list.types';
 
 @Component({
@@ -64,7 +64,9 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
 
   readonly compareWith = input<Nullable<CompareWithFn>>(this._DEFAULTS.compareWith);
 
-  readonly invertDisabled = input<boolean, BooleanLike>(this._DEFAULTS.invertDisabled, { transform: v => coerceBooleanProperty(v) });
+  readonly invertDisabled = input<boolean, BooleanLike>(this._DEFAULTS.invertDisabled, {
+    transform: v => coerceBooleanProperty(v),
+  });
 
   readonly maxSelectedItems = input<number, NumberLike>(this._DEFAULTS.maxSelectedItems, {
     transform: v => coerceNumberProperty(v, this._DEFAULTS.maxSelectedItems),
@@ -144,4 +146,14 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
 
   //! templates
   readonly checkboxTemplate = contentChild(ArdCheckboxListCheckboxTemplateDirective);
+
+  readonly labelTemplate = contentChild(ArdCheckboxListLabelTemplateDirective);
+
+  getLabelContext(item: ArdOptionSimple): OptionContext<ArdOptionSimple> {
+    return {
+      $implicit: item,
+      item,
+      itemData: item.itemData(),
+    };
+  }
 }

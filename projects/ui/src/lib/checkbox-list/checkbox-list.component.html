@@ -29,7 +29,14 @@
         <ng-template _ard-tmp-repository [checkboxTmp]="checkboxTemplate()" />
       </ard-checkbox>
       <label [for]="htmlId() + item.index">
-        {{ item.label() }}
+        <ng-template #defaultLabelTemplate let-labelItem>
+          {{ labelItem.label() }}
+        </ng-template>
+
+        <ng-template
+          [ngTemplateOutlet]="labelTemplate()?.template || defaultLabelTemplate"
+          [ngTemplateOutletContext]="getLabelContext(item)"
+        />
       </label>
     </div>
   }

@@ -76,6 +76,10 @@ body {
       flex-direction: row;
       align-items: center;
     }
+    &.space-between,
+    .space-between {
+      justify-content: space-between;
+    }
   }
   &.grid,
   .grid {

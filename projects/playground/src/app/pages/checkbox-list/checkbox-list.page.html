@@ -1,17 +1,21 @@
 <div class="master">
   <span class="title">Basic checkbox list</span>
+  left clumped
   <ard-checkbox-list
     [items]="fruitItems"
     align="left-clumped"
   />
+  left split
   <ard-checkbox-list
     [items]="fruitItems"
     align="left-split"
   />
+  right split
   <ard-checkbox-list
     [items]="fruitItems"
     align="right-split"
   />
+  right clumped
   <ard-checkbox-list
     [items]="fruitItems"
     align="right-clumped"
@@ -34,6 +38,23 @@
   >
     <ng-template ard-checkbox-tmp let-selected>
       {{ selected ? '☑' : '☐' }}
+    </ng-template>
+</ard-checkbox-list>
+</div>
+<div class="master">
+  <span class="title">Checkbox list with custom label template</span>
+  <ard-checkbox-list
+    [items]="productItems"
+    valueFrom="id"
+    labelFrom="name"
+    disabledFrom="isInStock"
+    invertDisabled
+  >
+    <ng-template ard-label-tmp let-itemData="itemData">
+      <div class="item-container flex horiz space-between">
+        <span>{{ itemData.name }}</span>
+        <span class="id">{{ itemData.id }}</span>
+      </div>
     </ng-template>
 </ard-checkbox-list>
 </div>
