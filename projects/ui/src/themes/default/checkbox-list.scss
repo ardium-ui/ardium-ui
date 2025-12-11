@@ -2,25 +2,33 @@
 @use '../variables' as ARD;
 
 :root {
+  --ard-checkbox-list-padding: 0.375rem 0;
   --ard-checkbox-list-item-hover-opacity: 5%;
   --ard-checkbox-list-item-active-opacity: 15%;
   --ard-checkbox-list-item-height: 3rem;
   --ard-checkbox-list-item-height-compact: 2rem;
   --ard-checkbox-list-checkbox-min-width: 1.25rem;
   --ard-checkbox-list-checkbox-padding: 0.625rem;
-  --ard-checkbox-list-label-padding: 0 0.5rem;
+  --ard-checkbox-list-item-padding: 0 0.5rem 0 0;
+  --ard-checkbox-list-gap: 0;
+  --ard-checkbox-list-gap-compact: 0;
+  --ard-checkbox-list-item-gap: 0.5rem;
+  --ard-checkbox-list-item-gap-compact: 0.325rem;
+  --ard-checkbox-list-disabled-opacity: 50%;
 }
 
 .ard-checkbox-list {
   display: flex;
   flex-direction: column;
-  padding-top: 0.375rem;
+  padding: var(--ard-checkbox-list-padding, 0.375rem 0);
+  gap: var(--ard-checkbox-list-gap, 0);
 
   .ard-checkbox-list__item {
     display: flex;
     align-items: center;
     justify-content: stretch;
-    padding: 0;
+    gap: var(--ard-checkbox-list-item-gap, 0.5rem);
+    padding: var(--ard-checkbox-list-item-padding, 0 0.5rem 0 0);
     position: relative;
     cursor: pointer;
     height: max-content;
@@ -30,7 +38,7 @@
       pointer-events: none;
       user-select: none;
       flex-grow: 1;
-      padding: var(--ard-checkbox-list-label-padding, 0 0.5rem);
+      padding: 0;
       min-height: var(--ard-checkbox-list-item-height, 3rem);
       display: flex;
       align-items: center;
@@ -63,13 +71,15 @@
       pointer-events: none;
 
       > label {
-        opacity: 50%;
+        opacity: var(--ard-checkbox-list-disabled-opacity, 50%);
       }
     }
   }
   &.ard-compact {
+    gap: var(--ard-checkbox-list-gap-compact, 0);
+
     .ard-checkbox-list__item {
-      gap: 0.325rem;
+      gap: var(--ard-checkbox-list-item-gap-compact, 0.325rem);
       height: var(--ard-checkbox-list-item-height-compact, 2rem);
     }
   }
@@ -96,20 +106,4 @@
       flex-direction: row-reverse;
     }
   }
-  // &.ard-align-left-clumped,
-  // &.ard-align-right-clumped {
-  //   .ard-checkbox-list__item {
-  //     label {
-  //       justify-content: flex-start;
-  //     }
-  //   }
-  // }
-  // &.ard-align-left-split,
-  // &.ard-align-right-split {
-  //   .ard-checkbox-list__item {
-  //     label {
-  //       justify-content: space-between;
-  //     }
-  //   }
-  // }
 }
