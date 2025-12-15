@@ -2,6 +2,8 @@ import {
   AfterContentInit,
   ChangeDetectionStrategy,
   Component,
+  OnChanges,
+  SimpleChanges,
   TemplateRef,
   ViewEncapsulation,
   computed,
@@ -9,6 +11,7 @@ import {
   contentChildren,
   inject,
   input,
+  model,
   output,
   signal,
 } from '@angular/core';
@@ -28,13 +31,41 @@ import { TabberLabelContext } from './tabber.types';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArdiumTabberComponent implements AfterContentInit {
+export class ArdiumTabberComponent implements AfterContentInit, OnChanges {
   protected readonly _DEFAULTS = inject(ARD_TABBER_DEFAULTS);
 
   public readonly tabs = contentChildren(ArdiumTabComponent, { descendants: true });
 
-  readonly currentTab = signal<ArdiumTabComponent | null>(null);
-  readonly currentFocusedTab = signal<ArdiumTabComponent | null>(null);
+  readonly selectedTabId = model<string | null>(null, { alias: 'selectedTab' });
+
+  readonly selectedTab = computed<ArdiumTabComponent | null>(
+    () => this.tabs().find(tab => tab.tabId() === this.selectedTabId()) ?? null
+  );
+
+  readonly focusedTabId = signal<string | null>(null);
+
+  readonly focusedTab = computed<ArdiumTabComponent | null>(
+    () => this.tabs().find(tab => tab.tabId() === this.focusedTabId()) ?? null
+  );
+
+  readonly focusedTabIdChange = output<string>();
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['selectedTabId']) {
+      const newTabId = changes['selectedTabId'].currentValue;
+      if (newTabId !== null) {
+        const newTab = this.tabs().find(tab => tab.tabId() === newTabId);
+        if (!newTab) {
+          console.error(`ARD-NF6000: Trying to select a tab with id '${newTabId}' that does not exist.`);
+          return;
+        }
+        const oldTabId = changes['selectedTabId'].previousValue;
+        const oldTab = this.tabs().find(tab => tab.tabId() === oldTabId);
+        if (oldTab) this._unselectSpecificTab(oldTab);
+        this._selectNewTab(newTab);
+      }
+    }
+  }
 
   readonly initialTab = input<string | undefined>(undefined);
 
@@ -50,18 +81,23 @@ export class ArdiumTabberComponent implements AfterContentInit {
         selectedCmp = cmp;
       }
 
+      // subscribe to events
       cmp.focusEvent.subscribe(() => {
         this.focusEvent.emit(cmp.tabId());
       });
       cmp.blurEvent.subscribe(() => {
         this.blurEvent.emit(cmp.tabId());
       });
-      cmp.selectedChange.subscribe(isSelected => {
-        if (!isSelected) return;
-        this.changeTab.emit(cmp.tabId());
+      cmp.selectedChangeInternal$.subscribe(isSelected => {
+        if (!isSelected) {
+          this.selectedTabId.set(null);
+          return;
+        }
+        this.selectTab(cmp);
       });
     }
 
+    // if no tab is selected, select the initial tab or the first tab
     if (!selectedCmp) {
       const initiallySelectedTab = this.tabs().find(tab => tab.tabId() === this.initialTab());
       selectedCmp = initiallySelectedTab ?? this.tabs()[0] ?? null;
@@ -71,17 +107,28 @@ export class ArdiumTabberComponent implements AfterContentInit {
       }
     }
 
-    this.currentTab.set(selectedCmp);
+    this.selectedTabId.set(selectedCmp.tabId());
   }
 
-  onTabClick(tab: ArdiumTabComponent): void {
-    const curr = this.currentTab();
-    if (curr) {
-      curr.selected.set(false);
-      curr.selectedChange.emit(false);
+  selectTab(tab: ArdiumTabComponent): void {
+    if (tab.tabId() === this.selectedTabId()) {
+      return;
     }
-    this.currentTab.set(tab);
-
+    this._unselectCurrentTab(tab);
+    this.selectedTabId.set(tab.tabId());
+    this._selectNewTab(tab);
+  }
+  private _unselectSpecificTab(tab: ArdiumTabComponent): void {
+    tab.selected.set(false);
+    tab.selectedChange.emit(false);
+  }
+  private _unselectCurrentTab(referenceTab?: ArdiumTabComponent): void {
+    const curr = this.selectedTab();
+    if (curr && (!referenceTab || curr.tabId() !== referenceTab.tabId())) {
+      this._unselectSpecificTab(curr);
+    }
+  }
+  private _selectNewTab(tab: ArdiumTabComponent): void {
     tab.selected.set(true);
     tab.selectedChange.emit(true);
   }
@@ -89,18 +136,17 @@ export class ArdiumTabberComponent implements AfterContentInit {
     tab.focusEvent.emit();
     tab.focused.set(true);
 
-    this.currentFocusedTab.set(tab);
+    this.focusedTabId.set(tab.tabId());
   }
   onTabBlur(tab: ArdiumTabComponent): void {
     tab.blurEvent.emit();
     tab.focused.set(false);
 
-    this.currentFocusedTab.set(null);
+    this.focusedTabId.set(null);
   }
 
   readonly focusEvent = output<string>({ alias: 'focus' });
   readonly blurEvent = output<string>({ alias: 'blur' });
-  readonly changeTab = output<string>();
 
   //! appearance
   readonly color = input<ComponentColor>(this._DEFAULTS.color);

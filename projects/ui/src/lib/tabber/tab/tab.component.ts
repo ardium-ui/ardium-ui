@@ -1,17 +1,18 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  HostBinding,
   Input,
+  OnDestroy,
   TemplateRef,
   ViewEncapsulation,
   computed,
   inject,
   input,
   output,
-  signal,
+  signal
 } from '@angular/core';
 import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
+import { Subject } from 'rxjs';
 import { ARD_TAB_DEFAULTS } from './tab.defaults';
 
 @Component({
@@ -21,8 +22,13 @@ import { ARD_TAB_DEFAULTS } from './tab.defaults';
   styleUrl: './tab.component.scss',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    role: 'tabpanel',
+    '[class.ard-tab-disabled]': 'disabled()',
+    '[class.ard-tab-selected]': 'selected()',
+  }
 })
-export class ArdiumTabComponent {
+export class ArdiumTabComponent implements OnDestroy {
   protected readonly _DEFAULTS = inject(ARD_TAB_DEFAULTS);
 
   readonly disabled = input<boolean, BooleanLike>(this._DEFAULTS.disabled, { transform: v => coerceBooleanProperty(v) });
@@ -38,13 +44,8 @@ export class ArdiumTabComponent {
     this._emitChange();
   }
 
-  @HostBinding('class.ard-tab-selected')
-  get _selectedHostAttribute() {
-    return this.selected();
-  }
-
   private _emitChange(): void {
-    this.selectedChange.emit(this.selected());
+    this.selectedChangeInternal$.next(this.selected());
   }
 
   readonly focused = signal<boolean>(false);
@@ -54,7 +55,15 @@ export class ArdiumTabComponent {
 
   readonly tabId = input.required<string>();
 
-  readonly focusEvent = output<void>();
-  readonly blurEvent = output<void>();
+  readonly focusEvent = output<void>({ alias: 'focus' });
+  readonly blurEvent = output<void>({ alias: 'blur' });
   readonly selectedChange = output<boolean>();
+
+  readonly selectedChangeInternal$ = new Subject<boolean>();
+
+  private _selectedChangeSub = this.selectedChangeInternal$.subscribe(this.selectedChange.emit);
+  ngOnDestroy(): void {
+    this._selectedChangeSub.unsubscribe();
+    this.selectedChangeInternal$.complete();
+  }
 }

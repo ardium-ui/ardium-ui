@@ -8,19 +8,43 @@
 <div class="master">
   <div class="title">Tabber with custom labels</div>
   <ard-tabber>
-    <ard-tab tabId="tab1" label="Animals"> Dog, Cow, Shark </ard-tab>
-    <ard-tab tabId="tab2" label="Plants & fungi"> Wheat, Grass, Yeast </ard-tab>
+    <ard-tab
+      tabId="tab1"
+      label="Animals"
+    >
+      Dog, Cow, Shark
+    </ard-tab>
+    <ard-tab
+      tabId="tab2"
+      label="Plants & fungi"
+    >
+      Wheat, Grass, Yeast
+    </ard-tab>
   </ard-tabber>
 </div>
 <div class="master">
   <div class="title">Tabber events</div>
   <ard-tabber
-    (changeTab)="log('changeTab', $event)"
+    (selectedTabChange)="log('selectedTabChange', $event)"
     (focus)="log('focus', $event)"
     (blur)="log('blur', $event)"
   >
-    <ard-tab tabId="tab1"> This is tab 1 </ard-tab>
-    <ard-tab tabId="tab2"> This is tab 2 </ard-tab>
+    <ard-tab
+      tabId="tab1"
+      (focus)="log('tab1 focus')"
+      (blur)="log('tab1 blur')"
+      (selectedChange)="log('tab1 selectedChange', $event)"
+    >
+      This is tab 1
+    </ard-tab>
+    <ard-tab
+      tabId="tab2"
+      (focus)="log('tab2 focus')"
+      (blur)="log('tab2 blur')"
+      (selectedChange)="log('tab2 selectedChange', $event)"
+    >
+      This is tab 2
+    </ard-tab>
   </ard-tabber>
 </div>
 <div class="master">
@@ -118,7 +142,10 @@
     <ard-tab tabId="tab1"> This is tab 1 </ard-tab>
     <ard-tab tabId="tab2"> This is tab 2 </ard-tab>
     <ard-tab tabId="tab3"> This is tab 3 </ard-tab>
-    <ng-template ard-tabber-label-tmp let-label>
+    <ng-template
+      ard-tabber-label-tmp
+      let-label
+    >
       <div style="color: red">{{ label }}</div>
     </ng-template>
   </ard-tabber>
@@ -126,9 +153,24 @@
 <div class="master">
   <div class="title">Tabber with single label templates</div>
   <ard-tabber>
-    <ard-tab tabId="tab1" [label]="red"> This is tab 1 </ard-tab>
-    <ard-tab tabId="tab2" [label]="green"> This is tab 2 </ard-tab>
-    <ard-tab tabId="tab3" [label]="blue"> This is tab 3 </ard-tab>
+    <ard-tab
+      tabId="tab1"
+      [label]="red"
+    >
+      This is tab 1
+    </ard-tab>
+    <ard-tab
+      tabId="tab2"
+      [label]="green"
+    >
+      This is tab 2
+    </ard-tab>
+    <ard-tab
+      tabId="tab3"
+      [label]="blue"
+    >
+      This is tab 3
+    </ard-tab>
     <ng-template #red>
       <div style="color: red">Label 1</div>
     </ng-template>
@@ -138,5 +180,13 @@
     <ng-template #blue>
       <div style="color: blue">Label 3</div>
     </ng-template>
+  </ard-tabber>
+</div>
+<div class="master">
+  <div class="title">Tabber controled by signal</div>
+  <ard-tabber [(selectedTab)]="selectedTab">
+    <ard-tab tabId="tab1"> This is tab 1 </ard-tab>
+    <ard-tab tabId="tab2"> This is tab 2 </ard-tab>
+    <ard-tab tabId="tab3"> This is tab 3 </ard-tab>
   </ard-tabber>
 </div>
