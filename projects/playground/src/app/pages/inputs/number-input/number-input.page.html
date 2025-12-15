@@ -3,6 +3,10 @@
   <ard-number-input></ard-number-input>
 </div>
 <div class="master flex">
+  <span class="title">Simplest number input compact</span>
+  <ard-number-input compact></ard-number-input>
+</div>
+<div class="master flex">
   <span class="title">Number input with min, max, value, placeholder</span>
   <ard-number-input
     min="-10"
@@ -54,8 +58,12 @@
   <ard-number-input noButtons></ard-number-input>
 </div>
 <div class="master flex">
-  <span class="title">Number input with no buttons and placeholder</span>
-  <ard-number-input noButtons placeholder="Enter a number"></ard-number-input>
+  <span class="title">Number input with no buttons and placeholder (left)</span>
+  <ard-number-input noButtons placeholder="Enter a number" alignText="left"></ard-number-input>
+</div>
+<div class="master flex">
+  <span class="title">Number input with no buttons and placeholder (left) compact</span>
+  <ard-number-input noButtons placeholder="Enter a number" alignText="left" compact></ard-number-input>
 </div>
 <div class="master flex">
   <span class="title">Number input with [keepFocusOnQuickChange]</span>
