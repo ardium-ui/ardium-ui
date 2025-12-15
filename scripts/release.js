@@ -51,19 +51,19 @@ const VERSION_ALIAS_MAP = {
     ]);
     bumpType = anwsers.bumpType;
   }
-
-  const isAlphaBump = preVersions.includes(bumpType);
-  const isNoVersionBump = bumpType === 'no-version';
-
-  const rootDir = path.join(__dirname, '..');
-
-  const libraryPackagePath = path.join(rootDir, 'projects', 'ui', 'package.json');
-  function readVersion() {
-    const libraryPackageJson = JSON.parse(fs.readFileSync(libraryPackagePath, 'utf8'));
-    return libraryPackageJson.version;
-  }
-
   try {
+    const rootDir = path.join(__dirname, '..');
+
+    const libraryPackagePath = path.join(rootDir, 'projects', 'ui', 'package.json');
+
+    function readVersion() {
+      const libraryPackageJson = JSON.parse(fs.readFileSync(libraryPackagePath, 'utf8'));
+      return libraryPackageJson.version;
+    }
+
+    const isNoVersionBump = bumpType === 'no-version';
+    const isAlphaBump = preVersions.includes(bumpType) || (isNoVersionBump && readVersion().includes('alpha'));
+
     // Bump the package version
     const oldVersion = readVersion();
     let finalVersion = oldVersion;
