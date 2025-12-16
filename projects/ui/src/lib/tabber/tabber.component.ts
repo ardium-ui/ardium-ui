@@ -54,13 +54,13 @@ export class ArdiumTabberComponent implements AfterContentInit, OnChanges {
     if (changes['selectedTabId']) {
       const newTabId = changes['selectedTabId'].currentValue;
       if (newTabId !== null) {
-        const newTab = this.tabs().find(tab => tab.tabId() === newTabId);
+        const newTab = this.tabs().find(tab => tab._isTabIdInitialized && tab.tabId() === newTabId);
         if (!newTab) {
           console.error(`ARD-NF6000: Trying to select a tab with id '${newTabId}' that does not exist.`);
           return;
         }
         const oldTabId = changes['selectedTabId'].previousValue;
-        const oldTab = this.tabs().find(tab => tab.tabId() === oldTabId);
+        const oldTab = this.tabs().find(tab => tab._isTabIdInitialized && tab.tabId() === oldTabId);
         if (oldTab) this._unselectSpecificTab(oldTab);
         this._selectNewTab(newTab);
       }

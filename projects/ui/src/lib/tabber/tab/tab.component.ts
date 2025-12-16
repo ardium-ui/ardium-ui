@@ -9,7 +9,7 @@ import {
   inject,
   input,
   output,
-  signal
+  signal,
 } from '@angular/core';
 import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { Subject } from 'rxjs';
@@ -26,7 +26,7 @@ import { ARD_TAB_DEFAULTS } from './tab.defaults';
     role: 'tabpanel',
     '[class.ard-tab-disabled]': 'disabled()',
     '[class.ard-tab-selected]': 'selected()',
-  }
+  },
 })
 export class ArdiumTabComponent implements OnDestroy {
   protected readonly _DEFAULTS = inject(ARD_TAB_DEFAULTS);
@@ -53,7 +53,13 @@ export class ArdiumTabComponent implements OnDestroy {
   readonly _label = input<string | TemplateRef<any> | null>(null, { alias: 'label' });
   readonly label = computed(() => this._label() ?? this.tabId());
 
-  readonly tabId = input.required<string>();
+  _isTabIdInitialized = false;
+  readonly tabId = input.required<string, string>({
+    transform: v => {
+      this._isTabIdInitialized = true;
+      return v;
+    },
+  });
 
   readonly focusEvent = output<void>({ alias: 'focus' });
   readonly blurEvent = output<void>({ alias: 'blur' });
