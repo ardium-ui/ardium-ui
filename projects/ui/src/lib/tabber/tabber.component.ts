@@ -50,21 +50,35 @@ export class ArdiumTabberComponent implements AfterContentInit, OnChanges {
 
   readonly focusedTabIdChange = output<string>();
 
+  private _selectedTabIdToCheck: string | null = null;
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedTabId']) {
+      // make sure the tab exists
       const newTabId = changes['selectedTabId'].currentValue;
-      if (newTabId !== null) {
-        const newTab = this.tabs().find(tab => tab._isTabIdInitialized && tab.tabId() === newTabId);
-        if (!newTab) {
-          console.error(`ARD-NF6000: Trying to select a tab with id '${newTabId}' that does not exist.`);
-          return;
-        }
-        const oldTabId = changes['selectedTabId'].previousValue;
-        const oldTab = this.tabs().find(tab => tab._isTabIdInitialized && tab.tabId() === oldTabId);
-        if (oldTab) this._unselectSpecificTab(oldTab);
-        this._selectNewTab(newTab);
+      const oldTabId = changes['selectedTabId'].previousValue;
+      const isValid = this._validateSelectedTabId(newTabId, oldTabId);
+      if (!isValid && this.tabs().some(tab => !tab._isTabIdInitialized)) {
+        this._selectedTabIdToCheck = newTabId;
       }
     }
+  }
+
+  private _validateSelectedTabId(newTabId: string | null, oldTabId: string | null): boolean {
+    if (newTabId !== null) {
+      const newTab = this.tabs().find(tab => tab._isTabIdInitialized && tab.tabId() === newTabId);
+      if (!newTab) {
+        // tabs are initialized but the tab does not exist, show error
+        console.error(`ARD-NF6000: Trying to select a tab with id '${newTabId}' that does not exist.`);
+        return false;
+      }
+      // tab exists, select it and unselect the old one
+      if (oldTabId !== null) {
+        const oldTab = this.tabs().find(tab => tab._isTabIdInitialized && tab.tabId() === oldTabId);
+        if (oldTab) this._unselectSpecificTab(oldTab);
+      }
+      this._selectNewTab(newTab);
+    }
+    return true;
   }
 
   readonly initialTab = input<string | undefined>(undefined);
@@ -97,6 +111,11 @@ export class ArdiumTabberComponent implements AfterContentInit, OnChanges {
       });
     }
 
+    // if there was a pending selectedTabId to check, do it now
+    if (this._selectedTabIdToCheck !== null) {
+      this._validateSelectedTabId(this._selectedTabIdToCheck, null);
+      this._selectedTabIdToCheck = null;
+    }
     // if no tab is selected, select the initial tab or the first tab
     if (!selectedCmp) {
       const initiallySelectedTab = this.tabs().find(tab => tab.tabId() === this.initialTab());
