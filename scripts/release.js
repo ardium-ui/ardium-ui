@@ -7,6 +7,7 @@ const ansis = require('ansis');
 const inquirer = require('inquirer').default;
 
 const VERSION_ALIAS_MAP = {
+  alpha: 'prerelease',
   prer: 'prerelease',
   prep: 'prepatch',
   premi: 'preminor',
