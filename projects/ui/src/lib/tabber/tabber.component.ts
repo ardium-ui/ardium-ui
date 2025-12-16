@@ -55,21 +55,22 @@ export class ArdiumTabberComponent implements AfterContentInit, OnChanges {
     if (changes['selectedTabId']) {
       // make sure the tab exists
       const newTabId = changes['selectedTabId'].currentValue;
-      const oldTabId = changes['selectedTabId'].previousValue;
-      const isValid = this._validateSelectedTabId(newTabId, oldTabId);
-      if (!isValid && this.tabs().some(tab => !tab._isTabIdInitialized)) {
+      if (this.tabs().some(tab => !tab._isTabIdInitialized)) {
         this._selectedTabIdToCheck = newTabId;
+      } else {
+        const oldTabId = changes['selectedTabId'].previousValue;
+        this._validateSelectedTabId(newTabId, oldTabId);
       }
     }
   }
 
-  private _validateSelectedTabId(newTabId: string | null, oldTabId: string | null): boolean {
+  private _validateSelectedTabId(newTabId: string | null, oldTabId: string | null): void {
     if (newTabId !== null) {
       const newTab = this.tabs().find(tab => tab._isTabIdInitialized && tab.tabId() === newTabId);
       if (!newTab) {
         // tabs are initialized but the tab does not exist, show error
         console.error(`ARD-NF6000: Trying to select a tab with id '${newTabId}' that does not exist.`);
-        return false;
+        return;
       }
       // tab exists, select it and unselect the old one
       if (oldTabId !== null) {
@@ -78,7 +79,6 @@ export class ArdiumTabberComponent implements AfterContentInit, OnChanges {
       }
       this._selectNewTab(newTab);
     }
-    return true;
   }
 
   readonly initialTab = input<string | undefined>(undefined);
