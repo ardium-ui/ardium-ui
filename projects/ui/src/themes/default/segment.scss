@@ -6,7 +6,7 @@
   @include coloringMixins.typeColors();
   --ard-_segment-padding: 0.15rem;
   padding: var(--ard-_segment-padding);
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--ard-font-family);
   margin: 2px;
   border: 1px solid transparent;
   font-weight: 500;

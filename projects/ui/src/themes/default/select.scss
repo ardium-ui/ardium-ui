@@ -11,7 +11,7 @@
   grid-template-columns: 1fr max-content;
   gap: 0.625em;
   padding: 0 1em 0 0.375em;
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--ard-font-family);
   font-size: 1rem;
 
   @include CB.clearButton();

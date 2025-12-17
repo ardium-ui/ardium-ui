@@ -13,7 +13,7 @@
 
   .ard-input-container {
     input {
-      font-family: monospace;
+      font-family: var(--ard-font-family-mono);
     }
   }
 
@@ -22,6 +22,6 @@
     color: ARD.$text3;
     opacity: 70%;
     user-select: none;
-    font-family: monospace;
+    font-family: var(--ard-font-family-mono);
   }
 }

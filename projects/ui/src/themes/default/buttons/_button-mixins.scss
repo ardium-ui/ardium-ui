@@ -2,12 +2,23 @@
 @use '../coloring' as coloringMixins;
 @use '../../variables' as ARD;
 
-@mixin button {
+@mixin button(
+  $margin,
+  $padding,
+  $font-size,
+  $font-weight,
+  $hover-opacity,
+  $focus-opacity,
+  $active-opacity,
+  $focus-visible-opacity
+) {
   @include coloringMixins.typeColors();
-  font-family: 'Roboto', sans-serif;
-  margin: 2px;
+  font-family: var(--ard-font-family);
+  margin: $margin;
+  padding: $padding;
   border: 1px solid transparent;
-  font-weight: 500;
+  font-weight: $font-weight;
+  font-size: $font-size;
   display: inline-flex;
   align-items: center;
   position: relative;
@@ -23,21 +34,25 @@
     @include defaultMixins.focus-overlay;
     background-color: var(--ard-cmpcl--overlay);
   }
-  &:hover,
+  &:hover {
+    .ard-focus-overlay {
+      opacity: $hover-opacity;
+    }
+  }
   &:focus {
     .ard-focus-overlay {
-      opacity: 4%;
+      opacity: $focus-opacity;
     }
   }
   &.ard-active,
   &:active {
     .ard-focus-overlay {
-      opacity: 12%;
+      opacity: $active-opacity;
     }
   }
   &:focus-visible {
     .ard-focus-overlay {
-      opacity: 18%;
+      opacity: $focus-visible-opacity;
     }
   }
   //! button appearances
@@ -83,9 +98,7 @@
       display: none;
     }
 
-    transition:
-      background-color 0.2s ease,
-      color 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease;
     &:hover,
     &:focus-visible {
       background: var(--ard-cmpcl--bg-colored);
@@ -116,13 +129,13 @@
 }
 
 //! disabled state
-@mixin button-disabled {
+@mixin button-disabled($opacity, $overlay-opacity) {
   pointer-events: none;
-  opacity: 60%;
+  opacity: $opacity;
   cursor: not-allowed;
 
   .ard-focus-overlay {
-    opacity: 20%;
+    opacity: $overlay-opacity;
     transform: scale(1);
   }
 
@@ -130,7 +143,7 @@
   &.ard-color-none {
     .ard-button-icon,
     .ard-button-content {
-      opacity: 60%;
+      opacity: $opacity;
     }
     .ard-focus-overlay {
       background: var(--ard-cmpcl--overlay);

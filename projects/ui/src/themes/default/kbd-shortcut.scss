@@ -1,7 +1,7 @@
 @use '../variables' as ARD;
 
 .ard-kbd-shortcut {
-  font-family: monospace;
+  font-family: var(--ard-font-family-mono);
   color: ARD.$text2;
 
   > span {

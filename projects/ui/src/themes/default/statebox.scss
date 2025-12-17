@@ -82,7 +82,7 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--ard-font-family);
   }
   &.ard-color-custom {
     color: var(--ard-custom-color);

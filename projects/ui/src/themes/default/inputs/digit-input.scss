@@ -3,7 +3,7 @@
 @use '../mixins' as defaultMixins;
 
 ard-digit-input {
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--ard-font-family);
   font-weight: 500;
   color: ARD.$text;
 }

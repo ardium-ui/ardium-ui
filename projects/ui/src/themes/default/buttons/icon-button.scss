@@ -1,16 +1,41 @@
 @use './button-mixins' as shared;
 
+:root {
+  --ard-icon-button-height: 2.1875em;
+  --ard-icon-button-height-compact: 2.25em;
+  --ard-icon-button-margin: 0;
+  --ard-icon-button-font-size: 1rem;
+  --ard-icon-button-font-size-compact: 0.75rem;
+  --ard-icon-button-font-weight: 600;
+  --ard-icon-button-overlay-hover-opacity: var(--ard-button-overlay-hover-opacity, 0.04);
+  --ard-icon-button-overlay-focus-opacity: var(--ard-button-overlay-focus-opacity, 0.12);
+  --ard-icon-button-overlay-active-opacity: var(--ard-button-overlay-active-opacity, 0.18);
+  --ard-icon-button-overlay-focus-visible-opacity: var(--ard-button-overlay-focus-visible-opacity, 0.24);
+  --ard-icon-button-overlay-disabled-opacity: var(--ard-button-overlay-disabled-opacity, 0.2);
+  --ard-icon-button-disabled-opacity: var(--ard-button-disabled-opacity, 0.6);
+}
+
 ard-icon-button {
   height: max-content;
   width: max-content;
   border-radius: 9999px;
   aspect-ratio: 1;
   display: inline-block;
-  font-size: 1rem;
+  margin: var(--ard-icon-button-margin, 0);
+  font-size: var(--ard-icon-button-font-size, 1rem);
 }
 
 .ard-icon-button {
-  @include shared.button;
+  @include shared.button(
+    0,
+    0,
+    inherit,
+    inherit,
+    var(--ard-icon-button-overlay-hover-opacity, var(--ard-button-overlay-hover-opacity, 0.04)),
+    var(--ard-icon-button-overlay-focus-opacity, var(--ard-button-overlay-focus-opacity, 0.12)),
+    var(--ard-icon-button-overlay-active-opacity, var(--ard-button-overlay-active-opacity, 0.18)),
+    var(--ard-icon-button-overlay-focus-visible-opacity, var(--ard-button-overlay-focus-visible-opacity, 0.24))
+  );
   background: transparent;
   height: 2.1875em;
   aspect-ratio: 1;
@@ -19,8 +44,6 @@ ard-icon-button {
   justify-content: center;
   padding: 0;
   overflow: hidden;
-  font-weight: 600;
-  font-size: inherit;
   color: var(--ard-cmpcl--bg-colored);
 
   .ard-button-content {
@@ -46,7 +69,10 @@ ard-icon-button {
 
 ard-icon-button.ard-disabled {
   > .ard-icon-button {
-    @include shared.button-disabled;
+    @include shared.button-disabled(
+      var(--ard-icon-button-overlay-disabled-opacity, var(--ard-button-overlay-disabled-opacity, 0.2)),
+      var(--ard-icon-button-disabled-opacity, var(--ard-button-disabled-opacity, 0.6))
+    );
 
     .ard-focus-overlay {
       opacity: 0;

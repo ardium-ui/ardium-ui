@@ -34,6 +34,9 @@
   --ard-darken-overlay-light: rgba(0, 0, 0, 5%);
   --ard-darken-overlay-ultralight: rgba(0, 0, 0, 3%);
 
+  --ard-font-family: 'Roboto', sans-serif;
+  --ard-font-family-mono: monospace;
+
   --ard-gold: #ffc107;
 
   --ard-clear-button-size: 0.9rem;
@@ -44,6 +47,8 @@
   --ard-form-field-font-size-compact: 1rem;
   --ard-form-field-padding: 0 0.375rem;
   --ard-form-field-padding-compact: 0 0.375rem;
+
+  --ard-rounded-corner-radius: 0.375rem;
 
   --ard-primary-50: 234, 235, 243;
   --ard-primary-100: 159, 167, 228;

@@ -5,7 +5,7 @@
  */
 @mixin genericInput() {
   position: relative;
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--ard-font-family);
   display: flex;
   align-items: center;
   justify-content: stretch;

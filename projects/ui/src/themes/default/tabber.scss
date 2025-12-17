@@ -13,7 +13,7 @@ ard-tabber {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--ard-font-family);
 
   .ard-tabber-tabs {
     max-width: 100%;

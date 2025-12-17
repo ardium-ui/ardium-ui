@@ -9,7 +9,7 @@
   @include clearButton.clearButton();
   @include defaultMixins.formVariants();
 
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--ard-font-family);
   color: ARD.$text2;
   background: ARD.$bg;
   border-radius: var(--ard-variant-border-radius);
