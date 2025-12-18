@@ -2,24 +2,65 @@
 @use './mixins' as defaultMixins;
 @use '../variables' as ARD;
 
+:root {
+  --ard-select-height: var(--ard-form-field-height, 2.3125rem);
+  --ard-select-height-compact: var(--ard-form-field-height-compact, 1.6875rem);
+  --ard-select-gap: 0.625rem;
+  --ard-select-gap-compact: 0.5rem;
+  --ard-select-controls-gap: 0.625rem;
+  --ard-select-controls-gap-compact: 0.5rem;
+  --ard-select-padding: 0 1em 0 0.375em;
+  --ard-select-padding-compact: 0 0.625em 0 0.375em;
+
+  --ard-select-font-size: var(--ard-form-field-font-size, 1rem);
+  --ard-select-font-size-compact: var(--ard-form-field-font-size-compact, 0.875rem);
+  --ard-select-text-color: var(--ard-text, rgba(0, 0, 0, 100%));
+  --ard-select-placeholder-color: var(--ard-text3, rgba(0, 0, 0, 75%));
+  --ard-select-search-min-width: 10ch;
+  --ard-select-dropdown-arrow-color: var(--ard-detail, rgba(0, 0, 0, 60%));
+
+  --ard-select-multiselect-padding: 0.25em 0;
+  --ard-select-multiselect-chip-gap: 0.375rem;
+
+  --ard-select-dropdown-width: max-content;
+  --ard-select-dropdown-max-width: max(25em, 100%);
+  --ard-select-dropdown-min-width: 100%;
+  --ard-select-dropdown-max-height: 15em;
+  --ard-select-dropdown-font-size: var(--ard-select-font-size, var(--ard-form-field-font-size, 1rem));
+  --ard-select-dropdown-font-size-compact: var(--ard-select-font-size-compact, var(--ard-form-field-font-size-compact, 0.875rem));
+  --ard-select-dropdown-padding: 0.375em 0.625em;
+  --ard-select-dropdown-gap: 0;
+
+  --ard-select-dropdown-optgroup-label-font-size: 0.875em;
+  --ard-select-dropdown-optgroup-label-font-weight: 600;
+  --ard-select-dropdown-optgroup-label-letter-spacing: 0.25px;
+  --ard-select-dropdown-optgroup-label-padding: 0.375em 0.625em 0.0625em 0.625em;
+
+  --ard-select-dropdown-option-padding: 0.375em 0.625em;
+  --ard-select-dropdown-option-text-color: var(--ard-text2, rgba(0, 0, 0, 87%));
+  --ard-select-dropdown-option-highlight-bg: var(--ard-darken-overlay-light, rgba(0, 0, 0, 5%));
+  --ard-select-dropdown-option-selected-font-weight: 500;
+  --ard-select-dropdown-option-selected-bg: var(--ard-darken-overlay-medium, rgba(0, 0, 0, 10%));
+  --ard-select-dropdown-option-disabled-opacity: 50%;
+
+  --ard-select-dropdown-add-custom-gap: 0.375rem;
+  --ard-select-dropdown-add-custom-label-font-size: 85%;
+}
+
 .ard-select {
   box-sizing: border-box;
   width: 100%;
-  min-height: 100%;
+  min-height: var(--ard-select-height, var(--ard-form-field-height, 2.3125rem));
   display: grid;
   align-items: center;
   grid-template-columns: 1fr max-content;
-  gap: 0.625em;
-  padding: 0 1em 0 0.375em;
+  gap: var(--ard-select-gap, 0.625rem);
+  padding: var(--ard-select-padding, 0 1em 0 0.375em);
   font-family: var(--ard-font-family);
-  font-size: 1rem;
+  font-size: var(--ard-select-font-size, 1rem);
+  color: var(--ard-select-text-color, var(--ard-text, rgba(0, 0, 0, 100%)));
 
   @include CB.clearButton();
-
-  //! variants
-  &.ard-variant-pill {
-    padding-left: 0.8125em;
-  }
 
   //! value container
   .ard-select-value-container {
@@ -27,7 +68,7 @@
     height: 2em;
     display: flex;
     align-items: center;
-    font-size: 1em;
+    font-size: var(--ard-select-font-size, 1rem);
     text-size-adjust: 100%;
     flex-grow: 1;
     overflow: hidden;
@@ -35,7 +76,7 @@
     .ard-placeholder {
       font: inherit;
       position: absolute;
-      color: ARD.$text3;
+      color: var(--ard-select-placeholder-color, rgba(0, 0, 0, 75%));
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -63,7 +104,7 @@
   .ard-select-controls {
     display: flex;
     align-items: center;
-    gap: 0.625em;
+    gap: var(--ard-select-controls-gap, 0.625rem);
     width: max-content;
   }
   //! single/multiselect
@@ -96,10 +137,10 @@
     .ard-select-value-container {
       height: max-content;
       min-height: 1.5625em;
-      padding: 0.25em 0;
+      padding: var(--ard-select-multiselect-padding, 0.25em 0);
       box-sizing: border-box;
       flex-wrap: wrap;
-      gap: 0.375em;
+      gap: var(--ard-select-multiselect-chip-gap, 0.375rem);
       justify-content: stretch;
 
       .ard-chip-wrapper {
@@ -109,10 +150,10 @@
     .ard-search-input {
       flex-grow: 1;
       width: unset !important;
-      min-width: 10ch;
+      min-width: var(--ard-select-search-min-width, 10ch);
 
       input {
-        width: 10ch !important;
+        width: var(--ard-select-search-min-width, 10ch) !important;
       }
     }
     .ard-chip-wrapper {
@@ -132,8 +173,8 @@
     .ard-dropdown-arrow {
       border: calc(ARD.$dropdown-button-size / 2) solid transparent;
       position: relative;
-      border-bottom-color: ARD.$detail;
-      border-right-color: ARD.$detail;
+      border-bottom-color: var(--ard-select-dropdown-arrow-color, ARD.$detail);
+      border-right-color: var(--ard-select-dropdown-arrow-color, ARD.$detail);
       transform: rotate(45deg) translate(-17.67771%, -17.67771%);
     }
   }
@@ -143,10 +184,13 @@
 
   //! compact
   &.ard-compact {
-    font-size: 0.85rem;
-    height: 1.5625rem;
-    padding-right: 0.625em;
+    font-size: var(--ard-select-font-size-compact, 0.875rem);
+    height: var(--ard-select-height-compact, var(--ard-form-field-height-compact, 1.6875rem));
+    padding: var(--ard-select-padding-compact, 0 0.625em 0 0.375em);
 
+    .ard-select-controls {
+      gap: var(--ard-select-controls-gap-compact, 0.5rem);
+    }
     .ard-dropdown-arrow-wrapper .ard-dropdown-arrow {
       border-width: calc(ARD.$dropdown-button-size / 2.4);
     }
@@ -156,14 +200,14 @@
 //! optgroups & options, divider
 .ard-select-dropdown-panel {
   right: 0;
-  width: max-content;
-  max-width: max(25em, 100%);
-  min-width: 100%;
-  font-size: 1rem;
+  width: var(--ard-select-dropdown-width, max-content);
+  max-width: var(--ard-select-dropdown-max-width, max(25em, 100%));
+  min-width: var(--ard-select-dropdown-min-width, 100%);
+  font-size: var(--ard-select-dropdown-font-size, var(--ard-form-field-font-size, 1rem));
 
   .ard-dropdown-panel-content {
-    padding: 0.375em 0;
-    max-height: 15em;
+    padding: var(--ard-select-dropdown-padding, 0.375em 0.625em);
+    max-height: var(--ard-select-dropdown-max-height, 15em);
     overflow: hidden auto;
   }
   .ard-optgroup {
@@ -176,29 +220,29 @@
   }
 
   .ard-optgroup-label {
-    font-size: 0.875em;
-    font-weight: 600;
+    font-size: var(--ard-select-dropdown-optgroup-label-font-size, 0.875em);
+    font-weight: var(--ard-select-dropdown-optgroup-label-font-weight, 600);
     letter-spacing: 0.25px;
-    padding: 0.375em 0.625em 0.0625em 0.625em;
+    padding: var(--ard-select-dropdown-optgroup-label-padding, 0.375em 0.625em 0.0625em 0.625em);
   }
 
   .ard-option {
-    padding: 0.375em 0.625em;
-    color: ARD.$text2;
+    padding: var(--ard-select-dropdown-option-padding, 0.375em 0.625em);
+    color: var(--ard-select-dropdown-option-text-color, var(--ard-text2, rgba(0, 0, 0, 87%)));
     cursor: pointer;
 
     &.ard-option-highlighted {
-      background: ARD.$darken-overlay-light;
+      background: var(--ard-select-dropdown-option-highlight-bg, ARD.$darken-overlay-light);
     }
 
     &.ard-option-selected {
-      font-weight: 500;
-      background: ARD.$darken-overlay-medium;
+      font-weight: var(--ard-select-dropdown-option-selected-font-weight, 500);
+      background: var(--ard-select-dropdown-option-selected-bg, ARD.$darken-overlay-medium);
     }
 
     &.ard-option-disabled {
       pointer-events: none;
-      opacity: 50%;
+      opacity: var(--ard-select-dropdown-option-disabled-opacity, 50%);
     }
   }
   //divider
@@ -216,16 +260,16 @@
   .ard-add-custom {
     display: flex;
     align-items: flex-end;
-    gap: 0.375rem;
+    gap: var(--ard-select-dropdown-add-custom-gap, 0.375rem);
 
     .ard-add-custom-label {
-      font-size: 85%;
+      font-size: var(--ard-select-dropdown-add-custom-label-font-size, 85%);
     }
   }
 
   //! compact
   > .ard-compact {
-    font-size: 0.85rem;
+    font-size: var(--ard-select-dropdown-font-size-compact, 0.85rem);
   }
 }
 
