@@ -58,6 +58,7 @@ import {
   ArdNoItemsFoundTemplateDirective,
   ArdOptgroupTemplateDirective,
   ArdOptionTemplateDirective,
+  ArdSelectDropdownArrowTemplateDirective,
   ArdSelectPlaceholderTemplateDirective,
   ArdSelectPrefixTemplateDirective,
   ArdSelectSuffixTemplateDirective,
@@ -383,6 +384,7 @@ export class ArdiumSelectComponent
   readonly optgroupTemplate = contentChild(ArdOptgroupTemplateDirective);
   readonly valueTemplate = contentChild(ArdValueTemplateDirective);
   readonly placeholderTemplate = contentChild(ArdSelectPlaceholderTemplateDirective);
+  readonly dropdownArrowTemplate = contentChild(ArdSelectDropdownArrowTemplateDirective);
   readonly loadingSpinnerTemplate = contentChild(ArdLoadingSpinnerTemplateDirective);
   readonly loadingPlaceholderTemplate = contentChild(ArdLoadingPlaceholderTemplateDirective);
   readonly dropdownHeaderTemplate = contentChild(ArdDropdownHeaderTemplateDirective);

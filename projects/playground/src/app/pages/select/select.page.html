@@ -191,6 +191,14 @@
   <ard-select [items]="fruits" />
 </div>
 <div class="master flex">
+  <span class="title">Select with custom dropdown arrow</span>
+  <ard-select [items]="fruits">
+    <ng-template ard-dropdown-arrow-tmp>
+      <span class="custom-dropdown-arrow">v</span>
+    </ng-template>
+  </ard-select>
+</div>
+<div class="master flex">
   <span class="title">Select with editing mode changing</span>
   <ard-select
     [items]="fruits"

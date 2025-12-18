@@ -14,6 +14,7 @@ import {
   ArdNoItemsFoundTemplateDirective,
   ArdOptgroupTemplateDirective,
   ArdOptionTemplateDirective,
+  ArdSelectDropdownArrowTemplateDirective,
   ArdSelectPlaceholderTemplateDirective,
   ArdSelectPrefixTemplateDirective,
   ArdSelectSuffixTemplateDirective,
@@ -44,6 +45,7 @@ import { _ClearButtonModule } from './../_internal/clear-button/clear-button.mod
     ArdAddCustomTemplateDirective,
     ArdSelectPrefixTemplateDirective,
     ArdSelectSuffixTemplateDirective,
+    ArdSelectDropdownArrowTemplateDirective,
   ],
   imports: [
   CommonModule,
@@ -72,6 +74,7 @@ import { _ClearButtonModule } from './../_internal/clear-button/clear-button.mod
     ArdAddCustomTemplateDirective,
     ArdSelectPrefixTemplateDirective,
     ArdSelectSuffixTemplateDirective,
+    ArdSelectDropdownArrowTemplateDirective,
   ],
 })
 export class ArdiumSelectModule {}
