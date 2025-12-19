@@ -2,18 +2,38 @@
 @use './coloring' as coloringMixins;
 @use '../variables' as ARD;
 
+:root {
+  --ard-segment-margin: 0;
+  --ard-segment-padding: 0.15rem;
+  --ard-segment-option-gap: var(--ard-segment-padding, 0.15rem);
+  --ard-segment-font-family: var(--ard-font-family);
+  --ard-segment-font-size: 0.875rem;
+  --ard-segment-font-size-compact: 0.75rem;
+  --ard-segment-rounded-border-radius: 0.5rem;
+  --ard-segment-row-height: 2.42em;
+  --ard-segment-row-height-compact: 1.85em;
+  --ard-segment-option-padding: 0 1em;
+  --ard-segment-option-padding-compact: 0 0.5em;
+  --ard-segment-option-disabled-opacity: 50%;
+  --ard-segment-option-highlighted-bg-opacity: 4%;
+  --ard-segment-option-highlighted-filled-bg-opacity: 16%;
+  --ard-segment-option-highlighted-keyboard-bg-opacity: 28%;
+  --ard-segment-option-active-bg-opacity: 12%;
+  --ard-segment-option-active-keyboard-bg-opacity: 34%;
+  --ard-segment-option-selected-bg-opacity: 16%;
+  --ard-segment-border-color: ARD.$border-light;
+}
+
 .ard-segment-container {
   @include coloringMixins.typeColors();
-  --ard-_segment-padding: 0.15rem;
-  padding: var(--ard-_segment-padding);
-  font-family: var(--ard-font-family);
-  margin: 2px;
+  padding: var(--ard-segment-padding, 0.15rem);
+  font-family: var(--ard-segment-font-family, var(--ard-font-family));
+  margin: var(--ard-segment-margin, 0);
   border: 1px solid transparent;
-  font-weight: 500;
   width: max-content;
   height: max-content;
-  gap: var(--ard-_segment-padding);
-  overflow: hidden; //hide click indicator overflowing rounded corners on touchscreens
+  gap: var(--ard-segment-option-gap, var(--ard-segment-padding, 0.15rem));
+  overflow: hidden; // hide click indicator overflowing rounded corners on touchscreens
 
   @include defaultMixins.formAppearances();
   @include defaultMixins.formVariants();
@@ -26,25 +46,21 @@
 
   //! row & option styling
   .ard-segment-row {
-    gap: var(--ard-_segment-padding);
-    --ard-_font-size: 0.85em;
-    height: calc(2.42em + 1px);
-    font-size: var(--ard-_font-size);
+    gap: var(--ard-segment-option-gap, var(--ard-segment-padding, 0.15rem));
+    height: calc(var(--ard-segment-row-height, 2.42em) + 1px);
+    font-size: var(--ard-segment-font-size, 0.875rem);
 
     .ard-segment-option {
       margin: 0;
-      padding: 0 1em;
+      padding: var(--ard-segment-option-padding, 0 1em);
       height: 100%;
       font-size: 1em;
-      min-width: 2.42em;
+      min-width: var(--ard-segment-row-height, 2.42em);
       border: 1px solid transparent;
       background: transparent;
       position: relative;
       cursor: pointer;
-      transition:
-        color 0.1s ARD.$timing-fn,
-        opacity 0.1s ARD.$timing-fn,
-        border-color 0.1s ARD.$timing-fn,
+      transition: color 0.1s ARD.$timing-fn, opacity 0.1s ARD.$timing-fn, border-color 0.1s ARD.$timing-fn,
         background-color 0.1s ARD.$timing-fn;
       outline: none;
       display: flex;
@@ -56,7 +72,7 @@
       }
 
       &.ard-option-disabled {
-        opacity: 50%;
+        opacity: var(--ard-segment-option-disabled-opacity, 50%);
         pointer-events: none;
       }
 
@@ -76,17 +92,17 @@
   .ard-segment-option {
     &.ard-option-highlighted {
       .ard-focus-overlay {
-        opacity: 4%;
+        opacity: var(--ard-segment-option-highlighted-bg-opacity, 4%);
       }
     }
     &:active {
       .ard-focus-overlay {
-        opacity: 12%;
+        opacity: var(--ard-segment-option-active-bg-opacity, 12%);
       }
     }
     &.ard-option-selected {
       .ard-focus-overlay {
-        opacity: 16%;
+        opacity: var(--ard-segment-option-selected-bg-opacity, 16%);
       }
     }
   }
@@ -94,12 +110,12 @@
     .ard-segment-option {
       &.ard-option-highlighted {
         .ard-focus-overlay {
-          opacity: 28%;
+          opacity: var(--ard-segment-option-highlighted-keyboard-bg-opacity, 28%);
         }
       }
       &:active {
         .ard-focus-overlay {
-          opacity: 34%;
+          opacity: var(--ard-segment-option-active-keyboard-bg-opacity, 34%);
         }
       }
     }
@@ -127,7 +143,7 @@
     padding: 0;
 
     .ard-segment-option {
-      border: 1px solid ARD.$border-light;
+      border: 1px solid var(--ard-segment-border-color, ARD.$border-light);
 
       &.ard-option-selected {
         border-color: var(--ard-cmpcl--content);
@@ -160,43 +176,43 @@
         &:first-child {
           .ard-segment-option {
             &:first-child {
-              border-top-left-radius: var(--ard-variant-border-radius) !important;
+              border-top-left-radius: var(--ard-_variant-border-radius) !important;
             }
             &:last-child {
-              border-top-right-radius: var(--ard-variant-border-radius) !important;
+              border-top-right-radius: var(--ard-_variant-border-radius) !important;
             }
             &:first-child:last-child {
-              border-top-right-radius: var(--ard-variant-border-radius) !important;
-              border-top-left-radius: var(--ard-variant-border-radius) !important;
+              border-top-right-radius: var(--ard-_variant-border-radius) !important;
+              border-top-left-radius: var(--ard-_variant-border-radius) !important;
             }
           }
         }
         &:last-child {
           .ard-segment-option {
             &:first-child {
-              border-bottom-left-radius: var(--ard-variant-border-radius) !important;
+              border-bottom-left-radius: var(--ard-_variant-border-radius) !important;
             }
             &:last-child {
-              border-bottom-right-radius: var(--ard-variant-border-radius) !important;
+              border-bottom-right-radius: var(--ard-_variant-border-radius) !important;
             }
             &:first-child:last-child {
-              border-bottom-right-radius: var(--ard-variant-border-radius) !important;
-              border-bottom-left-radius: var(--ard-variant-border-radius) !important;
+              border-bottom-right-radius: var(--ard-_variant-border-radius) !important;
+              border-bottom-left-radius: var(--ard-_variant-border-radius) !important;
             }
           }
         }
         &:first-child:last-child {
           .ard-segment-option {
             &:first-child {
-              border-top-left-radius: var(--ard-variant-border-radius) !important;
-              border-bottom-left-radius: var(--ard-variant-border-radius) !important;
+              border-top-left-radius: var(--ard-_variant-border-radius) !important;
+              border-bottom-left-radius: var(--ard-_variant-border-radius) !important;
             }
             &:last-child {
-              border-top-right-radius: var(--ard-variant-border-radius) !important;
-              border-bottom-right-radius: var(--ard-variant-border-radius) !important;
+              border-top-right-radius: var(--ard-_variant-border-radius) !important;
+              border-bottom-right-radius: var(--ard-_variant-border-radius) !important;
             }
             &:first-child:last-child {
-              border-radius: var(--ard-variant-border-radius) !important;
+              border-radius: var(--ard-_variant-border-radius) !important;
             }
           }
         }
@@ -233,23 +249,10 @@
       background: var(--ard-cmpcl--bg);
       opacity: 15%;
     }
-
-    .ard-segment-option {
-      &.ard-option-highlighted {
-        .ard-focus-overlay {
-          opacity: 8%;
-        }
-      }
-      &.ard-option-selected {
-        .ard-focus-overlay {
-          opacity: 20%;
-        }
-      }
-    }
   }
   &.ard-appearance-filled-strong {
     background: var(--ard-cmpcl--bg);
-    border-radius: var(--ard-variant-border-radius);
+    border-radius: var(--ard-_variant-border-radius);
 
     .ard-segment-row {
       .ard-segment-option {
@@ -260,7 +263,7 @@
         }
         &.ard-option-highlighted {
           .ard-focus-overlay {
-            opacity: 16%;
+            opacity: var(--ard-segment-option-highlighted-filled-bg-opacity, 16%);
           }
         }
         &.ard-option-selected {
@@ -276,48 +279,52 @@
   }
 
   //! variants
+  &.ard-variant-rounded,
+  &.ard-variant-rounded-connected,
   &.ard-variant-pill {
-    border-radius: 16px;
+    --ard-_variant-border-radius: var(--ard-segment-rounded-border-radius, 0.5rem);
+    border-radius: var(--ard-_variant-border-radius);
 
     .ard-segment-row {
       .ard-segment-option {
-        border-radius: var(--ard-variant-border-radius);
+        border-radius: max(
+          1px,
+          calc(var(--ard-_variant-border-radius) - var(--ard-segment-option-gap, var(--ard-segment-padding, 0.15rem)))
+        );
       }
     }
   }
-  &.ard-variant-rounded,
-  &.ard-variant-rounded-connected {
-    --ard-variant-border-radius: 8px;
-    border-radius: var(--ard-variant-border-radius);
+  &.ard-variant-pill {
+    border-radius: calc(var(--ard-segment-rounded-border-radius, 0.5rem) * 2);
 
     .ard-segment-row {
       .ard-segment-option {
-        border-radius: max(1px, calc(var(--ard-variant-border-radius) - var(--ard-_segment-padding)));
+        border-radius: var(--ard-_variant-border-radius);
       }
     }
   }
   &.ard-variant-sharp,
   &.ard-variant-sharp-connected {
-    border-radius: var(--ard-variant-border-radius);
+    border-radius: var(--ard-_variant-border-radius);
 
     .ard-segment-row {
       .ard-segment-option {
-        border-radius: calc(var(--ard-variant-border-radius));
+        border-radius: calc(var(--ard-_variant-border-radius));
       }
     }
   }
   &.ard-variant-pill-connected.ard-singlerow {
-    --ard-variant-border-radius: 9999px;
+    --ard-_variant-border-radius: 9999px;
   }
 
   //! compact
   &.ard-compact {
     .ard-segment-row {
-      --ard-_font-size: 0.85em;
-      height: calc(1.85em + 1px);
+      height: calc(var(--ard-segment-row-height-compact, 1.85em) + 1px);
+      font-size: var(--ard-segment-font-size-compact, 0.75rem);
 
       .ard-segment-option {
-        padding: 0 0.5em;
+        padding: var(--ard-segment-option-padding-compact, 1.85em);
         min-width: 1.85em;
       }
     }
@@ -335,7 +342,7 @@
   //! disabled styling
   &.ard-disabled {
     pointer-events: none;
-    opacity: 50%;
+    opacity: var(--ard-segment-option-disabled-opacity, 50%);
 
     .ard-focus-overlay {
       opacity: 10%;
@@ -345,7 +352,7 @@
     &.ard-color-none {
       .ard-button-icon,
       .ard-button-content {
-        opacity: 60%;
+        opacity: calc(var(--ard-segment-option-disabled-opacity, 50%) * 1.2);
       }
       .ard-focus-overlay {
         background: var(--ard-cmpcl--overlay);

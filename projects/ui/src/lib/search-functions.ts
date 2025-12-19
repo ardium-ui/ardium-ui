@@ -19,7 +19,7 @@ export const searchFunctions: {
    * @returns `true` if the item matches the search term, otherwise `false`.
    */
   byLabel: (searchTerm: string, item: ArdOption) => {
-    return searchInString(searchTerm, item.label());
+    return searchInString(searchTerm, item.label);
   },
   /**
    * Determines if the item should appear in the search results, based on the value only.
@@ -28,7 +28,7 @@ export const searchFunctions: {
    * @returns `true` if the item matches the search term, otherwise `false`.
    */
   byValue: (searchTerm: string, item: ArdOption) => {
-    return searchInString(searchTerm, item.value());
+    return searchInString(searchTerm, item.value);
   },
   /**
    * Determines if the item should appear in the search results, based on the group only.
@@ -47,7 +47,7 @@ export const searchFunctions: {
    */
   byLabelAndGroup: (searchTerm: string, item: ArdOption) => {
     return (
-      searchFunctions.byLabel(searchTerm, item) || (item.label() !== item.value() && searchFunctions.byValue(searchTerm, item))
+      searchFunctions.byLabel(searchTerm, item) || (item.label !== item.value && searchFunctions.byValue(searchTerm, item))
     );
   },
   /**
@@ -68,7 +68,7 @@ export const searchFunctions: {
   byLabelAndGroupAndValue: (searchTerm: string, item: ArdOption) => {
     return (
       searchFunctions.byLabel(searchTerm, item) ||
-      (item.label() !== item.value() && searchFunctions.byValue(searchTerm, item)) ||
+      (item.label !== item.value && searchFunctions.byValue(searchTerm, item)) ||
       searchFunctions.byGroup(searchTerm, item)
     );
   },

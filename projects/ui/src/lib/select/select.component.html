@@ -26,13 +26,13 @@
       } @if (shouldDisplayValue()) { @for (item of itemStorage.selectedItems(); track item.index) {
       <div
         class="ard-select-value"
-        [class.ard-value-disabled]="item.disabled()"
+        [class.ard-value-disabled]="item.disabled"
         [attr.hidden]="!isValueWithinDisplayLimit($index)"
       >
         @if (isValueWithinDisplayLimit($index)) {
         <ng-template
           [ngTemplateOutlet]="valueTemplate()?.template || (multiselectable() ? defaultMultiValueTemplate : defaultValueTemplate)"
-          [ngTemplateOutletContext]="getValueContext(item)"
+          [ngTemplateOutletContext]="valueContextGenerator()(item)"
         />
         }
       </div>
@@ -40,16 +40,17 @@
 
       <ng-template
         #defaultValueTemplate
-        let-item
+        let-label="label"
       >
         <div
           class="ard-select-value"
-          [innerHTML]="isItemsInputUsed ? (item.label() | escapeHTML) : item.label()"
+          [innerHTML]="isItemsInputUsed ? (label | escapeHTML) : label"
         ></div>
       </ng-template>
       <ng-template
         #defaultMultiValueTemplate
         let-item
+        let-label="label"
         let-unselect="unselect"
       >
         <ard-deletable-chip
@@ -58,7 +59,7 @@
           compact
           appearance="outlined"
         >
-          <div [innerHTML]="isItemsInputUsed ? (item.label() | escapeHTML) : item.label()"></div>
+          <div [innerHTML]="isItemsInputUsed ? (label | escapeHTML) : label"></div>
         </ard-deletable-chip>
       </ng-template>
       } @if (itemStorage.isAnyItemSelected() && shouldShowItemDisplayLimit()) {
@@ -158,39 +159,37 @@
     <div
       class="ard-optgroup"
       role="group"
-      [class.ard-group-disabled]="group.disabled()"
-      [class.ard-group-selected]="group.selected()"
-      [class.ard-group-highlighted]="group.highlighted()"
+      [class.ard-group-disabled]="group.disabled"
       (mouseover)="onGroupMouseover(group)"
       (click)="onGroupClick(group)"
     >
-      @if (group.label() !== '' && group.label() !== undefined) {
+      @if (!!group.label) {
       <ng-template
         #defaultOptgroupTemplate
-        let-group
+        let-label="label"
       >
         <span
           class="ard-optgroup-label"
-          [innerHTML]="isItemsInputUsed ? (group.label() | escapeHTML) : group.label()"
+          [innerHTML]="isItemsInputUsed ? (label | escapeHTML) : label"
         ></span>
       </ng-template>
 
       <ng-template
         [ngTemplateOutlet]="optgroupTemplate()?.template || defaultOptgroupTemplate"
-        [ngTemplateOutletContext]="getGroupContext(group)"
+        [ngTemplateOutletContext]="groupContextGenerator()(group)"
       />
       }
 
       <div class="ard-optgroup-children">
-        @for (option of group.children(); track option.index) {
+        @for (option of group.children; track option.index) {
         <div
           class="ard-option"
           role="option"
-          [class.ard-option-disabled]="option.disabled()"
-          [class.ard-option-selected]="option.selected()"
-          [class.ard-option-highlighted]="option.highlighted()"
-          [class.ard-option-highlighted-recent]="option.highlighted_recently()"
-          [attr.aria-selected]="option.selected()"
+          [class.ard-option-disabled]="option.disabled || (itemStorage.isItemLimitReached() && !option.selected)"
+          [class.ard-option-selected]="option.selected"
+          [class.ard-option-highlighted]="option.highlighted"
+          [class.ard-option-highlighted-recent]="option.highlighted_recently"
+          [attr.aria-selected]="option.selected"
           [attr.id]="htmlId() + '-' + option.index"
           (click)="onItemClick(option, $event)"
           (mouseover)="onItemMouseOver($event)"
@@ -200,14 +199,14 @@
           <div class="ard-option-label">
             <ng-template
               #defaultOptionTemplate
-              let-option
+              let-label="label"
             >
-              <span [innerHTML]="isItemsInputUsed ? (option.label() | escapeHTML) : option.label()"></span>
+              <span [innerHTML]="isItemsInputUsed ? (label | escapeHTML) : label"></span>
             </ng-template>
 
             <ng-template
               [ngTemplateOutlet]="optionTemplate()?.template || defaultOptionTemplate"
-              [ngTemplateOutletContext]="getOptionContext(option)"
+              [ngTemplateOutletContext]="optionContextGenerator()(option)"
             />
           </div>
         </div>
@@ -224,18 +223,18 @@
       [ngTemplateOutletContext]="getSearchContext()"
     />
     } @if (shouldShowAddCustom()) {
-    <ng-template
-      #defaultAddCustomTemplate
-      let-searchTerm
-    >
-      <span class="ard-add-custom-label">{{ addCustomOptionText() }}</span>
-      <span class="ard-add-custom-value">"{{ searchTerm }}"</span>
-    </ng-template>
-
     <div
       class="ard-option ard-option-highlighted ard-add-custom"
       (click)="addCustomOption(searchTerm())"
     >
+      <ng-template
+        #defaultAddCustomTemplate
+        let-searchTerm
+      >
+        <span class="ard-add-custom-label">{{ addCustomOptionText() }}</span>
+        <span class="ard-add-custom-value">"{{ searchTerm }}"</span>
+      </ng-template>
+
       <ng-template
         [ngTemplateOutlet]="addCustomTemplate()?.template || defaultAddCustomTemplate"
         [ngTemplateOutletContext]="getCustomOptionContext()"

@@ -1,36 +1,34 @@
-import { WritableSignal } from '@angular/core';
-import { Nullable } from './utility.types';
 
-export interface OptionContext<T extends ArdSimplestStorageItem> {
+export type OptionContext<T extends ArdSimplestStorageItem> = {
   $implicit: T;
   item: T;
-  itemData: any;
+} & {
+  [K in keyof Omit<T, 'filtered'>]: T[K];
 }
 
 export interface ArdSimplestStorageItem {
-  readonly itemData: WritableSignal<any>;
+  readonly itemData: object;
   readonly index: number;
-  readonly value: WritableSignal<any>;
-  readonly label: WritableSignal<string>;
-  readonly selected: WritableSignal<Nullable<boolean>>;
-  readonly highlighted: WritableSignal<Nullable<boolean>>;
+  readonly value: any;
+  readonly label: string;
+  readonly selected: boolean;
+  readonly highlighted: boolean;
 }
 
 export interface ArdOptionSimple extends ArdSimplestStorageItem {
-  readonly disabled: WritableSignal<Nullable<boolean>>;
+  readonly disabled: boolean;
 }
 
 export interface ArdOption extends ArdOptionSimple {
+  readonly filtered: boolean;
   readonly group: unknown;
-  readonly highlighted_recently: WritableSignal<Nullable<boolean>>;
+  readonly highlighted_recently: boolean;
 }
 
 export interface ArdOptionGroup {
-  readonly label: WritableSignal<string>;
-  readonly disabled: WritableSignal<Nullable<boolean>>;
-  readonly highlighted: WritableSignal<Nullable<boolean>>;
-  readonly selected: WritableSignal<Nullable<boolean>>;
-  readonly children: WritableSignal<ArdOption[]>;
+  readonly label: string;
+  readonly disabled: boolean;
+  readonly children: ArdOption[];
 }
 
 export const ArdPanelPosition = {

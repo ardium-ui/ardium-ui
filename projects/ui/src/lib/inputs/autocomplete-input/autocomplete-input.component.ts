@@ -197,13 +197,16 @@ export class ArdiumAutocompleteInputComponent
     this.dropdownOverlay.updateSize({ width: rect?.width });
   }
 
-  getOptionContext(item: ArdSimplestStorageItem): OptionContext<ArdSimplestStorageItem> {
-    return {
-      $implicit: item,
-      item,
-      itemData: item.itemData,
-    };
-  }
+  readonly optionContextGenerator = computed<(item: ArdSimplestStorageItem) => OptionContext<ArdSimplestStorageItem>>(() => item => ({
+    $implicit: item,
+    item,
+    index: item.index,
+    value: item.value,
+    label: item.label,
+    selected: item.selected,
+    highlighted: item.highlighted,
+    itemData: item.itemData,
+  }));
 
   //! suggestion-highligh-related
   private _isMouseBeingUsed = false;

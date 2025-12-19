@@ -68,21 +68,21 @@
       <div
         class="ard-option"
         role="option"
-        [class.ard-option-selected]="item.selected()"
-        [class.ard-option-highlighted]="item.highlighted()"
-        [attr.aria-selected]="item.selected()"
+        [class.ard-option-selected]="item.selected"
+        [class.ard-option-highlighted]="item.highlighted"
+        [attr.aria-selected]="item.selected"
         (click)="selectSuggestion(item, $event)"
         (mouseenter)="onSuggestionMouseEnter(item, $event)"
         (mouseleave)="onSuggestionMouseLeave(item, $event)"
       >
         <span class="ard-option-label">
           <ng-template #defaultOptionTemplate>
-            {{ item.label() }}
+            {{ item.label }}
           </ng-template>
 
           <ng-template
             [ngTemplateOutlet]="suggestionTemplate()?.template || defaultOptionTemplate"
-            [ngTemplateOutletContext]="getOptionContext(item)"
+            [ngTemplateOutletContext]="optionContextGenerator()(item)"
           ></ng-template>
         </span>
       </div>

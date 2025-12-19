@@ -22,10 +22,10 @@
       type="button"
       class="ard-segment-option"
       tabindex="-1"
-      [class.ard-option-disabled]="option.disabled() || (isItemLimitReached() && !option.selected())"
-      [class.ard-option-selected]="option.selected()"
-      [class.ard-option-highlighted]="option.highlighted()"
-      [ariaSelected]="option.selected()"
+      [class.ard-option-disabled]="option.disabled || (isItemLimitReached() && !option.selected)"
+      [class.ard-option-selected]="option.selected"
+      [class.ard-option-highlighted]="option.highlighted"
+      [ariaSelected]="option.selected"
       (mouseenter)="onItemMouseEnter(option, $event)"
       (mouseleave)="onItemMouseLeave(option, $event)"
       (click)="onItemClick(option, $event)"
@@ -34,12 +34,12 @@
       <div class="ard-button-content">
         <span class="ard-option-label">
           <ng-template #defaultOptionTemplate>
-            {{ option.label() }}
+            {{ option.label }}
           </ng-template>
 
           <ng-template
             [ngTemplateOutlet]="optionTemplate()?.template || defaultOptionTemplate"
-            [ngTemplateOutletContext]="getOptionContext(option)"
+            [ngTemplateOutletContext]="optionContextGenerator()(option)"
           />
         </span>
       </div>

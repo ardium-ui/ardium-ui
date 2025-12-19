@@ -75,7 +75,9 @@ export abstract class _SelectableListComponentBase
   }
 
   //! multiselectable
-  readonly multiselectable = input<boolean, BooleanLike>(this._DEFAULTS.multiselectable, { transform: v => coerceBooleanProperty(v) });
+  readonly multiselectable = input<boolean, BooleanLike>(this._DEFAULTS.multiselectable, {
+    transform: v => coerceBooleanProperty(v),
+  });
 
   @HostBinding('attr.multiple')
   @HostBinding('class.ard-multiselect')
@@ -96,7 +98,9 @@ export abstract class _SelectableListComponentBase
   }
 
   //! coerced properties
-  readonly invertDisabled = input<boolean, BooleanLike>(this._DEFAULTS.invertDisabled, { transform: v => coerceBooleanProperty(v) });
+  readonly invertDisabled = input<boolean, BooleanLike>(this._DEFAULTS.invertDisabled, {
+    transform: v => coerceBooleanProperty(v),
+  });
   readonly maxSelectedItems = input<Nullable<number>, any>(this._DEFAULTS.maxSelectedItems, {
     transform: v => coerceNumberProperty(v, undefined),
   });
@@ -123,7 +127,6 @@ export abstract class _SelectableListComponentBase
   protected _emitChange(): void {
     const value = this.singleselectable() ? this.itemStorage.value()[0] : this.itemStorage.value();
     this._onChangeRegistered?.(value);
-    this.changeEvent.emit(value);
     this.valueChange.emit(value);
   }
   protected _onTouched(): void {
@@ -156,13 +159,17 @@ export abstract class _SelectableListComponentBase
   readonly isItemLimitReached = computed(() => this.itemStorage.isItemLimitReached());
 
   //! context providers
-  getOptionContext(item: ArdOptionSimple): OptionContext<ArdOptionSimple> {
-    return {
-      $implicit: item,
-      item,
-      itemData: item.itemData(),
-    };
-  }
+  readonly optionContextGenerator = computed<(item: ArdOptionSimple) => OptionContext<ArdOptionSimple>>(() => item => ({
+    $implicit: item,
+    item,
+    index: item.index,
+    value: item.value,
+    label: item.label,
+    selected: item.selected,
+    highlighted: item.highlighted,
+    itemData: item.itemData,
+    disabled: item.disabled,
+  }));
 
   //! value input & output
   @Input()
@@ -173,13 +180,12 @@ export abstract class _SelectableListComponentBase
   readonly valueChange = output<any[] | any>();
 
   //! output events
-  readonly changeEvent = output<any[] | any>({ alias: 'change' });
   readonly addEvent = output<any[]>({ alias: 'add' });
   readonly removeEvent = output<any[]>({ alias: 'remove' });
 
   //! item selection handlers
   toggleItem(item: ArdOptionSimple): void {
-    if (item.selected()) {
+    if (item.selected) {
       if (this.singleselectable()) return;
 
       this.unselectItem(item);

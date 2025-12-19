@@ -19,7 +19,6 @@ import {
   Signal,
   SimpleChanges,
   TemplateRef,
-  ViewChild,
   ViewContainerRef,
   ViewEncapsulation,
   computed,
@@ -148,16 +147,22 @@ export class ArdiumSelectComponent
     transform: v => coerceBooleanProperty(v),
   });
 
-  readonly invertDisabled = input<boolean, BooleanLike>(this._DEFAULTS.invertDisabled, { transform: v => coerceBooleanProperty(v) });
+  readonly invertDisabled = input<boolean, BooleanLike>(this._DEFAULTS.invertDisabled, {
+    transform: v => coerceBooleanProperty(v),
+  });
 
-  readonly noGroupActions = input<boolean, BooleanLike>(this._DEFAULTS.noGroupActions, { transform: v => coerceBooleanProperty(v) });
+  readonly noGroupActions = input<boolean, BooleanLike>(this._DEFAULTS.noGroupActions, {
+    transform: v => coerceBooleanProperty(v),
+  });
   readonly autoHighlightFirst = input<boolean, BooleanLike>(this._DEFAULTS.autoHighlightFirst, {
     transform: v => coerceBooleanProperty(v),
   });
   readonly autoFocus = input<boolean, BooleanLike>(this._DEFAULTS.autoFocus, { transform: v => coerceBooleanProperty(v) });
   readonly keepOpen = input<boolean, BooleanLike>(this._DEFAULTS.keepOpen, { transform: v => coerceBooleanProperty(v) });
   readonly hideSelected = input<boolean, BooleanLike>(this._DEFAULTS.hideSelected, { transform: v => coerceBooleanProperty(v) });
-  readonly noBackspaceClear = input<boolean, BooleanLike>(this._DEFAULTS.noBackspaceClear, { transform: v => coerceBooleanProperty(v) });
+  readonly noBackspaceClear = input<boolean, BooleanLike>(this._DEFAULTS.noBackspaceClear, {
+    transform: v => coerceBooleanProperty(v),
+  });
   readonly sortMultipleValues = input<boolean, BooleanLike>(this._DEFAULTS.sortMultipleValues, {
     transform: v => coerceBooleanProperty(v),
   });
@@ -246,18 +251,16 @@ export class ArdiumSelectComponent
         .pipe(takeUntil(changedOrDestroyed))
         .subscribe(option => {
           setTimeout(() => {
-            const item = this.itemStorage.findItemByValue(option.oldValue ?? option.value);
-            if (item) {
-              item.disabled.set(option.disabled);
-              item.label.set(option.label || item.label());
-              item.value.set(option.value);
-              item.itemData.set({
-                label: option.label || item.label(),
+            this.itemStorage.updateItemFromOptionComponent(option.oldValue ?? option.value, {
+              disabled: option.disabled,
+              label: option.label || undefined,
+              value: option.value,
+              itemData: {
+                label: option.label,
                 value: option.value,
                 disabled: option.disabled,
-              });
-            }
-            this.detectChanges();
+              },
+            });
           }, 0);
         });
     };
@@ -280,7 +283,9 @@ export class ArdiumSelectComponent
   }
 
   //! attribute and/or class setters/getters
-  readonly multiselectable = input<boolean, BooleanLike>(this._DEFAULTS.multiselectable, { transform: v => coerceBooleanProperty(v) });
+  readonly multiselectable = input<boolean, BooleanLike>(this._DEFAULTS.multiselectable, {
+    transform: v => coerceBooleanProperty(v),
+  });
   readonly clearable = input<boolean, BooleanLike>(this._DEFAULTS.clearable, { transform: v => coerceBooleanProperty(v) });
   readonly searchable = input<boolean, BooleanLike>(this._DEFAULTS.searchable, { transform: v => coerceBooleanProperty(v) });
 
@@ -332,7 +337,6 @@ export class ArdiumSelectComponent
   protected _emitChange(): void {
     const value = this.multiselectable() ? this.itemStorage.value() : this.itemStorage.value()[0];
     this._onChangeRegistered?.(value);
-    this.changeEvent.emit(value);
     this.valueChange.emit(value);
   }
   private _onTouched(): void {
@@ -356,7 +360,6 @@ export class ArdiumSelectComponent
   readonly valueChange = output<any[]>();
 
   //! output events
-  readonly changeEvent = output<any[]>({ alias: 'change' });
   readonly addEvent = output<any[]>({ alias: 'add' });
   readonly failedToAddEvent = output<any[]>({ alias: 'failedToAdd' });
   readonly removeEvent = output<any[]>({ alias: 'remove' });
@@ -398,16 +401,33 @@ export class ArdiumSelectComponent
   readonly suffixTemplate = contentChild(ArdSelectSuffixTemplateDirective);
 
   //! context providers
-  getValueContext(item: ArdOption): ValueContext {
-    return {
-      $implicit: item,
-      item,
-      itemData: item.itemData(),
-      unselect: () => {
-        this.unselectItem(item);
-      },
-    };
-  }
+  readonly optionContextGenerator = computed<(item: ArdOption) => OptionContext<ArdOption>>(() => item => ({
+    $implicit: item,
+    item,
+    index: item.index,
+    value: item.value,
+    label: item.label,
+    selected: item.selected,
+    highlighted: item.highlighted,
+    itemData: item.itemData,
+    group: item.group,
+    disabled: item.disabled,
+    highlighted_recently: item.highlighted_recently,
+  }));
+  readonly valueContextGenerator = computed<(item: ArdOption) => ValueContext>(() => item => ({
+    ...this.optionContextGenerator()(item),
+    unselect: () => {
+      this.unselectItem(item);
+    },
+  }));
+  readonly groupContextGenerator = computed<(group: ArdOptionGroup) => GroupContext>(() => group => ({
+    $implicit: group,
+    group,
+    label: group.label,
+    disabled: group.disabled,
+    selectedChildrenCount: group.children.filter(v => v.selected).length,
+    totalChildrenCount: group.children.length,
+  }));
   readonly getStatsContext = computed(
     (): StatsContext => ({
       totalItems: this.totalItems(),
@@ -435,21 +455,6 @@ export class ArdiumSelectComponent
       searchTerm: this.searchTerm(),
     })
   );
-  getGroupContext(group: ArdOptionGroup): GroupContext {
-    return {
-      $implicit: group,
-      group,
-      selectedChildren: group.children().filter(v => v.selected()).length,
-      totalChildren: group.children().length,
-    };
-  }
-  getOptionContext(item: ArdOption): OptionContext<ArdOption> {
-    return {
-      $implicit: item,
-      item,
-      itemData: item.itemData(),
-    };
-  }
   readonly getItemLimitContext = computed(
     (): ItemLimitContext => ({
       totalItems: this.totalItems(),
@@ -474,10 +479,8 @@ export class ArdiumSelectComponent
   private readonly scrollStrategyOpts = inject(ScrollStrategyOptions);
 
   //! dropdown overlay
-  @ViewChild('dropdownHost', { read: ElementRef })
-  dropdownHost!: ElementRef<HTMLDivElement>;
-  @ViewChild('dropdownTemplate', { read: TemplateRef })
-  dropdownTemplate!: TemplateRef<any>;
+  readonly dropdownHost = viewChild.required<ElementRef<HTMLDivElement>>('dropdownHost');
+  readonly dropdownTemplate = viewChild.required<TemplateRef<any>>('dropdownTemplate');
 
   readonly dropdownPanelWidth = input<Nullable<number | string>, Nullable<number | string>>(this._DEFAULTS.dropdownPanelWidth, {
     transform: transformDropdownPanelSize,
@@ -507,7 +510,7 @@ export class ArdiumSelectComponent
   private _createOverlay(): void {
     const strategy = this.overlay
       .position()
-      .flexibleConnectedTo(this.dropdownHost)
+      .flexibleConnectedTo(this.dropdownHost())
       .withFlexibleDimensions(false)
       .withPositions([
         {
@@ -550,7 +553,7 @@ export class ArdiumSelectComponent
 
     this.dropdownOverlay = this.overlay.create(config);
 
-    const portal = new TemplatePortal(this.dropdownTemplate, this.viewContainerRef);
+    const portal = new TemplatePortal(this.dropdownTemplate(), this.viewContainerRef);
     this.dropdownOverlay.attach(portal);
     this.setOverlaySize();
   }
@@ -564,7 +567,7 @@ export class ArdiumSelectComponent
   setOverlaySize(): void {
     if (!this.dropdownOverlay) return;
 
-    const rect = this.dropdownHost.nativeElement.getBoundingClientRect();
+    const rect = this.dropdownHost().nativeElement.getBoundingClientRect();
     this.dropdownOverlay.updateSize({ width: rect.width });
   }
 
@@ -665,7 +668,8 @@ export class ArdiumSelectComponent
   }
   //! item selection handlers
   toggleItem(item: ArdOption): void {
-    if (item.selected()) {
+    // don't use itemStorage.toggleItem() - we need to emit different events for select/unselect
+    if (item.selected) {
       this.unselectItem(item);
       return;
     }
@@ -708,7 +712,7 @@ export class ArdiumSelectComponent
     }
   }
   private _clearAllItems(): void {
-    const cleared = this.itemStorage.clearAllSelected(true);
+    const cleared = this.itemStorage.clearAllSelected();
 
     this.focus();
 
@@ -717,7 +721,7 @@ export class ArdiumSelectComponent
     this._emitChange();
   }
   private _clearLastItem(): void {
-    const clearedValue = this.itemStorage.clearLastSelected().value();
+    const clearedValue = this.itemStorage.clearLastSelected().value;
 
     this.focus();
 
@@ -749,18 +753,18 @@ export class ArdiumSelectComponent
   private readonly _isClickedWithin = signal<boolean>(false);
   onItemClick(option: ArdOption, event: MouseEvent): void {
     event.stopPropagation();
-    if (this.clearable()) this.toggleItem(option);
+    if (this.clearable() || this.multiselectable()) this.toggleItem(option);
     else this.selectItem(option);
 
     this._isClickedWithin.set(true);
   }
   onGroupClick(group: ArdOptionGroup): void {
     if (!this.multiselectable() || this.noGroupActions()) return;
-    if (group.children().every(o => o.selected)) {
-      this.unselectItem(...group.children());
+    if (group.children.every(o => o.selected)) {
+      this.unselectItem(...group.children);
       return;
     }
-    this.selectItem(...group.children());
+    this.selectItem(...group.children);
 
     this._isClickedWithin.set(true);
   }
@@ -913,9 +917,11 @@ export class ArdiumSelectComponent
     event.preventDefault();
     let shouldClose = true;
 
+    console.log('enter pressed', this.itemStorage.highlightedItems());
+
     //select the currently highlighted option
     if (this.isOpen() && this.firstHighlightedItem()) {
-      if (this.clearable() && this.itemStorage.highlightedItems().every(item => item.selected)) {
+      if ((this.clearable() || this.multiselectable()) && this.itemStorage.highlightedItems().every(item => item.selected)) {
         this.unselectItem(...this.itemStorage.highlightedItems());
       } else {
         this.selectItem(...this.itemStorage.highlightedItems());
@@ -926,7 +932,9 @@ export class ArdiumSelectComponent
       await this.addCustomOption(this.searchTerm());
     }
     //in case of no action, open the dropdown (or keep it open)
-    else shouldClose = false;
+    else {
+      shouldClose = false;
+    }
 
     if (!this.keepOpen() && shouldClose) {
       this.itemStorage.clearAllHighlights();

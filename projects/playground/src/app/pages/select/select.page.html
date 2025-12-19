@@ -32,17 +32,39 @@
   <ard-select
     [items]="fruits"
     searchable
+    clearable
+    (add)="log('add', $event)"
+    (remove)="log('remove', $event)"
+    (valueChange)="log('valueChange', $event)"
     (focus)="log('focus', $event)"
+    (clear)="log('clear')"
     (blur)="log('blur', $event)"
+    (scroll)="log('scroll', $event)"
+    (scrollToEnd)="log('scrollToEnd', $event)"
+    (search)="log('search', $event)"
+    (open)="log('open', $event)"
+    (close)="log('close', $event)"
+  />
+</div>
+<span class="title">Select events in multiselect</span>
+<div class="grid master">
+  <ard-select
+    [items]="fruits"
+    searchable
+    multiselectable
+    maxSelectedItems="5"
+    keepOpen
     (add)="log('add', $event)"
     (remove)="log('remove', $event)"
     (valueChange)="log('valueChange', $event)"
     (clear)="log('clear', $event)"
-    (open)="log('open', $event)"
-    (close)="log('close', $event)"
+    (focus)="log('focus', $event)"
+    (blur)="log('blur', $event)"
     (scroll)="log('scroll', $event)"
     (scrollToEnd)="log('scrollToEnd', $event)"
     (search)="log('search', $event)"
+    (open)="log('open', $event)"
+    (close)="log('close', $event)"
   />
 </div>
 <span class="title">Object options, property binding, groups, searchable</span>
@@ -71,7 +93,7 @@
       let-selected="selectedChildren"
     >
       <span class="ard-optgroup-label">
-        {{ group.label() }}
+        {{ group.label }}
         <span class="count-display">{{selected}} / {{total}}</span>
       </span>
     </ng-template>
@@ -113,7 +135,7 @@
         compact
         appearance="outlined"
       >
-        <div [innerHTML]="item.label()"></div>
+        <div [innerHTML]="item.label"></div>
       </ard-deletable-chip>
     </ng-template>
   </ard-select>
@@ -143,9 +165,9 @@
       <div class="option-wrapper">
         <div
           class="color-display"
-          [style]="'background: ' + option.value()"
+          [style]="'background: ' + option.value"
         ></div>
-        <span>{{ option.label() }}</span>
+        <span>{{ option.label }}</span>
       </div>
     </ng-template>
   </ard-select>

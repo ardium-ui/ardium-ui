@@ -3,42 +3,48 @@
   [ngClass]="ngClasses()"
 >
   @for (item of items; track item.index) {
-    <div
-      class="ard-checkbox-list__item"
-      [class.ard-item-highlighted]="item.highlighted()"
-      [class.ard-item-disabled]="item.disabled()"
-      [class.ard-item-selected]="item.selected()"
-      (mouseover)="onItemHighlight(item)"
-      (mouseleave)="onItemBlur()"
-      (click)="toggleItem(item)"
+  <div
+    class="ard-checkbox-list__item"
+    [class.ard-item-highlighted]="item.highlighted"
+    [class.ard-item-disabled]="item.disabled"
+    [class.ard-item-selected]="item.selected"
+    (mouseover)="onItemHighlight(item)"
+    (mouseleave)="onItemBlur()"
+    (click)="toggleItem(item)"
+  >
+    <div class="ard-focus-overlay"></div>
+    <ard-checkbox
+      [selected]="item.selected"
+      [disabled]="item.disabled"
+      [color]="color()"
+      [htmlId]="htmlId() + item.index"
+      [tabIndex]="tabIndex()"
+      (focus)="onFocus($event)"
+      (focus)="onItemFocus(item)"
+      (blur)="onBlur($event)"
+      (blur)="onItemBlur()"
+      (select)="selectItem(item)"
+      (unselect)="unselectItem(item)"
+      (click)="$event.stopPropagation()"
     >
-      <div class="ard-focus-overlay"></div>
-      <ard-checkbox
-        [selected]="item.selected()"
-        [disabled]="item.disabled()"
-        [color]="color()"
-        [htmlId]="htmlId() + item.index"
-        [tabIndex]="tabIndex()"
-        (focus)="onFocus($event)"
-        (focus)="onItemFocus(item)"
-        (blur)="onBlur($event)"
-        (blur)="onItemBlur()"
-        (select)="selectItem(item)"
-        (unselect)="unselectItem(item)"
-        (click)="$event.stopPropagation()"
+      <ng-template
+        _ard-tmp-repository
+        [checkboxTmp]="checkboxTemplate()"
+      />
+    </ard-checkbox>
+    <label [for]="htmlId() + item.index">
+      <ng-template
+        #defaultLabelTemplate
+        let-label="label"
       >
-        <ng-template _ard-tmp-repository [checkboxTmp]="checkboxTemplate()" />
-      </ard-checkbox>
-      <label [for]="htmlId() + item.index">
-        <ng-template #defaultLabelTemplate let-labelItem>
-          {{ labelItem.label() }}
-        </ng-template>
+        {{ label }}
+      </ng-template>
 
-        <ng-template
-          [ngTemplateOutlet]="labelTemplate()?.template || defaultLabelTemplate"
-          [ngTemplateOutletContext]="getLabelContext(item)"
-        />
-      </label>
-    </div>
+      <ng-template
+        [ngTemplateOutlet]="labelTemplate()?.template || defaultLabelTemplate"
+        [ngTemplateOutletContext]="labelContextGenerator()(item)"
+      />
+    </label>
+  </div>
   }
 </div>

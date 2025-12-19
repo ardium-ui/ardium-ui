@@ -1,4 +1,5 @@
 import { Signal, computed, signal } from '@angular/core';
+import { arraySignal } from '@ardium-ui/devkit';
 import { resolvePath } from 'resolve-object-path';
 import { any, isDefined, isPrimitive } from 'simple-bool';
 import { ArdSimplestStorageItem } from '../../types/item-storage.types';
@@ -15,7 +16,7 @@ export interface SimplestItemStorageHost {
 }
 
 export class SimplestItemStorage {
-  private readonly _items = signal<ArdSimplestStorageItem[]>([]);
+  private readonly _items = arraySignal<ArdSimplestStorageItem>([]);
   private readonly _highlightedItem = signal<Nullable<ArdSimplestStorageItem>>(null);
 
   constructor(private readonly _ardParentComp: SimplestItemStorageHost) {}
@@ -57,12 +58,12 @@ export class SimplestItemStorage {
   private _setItemsMapFn(rawItemData: any, index: number, areItemsPrimitive: boolean): ArdSimplestStorageItem {
     if (areItemsPrimitive) {
       return {
-        itemData: signal(rawItemData),
+        itemData: rawItemData,
         index: index,
-        value: signal(rawItemData.value),
-        label: signal(rawItemData.value?.toString?.() ?? String(rawItemData.value)),
-        selected: signal(false),
-        highlighted: signal(false),
+        value: rawItemData.value,
+        label: rawItemData.value?.toString?.() ?? String(rawItemData.value),
+        selected: false,
+        highlighted: false,
       };
     }
     //get value
@@ -77,12 +78,12 @@ export class SimplestItemStorage {
 
     //return
     return {
-      itemData: signal(rawItemData),
+      itemData: rawItemData,
       index: index,
-      value: signal(value),
-      label: signal(label?.toString?.() ?? String(label)),
-      selected: signal(false),
-      highlighted: signal(false),
+      value: value,
+      label: label?.toString?.() ?? String(label),
+      selected: false,
+      highlighted: false,
     };
   }
 
@@ -106,7 +107,10 @@ export class SimplestItemStorage {
   unhighlightCurrent(): void {
     const hi = this._highlightedItem();
     if (hi) {
-      hi.highlighted.set(false);
+      this._items.setAt(hi.index, {
+        ...hi,
+        highlighted: false,
+      });
     }
     this._highlightedItem.set(null);
   }
@@ -117,7 +121,10 @@ export class SimplestItemStorage {
   highlightItem(item: ArdSimplestStorageItem): void {
     this.unhighlightCurrent();
 
-    item.highlighted.set(true);
+    this._items.setAt(item.index, {
+      ...item,
+      highlighted: true,
+    });
 
     this._highlightedItem.set(item);
   }
@@ -126,7 +133,10 @@ export class SimplestItemStorage {
    * @param item The item to be unhighlighted.
    */
   unhighlightItem(item: ArdSimplestStorageItem): void {
-    item.highlighted.set(false);
+    this._items.setAt(item.index, {
+      ...item,
+      highlighted: false,
+    });
 
     if (this._highlightedItem()?.index === item.index) this._highlightedItem.set(null);
   }

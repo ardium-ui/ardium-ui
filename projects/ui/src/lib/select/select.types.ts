@@ -29,8 +29,10 @@ export interface CustomOptionContext {
 export interface GroupContext {
   $implicit: ArdOptionGroup;
   group: ArdOptionGroup;
-  selectedChildren: number;
-  totalChildren: number;
+  label: string;
+  disabled: boolean;
+  selectedChildrenCount: number;
+  totalChildrenCount: number;
 }
 
 export interface ItemLimitContext {

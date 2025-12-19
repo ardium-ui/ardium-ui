@@ -1,4 +1,5 @@
 import { Signal, computed, signal } from '@angular/core';
+import { arraySignal } from '@ardium-ui/devkit';
 import { resolvePath } from 'resolve-object-path';
 import { any, evaluate, isArray, isDefined, isObject, isPrimitive, isPromise } from 'simple-bool';
 import { AddCustomFn } from '../../select/select.types';
@@ -19,56 +20,86 @@ export interface ItemStorageHost {
   readonly searchFn: Signal<SearchFn>;
   readonly compareWith: Signal<Nullable<CompareWithFn>>;
   readonly multiselectable: Signal<boolean>;
-  readonly sortMultipleValues: Signal<boolean>;
+  readonly sortMultipleValues: Signal<boolean>; // TODO implement
   readonly maxSelectedItems: Signal<Nullable<number>>;
   readonly addCustom: Signal<boolean | AddCustomFn<any> | AddCustomFn<Promise<any>>>;
   readonly _componentId: string;
 }
 
 export class ItemStorage {
-  private readonly _groups = signal<ArdItemGroupMap>(this._createEmptyGroupMap());
-  private readonly _items = signal<ArdOption[]>([]);
-  private readonly _filteredItems = signal<ArdOption[]>([]);
-  private readonly _highlightedItems = signal<ArdOption[]>([]);
-  private readonly _highlightedGroups = signal<ArdOptionGroup[]>([]);
+  private readonly _items = arraySignal<ArdOption>([]);
+
+  readonly filteredItems = computed<ArdOption[]>(() => this.items().filter(item => item.filtered));
+  readonly selectedItems = computed<ArdOption[]>(() => this.items().filter(item => item.selected));
+  readonly highlightedItems = computed<ArdOption[]>(() => this.items().filter(item => item.highlighted));
+  private readonly _lastHighlightedItem = signal<Nullable<ArdOption>>(undefined);
   private readonly _recentlyHighlightedItem = signal<Nullable<ArdOption>>(undefined);
-  private readonly _selectedItems = signal<ArdOption[]>([]);
+
+  private readonly _groups = computed<ArdItemGroupMap>(() => {
+    const groupMap: ArdItemGroupMap = this._createEmptyGroupMap();
+    for (const item of this.filteredItems()) {
+      if (this._ardParentComp.hideSelected() && item.selected) continue;
+
+      let group = groupMap.get(item.group);
+      if (!group) {
+        group = {
+          label: item.group?.toString?.() ?? String(item.group),
+          children: [],
+          disabled: false,
+        };
+        groupMap.set(item.group, group);
+      }
+      group.children.push(item);
+    }
+    return groupMap;
+  });
+
+  private _updateItems(updateFn: (item: ArdOption) => ArdOption): void {
+    this._items.map(updateFn);
+  }
+  private _updateItemsFromArray(updateFn: (item: ArdOption) => ArdOption, itemsToUpdate: ArdOption[]): void {
+    this._items.update(items => {
+      for (const itemToUpdate of itemsToUpdate) {
+        const item = items[itemToUpdate.index];
+        if (item) {
+          items[itemToUpdate.index] = updateFn(item);
+        }
+      }
+      return items;
+    });
+  }
 
   constructor(private readonly _ardParentComp: ItemStorageHost) {}
 
   readonly groups = computed(() =>
     Array.from(this._groups().entries())
       .map(([, group]) => group)
-      .filter(group => group.children().length)
+      .filter(group => group.children.length)
   );
-  readonly items = this._items.asReadonly();
-  readonly filteredItems = this._filteredItems.asReadonly();
-  readonly highlightedItems = this._highlightedItems.asReadonly();
+  readonly items = computed(() => [...this._items()]);
 
-  readonly selectedItems = computed(() => {
-    if (this._ardParentComp.sortMultipleValues()) {
-      return [...this._selectedItems()].sort((a, b) => {
-        return a.index - b.index;
-      });
-    }
-    return this._selectedItems();
-  });
-  readonly lastSelectedItem = computed(() => this._filteredItems().last(1, item => !item.disabled()));
+  readonly lastSelectedItem = computed(() => this.selectedItems().last(1, item => !item.disabled));
 
   readonly value = computed(() => this._itemsToValue(this.selectedItems()));
   private _itemsToValue(items: ArdOption[]): any[] {
-    return items.map(item => item.value());
+    return items.map(item => item.value);
   }
 
-  readonly isNoItemsToSelect = computed(() => this._items().length === this._selectedItems().length);
-  readonly isNoItemsFound = computed(() => this._filteredItems().length === 0);
-  readonly isAnyItemSelected = computed(() => this._selectedItems().length > 0);
-  readonly isAnyItemHighlighted = computed(() => this._highlightedItems().length > 0);
-  readonly isItemLimitReached = computed(
-    () =>
-      this._ardParentComp.multiselectable() &&
-      isDefined(this._ardParentComp.maxSelectedItems()) &&
-      this._ardParentComp.maxSelectedItems()! <= this.selectedItems().length
+  readonly isNoItemsToSelect = computed(() => this.items().length === this.selectedItems().length);
+  readonly isNoItemsFound = computed(() => this.filteredItems().length === 0);
+  readonly isAnyItemSelected = computed(() => this.selectedItems().length > 0);
+  readonly isAnyItemHighlighted = computed(() => this.highlightedItems().length > 0);
+  readonly itemsLeftUntilLimit = computed(() =>
+    this._ardParentComp.multiselectable() && isDefined(this._ardParentComp.maxSelectedItems())
+      ? this._ardParentComp.maxSelectedItems()! - this.selectedItems().length
+      : 1
+  );
+  readonly isItemLimitReached = computed(() => this.itemsLeftUntilLimit() <= 0);
+  private readonly _highlightableItems = computed(() =>
+    this.filteredItems().filter(
+      item =>
+        !item.disabled && (this._ardParentComp.hideSelected() ? !item.selected : this.isItemLimitReached() ? item.selected : true)
+    )
   );
 
   setItems(items: any[]): void {
@@ -93,17 +124,19 @@ export class ItemStorage {
       })
     );
 
-    //add all items to filter array
-    this._filteredItems.set(this._items());
-
-    //add items to groups
-    this._populateGroups();
+    this._updateItems(item => ({ ...item, filtered: true }));
 
     //write value if it was
     const toWrite = this._valueToWriteAfterItemsLoad();
     if (toWrite !== undefined) {
       this.handleWriteValue(toWrite);
     }
+  }
+  updateItemFromOptionComponent(itemValue: any, updatedItem: Partial<ArdOption>): void {
+    const item = this.findItemByValue(itemValue);
+    if (!item) return;
+    const index = item.index;
+    this._items.setAt(index, { ...item, ...updatedItem });
   }
   private _addSingleItem(item: any): ArdOption {
     const isItemPrimitive = isPrimitive(item);
@@ -112,16 +145,13 @@ export class ItemStorage {
       item = this._primitiveItemsMapFn(item);
     }
     //map the item to create data bindings
-    const ardOption = this._setItemsMapFn(item, (this._items().last()?.index ?? 0) + 1, isItemPrimitive);
+    const ardOption = this._setItemsMapFn(item, (this.items().last()?.index ?? 0) + 1, isItemPrimitive);
 
     //push the item into all items
-    this._items.update(v => [...v, ardOption]);
+    this._items.push(ardOption);
 
     //add all items to filter array
-    this._filteredItems.set(this._items());
-
-    //add item to groups
-    this._populateGroups();
+    this._updateItems(item => ({ ...item, filtered: true }));
 
     return ardOption;
   }
@@ -165,15 +195,16 @@ export class ItemStorage {
   private _setItemsMapFn(rawItemData: any, index: number, areItemsPrimitive: boolean): ArdOption {
     if (areItemsPrimitive) {
       return {
-        itemData: signal(rawItemData),
+        itemData: rawItemData,
         index: index,
-        value: signal(rawItemData.value),
-        label: signal(rawItemData.value?.toString?.() ?? String(rawItemData.value)),
-        disabled: signal(false),
-        selected: signal(false),
-        highlighted: signal(false),
+        value: rawItemData.value,
+        label: rawItemData.value?.toString?.() ?? String(rawItemData.value),
+        disabled: false,
+        filtered: true,
+        selected: false,
+        highlighted: false,
         group: undefined,
-        highlighted_recently: signal(false),
+        highlighted_recently: false,
       };
     }
     //get value
@@ -207,56 +238,28 @@ export class ItemStorage {
     }
 
     return {
-      itemData: signal(rawItemData),
+      itemData: rawItemData,
       index: index,
-      value: signal(value),
-      label: signal(label?.toString?.() ?? String(label)),
-      disabled: signal(disabled),
+      value: value,
+      label: label?.toString?.() ?? String(label),
+      disabled: disabled,
       group: group,
-      selected: signal(false),
-      highlighted: signal(false),
-      highlighted_recently: signal(false),
+      filtered: true,
+      selected: false,
+      highlighted: false,
+      highlighted_recently: false,
     };
-  }
-  private _populateGroups(): void {
-    this._groups.set(this._createEmptyGroupMap());
-
-    for (const item of this._filteredItems()) {
-      if (this._ardParentComp.hideSelected() && item.selected()) continue;
-
-      this._addToGroup(item);
-    }
-  }
-  private _addToGroup(item: ArdOption): void {
-    const groupKey = item.group;
-    const targetGroup = this._groups().get(groupKey);
-    //create new group if no such group exists
-    if (!targetGroup) {
-      this._groups.update(v => {
-        const map = new Map(v);
-        map.set(groupKey, {
-          label: signal(String(groupKey ?? '')),
-          children: signal([item]),
-          disabled: signal(false),
-          selected: signal(false),
-          highlighted: signal(false),
-        });
-        return map;
-      });
-      return;
-    }
-    targetGroup.children.update(v => [...v, item]);
   }
   private _createEmptyGroupMap(): ArdItemGroupMap {
     return new Map([
       [
         undefined,
         {
-          label: signal(''),
-          children: signal([]),
-          disabled: signal(false),
-          selected: signal(false),
-          highlighted: signal(false),
+          label: '',
+          children: [],
+          disabled: false,
+          selected: false,
+          highlighted: false,
         },
       ],
     ]) as ArdItemGroupMap;
@@ -276,7 +279,7 @@ export class ItemStorage {
   private readonly _wasValueWriteDeferred = signal<boolean>(false);
   handleWriteValue(ngModel: any[]): void {
     //defer writing the value if no options are yet loaded
-    if (!this._wasValueWriteDeferred() && this._items().length === 0) {
+    if (!this._wasValueWriteDeferred() && this.items().length === 0) {
       this._valueToWriteAfterItemsLoad.set(ngModel);
       return;
     }
@@ -315,11 +318,11 @@ export class ItemStorage {
   findItemByValue(valueToFind: any): ArdOption | undefined {
     let findBy: (item: ArdOption) => boolean;
     if (this._ardParentComp.compareWith()) {
-      findBy = item => this._ardParentComp.compareWith()!(valueToFind, item.value());
+      findBy = item => this._ardParentComp.compareWith()!(valueToFind, item.value);
     } else {
-      findBy = item => item.value() === valueToFind;
+      findBy = item => item.value === valueToFind;
     }
-    return this._items().find(item => findBy(item));
+    return this.items().find(item => findBy(item));
   }
   async addCustomOption(value: string, fn: AddCustomFn<any> | AddCustomFn<Promise<any>>): Promise<ArdOption | null> {
     const fnResult = fn(value);
@@ -341,148 +344,118 @@ export class ItemStorage {
     return newOptionObj;
   }
 
-  clearAllSelected(repopulateGroups = false): any[] {
-    for (const item of this._selectedItems()) {
-      item.selected.set(false);
-    }
-    const removedItemValues = this._itemsToValue(this._selectedItems());
-    if (this._selectedItems().length) {
-      this._selectedItems.set([]);
-    }
-
-    if (repopulateGroups && this._ardParentComp.hideSelected()) this._populateGroups();
-
+  clearAllSelected(): any[] {
+    const removedItemValues = this._itemsToValue(this.selectedItems());
+    this._updateItems(item => ({ ...item, selected: false }));
     return removedItemValues;
   }
   clearLastSelected(): ArdOption {
-    const item = this._selectedItems().last();
+    const item = this.selectedItems().last();
     if (!item) return item;
     this.unselectItem(item);
     return item;
   }
+
   selectItem(...items: ArdOption[]): [any[], any[], any[]] {
     if (this.isItemLimitReached()) {
       return [[], [], this._itemsToValue(items)];
     }
 
+    const itemsLeftUntilLimit = this.itemsLeftUntilLimit();
     let itemsSelectedCount = 0;
+    const newItemsArray = this.items();
     for (const item of items) {
       itemsSelectedCount++;
-      if (item.selected()) continue;
-      if (this.isItemLimitReached()) {
+      if (item.selected) continue;
+      if (itemsSelectedCount > itemsLeftUntilLimit) {
         break;
       }
-      item.selected.set(true);
-    }
-
-    if (this._ardParentComp.hideSelected()) {
-      this._populateGroups();
+      newItemsArray[item.index] = { ...item, selected: true };
     }
 
     const itemsUnselected = this._ardParentComp.multiselectable()
       ? []
-      : this._selectedItems().filter(item => !items.find(v => v.value === item.value));
+      : this.selectedItems().filter(item => !items.find(v => v.value === item.value));
+
+    for (const item of itemsUnselected) {
+      newItemsArray[item.index] = { ...item, selected: false };
+    }
+
     const itemsSelected = items.slice(0, itemsSelectedCount);
     const itemsFailedToSelect = items.slice(itemsSelectedCount);
 
-    const isAnyNewItemToBeSelected = !!itemsSelected.find(item => !this._selectedItems().find(v => v.value === item.value));
+    const isAnyNewItemToBeSelected = !!itemsSelected.find(item => !this.selectedItems().find(v => v.value === item.value));
 
     if (isAnyNewItemToBeSelected) {
-      if (this._ardParentComp.multiselectable()) {
-        this._selectedItems.update(v => [...v, ...itemsSelected]);
-      } else {
-        this._selectedItems.set(itemsSelected);
-      }
+      this._items.set(newItemsArray);
+    }
+    if (!this._lastHighlightedItem()) {
+      this._lastHighlightedItem.set(itemsFailedToSelect.first() || itemsSelected.last());
     }
 
-    return [this._itemsToValue(itemsSelected), itemsUnselected, this._itemsToValue(itemsFailedToSelect)];
+    return [this._itemsToValue(itemsSelected), this._itemsToValue(itemsUnselected), this._itemsToValue(itemsFailedToSelect)];
   }
   unselectItem(...items: ArdOption[]): any[] {
-    for (const item of items) {
-      if (!item.selected()) continue;
-      item.selected.set(false);
-    }
-    this._selectedItems.update(v => v.filter(v => v.selected()));
+    this._updateItemsFromArray(item => ({ ...item, selected: false }), items);
 
-    if (this._ardParentComp.hideSelected()) {
-      this._populateGroups();
+    if (!this._lastHighlightedItem()) {
+      this._lastHighlightedItem.set(items.last());
     }
 
     return this._itemsToValue(items);
   }
+  toggleItem(item: ArdOption): void {
+    if (item.selected) {
+      this.unselectItem(item);
+      return;
+    }
+    this.selectItem(item);
+  }
 
   clearAllHighlights(): void {
-    for (const item of this._highlightedItems()) {
-      item.highlighted.set(false);
-    }
-    for (const group of this._highlightedGroups()) {
-      group.highlighted.set(false);
-    }
-    this._highlightedItems.set([]);
-    this._highlightedGroups.set([]);
+    this._updateItems(item => ({ ...item, highlighted: false }));
   }
   highlightGroup(group: ArdOptionGroup): ArdOption {
-    this.clearAllHighlights();
-    group.highlighted.set(true);
-    this.highlightItem(...group.children());
-    return group.children().first();
+    const childrenIndexes = new Set(group.children.map(item => item.index));
+    this._updateItems(item => ({ ...item, highlighted: childrenIndexes.has(item.index) }));
+    return group.children.first();
   }
   highlightSingleItem(item: ArdOption): ArdOption | null {
-    if (!item || item.disabled()) return null;
+    if (!item || item.disabled) return null;
     this.clearAllHighlights();
     return this.highlightItem(item);
   }
   highlightItem(...items: ArdOption[]): ArdOption {
-    for (const item of items) {
-      item.highlighted.set(true);
-    }
-    this._highlightedItems.update(v => [...v, ...items]);
+    this._updateItemsFromArray(item => ({ ...item, highlighted: true }), items);
+    this._lastHighlightedItem.set(items.last());
     return items.last();
   }
   unhighlightItem(...items: ArdOption[]): void {
-    for (const item of items) {
-      if (!item || !item.highlighted) return;
-
-      item.highlighted.set(false);
-    }
-    this._highlightedItems.update(v => v.filter(v => v.highlighted()));
+    this._updateItemsFromArray(item => ({ ...item, highlighted: false }), items);
   }
   highlightFirstItem(): ArdOption | null {
     this.clearAllHighlights();
-    const itemsToHighlight = this._getHiglightableItems();
+    const itemsToHighlight = this._highlightableItems();
     return this.highlightSingleItem(itemsToHighlight.first());
   }
   highlightLastItem(): ArdOption | null {
     this.clearAllHighlights();
-    const itemsToHighlight = this._getHiglightableItems();
+    const itemsToHighlight = this._highlightableItems();
     return this.highlightSingleItem(itemsToHighlight.last());
   }
-  private _getHiglightableItems(): ArdOption[] {
-    let itemsToHighlight = this._filteredItems().filter(item => !item.disabled());
-    if (this._ardParentComp.hideSelected()) {
-      itemsToHighlight = itemsToHighlight.filter(item => !item.selected());
-    }
-    return itemsToHighlight;
-  }
   highlightAllItems(): void {
-    this.highlightItem(...this._getHiglightableItems());
+    this.highlightItem(...this._highlightableItems());
   }
-  private _clearRecentlyHighlighted(): void {
-    if (this._recentlyHighlightedItem()) {
-      this._recentlyHighlightedItem()!.highlighted_recently.set(false);
-    }
-  }
-  setRecentlyHighlighted(item: ArdOption): void {
-    this._clearRecentlyHighlighted();
-    item.highlighted_recently.set(true);
-    this._recentlyHighlightedItem.set(item);
+  setRecentlyHighlighted(itemToSet: ArdOption): void {
+    this._updateItemsFromArray(item => ({ ...item, highlighted_recently: itemToSet.index === item.index }), [itemToSet]);
+    this._recentlyHighlightedItem.set(itemToSet);
   }
   highlightNextItem(offset: number, hasShift?: boolean): ArdOption | null {
     if (!this.isAnyItemHighlighted()) {
       return this.highlightFirstItem();
     }
-    const currentItem = this.highlightedItems().last();
-    const highlightableItems = this._getHiglightableItems();
+    const currentItem = this._lastHighlightedItem() ?? this._highlightableItems().first();
+    const highlightableItems = this._highlightableItems();
     const currentIndexInFiltered = highlightableItems.findIndex(item => item.index === currentItem.index);
 
     let nextItemIndex = currentIndexInFiltered + offset;
@@ -495,7 +468,7 @@ export class ItemStorage {
     const itemToHighlight = highlightableItems[nextItemIndex];
 
     if (hasShift && this._ardParentComp.multiselectable()) {
-      if (itemToHighlight.highlighted()) {
+      if (itemToHighlight.highlighted) {
         this.unhighlightItem(currentItem);
       }
       return this.highlightItem(itemToHighlight);
@@ -511,24 +484,17 @@ export class ItemStorage {
     }
 
     const searchFn = this._ardParentComp.searchFn();
-    const newFilteredItems = this._items().filter(item => searchFn(filterTerm, item));
-    this._filteredItems.set(newFilteredItems);
-
-    this._populateGroups();
+    this._updateItems(item => ({ ...item, filtered: searchFn(filterTerm, item) }));
 
     if (!this.isNoItemsFound) this.highlightFirstItem();
     else this.clearAllHighlights();
 
-    return this._itemsToValue(newFilteredItems);
+    return this._itemsToValue(this.filteredItems());
   }
   resetFiltered(): ArdOption[] {
-    if (this._filteredItems().length === this._items().length) return this._items();
+    if (this.filteredItems().length === this.items().length) return this.items();
 
-    let newFilteredItems = this._items();
-    if (this._ardParentComp.hideSelected() && this.isAnyItemSelected()) {
-      newFilteredItems = newFilteredItems.filter(item => !item.selected());
-    }
-    this._populateGroups();
-    return newFilteredItems;
+    this._updateItems(item => ({ ...item, filtered: true }));
+    return this.items();
   }
 }

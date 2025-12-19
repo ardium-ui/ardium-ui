@@ -40,9 +40,10 @@
 
   --ard-select-dropdown-option-padding: 0.375em 0.625em;
   --ard-select-dropdown-option-text-color: var(--ard-text2, rgba(0, 0, 0, 87%));
-  --ard-select-dropdown-option-highlight-bg: var(--ard-darken-overlay-light, rgba(0, 0, 0, 5%));
+  --ard-select-dropdown-option-highlighted-bg: var(--ard-darken-overlay-light, rgba(0, 0, 0, 5%));
   --ard-select-dropdown-option-selected-font-weight: 500;
   --ard-select-dropdown-option-selected-bg: var(--ard-darken-overlay-medium, rgba(0, 0, 0, 10%));
+  --ard-select-dropdown-option-selected-highlighted-bg: var(--ard-darken-overlay-medium-strong, rgba(0, 0, 0, 13%));
   --ard-select-dropdown-option-disabled-opacity: 50%;
 
   --ard-select-dropdown-add-custom-gap: 0.375rem;
@@ -237,12 +238,16 @@
     cursor: pointer;
 
     &.ard-option-highlighted {
-      background: var(--ard-select-dropdown-option-highlight-bg, ARD.$darken-overlay-light);
+      background: var(--ard-select-dropdown-option-highlighted-bg, ARD.$darken-overlay-light);
     }
 
     &.ard-option-selected {
       font-weight: var(--ard-select-dropdown-option-selected-font-weight, 500);
       background: var(--ard-select-dropdown-option-selected-bg, ARD.$darken-overlay-medium);
+
+      &.ard-option-highlighted {
+        background: var(--ard-select-dropdown-option-selected-highlighted-bg, ARD.$darken-overlay-medium-strong);
+      }
     }
 
     &.ard-option-disabled {

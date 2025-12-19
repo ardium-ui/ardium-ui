@@ -50,9 +50,9 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
 
   private readonly _itemStorage = new SimpleItemStorage(this);
 
-  readonly valueFrom = input<string>(this.DEFAULTS.valueFrom);
-  readonly labelFrom = input<string>(this.DEFAULTS.labelFrom);
-  readonly disabledFrom = input<string>(this.DEFAULTS.disabledFrom);
+  readonly valueFrom = input<string>(this._DEFAULTS.valueFrom);
+  readonly labelFrom = input<string>(this._DEFAULTS.labelFrom);
+  readonly disabledFrom = input<string>(this._DEFAULTS.disabledFrom);
 
   @Input()
   set items(v: any[]) {
@@ -92,7 +92,6 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
   }
 
   readonly valueChange = output<any>();
-  readonly changeEvent = output<any>({ alias: 'change' });
 
   private _valueBeforeInit: any;
   writeValue(v: any): void {
@@ -115,7 +114,6 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
   protected _emitChange(): void {
     const v = this.value;
     this._onChangeRegistered?.(v);
-    this.changeEvent.emit(v);
     this.valueChange.emit(v);
   }
 
@@ -137,7 +135,7 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
     this._emitChange();
   }
   toggleItem(v: ArdOptionSimple): void {
-    if (v.selected()) {
+    if (v.selected) {
       this.unselectItem(v);
       return;
     }
@@ -149,11 +147,15 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
 
   readonly labelTemplate = contentChild(ArdCheckboxListLabelTemplateDirective);
 
-  getLabelContext(item: ArdOptionSimple): OptionContext<ArdOptionSimple> {
-    return {
-      $implicit: item,
-      item,
-      itemData: item.itemData(),
-    };
-  }
+  readonly labelContextGenerator = computed<(item: ArdOptionSimple) => OptionContext<ArdOptionSimple>>(() => item => ({
+    $implicit: item,
+    item,
+    index: item.index,
+    value: item.value,
+    label: item.label,
+    selected: item.selected,
+    highlighted: item.highlighted,
+    itemData: item.itemData,
+    disabled: item.disabled,
+  }));
 }
