@@ -295,6 +295,7 @@
     }
   }
   &.ard-variant-pill {
+    // TODO fix pill styling
     border-radius: calc(var(--ard-segment-rounded-border-radius, 0.5rem) * 2);
 
     .ard-segment-row {
