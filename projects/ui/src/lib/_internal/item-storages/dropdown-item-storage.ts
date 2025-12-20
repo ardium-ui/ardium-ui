@@ -20,7 +20,6 @@ export interface ItemStorageHost {
   readonly searchFn: Signal<SearchFn>;
   readonly compareWith: Signal<Nullable<CompareWithFn>>;
   readonly multiselectable: Signal<boolean>;
-  readonly sortMultipleValues: Signal<boolean>; // TODO implement
   readonly maxSelectedItems: Signal<Nullable<number>>;
   readonly addCustom: Signal<boolean | AddCustomFn<any> | AddCustomFn<Promise<any>>>;
   readonly _componentId: string;
@@ -123,13 +122,9 @@ export class ItemStorage {
         return this._setItemsMapFn(item, index, areItemsPrimitive);
       })
     );
-
-    this._updateItems(item => ({ ...item, filtered: true }));
-
-    //write value if it was
-    const toWrite = this._valueToWriteAfterItemsLoad();
-    if (toWrite !== undefined) {
-      this.handleWriteValue(toWrite);
+    // write value if it was deferred
+    if (isDefined(this._valueToWriteAfterItemsLoad)) {
+      this.handleWriteValue(this._valueToWriteAfterItemsLoad);
     }
   }
   updateItemFromOptionComponent(itemValue: any, updatedItem: Partial<ArdOption>): void {
@@ -275,12 +270,13 @@ export class ItemStorage {
       return true;
     });
   }
-  private readonly _valueToWriteAfterItemsLoad = signal<any>(undefined);
-  private readonly _wasValueWriteDeferred = signal<boolean>(false);
-  handleWriteValue(ngModel: any[]): void {
+  private _valueToWriteAfterItemsLoad: any = null;
+  private _wasValueWriteDeferred = false;
+  handleWriteValue(ngModel: any): void {
     //defer writing the value if no options are yet loaded
-    if (!this._wasValueWriteDeferred() && this.items().length === 0) {
-      this._valueToWriteAfterItemsLoad.set(ngModel);
+    if (!this._wasValueWriteDeferred && this._items().length === 0) {
+      this._valueToWriteAfterItemsLoad = ngModel;
+      this._wasValueWriteDeferred = true;
       return;
     }
     // if null or undefined clear selection
@@ -293,12 +289,13 @@ export class ItemStorage {
     if (!isArray(ngModel)) {
       ngModel = [ngModel];
     }
+    const ngModelArray = ngModel as any[];
     // check value validity
-    if (!this._isWriteValueValid(ngModel)) {
+    if (!this._isWriteValueValid(ngModelArray)) {
       return;
     }
 
-    const itemsToSelect = ngModel
+    const itemsToSelect = ngModelArray
       .map(v => {
         const item = this.findItemByValue(v);
         if (item) {
@@ -363,7 +360,7 @@ export class ItemStorage {
 
     const itemsLeftUntilLimit = this.itemsLeftUntilLimit();
     let itemsSelectedCount = 0;
-    const newItemsArray = this.items();
+    const newItemsArray = [...this.items()];
     for (const item of items) {
       itemsSelectedCount++;
       if (item.selected) continue;

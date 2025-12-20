@@ -17,6 +17,7 @@ export class SelectPage {
   //* item lists
   animals = Array.from(this._dataService.animalsArray);
   fruits = Array.from(this._dataService.fruitArray);
+  fruitsSmall = Array.from(this._dataService.fruitArray.slice(0, 8));
   colors = Array.from(this._dataService.colorsArray);
   people = Array.from(this._dataService.peopleArray);
 
@@ -67,8 +68,12 @@ export class SelectPage {
   readonly form = new FormGroup({
     fruit: new FormControl<string>(this.fruits.at(7)!),
   });
-}
 
+  formLogger = this.form.valueChanges.subscribe(value => {
+    console.log(this.cities, this.cities.at(2));
+    this.log('Select form value:', value);
+  });
+}
 
 // @Component({
 //   selector: 'app-select-display'

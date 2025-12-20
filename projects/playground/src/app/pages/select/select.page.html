@@ -1,4 +1,4 @@
-<span class="title">Empty element</span>
+<!-- <span class="title">Empty element</span>
 <div class="grid master">
   <ard-select />
 </div>
@@ -219,8 +219,15 @@
       <span class="custom-dropdown-arrow">v</span>
     </ng-template>
   </ard-select>
-</div>
+</div> -->
 <div class="master flex">
+  <span class="title">Select with Reactive Forms</span>
+  <ard-select
+    [items]="fruitsSmall"
+    [formControl]="form.controls.fruit"
+  />
+</div>
+<!-- <div class="master flex">
   <span class="title">Select with editing mode changing</span>
   <ard-select
     [items]="fruits"
@@ -230,4 +237,4 @@
     placeholder=""
   />
   <button (click)="toggleEditMode()">Toggle edit mode</button>
-</div>
+</div> -->

@@ -163,9 +163,6 @@ export class ArdiumSelectComponent
   readonly noBackspaceClear = input<boolean, BooleanLike>(this._DEFAULTS.noBackspaceClear, {
     transform: v => coerceBooleanProperty(v),
   });
-  readonly sortMultipleValues = input<boolean, BooleanLike>(this._DEFAULTS.sortMultipleValues, {
-    transform: v => coerceBooleanProperty(v),
-  });
   readonly searchCaseSensitive = input<boolean, BooleanLike>(this._DEFAULTS.searchCaseSensitive, {
     transform: v => coerceBooleanProperty(v),
   });
