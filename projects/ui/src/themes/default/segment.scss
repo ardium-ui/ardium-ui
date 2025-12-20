@@ -21,7 +21,7 @@
   --ard-segment-option-active-bg-opacity: 12%;
   --ard-segment-option-active-keyboard-bg-opacity: 34%;
   --ard-segment-option-selected-bg-opacity: 16%;
-  --ard-segment-border-color: ARD.$border-light;
+  --ard-segment-border-color: #{ARD.$border-light};
 }
 
 .ard-segment-container {

@@ -3,23 +3,58 @@
 @use 'sass:math';
 @use '../variables' as ARD;
 
+:root {
+  --ard-slider-font-size: var(--ard-form-field-font-size, 1rem);
+  --ard-slider-font-size-compact: var(--ard-form-field-font-size-compact, 0.875rem);
+  --ard-slider-width: 100%;
+  --ard-slider-padding: 0 calc(var(--ard-slider-handle-size, 1.25em) / 2);
+  --ard-slider-track-height: 0.25em;
+  --ard-slider-track-color: var(--ard-cmpcl--bg-colored);
+  --ard-slider-track-opacity: 20%;
+  --ard-slider-track-border-radius: 9999px;
+  --ard-slider-active-track-height: calc(100% + 0.125em);
+  --ard-slider-active-color: var(--ard-cmpcl--bg-colored);
+  --ard-slider-active-track-opacity: 100%;
+  --ard-slider-value-tick-size: 0.125em;
+  --ard-slider-value-tick-opacity: 30%;
+  --ard-slider-track-hitbox-size: calc(var(--ard-slider-handle-size, 1.25em) / 2);
+  --ard-slider-handle-size: 1.25em;
+  --ard-slider-handle-bg: var(--ard-cmpcl--bg-colored);
+  --ard-slider-handle-border: none;
+  --ard-slider-handle-border-radius: 9999px;
+  --ard-slider-handle-hitbox-size: 0.375em;
+  --ard-slider-handle-overlay-size: 0.5em;
+  --ard-slider-handle-overlay-hover-opacity: 7.5%;
+  --ard-slider-handle-overlay-focus-opacity: 15%;
+  --ard-slider-handle-overlay-active-opacity: 25%;
+  --ard-slider-label-font-size: 0.875rem;
+  --ard-slider-label-padding-top: 0.2em;
+  --ard-slider-label-bg: #{ARD.$text3};
+  --ard-slider-label-color: #{ARD.$text2-alt};
+  --ard-slider-label-height: 2em;
+  --ard-slider-label-border: none;
+  --ard-slider-label-border-radius: 0.375em;
+  --ard-slider-label-padding: 0 0.75em;
+  --ard-slider-label-font-weight: 500;
+  --ard-slider-label-arrow-size: 0.375em;
+  --ard-slider-label-offset: 0.5em;
+}
+
 .ard-slider-container-master,
 .ard-range-slider-container-master {
   @include coloringMixins.typeColors();
 
   position: relative;
-  font-size: 1rem;
-  width: 20em;
+  font-size: var(--ard-slider-font-size, var(--ard-form-field-font-size, 1rem));
+  width: var(--ard-slider-width, 100%);
   max-width: 100%;
-  padding: 0 0.625em;
+  padding: var(--ard-slider-padding, 0 calc(var(--ard-slider-handle-size, 1.25em) / 2));
   display: flex;
   flex-direction: column;
 
-  color: var(--ard-cmpcl--bg-colored);
-
   //! compact
   &.ard-compact {
-    font-size: 0.85rem;
+    font-size: var(--ard-slider-font-size-compact, var(--ard-form-field-font-size-compact, 0.875rem));
 
     .ard-slider-container > .ard-slider-handle {
       font-size: 0.95em;
@@ -32,50 +67,50 @@
     align-items: center;
     position: relative;
     width: 100%;
-    height: 1.25em;
+    height: var(--ard-slider-handle-size, 1.25em);
     cursor: pointer;
   }
   //! track
   .ard-slider-track {
     width: 100%;
-    height: 0.25em;
+    height: var(--ard-slider-track-height, 0.25em);
     background: ARD.$bg;
 
     .ard-slider-track-overlay {
       position: absolute;
       width: 100%;
       height: 100%;
-      background: currentColor;
-      opacity: 20%;
-      border-radius: 9999px;
+      background: var(--ard-slider-track-color, var(--ard-cmpcl--bg-colored));
+      opacity: var(--ard-slider-track-opacity, 20%);
+      border-radius: var(--ard-slider-track-border-radius, 9999px);
 
       &.ard-slider-track-active {
         width: 0;
-        height: calc(100% + 0.125em);
-        top: math.div(-1em, 16);
-        opacity: 100%;
-        transition:
-          width var(--_ard-slider-transition) ease,
-          left var(--_ard-slider-transition) ease;
+        height: var(--ard-slider-active-track-height, calc(100% + 0.125em));
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--ard-slider-active-color, var(--ard-cmpcl--bg-colored));
+        opacity: var(--ard-slider-active-track-opacity, 100%);
+        transition: width var(--_ard-slider-transition) ease, left var(--_ard-slider-transition) ease;
       }
     }
     .ard-hitbox {
       position: absolute;
-      inset: -0.625em;
+      inset: calc(var(--ard-slider-hitbox-size, calc(var(--ard-slider-handle-size, 1.25em) / 2)) * -1);
     }
     .ard-value-tick-container {
       position: absolute;
-      left: 0.125em;
-      width: calc(100% - 0.25em);
+      left: var(--ard-slider-value-tick-size, 0.125em);
+      width: calc(100% - var(--ard-slider-value-tick-size, 0.125em) * 2);
       height: 100%;
     }
     .ard-value-tick {
       top: 50%;
-      width: 0.125em;
-      height: 0.125em;
+      width: var(--ard-slider-value-tick-size, 0.125em);
+      height: var(--ard-slider-value-tick-size, 0.125em);
       border-radius: 9999px;
       background: ARD.$text;
-      opacity: 30%;
+      opacity: var(--ard-slider-value-tick-opacity, 30%);
       transform: translate(-50%, -50%);
     }
   }
@@ -87,19 +122,17 @@
   .ard-slider-handle {
     font-size: inherit;
     top: 0;
-    width: 1.25em;
-    height: 1.25em;
+    width: var(--ard-slider-handle-size, 1.25em);
+    height: var(--ard-slider-handle-size, 1.25em);
     color: inherit;
-    background: currentColor;
-    border-radius: 9999px;
-    border: none;
+    background: var(--ard-slider-handle-bg, var(--ard-cmpcl--bg-colored));
+    border-radius: var(--ard-slider-handle-border-radius, 9999px);
+    border: var(--ard-slider-handle-border, none);
     z-index: 1;
     outline: none;
     cursor: pointer;
 
-    transition:
-      box-shadow 0.15s ease,
-      left var(--_ard-slider-transition) ease;
+    transition: box-shadow 0.15s ease, left var(--_ard-slider-transition) ease;
     box-shadow: ARD.$simple-shadow;
 
     // cursor: grab;
@@ -108,39 +141,40 @@
     // }
 
     .ard-focus-overlay {
-      @include defaultMixins.focus-overlay(0.5em);
+      @include defaultMixins.focus-overlay(var(--ard-slider-handle-overlay-size, 0.5em));
       background: currentColor;
     }
     @include defaultMixins.focus-overlay-scale-addon();
 
     .ard-hitbox {
       position: absolute;
-      inset: math.div(-7em, 16);
-      border-radius: 9999px;
+      inset: calc(var(--ard-slider-handle-hitbox-size, 0.375em) * -1);
+      border-radius: calc(var(--ard-slider-handle-border-radius, 9999px) + var(--ard-slider-handle-hitbox-size, 0.375em));
     }
     &:hover {
       .ard-focus-overlay {
-        opacity: 7.5%;
+        opacity: var(--ard-slider-handle-overlay-hover-opacity, 7.5%);
       }
     }
     &:focus {
       box-shadow: ARD.$simple-shadow2;
+
       .ard-focus-overlay {
-        opacity: 15%;
+        opacity: var(--ard-slider-handle-overlay-focus-opacity, 15%);
       }
     }
     &:active,
     &.ard-grabbed {
       .ard-focus-overlay {
-        opacity: 25%;
+        opacity: var(--ard-slider-handle-overlay-active-opacity, 25%);
       }
     }
   }
   .ard-slider-label-container {
     position: relative;
-    font-size: 0.9em;
-    padding-top: 0.2em;
-    left: 2px;
+    font-size: var(--ard-slider-label-font-size, 0.9em);
+    padding-top: var(--ard-slider-label-padding-top, 0.2em);
+    left: 0.125em;
     width: calc(100% - 0.25em) !important;
 
     .ard-slider-label {
@@ -153,16 +187,15 @@
     z-index: 2;
   }
   .ard-slider-tooltip {
-    --ard-background: #{ARD.$text3};
-    background: var(--ard-background);
-    color: ARD.$text2-alt;
-    font-size: 0.875em;
-    border-radius: 0.375em;
-    height: 2em;
-    padding: 0 0.75em;
+    background: var(--ard-slider-label-bg, #{ARD.$text3});
+    color: var(--ard-slider-label-color, #{ARD.$text2-alt});
+    font-size: var(--ard-slider-label-font-size, 0.875rem);
+    border-radius: var(--ard-slider-label-border-radius, 0.375em);
+    height: var(--ard-slider-label-height, 2em);
+    padding: var(--ard-slider-label-padding, 0 0.75em);
     display: flex;
     align-items: center;
-    font-weight: 500;
+    font-weight: var(--ard-slider-label-font-weight, 500);
     position: relative;
     z-index: 2;
     user-select: none;
@@ -173,28 +206,30 @@
     &::before {
       content: '';
       position: absolute;
-      border: 0.375em solid transparent;
+      border: var(--ard-slider-label-arrow-size, 0.375em) solid transparent;
       left: 50%;
     }
   }
   &.ard-tooltip-top {
     .ard-slider-tooltip {
-      bottom: 0.5em;
+      bottom: var(--ard-slider-label-offset, 0.5em);
+      transform-origin: center bottom;
 
       &::before {
         bottom: 0;
-        border-top-color: var(--ard-background);
+        border-top-color: var(--ard-slider-label-bg);
         transform: translate(-50%, 100%);
       }
     }
   }
   &.ard-tooltip-bottom {
     .ard-slider-tooltip {
-      top: 0.5em;
+      top: var(--ard-slider-label-offset, 0.5em);
+      transform-origin: center top;
 
       &::before {
         top: 0;
-        border-bottom-color: var(--ard-background);
+        border-bottom-color: var(--ard-slider-label-bg);
         transform: translate(-50%, -100%);
       }
     }
