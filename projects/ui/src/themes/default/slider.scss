@@ -251,8 +251,8 @@
     }
   }
   //make a way to force-show a tooltip
-  .ard-slider-handle .ard-slider-tooltip-wrapper.ard-tooltip-always {
-    .ard-slider-tooltip {
+  .ard-slider-handle .ard-slider-tooltip-wrapper {
+    .ard-slider-tooltip.ard-tooltip-always {
       transform: scale(1) !important;
     }
   }

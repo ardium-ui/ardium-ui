@@ -107,9 +107,9 @@
   }
   &.ard-appearance-flat,
   &.ard-appearance-raised-strong {
-    background: var(--ard-cmpcl--bg);
-    color: var(--ard-cmpcl--on-bg);
-    border: 1px solid var(--ard-cmpcl--bg);
+    background: var(--ard-cmpcl--bg-colored);
+    color: var(--ard-cmpcl--on-bg-colored);
+    border: 1px solid var(--ard-cmpcl--bg-colored);
 
     .ard-focus-overlay {
       background: var(--ard-cmpcl--on-bg);
