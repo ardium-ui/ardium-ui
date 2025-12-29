@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { Subject } from 'rxjs';
-import { ARD_TAB_DEFAULTS } from './tab.defaults';
+import { ARD_TABBER_DEFAULTS } from '../tabber.defaults';
 
 @Component({
   standalone: false,
@@ -29,9 +29,9 @@ import { ARD_TAB_DEFAULTS } from './tab.defaults';
   },
 })
 export class ArdiumTabComponent implements OnDestroy {
-  protected readonly _DEFAULTS = inject(ARD_TAB_DEFAULTS);
+  protected readonly _DEFAULTS = inject(ARD_TABBER_DEFAULTS);
 
-  readonly disabled = input<boolean, BooleanLike>(this._DEFAULTS.disabled, { transform: v => coerceBooleanProperty(v) });
+  readonly disabled = input<boolean, BooleanLike>(this._DEFAULTS.tabDisabled, { transform: v => coerceBooleanProperty(v) });
 
   readonly selected = signal<boolean>(false);
   @Input('selected')

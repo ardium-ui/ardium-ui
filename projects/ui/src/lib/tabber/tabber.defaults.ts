@@ -3,6 +3,7 @@ import { OneAxisAlignment } from './../types/alignment.types';
 import { ComponentColor } from './../types/colors.types';
 
 export interface ArdTabberDefaults {
+  tabDisabled: boolean;
   color: ComponentColor;
   stretchTabs: boolean;
   uniformTabWidths: boolean;
@@ -11,6 +12,7 @@ export interface ArdTabberDefaults {
 }
 
 const _tabberDefaults: ArdTabberDefaults = {
+  tabDisabled: false,
   color: ComponentColor.Primary,
   stretchTabs: false,
   uniformTabWidths: false,

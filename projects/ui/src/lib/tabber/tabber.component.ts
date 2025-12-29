@@ -48,8 +48,6 @@ export class ArdiumTabberComponent implements AfterContentInit, OnChanges {
     () => this.tabs().find(tab => tab.tabId() === this.focusedTabId()) ?? null
   );
 
-  readonly focusedTabIdChange = output<string>();
-
   private _selectedTabIdToCheck: string | null = null;
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedTabId']) {
