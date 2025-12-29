@@ -1,6 +1,20 @@
 @use './coloring' as CM;
 @use './mixins' as M;
-@use '../variables' as ARD;
+
+:root {
+  --ard-tabber-tab-height: 2.5em;
+  --ard-tabber-tab-font-size: 0.875rem;
+  --ard-tabber-tab-font-weight: 500;
+  --ard-tabber-tab-border: none;
+  --ard-tabber-tab-background: none;
+  --ard-tabber-tab-padding: 0 1.5rem;
+  --ard-tabber-tab-gap: 0;
+  --ard-tabber-separator-border: 1px solid var(--ard-detail-ultralight, rgba(0, 0, 0, 12%));
+  --ard-tabber-tab-overlay-color: var(--ard-bg-alt, black);
+  --ard-tabber-tab-hover-opacity: 4%;
+  --ard-tabber-tab-active-opacity: 12%;
+  --ard-tabber-tab-focus-visible-opacity: 18%;
+}
 
 ard-tabber {
   max-width: 100%;
@@ -19,7 +33,8 @@ ard-tabber {
     max-width: 100%;
     display: flex;
     flex-wrap: wrap;
-    border-bottom: 1px solid ARD.$detail-ultralight;
+    gap: var(--ard-tabber-tab-gap, 0);
+    border-bottom: var(--ard-tabber-separator-border, 1px solid var(--ard-detail-ultralight, rgba(0, 0, 0, 12%)));
 
     &.ard-tab-align-left {
       justify-content: left;
@@ -39,37 +54,37 @@ ard-tabber {
     }
 
     .ard-tab-button {
-      height: 2.5em;
-      font-size: 0.875rem;
-      font-weight: 500;
+      height: var(--ard-tabber-tab-height, 2.5em);
+      font-size: var(--ard-tabber-tab-font-size, 0.875rem);
+      font-weight: var(--ard-tabber-tab-font-weight, 500);
       position: relative;
-      border: none;
-      background: none;
-      padding: 0 1.5rem;
+      border: var(--ard-tabber-tab-border, none);
+      background: var(--ard-tabber-tab-background, none);
+      padding: var(--ard-tabber-tab-padding, 0 1.5rem);
       cursor: pointer;
       outline: none;
       font-family: inherit;
 
       .ard-focus-overlay {
         @include M.focus-overlay();
-        background: ARD.$bg-alt;
+        background: var(--ard-tabber-tab-overlay-color, var(--ard-bg-alt, black));
       }
 
       &:hover,
       &:focus {
         .ard-focus-overlay {
-          opacity: 4%;
+          opacity: var(--ard-tabber-tab-hover-opacity, 4%);
         }
       }
       &.ard-active,
       &:active {
         .ard-focus-overlay {
-          opacity: 12%;
+          opacity: var(--ard-tabber-tab-active-opacity, 12%);
         }
       }
       &:focus-visible {
         .ard-focus-overlay {
-          opacity: 18%;
+          opacity: var(--ard-tabber-tab-focus-visible-opacity, 18%);
         }
       }
 
