@@ -129,3 +129,18 @@
     Dialog content
   </ard-dialog>
 </div>
+
+<div class="master">
+  <div class="title">Cover image dialog</div>
+  <button (click)="isOpenCover.set(true)">Open</button>
+  <ard-dialog
+    [(open)]="isOpenCover"
+    confirmButtonText="Delete"
+    confirmButtonAppearance="transparent"
+    confirmButtonColor="danger"
+    rejectButtonText="Keep"
+    rejectButtonAppearance="transparent"
+    rejectButtonColor="none"
+  >
+    Delete file?
+  </ard-dialog>
