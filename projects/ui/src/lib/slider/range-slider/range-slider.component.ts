@@ -22,18 +22,11 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
     super(defaults);
   }
 
-  protected _value: SliderRange = { from: -Infinity, to: Infinity };
-
-  override ngOnInit(): void {
-    super.ngOnInit();
-    if (this._value.from !== -Infinity && this._value.to !== Infinity) return;
-
-    this.writeValue({ low: this.min(), high: this.max() });
-  }
+  protected _value: SliderRange = { from: -Number.MIN_SAFE_INTEGER, to: Number.MIN_SAFE_INTEGER };
 
   //! writeValue
   private _isValidObject(v: any): v is SliderRange {
-    return isObject(v) && isNumber(v['low']) && isNumber(v['high']);
+    return isObject(v) && isNumber(v['from']) && isNumber(v['to']);
   }
   private _isValidTuple(v: any): v is [number, number] {
     return Array.isArray(v) && isNumber(v[0]) && isNumber(v[1]) && v.length === 2;
@@ -50,8 +43,8 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
       this.reset();
       return;
     }
-    let from = -Infinity;
-    let to = Infinity;
+    let from = -Number.MIN_SAFE_INTEGER;
+    let to = Number.MIN_SAFE_INTEGER;
     if (this._isValidObject(v)) {
       from = v.from;
       to = v.to;
@@ -59,12 +52,12 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
       from = v[0];
       to = v[1];
     }
-    const lowClamped = this._clampValue(from);
-    const highClamped = this._clampValue(to);
-    const value: SliderRange = this._arrayValueToObjectValue([lowClamped, highClamped]);
+    const fromClamped = this._clampValue(from);
+    const toClamped = this._clampValue(to);
+    const value: SliderRange = this._arrayValueToObjectValue([fromClamped, toClamped]);
     this._value = value;
-    this._positionPercent[0] = this._valueToPercent(lowClamped);
-    this._positionPercent[1] = this._valueToPercent(highClamped);
+    this._positionPercent[0] = this._valueToPercent(fromClamped);
+    this._positionPercent[1] = this._valueToPercent(toClamped);
     this._updateTooltipValue();
   }
   override get value(): SliderRange {
@@ -104,7 +97,7 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
 
   //! methods for programmatic manipulation
   reset(): void {
-    this._value = { from: -Infinity, to: Infinity };
+    this._value = { from: -this.min(), to: this.max() };
     this._positionPercent[0] = 0;
     this._positionPercent[1] = 1;
   }
