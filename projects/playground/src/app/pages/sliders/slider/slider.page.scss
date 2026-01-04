@@ -1,0 +1,14 @@
+.cover-image {
+  background-color: rgb(252, 237, 219);
+  padding: 10rem;
+  display: flex;
+  gap: 2.5rem;
+  flex-direction: column;
+
+  .slider-row {
+    display: grid;
+    align-items: center;
+    grid-template-columns: max-content 9rem;
+    color: rgb(var(--ard-warn-700))
+  }
+}
