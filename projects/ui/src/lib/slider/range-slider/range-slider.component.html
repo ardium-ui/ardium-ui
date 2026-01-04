@@ -59,7 +59,7 @@
 
         <ng-template
           [ngTemplateOutlet]="tooltipTemplate()?.template || defaultTooltipTemplate"
-          [ngTemplateOutletContext]="getTooltipContext('low')"
+          [ngTemplateOutletContext]="getTooltipContext('from')"
         >
         </ng-template>
       </div>
@@ -93,7 +93,7 @@
 
         <ng-template
           [ngTemplateOutlet]="tooltipTemplate()?.template || defaultTooltipTemplate"
-          [ngTemplateOutletContext]="getTooltipContext('high')"
+          [ngTemplateOutletContext]="getTooltipContext('to')"
         >
         </ng-template>
       </div>

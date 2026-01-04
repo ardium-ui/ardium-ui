@@ -9,6 +9,7 @@ import {
   ViewContainerRef,
   computed,
   contentChild,
+  effect,
   inject,
   input,
   output,
@@ -85,8 +86,12 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   protected abstract _updateTooltipValue(): void;
 
   //! min, max, step sizes
-  readonly min = input<number, NumberLike>(this._DEFAULTS.min, { transform: v => coerceNumberProperty(v, this._DEFAULTS.min) });
-  readonly max = input<number, NumberLike>(this._DEFAULTS.max, { transform: v => coerceNumberProperty(v, this._DEFAULTS.max) });
+  readonly min = input<number, NumberLike>(this._DEFAULTS.min, {
+    transform: v => coerceNumberProperty(v, this._DEFAULTS.min),
+  });
+  readonly max = input<number, NumberLike>(this._DEFAULTS.max, {
+    transform: v => coerceNumberProperty(v, this._DEFAULTS.max),
+  });
 
   readonly step = input<number, NumberLike>(this._DEFAULTS.step, {
     transform: v => {
@@ -103,6 +108,13 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     },
   });
 
+  readonly minMaxStepValueCleanup = effect(() => {
+    this.min();
+    this.max();
+    this.step();
+    this.cleanupValueAfterMinMaxStepChange();
+  });
+
   readonly shiftMultiplier = input<number, NumberLike>(this._DEFAULTS.shiftMultiplier, {
     transform: v => coerceNumberProperty(v, this._DEFAULTS.shiftMultiplier),
   });
@@ -110,7 +122,9 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   protected readonly _stepSizeComputed = computed<number>(() => this.step() / Math.abs(this.min() - this.max()));
 
   //! value ticks
-  readonly showValueTicks = input<boolean, BooleanLike>(this._DEFAULTS.showValueTicks, { transform: v => coerceBooleanProperty(v) });
+  readonly showValueTicks = input<boolean, BooleanLike>(this._DEFAULTS.showValueTicks, {
+    transform: v => coerceBooleanProperty(v),
+  });
 
   readonly percentStepSize = computed<number>(() => this._stepSizeComputed() * 100);
 
@@ -193,6 +207,9 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   //! writeValue
   //! abstract here
   abstract override writeValue(v: any): void; //* abstact
+
+  abstract cleanupValueAfterMinMaxStepChange(): void; //* abstact
+
   //! methods for programmatic manipulation
   abstract reset(): void;
 
@@ -250,8 +267,8 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
 
   abstract onPointerMove(event: MouseEvent | TouchEvent): void; //* abstact
 
-  @HostListener('document:pointerup', ['$event'])
-  @HostListener('document:touchend', ['$event'])
+  @HostListener('document:pointerup')
+  @HostListener('document:touchend')
   onPointerUp(): void {
     if (!this._shouldCheckForMovement) return;
     this._grabbedHandleId.set(null);

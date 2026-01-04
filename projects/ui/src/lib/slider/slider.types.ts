@@ -26,8 +26,8 @@ export interface _InternalSliderLabelObject {
 }
 
 export interface SliderRange<T = number> {
-  low: T;
-  high: T;
+  from: T;
+  to: T;
 }
 
 export type SliderTooltipFormatFn = (value: number) => string | number;

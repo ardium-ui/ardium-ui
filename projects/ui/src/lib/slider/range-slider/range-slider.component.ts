@@ -22,11 +22,11 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
     super(defaults);
   }
 
-  protected _value: SliderRange = { low: -Infinity, high: Infinity };
+  protected _value: SliderRange = { from: -Infinity, to: Infinity };
 
   override ngOnInit(): void {
     super.ngOnInit();
-    if (this._value.low !== -Infinity && this._value.high !== Infinity) return;
+    if (this._value.from !== -Infinity && this._value.to !== Infinity) return;
 
     this.writeValue({ low: this.min(), high: this.max() });
   }
@@ -39,28 +39,28 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
     return Array.isArray(v) && isNumber(v[0]) && isNumber(v[1]) && v.length === 2;
   }
   private _arrayValueToObjectValue(v: [number, number]): SliderRange {
-    return { low: v[0], high: v[1] };
+    return { from: v[0], to: v[1] };
   }
   private _normalizeSliderRange(v: SliderRange): SliderRange {
-    if (v.low <= v.high) return v;
-    return { low: v.high, high: v.low };
+    if (v.from <= v.to) return v;
+    return { from: v.to, to: v.from };
   }
   writeValue(v: any): void {
     if (!this._isValidObject(v) && !this._isValidTuple(v)) {
       this.reset();
       return;
     }
-    let low = -Infinity;
-    let high = Infinity;
+    let from = -Infinity;
+    let to = Infinity;
     if (this._isValidObject(v)) {
-      low = v.low;
-      high = v.high;
+      from = v.from;
+      to = v.to;
     } else if (this._isValidTuple(v)) {
-      low = v[0];
-      high = v[1];
+      from = v[0];
+      to = v[1];
     }
-    const lowClamped = this._clampValue(low);
-    const highClamped = this._clampValue(high);
+    const lowClamped = this._clampValue(from);
+    const highClamped = this._clampValue(to);
     const value: SliderRange = this._arrayValueToObjectValue([lowClamped, highClamped]);
     this._value = value;
     this._positionPercent[0] = this._valueToPercent(lowClamped);
@@ -73,6 +73,14 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
   override set value(v: any) {
     this.writeValue(v);
   }
+  cleanupValueAfterMinMaxStepChange(): void {
+    const prevValue = this._value;
+    this.writeValue(this._value);
+
+    if (prevValue.from !== this._value.from || prevValue.to !== this._value.to) {
+      this._emitChange();
+    }
+  }
 
   //! tooltip updater
   _tooltipValue: SliderRange<string | number> = this.value;
@@ -81,13 +89,13 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
     const v: SliderRange<string | number> = Object.create(this._value);
     const formatFn = this.tooltipFormatFn();
     if (formatFn) {
-      v.low = formatFn(v.low as number);
-      v.high = formatFn(v.high as number);
+      v.from = formatFn(v.from as number);
+      v.to = formatFn(v.to as number);
     }
     this._tooltipValue = v;
   }
 
-  getTooltipContext(type: 'low' | 'high'): SliderTooltipContext {
+  getTooltipContext(type: 'from' | 'to'): SliderTooltipContext {
     return {
       value: this._tooltipValue[type],
       $implicit: this._tooltipValue[type],
@@ -96,7 +104,7 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
 
   //! methods for programmatic manipulation
   reset(): void {
-    this._value = { low: -Infinity, high: Infinity };
+    this._value = { from: -Infinity, to: Infinity };
     this._positionPercent[0] = 0;
     this._positionPercent[1] = 1;
   }
@@ -133,11 +141,11 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
     //9 is an arbitrary number that just works well. ¯\_(ツ)_/¯
     newVal = roundToPrecision(newVal, 9);
 
-    const newValObj = { low: this._value.low, high: this._value.high };
+    const newValObj = { from: this._value.from, to: this._value.to };
     if (handleId === 1) {
-      newValObj.low = newVal;
+      newValObj.from = newVal;
     } else {
-      newValObj.high = newVal;
+      newValObj.to = newVal;
     }
     return newValObj;
   }

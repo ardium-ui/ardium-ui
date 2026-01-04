@@ -61,6 +61,14 @@ export class ArdiumSliderComponent extends _AbstractSlider<number> {
     this._positionPercent[0] = this._valueToPercent(v);
     this._updateTooltipValue();
   }
+  cleanupValueAfterMinMaxStepChange(): void {
+    const prevValue = this._value;
+    this.writeValue(this._value);
+
+    if (prevValue !== this._value) {
+      this._emitChange();
+    }
+  }
 
   //! methods for programmatic manipulation
   reset(): void {
