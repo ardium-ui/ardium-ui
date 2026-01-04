@@ -97,11 +97,11 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     transform: v => {
       const step = coerceNumberProperty(v, this._DEFAULTS.step);
       if (step === 0) {
-        throw new Error(`ARD-FT${this.componentId}0a: Cannot set <ard-${this.componentName}>'s [step] to 0.`);
+        throw new Error(`ARD-FT${this.componentId}1a: Cannot set <ard-${this.componentName}>'s [step] to 0.`);
       }
       if (step < 0) {
         throw new Error(
-          `ARD-FT${this.componentId}0b: Cannot set <ard-${this.componentName}>'s [step] to a negative value, got ${step}.`
+          `ARD-FT${this.componentId}1b: Cannot set <ard-${this.componentName}>'s [step] to a negative value, got ${step}.`
         );
       }
       return step;
@@ -113,6 +113,15 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     this.max();
     this.step();
     this.cleanupValueAfterMinMaxStepChange();
+  });
+  readonly minMaxErrorCheck = effect(() => {
+    const min = this.min();
+    const max = this.max();
+    if (min >= max) {
+      throw new Error(
+        `ARD-FT${this.componentId}0: Cannot set <ard-${this.componentName}>'s [min] to a value greater than or equal to [max], got min=${min} and max=${max}.`
+      );
+    }
   });
 
   readonly shiftMultiplier = input<number, NumberLike>(this._DEFAULTS.shiftMultiplier, {
