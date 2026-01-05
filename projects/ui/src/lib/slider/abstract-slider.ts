@@ -21,7 +21,7 @@ import {
 } from '@angular/core';
 import { BooleanLike, NumberLike, coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { roundToMultiple, roundToPrecision } from 'more-rounding';
-import { isDefined, isObject } from 'simple-bool';
+import { isDefined } from 'simple-bool';
 import { _NgModelComponentBase, _NgModelComponentDefaults, _ngModelComponentDefaults } from '../_internal/ngmodel-component';
 import { SimpleComponentColor } from '../types/colors.types';
 import { Nullable } from '../types/utility.types';
@@ -182,10 +182,9 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
       return [];
     }
     return v.map(label => {
-      const obj = isObject(label) ? label : { label, for: label };
-      const v = this._clampValue(obj.for);
+      const v = this._clampValue(label.for);
       return {
-        label: String(obj.label),
+        label: String(label.label),
         positionPercent: `${this._valueToPercent(v) * 100}%`,
       };
     });
