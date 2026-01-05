@@ -5,6 +5,9 @@ body.ard-prevent-touch-actions {
     touch-action: none;
   }
 }
+ard-range-slider {
+  display: block;
+}
 .ard-range-slider-container-master {
   display: flex;
   flex-direction: column;

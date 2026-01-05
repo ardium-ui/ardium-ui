@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { SliderTooltipFormatFn } from 'projects/ui/src/public-api';
+import { Component, signal } from '@angular/core';
+import { SliderRange, SliderTooltipFormatFn } from 'projects/ui/src/public-api';
 import { Logger } from '../../../services/logger.service';
 
 @Component({
@@ -13,4 +13,8 @@ export class RangeSliderPage {
   log = this._logger.log;
 
   readonly tooltipFormatFn: SliderTooltipFormatFn = (v: number): string => String(v / 1000) + 'k';
+
+  readonly value = signal<SliderRange>({ from: 20, to: 50 });
+  readonly valueBlock = signal<SliderRange>({ from: 20, to: 50 });
+  readonly valuePush = signal<SliderRange>({ from: 20, to: 50 });
 }

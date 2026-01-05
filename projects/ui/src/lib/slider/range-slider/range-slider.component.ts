@@ -1,9 +1,21 @@
-import { ChangeDetectionStrategy, Component, HostListener, Inject, OnInit, ViewEncapsulation, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  Inject,
+  OnInit,
+  ViewEncapsulation,
+  computed,
+  input,
+  signal,
+} from '@angular/core';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { roundToPrecision } from 'more-rounding';
 import { isNumber, isObject } from 'simple-bool';
 import { _AbstractSlider } from '../abstract-slider';
 import { ARD_SLIDER_DEFAULTS, ArdSliderDefaults } from '../slider.defaults';
 import { SliderRange, SliderTooltipContext } from '../slider.types';
+import { ArdRangeSliderOverlapBehavior } from './range-slider.types';
 
 @Component({
   standalone: false,
@@ -22,7 +34,7 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
     super(defaults);
   }
 
-  protected _value: SliderRange = { from: -Number.MIN_SAFE_INTEGER, to: Number.MIN_SAFE_INTEGER };
+  protected readonly _value = signal<SliderRange>({ from: -Number.MIN_SAFE_INTEGER, to: Number.MIN_SAFE_INTEGER });
 
   //! writeValue
   private _isValidObject(v: any): v is SliderRange {
@@ -30,9 +42,6 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
   }
   private _isValidTuple(v: any): v is [number, number] {
     return Array.isArray(v) && isNumber(v[0]) && isNumber(v[1]) && v.length === 2;
-  }
-  private _arrayValueToObjectValue(v: [number, number]): SliderRange {
-    return { from: v[0], to: v[1] };
   }
   private _normalizeSliderRange(v: SliderRange): SliderRange {
     if (v.from <= v.to) return v;
@@ -54,61 +63,69 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
     }
     const fromClamped = this._clampValue(from);
     const toClamped = this._clampValue(to);
-    const value: SliderRange = this._arrayValueToObjectValue([fromClamped, toClamped]);
-    this._value = value;
-    this._positionPercent[0] = this._valueToPercent(fromClamped);
-    this._positionPercent[1] = this._valueToPercent(toClamped);
-    this._updateTooltipValue();
+    const value = { from: fromClamped, to: toClamped };
+
+    if (value.from === this.value.from && value.to === this.value.to) {
+      return;
+    }
+    this._value.set(value);
   }
   override get value(): SliderRange {
-    return this._normalizeSliderRange(this._value);
+    return this._normalizeSliderRange(this._value());
   }
   override set value(v: any) {
     this.writeValue(v);
   }
   cleanupValueAfterMinMaxStepChange(): void {
-    const prevValue = this._value;
-    this.writeValue(this._value);
+    const prevValue = this._value();
+    this.writeValue(prevValue);
+    const newValue = this._value();
 
-    if (prevValue.from !== this._value.from || prevValue.to !== this._value.to) {
+    if (prevValue.from !== newValue.from || prevValue.to !== newValue.to) {
       this._emitChange();
     }
   }
 
+  readonly valueOverlapBehavior = input<ArdRangeSliderOverlapBehavior>(this._DEFAULTS.valueOverlapBehavior);
+  readonly allowEqualValue = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
+
   //! tooltip updater
-  _tooltipValue: SliderRange<string | number> = this.value;
-
-  protected _updateTooltipValue(): void {
-    const v: SliderRange<string | number> = Object.create(this._value);
+  protected readonly _tooltipValue = computed<SliderRange<string>>(() => {
+    const v = this._value();
     const formatFn = this.tooltipFormatFn();
-    if (formatFn) {
-      v.from = formatFn(v.from as number);
-      v.to = formatFn(v.to as number);
-    }
-    this._tooltipValue = v;
-  }
 
-  getTooltipContext(type: 'from' | 'to'): SliderTooltipContext {
-    return {
-      value: this._tooltipValue[type],
-      $implicit: this._tooltipValue[type],
+    const tooltipValue = {
+      from: String(formatFn?.(v.from as number) ?? v.from),
+      to: String(formatFn?.(v.to as number) ?? v.to),
     };
-  }
+    return tooltipValue;
+  });
+
+  readonly tooltipContexts = computed<SliderRange<SliderTooltipContext>>(() => {
+    return {
+      from: {
+        value: this._tooltipValue().from,
+        $implicit: this._tooltipValue().from,
+      },
+      to: {
+        value: this._tooltipValue().to,
+        $implicit: this._tooltipValue().to,
+      },
+    };
+  });
 
   //! methods for programmatic manipulation
   reset(): void {
-    this._value = { from: -this.min(), to: this.max() };
-    this._positionPercent[0] = 0;
-    this._positionPercent[1] = 1;
+    this._value.set({ from: -this.min(), to: this.max() });
   }
 
   //! track overlay getters
-  get trackOverlayLeft(): string {
-    return Math.min(...this._positionPercent) * 100 + '%';
-  }
-  get trackOverlayWidth(): string {
-    return Math.abs(this._positionPercent[0] - this._positionPercent[1]!) * 100 + '%';
-  }
+  readonly trackOverlayLeft = computed(() => {
+    return Math.min(...this._handlePositions()) * 100 + '%';
+  });
+  readonly trackOverlayWidth = computed(() => {
+    return Math.abs(this._handlePositions()[0] - this._handlePositions()[1]) * 100 + '%';
+  });
 
   //! event handlers
   onTrackHitboxPointerDown(event: MouseEvent | TouchEvent): void {
@@ -134,14 +151,43 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
     //9 is an arbitrary number that just works well. ¯\_(ツ)_/¯
     newVal = roundToPrecision(newVal, 9);
 
-    const newValObj = { from: this._value.from, to: this._value.to };
+    const stepConsideringAllowEqual = this.allowEqualValue() ? 0 : this.step();
+    console.log('stepConsideringAllowEqual', stepConsideringAllowEqual);
+    const currValue = this._value();
+    const newValObj = { from: currValue.from, to: currValue.to };
     if (handleId === 1) {
+      if (newVal >= currValue.to) {
+        if (this.valueOverlapBehavior() === ArdRangeSliderOverlapBehavior.Block) {
+          newVal = currValue.to - stepConsideringAllowEqual;
+        } else if (this.valueOverlapBehavior() === ArdRangeSliderOverlapBehavior.Push) {
+          newValObj.to = newVal + stepConsideringAllowEqual;
+        } else {
+          // Allow - do nothing
+        }
+      }
       newValObj.from = newVal;
     } else {
+      if (newVal <= currValue.from) {
+        if (this.valueOverlapBehavior() === ArdRangeSliderOverlapBehavior.Block) {
+          newVal = currValue.from + stepConsideringAllowEqual;
+        } else if (this.valueOverlapBehavior() === ArdRangeSliderOverlapBehavior.Push) {
+          newValObj.from = newVal - stepConsideringAllowEqual;
+        } else {
+          // Allow - do nothing
+        }
+      }
       newValObj.to = newVal;
     }
     return newValObj;
   }
+
+  protected readonly _handlePositions = computed<[number, number]>(() => {
+    const minMaxDifference = Math.abs(this.min() - this.max());
+    const value = this._value();
+    const pos1 = (value.from - this.min()) / minMaxDifference;
+    const pos2 = (value.to - this.min()) / minMaxDifference;
+    return [pos1, pos2];
+  });
 
   //! handle focus monitors
   readonly currentHandle = signal<1 | 2 | null>(null);

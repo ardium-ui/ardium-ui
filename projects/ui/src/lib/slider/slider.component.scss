@@ -5,7 +5,9 @@ body.ard-prevent-touch-actions {
     touch-action: none;
   }
 }
-
+ard-slider {
+  display: block;
+}
 .ard-slider-container-master {
   display: flex;
   flex-direction: column;

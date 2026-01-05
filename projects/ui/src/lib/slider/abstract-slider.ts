@@ -6,7 +6,9 @@ import {
   HostListener,
   Input,
   Renderer2,
+  Signal,
   ViewContainerRef,
+  WritableSignal,
   computed,
   contentChild,
   effect,
@@ -14,6 +16,7 @@ import {
   input,
   output,
   signal,
+  untracked,
   viewChild,
 } from '@angular/core';
 import { BooleanLike, NumberLike, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
@@ -22,6 +25,7 @@ import { isDefined, isObject } from 'simple-bool';
 import { _NgModelComponentBase, _NgModelComponentDefaults, _ngModelComponentDefaults } from '../_internal/ngmodel-component';
 import { SimpleComponentColor } from '../types/colors.types';
 import { Nullable } from '../types/utility.types';
+import { ArdRangeSliderOverlapBehavior } from './range-slider/range-slider.types';
 import { ArdSliderTooltipDirective } from './slider.directive';
 import {
   SliderDecorationPosition,
@@ -45,6 +49,7 @@ export interface _AsbtractSliderDefaults extends _NgModelComponentDefaults {
   compact: boolean;
   tooltipPosition: SliderDecorationPosition;
   tooltipBehavior: SliderTooltipBehavior;
+  valueOverlapBehavior: ArdRangeSliderOverlapBehavior;
 }
 
 export const _asbtractSliderDefaults: _AsbtractSliderDefaults = {
@@ -62,6 +67,7 @@ export const _asbtractSliderDefaults: _AsbtractSliderDefaults = {
   compact: false,
   tooltipPosition: SliderDecorationPosition.Top,
   tooltipBehavior: SliderTooltipBehavior.Auto,
+  valueOverlapBehavior: ArdRangeSliderOverlapBehavior.Allow,
 };
 
 @Directive()
@@ -82,8 +88,6 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   readonly noTooltip = input<boolean, BooleanLike>(this._DEFAULTS.noTooltip, { transform: v => coerceBooleanProperty(v) });
 
   readonly tooltipFormatFn = input<Nullable<SliderTooltipFormatFn>>(this._DEFAULTS.formatTooltipFn);
-
-  protected abstract _updateTooltipValue(): void;
 
   //! min, max, step sizes
   readonly min = input<number, NumberLike>(this._DEFAULTS.min, {
@@ -112,7 +116,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     this.min();
     this.max();
     this.step();
-    this.cleanupValueAfterMinMaxStepChange();
+    untracked(() => this.cleanupValueAfterMinMaxStepChange());
   });
   readonly minMaxErrorCheck = effect(() => {
     const min = this.min();
@@ -134,8 +138,6 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   readonly showValueTicks = input<boolean, BooleanLike>(this._DEFAULTS.showValueTicks, {
     transform: v => coerceBooleanProperty(v),
   });
-
-  readonly percentStepSize = computed<number>(() => this._stepSizeComputed() * 100);
 
   protected readonly _tickArray = computed<string[]>(() => {
     const newArr: number[] = [];
@@ -203,13 +205,13 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
 
   //! value input & output
   //! abstract here
-  protected abstract _value: T;
+  protected abstract readonly _value: WritableSignal<T>;
   @Input()
   set value(newValue: T) {
     this.writeValue(newValue);
   }
   get value(): T {
-    return this._value;
+    return this._value();
   }
   readonly valueChange = output<T>();
 
@@ -224,7 +226,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
 
   protected _offset(offset: number, hasShift: boolean, handleId = 1): void {
     const stepSize = this._stepSizeComputed() * (hasShift ? this.shiftMultiplier() : 1);
-    let newPercent = this._positionPercent[handleId - 1] + stepSize * offset;
+    let newPercent = this._handlePositions()[handleId - 1] + stepSize * offset;
     newPercent = this._clampPercentValue(newPercent);
     this._setValueFromPercent(newPercent);
   }
@@ -263,6 +265,14 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
 
   readonly isSliderHandleGrabbed = computed(() => !!this._grabbedHandleId());
 
+  readonly grabbedHandleEffect = effect(() => {
+    if (this.isSliderHandleGrabbed()) {
+      this.renderer.addClass(this.document.body, 'ard-body-slider-handle-grabbed');
+    } else {
+      this.renderer.removeClass(this.document.body, 'ard-body-slider-handle-grabbed');
+    }
+  })
+
   abstract onTrackHitboxPointerDown(event: MouseEvent | TouchEvent): void; //* abstact
 
   onPointerDownOnHandle(event: MouseEvent | TouchEvent, handleId = 1): void {
@@ -289,17 +299,14 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   }
 
   //! position calculators
-  protected _positionPercent: [number] | [number, number] = [0];
-  getHandlePosition(handleId = 1): string {
-    return this._positionPercent[handleId - 1] * 100 + '%';
-  }
+  protected abstract readonly _handlePositions: Signal<[number, number]>;
+
+  readonly handlePositionsPercent = computed<[string, string]>(() => [this._handlePositions()[0] * 100 + '%', this._handlePositions()[1] * 100 + '%']);
+
   protected _setValueFromPercent(percent: number, handleId: number | null = 1): void {
     if (!handleId) return;
-    if (this._positionPercent[handleId - 1] === percent) return;
-    this._positionPercent[handleId - 1] = percent;
-    this._value = this._percentValueToValue(percent, handleId);
-
-    this._updateTooltipValue();
+    if (this._handlePositions()[handleId - 1] === percent) return;
+    this._value.set(this._percentValueToValue(percent, handleId));
 
     this._emitChange();
   }

@@ -50,3 +50,18 @@
     </ng-template>
   </ard-range-slider>
 </div>
+<div class="master flex">
+  <span class="title">Controlled slider</span>
+  <ard-range-slider [(value)]="value" />
+  <p>Selected range: {{ value().from }} – {{ value().to }}</p>
+</div>
+<div class="master flex">
+  <span class="title">Slider blocking reversed values</span>
+  <ard-range-slider [(value)]="valueBlock" valueOverlapBehavior="block" />
+  <p>Selected range: {{ valueBlock().from }} – {{ valueBlock().to }}</p>
+</div>
+<div class="master flex">
+  <span class="title">Slider pushing reversed values</span>
+  <ard-range-slider [(value)]="valuePush" valueOverlapBehavior="push" />
+  <p>Selected range: {{ valuePush().from }} – {{ valuePush().to }}</p>
+</div>
