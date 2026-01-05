@@ -18,7 +18,7 @@ export type SliderDecorationPosition = (typeof SliderDecorationPosition)[keyof t
 
 export interface SliderLabelObject {
   label: string | number;
-  for: number;
+  value: number;
 }
 export interface _InternalSliderLabelObject {
   label: string;

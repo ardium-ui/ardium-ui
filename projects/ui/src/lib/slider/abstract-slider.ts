@@ -164,7 +164,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
       labels = coerceArrayProperty(labels).map(Number);
     }
     if (labels[0] && typeof labels[0] === 'number') {
-      return (labels as number[]).map(label => ({ label, for: label }));
+      return (labels as number[]).map(label => ({ label, value: label }));
     }
     return labels as SliderLabelObject[];
   };
@@ -182,7 +182,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
       return [];
     }
     return v.map(label => {
-      const v = this._clampValue(label.for);
+      const v = this._clampValue(label.value);
       return {
         label: String(label.label),
         positionPercent: `${this._valueToPercent(v) * 100}%`,
