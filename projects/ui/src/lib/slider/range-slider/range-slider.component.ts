@@ -63,7 +63,7 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
     }
     const fromClamped = this._clampValue(from);
     const toClamped = this._clampValue(to);
-    const value = { from: fromClamped, to: toClamped };
+    const value = this._normalizeSliderRange({ from: fromClamped, to: toClamped });
 
     if (value.from === this.value.from && value.to === this.value.to) {
       return;
@@ -97,8 +97,8 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
     const formatFn = this.tooltipFormatFn();
 
     const tooltipValue = {
-      from: String(formatFn?.(v.from as number) ?? v.from),
-      to: String(formatFn?.(v.to as number) ?? v.to),
+      from: String(formatFn(v.from)),
+      to: String(formatFn(v.to)),
     };
     return tooltipValue;
   });

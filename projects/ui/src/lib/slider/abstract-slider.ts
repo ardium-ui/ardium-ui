@@ -24,7 +24,6 @@ import { roundToMultiple, roundToPrecision } from 'more-rounding';
 import { isDefined } from 'simple-bool';
 import { _NgModelComponentBase, _NgModelComponentDefaults, _ngModelComponentDefaults } from '../_internal/ngmodel-component';
 import { SimpleComponentColor } from '../types/colors.types';
-import { Nullable } from '../types/utility.types';
 import { ArdRangeSelectionBehavior } from './range-slider/range-slider.types';
 import { ArdSliderTooltipDirective } from './slider.directive';
 import {
@@ -38,7 +37,7 @@ import {
 export interface _AsbtractSliderDefaults extends _NgModelComponentDefaults {
   noTooltip: boolean;
   showValueTicks: boolean;
-  formatTooltipFn: Nullable<SliderTooltipFormatFn>;
+  formatTooltipFn: SliderTooltipFormatFn;
   min: number;
   max: number;
   step: number;
@@ -57,7 +56,7 @@ export const _asbtractSliderDefaults: _AsbtractSliderDefaults = {
   ..._ngModelComponentDefaults,
   noTooltip: false,
   showValueTicks: false,
-  formatTooltipFn: undefined,
+  formatTooltipFn: v => v,
   min: 0,
   max: 100,
   step: 1,
@@ -86,10 +85,6 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   protected readonly overlay = inject(Overlay);
   protected readonly scrollStrategyOpts = inject(ScrollStrategyOptions);
   protected readonly viewContainerRef = inject(ViewContainerRef);
-
-  readonly noTooltip = input<boolean, BooleanLike>(this._DEFAULTS.noTooltip, { transform: v => coerceBooleanProperty(v) });
-
-  readonly tooltipFormatFn = input<Nullable<SliderTooltipFormatFn>>(this._DEFAULTS.formatTooltipFn);
 
   //! min, max, step sizes
   readonly min = input<number, NumberLike>(this._DEFAULTS.min, {
@@ -270,6 +265,10 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   }
 
   //! tooltip
+  readonly noTooltip = input<boolean, BooleanLike>(this._DEFAULTS.noTooltip, { transform: v => coerceBooleanProperty(v) });
+
+  readonly tooltipFormatFn = input<SliderTooltipFormatFn>(this._DEFAULTS.formatTooltipFn);
+
   readonly tooltipTemplate = contentChild(ArdSliderTooltipDirective);
 
   readonly tooltipPosition = input<SliderDecorationPosition>(SliderDecorationPosition.Top);
