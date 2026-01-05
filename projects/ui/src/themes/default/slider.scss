@@ -179,14 +179,15 @@
   }
   .ard-slider-tooltip {
     background: var(--ard-slider-label-bg, #{ARD.$text3});
-    color: var(--ard-slider-label-color, #{ARD.$text2-alt});
-    font-size: var(--ard-slider-label-font-size, 0.875rem);
-    border-radius: var(--ard-slider-label-border-radius, 0.375em);
     height: var(--ard-slider-label-height, 2em);
     padding: var(--ard-slider-label-padding, 0 0.75em);
+    border-radius: var(--ard-slider-label-border-radius, 0.375em);
+    color: var(--ard-slider-label-color, #{ARD.$text2-alt});
+    font-size: var(--ard-slider-label-font-size, 0.875rem);
+    font-weight: var(--ard-slider-label-font-weight, 500);
+    white-space: nowrap;
     display: flex;
     align-items: center;
-    font-weight: var(--ard-slider-label-font-weight, 500);
     position: relative;
     z-index: 2;
     user-select: none;
