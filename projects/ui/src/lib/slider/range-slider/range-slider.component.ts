@@ -15,7 +15,7 @@ import { isNumber, isObject } from 'simple-bool';
 import { _AbstractSlider } from '../abstract-slider';
 import { ARD_SLIDER_DEFAULTS, ArdSliderDefaults } from '../slider.defaults';
 import { SliderRange, SliderTooltipContext } from '../slider.types';
-import { ArdRangeSliderOverlapBehavior } from './range-slider.types';
+import { ArdRangeSelectionBehavior } from './range-slider.types';
 
 @Component({
   standalone: false,
@@ -86,8 +86,8 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
     }
   }
 
-  readonly valueOverlapBehavior = input<ArdRangeSliderOverlapBehavior>(this._DEFAULTS.valueOverlapBehavior);
-  readonly allowEqualValue = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly selectionBehavior = input<ArdRangeSelectionBehavior>(this._DEFAULTS.selectionBehavior);
+  readonly allowEqualValues = input<boolean, BooleanLike>(this._DEFAULTS.allowEqualValues, { transform: v => coerceBooleanProperty(v) });
 
   //! tooltip updater
   protected readonly _tooltipValue = computed<SliderRange<string>>(() => {
@@ -151,15 +151,15 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
     //9 is an arbitrary number that just works well. ¯\_(ツ)_/¯
     newVal = roundToPrecision(newVal, 9);
 
-    const stepConsideringAllowEqual = this.allowEqualValue() ? 0 : this.step();
+    const stepConsideringAllowEqual = this.allowEqualValues() ? 0 : this.step();
     console.log('stepConsideringAllowEqual', stepConsideringAllowEqual);
     const currValue = this._value();
     const newValObj = { from: currValue.from, to: currValue.to };
     if (handleId === 1) {
       if (newVal >= currValue.to) {
-        if (this.valueOverlapBehavior() === ArdRangeSliderOverlapBehavior.Block) {
+        if (this.selectionBehavior() === ArdRangeSelectionBehavior.Block) {
           newVal = currValue.to - stepConsideringAllowEqual;
-        } else if (this.valueOverlapBehavior() === ArdRangeSliderOverlapBehavior.Push) {
+        } else if (this.selectionBehavior() === ArdRangeSelectionBehavior.Push) {
           newValObj.to = newVal + stepConsideringAllowEqual;
         } else {
           // Allow - do nothing
@@ -168,9 +168,9 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
       newValObj.from = newVal;
     } else {
       if (newVal <= currValue.from) {
-        if (this.valueOverlapBehavior() === ArdRangeSliderOverlapBehavior.Block) {
+        if (this.selectionBehavior() === ArdRangeSelectionBehavior.Block) {
           newVal = currValue.from + stepConsideringAllowEqual;
-        } else if (this.valueOverlapBehavior() === ArdRangeSliderOverlapBehavior.Push) {
+        } else if (this.selectionBehavior() === ArdRangeSelectionBehavior.Push) {
           newValObj.from = newVal - stepConsideringAllowEqual;
         } else {
           // Allow - do nothing

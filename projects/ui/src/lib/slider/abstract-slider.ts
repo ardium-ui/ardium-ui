@@ -25,7 +25,7 @@ import { isDefined, isObject } from 'simple-bool';
 import { _NgModelComponentBase, _NgModelComponentDefaults, _ngModelComponentDefaults } from '../_internal/ngmodel-component';
 import { SimpleComponentColor } from '../types/colors.types';
 import { Nullable } from '../types/utility.types';
-import { ArdRangeSliderOverlapBehavior } from './range-slider/range-slider.types';
+import { ArdRangeSelectionBehavior } from './range-slider/range-slider.types';
 import { ArdSliderTooltipDirective } from './slider.directive';
 import {
   SliderDecorationPosition,
@@ -49,7 +49,8 @@ export interface _AsbtractSliderDefaults extends _NgModelComponentDefaults {
   compact: boolean;
   tooltipPosition: SliderDecorationPosition;
   tooltipBehavior: SliderTooltipBehavior;
-  valueOverlapBehavior: ArdRangeSliderOverlapBehavior;
+  selectionBehavior: ArdRangeSelectionBehavior;
+  allowEqualValues: boolean;
 }
 
 export const _asbtractSliderDefaults: _AsbtractSliderDefaults = {
@@ -67,7 +68,8 @@ export const _asbtractSliderDefaults: _AsbtractSliderDefaults = {
   compact: false,
   tooltipPosition: SliderDecorationPosition.Top,
   tooltipBehavior: SliderTooltipBehavior.Auto,
-  valueOverlapBehavior: ArdRangeSliderOverlapBehavior.Allow,
+  selectionBehavior: ArdRangeSelectionBehavior.Allow,
+  allowEqualValues: false,
 };
 
 @Directive()
