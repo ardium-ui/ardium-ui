@@ -19,7 +19,7 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
-import { BooleanLike, NumberLike, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
+import { BooleanLike, NumberLike, coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
 import { roundToMultiple, roundToPrecision } from 'more-rounding';
 import { isDefined, isObject } from 'simple-bool';
 import { _NgModelComponentBase, _NgModelComponentDefaults, _ngModelComponentDefaults } from '../_internal/ngmodel-component';
@@ -156,9 +156,25 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   });
 
   //! labels
+  private _transformLabelInput = (labels: SliderLabelObject[] | number[] | string | null | undefined): SliderLabelObject[] => {
+    if (!isDefined(labels)) {
+      return [];
+    }
+    if (typeof labels === 'string') {
+      labels = coerceArrayProperty(labels).map(Number);
+    }
+    if (labels[0] && typeof labels[0] === 'number') {
+      return (labels as number[]).map(label => ({ label, for: label }));
+    }
+    return labels as SliderLabelObject[];
+  };
+
   readonly labelPosition = input<SliderDecorationPosition>(this._DEFAULTS.labelPosition);
 
-  readonly labels = input<SliderLabelObject[] | number[] | null>(this._DEFAULTS.labels);
+  readonly labels = input<SliderLabelObject[], SliderLabelObject[] | number[] | string | null | undefined>(
+    this._transformLabelInput(this._DEFAULTS.labels),
+    { transform: v => this._transformLabelInput(v) }
+  );
 
   readonly labelObjects = computed<_InternalSliderLabelObject[]>(() => {
     const v = this.labels();
@@ -273,7 +289,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     } else {
       this.renderer.removeClass(this.document.body, 'ard-body-slider-handle-grabbed');
     }
-  })
+  });
 
   abstract onTrackHitboxPointerDown(event: MouseEvent | TouchEvent): void; //* abstact
 
@@ -303,7 +319,10 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   //! position calculators
   protected abstract readonly _handlePositions: Signal<[number, number]>;
 
-  readonly handlePositionsPercent = computed<[string, string]>(() => [this._handlePositions()[0] * 100 + '%', this._handlePositions()[1] * 100 + '%']);
+  readonly handlePositionsPercent = computed<[string, string]>(() => [
+    this._handlePositions()[0] * 100 + '%',
+    this._handlePositions()[1] * 100 + '%',
+  ]);
 
   protected _setValueFromPercent(percent: number, handleId: number | null = 1): void {
     if (!handleId) return;
