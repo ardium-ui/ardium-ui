@@ -1,15 +1,15 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   HostListener,
   Inject,
-  OnInit,
-  ViewEncapsulation,
-  computed,
   input,
+  OnInit,
   signal,
+  ViewEncapsulation,
 } from '@angular/core';
-import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
+import { coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
 import { roundToPrecision } from 'more-rounding';
 import { isNumber, isObject } from 'simple-bool';
 import { _AbstractSlider } from '../abstract-slider';
@@ -87,7 +87,9 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
   }
 
   readonly selectionBehavior = input<ArdRangeSelectionBehavior>(this._DEFAULTS.selectionBehavior);
-  readonly allowEqualValues = input<boolean, BooleanLike>(this._DEFAULTS.allowEqualValues, { transform: v => coerceBooleanProperty(v) });
+  readonly minimumDistance = input<number, NumberLike>(this._DEFAULTS.minimumDistance, {
+    transform: v => coerceNumberProperty(v, this._DEFAULTS.minimumDistance),
+  });
 
   //! tooltip updater
   protected readonly _tooltipValue = computed<SliderRange<string>>(() => {
@@ -151,27 +153,26 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
     //9 is an arbitrary number that just works well. ¯\_(ツ)_/¯
     newVal = roundToPrecision(newVal, 9);
 
-    const stepConsideringAllowEqual = this.allowEqualValues() ? 0 : this.step();
-    console.log('stepConsideringAllowEqual', stepConsideringAllowEqual);
+    const minimumDistanceInSteps = this.step() * this.minimumDistance();
     const currValue = this._value();
     const newValObj = { from: currValue.from, to: currValue.to };
     if (handleId === 1) {
-      if (newVal >= currValue.to) {
+      if (newVal >= currValue.to - minimumDistanceInSteps) {
         if (this.selectionBehavior() === ArdRangeSelectionBehavior.Block) {
-          newVal = currValue.to - stepConsideringAllowEqual;
+          newVal = currValue.to - minimumDistanceInSteps;
         } else if (this.selectionBehavior() === ArdRangeSelectionBehavior.Push) {
-          newValObj.to = newVal + stepConsideringAllowEqual;
+          newValObj.to = newVal + minimumDistanceInSteps;
         } else {
           // Allow - do nothing
         }
       }
       newValObj.from = newVal;
     } else {
-      if (newVal <= currValue.from) {
+      if (newVal <= currValue.from + minimumDistanceInSteps) {
         if (this.selectionBehavior() === ArdRangeSelectionBehavior.Block) {
-          newVal = currValue.from + stepConsideringAllowEqual;
+          newVal = currValue.from + minimumDistanceInSteps;
         } else if (this.selectionBehavior() === ArdRangeSelectionBehavior.Push) {
-          newValObj.from = newVal - stepConsideringAllowEqual;
+          newValObj.from = newVal - minimumDistanceInSteps;
         } else {
           // Allow - do nothing
         }

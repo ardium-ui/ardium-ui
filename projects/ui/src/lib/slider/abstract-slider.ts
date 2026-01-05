@@ -50,7 +50,7 @@ export interface _AsbtractSliderDefaults extends _NgModelComponentDefaults {
   tooltipPosition: SliderDecorationPosition;
   tooltipBehavior: SliderTooltipBehavior;
   selectionBehavior: ArdRangeSelectionBehavior;
-  allowEqualValues: boolean;
+  minimumDistance: number;
 }
 
 export const _asbtractSliderDefaults: _AsbtractSliderDefaults = {
@@ -69,7 +69,7 @@ export const _asbtractSliderDefaults: _AsbtractSliderDefaults = {
   tooltipPosition: SliderDecorationPosition.Top,
   tooltipBehavior: SliderTooltipBehavior.Auto,
   selectionBehavior: ArdRangeSelectionBehavior.Allow,
-  allowEqualValues: false,
+  minimumDistance: 0,
 };
 
 @Directive()

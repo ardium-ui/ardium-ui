@@ -57,11 +57,21 @@
 </div>
 <div class="master flex">
   <span class="title">Slider blocking reversed values</span>
-  <ard-range-slider [(value)]="valueBlock" valueOverlapBehavior="block" />
+  <ard-range-slider [(value)]="valueBlock" selectionBehavior="block" />
   <p>Selected range: {{ valueBlock().from }} – {{ valueBlock().to }}</p>
 </div>
 <div class="master flex">
   <span class="title">Slider pushing reversed values</span>
-  <ard-range-slider [(value)]="valuePush" valueOverlapBehavior="push" />
+  <ard-range-slider [(value)]="valuePush" selectionBehavior="push" />
   <p>Selected range: {{ valuePush().from }} – {{ valuePush().to }}</p>
+</div>
+<div class="master flex">
+  <span class="title">Slider blocking reversed values with minimum distance</span>
+  <ard-range-slider [(value)]="valueBlock2" selectionBehavior="block" minimumDistance="10" />
+  <p>Selected range: {{ valueBlock2().from }} – {{ valueBlock2().to }}</p>
+</div>
+<div class="master flex">
+  <span class="title">Slider pushing reversed values with minimum distance</span>
+  <ard-range-slider [(value)]="valuePush2" selectionBehavior="push" minimumDistance="10" />
+  <p>Selected range: {{ valuePush2().from }} – {{ valuePush2().to }}</p>
 </div>

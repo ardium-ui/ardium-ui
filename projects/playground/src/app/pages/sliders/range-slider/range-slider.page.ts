@@ -17,4 +17,6 @@ export class RangeSliderPage {
   readonly value = signal<SliderRange>({ from: 20, to: 50 });
   readonly valueBlock = signal<SliderRange>({ from: 20, to: 50 });
   readonly valuePush = signal<SliderRange>({ from: 20, to: 50 });
+  readonly valueBlock2 = signal<SliderRange>({ from: 20, to: 50 });
+  readonly valuePush2 = signal<SliderRange>({ from: 20, to: 50 });
 }
