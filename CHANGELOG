@@ -7,6 +7,8 @@
 - All boolean-coerced inputs now use `@ardium-ui/devkit`'s `BooleanLike` type instead of `any`
 - Select, Checkbox List, and Segment now do not use any signals in their template contexts. All context fields are now primitive.
 - Tabber and Tab now use a single function for providing their default values (`provideTabberDefaults`)
+- Slider and Range Slider label objects are now defined as `{ label: string, value: number }[]` (was: `{ label: string, for: number }[]`)
+- Range Slider now emits its value as `{ from: number, to: number }` (was: `{ low: number, high: number }`)
 
 ### Additions
 
