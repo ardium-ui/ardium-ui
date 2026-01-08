@@ -227,10 +227,6 @@ export class ArdiumNumberInputComponent
   onBlurMaster(event: FocusEvent): void {
     this.onBlur(event);
   }
-  private _emitTouched() {
-    this.wasTouched.set(true);
-    this._onTouchedRegistered?.();
-  }
   //change
   onChange(event: Event): void {
     event.stopPropagation();

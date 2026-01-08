@@ -58,3 +58,13 @@
     </ng-template>
 </ard-checkbox-list>
 </div>
+<div class="master">
+  <span class="title">Checkbox list with form control</span>
+  <ard-checkbox-list
+    [items]="fruitItems"
+    [formControl]="control"
+  />
+  <p><strong>Value:</strong> {{ control.value }}</p>
+  <p><strong>Touched:</strong> {{ control.touched }}</p>
+  <p><strong>Dirty:</strong> {{ control.dirty }}</p>
+</div>

@@ -1,4 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Logger } from '../../services/logger.service';
 
 @Component({
@@ -7,7 +8,7 @@ import { Logger } from '../../services/logger.service';
   templateUrl: './checkbox-list.page.html',
   styleUrls: ['./checkbox-list.page.scss'],
 })
-export class CheckboxListPage {
+export class CheckboxListPage implements OnDestroy {
   readonly fruitItems = ['Apple', 'Banana', 'Pear', 'Starfruit'];
 
   readonly productItems = [
@@ -20,4 +21,14 @@ export class CheckboxListPage {
   ]
 
   readonly log = inject(Logger).log;
+
+  readonly control = new FormControl<string[]>(['Banana', 'Pear']);
+
+  private readonly _controlSub = this.control.events.subscribe(event => {
+    console.log('FormControl Event:', event);
+  });
+
+  ngOnDestroy(): void {
+    this._controlSub.unsubscribe();
+  }
 }

@@ -17,8 +17,7 @@ import { map, Subscription } from 'rxjs';
 import { TakeChance as Random } from 'take-chance';
 import { _FocusableComponentBase, _focusableComponentDefaults, _FocusableComponentDefaults } from './focusable-component';
 
-export interface _NgModelComponentDefaults extends _FocusableComponentDefaults {
-}
+export interface _NgModelComponentDefaults extends _FocusableComponentDefaults {}
 
 export const _ngModelComponentDefaults: _NgModelComponentDefaults = {
   ..._focusableComponentDefaults,
@@ -89,9 +88,13 @@ export abstract class _NgModelComponentBase extends _FocusableComponentBase impl
       // if the component is immediately focused back (i.e. when changing focus between elements within the component)
       // the touched event will not be fired
       if (!this._shouldEmitTouched) return;
-      this.wasTouched.set(true);
-      this._onTouchedRegistered?.();
+      this._emitTouched();
     }, 0);
+  }
+
+  protected _emitTouched(): void {
+    this.wasTouched.set(true);
+    this._onTouchedRegistered?.();
   }
 
   //! form field related

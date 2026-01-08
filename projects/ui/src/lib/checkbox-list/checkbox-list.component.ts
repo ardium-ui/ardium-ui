@@ -10,7 +10,7 @@ import {
   input,
   output,
   signal,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import { BooleanLike, coerceBooleanProperty, coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
 import { SimpleItemStorage, SimpleItemStorageHost } from '../_internal/item-storages/simple-item-storage';
@@ -129,10 +129,12 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
   selectItem(v: ArdOptionSimple): void {
     this._itemStorage.selectItem(v);
     this._emitChange();
+    this._emitTouched();
   }
   unselectItem(v: ArdOptionSimple): void {
     this._itemStorage.unselectItem(v);
     this._emitChange();
+    this._emitTouched();
   }
   toggleItem(v: ArdOptionSimple): void {
     if (v.selected) {

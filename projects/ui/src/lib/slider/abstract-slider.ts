@@ -152,13 +152,13 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
 
   //! labels
   private _transformLabelInput = (labels: SliderLabelObject[] | number[] | string | null | undefined): SliderLabelObject[] => {
-    if (!isDefined(labels)) {
+    if (!isDefined(labels) || (Array.isArray(labels) && labels.length === 0)) {
       return [];
     }
     if (typeof labels === 'string') {
       labels = coerceArrayProperty(labels).map(Number);
     }
-    if (labels[0] && typeof labels[0] === 'number') {
+    if (isDefined(labels[0]) && typeof labels[0] === 'number') {
       return (labels as number[]).map(label => ({ label, value: label }));
     }
     return labels as SliderLabelObject[];
@@ -361,20 +361,40 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   @HostListener('keydown', ['$event'])
   onKeyPress(event: KeyboardEvent): void {
     switch (event.code) {
-      case 'ArrowLeft': {
+      case 'ArrowLeft':
+      case 'ArrowDown': {
         this._decrement(event);
         return;
       }
-      case 'ArrowRight': {
+      case 'ArrowRight':
+      case 'ArrowUp': {
         this._increment(event);
+        return;
+      }
+      case 'PageDown': {
+        this._decrement(event, true);
+        return;
+      }
+      case 'PageUp': {
+        this._increment(event, true);
+        return;
+      }
+      case 'Home': {
+        this._decrement(event, true);
+        // TODO: should go to min directly
+        return;
+      }
+      case 'End': {
+        this._increment(event, true);
+        // TODO: should go to max directly
         return;
       }
     }
   }
-  protected _decrement(event: KeyboardEvent, steps = 1): void {
-    this._offset(-steps, event.shiftKey);
+  protected _decrement(event: KeyboardEvent, forceShift: boolean = false): void {
+    this._offset(-1, forceShift || event.shiftKey);
   }
-  protected _increment(event: KeyboardEvent, steps = 1): void {
-    this._offset(+steps, event.shiftKey);
+  protected _increment(event: KeyboardEvent, forceShift: boolean = false): void {
+    this._offset(+1, forceShift || event.shiftKey);
   }
 }

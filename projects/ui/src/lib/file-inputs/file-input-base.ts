@@ -348,10 +348,6 @@ export abstract class _FileInputComponentBase extends _FormFieldComponentBase im
   //! touched event handling
   private _isFilePickerOpen = false;
 
-  private _emitTouched() {
-    this.wasTouched.set(true);
-    this._onTouchedRegistered?.();
-  }
   override onFocus(event: FocusEvent): void {
     if (this._isFilePickerOpen) {
       setTimeout(() => {
