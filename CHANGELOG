@@ -1,0 +1,75 @@
+## v5.0.0
+
+### Breaking changes
+
+- `ArdiumInputComponent` (`<ard-input>`) is now renamed to `ArdiumAutocompleteInputComponent` (`<ard-autocomplete-input>`)
+- `ArdiumSimpleInputComponent` (`<ard-simple-input>`) is now renamed to `ArdiumInputComponent` (`<ard-input>`)
+- All boolean-coerced inputs now use `@ardium-ui/devkit`'s `BooleanLike` type instead of `any`
+- Select, Checkbox List, and Segment now do not use any signals in their template contexts. All context fields are now primitive.
+- Tabber and Tab now use a single function for providing their default values (`provideTabberDefaults`)
+
+### Additions
+
+- Checkbox List
+  - Allow to customize the checkboxes and labels using respective template directives
+- Date Input & Calendar
+  - Added `[UTC]` input - outputed values are in UTC format. Defaults for UTC input are supported as well
+  - Added `[startView]` input - can be configured to set which calendar view is shown when opening the date input
+- Form Field
+  - Errors now support being aligned to the left and right side, not only to the left
+  - Added `[defaultHintAlign]` input - configures which is the default side that hints and errors will align to
+  - Added `ard-hint-error` component and directive - they behave like both the hint and the error, which means they appear even when no other errors are specified, but they still stay and change color to red when other errors are defined
+  - Labels are now styled properly when the field has an error
+- Select
+  - Added `[dropdownPanelWidth]`, `[dropdownPanelHeight]`, `[dropdownPanelMinWidth]`, `[dropdownPanelMinHeight]`, `[dropdownPanelMaxWidth]`, and `[dropdownPanelMaxHeight]` inputs
+  - Added `[addCustomOptionText]` input - allows to change what the "Add custom option" text is without having to change the template
+  - Allow to customize the dropdown arrow using a template directive
+- Slider & Range Slider
+  - An error is now thrown when trying to set `[min]` to a value greater than `[max]`
+  - Added `[selectionBehavior]` input to Range Slider - allows to change how the handles can move in relation to each other
+    - Value `"allow"` permits the handles to pass each other, while keeping the value in order (default).
+    - Value `"block"` doesn't let the handles move past each other
+    - Value `"push"` doesn't let the handles move past each other, but the other handle is moved alongside the current handle if necessary
+  - Added `[minimumDistance]` input to Range Slider - allows to change how much distance should be between the handles in `"block"` and `"push"` mode
+  - The `[labels]` input now allows to coerce its value from a string, allowing for defining the labels as `"0,20,40,60,80,100"` instead of `[0, 20, 40, 60, 80, 100]`
+  - Sliders now allow to control the handles with Up & Down Arrows, PageUp, PageDown, Home, and End keyboard keys
+- Tabber
+  - Allow to change the label template for individual tabs by passing in a `TemplateRef` into the `[label]` input, or for all tabs by using a custom template directive
+  - Added `[(selectedTabId)]` two-way binding
+
+
+### Styling Changes
+
+**All components now support CSS customization using CSS variables.**
+
+All components now use the `--ard-font-family` css variable to define their font family.
+
+Other notable changes include:
+
+- Checkbox List
+  - Added some padding above the first element
+
+### Bug Fixes
+
+- Calendar year template context variable shows the previous year due to timezone issues
+- Input, Autocomplete Input, and Hex Input didn't use the native HTML `maxlength` attribute
+- Form Field hints & errors don't to the next line when too long
+- Select dropdown panel goes off the screen when select is positioned very close to the right side of the screen
+- Input, Autocomplete Input, Date Input, Hex Input, Password Input, and Select don't add the `readonly` attribute to their template
+- Select causes a freeze when using `[formControl]` to set value from inside an effect
+- Select value overflows the field when too long
+- Select has the clear button even when it is read-only
+- Fixed several signal usages being passed in directly instead of by its value, causing it to always be treated as `true`
+- Modals & Dialogs can overflow the viewport when they have too much content
+- Radios' circles shrink and become egg-like when they don't fit
+- File Input & File Drop Area have a leftover console.log statement
+- Number Input doesn't take into account the default values provided using its provider function
+- Number Input doesn't emit its value for Reactive Forms
+- Number Input has zero as its default value, while it should be null
+- Checkbox List items do not have the `ard-item-selected` class when selected
+- Checkbox List doesn't emit touched event when using the mouse to select values
+- Tabber doesn't set the intial tab correctly
+- Slider and Range Slider do not fix their value automatically when min, max, or step are changed
+- Slider and Range Slider do not have the `grab` cursor when hovering over the handle, and the `grabbing` cursor when moving the handle
+- Slider and Range Slider tooltip value wraps into the second line even though it shouldn't
+- Range Slider sets its initial value to a range from `-Infinity` to `+Infinity` instead of from `min` to `max`
