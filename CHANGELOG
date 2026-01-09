@@ -9,9 +9,16 @@
 - Tabber and Tab now use a single function for providing their default values (`provideTabberDefaults`)
 - Slider and Range Slider label objects are now defined as `{ label: string, value: number }[]` (was: `{ label: string, for: number }[]`)
 - Range Slider now emits its value as `{ from: number, to: number }` (was: `{ low: number, high: number }`)
+- Button, FAB, and Icon Button now place their content directly inside the `<button>` element.
+  - Removed `.ard-focus-overlay`. It was used to add a colored overlay over the background, now `::before` is used for that purpose.
+  - Removed `.ard-button-content`. It was used to add flexbox to the content, now the button itself does that
+  - Removed `[icon]` and `[iconAlign]` inputs from Button. Use `<ard-icon>` instead.
 
 ### Additions
 
+- Button
+  - Added button directive that can be used on a `<button>` or an `<a>` element to add all button functionality
+  - Button component now uses the directive internally
 - Checkbox List
   - Allow to customize the checkboxes and labels using respective template directives
 - Date Input & Calendar
