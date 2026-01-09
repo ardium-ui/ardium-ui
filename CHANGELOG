@@ -46,7 +46,6 @@
   - Allow to change the label template for individual tabs by passing in a `TemplateRef` into the `[label]` input, or for all tabs by using a custom template directive
   - Added `[(selectedTabId)]` two-way binding
 
-
 ### Styling Changes
 
 **All components now support CSS customization using CSS variables.**
