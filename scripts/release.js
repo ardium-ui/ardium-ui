@@ -145,6 +145,11 @@ const VERSION_ALIAS_MAP = {
       stdio: 'inherit',
     });
 
+    // Cleanup
+    execSync('rmdir /s /Q dist', { stdio: 'ignore' });
+
+    console.log(`${ansis.greenBright.bold('✓')} Cleaned up dist directory again (${new Date().valueOf() - startTime.valueOf()} ms)`);
+
     console.log(`\n${ansis.greenBright.bold('✓')} Successfully released version ${ansis.blueBright.underline(finalVersion)}!`);
   } catch (error) {
     console.error('Error executing release steps:', error);
