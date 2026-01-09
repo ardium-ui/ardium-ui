@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation, computed, input, output } from '@angular/core';
 import { _ButtonBase } from '../_button-base';
 import { FabSize } from '../general-button.types';
 import { ARD_FAB_DEFAULTS, ArdFabDefaults } from './fab.defaults';
@@ -18,6 +18,10 @@ export class ArdiumFabComponent extends _ButtonBase {
   constructor(@Inject(ARD_FAB_DEFAULTS) defaults: ArdFabDefaults) {
     super(defaults);
   }
+  
+  //! events
+  readonly focusEvent = output<FocusEvent>({ alias: 'focus' });
+  readonly blurEvent = output<FocusEvent>({ alias: 'blur' });
 
   //! appearance
   readonly size = input<FabSize>(FabSize.Standard);

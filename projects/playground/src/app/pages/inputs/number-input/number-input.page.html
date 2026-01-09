@@ -73,7 +73,15 @@
   ></ard-number-input>
 </div>
 <div class="master flex">
+  <span class="title">Number input with [keepFocusOnQuickChange]="false"</span>
+  <ard-number-input
+    keepFocusOnQuickChangeButton="false"
+    max="10"
+  ></ard-number-input>
+</div>
+<div class="master flex">
   <span class="title">Number input with [keepFocusOnQuickChange] and button gets disabled for a while after number change</span>
+  <p>Increase the value by one and then wait 3 secs to be able to increase again</p>
   <ard-number-input
     keepFocusOnQuickChangeButton
     value="0"

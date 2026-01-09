@@ -83,21 +83,50 @@
       [compact]="compact"
       [vertical]="vertical"
       [lightColoring]="altColoring"
+      (click)="log('click', $event)"
     >
       <ard-icon filled>home</ard-icon>
       {{ text }}
     </ard-button>
   </div>
 </div>
-<div class="master flex">
+<div
+  class="master flex"
+  (click)="log('click div', $event)"
+>
   <p class="title">Button using directive on button element and anchor element</p>
-  <button ard-button>Button as &lt;button&gt; element</button>
-  <a
-    ard-button
-    href="button/#"
-  >
-    Button as &lt;a&gt; element
-  </a>
+  <div class="flex horiz">
+    <button
+      ard-button
+      (click)="log('click button', $event)"
+    >
+      Button as &lt;button&gt; element
+    </button>
+    <button
+      ard-button
+      disabled
+      (click)="log('click button', $event)"
+    >
+      Button as &lt;button&gt; element
+    </button>
+  </div>
+  <div class="flex horiz">
+    <a
+      ard-button
+      href="button/#"
+      (click)="log('click anchor', $event)"
+    >
+      Button as &lt;a&gt; element
+    </a>
+    <a
+      ard-button
+      disabled
+      href="button/#"
+      (click)="log('click anchor', $event)"
+    >
+      Button as &lt;a&gt; element
+    </a>
+  </div>
 </div>
 @for (compact of [false, true]; track compact) {
 <div class="flex">

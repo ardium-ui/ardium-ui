@@ -31,7 +31,9 @@ export class ArdiumIconButtonComponent extends _FocusableComponentBase {
   //! button settings
   readonly color = input<ComponentColor>(this._DEFAULTS.color);
 
-  readonly lightColoring = input<boolean, BooleanLike>(this._DEFAULTS.lightColoring, { transform: v => coerceBooleanProperty(v) });
+  readonly lightColoring = input<boolean, BooleanLike>(this._DEFAULTS.lightColoring, {
+    transform: v => coerceBooleanProperty(v),
+  });
   readonly compact = input<boolean, BooleanLike>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   readonly pointerEventsWhenDisabled = input<boolean, BooleanLike>(this._DEFAULTS.pointerEventsWhenDisabled, {

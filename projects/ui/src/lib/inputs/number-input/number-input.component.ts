@@ -11,7 +11,7 @@ import {
   input,
   output,
   viewChild,
-  ViewEncapsulation,
+  ViewEncapsulation
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BooleanLike, coerceBooleanProperty, coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
@@ -170,10 +170,11 @@ export class ArdiumNumberInputComponent
 
   onQuickChangeButtonClick(direction: 1 | -1, event?: MouseEvent): void {
     let num = this.inputModel.numberValue();
+    const hasAnyValue = isDefined(num);
     if (!num) num = 0;
 
-    if (direction === 1 && num >= this.max()) return;
-    if (direction === -1 && num <= this.min()) return;
+    if (direction === 1 && num >= this.max() && hasAnyValue) return;
+    if (direction === -1 && num <= this.min() && hasAnyValue) return;
 
     if (event) event.stopPropagation();
 
@@ -193,21 +194,26 @@ export class ArdiumNumberInputComponent
     if (this.keepFocusOnQuickChangeButton()) return;
     if (!this.canDecrement() || !this.canIncrement()) this.focus();
   }
+
+  private _isQuickChangeButtonFocused = false;
   onQuickChangeButtonMouseup(event: MouseEvent): void {
     // prevent the event from reaching the parent element
     if (this.keepFocusOnQuickChangeButton()) {
-      event.stopPropagation();
+      this._isQuickChangeButtonFocused = true;
+      setTimeout(() => {
+        this._isQuickChangeButtonFocused = false;
+      }, 0);
     }
   }
 
-  canIncrement(): boolean {
+  readonly canIncrement = computed<boolean>(() => {
     const num = this.inputModel.numberValue();
     return !isDefined(num) || num < this.max();
-  }
-  canDecrement(): boolean {
+  });
+  readonly canDecrement = computed<boolean>(() => {
     const num = this.inputModel.numberValue();
     return !isDefined(num) || num > this.min();
-  }
+  });
 
   //! event handlers
   onInput(newVal: string): void {
@@ -234,6 +240,7 @@ export class ArdiumNumberInputComponent
   }
   protected _emitChange(): void {
     const v = this.inputModel.numberValue();
+    this.valueChange.emit(v);
     this.changeEvent.emit(v);
     this._onChangeRegistered?.(v);
   }
@@ -243,6 +250,7 @@ export class ArdiumNumberInputComponent
     const selection = window.getSelection();
     if (selection && selection.type === 'Range') return;
 
+    if (this._isQuickChangeButtonFocused) return;
     this.focus();
   }
 

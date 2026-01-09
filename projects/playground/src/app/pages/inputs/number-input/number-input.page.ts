@@ -19,7 +19,7 @@ export class NumberInputPage {
   constructor(private _logger: Logger) {}
   log = this._logger.log;
 
-  readonly maxSignal = signal<number>(0);
+  readonly maxSignal = signal<number>(1);
 
   increaseMax() {
     setTimeout(() => {

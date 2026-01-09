@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation, computed, input, output } from '@angular/core';
 import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _ButtonBase } from '../_button-base';
 import { ButtonVariant } from '../general-button.types';
@@ -21,6 +21,10 @@ export class ArdiumButtonComponent extends _ButtonBase {
   constructor(@Inject(ARD_BUTTON_DEFAULTS) defaults: ArdButtonDefaults) {
     super(defaults);
   }
+  
+  //! events
+  readonly focusEvent = output<FocusEvent>({ alias: 'focus' });
+  readonly blurEvent = output<FocusEvent>({ alias: 'blur' });
 
   //! button settings
   readonly variant = input<ButtonVariant>(this._DEFAULTS.variant);

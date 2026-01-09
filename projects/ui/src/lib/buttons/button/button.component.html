@@ -1,7 +1,8 @@
 <button
   #buttonElement
   ard-button
-  class="ard-button"
+  (focus)="focusEvent.emit($event)"
+  (blur)="blurEvent.emit($event)"
   [type]="type()"
   [appearance]="appearance()"
   [color]="color()"

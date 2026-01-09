@@ -89,16 +89,11 @@ ard-button {
       gap: 0;
     }
   }
-}
-
-ard-button.ard-disabled {
-  > .ard-button {
+  //! disabled
+  &.ard-disabled {
     @include shared.button-disabled(var(--ard-button-disabled-opacity, 0.6), var(--ard-button-overlay-disabled-opacity, 0.2));
-  }
-  &.ard-button-with-pointer-events-when-disabled {
-    pointer-events: all;
 
-    > .ard-button {
+    &.ard-button-with-pointer-events-when-disabled {
       pointer-events: all;
     }
   }

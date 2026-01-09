@@ -18,6 +18,7 @@
     pointerEventsWhenDisabled
     (click)="canDecrement() && onQuickChangeButtonClick(-1, $event)"
     (mouseup)="onQuickChangeButtonMouseup($event)"
+    (ardHold)="canDecrement() && onQuickChangeButtonClick(-1)"
     ardHoldSpaceKey
   >
     -
@@ -64,6 +65,7 @@
     pointerEventsWhenDisabled
     (click)="canIncrement() && onQuickChangeButtonClick(1, $event)"
     (mouseup)="onQuickChangeButtonMouseup($event)"
+    (ardHold)="canIncrement() && onQuickChangeButtonClick(1)"
     ardHoldSpaceKey
   >
     +

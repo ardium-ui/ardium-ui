@@ -1,4 +1,4 @@
-import { computed, Directive, Inject, input } from '@angular/core';
+import { computed, Directive, effect, ElementRef, inject, Inject, input, Renderer2 } from '@angular/core';
 import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _ButtonBase } from '../_button-base';
 import { ButtonVariant } from '../general-button.types';
@@ -9,10 +9,8 @@ import { ARD_BUTTON_DEFAULTS, ArdButtonDefaults } from './button.defaults';
   standalone: false,
   host: {
     '[class]': 'ngClasses()',
-    '[type]': 'type()',
     '[tabindex]': 'tabIndex()',
-    '(focus)': 'onFocus($event)',
-    '(blur)': 'onBlur($event)',
+    '(click)': 'handleClick($event)',
   },
 })
 export class ArdiumButtonDirective extends _ButtonBase {
@@ -20,6 +18,26 @@ export class ArdiumButtonDirective extends _ButtonBase {
 
   constructor(@Inject(ARD_BUTTON_DEFAULTS) defaults: ArdButtonDefaults) {
     super(defaults);
+
+    const el: HTMLElement = this._hostEl.nativeElement;
+    if (el.tagName === 'BUTTON') {
+      effect(() => {
+        this._renderer.setProperty(el, 'disabled', this.disabled());
+      });
+      effect(() => {
+        this._renderer.setAttribute(el, 'type', this.type());
+      });
+    }
+  }
+
+  private readonly _hostEl = inject(ElementRef);
+  private readonly _renderer = inject(Renderer2);
+
+  handleClick(event: Event): void {
+    if (this.disabled()) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
   }
 
   //! button settings
@@ -35,6 +53,7 @@ export class ArdiumButtonDirective extends _ButtonBase {
       `ard-variant-${this.variant()}`,
       `ard-color-${this.color()}`,
       this.lightColoring() ? `ard-light-coloring` : '',
+      this.disabled() ? 'ard-disabled' : '',
       this.compact() ? 'ard-compact' : '',
       this.vertical() ? 'ard-button-vertical' : '',
       this.pointerEventsWhenDisabled() ? 'ard-button-with-pointer-events-when-disabled' : '',
