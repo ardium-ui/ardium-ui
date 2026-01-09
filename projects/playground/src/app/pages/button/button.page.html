@@ -39,16 +39,6 @@
         </div>
       </div>
       <div class="settings-right">
-        <div class="form-field flex">
-          <label for="align">Align</label>
-          <ard-radio-group
-            id="align"
-            [(value)]="align"
-          >
-            <ard-radio value="left">Left</ard-radio>
-            <ard-radio value="right">Right</ard-radio>
-          </ard-radio-group>
-        </div>
         <div class="form-field flex checkboxes">
           <div class="list-item flex horiz">
             <ard-checkbox
@@ -82,30 +72,32 @@
           [(value)]="text"
         />
       </div>
-      <div class="form-field flex">
-        <label for="icon">Icon</label>
-        <ard-input
-          htmlId="icon"
-          [(value)]="icon"
-        />
-      </div>
     </div>
   </div>
   <div class="button-container alt-coloring-host">
     <ard-button
-      [icon]="icon ?? ''"
       [appearance]="appearance[0]"
       [variant]="variant[0]"
       [color]="color[0]"
       [disabled]="disabled"
       [compact]="compact"
       [vertical]="vertical"
-      [alignIcon]="align"
       [lightColoring]="altColoring"
     >
+      <ard-icon filled>home</ard-icon>
       {{ text }}
     </ard-button>
   </div>
+</div>
+<div class="master flex">
+  <p class="title">Button using directive on button element and anchor element</p>
+  <button ard-button>Button as &lt;button&gt; element</button>
+  <a
+    ard-button
+    href="button/#"
+  >
+    Button as &lt;a&gt; element
+  </a>
 </div>
 @for (compact of [false, true]; track compact) {
 <div class="flex">

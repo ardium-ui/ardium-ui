@@ -8,6 +8,7 @@
   --ard-fab-size-standard-font-size: 1.75rem;
   --ard-fab-size-small-font-size: 1.375rem;
   --ard-fab-font-weight: 900;
+  --ard-fab-extended-gap: 0.75em;
   --ard-fab-overlay-hover-opacity: 0.04;
   --ard-fab-overlay-focus-opacity: 0.12;
   --ard-fab-overlay-active-opacity: 0.18;
@@ -37,10 +38,17 @@ ard-fab {
   );
   height: var(--ard-_fab-size);
   width: var(--ard-_fab-size);
+  max-height: var(--ard-_fab-size);
+  max-width: var(--ard-_fab-size);
+  min-height: var(--ard-_fab-size);
+  min-width: var(--ard-_fab-size);
   user-select: none;
   border-radius: 9999px;
   justify-content: center;
   margin: 0;
+  font-weight: 500;
+  overflow: hidden;
+  transition: max-width 0.5s ease;
 
   &.ard-fab-size-standard {
     --ard-_fab-size: var(--ard-fab-size-standard, 3.5rem);
@@ -54,26 +62,13 @@ ard-fab {
     min-width: var(--ard-_fab-size);
     width: max-content;
     font-weight: unset;
-
-    .ard-button-content {
-      gap: 0.75em;
-      max-width: 10em;
-    }
+    gap: var(--ard-fab-extended-gap, 1em);
+    max-width: 10em;
   }
 
-  .ard-button-content {
-    gap: 1em;
-    font-weight: 500;
-    justify-content: flex-start !important;
-    max-width: 1.5em;
-    overflow: hidden;
-    transition: max-width 0.5s ease;
-
-    ard-icon {
-      font-size: 1em;
-    }
+  ard-icon {
+    font-size: 1em;
   }
-
   &.ard-appearance-transparent {
     @include CM.focus-overlay-scale-addon();
   }

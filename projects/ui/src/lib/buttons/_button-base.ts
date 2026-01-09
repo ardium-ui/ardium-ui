@@ -19,11 +19,15 @@ export abstract class _ButtonBase extends _FocusableComponentBase {
 
   readonly type = input<ButtonType>(this._DEFAULTS.type);
 
+  readonly ariaLabel = input<string>('');
+
   //! button settings
   readonly appearance = input<ButtonAppearance>(this._DEFAULTS.appearance);
   readonly color = input<ComponentColor>(this._DEFAULTS.color);
 
-  readonly lightColoring = input<boolean, BooleanLike>(this._DEFAULTS.lightColoring, { transform: v => coerceBooleanProperty(v) });
+  readonly lightColoring = input<boolean, BooleanLike>(this._DEFAULTS.lightColoring, {
+    transform: v => coerceBooleanProperty(v),
+  });
   readonly compact = input<boolean, BooleanLike>(this._DEFAULTS.compact, { transform: v => coerceBooleanProperty(v) });
 
   readonly pointerEventsWhenDisabled = input<boolean, BooleanLike>(this._DEFAULTS.pointerEventsWhenDisabled, {

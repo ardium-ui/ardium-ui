@@ -1,18 +1,15 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { _buttonBaseDefaults, _ButtonBaseDefaults } from '../_button-base.defaults';
 import { ButtonVariant } from '../general-button.types';
-import { SimpleOneAxisAlignment } from './../../types/alignment.types';
 
 export interface ArdButtonDefaults extends _ButtonBaseDefaults {
   variant: ButtonVariant;
-  alignIcon: SimpleOneAxisAlignment;
   vertical: boolean;
 }
 
 const _buttonDefaults: ArdButtonDefaults = {
   ..._buttonBaseDefaults,
   variant: ButtonVariant.Rounded,
-  alignIcon: SimpleOneAxisAlignment.Left,
   vertical: false,
 };
 

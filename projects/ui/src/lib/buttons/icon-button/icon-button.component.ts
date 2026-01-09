@@ -26,6 +26,8 @@ export class ArdiumIconButtonComponent extends _FocusableComponentBase {
 
   readonly type = input<ButtonType>(this._DEFAULTS.type);
 
+  readonly ariaLabel = input<string>('');
+
   //! button settings
   readonly color = input<ComponentColor>(this._DEFAULTS.color);
 

@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
-    ArdiumButtonModule,
-    ArdiumCheckboxModule,
-    ArdiumInputModule,
-    ArdiumRadioModule,
-    ArdiumSelectModule,
+  ArdiumButtonModule,
+  ArdiumCheckboxModule,
+  ArdiumIconModule,
+  ArdiumInputModule,
+  ArdiumRadioModule,
+  ArdiumSelectModule,
 } from 'projects/ui/src/public-api';
 import { ButtonPage } from './button.page';
 
@@ -18,6 +19,7 @@ import { ButtonPage } from './button.page';
     ArdiumCheckboxModule,
     ArdiumSelectModule,
     ArdiumInputModule,
+    ArdiumIconModule,
   ],
 })
 export class ButtonModule {}

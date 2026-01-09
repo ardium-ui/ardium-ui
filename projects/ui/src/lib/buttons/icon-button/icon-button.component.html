@@ -5,9 +5,7 @@
   [tabindex]="tabIndex()"
   (focus)="focusEvent.emit($event)"
   (blur)="blurEvent.emit($event)"
+  [attr.aria-label]="ariaLabel()"
 >
-  <div class="ard-focus-overlay"></div>
-  <div class="ard-button-content">
-    <ng-content></ng-content>
-  </div>
+  <ng-content></ng-content>
 </button>

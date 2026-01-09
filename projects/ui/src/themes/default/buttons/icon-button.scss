@@ -5,6 +5,7 @@
   --ard-icon-button-height-compact: 2.25em;
   --ard-icon-button-margin: 0;
   --ard-icon-button-font-size: 1rem;
+  --ard-icon-button-icon-font-size: 1.5em;
   --ard-icon-button-font-size-compact: 0.75rem;
   --ard-icon-button-font-weight: 600;
   --ard-icon-button-overlay-hover-opacity: var(--ard-button-overlay-hover-opacity, 0.04);
@@ -37,7 +38,7 @@ ard-icon-button {
     var(--ard-icon-button-overlay-focus-visible-opacity, var(--ard-button-overlay-focus-visible-opacity, 0.24))
   );
   background: transparent;
-  height: 2.1875em;
+  height: var(--ard-icon-button-height, 2.1875em);
   aspect-ratio: 1;
   border-radius: 9999px;
   align-items: center;
@@ -46,20 +47,14 @@ ard-icon-button {
   overflow: hidden;
   color: var(--ard-cmpcl--bg-colored);
 
-  .ard-button-content {
-    display: flex;
-    align-items: center;
-
-    > ard-icon {
-      font-weight: 500;
-      font-size: 1.5em;
-    }
+  > ard-icon {
+    font-weight: 500;
+    font-size: var(--ard-icon-button-icon-font-size);
   }
-
   //! compact
   &.ard-compact {
-    height: 2.25em;
-    font-size: 0.75em;
+    height: var(--ard-icon-button-height-compact, 2.25em);
+    font-size: var(--ard-icon-button-font-size-compact, 0.75rem);
   }
   //! light coloring
   &.ard-light-coloring {

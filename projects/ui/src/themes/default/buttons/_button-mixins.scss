@@ -25,33 +25,30 @@
   cursor: pointer;
   outline: none;
 
-  //! button icon
-  .ard-button-icon {
-    @include defaultMixins.icon(1);
-  }
   //! button focus inficator
-  .ard-focus-overlay {
+  &::before {
+    content: '';
     @include defaultMixins.focus-overlay;
     background-color: var(--ard-cmpcl--overlay);
   }
   &:hover {
-    .ard-focus-overlay {
+    &::before {
       opacity: $hover-opacity;
     }
   }
   &:focus {
-    .ard-focus-overlay {
+    &::before {
       opacity: $focus-opacity;
     }
   }
   &.ard-active,
   &:active {
-    .ard-focus-overlay {
+    &::before {
       opacity: $active-opacity;
     }
   }
   &:focus-visible {
-    .ard-focus-overlay {
+    &::before {
       opacity: $focus-visible-opacity;
     }
   }
@@ -62,7 +59,7 @@
     color: var(--ard-cmpcl--content);
     border: none;
 
-    .ard-focus-overlay {
+    &::before {
       background: var(--ard-cmpcl--overlay-colored);
     }
   }
@@ -85,7 +82,7 @@
     color: var(--ard-cmpcl--content);
     border: 1px solid ARD.$border-light;
 
-    .ard-focus-overlay {
+    &::before {
       background: var(--ard-cmpcl--overlay-colored);
     }
   }
@@ -94,7 +91,7 @@
     color: var(--ard-cmpcl--content);
     border: 1px solid ARD.$border-light;
 
-    .ard-focus-overlay {
+    &::before {
       display: none;
     }
 
@@ -111,7 +108,7 @@
     color: var(--ard-cmpcl--on-bg-colored);
     border: 1px solid var(--ard-cmpcl--bg-colored);
 
-    .ard-focus-overlay {
+    &::before {
       background: var(--ard-cmpcl--on-bg);
     }
     &:focus-visible {
@@ -122,7 +119,7 @@
   &.ard-appearance-transparent.ard-light-coloring {
     color: var(--ard-cmpcl--content-light);
 
-    .ard-focus-overlay {
+    &::before {
       background: var(--ard-cmpcl--overlay-colored-light);
     }
   }
@@ -134,7 +131,7 @@
   opacity: $opacity;
   cursor: not-allowed;
 
-  .ard-focus-overlay {
+  &::before {
     opacity: $overlay-opacity;
     transform: scale(1);
   }
@@ -145,7 +142,7 @@
     .ard-button-content {
       opacity: $opacity;
     }
-    .ard-focus-overlay {
+    &::before {
       background: var(--ard-cmpcl--overlay);
     }
   }

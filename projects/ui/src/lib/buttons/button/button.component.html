@@ -1,19 +1,17 @@
 <button
   #buttonElement
+  ard-button
   class="ard-button"
   [type]="type()"
-  [ngClass]="ngClasses()"
-  (focus)="onFocus($event)"
-  (blur)="onBlur($event)"
-  [tabindex]="tabIndex()"
+  [appearance]="appearance()"
+  [color]="color()"
+  [disabled]="disabled()"
+  [compact]="compact()"
+  [lightColoring]="lightColoring()"
+  [pointerEventsWhenDisabled]="pointerEventsWhenDisabled()"
+  [variant]="variant()"
+  [vertical]="vertical()"
+  [attr.aria-label]="ariaLabel()"
 >
-  <div class="ard-focus-overlay"></div>
-  @if (icon()) {
-    <div class="ard-button-icon">
-      {{ icon() }}
-    </div>
-  }
-  <div class="ard-button-content">
-    <ng-content></ng-content>
-  </div>
+  <ng-content></ng-content>
 </button>

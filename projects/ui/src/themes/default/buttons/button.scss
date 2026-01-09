@@ -8,6 +8,7 @@
   --ard-button-padding-compact: 0 0.9em;
   --ard-button-padding-vertical: 0.3em 1em;
   --ard-button-padding-vertical-compact: 0.2em 0.8em;
+  --ard-button-gap: 0.375rem;
   --ard-button-font-size: 0.875rem;
   --ard-button-font-size-compact: 0.75rem;
   --ard-button-font-weight: 500;
@@ -38,22 +39,17 @@ ard-button {
     var(--ard-button-overlay-focus-visible-opacity, 0.24)
   );
   background: transparent;
-  gap: 0.375rem;
+  gap: var(--ard-button-gap, 0.375rem);
   font-size: var(--ard-button-font-size, 0.875rem);
   height: var(--ard-button-height, 2.5em);
   padding: var(--ard-button-padding, 0 1.2em);
-  letter-spacing: 0.5px;
-  width: 100%;
+  width: max-content;
   min-width: max-content;
+  letter-spacing: 0.5px;
   justify-content: center;
   margin: 0;
   user-select: none;
-
-  .ard-button-content {
-    display: flex;
-    align-items: center;
-    gap: 0.375rem;
-  }
+  text-decoration: none;
 
   //! aligns
   &.ard-align-left {
