@@ -7,7 +7,7 @@ export function getCalendarYearsArray(
   min: Date | null,
   max: Date | null
 ): CalendarArrayItem[] {
-  return new Array(yearCount).fill(startYear).map((v, i) => ({ value: v + i, disabled: !!isYearOutOfRange(v + i, min, max) }));
+  return new Array(yearCount).fill(startYear).map((v, i) => ({ value: v + i, valueDate: new Date(v + i, 1, 1), disabled: !!isYearOutOfRange(v + i, min, max) }));
 }
 export function isYearOutOfRange(year: number, min: Date | null, max: Date | null): number {
   const dateForMinComparison = new Date(year, 11, 31);

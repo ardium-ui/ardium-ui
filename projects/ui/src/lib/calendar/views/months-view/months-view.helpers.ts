@@ -16,6 +16,7 @@ export function getCalendarMonthsArray(year: number, min: Date | null, max: Date
   for (let month = 0; month < 12; month++) {
     const monthData: CalendarArrayItem = {
       value: month,
+      valueDate: new Date(year, month, 2),
       disabled: !!isMonthOutOfRange(month, year, min, max),
     };
     months.push(monthData);

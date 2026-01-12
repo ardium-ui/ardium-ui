@@ -114,15 +114,25 @@ $grid-size: 2.5rem;
       border-radius: 9999px;
       position: relative;
       cursor: pointer;
+      outline: none;
 
       .ard-focus-overlay {
         @include DM.focus-overlay();
         z-index: -1;
-        background: var(--ard-cmpcl--bg-colored);
+        background: var(--ard-cmpcl--overlay);
         border: 2px solid transparent;
-        transition:
-          border-color 0.1s ease,
-          opacity 0.1s ease;
+        transition: border-color 0.1s ease, opacity 0.1s ease;
+      }
+      .ard-range-overlay {
+        @include DM.focus-overlay();
+        z-index: -1;
+        opacity: 1;
+        left: -0.125rem;
+        right: -0.125rem;
+        border: 1px dashed transparent;
+        background: transparent;
+        transition: none;
+        border-radius: 0;
       }
     }
     &.ard-calendar__entry-empty {
@@ -133,9 +143,38 @@ $grid-size: 2.5rem;
         border-color: ARD.$detail;
       }
     }
+    &.ard-calendar__entry-highlighted-in-range {
+      .ard-range-overlay {
+        opacity: 1;
+        border-top-color: var(--ard-cmpcl--bg-colored);
+        border-bottom-color: var(--ard-cmpcl--bg-colored);
+      }
+    }
     &.ard-calendar__entry-highlighted {
       .ard-focus-overlay {
         opacity: 20%;
+      }
+    }
+    &.ard-calendar__entry-selected-start {
+      .ard-range-overlay {
+        left: 0;
+        border-left-color: var(--ard-cmpcl--bg-colored);
+        border-top-left-radius: 9999px;
+        border-bottom-left-radius: 9999px;
+      }
+    }
+    &.ard-calendar__entry-selected-end {
+      .ard-range-overlay {
+        right: 0;
+        border-right-color: var(--ard-cmpcl--bg-colored);
+        border-top-right-radius: 9999px;
+        border-bottom-right-radius: 9999px;
+      }
+    }
+    &.ard-calendar__entry-selected-in-range {
+      .ard-range-overlay {
+        opacity: 12%;
+        background-color: var(--ard-cmpcl--bg-colored);
       }
     }
     &.ard-calendar__entry-selected {
@@ -144,6 +183,7 @@ $grid-size: 2.5rem;
       }
       .ard-focus-overlay {
         opacity: 100%;
+        background: var(--ard-cmpcl--bg-colored);
       }
 
       &.ard-calendar-today {
@@ -188,6 +228,17 @@ $grid-size: 2.5rem;
       height: 1px;
       background: ARD.$detail-ultralight;
       bottom: 0;
+    }
+  }
+  .ard-years-view,
+  .ard-months-view {
+    .ard-calendar__entry {
+      .ard-calendar__entry-button {
+        .ard-range-overlay {
+          left: calc(-0.125rem - 1px);
+          right: calc(-0.125rem - 1px);
+        }
+      }
     }
   }
 }

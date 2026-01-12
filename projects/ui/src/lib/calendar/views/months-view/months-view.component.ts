@@ -52,6 +52,9 @@ export class MonthsViewComponent implements AfterViewInit {
   readonly activeMonth = input.required<number>();
 
   readonly selectedDate = input.required<Date | null>();
+  readonly selectedDateEnd = input.required<Date | null>();
+
+  readonly rangeSelectionMode = input.required<boolean>();
 
   readonly min = input.required<Date | null>();
   readonly max = input.required<Date | null>();
@@ -89,6 +92,12 @@ export class MonthsViewComponent implements AfterViewInit {
 
   //! calendar entry hover & click
   readonly highlightedMonth = input.required<number | null>();
+
+  readonly highlightedMonthDate = computed<Date | null>(() => {
+    const month = this.highlightedMonth();
+    if (isNull(month)) return null;
+    return new Date(this.activeYear(), month, 2);
+  });
 
   onCalendarMonthMouseover(month: number): void {
     if (this._isUsingKeyboard()) return;
@@ -215,12 +224,53 @@ export class MonthsViewComponent implements AfterViewInit {
   isMonthToday(month: number): boolean {
     return this.activeYear() === TODAY.getFullYear() && month === TODAY.getMonth();
   }
-  isMonthSelected(month: number | Date): boolean {
+  isMonthSelected(month: number | Date | null): boolean {
     if (month instanceof Date) month = month.getMonth();
+    const isStartDateSelected = this.isMonthSelectedStart(month);
+
+    if (this.rangeSelectionMode()) {
+      const isEndDateSelected = this.isMonthSelectedEnd(month);
+      return isStartDateSelected || isEndDateSelected;
+    }
+    return isStartDateSelected;
+  }
+  isMonthSelectedStart(month: number | Date | null): boolean {
+    if (month instanceof Date) month = month.getMonth();
+    const selected = this.selectedDate();
+    const isStartDateSelected =
+      selected !== null && this.activeYear() === selected.getFullYear() && month === selected.getMonth();
+
+    return isStartDateSelected;
+  }
+  isMonthSelectedEnd(month: number | Date | null): boolean {
+    if (month instanceof Date) month = month.getMonth();
+    const selected = this.selectedDateEnd();
+    const isEndDateSelected = selected !== null && this.activeYear() === selected.getFullYear() && month === selected.getMonth();
+
+    return isEndDateSelected;
+  }
+  isMonthBetweenSelectedRange(month: number | Date | null): boolean {
+    if (!this.rangeSelectionMode()) return false;
+    if (month instanceof Date) month = month.getMonth();
+    const selected = this.selectedDate();
+    const selectedEnd = this.selectedDateEnd();
+    if (selected === null || selectedEnd === null || selected >= selectedEnd) return false;
+    return this._isMonthBetweenDates(month!, selected, selectedEnd);
+  }
+  isMonthBetweenSelectedHighlighted(month: number | Date | null): boolean {
+    if (!this.rangeSelectionMode() || this.selectedDateEnd()) return false;
+    if (month instanceof Date) month = month.getMonth();
+    const selected = this.selectedDate();
+    const highlightedEnd = this.highlightedMonthDate();
+    if (selected === null || highlightedEnd === null || selected >= highlightedEnd) return false;
+    return this._isMonthBetweenDates(month!, selected, highlightedEnd);
+  }
+  private _isMonthBetweenDates(month: number, startDate: Date, endDate: Date): boolean {
     return (
-      this.selectedDate() !== null &&
-      this.activeYear() === this.selectedDate()?.getFullYear() &&
-      month === this.selectedDate()?.getMonth()
+      startDate.getFullYear() <= this.activeYear() &&
+      startDate.getMonth() <= month &&
+      endDate.getFullYear() >= this.activeYear() &&
+      endDate.getMonth() >= month
     );
   }
   isYearOutOfRange(year: number): number {

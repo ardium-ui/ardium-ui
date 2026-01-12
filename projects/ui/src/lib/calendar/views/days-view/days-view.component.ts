@@ -8,7 +8,7 @@ import {
   input,
   output,
   TemplateRef,
-  viewChild
+  viewChild,
 } from '@angular/core';
 import {
   CalendarDayContext,
@@ -20,10 +20,6 @@ import { isMonthOutOfRange } from '../months-view/months-view.helpers';
 import { getCalendarDayData, getCalendarWeekdayArray } from './days-view.helpers';
 
 const TODAY = new Date();
-
-function isLeapYear(year: number): boolean {
-  return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
-}
 
 @Component({
   standalone: false,
@@ -58,6 +54,9 @@ export class DaysViewComponent implements AfterViewInit {
   readonly activeMonth = input.required<number>();
 
   readonly selectedDate = input.required<Date | null>();
+  readonly selectedDateEnd = input.required<Date | null>();
+
+  readonly rangeSelectionMode = input.required<boolean>();
 
   readonly min = input.required<Date | null>();
   readonly max = input.required<Date | null>();
@@ -65,6 +64,12 @@ export class DaysViewComponent implements AfterViewInit {
   readonly isDayFilteredOut = input.required<(day: number, month?: number, year?: number) => boolean>();
 
   readonly highlightedDay = input.required<number | null>();
+
+  readonly highlightedDayDate = computed<Date | null>(() => {
+    const day = this.highlightedDay();
+    if (day === null) return null;
+    return new Date(this.activeYear(), this.activeMonth(), day);
+  });
 
   //! focusing
   readonly focusableElement = viewChild.required<ElementRef<HTMLElement>>('focusableElement');
@@ -85,12 +90,55 @@ export class DaysViewComponent implements AfterViewInit {
 
   isDaySelected(day: number | Date | null): boolean {
     if (day instanceof Date) day = day.getDate();
-    return (
-      this.selectedDate() !== null &&
-      this.activeYear() === this.selectedDate()?.getFullYear() &&
-      this.activeMonth() === this.selectedDate()?.getMonth() &&
-      day === this.selectedDate()?.getDate()
-    );
+    const isStartDateSelected = this.isDaySelectedStart(day);
+
+    if (this.rangeSelectionMode()) {
+      const isEndDateSelected = this.isDaySelectedEnd(day);
+      return isStartDateSelected || isEndDateSelected;
+    }
+    return isStartDateSelected;
+  }
+  isDaySelectedStart(day: number | Date | null): boolean {
+    if (day instanceof Date) day = day.getDate();
+    const selected = this.selectedDate();
+    const isStartDateSelected =
+      selected !== null &&
+      this.activeYear() === selected.getFullYear() &&
+      this.activeMonth() === selected.getMonth() &&
+      day === selected.getDate();
+
+    return isStartDateSelected;
+  }
+  isDaySelectedEnd(day: number | Date | null): boolean {
+    if (day instanceof Date) day = day.getDate();
+    const selected = this.selectedDateEnd();
+    const isEndDateSelected =
+      selected !== null &&
+      this.activeYear() === selected.getFullYear() &&
+      this.activeMonth() === selected.getMonth() &&
+      day === selected.getDate();
+
+    return isEndDateSelected;
+  }
+  isDayBetweenSelectedRange(day: number | Date | null): boolean {
+    if (!this.rangeSelectionMode()) return false;
+    if (day instanceof Date) day = day.getDate();
+    const selected = this.selectedDate();
+    const selectedEnd = this.selectedDateEnd();
+    if (selected === null || selectedEnd === null || selected >= selectedEnd) return false;
+    return this._isDayBetweenDates(day!, selected, selectedEnd);
+  }
+  isDayBetweenSelectedHighlighted(day: number | Date | null): boolean {
+    if (!this.rangeSelectionMode() || this.selectedDateEnd()) return false;
+    if (day instanceof Date) day = day.getDate();
+    const selected = this.selectedDate();
+    const highlightedEnd = this.highlightedDayDate();
+    if (selected === null || highlightedEnd === null || selected >= highlightedEnd) return false;
+    return this._isDayBetweenDates(day!, selected, highlightedEnd);
+  }
+  private _isDayBetweenDates(day: number, startDate: Date, endDate: Date): boolean {
+    const date = new Date(this.activeYear(), this.activeMonth(), day);
+    return date >= startDate && date <= endDate;
   }
 
   readonly currentAriaLabel = computed(() => {
@@ -287,7 +335,7 @@ export class DaysViewComponent implements AfterViewInit {
     canGoToPreviousPage: !this.isMonthOutOfRange(this.activeMonth() - 1),
     year: this.activeYear(),
     month: this.activeMonth(),
-    $implicit: new Date(this.activeYear(), this.activeMonth(), 2, 0, 0, 0, 0),  // second day of month to prevent timezone issues
+    $implicit: new Date(this.activeYear(), this.activeMonth(), 2, 0, 0, 0, 0), // second day of month to prevent timezone issues
   }));
 
   readonly weekdayContext = computed<(dayIndex: number) => CalendarWeekdayContext>(() => (dayIndex: number) => {

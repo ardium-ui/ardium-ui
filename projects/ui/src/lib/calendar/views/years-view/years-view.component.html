@@ -1,59 +1,57 @@
 <div class="ard-years-view">
   @if (!readOnly()) {
-    <div class="ard-calendar__top-toolbar">
-      <ng-template
-        #defaultYearsViewHeaderTemplate
-        let-dateRange="dateRange"
-        let-nextPage="nextPage"
-        let-prevPage="prevPage"
-        let-canGoToNextPage="canGoToNextPage"
-        let-canGoToPreviousPage="canGoToPreviousPage"
-        let-openDaysView="openDaysView"
-      >
-        <div class="ard-calendar__calendar-header">
-          <ard-button
-            class="ard-calendar__header-button"
-            appearance="transparent"
-            color="none"
-            [tabIndex]="tabIndex()"
-            (click)="openDaysView()"
-            variant="pill"
-          >
-            {{ dateRange.low | date: 'YYYY' }}
-            &mdash;
-            {{ dateRange.high | date: 'YYYY' }}
-            <div class="ard-dropdown-arrow"></div>
-          </ard-button>
-          <div class="ard-calendar-arrows">
-            <ard-icon-button
-              size="small"
-              appearance="transparent"
-              color="none"
-              (click)="prevPage()"
-              [tabIndex]="tabIndex()"
-              [disabled]="!canGoToPreviousPage"
-            >
-              <ard-icon>chevron_left</ard-icon>
-            </ard-icon-button>
-            <ard-icon-button
-              size="small"
-              appearance="transparent"
-              color="none"
-              (click)="nextPage()"
-              [tabIndex]="tabIndex()"
-              [disabled]="!canGoToNextPage"
-            >
-              <ard-icon>chevron_right</ard-icon>
-            </ard-icon-button>
-          </div>
-        </div>
-      </ng-template>
+  <div class="ard-calendar__top-toolbar">
+    <ng-template
+      #defaultYearsViewHeaderTemplate
+      let-dateRange="dateRange"
+      let-nextPage="nextPage"
+      let-prevPage="prevPage"
+      let-canGoToNextPage="canGoToNextPage"
+      let-canGoToPreviousPage="canGoToPreviousPage"
+      let-openDaysView="openDaysView"
+    >
+      <div class="ard-calendar__calendar-header">
+        <ard-icon-button
+          size="small"
+          appearance="transparent"
+          color="none"
+          (click)="prevPage()"
+          [tabIndex]="tabIndex()"
+          [disabled]="!canGoToPreviousPage"
+        >
+          <ard-icon>chevron_left</ard-icon>
+        </ard-icon-button>
+        <ard-button
+          class="ard-calendar__header-button"
+          appearance="transparent"
+          color="none"
+          [tabIndex]="tabIndex()"
+          (click)="openDaysView()"
+          variant="pill"
+        >
+          {{ dateRange.low | date : 'YYYY' }}
+          &mdash;
+          {{ dateRange.high | date : 'YYYY' }}
+          <div class="ard-dropdown-arrow"></div>
+        </ard-button>
+        <ard-icon-button
+          size="small"
+          appearance="transparent"
+          color="none"
+          (click)="nextPage()"
+          [tabIndex]="tabIndex()"
+          [disabled]="!canGoToNextPage"
+        >
+          <ard-icon>chevron_right</ard-icon>
+        </ard-icon-button>
+      </div>
+    </ng-template>
 
-      <ng-template
-        [ngTemplateOutlet]="yearsViewHeaderTemplate() || defaultYearsViewHeaderTemplate"
-        [ngTemplateOutletContext]="yearsViewHeaderContext()"
-      />
-    </div>
+    <ng-template
+      [ngTemplateOutlet]="yearsViewHeaderTemplate() || defaultYearsViewHeaderTemplate"
+      [ngTemplateOutletContext]="yearsViewHeaderContext()"
+    />
+  </div>
   }
   <div
     #focusableElement
@@ -69,38 +67,43 @@
     role="grid"
   >
     @for (year of yearsArray(); track year) {
-      <div
-        class="ard-calendar__entry"
-        [class.ard-calendar__entry-highlighted]="highlightedYear() === year.value"
-        [class.ard-calendar__entry-disabled]="year.disabled"
-        [class.ard-calendar__entry-selected]="isYearSelected(year.value)"
-        [class.ard-calendar-today]="isYearToday(year.value)"
-        (click)="onCalendarYearClick(year.value)"
-        (mousemove)="$event.stopPropagation()"
-        (mouseover)="onCalendarYearMouseover(year.value)"
-        role="gridcell"
+    <div
+      class="ard-calendar__entry"
+      [class.ard-calendar__entry-highlighted]="highlightedYear() === year.value"
+      [class.ard-calendar__entry-highlighted-in-range]="isYearBetweenSelectedHighlighted(year.value)"
+      [class.ard-calendar__entry-disabled]="year.disabled"
+      [class.ard-calendar__entry-selected]="isYearSelected(year.value)"
+      [class.ard-calendar__entry-selected-start]="isYearSelectedStart(year.value)"
+      [class.ard-calendar__entry-selected-end]="isYearSelectedEnd(year.value)"
+      [class.ard-calendar__entry-selected-in-range]="isYearBetweenSelectedRange(year.value)"
+      [class.ard-calendar-today]="isYearToday(year.value)"
+      (click)="onCalendarYearClick(year.value)"
+      (mousemove)="$event.stopPropagation()"
+      (mouseover)="onCalendarYearMouseover(year.value)"
+      role="gridcell"
+    >
+      <button
+        type="button"
+        class="ard-calendar__entry-button"
+        tabindex="-1"
+        aria-hidden="true"
       >
-        <button
-          type="button"
-          class="ard-calendar__entry-button"
-          tabindex="-1"
-          aria-hidden="true"
-        >
-          <div class="ard-focus-overlay"></div>
-          <div class="ard-button-content">
-            <ng-template
-              #defaultYearTemplate
-              let-year
-            >
-              {{ year | date: 'YYYY' }}
-            </ng-template>
-            <ng-template
-              [ngTemplateOutlet]="yearTemplate() || defaultYearTemplate"
-              [ngTemplateOutletContext]="yearContext()(year.value)"
-            />
-          </div>
-        </button>
-      </div>
+        <div class="ard-range-overlay"></div>
+        <div class="ard-focus-overlay"></div>
+        <div class="ard-button-content">
+          <ng-template
+            #defaultYearTemplate
+            let-year
+          >
+            {{ year | date : 'YYYY' }}
+          </ng-template>
+          <ng-template
+            [ngTemplateOutlet]="yearTemplate() || defaultYearTemplate"
+            [ngTemplateOutletContext]="yearContext()(year.value)"
+          />
+        </div>
+      </button>
+    </div>
     }
   </div>
 </div>

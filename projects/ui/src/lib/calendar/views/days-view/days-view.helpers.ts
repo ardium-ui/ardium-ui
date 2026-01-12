@@ -53,9 +53,11 @@ export function getCalendarDayData(
         continue;
       }
       // add the day number
+      const valueDate = new Date(year, monthIndex, currentDay);
       currentWeek.push({
         value: currentDay,
-        disabled: !!isDayOutOfRange(currentDay, monthIndex, year, min, max),
+        valueDate,
+        disabled: !!isDayOutOfRange(valueDate, min, max),
       });
     }
     calendarArray.push(currentWeek);
@@ -78,8 +80,7 @@ export function getCalendarWeekdayArray(firstWeekday = 1): number[] {
   return [0, 1, 2, 3, 4, 5, 6].map(v => (v + firstWeekday) % 7);
 }
 
-export function isDayOutOfRange(day: number, month: number, year: number, min: Date | null, max: Date | null): number {
-  const date = new Date(year, month, day);
+export function isDayOutOfRange(date: Date, min: Date | null, max: Date | null): number {
   if (isDefined(min) && date < min) return -1;
   if (isDefined(max) && date > max) return 1;
   return 0;

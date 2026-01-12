@@ -1,5 +1,5 @@
 <div class="flex horiz page-grid">
-  <div class="master">
+  <!-- <div class="master">
     <span class="title">Most basic calendar</span>
     <ard-calendar></ard-calendar>
   </div>
@@ -10,15 +10,15 @@
   <div class="master">
     <span class="title">Calendar active date</span>
     <ard-calendar
-      [activeYear]="1970"
-      [activeMonth]="0"
+      [activeYear]="1975"
+      [activeMonth]="5"
     ></ard-calendar>
-  </div>
+  </div> -->
   <div class="master">
     <span class="title">Calendar with preselected value</span>
-    <ard-calendar [selected]="selectedDate"></ard-calendar>
+    <ard-calendar [value]="selectedDate"></ard-calendar>
   </div>
-  <div class="master">
+  <!-- <div class="master">
     <span class="title">Read-only calendar</span>
     <ard-calendar readonly></ard-calendar>
   </div>
@@ -34,7 +34,7 @@
     <span class="title">Calendar events</span>
     <ard-calendar
       [(ngModel)]="eventsCalendarDate"
-      (selectedChange)="log('selectedChange', $event)"
+      (valueChange)="log('valueChange', $event)"
       (ngModelChange)="log('ngModelChange', $event)"
       (activeViewChange)="log('activeViewChange', $event)"
       (activeMonthChange)="log('activeMonthChange', $event)"
@@ -45,7 +45,7 @@
     <span class="title">Calendar events (UTC)</span>
     <ard-calendar
       [(ngModel)]="eventsCalendarDateUTC"
-      (selectedChange)="log('selectedChange', $event)"
+      (valueChange)="log('valueChange', $event)"
       (ngModelChange)="log('ngModelChange', $event)"
       (activeViewChange)="log('activeViewChange', $event)"
       (activeMonthChange)="log('activeMonthChange', $event)"
@@ -63,5 +63,5 @@
   <div class="master">
     <span class="title">Calendar filter function</span>
     <ard-calendar [filter]="filterFn"></ard-calendar>
-  </div>
+  </div> -->
 </div>

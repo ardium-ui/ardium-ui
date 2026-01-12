@@ -107,8 +107,8 @@
       [color]="color()"
       [disabled]="disabled() || calendarDisabled()"
       [tabIndex]="tabIndex()"
-      [selected]="value()"
-      (selectedChange)="onCalendarSelectedChange($event)"
+      [value]="value()"
+      (valueChange)="onCalendarSelectedChange($event)"
       (yearSelect)="yearSelect.emit($event)"
       (monthSelect)="monthSelect.emit($event)"
     >

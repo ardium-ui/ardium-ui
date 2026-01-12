@@ -45,6 +45,9 @@ export class YearsViewComponent implements AfterViewInit {
   }
 
   readonly selectedDate = input.required<Date | null>();
+  readonly selectedDateEnd = input.required<Date | null>();
+
+  readonly rangeSelectionMode = input.required<boolean>();
 
   readonly min = input.required<Date | null>();
   readonly max = input.required<Date | null>();
@@ -77,6 +80,12 @@ export class YearsViewComponent implements AfterViewInit {
   //! calendar entry hover & click
   readonly highlightedYear = input.required<number | null>();
 
+  readonly highlightedYearDate = computed<Date | null>(() => {
+    const year = this.highlightedYear();
+    if (isNull(year)) return null;
+    return new Date(year, 0, 1);
+  });
+
   onCalendarYearMouseover(year: number): void {
     if (this._isUsingKeyboard() || this.disabled() || this.readOnly()) return;
 
@@ -104,9 +113,48 @@ export class YearsViewComponent implements AfterViewInit {
   isYearToday(year: number): boolean {
     return year === TODAY.getFullYear();
   }
-  isYearSelected(year: number | Date): boolean {
+  isYearSelected(year: number | Date | null): boolean {
     if (year instanceof Date) year = year.getFullYear();
-    return this.selectedDate() !== null && year === this.selectedDate()?.getFullYear();
+    const isStartDateSelected = this.isYearSelectedStart(year);
+
+    if (this.rangeSelectionMode()) {
+      const isEndDateSelected = this.isYearSelectedEnd(year);
+      return isStartDateSelected || isEndDateSelected;
+    }
+    return isStartDateSelected;
+  }
+  isYearSelectedStart(year: number | Date | null): boolean {
+    if (year instanceof Date) year = year.getFullYear();
+    const selected = this.selectedDate();
+    const isStartDateSelected = selected !== null && year === selected.getFullYear();
+
+    return isStartDateSelected;
+  }
+  isYearSelectedEnd(year: number | Date | null): boolean {
+    if (year instanceof Date) year = year.getFullYear();
+    const selected = this.selectedDateEnd();
+    const isEndDateSelected = selected !== null && year === selected.getFullYear();
+
+    return isEndDateSelected;
+  }
+  isYearBetweenSelectedRange(year: number | Date | null): boolean {
+    if (!this.rangeSelectionMode()) return false;
+    if (year instanceof Date) year = year.getFullYear();
+    const selected = this.selectedDate();
+    const selectedEnd = this.selectedDateEnd();
+    if (selected === null || selectedEnd === null || selected >= selectedEnd) return false;
+    return this._isYearBetweenDates(year!, selected, selectedEnd);
+  }
+  isYearBetweenSelectedHighlighted(year: number | Date | null): boolean {
+    if (!this.rangeSelectionMode() || this.selectedDateEnd()) return false;
+    if (year instanceof Date) year = year.getFullYear();
+    const selected = this.selectedDate();
+    const highlightedEnd = this.highlightedYearDate();
+    if (selected === null || highlightedEnd === null || selected >= highlightedEnd) return false;
+    return this._isYearBetweenDates(year!, selected, highlightedEnd);
+  }
+  private _isYearBetweenDates(year: number, startDate: Date, endDate: Date): boolean {
+    return startDate.getFullYear() <= year && endDate.getFullYear() >= year;
   }
   isYearOutOfRange(year: number): number {
     return isYearOutOfRange(year, this.min(), this.max());

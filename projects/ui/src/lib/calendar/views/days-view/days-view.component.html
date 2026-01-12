@@ -11,6 +11,16 @@
       let-openYearsView="openYearsView"
     >
       <div class="ard-calendar__calendar-header">
+        <ard-icon-button
+          size="small"
+          appearance="transparent"
+          color="none"
+          (click)="prevMonth()"
+          [tabIndex]="tabIndex()"
+          [disabled]="!canGoToPreviousMonth"
+        >
+          <ard-icon>chevron_left</ard-icon>
+        </ard-icon-button>
         <ard-button
           class="ard-calendar__header-button"
           appearance="transparent"
@@ -22,28 +32,16 @@
           {{ currDate | date : 'MMM YYYY' | uppercase }}
           <div class="ard-dropdown-arrow"></div>
         </ard-button>
-        <div class="ard-calendar__arrows">
-          <ard-icon-button
-            size="small"
-            appearance="transparent"
-            color="none"
-            (click)="prevMonth()"
-            [tabIndex]="tabIndex()"
-            [disabled]="!canGoToPreviousMonth"
-          >
-            <ard-icon>chevron_left</ard-icon>
-          </ard-icon-button>
-          <ard-icon-button
-            size="small"
-            appearance="transparent"
-            color="none"
-            (click)="nextMonth()"
-            [tabIndex]="tabIndex()"
-            [disabled]="!canGoToNextMonth"
-          >
-            <ard-icon>chevron_right</ard-icon>
-          </ard-icon-button>
-        </div>
+        <ard-icon-button
+          size="small"
+          appearance="transparent"
+          color="none"
+          (click)="nextMonth()"
+          [tabIndex]="tabIndex()"
+          [disabled]="!canGoToNextMonth"
+        >
+          <ard-icon>chevron_right</ard-icon>
+        </ard-icon-button>
       </div>
     </ng-template>
 
@@ -69,7 +67,7 @@
     <ng-template
       [ngTemplateOutlet]="weekdayTemplate() || defaultWeekdayTemplate"
       [ngTemplateOutletContext]="weekdayContext()(weekdayIndex)"
-    ></ng-template>
+    />
     }
   </div>
   <div
@@ -99,7 +97,7 @@
       <ng-template
         [ngTemplateOutlet]="floatingMonthTemplate() || defaultFloatingMonthTemplate"
         [ngTemplateOutletContext]="floatingMonthContext()"
-      ></ng-template>
+      />
     </div>
     @for (week of activeCalendarData().array; track $index) { @for (day of week; track day ? day :
     activeCalendarData().leadingSpaces - $index) { @if (day === null) {
@@ -108,8 +106,12 @@
     <div
       class="ard-calendar__entry"
       [class.ard-calendar__entry-highlighted]="highlightedDay() === day.value"
+      [class.ard-calendar__entry-highlighted-in-range]="isDayBetweenSelectedHighlighted(day.value)"
       [class.ard-calendar__entry-disabled]="day.disabled || isDayFilteredOut()(day.value)"
       [class.ard-calendar__entry-selected]="isDaySelected(day.value)"
+      [class.ard-calendar__entry-selected-start]="isDaySelectedStart(day.value)"
+      [class.ard-calendar__entry-selected-end]="isDaySelectedEnd(day.value)"
+      [class.ard-calendar__entry-selected-in-range]="isDayBetweenSelectedRange(day.value)"
       [class.ard-calendar-today]="isDayToday(day.value)"
       (click)="onCalendarDayClick(day.value)"
       (mousemove)="$event.stopPropagation()"
@@ -117,6 +119,7 @@
       role="gridcell"
     >
       <div class="ard-calendar__entry-button">
+        <div class="ard-range-overlay"></div>
         <div class="ard-focus-overlay"></div>
         <div class="ard-button-content">
           <ng-template
