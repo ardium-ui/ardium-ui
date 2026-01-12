@@ -149,6 +149,17 @@ $grid-size: 2.5rem;
         border-top-color: var(--ard-cmpcl--bg-colored);
         border-bottom-color: var(--ard-cmpcl--bg-colored);
       }
+      &.ard-calendar__entry-selected-start {
+        .ard-range-overlay {
+          border-left-color: var(--ard-cmpcl--bg-colored);
+        }
+      }
+      &.ard-calendar__entry-selected-end,
+      &.ard-calendar__entry-highlighted {
+        .ard-range-overlay {
+          border-right-color: var(--ard-cmpcl--bg-colored);
+        }
+      }
     }
     &.ard-calendar__entry-highlighted {
       .ard-focus-overlay {
@@ -158,15 +169,14 @@ $grid-size: 2.5rem;
     &.ard-calendar__entry-selected-start {
       .ard-range-overlay {
         left: 0;
-        border-left-color: var(--ard-cmpcl--bg-colored);
         border-top-left-radius: 9999px;
         border-bottom-left-radius: 9999px;
       }
     }
-    &.ard-calendar__entry-selected-end {
+    &.ard-calendar__entry-selected-end,
+    &.ard-calendar__entry-highlighted {
       .ard-range-overlay {
         right: 0;
-        border-right-color: var(--ard-cmpcl--bg-colored);
         border-top-right-radius: 9999px;
         border-bottom-right-radius: 9999px;
       }
