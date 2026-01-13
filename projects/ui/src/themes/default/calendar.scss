@@ -13,9 +13,10 @@ $grid-size: 2.5rem;
   //! top toolbar
   .ard-calendar__top-toolbar {
     .ard-calendar__calendar-header {
-      display: flex;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: 1fr 5fr 1fr;
       align-items: center;
+      justify-items: center;
       width: 100%;
       padding: 0.75rem 0;
 
@@ -53,9 +54,11 @@ $grid-size: 2.5rem;
     outline: none;
 
     > * {
-      max-width: 100%;
+      width: $grid-size;
+      max-width: $grid-size;
+      height: $grid-size;
+      max-height: $grid-size;
       box-sizing: border-box;
-      aspect-ratio: 1;
     }
     &.ard-reserve-top-row {
       padding-top: $grid-size;
@@ -79,7 +82,6 @@ $grid-size: 2.5rem;
   //! years grid
   .ard-calendar__simple-grid {
     border-top: 1px solid ARD.$detail-ultralight;
-    margin-top: 0.25rem;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(6, $grid-size);

@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { isNull } from 'simple-bool';
 import { getDateComponents } from '../../../_internal/utils/date.utils';
-import { CalendarMonthContext, CalendarMonthsViewHeaderContext } from '../../calendar.types';
+import { ArdMultiCalendarLocation, CalendarMonthContext, CalendarMonthsViewHeaderContext } from '../../calendar.types';
 import { isYearOutOfRange } from '../years-view/years-view.helpers';
 import { ComponentColor } from './../../../types/colors.types';
 import { getCalendarMonthsArray } from './months-view.helpers';
@@ -61,6 +61,8 @@ export class MonthsViewComponent implements AfterViewInit {
 
   readonly min = input.required<Date | null>();
   readonly max = input.required<Date | null>();
+
+  readonly multiCalendarLocation = input.required<ArdMultiCalendarLocation>();
 
   readonly monthsArray = computed(() => getCalendarMonthsArray(this.activeYear(), this.min(), this.max()));
 
@@ -240,16 +242,15 @@ export class MonthsViewComponent implements AfterViewInit {
   isMonthSelectedStart(month: number | Date | null): boolean {
     if (month instanceof Date) month = month.getMonth();
     const selected = this.selectedDate();
-    const { year, month: selectedMonth} = getDateComponents(selected, this.UTC());
-    const isStartDateSelected =
-      selected !== null && this.activeYear() === year && month === selectedMonth;
+    const { year, month: selectedMonth } = getDateComponents(selected, this.UTC());
+    const isStartDateSelected = selected !== null && this.activeYear() === year && month === selectedMonth;
 
     return isStartDateSelected;
   }
   isMonthSelectedEnd(month: number | Date | null): boolean {
     if (month instanceof Date) month = month.getMonth();
     const selected = this.selectedDateEnd();
-    const { year, month: selectedMonth} = getDateComponents(selected, this.UTC());
+    const { year, month: selectedMonth } = getDateComponents(selected, this.UTC());
     const isEndDateSelected = selected !== null && this.activeYear() === year && month === selectedMonth;
 
     return isEndDateSelected;
@@ -273,12 +274,7 @@ export class MonthsViewComponent implements AfterViewInit {
   private _isMonthBetweenDates(month: number, startDate: Date, endDate: Date): boolean {
     const { year: startYear, month: startMonth } = getDateComponents(startDate, this.UTC());
     const { year: endYear, month: endMonth } = getDateComponents(endDate, this.UTC());
-    return (
-      startYear <= this.activeYear() &&
-      startMonth <= month &&
-      endYear >= this.activeYear() &&
-      endMonth >= month
-    );
+    return startYear <= this.activeYear() && startMonth <= month && endYear >= this.activeYear() && endMonth >= month;
   }
   isYearOutOfRange(year: number): number {
     return isYearOutOfRange(year, this.min(), this.max());
@@ -305,6 +301,12 @@ export class MonthsViewComponent implements AfterViewInit {
       },
       canGoToNextPage: !this.isYearOutOfRange(this.activeYear() + 1),
       canGoToPreviousPage: !this.isYearOutOfRange(this.activeYear() - 1),
+      hideNextPageButton:
+        this.multiCalendarLocation() === ArdMultiCalendarLocation.Left ||
+        this.multiCalendarLocation() === ArdMultiCalendarLocation.Inner,
+      hidePreviousPageButton:
+        this.multiCalendarLocation() === ArdMultiCalendarLocation.Right ||
+        this.multiCalendarLocation() === ArdMultiCalendarLocation.Inner,
       year: this.activeYear(),
       date: new Date(this.activeYear(), 0, 1),
       $implicit: this.activeYear(),

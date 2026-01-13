@@ -1,7 +1,7 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { _FormFieldComponentDefaults, _formFieldComponentDefaults } from '../_internal/form-field-component';
 import { ComponentColor } from '../types/colors.types';
-import { ArdCalendarFilterFn, ArdCalendarView } from './calendar.types';
+import { ArdCalendarFilterFn, ArdCalendarView, ArdMultiCalendarLocation } from './calendar.types';
 
 export interface ArdCalendarDefaults extends _FormFieldComponentDefaults {
   color: ComponentColor;
@@ -11,6 +11,8 @@ export interface ArdCalendarDefaults extends _FormFieldComponentDefaults {
   firstWeekday: number;
   multipleYearPageChangeModifier: number;
   autoFocus: boolean;
+  onlyDaySelection: boolean;
+  multiCalendarLocation: ArdMultiCalendarLocation;
   min: Date | null;
   max: Date | null;
   filter: ArdCalendarFilterFn | null;
@@ -26,6 +28,8 @@ const _calendarDefaults: ArdCalendarDefaults = {
   firstWeekday: 1,
   multipleYearPageChangeModifier: 5,
   autoFocus: false,
+  onlyDaySelection: false,
+  multiCalendarLocation: ArdMultiCalendarLocation.Only,
   min: null,
   max: null,
   filter: null,

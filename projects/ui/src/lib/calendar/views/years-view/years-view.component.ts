@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { isNull } from 'simple-bool';
 import { getDateComponents } from '../../../_internal/utils/date.utils';
-import { CalendarYearContext, CalendarYearsViewHeaderContext, DateRange, YearRange } from '../../calendar.types';
+import { ArdMultiCalendarLocation, CalendarYearContext, CalendarYearsViewHeaderContext, DateRange, YearRange } from '../../calendar.types';
 import { getCalendarYearsArray, isYearOutOfRange } from './years-view.helpers';
 
 const TODAY = new Date();
@@ -54,6 +54,8 @@ export class YearsViewComponent implements AfterViewInit {
 
   readonly min = input.required<Date | null>();
   readonly max = input.required<Date | null>();
+
+  readonly multiCalendarLocation = input.required<ArdMultiCalendarLocation>();
 
   readonly currentYearRangeStart = input.required<number>();
   readonly yearsArray = computed(() => getCalendarYearsArray(this.currentYearRangeStart(), 24, this.min(), this.max()));
@@ -281,7 +283,7 @@ export class YearsViewComponent implements AfterViewInit {
     const yearRangeEnd = yearRangeStart + 23;
     const dateRange: DateRange = new DateRange(
       new Date(yearRangeStart, 0, 2), // second day of month to prevent timezone issues
-      new Date(yearRangeEnd, 0, 2),
+      new Date(yearRangeEnd, 0, 2)
     );
     const yearRange: YearRange = {
       from: yearRangeStart,
@@ -302,6 +304,12 @@ export class YearsViewComponent implements AfterViewInit {
       },
       canGoToNextPage: !this.isYearOutOfRange(yearRangeEnd + 1),
       canGoToPreviousPage: !this.isYearOutOfRange(yearRangeStart - 1),
+      hideNextPageButton:
+        this.multiCalendarLocation() === ArdMultiCalendarLocation.Left ||
+        this.multiCalendarLocation() === ArdMultiCalendarLocation.Inner,
+      hidePreviousPageButton:
+        this.multiCalendarLocation() === ArdMultiCalendarLocation.Right ||
+        this.multiCalendarLocation() === ArdMultiCalendarLocation.Inner,
       yearRange: yearRange,
       dateRange,
       $implicit: dateRange,

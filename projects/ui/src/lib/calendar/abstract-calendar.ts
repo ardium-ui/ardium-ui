@@ -32,7 +32,7 @@ import {
   ArdCalendarYearTemplateDirective,
 } from './calendar.directives';
 import { _CalendarTemplateRepositoryDirective } from './calendar.internal-directives';
-import { ArdCalendarFilterFn, ArdCalendarView } from './calendar.types';
+import { ArdCalendarFilterFn, ArdCalendarView, ArdMultiCalendarLocation } from './calendar.types';
 import { isDayOutOfRange } from './views/days-view/days-view.helpers';
 import { isMonthOutOfRange } from './views/months-view/months-view.helpers';
 import { isYearOutOfRange } from './views/years-view/years-view.helpers';
@@ -114,9 +114,12 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
     },
   });
 
-  readonly autoFocus = input<boolean, BooleanLike>(this._DEFAULTS.autoFocus, { transform: v => coerceBooleanProperty(v) });
+  readonly multiCalendarLocation = input<ArdMultiCalendarLocation>(this._DEFAULTS.multiCalendarLocation);
 
-  readonly onlyDaySelection = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly autoFocus = input<boolean, BooleanLike>(this._DEFAULTS.autoFocus, { transform: v => coerceBooleanProperty(v) });
+  readonly staticHeight = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
+
+  readonly onlyDaySelection = input<boolean, BooleanLike>(this._DEFAULTS.onlyDaySelection, { transform: v => coerceBooleanProperty(v) });
 
   onTriggerOpenDaysView(): void {
     this.activeView.set(ArdCalendarView.Days);

@@ -64,4 +64,13 @@
     <span class="title">Calendar filter function</span>
     <ard-calendar [filter]="filterFn"></ard-calendar>
   </div>
+  <div class="master"></div>
+  <div class="master" style="grid-column: 1 / span 3">
+    <span class="title">Multiple calendars strung together</span>
+    <div class="flex horiz">
+      <ard-calendar multiCalendarLocation="left"></ard-calendar>
+      <ard-calendar multiCalendarLocation="inner"></ard-calendar>
+      <ard-calendar multiCalendarLocation="right"></ard-calendar>
+    </div>
+  </div>
 </div>

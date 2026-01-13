@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { createDate, getDateComponents } from '../../../_internal/utils/date.utils';
 import {
+  ArdMultiCalendarLocation,
   CalendarDayContext,
   CalendarDaysViewHeaderContext,
   CalendarFloatingMonthContext,
@@ -64,6 +65,8 @@ export class DaysViewComponent implements AfterViewInit {
   readonly min = input.required<Date | null>();
   readonly max = input.required<Date | null>();
 
+  readonly multiCalendarLocation = input.required<ArdMultiCalendarLocation>();
+
   readonly isDayFilteredOut = input.required<(day: number, month?: number, year?: number) => boolean>();
 
   readonly highlightedDay = input.required<number | null>();
@@ -83,10 +86,12 @@ export class DaysViewComponent implements AfterViewInit {
 
   //! calendar data
   readonly firstWeekday = input.required<number>();
+  readonly staticHeight = input.required<boolean>();
 
   readonly activeCalendarData = computed(() =>
-    getCalendarDayData(this.activeYear(), this.activeMonth(), this.firstWeekday(), this.min(), this.max())
+    getCalendarDayData(this.activeYear(), this.activeMonth(), this.firstWeekday(), this.min(), this.max(), this.staticHeight())
   );
+  
   readonly reserveTopRow = computed<boolean>(() => this.activeCalendarData().leadingSpaces < 3);
 
   readonly weekdayArray = computed(() => getCalendarWeekdayArray(this.firstWeekday()));
@@ -330,6 +335,12 @@ export class DaysViewComponent implements AfterViewInit {
     },
     canGoToNextPage: !this.isMonthOutOfRange(this.activeMonth() + 1),
     canGoToPreviousPage: !this.isMonthOutOfRange(this.activeMonth() - 1),
+    hideNextPageButton:
+      this.multiCalendarLocation() === ArdMultiCalendarLocation.Left ||
+      this.multiCalendarLocation() === ArdMultiCalendarLocation.Inner,
+    hidePreviousPageButton:
+      this.multiCalendarLocation() === ArdMultiCalendarLocation.Right ||
+      this.multiCalendarLocation() === ArdMultiCalendarLocation.Inner,
     year: this.activeYear(),
     month: this.activeMonth(),
     $implicit: new Date(this.activeYear(), this.activeMonth(), 2, 0, 0, 0, 0), // second day of month to prevent timezone issues

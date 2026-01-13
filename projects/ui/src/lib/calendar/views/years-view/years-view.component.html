@@ -8,19 +8,25 @@
       let-prevPage="prevPage"
       let-canGoToNextPage="canGoToNextPage"
       let-canGoToPreviousPage="canGoToPreviousPage"
+      let-hideNextPageButton="hideNextPageButton"
+      let-hidePreviousPageButton="hidePreviousPageButton"
       let-openDaysView="openDaysView"
     >
       <div class="ard-calendar__calendar-header">
-        <ard-icon-button
-          size="small"
-          appearance="transparent"
-          color="none"
-          (click)="prevPage()"
-          [tabIndex]="tabIndex()"
-          [disabled]="!canGoToPreviousPage"
-        >
-          <ard-icon>chevron_left</ard-icon>
-        </ard-icon-button>
+        <div>
+          @if (!hidePreviousPageButton) {
+          <ard-icon-button
+            size="small"
+            appearance="transparent"
+            color="none"
+            (click)="prevPage()"
+            [tabIndex]="tabIndex()"
+            [disabled]="!canGoToPreviousPage"
+          >
+            <ard-icon>chevron_left</ard-icon>
+          </ard-icon-button>
+          }
+        </div>
         <ard-button
           class="ard-calendar__header-button"
           appearance="transparent"
@@ -34,16 +40,20 @@
           {{ dateRange.to | date : 'YYYY' }}
           <div class="ard-dropdown-arrow"></div>
         </ard-button>
-        <ard-icon-button
-          size="small"
-          appearance="transparent"
-          color="none"
-          (click)="nextPage()"
-          [tabIndex]="tabIndex()"
-          [disabled]="!canGoToNextPage"
-        >
-          <ard-icon>chevron_right</ard-icon>
-        </ard-icon-button>
+        <div>
+          @if (!hideNextPageButton) {
+          <ard-icon-button
+            size="small"
+            appearance="transparent"
+            color="none"
+            (click)="nextPage()"
+            [tabIndex]="tabIndex()"
+            [disabled]="!canGoToNextPage"
+          >
+            <ard-icon>chevron_right</ard-icon>
+          </ard-icon-button>
+          }
+        </div>
       </div>
     </ng-template>
 

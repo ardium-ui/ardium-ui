@@ -24,7 +24,8 @@ export function getCalendarDayData(
   monthIndex: number,
   firstWeekday = 1,
   min: Date | null,
-  max: Date | null
+  max: Date | null,
+  fillUpTo6Weeks: boolean,
 ): CalendarData {
   firstWeekday %= 7;
 
@@ -61,7 +62,7 @@ export function getCalendarDayData(
       });
     }
     calendarArray.push(currentWeek);
-    if (currentDay > lastDay) {
+    if ((!fillUpTo6Weeks || firstDayWeekday < 3) && currentDay > lastDay) {
       totalWeeks = week + 1;
       break;
     }

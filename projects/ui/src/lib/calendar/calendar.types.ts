@@ -5,6 +5,14 @@ export const ArdCalendarView = {
 } as const;
 export type ArdCalendarView = (typeof ArdCalendarView)[keyof typeof ArdCalendarView];
 
+export const ArdMultiCalendarLocation = {
+  Only: 'only',
+  Left: 'left',
+  Inner: 'inner',
+  Right: 'right',
+} as const;
+export type ArdMultiCalendarLocation = typeof ArdMultiCalendarLocation[keyof typeof ArdMultiCalendarLocation];
+
 export class DateRange {
   constructor(public from: Date, public to: Date) {}
 }
@@ -24,6 +32,8 @@ export interface CalendarYearsViewHeaderContext {
   openDaysView: () => void;
   canGoToNextPage: boolean;
   canGoToPreviousPage: boolean;
+  hideNextPageButton: boolean;
+  hidePreviousPageButton: boolean;
   yearRange: YearRange;
   dateRange: DateRange;
   $implicit: DateRange;
@@ -36,6 +46,8 @@ export interface CalendarMonthsViewHeaderContext {
   openYearsView: () => void;
   canGoToNextPage: boolean;
   canGoToPreviousPage: boolean;
+  hideNextPageButton: boolean;
+  hidePreviousPageButton: boolean;
   year: number;
   date: Date;
   $implicit: number;
@@ -50,6 +62,8 @@ export interface CalendarDaysViewHeaderContext {
   openMonthsView: () => void;
   canGoToNextPage: boolean;
   canGoToPreviousPage: boolean;
+  hideNextPageButton: boolean;
+  hidePreviousPageButton: boolean;
   year: number;
   month: number;
   $implicit: Date;

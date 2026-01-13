@@ -8,19 +8,25 @@
       let-prevMonth="prevMonth"
       let-canGoToNextMonth="canGoToNextPage"
       let-canGoToPreviousMonth="canGoToPreviousPage"
+      let-hideNextPageButton="hideNextPageButton"
+      let-hidePreviousPageButton="hidePreviousPageButton"
       let-openYearsView="openYearsView"
     >
       <div class="ard-calendar__calendar-header">
-        <ard-icon-button
-          size="small"
-          appearance="transparent"
-          color="none"
-          (click)="prevMonth()"
-          [tabIndex]="tabIndex()"
-          [disabled]="!canGoToPreviousMonth"
-        >
-          <ard-icon>chevron_left</ard-icon>
-        </ard-icon-button>
+        <div>
+          @if (!hidePreviousPageButton) {
+          <ard-icon-button
+            size="small"
+            appearance="transparent"
+            color="none"
+            (click)="prevMonth()"
+            [tabIndex]="tabIndex()"
+            [disabled]="!canGoToPreviousMonth"
+          >
+            <ard-icon>chevron_left</ard-icon>
+          </ard-icon-button>
+          }
+        </div>
         <ard-button
           class="ard-calendar__header-button"
           appearance="transparent"
@@ -32,16 +38,20 @@
           {{ currDate | date : 'MMM YYYY' | uppercase }}
           <div class="ard-dropdown-arrow"></div>
         </ard-button>
-        <ard-icon-button
-          size="small"
-          appearance="transparent"
-          color="none"
-          (click)="nextMonth()"
-          [tabIndex]="tabIndex()"
-          [disabled]="!canGoToNextMonth"
-        >
-          <ard-icon>chevron_right</ard-icon>
-        </ard-icon-button>
+        <div>
+          @if (!hideNextPageButton) {
+          <ard-icon-button
+            size="small"
+            appearance="transparent"
+            color="none"
+            (click)="nextMonth()"
+            [tabIndex]="tabIndex()"
+            [disabled]="!canGoToNextMonth"
+          >
+            <ard-icon>chevron_right</ard-icon>
+          </ard-icon-button>
+          }
+        </div>
       </div>
     </ng-template>
 
