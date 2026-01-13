@@ -1,6 +1,6 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { _FormFieldComponentDefaults, _formFieldComponentDefaults } from '../../_internal/form-field-component';
-import { ArdCalendarFilterFn, ArdCalendarView } from '../../calendar/calendar.types';
+import { ArdCalendarFilterFn, ArdCalendarView, DateRange } from '../../calendar/calendar.types';
 import { DropdownPanelAppearance, DropdownPanelVariant } from '../../dropdown-panel';
 import { ComponentColor } from '../../types/colors.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
@@ -11,8 +11,9 @@ import { ArdDateInputDeserializeFn, ArdDateInputMinMaxStrategy, ArdDateInputSeri
 export interface ArdDateInputDefaults extends _FormFieldComponentDefaults {
   inputAttrs: Record<string, any>;
   placeholder: string;
-  serializeFn: ArdDateInputSerializeFn;
-  deserializeFn: ArdDateInputDeserializeFn;
+  serializeFn: ArdDateInputSerializeFn<Date>;
+  rangeSerializeFn: ArdDateInputSerializeFn<DateRange>;
+  deserializeFn: ArdDateInputDeserializeFn<Date>;
   appearance: FormElementAppearance;
   variant: FormElementVariant;
   color: ComponentColor;
@@ -36,8 +37,9 @@ export interface ArdDateInputDefaults extends _FormFieldComponentDefaults {
 const _dateInputDefaults: ArdDateInputDefaults = {
   ..._formFieldComponentDefaults,
   inputAttrs: {},
-  placeholder: 'Choose a date',
+  placeholder: '',
   serializeFn: DEFAULT_DATE_INPUT_SERIALIZE_FN,
+  rangeSerializeFn: () => 'ARDIUM-UI-ERROR: No range serialize function defined.',
   deserializeFn: DEFAULT_DATE_INPUT_DESERIALIZE_FN,
   appearance: FormElementAppearance.Outlined,
   variant: FormElementVariant.Rounded,

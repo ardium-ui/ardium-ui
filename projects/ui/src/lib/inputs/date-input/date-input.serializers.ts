@@ -1,6 +1,6 @@
 import { ArdDateInputDeserializeFn, ArdDateInputSerializeFn } from './date-input.types';
 
-export const DEFAULT_DATE_INPUT_SERIALIZE_FN: ArdDateInputSerializeFn = (value: Date | null) => {
+export const DEFAULT_DATE_INPUT_SERIALIZE_FN: ArdDateInputSerializeFn<Date> = (value: Date | null) => {
   if (value instanceof Date) {
     return `${value.getDate().toString().padStart(2, '0')}/${(value.getMonth() + 1)
       .toString()
@@ -9,7 +9,7 @@ export const DEFAULT_DATE_INPUT_SERIALIZE_FN: ArdDateInputSerializeFn = (value: 
   return '';
 };
 
-export const DEFAULT_DATE_INPUT_DESERIALIZE_FN: ArdDateInputDeserializeFn = (
+export const DEFAULT_DATE_INPUT_DESERIALIZE_FN: ArdDateInputDeserializeFn<Date> = (
   value: string,
   prevValue: Date | null
 ): Date | null => {

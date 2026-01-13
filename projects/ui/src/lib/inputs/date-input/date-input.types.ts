@@ -1,8 +1,9 @@
-export type ArdDateInputSerializeFn = (date: Date | null) => string;
-export type ArdDateInputDeserializeFn = (date: string, prevValue: Date | null) => Date | null;
+export type ArdDateInputSerializeFn<T> = (date: T | null) => string;
+export type ArdDateInputDeserializeFn<T> = (date: string, prevValue: T | null) => T | null;
 
-export interface ArdDateInputValueContext {
-  $implicit: Date | null;
+export interface ArdDateInputValueContext<T> {
+  $implicit: string;
+  rawValue: T | null;
 }
 
 export interface ArdDateInputAcceptButtonsContext {

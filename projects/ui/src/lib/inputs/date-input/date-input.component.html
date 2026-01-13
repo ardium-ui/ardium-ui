@@ -15,6 +15,7 @@
     (click)="onGeneralClick($event)"
     [class.ard-has-value]="!!value()"
     [ngClass]="ngClasses()"
+    [class.ard-date-input__date-input-focused]="isDateInputFocused()"
   >
     <div class="ard-date-input__value-container ard-input-container">
       <div
@@ -31,7 +32,7 @@
           #defaultValueTemplate
           let-date
         >
-          {{ serializeFn()(date) }}
+          {{ date }}
         </ng-template>
 
         <ng-template

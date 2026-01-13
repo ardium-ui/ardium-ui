@@ -12,7 +12,7 @@ import {
   output,
   Signal,
   signal,
-  SimpleChanges,
+  SimpleChanges
 } from '@angular/core';
 import { BooleanLike, coerceBooleanProperty, coerceDateProperty, coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
 import { roundFromZero, roundToMultiple } from 'more-rounding';
@@ -58,10 +58,6 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
           this.valueInternalStart.set(this._createDate(value.getFullYear(), value.getMonth(), value.getDate()));
         }
       }
-    });
-    effect(() => {
-      this.value(); // trigger effect
-      this._emitChange();
     });
   }
 

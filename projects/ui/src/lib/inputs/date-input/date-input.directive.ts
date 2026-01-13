@@ -16,7 +16,7 @@ export class ArdDateInputSuffixTemplateDirective {
 
 @Directive({ standalone: false, selector: 'ard-date-input > ng-template[ard-value-tmp]' })
 export class ArdDateInputValueTemplateDirective {
-  constructor(public template: TemplateRef<ArdDateInputValueContext>) {}
+  constructor(public template: TemplateRef<ArdDateInputValueContext<Date>>) {}
 }
 
 @Directive({ standalone: false, selector: 'ard-date-input > ng-template[ard-date-input-icon-tmp]' })

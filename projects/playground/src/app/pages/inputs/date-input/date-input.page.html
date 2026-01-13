@@ -12,7 +12,22 @@
 </div>
 <div class="flex horiz main-container">
   <div class="master">
-    <span class="title">Date input with starting view as year selector</span>
+    <span class="title">Date input with starting view as years selector</span>
     <ard-date-input startView="years" />
+  </div>
+</div>
+<div class="flex horiz main-container">
+  <div class="master">
+    <span class="title">Date input working as month only selector</span>
+    <ard-date-input
+      #dateInput
+      startView="years"
+      (isOpenChange)="log('isOpenChange', $event)"
+      (yearSelect)="selectedYear.set($event)"
+      (monthSelect)="onMonthSelect($event, dateInput)"
+      [value]="yearMonthValue()"
+      [serializeFn]="yearMonthSerializer"
+      inputReadOnly
+    />
   </div>
 </div>

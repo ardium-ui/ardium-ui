@@ -38,6 +38,7 @@ export class ArdiumCalendarComponent extends _AbstractCalendar<Date> {
         return;
       }
       this.value.set(v);
+      this._emitChange();
     });
   }
 

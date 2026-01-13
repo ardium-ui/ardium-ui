@@ -40,6 +40,7 @@ export class ArdiumRangeCalendarComponent extends _AbstractCalendar<DateRange> {
         return;
       }
       this.value.set(new DateRange(start, end));
+      this._emitChange();
     });
     effect(() => {
       const start = this.valueInternalStart();
