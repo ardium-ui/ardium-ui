@@ -279,10 +279,10 @@ export class YearsViewComponent implements AfterViewInit {
   readonly yearsViewHeaderContext = computed<CalendarYearsViewHeaderContext>(() => {
     const yearRangeStart = this.currentYearRangeStart();
     const yearRangeEnd = yearRangeStart + 23;
-    const dateRange: DateRange = {
-      from: new Date(yearRangeStart, 0, 2), // second day of month to prevent timezone issues
-      to: new Date(yearRangeEnd, 0, 2),
-    };
+    const dateRange: DateRange = new DateRange(
+      new Date(yearRangeStart, 0, 2), // second day of month to prevent timezone issues
+      new Date(yearRangeEnd, 0, 2),
+    );
     const yearRange: YearRange = {
       from: yearRangeStart,
       to: yearRangeEnd,

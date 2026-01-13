@@ -13,7 +13,7 @@ export * from './lib/select'; // 000
 // export * from './lib/inputs/color-input'; // 006
 export * from './lib/file-inputs/file-drop-area'; // 010
 export * from './lib/file-inputs/file-input'; // 011
-export * from './lib/inputs/date-input'; // 008
+export * from './lib/inputs/date-input'; // 008 & 009
 export * from './lib/inputs/hex-input'; // 016
 export * from './lib/inputs/number-input'; // 007
 
@@ -33,7 +33,7 @@ export * from './lib/star/star-button'; // 107
 export * from './lib/statebox'; // 109
 
 //! component group 2 - pickers
-export * from './lib/calendar'; // 200 & (future: 201)
+export * from './lib/calendar'; // 200 & 201
 // export * from './lib/color/color-picker'; // 202
 
 //! component group 3 - lists

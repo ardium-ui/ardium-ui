@@ -5,9 +5,8 @@ export const ArdCalendarView = {
 } as const;
 export type ArdCalendarView = (typeof ArdCalendarView)[keyof typeof ArdCalendarView];
 
-export interface DateRange {
-  from: Date;
-  to: Date;
+export class DateRange {
+  constructor(public from: Date, public to: Date) {}
 }
 
 export interface YearRange {

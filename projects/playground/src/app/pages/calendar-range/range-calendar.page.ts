@@ -9,7 +9,7 @@ import { Logger } from '../../services/logger.service';
   styleUrls: ['./range-calendar.page.scss'],
 })
 export class RangeCalendarPage {
-  selectedDate: DateRange = { from: new Date(), to: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 5) };
+  selectedDate: DateRange = new DateRange(new Date(), new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 5));
 
   eventsCalendarDate: DateRange | null = null;
   eventsCalendarDateUTC: DateRange | null = null;

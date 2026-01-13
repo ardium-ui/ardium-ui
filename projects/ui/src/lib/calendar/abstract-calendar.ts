@@ -53,7 +53,7 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
       if (isDefined(value)) {
         if (this._isHoursSetInDate(value)) {
           console.warn(
-            `ARD-W${this.componentId}: <ard-${this.componentName}> value contains time information (HH:MM:SS.ms). This will be ignored and only the date part will be used.`
+            `ARD-W${this.componentId}5: <ard-${this.componentName}> value contains time information (HH:MM:SS.ms). This will be ignored and only the date part will be used.`
           );
           this.valueInternalStart.set(this._createDate(value.getFullYear(), value.getMonth(), value.getDate()));
         }

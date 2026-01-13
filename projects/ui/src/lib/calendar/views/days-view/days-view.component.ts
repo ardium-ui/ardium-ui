@@ -71,7 +71,7 @@ export class DaysViewComponent implements AfterViewInit {
   readonly highlightedDayDate = computed<Date | null>(() => {
     const day = this.highlightedDay();
     if (day === null) return null;
-    return new Date(this.activeYear(), this.activeMonth(), day);
+    return createDate(this.activeYear(), this.activeMonth(), day, this.UTC());
   });
 
   //! focusing

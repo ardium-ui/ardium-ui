@@ -311,7 +311,7 @@ export class ArdiumDateInputComponent extends _FormFieldComponentBase implements
         this._UTCAfterInit.set(changes['UTC'].currentValue);
       } else {
         console.error(
-          `ARD-NF2003: <ard-calendar>'s [UTC] attribute should not be changed dynamically. This change will be ignored.`
+          `ARD-NF0084: <ard-date-input>'s [UTC] attribute should not be changed dynamically. This change will be ignored.`
         );
       }
     }

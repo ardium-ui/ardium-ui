@@ -174,7 +174,7 @@ $grid-size: 2.5rem;
       }
     }
     &.ard-calendar__entry-selected-end,
-    &.ard-calendar__entry-highlighted {
+    &.ard-calendar__entry-highlighted:not(.ard-calendar__entry-selected-in-range) {
       .ard-range-overlay {
         right: 0;
         border-top-right-radius: 9999px;
