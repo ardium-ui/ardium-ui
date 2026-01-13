@@ -11,6 +11,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { isNull } from 'simple-bool';
+import { getDateComponents } from '../../../_internal/utils/date.utils';
 import { CalendarMonthContext, CalendarMonthsViewHeaderContext } from '../../calendar.types';
 import { isYearOutOfRange } from '../years-view/years-view.helpers';
 import { ComponentColor } from './../../../types/colors.types';
@@ -55,6 +56,8 @@ export class MonthsViewComponent implements AfterViewInit {
   readonly selectedDateEnd = input.required<Date | null>();
 
   readonly rangeSelectionMode = input.required<boolean>();
+
+  readonly UTC = input.required<boolean>();
 
   readonly min = input.required<Date | null>();
   readonly max = input.required<Date | null>();
@@ -237,15 +240,17 @@ export class MonthsViewComponent implements AfterViewInit {
   isMonthSelectedStart(month: number | Date | null): boolean {
     if (month instanceof Date) month = month.getMonth();
     const selected = this.selectedDate();
+    const { year, month: selectedMonth} = getDateComponents(selected, this.UTC());
     const isStartDateSelected =
-      selected !== null && this.activeYear() === selected.getFullYear() && month === selected.getMonth();
+      selected !== null && this.activeYear() === year && month === selectedMonth;
 
     return isStartDateSelected;
   }
   isMonthSelectedEnd(month: number | Date | null): boolean {
     if (month instanceof Date) month = month.getMonth();
     const selected = this.selectedDateEnd();
-    const isEndDateSelected = selected !== null && this.activeYear() === selected.getFullYear() && month === selected.getMonth();
+    const { year, month: selectedMonth} = getDateComponents(selected, this.UTC());
+    const isEndDateSelected = selected !== null && this.activeYear() === year && month === selectedMonth;
 
     return isEndDateSelected;
   }
@@ -266,11 +271,13 @@ export class MonthsViewComponent implements AfterViewInit {
     return this._isMonthBetweenDates(month!, selected, highlightedEnd);
   }
   private _isMonthBetweenDates(month: number, startDate: Date, endDate: Date): boolean {
+    const { year: startYear, month: startMonth } = getDateComponents(startDate, this.UTC());
+    const { year: endYear, month: endMonth } = getDateComponents(endDate, this.UTC());
     return (
-      startDate.getFullYear() <= this.activeYear() &&
-      startDate.getMonth() <= month &&
-      endDate.getFullYear() >= this.activeYear() &&
-      endDate.getMonth() >= month
+      startYear <= this.activeYear() &&
+      startMonth <= month &&
+      endYear >= this.activeYear() &&
+      endMonth >= month
     );
   }
   isYearOutOfRange(year: number): number {

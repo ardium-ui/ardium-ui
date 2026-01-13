@@ -11,6 +11,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { isNull } from 'simple-bool';
+import { getDateComponents } from '../../../_internal/utils/date.utils';
 import { CalendarYearContext, CalendarYearsViewHeaderContext, DateRange, YearRange } from '../../calendar.types';
 import { getCalendarYearsArray, isYearOutOfRange } from './years-view.helpers';
 
@@ -48,6 +49,8 @@ export class YearsViewComponent implements AfterViewInit {
   readonly selectedDateEnd = input.required<Date | null>();
 
   readonly rangeSelectionMode = input.required<boolean>();
+
+  readonly UTC = input.required<boolean>();
 
   readonly min = input.required<Date | null>();
   readonly max = input.required<Date | null>();
@@ -126,14 +129,16 @@ export class YearsViewComponent implements AfterViewInit {
   isYearSelectedStart(year: number | Date | null): boolean {
     if (year instanceof Date) year = year.getFullYear();
     const selected = this.selectedDate();
-    const isStartDateSelected = selected !== null && year === selected.getFullYear();
+    const { year: selectedYear } = getDateComponents(selected, this.UTC());
+    const isStartDateSelected = selected !== null && year === selectedYear;
 
     return isStartDateSelected;
   }
   isYearSelectedEnd(year: number | Date | null): boolean {
     if (year instanceof Date) year = year.getFullYear();
     const selected = this.selectedDateEnd();
-    const isEndDateSelected = selected !== null && year === selected.getFullYear();
+    const { year: selectedYear } = getDateComponents(selected, this.UTC());
+    const isEndDateSelected = selected !== null && year === selectedYear;
 
     return isEndDateSelected;
   }
@@ -154,7 +159,9 @@ export class YearsViewComponent implements AfterViewInit {
     return this._isYearBetweenDates(year!, selected, highlightedEnd);
   }
   private _isYearBetweenDates(year: number, startDate: Date, endDate: Date): boolean {
-    return startDate.getFullYear() <= year && endDate.getFullYear() >= year;
+    const { year: startYear } = getDateComponents(startDate, this.UTC());
+    const { year: endYear } = getDateComponents(endDate, this.UTC());
+    return startYear <= year && endYear >= year;
   }
   isYearOutOfRange(year: number): number {
     return isYearOutOfRange(year, this.min(), this.max());
@@ -273,12 +280,12 @@ export class YearsViewComponent implements AfterViewInit {
     const yearRangeStart = this.currentYearRangeStart();
     const yearRangeEnd = yearRangeStart + 23;
     const dateRange: DateRange = {
-      low: new Date(yearRangeStart, 0, 2), // second day of month to prevent timezone issues
-      high: new Date(yearRangeEnd, 0, 2),
+      from: new Date(yearRangeStart, 0, 2), // second day of month to prevent timezone issues
+      to: new Date(yearRangeEnd, 0, 2),
     };
     const yearRange: YearRange = {
-      low: yearRangeStart,
-      high: yearRangeEnd,
+      from: yearRangeStart,
+      to: yearRangeEnd,
     };
     return {
       nextPage: () => {

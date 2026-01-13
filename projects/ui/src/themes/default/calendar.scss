@@ -247,6 +247,18 @@ $grid-size: 2.5rem;
         .ard-range-overlay {
           left: calc(-0.125rem - 1px);
           right: calc(-0.125rem - 1px);
+          border: none;
+        }
+      }
+
+      &.ard-calendar__entry-selected-start {
+        .ard-range-overlay {
+          left: 0;
+        }
+      }
+      &.ard-calendar__entry-selected-end {
+        .ard-range-overlay {
+          right: 0;
         }
       }
     }

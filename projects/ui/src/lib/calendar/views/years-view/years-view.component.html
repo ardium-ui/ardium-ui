@@ -29,9 +29,9 @@
           (click)="openDaysView()"
           variant="pill"
         >
-          {{ dateRange.low | date : 'YYYY' }}
+          {{ dateRange.from | date : 'YYYY' }}
           &mdash;
-          {{ dateRange.high | date : 'YYYY' }}
+          {{ dateRange.to | date : 'YYYY' }}
           <div class="ard-dropdown-arrow"></div>
         </ard-button>
         <ard-icon-button

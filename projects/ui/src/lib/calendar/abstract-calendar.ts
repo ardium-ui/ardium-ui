@@ -10,6 +10,7 @@ import {
   ModelSignal,
   OnChanges,
   output,
+  Signal,
   signal,
   SimpleChanges,
 } from '@angular/core';
@@ -136,6 +137,8 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
   //! value
   readonly valueInternalStart = signal<Date | null>(null);
   readonly valueInternalEnd = signal<Date | null>(null);
+
+  abstract readonly endDate: Signal<Date | null>;
 
   abstract readonly value: ModelSignal<T | null>;
 

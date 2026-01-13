@@ -1,0 +1,67 @@
+<div class="flex horiz page-grid">
+  <div class="master">
+    <span class="title">Most basic calendar</span>
+    <ard-range-calendar></ard-range-calendar>
+  </div>
+  <div class="master">
+    <span class="title">Calendar color</span>
+    <ard-range-calendar color="danger"></ard-range-calendar>
+  </div>
+  <div class="master">
+    <span class="title">Calendar active date</span>
+    <ard-range-calendar
+      [activeYear]="1975"
+      [activeMonth]="5"
+    ></ard-range-calendar>
+  </div>
+  <div class="master">
+    <span class="title">Calendar with preselected value</span>
+    <ard-range-calendar [value]="selectedDate"></ard-range-calendar>
+  </div>
+  <div class="master">
+    <span class="title">Read-only calendar</span>
+    <ard-range-calendar readonly></ard-range-calendar>
+  </div>
+  <div class="master">
+    <span class="title">Disabled calendar</span>
+    <ard-range-calendar disabled></ard-range-calendar>
+  </div>
+  <div class="master">
+    <span class="title">Static height calendar</span>
+    <ard-range-calendar staticHeight></ard-range-calendar>
+  </div>
+  <div class="master">
+    <span class="title">Calendar events</span>
+    <ard-range-calendar
+      [(ngModel)]="eventsCalendarDate"
+      (valueChange)="log('valueChange', $event)"
+      (ngModelChange)="log('ngModelChange', $event)"
+      (activeViewChange)="log('activeViewChange', $event)"
+      (activeMonthChange)="log('activeMonthChange', $event)"
+      (activeYearChange)="log('activeYearChange', $event)"
+    ></ard-range-calendar>
+  </div>
+  <div class="master">
+    <span class="title">Calendar events (UTC)</span>
+    <ard-range-calendar
+      [(ngModel)]="eventsCalendarDateUTC"
+      (valueChange)="log('valueChange', $event)"
+      (ngModelChange)="log('ngModelChange', $event)"
+      (activeViewChange)="log('activeViewChange', $event)"
+      (activeMonthChange)="log('activeMonthChange', $event)"
+      (activeYearChange)="log('activeYearChange', $event)"
+      UTC
+    ></ard-range-calendar>
+  </div>
+  <div class="master">
+    <span class="title">Calendar with min/max dates</span>
+    <ard-range-calendar
+      [min]="minDate"
+      [max]="maxDate"
+    ></ard-range-calendar>
+  </div>
+  <div class="master">
+    <span class="title">Calendar filter function</span>
+    <ard-range-calendar [filter]="filterFn"></ard-range-calendar>
+  </div>
+</div>

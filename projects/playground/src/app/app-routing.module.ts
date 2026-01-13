@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BadgePage } from './pages/badge/badge.page';
 import { ButtonPage } from './pages/button/button.page';
+import { RangeCalendarPage } from './pages/calendar-range/range-calendar.page';
 import { CalendarPage } from './pages/calendar/calendar.page';
 import { CardPage } from './pages/card/card.page';
 import { CheckboxListPage } from './pages/checkbox-list/checkbox-list.page';
@@ -52,6 +53,7 @@ const routes: Routes = [
   // { path: 'color-display', component: ColorDisplayPage },
   { path: 'color-picker', component: ColorPickerPage },
   { path: 'calendar', component: CalendarPage },
+  { path: 'range-calendar', component: RangeCalendarPage },
   { path: 'progress-circle', component: ProgressCirclePage },
   { path: 'kbd', component: KbdPage },
   { path: 'kbd-shortcut', component: KbdShortcutPage },

@@ -10,6 +10,7 @@ import {
   TemplateRef,
   viewChild,
 } from '@angular/core';
+import { createDate, getDateComponents } from '../../../_internal/utils/date.utils';
 import {
   CalendarDayContext,
   CalendarDaysViewHeaderContext,
@@ -58,6 +59,8 @@ export class DaysViewComponent implements AfterViewInit {
 
   readonly rangeSelectionMode = input.required<boolean>();
 
+  readonly UTC = input.required<boolean>();
+
   readonly min = input.required<Date | null>();
   readonly max = input.required<Date | null>();
 
@@ -101,22 +104,16 @@ export class DaysViewComponent implements AfterViewInit {
   isDaySelectedStart(day: number | Date | null): boolean {
     if (day instanceof Date) day = day.getDate();
     const selected = this.selectedDate();
-    const isStartDateSelected =
-      selected !== null &&
-      this.activeYear() === selected.getFullYear() &&
-      this.activeMonth() === selected.getMonth() &&
-      day === selected.getDate();
+    const { year, month, date } = getDateComponents(selected, this.UTC());
+    const isStartDateSelected = selected !== null && this.activeYear() === year && this.activeMonth() === month && day === date;
 
     return isStartDateSelected;
   }
   isDaySelectedEnd(day: number | Date | null): boolean {
     if (day instanceof Date) day = day.getDate();
     const selected = this.selectedDateEnd();
-    const isEndDateSelected =
-      selected !== null &&
-      this.activeYear() === selected.getFullYear() &&
-      this.activeMonth() === selected.getMonth() &&
-      day === selected.getDate();
+    const { year, month, date } = getDateComponents(selected, this.UTC());
+    const isEndDateSelected = selected !== null && this.activeYear() === year && this.activeMonth() === month && day === date;
 
     return isEndDateSelected;
   }
@@ -137,7 +134,7 @@ export class DaysViewComponent implements AfterViewInit {
     return this._isDayBetweenDates(day!, selected, highlightedEnd);
   }
   private _isDayBetweenDates(day: number, startDate: Date, endDate: Date): boolean {
-    const date = new Date(this.activeYear(), this.activeMonth(), day);
+    const date = createDate(this.activeYear(), this.activeMonth(), day, this.UTC());
     return date >= startDate && date <= endDate;
   }
 
@@ -339,6 +336,8 @@ export class DaysViewComponent implements AfterViewInit {
   }));
 
   readonly weekdayContext = computed<(dayIndex: number) => CalendarWeekdayContext>(() => (dayIndex: number) => {
+    // create a date object for the given day index (0 = Sunday, 1 = Monday, etc.)
+    // add 4 because January 4, 1970 is a Sunday
     const date = new Date(1970, 0, 4 + dayIndex);
     return {
       dayIndex,

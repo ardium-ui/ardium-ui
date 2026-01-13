@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BadgeModule } from './pages/badge/badge.module';
 import { ButtonModule } from './pages/button/button.module';
+import { RangeCalendarModule } from './pages/calendar-range/range-calendar.module';
 import { CalendarModule } from './pages/calendar/calendar.module';
 import { CardModule } from './pages/card/card.module';
 import { CheckboxListModule } from './pages/checkbox-list/checkbox-list.module';
@@ -62,6 +63,7 @@ import { TableModule } from './pages/table/table.module';
     // ColorDisplayModule,
     ColorPickerModule,
     CalendarModule,
+    RangeCalendarModule,
     ProgressCircleModule,
     KbdModule,
     KbdShortcutModule,

@@ -6,13 +6,13 @@ export const ArdCalendarView = {
 export type ArdCalendarView = (typeof ArdCalendarView)[keyof typeof ArdCalendarView];
 
 export interface DateRange {
-  low: Date;
-  high: Date;
+  from: Date;
+  to: Date;
 }
 
 export interface YearRange {
-  low: number;
-  high: number;
+  from: number;
+  to: number;
 }
 
 export type ArdCalendarFilterFn = (date: Date) => boolean;

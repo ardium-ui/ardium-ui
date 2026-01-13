@@ -27,3 +27,26 @@ export function getUTCDate(
   }
   return new Date(Date.UTC(year!, monthIndex, day, hour, minute, second, millisecond));
 }
+
+
+export function createDate(year: number, month: number, date: number, UTC: boolean) {
+  if (UTC) {
+    return getUTCDate(year, month, date);
+  } else {
+    return new Date(year, month, date);
+  }
+}
+
+export function getDateComponents(date: null, UTC: boolean): { year: null; month: null; date: null };
+export function getDateComponents(date: Date, UTC: boolean): { year: number; month: number; date: number };
+export function getDateComponents(date: Date | null, UTC: boolean): { year: number | null; month: number | null; date: number | null };
+export function getDateComponents(date: Date | null, UTC: boolean): { year: number | null; month: number | null; date: number | null } {
+  if (!date) {
+    return { year: null, month: null, date: null };
+  }
+  return {
+    year: UTC ? date.getUTCFullYear() : date.getFullYear(),
+    month: UTC ? date.getUTCMonth() : date.getMonth(),
+    date: UTC ? date.getUTCDate() : date.getDate(),
+  };
+}

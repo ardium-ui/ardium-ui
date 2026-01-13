@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, forwardRef, Inject, model, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, forwardRef, Inject, model, ViewEncapsulation } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { isDefined } from 'simple-bool';
 import { ARD_FORM_FIELD_CONTROL } from '../form-field/form-field-child.token';
@@ -42,6 +42,8 @@ export class ArdiumCalendarComponent extends _AbstractCalendar<Date> {
   }
 
   readonly value = model<Date | null>(null);
+
+  readonly endDate = computed<null>(() => null );
 
   override writeValue(v: any): void {
     if (v instanceof Date) {
