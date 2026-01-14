@@ -63,7 +63,7 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
     effect(() => {
       this.value();
       this._emitChange();
-    });
+    }); 
   }
 
   private readonly elementRef = inject(ElementRef<HTMLElement>);
@@ -318,8 +318,7 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
 
     this.isOpen.set(true);
     this.isOpenChange.emit(true);
-
-    this.focus();
+    
     this._createOverlay();
     this.openEvent.emit();
   }
