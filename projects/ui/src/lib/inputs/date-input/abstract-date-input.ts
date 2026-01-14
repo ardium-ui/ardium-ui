@@ -22,7 +22,7 @@ import {
 import { ControlValueAccessor } from '@angular/forms';
 import { BooleanLike, coerceBooleanProperty, coerceDateProperty, coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
 import { _FormFieldComponentBase } from '../../_internal/form-field-component';
-import { ArdCalendarFilterFn, ArdCalendarView } from '../../calendar';
+import { ArdCalendarDaysViewHeaderTemplateDirective, ArdCalendarDayTemplateDirective, ArdCalendarFilterFn, ArdCalendarFloatingMonthTemplateDirective, ArdCalendarMonthsViewHeaderTemplateDirective, ArdCalendarMonthTemplateDirective, ArdCalendarView, ArdCalendarWeekdayTemplateDirective, ArdCalendarYearsViewHeaderTemplateDirective, ArdCalendarYearTemplateDirective } from '../../calendar';
 import { ArdiumDropdownPanelComponent, DropdownPanelAppearance, DropdownPanelVariant } from '../../dropdown-panel';
 import { ComponentColor } from '../../types/colors.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
@@ -31,18 +31,10 @@ import { ArdDateInputDefaults } from './date-input.defaults';
 import {
   ArdDateInputAcceptButtonsTemplateDirective,
   ArdDateInputCalendarIconTemplateDirective,
-  ArdDateInputDaysViewHeaderTemplateDirective,
-  ArdDateInputDayTemplateDirective,
-  ArdDateInputFloatingMonthTemplateDirective,
-  ArdDateInputMonthsViewHeaderTemplateDirective,
-  ArdDateInputMonthTemplateDirective,
   ArdDateInputPrefixTemplateDirective,
   ArdDateInputSuffixTemplateDirective,
-  ArdDateInputValueTemplateDirective,
-  ArdDateInputWeekdayTemplateDirective,
-  ArdDateInputYearsViewHeaderTemplateDirective,
-  ArdDateInputYearTemplateDirective,
-} from './date-input.directive';
+  ArdDateInputValueTemplateDirective
+} from './date-input.directives';
 import { ArdDateInputAcceptButtonsContext, ArdDateInputSerializeFn, ArdDateInputValueContext } from './date-input.types';
 
 @Directive()
@@ -339,14 +331,14 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
   readonly prefixTemplate = contentChild(ArdDateInputPrefixTemplateDirective);
   readonly suffixTemplate = contentChild(ArdDateInputSuffixTemplateDirective);
 
-  readonly calendarDaysViewHeaderTemplate = contentChild(ArdDateInputDaysViewHeaderTemplateDirective);
-  readonly calendarYearsViewHeaderTemplate = contentChild(ArdDateInputYearsViewHeaderTemplateDirective);
-  readonly calendarMonthsViewHeaderTemplate = contentChild(ArdDateInputMonthsViewHeaderTemplateDirective);
-  readonly calendarWeekdayTemplate = contentChild(ArdDateInputWeekdayTemplateDirective);
-  readonly calendarFloatingMonthTemplate = contentChild(ArdDateInputFloatingMonthTemplateDirective);
-  readonly calendarYearTemplate = contentChild(ArdDateInputYearTemplateDirective);
-  readonly calendarMonthTemplate = contentChild(ArdDateInputMonthTemplateDirective);
-  readonly calendarDayTemplate = contentChild(ArdDateInputDayTemplateDirective);
+  abstract readonly calendarDaysViewHeaderTemplate: Signal<ArdCalendarDaysViewHeaderTemplateDirective | undefined>;
+  abstract readonly calendarYearsViewHeaderTemplate: Signal<ArdCalendarYearsViewHeaderTemplateDirective | undefined>;
+  abstract readonly calendarMonthsViewHeaderTemplate: Signal<ArdCalendarMonthsViewHeaderTemplateDirective | undefined>;
+  abstract readonly calendarWeekdayTemplate: Signal<ArdCalendarWeekdayTemplateDirective | undefined>;
+  abstract readonly calendarFloatingMonthTemplate: Signal<ArdCalendarFloatingMonthTemplateDirective | undefined>;
+  abstract readonly calendarYearTemplate: Signal<ArdCalendarYearTemplateDirective | undefined>;
+  abstract readonly calendarMonthTemplate: Signal<ArdCalendarMonthTemplateDirective | undefined>;
+  abstract readonly calendarDayTemplate: Signal<ArdCalendarDayTemplateDirective | undefined>;
 
   //! context providers
   readonly valueContext = computed<ArdDateInputValueContext<T>>(() => ({

@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  contentChild,
   effect,
   ElementRef,
   forwardRef,
@@ -19,6 +20,7 @@ import { getUTCDate } from '../../_internal/utils/date.utils';
 import { ARD_FORM_FIELD_CONTROL } from '../../form-field/form-field-child.token';
 import { _AbstractDateInput } from './abstract-date-input';
 import { ARD_DATE_INPUT_DEFAULTS, ArdDateInputDefaults } from './date-input.defaults';
+import { ArdDateInputDaysViewHeaderTemplateDirective, ArdDateInputDayTemplateDirective, ArdDateInputFloatingMonthTemplateDirective, ArdDateInputMonthsViewHeaderTemplateDirective, ArdDateInputMonthTemplateDirective, ArdDateInputWeekdayTemplateDirective, ArdDateInputYearsViewHeaderTemplateDirective, ArdDateInputYearTemplateDirective } from './date-input.directives';
 import { ArdDateInputDeserializeFn, ArdDateInputMinMaxStrategy, ArdDateInputSerializeFn } from './date-input.types';
 
 @Component({
@@ -167,4 +169,13 @@ export class ArdiumDateInputComponent extends _AbstractDateInput<Date> implement
     super.onGeneralClick(event);
     this.dateInput().nativeElement.focus();
   }
+  
+  readonly calendarDaysViewHeaderTemplate = contentChild(ArdDateInputDaysViewHeaderTemplateDirective);
+  readonly calendarYearsViewHeaderTemplate = contentChild(ArdDateInputYearsViewHeaderTemplateDirective);
+  readonly calendarMonthsViewHeaderTemplate = contentChild(ArdDateInputMonthsViewHeaderTemplateDirective);
+  readonly calendarWeekdayTemplate = contentChild(ArdDateInputWeekdayTemplateDirective);
+  readonly calendarFloatingMonthTemplate = contentChild(ArdDateInputFloatingMonthTemplateDirective);
+  readonly calendarYearTemplate = contentChild(ArdDateInputYearTemplateDirective);
+  readonly calendarMonthTemplate = contentChild(ArdDateInputMonthTemplateDirective);
+  readonly calendarDayTemplate = contentChild(ArdDateInputDayTemplateDirective);
 }

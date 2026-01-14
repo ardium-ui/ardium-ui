@@ -5,6 +5,7 @@ import { HexInputModule } from './hex-input/hex-input.module';
 
 import { AutocompleteInputModule } from './autocomplete-input/autocomplete-input.module';
 import { DateInputModule } from './date-input/date-input.module';
+import { DateRangeInputModule } from './date-range-input/date-range-input.module';
 import { DigitInputModule } from './digit-input/digit-input.module';
 import { InputModule } from './input/input.module';
 import { InputsHomeModule } from './inputs-home/inputs-home.module';
@@ -27,6 +28,7 @@ import { PasswordInputModule } from './password-input/password-input.module';
     PasswordInputModule,
     DigitInputModule,
     DateInputModule,
+    DateRangeInputModule,
   ],
   exports: [InputsPage],
 })

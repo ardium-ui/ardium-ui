@@ -22,7 +22,7 @@ import {
   ArdDateInputWeekdayTemplateDirective,
   ArdDateInputYearsViewHeaderTemplateDirective,
   ArdDateInputYearTemplateDirective,
-} from './date-input.directive';
+} from './date-input.directives';
 
 @NgModule({
   declarations: [

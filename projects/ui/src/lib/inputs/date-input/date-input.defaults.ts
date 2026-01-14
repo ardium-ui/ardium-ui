@@ -5,7 +5,7 @@ import { DropdownPanelAppearance, DropdownPanelVariant } from '../../dropdown-pa
 import { ComponentColor } from '../../types/colors.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
 import { Nullable } from '../../types/utility.types';
-import { DEFAULT_DATE_INPUT_DESERIALIZE_FN, DEFAULT_DATE_INPUT_SERIALIZE_FN } from './date-input.serializers';
+import { DEFAULT_DATE_INPUT_DESERIALIZE_FN, DEFAULT_DATE_INPUT_SERIALIZE_FN, DEFAULT_DATE_RANGE_INPUT_SERIALIZE_FN } from './date-input.serializers';
 import { ArdDateInputDeserializeFn, ArdDateInputMinMaxStrategy, ArdDateInputSerializeFn } from './date-input.types';
 
 export interface ArdDateInputDefaults extends _FormFieldComponentDefaults {
@@ -39,7 +39,7 @@ const _dateInputDefaults: ArdDateInputDefaults = {
   inputAttrs: {},
   placeholder: '',
   serializeFn: DEFAULT_DATE_INPUT_SERIALIZE_FN,
-  rangeSerializeFn: () => 'ARDIUM-UI-ERROR: No range serialize function defined.',
+  rangeSerializeFn: DEFAULT_DATE_RANGE_INPUT_SERIALIZE_FN,
   deserializeFn: DEFAULT_DATE_INPUT_DESERIALIZE_FN,
   appearance: FormElementAppearance.Outlined,
   variant: FormElementVariant.Rounded,

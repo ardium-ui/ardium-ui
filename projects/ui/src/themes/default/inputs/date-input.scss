@@ -1,12 +1,14 @@
 @use './shared' as S;
 @use '../../variables' as ARD;
 
+ard-date-range-input .ard-date-range-input,
 ard-date-input .ard-date-input {
   @include S.genericInput();
   padding-left: 0.375rem;
+  display: grid;
+  grid-template-columns: 1fr max-content;
 
   .ard-date-input__value-container {
-    flex-grow: 1;
     position: unset;
   }
   .ard-date-input__placeholder {
