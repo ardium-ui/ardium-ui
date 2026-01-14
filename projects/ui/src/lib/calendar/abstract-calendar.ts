@@ -182,6 +182,9 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
         );
       }
     }
+    if (changes['value']) {
+      this.writeValue(changes['value'].currentValue);
+    }
   }
 
   //! selecting days
