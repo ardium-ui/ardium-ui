@@ -25,7 +25,7 @@ export function getCalendarDayData(
   firstWeekday = 1,
   min: Date | null,
   max: Date | null,
-  fillUpTo6Weeks: boolean,
+  fillUpTo6Weeks: boolean
 ): CalendarData {
   firstWeekday %= 7;
 
@@ -40,7 +40,7 @@ export function getCalendarDayData(
   const calendarArray: CalendarArray = [];
   let currentDay = firstDayWeekday * -1; // how many empty spaces to add
   let trailingSpaces = 0;
-  let totalWeeks = NaN;
+  let totalWeeks = 0;
 
   for (let week = 0; week < 6; week++) {
     const currentWeek: (CalendarArrayItem | null)[] = [];
@@ -62,11 +62,12 @@ export function getCalendarDayData(
       });
     }
     calendarArray.push(currentWeek);
-    if ((!fillUpTo6Weeks || firstDayWeekday < 3) && currentDay > lastDay) {
+    if (!fillUpTo6Weeks && firstDayWeekday < 3 && currentDay > lastDay) {
       totalWeeks = week + 1;
       break;
     }
   }
+  totalWeeks ||= 6;
   trailingSpaces -= firstDayWeekday;
 
   return {

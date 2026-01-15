@@ -14,7 +14,7 @@ export const ArdMultiCalendarLocation = {
 export type ArdMultiCalendarLocation = typeof ArdMultiCalendarLocation[keyof typeof ArdMultiCalendarLocation];
 
 export class DateRange {
-  constructor(public from: Date, public to: Date) {}
+  constructor(public from: Date, public to: Date | null) {}
 }
 
 export interface YearRange {

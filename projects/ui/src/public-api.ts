@@ -13,7 +13,7 @@ export * from './lib/select'; // 000
 // export * from './lib/inputs/color-input'; // 006
 export * from './lib/file-inputs/file-drop-area'; // 010
 export * from './lib/file-inputs/file-input'; // 011
-export * from './lib/inputs/date-input'; // 008 & 009
+export * from './lib/inputs/date-input'; // 008 & 009 & 012
 export * from './lib/inputs/hex-input'; // 016
 export * from './lib/inputs/number-input'; // 007
 

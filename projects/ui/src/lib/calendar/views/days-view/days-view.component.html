@@ -35,7 +35,7 @@
           [tabIndex]="tabIndex()"
           (click)="openYearsView()"
         >
-          {{ currDate | date : 'MMM YYYY' | uppercase }}
+          {{ currDate | date : this.daysViewHeaderDateFormat() | uppercase }}
           <div class="ard-dropdown-arrow"></div>
         </ard-button>
         <div>
@@ -68,9 +68,9 @@
     >
       <div
         class="ard-calendar__weekday"
-        [title]="date | date : 'EEEE' | titlecase"
+        [title]="date | date : weekdayTitleDateFormat() | titlecase"
       >
-        {{ date | date : 'EEEEE' | uppercase }}
+        {{ date | date : weekdayDateFormat() | uppercase }}
       </div>
     </ng-template>
     @for (weekdayIndex of weekdayArray(); track weekdayIndex) {
@@ -94,13 +94,14 @@
     (keydown)="onMainGridKeydown($event)"
     role="grid"
   >
+    @if (!hideFloatingMonth()) {
     <div class="ard-calendar__floating-month">
       <ng-template
         #defaultFloatingMonthTemplate
         let-date
       >
-        <div [title]="date | date : 'LLLL' | titlecase">
-          {{ date | date : 'LLL' | uppercase }}
+        <div [title]="date | date : floatingMonthTitleDateFormat() | titlecase">
+          {{ date | date : floatingMonthDateFormat() | uppercase }}
         </div>
       </ng-template>
 
@@ -109,7 +110,7 @@
         [ngTemplateOutletContext]="floatingMonthContext()"
       />
     </div>
-    @for (week of activeCalendarData().array; track $index) { @for (day of week; track day ? day :
+    } @for (week of activeCalendarData().array; track $index) { @for (day of week; track day ? day :
     activeCalendarData().leadingSpaces - $index) { @if (day === null) {
     <div class="ard-calendar__entry ard-calendar__entry-empty"></div>
     } @else {
@@ -134,9 +135,9 @@
         <div class="ard-button-content">
           <ng-template
             #defaultDayTemplate
-            let-day
+            let-date="date"
           >
-            {{ day }}
+            {{ date | date : dayDateFormat() }}
           </ng-template>
           <ng-template
             [ngTemplateOutlet]="dayTemplate() || defaultDayTemplate"

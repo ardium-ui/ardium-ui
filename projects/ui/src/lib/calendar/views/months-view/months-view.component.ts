@@ -284,6 +284,10 @@ export class MonthsViewComponent implements AfterViewInit {
   readonly monthsViewHeaderTemplate = input.required<TemplateRef<CalendarMonthsViewHeaderContext> | undefined>();
   readonly monthTemplate = input.required<TemplateRef<CalendarMonthContext> | undefined>();
 
+  //! template customizations
+  readonly monthsViewHeaderDateFormat = input.required<string>(); // 'YYYY'
+  readonly monthDateFormat = input.required<string>(); // 'MMM'
+
   //! template contexts
   readonly monthsViewHeaderContext = computed(
     (): CalendarMonthsViewHeaderContext => ({

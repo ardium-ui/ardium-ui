@@ -15,9 +15,11 @@ export const DEFAULT_DATE_RANGE_INPUT_SERIALIZE_FN: ArdDateInputSerializeFn<Date
     const from = `${value.from.getDate().toString().padStart(2, '0')}/${(value.from.getMonth() + 1)
       .toString()
       .padStart(2, '0')}/${value.from.getFullYear()}`;
-    const to = `${value.to.getDate().toString().padStart(2, '0')}/${(value.to.getMonth() + 1)
-      .toString()
-      .padStart(2, '0')}/${value.to.getFullYear()}`;
+    const to = value.to
+      ? `${value.to.getDate().toString().padStart(2, '0')}/${(value.to.getMonth() + 1)
+          .toString()
+          .padStart(2, '0')}/${value.to.getFullYear()}`
+      : '';
     return `${from} – ${to}`;
   }
   return '';

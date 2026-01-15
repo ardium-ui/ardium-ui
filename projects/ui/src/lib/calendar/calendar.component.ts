@@ -33,7 +33,7 @@ export class ArdiumCalendarComponent extends _AbstractCalendar<Date> {
     super(defaults);
 
     effect(() => {
-      const v = this.valueInternalStart();
+      const v = this.selectionStart();
       if (!isDefined(v)) {
         return;
       }
@@ -48,9 +48,9 @@ export class ArdiumCalendarComponent extends _AbstractCalendar<Date> {
 
   override writeValue(v: any): void {
     if (v instanceof Date) {
-      this.valueInternalStart.set(v);
+      this.selectionStart.set(v);
     } else if (!isDefined(v)) {
-      this.valueInternalStart.set(null);
+      this.selectionStart.set(null);
     } else {
       console.error(new Error(`ARD-NF2003: <ard-calendar> [writeValue] expected a Date or null, got "${v}".`));
     }

@@ -12,13 +12,13 @@ import {
   output,
   Signal,
   signal,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 import { BooleanLike, coerceBooleanProperty, coerceDateProperty, coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
 import { roundFromZero, roundToMultiple } from 'more-rounding';
 import { isDefined, isNull } from 'simple-bool';
 import { _FormFieldComponentBase } from '../_internal/form-field-component';
-import { getUTCDate } from '../_internal/utils/date.utils';
+import { createDate } from '../_internal/utils/date.utils';
 import { ComponentColor } from '../types/colors.types';
 import { ArdCalendarDefaults } from './calendar.defaults';
 import {
@@ -49,19 +49,21 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
     super(defaults);
 
     effect(() => {
-      const value = this.valueInternalStart();
+      const value = this.selectionStart();
       if (isDefined(value)) {
         if (this._isHoursSetInDate(value)) {
           console.warn(
             `ARD-W${this.componentId}5: <ard-${this.componentName}> value contains time information (HH:MM:SS.ms). This will be ignored and only the date part will be used.`
           );
-          this.valueInternalStart.set(this._createDate(value.getFullYear(), value.getMonth(), value.getDate()));
+          this.selectionStart.set(createDate(value.getFullYear(), value.getMonth(), value.getDate(), this.UTC()));
         }
       }
     });
   }
 
-  readonly TODAY = computed<Date>(() => this._createDate(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()));
+  readonly TODAY = computed<Date>(() =>
+    createDate(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), this.UTC())
+  );
 
   //! appearance
   readonly color = input<ComponentColor>(this._DEFAULTS.color);
@@ -72,6 +74,7 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
   readonly activeView = model<ArdCalendarView>(this._DEFAULTS.activeView);
   readonly activeYear = model<number>(this._DEFAULTS.activeYear);
   readonly activeMonth = model<number>(this._DEFAULTS.activeMonth);
+  readonly activePageChange = output<{ year: number; month: number }>();
 
   readonly firstWeekday = input<number, NumberLike>(this._DEFAULTS.firstWeekday, {
     transform: v => {
@@ -114,28 +117,21 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
 
   readonly autoFocus = input<boolean, BooleanLike>(this._DEFAULTS.autoFocus, { transform: v => coerceBooleanProperty(v) });
   readonly staticHeight = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
-
-  readonly onlyDaySelection = input<boolean, BooleanLike>(this._DEFAULTS.onlyDaySelection, { transform: v => coerceBooleanProperty(v) });
+  readonly hideFloatingMonth = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
   onTriggerOpenDaysView(): void {
     this.activeView.set(ArdCalendarView.Days);
   }
   onTriggerOpenMonthsView(): void {
-    if (this.onlyDaySelection()) {
-      this.activeView.set(ArdCalendarView.Days);
-    }
     this.activeView.set(ArdCalendarView.Months);
   }
   onTriggerOpenYearsView(): void {
-    if (this.onlyDaySelection()) {
-      this.activeView.set(ArdCalendarView.Days);
-    }
     this.activeView.set(ArdCalendarView.Years);
   }
 
   //! value
-  readonly valueInternalStart = signal<Date | null>(null);
-  readonly valueInternalEnd = signal<Date | null>(null);
+  readonly selectionStart = signal<Date | null>(null);
+  readonly selectionEnd = signal<Date | null>(null);
 
   abstract readonly endDate: Signal<Date | null>;
 
@@ -187,6 +183,16 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
     }
   }
 
+  private _emitActivePageChange(): void {
+    this.activePageChange.emit({ year: this.activeYear(), month: this.activeMonth() });
+  }
+  private _emitHighlightedDate(): void {
+    const day = this.highlightedDay();
+    if (!day) return;
+    const date = createDate(this.activeYear(), this.activeMonth(), day, this.UTC());
+    this.highlightDayEvent.emit(date);
+  }
+
   //! selecting days
   isDayOutOfRange(day: number, month: number = this.activeMonth(), year: number = this.activeYear()): number {
     const dayDate = new Date(year, month, day);
@@ -194,17 +200,17 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
   }
   readonly isDayFilteredOut = computed(() => {
     return (day: number, month: number = this.activeMonth(), year: number = this.activeYear()): boolean => {
-      return this.filter()?.(this._createDate(year, month, day)) ?? false;
+      return this.filter()?.(createDate(year, month, day, this.UTC())) ?? false;
     };
   });
   selectDay(day: number | Date | null): void {
-    const startValue = this.valueInternalStart();
+    const startValue = this.selectionStart();
     // reset selection
     if (isNull(day)) {
       if (!isDefined(startValue)) return;
 
-      this.valueInternalStart.set(null);
-      this.valueInternalEnd.set(null);
+      this.selectionStart.set(null);
+      this.selectionEnd.set(null);
       return;
     }
 
@@ -213,16 +219,16 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
     if ((day && this.isDayOutOfRange(day)) || this.isDayFilteredOut()(day)) return;
 
     // range selection logic
-    const endValue = this.valueInternalEnd();
-    const newDate = this._createDate(this.activeYear(), this.activeMonth(), day);
+    const endValue = this.selectionEnd();
+    const newDate = createDate(this.activeYear(), this.activeMonth(), day, this.UTC());
     if (this.isRangeSelector) {
       // select end date
       if (isDefined(startValue) && !isDefined(endValue) && newDate > startValue) {
-        this.valueInternalEnd.set(newDate);
+        this.selectionEnd.set(newDate);
         return;
       }
       // reset end date and start a new selection
-      this.valueInternalEnd.set(null);
+      this.selectionEnd.set(null);
     }
     // avoid setting the same date again
     if (
@@ -233,7 +239,7 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
     ) {
       return;
     }
-    this.valueInternalStart.set(newDate);
+    this.selectionStart.set(newDate);
   }
   selectCurrentlyHighlightedDay(): void {
     if (!isDefined(this.highlightedDay())) return;
@@ -242,15 +248,17 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
   }
 
   //! highlighting days
-  private readonly __highlightedDay = signal<number | null>(null);
-  readonly highlightedDay = this.__highlightedDay.asReadonly();
+  readonly highlightedDay = model<number | null>(null);
+
+  readonly highlightDayEvent = output<Date>({ alias: 'highlightDay' });
 
   setHighlightedDay(day: number | null, month: number = this.activeMonth(), year: number = this.activeYear()): void {
     if (isNull(day)) {
-      this.__highlightedDay.update(() => day);
+      this.highlightedDay.update(() => day);
+      this._emitHighlightedDate();
       return;
     }
-    const date = this._createDate(year, month, day);
+    const date = createDate(year, month, day, this.UTC());
     const outOfRange = this.isDayOutOfRange(day, month, year);
 
     if (outOfRange === -1) {
@@ -262,7 +270,7 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
       return;
     }
 
-    this.__highlightedDay.update(() => date.getDate());
+    this.highlightedDay.update(() => date.getDate());
 
     if (date.getFullYear() !== this.activeYear()) {
       this.activeYear.set(date.getFullYear());
@@ -270,6 +278,8 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
     if (date.getMonth() !== this.activeMonth()) {
       this.activeMonth.set(date.getMonth());
     }
+    this._emitHighlightedDate();
+    this._emitActivePageChange();
   }
 
   private _highlightMinDay(): void {
@@ -278,7 +288,9 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
 
     this.activeYear.set(min.getFullYear());
     this.activeMonth.set(min.getMonth());
-    this.__highlightedDay.set(min.getDate());
+    this.highlightedDay.set(min.getDate());
+    this._emitHighlightedDate();
+    this._emitActivePageChange();
   }
   private _highlightMaxDay(): void {
     const max = this.max();
@@ -286,7 +298,9 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
 
     this.activeYear.set(max.getFullYear());
     this.activeMonth.set(max.getMonth());
-    this.__highlightedDay.set(max.getDate());
+    this.highlightedDay.set(max.getDate());
+    this._emitHighlightedDate();
+    this._emitActivePageChange();
   }
 
   highlightNextDay(offset = 1): void {
@@ -301,7 +315,7 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
     this.setHighlightedDay(1);
   }
   highlightLastDay(): void {
-    const daysInMonth = this._createDate(this.activeYear(), this.activeMonth() + 1, 0).getDate();
+    const daysInMonth = createDate(this.activeYear(), this.activeMonth() + 1, 0, this.UTC()).getDate();
     this.setHighlightedDay(daysInMonth);
   }
   highlightSameDayNextMonth(): void {
@@ -329,9 +343,9 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
   isMonthSelected(month: number | Date): boolean {
     if (month instanceof Date) month = month.getMonth();
     return (
-      this.valueInternalStart() !== null &&
-      this.activeYear() === this.valueInternalStart()?.getFullYear() &&
-      month === this.valueInternalStart()?.getMonth()
+      this.selectionStart() !== null &&
+      this.activeYear() === this.selectionStart()?.getFullYear() &&
+      month === this.selectionStart()?.getMonth()
     );
   }
   isMonthOutOfRange(month: number, year: number = this.activeYear()): number {
@@ -340,20 +354,22 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
   changeMonth(newMonth: number | null): boolean {
     if (isNull(newMonth)) {
       this.activeMonth.set(this.TODAY().getMonth());
+      this._emitActivePageChange();
       return true;
     }
 
     if (this.isMonthOutOfRange(newMonth)) return false;
 
     if (newMonth > 11) {
-      this.activeMonth.set(0);
       this.activeYear.update(v => v + 1);
+      this.activeMonth.set(0);
     } else if (newMonth < 0) {
-      this.activeMonth.set(11);
       this.activeYear.update(v => v - 1);
+      this.activeMonth.set(11);
     } else {
       this.activeMonth.set(newMonth);
     }
+    this._emitActivePageChange();
 
     return true;
   }
@@ -373,15 +389,15 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
   }
 
   //! highlighting months
-  private readonly __highlightedMonth = signal<number | null>(null);
-  readonly highlightedMonth = this.__highlightedMonth.asReadonly();
+  private readonly _highlightedMonth = signal<number | null>(null);
+  readonly highlightedMonth = this._highlightedMonth.asReadonly();
 
   setHighlightedMonth(month: number | null, year: number = this.activeYear()): void {
     if (isNull(month)) {
-      this.__highlightedMonth.update(() => month);
+      this._highlightedMonth.update(() => month);
       return;
     }
-    const date = this._createDate(year, month, 15);
+    const date = createDate(year, month, 15, this.UTC());
     const outOfRange = this.isMonthOutOfRange(month, year);
 
     if (outOfRange === -1) {
@@ -393,10 +409,11 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
       return;
     }
 
-    this.__highlightedMonth.update(() => date.getMonth());
+    this._highlightedMonth.update(() => date.getMonth());
 
     if (date.getFullYear() !== this.activeYear()) {
       this.activeYear.set(date.getFullYear());
+      this._emitActivePageChange();
     }
   }
 
@@ -405,14 +422,16 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
     if (!isDefined(min)) return;
 
     this.activeYear.set(min.getFullYear());
-    this.__highlightedMonth.set(min.getMonth());
+    this._emitActivePageChange();
+    this._highlightedMonth.set(min.getMonth());
   }
   private _highlightMaxMonth(): void {
     const max = this.max();
     if (!isDefined(max)) return;
 
     this.activeYear.set(max.getFullYear());
-    this.__highlightedMonth.set(max.getMonth());
+    this._emitActivePageChange();
+    this._highlightedMonth.set(max.getMonth());
   }
 
   highlightNextMonth(offset = 1): void {
@@ -439,7 +458,7 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
   //! selecting years
   isYearSelected(year: number | Date): boolean {
     if (year instanceof Date) year = year.getFullYear();
-    return this.valueInternalStart() !== null && year === this.valueInternalStart()?.getFullYear();
+    return this.selectionStart() !== null && year === this.selectionStart()?.getFullYear();
   }
   isYearOutOfRange(year: number): number {
     return isYearOutOfRange(year, this.min(), this.max());
@@ -447,12 +466,14 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
   changeYear(year: number | null): boolean {
     if (isNull(year)) {
       this.activeYear.set(this.TODAY().getFullYear());
+      this._emitActivePageChange();
       return true;
     }
 
     if (this.isYearOutOfRange(year)) return false;
 
     this.activeYear.set(year);
+    this._emitActivePageChange();
 
     return true;
   }
@@ -491,7 +512,7 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
       this.__highlightedYear.update(() => year);
       return;
     }
-    const date = this._createDate(year, 0, 1);
+    const date = createDate(year, 0, 1, this.UTC());
     const outOfRange = this.isYearOutOfRange(year);
 
     if (outOfRange === -1) {
@@ -566,13 +587,6 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
     this._isUsingKeyboard.set(true);
   }
 
-  private _createDate(year: number, monthIndex: number, day: number): Date {
-    if (this._UTCAfterInit()) {
-      return getUTCDate(year, monthIndex, day);
-    }
-    return new Date(year, monthIndex, day);
-  }
-
   //! templates
   readonly templateRepository = contentChild(_CalendarTemplateRepositoryDirective);
 
@@ -584,4 +598,16 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
   readonly monthTemplate = contentChild(ArdCalendarMonthTemplateDirective);
   readonly dayTemplate = contentChild(ArdCalendarDayTemplateDirective);
   readonly weekdayTemplate = contentChild(ArdCalendarWeekdayTemplateDirective);
+
+  //! template customizations
+  readonly daysViewHeaderDateFormat = input<string>(this._DEFAULTS.daysViewHeaderDateFormat); // 'MMM YYYY'
+  readonly yearsViewHeaderDateFormat = input<string>(this._DEFAULTS.yearsViewHeaderDateFormat); // 'YYYY'
+  readonly monthsViewHeaderDateFormat = input<string>(this._DEFAULTS.monthsViewHeaderDateFormat); // 'YYYY'
+  readonly weekdayDateFormat = input<string>(this._DEFAULTS.weekdayDateFormat); // 'EEEEE'
+  readonly weekdayTitleDateFormat = input<string>(this._DEFAULTS.weekdayTitleDateFormat); // 'EEEE'
+  readonly floatingMonthDateFormat = input<string>(this._DEFAULTS.floatingMonthDateFormat); // 'LLL'
+  readonly floatingMonthTitleDateFormat = input<string>(this._DEFAULTS.floatingMonthTitleDateFormat); // 'LLLL'
+  readonly yearDateFormat = input<string>(this._DEFAULTS.yearDateFormat); // 'YYYY'
+  readonly monthDateFormat = input<string>(this._DEFAULTS.monthDateFormat); // 'MMM'
+  readonly dayDateFormat = input<string>(this._DEFAULTS.dayDateFormat); // 'D'
 }

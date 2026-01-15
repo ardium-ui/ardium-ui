@@ -15,6 +15,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { isDefined, isNull } from 'simple-bool';
 import { getUTCDate } from '../../_internal/utils/date.utils';
 import { ARD_FORM_FIELD_CONTROL } from '../../form-field/form-field-child.token';
@@ -78,11 +79,18 @@ export class ArdiumDateInputComponent extends _AbstractDateInput<Date> implement
       console.error(new Error(`ARD-NF0083: <ard-date-input> writeValue expected a Date or null, got "${v}".`));
     }
   }
+  protected _isFullValue(): boolean {
+    return true;
+  }
 
   //! date input event handlers
   readonly dateInput = viewChild.required<ElementRef<HTMLInputElement>>('dateInput');
 
   readonly inputAttrs = input<Record<string, any>>(this._DEFAULTS.inputAttrs);
+
+  readonly inputReadOnly = input<boolean, BooleanLike>(this._DEFAULTS.inputReadOnly, {
+    transform: v => coerceBooleanProperty(v),
+  });
 
   readonly minMaxStrategy = input<ArdDateInputMinMaxStrategy>(this._DEFAULTS.minMaxStrategy);
   readonly serializeFn = input<ArdDateInputSerializeFn<Date>>(this._DEFAULTS.serializeFn);

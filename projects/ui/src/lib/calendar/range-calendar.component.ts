@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component, effect, forwardRef, Inject, model, output, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  forwardRef,
+  Inject,
+  model,
+  output,
+  untracked,
+  ViewEncapsulation,
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { isDate, isDefined, isObject } from 'simple-bool';
 import { ARD_FORM_FIELD_CONTROL } from '../form-field/form-field-child.token';
@@ -34,19 +44,23 @@ export class ArdiumRangeCalendarComponent extends _AbstractCalendar<DateRange> {
     super(defaults);
 
     effect(() => {
-      const start = this.valueInternalStart();
-      const end = this.valueInternalEnd();
-      if (!isDefined(start) || !isDefined(end)) {
+      const start = this.selectionStart();
+      const end = this.selectionEnd();
+
+      if (isDefined(start) && !isDefined(end)) {
+        this.startSelection.emit(start);
+      }
+      if (!isDefined(start)) {
+        this.value.set(null);
+        return;
+      }
+      // avoid re-emitting same value
+      const value = untracked(() => this.value());
+      if (value && value.from.valueOf() === start.valueOf() && value.to?.valueOf() === end?.valueOf()) {
         return;
       }
       this.value.set(new DateRange(start, end));
       this._emitChange();
-    });
-    effect(() => {
-      const start = this.valueInternalStart();
-      if (isDefined(start)) {
-        this.startSelection.emit(start);
-      }
     });
   }
 
@@ -54,15 +68,16 @@ export class ArdiumRangeCalendarComponent extends _AbstractCalendar<DateRange> {
 
   readonly startSelection = output<Date>();
 
-  readonly endDate = this.valueInternalEnd.asReadonly();
+  readonly endDate = this.selectionEnd.asReadonly();
 
   override writeValue(v: any): void {
     if (isObject(v) && 'from' in v && 'to' in v && isDate(v['from']) && isDate(v['to'])) {
-      this.valueInternalStart.set(v['from']);
-      this.valueInternalEnd.set(v['to']);
+      console.log('writing value');
+      this.selectionStart.set(v['from']);
+      this.selectionEnd.set(v['to']);
     } else if (!isDefined(v)) {
-      this.valueInternalStart.set(null);
-      this.valueInternalEnd.set(null);
+      this.selectionStart.set(null);
+      this.selectionEnd.set(null);
     } else {
       console.error(
         new Error(`ARD-NF2003: <ard-range-calendar> [writeValue] expected a { from: Date, to: Date } object or null, got "${v}".`)

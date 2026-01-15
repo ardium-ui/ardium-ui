@@ -277,6 +277,10 @@ export class YearsViewComponent implements AfterViewInit {
   readonly yearsViewHeaderTemplate = input.required<TemplateRef<CalendarYearsViewHeaderContext> | undefined>();
   readonly yearTemplate = input.required<TemplateRef<CalendarYearContext> | undefined>();
 
+  //! template customizations
+  readonly yearsViewHeaderDateFormat = input.required<string>(); // 'YYYY'
+  readonly yearDateFormat = input.required<string>(); // 'YYYY'
+
   //! template contexts
   readonly yearsViewHeaderContext = computed<CalendarYearsViewHeaderContext>(() => {
     const yearRangeStart = this.currentYearRangeStart();

@@ -35,9 +35,9 @@
           (click)="openDaysView()"
           variant="pill"
         >
-          {{ dateRange.from | date : 'YYYY' }}
+          {{ dateRange.from | date : yearsViewHeaderDateFormat() }}
           &mdash;
-          {{ dateRange.to | date : 'YYYY' }}
+          {{ dateRange.to | date : yearsViewHeaderDateFormat() }}
           <div class="ard-dropdown-arrow"></div>
         </ard-button>
         <div>
@@ -105,7 +105,7 @@
             #defaultYearTemplate
             let-year
           >
-            {{ year | date : 'YYYY' }}
+            {{ year | date : yearDateFormat() }}
           </ng-template>
           <ng-template
             [ngTemplateOutlet]="yearTemplate() || defaultYearTemplate"

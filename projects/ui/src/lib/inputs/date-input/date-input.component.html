@@ -104,11 +104,22 @@
       [max]="max()"
       [UTC]="_UTCAfterInit()"
       autoFocus
+      staticHeight
       [multipleYearPageChangeModifier]="multipleYearPageChangeModifier()"
       [color]="color()"
       [disabled]="disabled() || calendarDisabled()"
       [tabIndex]="tabIndex()"
       [value]="value()"
+      [daysViewHeaderDateFormat]="calendarDaysViewHeaderDateFormat()"
+      [yearsViewHeaderDateFormat]="calendarYearsViewHeaderDateFormat()"
+      [monthsViewHeaderDateFormat]="calendarMonthsViewHeaderDateFormat()"
+      [weekdayDateFormat]="calendarWeekdayDateFormat()"
+      [weekdayTitleDateFormat]="calendarWeekdayTitleDateFormat()"
+      [floatingMonthDateFormat]="calendarFloatingMonthDateFormat()"
+      [floatingMonthTitleDateFormat]="calendarFloatingMonthTitleDateFormat()"
+      [yearDateFormat]="calendarYearDateFormat()"
+      [monthDateFormat]="calendarMonthDateFormat()"
+      [dayDateFormat]="calendarDayDateFormat()"
       (valueChange)="onCalendarSelectedChange($event)"
       (yearSelect)="yearSelect.emit($event)"
       (monthSelect)="monthSelect.emit($event)"
@@ -129,9 +140,26 @@
     <div class="ard-date-input__accept-buttons-container">
       <ng-template
         #defaultAcceptButtonsTemplate
-        let-date
+        let-accept="accept"
+        let-cancel="cancel"
+        let-disabled="disabled"
       >
-        {{ serializeFn()(date) }}
+        <ard-button
+          appearance="outlined"
+          color="none"
+          [disabled]="disabled"
+          (click)="cancel()"
+        >
+          {{ cancelButtonText() }}
+        </ard-button>
+        <ard-button
+          appearance="raised"
+          [color]="color()"
+          [disabled]="disabled"
+          (click)="accept()"
+        >
+          {{ acceptButtonText() }}
+        </ard-button>
       </ng-template>
 
       <ng-template

@@ -63,7 +63,7 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
     effect(() => {
       this.value();
       this._emitChange();
-    }); 
+    });
   }
 
   private readonly elementRef = inject(ElementRef<HTMLElement>);
@@ -73,9 +73,12 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
 
   readonly placeholder = input<string>(this._DEFAULTS.placeholder);
 
-  readonly inputReadOnly = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly calendarDisabled = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly calendarHidden = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly calendarDisabled = input<boolean, BooleanLike>(this._DEFAULTS.calendarDisabled, {
+    transform: v => coerceBooleanProperty(v),
+  });
+  readonly calendarHidden = input<boolean, BooleanLike>(this._DEFAULTS.calendarHidden, {
+    transform: v => coerceBooleanProperty(v),
+  });
 
   //! serialization
   abstract readonly serializeFn: InputSignal<ArdDateInputSerializeFn<T>>;
@@ -207,20 +210,24 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
 
   private _valueToAccept: T | null = null;
 
-  onCalendarSelectedChange(event: T | null): void {
+  onCalendarSelectedChange(value: T | null): void {
+    if (!value) return;
     if (this.useAcceptButtonToSelect()) {
-      this._valueToAccept = event;
+      this._valueToAccept = value;
       return;
     }
-    this._acceptSelectedDate(event!);
+    this._acceptSelectedDate(value!);
   }
   private _acceptSelectedDate(date: T | null): void {
     this.value.set(date);
-    this.close();
+    if (this._isFullValue(date)) {
+      this.close();
+    }
   }
   private _cancelCalendarSelection(): void {
     this.close();
   }
+  protected abstract _isFullValue(value: T | null): boolean;
 
   onAcceptButtonClick(): void {
     this._acceptSelectedDate(this._valueToAccept);
@@ -243,9 +250,15 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
       .flexibleConnectedTo(this.dropdownHost())
       .withPositions([
         {
-          originX: 'end',
+          originX: 'start',
+          originY: 'bottom',
+          overlayX: 'start',
+          overlayY: 'top',
+        },
+        {
+          originX: 'start',
           originY: 'top',
-          overlayX: 'end',
+          overlayX: 'start',
           overlayY: 'bottom',
         },
         {
@@ -253,6 +266,12 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
           originY: 'bottom',
           overlayX: 'end',
           overlayY: 'top',
+        },
+        {
+          originX: 'end',
+          originY: 'top',
+          overlayX: 'end',
+          overlayY: 'bottom',
         },
       ]);
 
@@ -318,7 +337,7 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
 
     this.isOpen.set(true);
     this.isOpenChange.emit(true);
-    
+
     this._createOverlay();
     this.openEvent.emit();
   }
@@ -341,14 +360,29 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
   readonly prefixTemplate = contentChild(ArdDateInputPrefixTemplateDirective);
   readonly suffixTemplate = contentChild(ArdDateInputSuffixTemplateDirective);
 
-  abstract readonly calendarDaysViewHeaderTemplate: Signal<ArdCalendarDaysViewHeaderTemplateDirective | undefined>;
   abstract readonly calendarYearsViewHeaderTemplate: Signal<ArdCalendarYearsViewHeaderTemplateDirective | undefined>;
   abstract readonly calendarMonthsViewHeaderTemplate: Signal<ArdCalendarMonthsViewHeaderTemplateDirective | undefined>;
+  abstract readonly calendarDaysViewHeaderTemplate: Signal<ArdCalendarDaysViewHeaderTemplateDirective | undefined>;
   abstract readonly calendarWeekdayTemplate: Signal<ArdCalendarWeekdayTemplateDirective | undefined>;
   abstract readonly calendarFloatingMonthTemplate: Signal<ArdCalendarFloatingMonthTemplateDirective | undefined>;
   abstract readonly calendarYearTemplate: Signal<ArdCalendarYearTemplateDirective | undefined>;
   abstract readonly calendarMonthTemplate: Signal<ArdCalendarMonthTemplateDirective | undefined>;
   abstract readonly calendarDayTemplate: Signal<ArdCalendarDayTemplateDirective | undefined>;
+
+  //! template customizations
+  readonly calendarDaysViewHeaderDateFormat = input<string>(this._DEFAULTS.calendarDaysViewHeaderDateFormat); // 'MMM YYYY'
+  readonly calendarYearsViewHeaderDateFormat = input<string>(this._DEFAULTS.calendarYearsViewHeaderDateFormat); // 'YYYY'
+  readonly calendarMonthsViewHeaderDateFormat = input<string>(this._DEFAULTS.calendarMonthsViewHeaderDateFormat); // 'YYYY'
+  readonly calendarWeekdayDateFormat = input<string>(this._DEFAULTS.calendarWeekdayDateFormat); // 'EEEEE'
+  readonly calendarWeekdayTitleDateFormat = input<string>(this._DEFAULTS.calendarWeekdayTitleDateFormat); // 'EEEE'
+  readonly calendarFloatingMonthDateFormat = input<string>(this._DEFAULTS.calendarFloatingMonthDateFormat); // 'LLL'
+  readonly calendarFloatingMonthTitleDateFormat = input<string>(this._DEFAULTS.calendarFloatingMonthTitleDateFormat); // 'LLLL'
+  readonly calendarYearDateFormat = input<string>(this._DEFAULTS.calendarYearDateFormat); // 'YYYY'
+  readonly calendarMonthDateFormat = input<string>(this._DEFAULTS.calendarMonthDateFormat); // 'MMM'
+  readonly calendarDayDateFormat = input<string>(this._DEFAULTS.calendarDayDateFormat); // 'D'
+
+  readonly acceptButtonText = input<string>(this._DEFAULTS.acceptButtonText);
+  readonly cancelButtonText = input<string>(this._DEFAULTS.cancelButtonText);
 
   //! context providers
   readonly valueContext = computed<ArdDateInputValueContext<T>>(() => ({

@@ -70,6 +70,9 @@ export class ArdiumDateRangeInputComponent extends _AbstractDateInput<DateRange>
       );
     }
   }
+  protected _isFullValue(value: DateRange | null): boolean {
+    return !!value?.from && !!value?.to;
+  }
 
   readonly shouldDisplayPlaceholder = computed(() => {
     return isNull(this.value());

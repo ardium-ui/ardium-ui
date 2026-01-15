@@ -3,7 +3,7 @@
   <div class="ard-calendar__top-toolbar">
     <ng-template
       #defaultMonthsViewHeaderTemplate
-      let-year
+      let-date="date"
       let-nextPage="nextPage"
       let-prevPage="prevPage"
       let-canGoToNextPage="canGoToNextPage"
@@ -34,7 +34,7 @@
           [tabIndex]="tabIndex()"
           (click)="openDaysView()"
         >
-          {{ year }}
+          {{ date | date : monthsViewHeaderDateFormat() }}
           <div class="ard-dropdown-arrow"></div>
         </ard-button>
         <div>
@@ -101,7 +101,7 @@
             #defaultMonthTemplate
             let-month
           >
-            {{ month | date : 'MMM' : '+0000' | uppercase }}
+            {{ month | date : monthDateFormat() : '+0000' | uppercase }}
           </ng-template>
           <ng-template
             [ngTemplateOutlet]="monthTemplate() || defaultMonthTemplate"

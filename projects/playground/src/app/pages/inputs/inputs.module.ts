@@ -11,6 +11,7 @@ import { InputModule } from './input/input.module';
 import { InputsHomeModule } from './inputs-home/inputs-home.module';
 import { InputsRoutingModule } from './inputs-routing.module';
 import { InputsPage } from './inputs.page';
+import { MultipageDateRangeInputModule } from './multipage-date-range-input/multipage-date-range-input.module';
 import { NumberInputModule } from './number-input/number-input.module';
 import { PasswordInputModule } from './password-input/password-input.module';
 
@@ -29,6 +30,7 @@ import { PasswordInputModule } from './password-input/password-input.module';
     DigitInputModule,
     DateInputModule,
     DateRangeInputModule,
+    MultipageDateRangeInputModule,
   ],
   exports: [InputsPage],
 })

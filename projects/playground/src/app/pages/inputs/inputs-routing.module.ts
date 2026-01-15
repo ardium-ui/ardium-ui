@@ -9,6 +9,7 @@ import { FileInputPage } from './file-input/file-input.page';
 import { HexInputPage } from './hex-input/hex-input.page';
 import { InputPage } from './input/input.page';
 import { InputsHomePage } from './inputs-home/inputs-home.page';
+import { MultipageDateRangeInputPage } from './multipage-date-range-input/multipage-date-range-input.page';
 import { NumberInputPage } from './number-input/number-input.page';
 import { PasswordInputPage } from './password-input/password-input.page';
 
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'digit-input', component: DigitInputPage },
   { path: 'date-input', component: DateInputPage },
   { path: 'date-range-input', component: DateRangeInputPage },
+  { path: 'multipage-date-range-input', component: MultipageDateRangeInputPage },
   //redirects
   { path: '**', redirectTo: '' },
 ];

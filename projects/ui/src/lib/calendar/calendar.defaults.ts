@@ -11,12 +11,22 @@ export interface ArdCalendarDefaults extends _FormFieldComponentDefaults {
   firstWeekday: number;
   multipleYearPageChangeModifier: number;
   autoFocus: boolean;
-  onlyDaySelection: boolean;
   multiCalendarLocation: ArdMultiCalendarLocation;
   min: Date | null;
   max: Date | null;
   filter: ArdCalendarFilterFn | null;
   UTC: boolean;
+  // template customizations
+  daysViewHeaderDateFormat: string;
+  yearsViewHeaderDateFormat: string;
+  monthsViewHeaderDateFormat: string;
+  weekdayDateFormat: string;
+  weekdayTitleDateFormat: string;
+  floatingMonthDateFormat: string;
+  floatingMonthTitleDateFormat: string;
+  yearDateFormat: string;
+  monthDateFormat: string;
+  dayDateFormat: string;
 }
 
 const _calendarDefaults: ArdCalendarDefaults = {
@@ -28,12 +38,22 @@ const _calendarDefaults: ArdCalendarDefaults = {
   firstWeekday: 1,
   multipleYearPageChangeModifier: 5,
   autoFocus: false,
-  onlyDaySelection: false,
   multiCalendarLocation: ArdMultiCalendarLocation.Only,
   min: null,
   max: null,
   filter: null,
   UTC: false,
+  // template customizations
+  daysViewHeaderDateFormat: 'MMM yyyy',
+  yearsViewHeaderDateFormat: 'yyyy',
+  monthsViewHeaderDateFormat: 'yyyy',
+  weekdayDateFormat: 'EEEEE',
+  weekdayTitleDateFormat: 'EEEE',
+  floatingMonthDateFormat: 'LLL',
+  floatingMonthTitleDateFormat: 'LLLL',
+  yearDateFormat: 'yyyy',
+  monthDateFormat: 'MMM',
+  dayDateFormat: 'd',
 };
 
 export const ARD_CALENDAR_DEFAULTS = new InjectionToken<ArdCalendarDefaults>('ard-calendar-defaults', {

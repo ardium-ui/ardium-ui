@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ArdiumClickOutsideModule } from '@ardium-ui/devkit';
+import { ArdiumButtonModule } from '../../buttons/button';
 import { ArdiumIconButtonModule } from '../../buttons/icon-button';
 import { ArdiumCalendarModule } from '../../calendar';
 import { _CalendarTemplateRepositoryDirective } from '../../calendar/calendar.internal-directives';
@@ -49,6 +50,7 @@ import {
     ArdiumClickOutsideModule,
     ArdiumCalendarModule,
     ArdiumIconButtonModule,
+    ArdiumButtonModule,
     ArdiumIconModule,
     _CalendarTemplateRepositoryDirective,
   ],

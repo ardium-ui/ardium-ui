@@ -14,12 +14,20 @@ import {
 export class _CalendarTemplateRepositoryDirective {
   constructor(public template: TemplateRef<undefined>) {}
 
-  readonly daysViewHeaderTmp = input<ArdCalendarDaysViewHeaderTemplateDirective | undefined>(undefined);
-  readonly yearsViewHeaderTmp = input<ArdCalendarYearsViewHeaderTemplateDirective | undefined>(undefined);
-  readonly monthsViewHeaderTmp = input<ArdCalendarMonthsViewHeaderTemplateDirective | undefined>(undefined);
-  readonly weekdayTmp = input<ArdCalendarWeekdayTemplateDirective | undefined>(undefined);
-  readonly floatingMonthTmp = input<ArdCalendarFloatingMonthTemplateDirective | undefined>(undefined);
-  readonly yearTmp = input<ArdCalendarYearTemplateDirective | undefined>(undefined);
-  readonly monthTmp = input<ArdCalendarMonthTemplateDirective | undefined>(undefined);
-  readonly dayTmp = input<ArdCalendarDayTemplateDirective | undefined>(undefined);
+  readonly daysViewHeaderTmp = input<ArdCalendarDaysViewHeaderTemplateDirective | { template: TemplateRef<any> } | undefined>(
+    undefined
+  );
+  readonly yearsViewHeaderTmp = input<ArdCalendarYearsViewHeaderTemplateDirective | { template: TemplateRef<any> } | undefined>(
+    undefined
+  );
+  readonly monthsViewHeaderTmp = input<ArdCalendarMonthsViewHeaderTemplateDirective | { template: TemplateRef<any> } | undefined>(
+    undefined
+  );
+  readonly weekdayTmp = input<ArdCalendarWeekdayTemplateDirective | { template: TemplateRef<any> } | undefined>(undefined);
+  readonly floatingMonthTmp = input<ArdCalendarFloatingMonthTemplateDirective | { template: TemplateRef<any> } | undefined>(
+    undefined
+  );
+  readonly yearTmp = input<ArdCalendarYearTemplateDirective | { template: TemplateRef<any> } | undefined>(undefined);
+  readonly monthTmp = input<ArdCalendarMonthTemplateDirective | { template: TemplateRef<any> } | undefined>(undefined);
+  readonly dayTmp = input<ArdCalendarDayTemplateDirective | { template: TemplateRef<any> } | undefined>(undefined);
 }

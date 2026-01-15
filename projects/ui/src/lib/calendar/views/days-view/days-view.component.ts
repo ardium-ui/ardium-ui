@@ -87,12 +87,13 @@ export class DaysViewComponent implements AfterViewInit {
   //! calendar data
   readonly firstWeekday = input.required<number>();
   readonly staticHeight = input.required<boolean>();
+  readonly hideFloatingMonth = input.required<boolean>();
 
   readonly activeCalendarData = computed(() =>
     getCalendarDayData(this.activeYear(), this.activeMonth(), this.firstWeekday(), this.min(), this.max(), this.staticHeight())
   );
-  
-  readonly reserveTopRow = computed<boolean>(() => this.activeCalendarData().leadingSpaces < 3);
+
+  readonly reserveTopRow = computed<boolean>(() => !this.hideFloatingMonth() && this.activeCalendarData().leadingSpaces < 3);
 
   readonly weekdayArray = computed(() => getCalendarWeekdayArray(this.firstWeekday()));
 
@@ -312,6 +313,14 @@ export class DaysViewComponent implements AfterViewInit {
   readonly floatingMonthTemplate = input.required<TemplateRef<CalendarFloatingMonthContext> | undefined>();
   readonly weekdayTemplate = input.required<TemplateRef<CalendarWeekdayContext> | undefined>();
   readonly dayTemplate = input.required<TemplateRef<CalendarDayContext> | undefined>();
+
+  //! template customizations
+  readonly daysViewHeaderDateFormat = input.required<string>(); // 'MMM YYYY'
+  readonly weekdayDateFormat = input.required<string>(); // 'EEEEE'
+  readonly weekdayTitleDateFormat = input.required<string>(); // 'EEEE'
+  readonly floatingMonthDateFormat = input.required<string>(); // 'LLL'
+  readonly floatingMonthTitleDateFormat = input.required<string>(); // 'LLLL'
+  readonly dayDateFormat = input.required<string>(); // 'D'
 
   //! template contexts
   readonly daysViewHeaderContext = computed<CalendarDaysViewHeaderContext>(() => ({
