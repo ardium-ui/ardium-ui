@@ -1,6 +1,7 @@
 @use './shared' as inputMixin;
 @use '../mixins' as defaultMixins;
 @use '../clear-button' as CB;
+@use '../../variables' as ARD;
 
 :root {
   --ard-search-bar-height: var(--ard-form-field-height, 2.3125rem);
