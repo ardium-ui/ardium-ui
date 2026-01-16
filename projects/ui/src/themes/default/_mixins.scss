@@ -12,10 +12,10 @@
 
 @mixin focus-overlay($size: 0) {
   position: absolute;
-  top: -#{$size};
-  bottom: -#{$size};
-  left: -#{$size};
-  right: -#{$size};
+  top: calc(-1 * #{$size});
+  bottom: calc(-1 * #{$size});
+  left: calc(-1 * #{$size});
+  right: calc(-1 * #{$size});
   opacity: 0;
   border-radius: inherit;
   pointer-events: none;
