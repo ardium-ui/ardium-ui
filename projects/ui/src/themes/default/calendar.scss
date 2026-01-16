@@ -92,7 +92,7 @@
       box-sizing: border-box;
     }
     &.ard-reserve-top-row {
-      padding-top: var(--ard-calendar-grid-size);
+      padding-top: calc(var(--ard-calendar-grid-size) + var(--ard-calendar-grid-gap));
     }
     .ard-calendar__floating-month {
       position: absolute;

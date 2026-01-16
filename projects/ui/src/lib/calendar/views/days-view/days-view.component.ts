@@ -90,7 +90,15 @@ export class DaysViewComponent implements AfterViewInit {
   readonly hideFloatingMonth = input.required<boolean>();
 
   readonly activeCalendarData = computed(() =>
-    getCalendarDayData(this.activeYear(), this.activeMonth(), this.firstWeekday(), this.min(), this.max(), this.staticHeight())
+    getCalendarDayData(
+      this.activeYear(),
+      this.activeMonth(),
+      this.firstWeekday(),
+      this.min(),
+      this.max(),
+      this.staticHeight(),
+      !this.hideFloatingMonth()
+    )
   );
 
   readonly reserveTopRow = computed<boolean>(() => !this.hideFloatingMonth() && this.activeCalendarData().leadingSpaces < 3);

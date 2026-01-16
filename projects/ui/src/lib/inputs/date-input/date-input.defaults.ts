@@ -40,6 +40,7 @@ export interface ArdDateInputDefaults extends _FormFieldComponentDefaults {
   max: Date | null;
   filter: ArdCalendarFilterFn | null;
   UTC: boolean;
+  hideFloatingMonth: boolean;
   // template customizations
   calendarDaysViewHeaderDateFormat: string;
   calendarYearsViewHeaderDateFormat: string;
@@ -84,6 +85,7 @@ const _dateInputDefaults: ArdDateInputDefaults = {
   max: null,
   filter: null,
   UTC: false,
+  hideFloatingMonth: false,
   // template customizations
   calendarDaysViewHeaderDateFormat: 'MMM yyyy',
   calendarYearsViewHeaderDateFormat: 'yyyy',

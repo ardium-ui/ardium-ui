@@ -25,7 +25,8 @@ export function getCalendarDayData(
   firstWeekday = 1,
   min: Date | null,
   max: Date | null,
-  fillUpTo6Weeks: boolean
+  fillUpTo6Weeks: boolean,
+  reserverFirstRow: boolean
 ): CalendarData {
   firstWeekday %= 7;
 
@@ -36,6 +37,8 @@ export function getCalendarDayData(
   lastDayDate.setMonth(firstDayDate.getMonth() + 1); // advance the month by 1
   lastDayDate.setDate(0); // set the date to 0, which essentially means "the last day of the previous month"
   const lastDay = lastDayDate.getDate();
+
+  const shouldReserveFirstRow = reserverFirstRow && firstDayWeekday < 3;
 
   const calendarArray: CalendarArray = [];
   let currentDay = firstDayWeekday * -1; // how many empty spaces to add
@@ -62,13 +65,30 @@ export function getCalendarDayData(
       });
     }
     calendarArray.push(currentWeek);
-    if (!fillUpTo6Weeks && firstDayWeekday < 3 && currentDay > lastDay) {
+    if (currentDay > lastDay) {
+      if (shouldReserveFirstRow) {
+        totalWeeks = week + 2;
+        break;
+      }
       totalWeeks = week + 1;
       break;
     }
   }
-  totalWeeks ||= 6;
   trailingSpaces -= firstDayWeekday;
+
+  if (fillUpTo6Weeks) {
+    if (shouldReserveFirstRow) {
+      while (totalWeeks < 5) {
+        totalWeeks++;
+        calendarArray.push([null, null, null, null, null, null, null]);
+      }
+    } else {
+      while (totalWeeks < 6) {
+        totalWeeks++;
+        calendarArray.push([null, null, null, null, null, null, null]);
+      }
+    }
+  }
 
   return {
     array: calendarArray,
