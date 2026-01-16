@@ -3,17 +3,34 @@
 /**
  * Should be applied to the first element in the component's template.
  */
-@mixin genericInput() {
+@mixin genericInput(
+  $height,
+  $height-compact,
+  $gap,
+  $font-size,
+  $font-size-compact,
+  $line-height,
+  $line-height-compact,
+  $font-weight,
+  $padding,
+  $padding-compact,
+  $color,
+  $placeholder-color,
+  $placeholder-opacity
+) {
+  height: $height;
   position: relative;
   font-family: var(--ard-font-family);
   display: flex;
   align-items: center;
   justify-content: stretch;
-  gap: 0.625em;
+  gap: $gap;
   cursor: text;
   box-sizing: border-box;
-  font-size: 1rem;
-  line-height: 1.25em;
+  font-size: $font-size;
+  line-height: $line-height;
+  font-weight: $font-weight;
+  padding: $padding;
 
   .ard-input-container {
     flex-grow: 1;
@@ -23,7 +40,8 @@
 
     .ard-placeholder {
       font: inherit;
-      opacity: 60%;
+      opacity: $placeholder-opacity;
+      color: $placeholder-color;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -43,8 +61,9 @@
   }
   //! compact
   &.ard-compact {
-    height: 1.5625em;
-    font-size: 0.85em;
-    line-height: 1;
+    height: $height-compact;
+    font-size: $font-size-compact;
+    line-height: $line-height-compact;
+    padding: $padding-compact;
   }
 }

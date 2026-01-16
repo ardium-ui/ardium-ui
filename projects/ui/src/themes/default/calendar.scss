@@ -3,12 +3,42 @@
 @use './coloring.scss' as CM;
 @use '../variables' as ARD;
 
-$grid-size: 2.5rem;
+:root {
+  --ard-calendar-grid-size: 2.25rem;
+  --ard-calendar-grid-gap: 0.25rem;
+  --ard-calendar-padding: 0.375rem;
+  --ard-calendar-header-padding: 0.375rem 0 0.75rem 0;
+  --ard-calendar-weekday-padding: 0 0 0.5rem 0;
+  --ard-calendar-weekday-font-size: 0.875rem;
+  --ard-calendar-weekday-font-weight: 500;
+  --ard-calendar-weekday-color: #{ARD.$text};
+  --ard-calendar-floating-month-transform: none;
+  --ard-calendar-floating-month-padding: 0 0 0 1rem;
+  --ard-calendar-floating-month-font-size: 0.875rem;
+  --ard-calendar-floating-month-font-weight: 500;
+  --ard-calendar-floating-month-color: #{ARD.$text3};
+  --ard-calendar-entry-padding: 0;
+  --ard-calendar-entry-font-size: 0.875rem;
+  --ard-calendar-entry-font-weight: 400;
+  --ard-calendar-entry-border-radius: 9999px;
+  --ard-calendar-entry-range-overlay-border-width: 1px;
+  --ard-calendar-entry-range-overlay-border-style: dashed;
+  --ard-calendar-entry-today-border-color: #{ARD.$detail};
+  --ard-calendar-entry-today-selected-border: 2px solid #{ARD.$bg};
+  --ard-calendar-entry-highlighted-overlay-opacity: 20%;
+  --ard-calendar-entry-selected-overlay-opacity: 100%;
+  --ard-calendar-entry-selected-range-overlay-opacity: 12%;
+  --ard-calendar-entry-disabled-overlay-opacity: 12%;
+  --ard-calendar-entry-disabled-highlighted-overlay-opacity: 15%;
+  --ard-calendar-entry-disabled-opacity: 50%;
+}
 
 .ard-calendar {
   @include CM.typeColors();
-  width: 18.5rem;
+  min-width: calc(var(--ard-calendar-grid-size) * 7 + var(--ard-calendar-grid-gap) * 6);
   user-select: none;
+  padding: var(--ard-calendar-padding, 0 0.375rem 0.375rem 0.375rem);
+  box-sizing: content-box;
 
   //! top toolbar
   .ard-calendar__top-toolbar {
@@ -18,7 +48,7 @@ $grid-size: 2.5rem;
       align-items: center;
       justify-items: center;
       width: 100%;
-      padding: 0.75rem 0;
+      padding: var(--ard-calendar-header-padding, 0.75rem 0);
 
       .ard-dropdown-arrow {
         @include DA.dropdown-arrow();
@@ -33,49 +63,51 @@ $grid-size: 2.5rem;
   //! weekdays
   .ard-calendar__weekdays {
     display: grid;
-    grid-template-columns: repeat(7, $grid-size);
+    grid-template-columns: repeat(7, var(--ard-calendar-grid-size, 2.25rem));
+    gap: var(--ard-calendar-grid-gap, 0.25rem);
     align-items: center;
-    padding: 0 0.375rem 0.5rem 0.375rem;
+    padding: var(--ard-calendar-weekday-padding, 0 0 0.5rem 0);
 
     .ard-calendar__weekday {
       text-align: center;
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: ARD.$text;
+      font-size: var(--ard-calendar-weekday-font-size, 0.875rem);
+      font-weight: var(--ard-calendar-weekday-font-weight, 500);
+      color: var(--ard-calendar-weekday-color, #{ARD.$text});
     }
   }
   //! days grid
   .ard-calendar__days-grid {
-    padding: 0.375rem;
-    padding-top: 0;
+    padding: 0;
     display: grid;
-    grid-template-columns: repeat(7, $grid-size);
+    grid-template-columns: repeat(7, var(--ard-calendar-grid-size));
     position: relative;
     outline: none;
+    gap: var(--ard-calendar-grid-gap, 0.25rem);
 
     > * {
-      width: $grid-size;
-      max-width: $grid-size;
-      height: $grid-size;
-      max-height: $grid-size;
+      width: var(--ard-calendar-grid-size);
+      max-width: var(--ard-calendar-grid-size);
+      height: var(--ard-calendar-grid-size);
+      max-height: var(--ard-calendar-grid-size);
       box-sizing: border-box;
     }
     &.ard-reserve-top-row {
-      padding-top: $grid-size;
+      padding-top: var(--ard-calendar-grid-size);
     }
     .ard-calendar__floating-month {
       position: absolute;
       top: 0;
       left: 0;
+      transform: var(--ard-calendar-floating-month-transform, none);
       width: 100%;
       box-sizing: border-box;
       aspect-ratio: 7;
-      padding-left: 1rem;
+      padding: var(--ard-calendar-floating-month-padding, 0 0 0 1rem);
       display: flex;
       align-items: center;
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: ARD.$text3;
+      font-size: var(--ard-calendar-floating-month-font-size, 0.875rem);
+      font-weight: var(--ard-calendar-floating-month-font-weight, 500);
+      color: var(--ard-calendar-floating-month-color, #{ARD.$text3});
       letter-spacing: 0.5px;
     }
   }
@@ -84,9 +116,11 @@ $grid-size: 2.5rem;
     border-top: 1px solid ARD.$detail-ultralight;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(6, $grid-size);
+    grid-template-rows: repeat(6, var(--ard-calendar-grid-size));
     position: relative;
     outline: none;
+    padding: 0;
+    gap: var(--ard-calendar-grid-gap, 0.25rem);
 
     > * {
       max-width: 100%;
@@ -101,7 +135,8 @@ $grid-size: 2.5rem;
     z-index: 1;
     cursor: pointer;
     outline: none;
-    padding: 0.125rem;
+    padding: var(--ard-calendar-entry-padding, 0);
+    box-sizing: border-box;
 
     .ard-calendar__entry-button {
       width: 100%;
@@ -110,28 +145,30 @@ $grid-size: 2.5rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.875rem;
+      font-size: var(--ard-calendar-entry-font-size, 0.875rem);
+      font-weight: var(--ard-calendar-entry-font-weight, 400);
       background: transparent;
       border: 1px solid transparent;
-      border-radius: 9999px;
+      border-radius: var(--ard-calendar-entry-border-radius, 9999px);
       position: relative;
       cursor: pointer;
       outline: none;
+      box-sizing: border-box;
 
       .ard-focus-overlay {
         @include DM.focus-overlay();
         z-index: -1;
         background: var(--ard-cmpcl--overlay);
-        border: 2px solid transparent;
         transition: border-color 0.1s ease, opacity 0.1s ease;
       }
       .ard-range-overlay {
         @include DM.focus-overlay();
         z-index: -1;
         opacity: 1;
-        left: -0.125rem;
-        right: -0.125rem;
-        border: 1px dashed transparent;
+        left: -calc(var(--ard-calendar-grid-gap, 0.25rem) / 2);
+        right: -calc(var(--ard-calendar-grid-gap, 0.25rem) / 2);
+        border: var(--ard-calendar-entry-range-overlay-border-width, 1px)
+          var(--ard-calendar-entry-range-overlay-border-style, dashed) transparent;
         background: transparent;
         transition: none;
         border-radius: 0;
@@ -142,7 +179,7 @@ $grid-size: 2.5rem;
     }
     &.ard-calendar-today {
       .ard-calendar__entry-button {
-        border-color: ARD.$detail;
+        border-color: var(--ard-calendar-entry-today-border-color, #{ARD.$detail});
       }
     }
     &.ard-calendar__entry-highlighted-in-range {
@@ -165,27 +202,27 @@ $grid-size: 2.5rem;
     }
     &.ard-calendar__entry-highlighted {
       .ard-focus-overlay {
-        opacity: 20%;
+        opacity: var(--ard-calendar-entry-highlighted-overlay-opacity, 20%);
       }
     }
     &.ard-calendar__entry-selected-start {
       .ard-range-overlay {
         left: 0;
-        border-top-left-radius: 9999px;
-        border-bottom-left-radius: 9999px;
+        border-top-left-radius: var(--ard-calendar-entry-border-radius);
+        border-bottom-left-radius: var(--ard-calendar-entry-border-radius);
       }
     }
     &.ard-calendar__entry-selected-end,
     &.ard-calendar__entry-highlighted:not(.ard-calendar__entry-selected-in-range) {
       .ard-range-overlay {
         right: 0;
-        border-top-right-radius: 9999px;
-        border-bottom-right-radius: 9999px;
+        border-top-right-radius: var(--ard-calendar-entry-border-radius);
+        border-bottom-right-radius: var(--ard-calendar-entry-border-radius);
       }
     }
     &.ard-calendar__entry-selected-in-range {
       .ard-range-overlay {
-        opacity: 12%;
+        opacity: var(--ard-calendar-entry-selected-range-overlay-opacity, 12%);
         background-color: var(--ard-cmpcl--bg-colored);
       }
     }
@@ -194,19 +231,19 @@ $grid-size: 2.5rem;
         color: var(--ard-cmpcl--on-bg-colored);
       }
       .ard-focus-overlay {
-        opacity: 100%;
+        opacity: var(--ard-calendar-entry-selected-overlay-opacity, 100%);
         background: var(--ard-cmpcl--bg-colored);
       }
 
       &.ard-calendar-today {
         .ard-focus-overlay {
-          border-color: ARD.$bg;
+          border: var(--ard-calendar-entry-today-selected-border, 2px solid #{ARD.$bg});
         }
       }
     }
     &.ard-calendar__entry-disabled {
       pointer-events: none;
-      opacity: 50%;
+      opacity: var(--ard-calendar-entry-disabled-overlay-opacity, 50%);
 
       .ard-calendar__entry-button {
         cursor: default;
@@ -216,30 +253,9 @@ $grid-size: 2.5rem;
       }
       &.ard-calendar__entry-highlighted {
         .ard-focus-overlay {
-          opacity: 15%;
+          opacity: var(--ard-calendar-entry-disabled-highlighted-overlay-opacity, 15%);
         }
       }
-    }
-  }
-  .ard-calendar__day-labels {
-    font-size: 0.8125rem;
-    color: ARD.$text3;
-    height: 1.25rem;
-    position: relative;
-
-    > * {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      aspect-ratio: unset;
-    }
-    &::after {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 1px;
-      background: ARD.$detail-ultralight;
-      bottom: 0;
     }
   }
   .ard-years-view,
@@ -247,8 +263,8 @@ $grid-size: 2.5rem;
     .ard-calendar__entry {
       .ard-calendar__entry-button {
         .ard-range-overlay {
-          left: calc(-0.125rem - 1px);
-          right: calc(-0.125rem - 1px);
+          left: calc(-var(--ard-calendar-grid-gap) / 2 - 1px);
+          right: calc(-var(--ard-calendar-grid-gap) / 2 - 1px);
           border: none;
         }
       }
@@ -274,6 +290,6 @@ $grid-size: 2.5rem;
 }
 .ard-disabled {
   .ard-calendar {
-    opacity: 50%;
+    opacity: var(--ard-calendar-entry-disabled-opacity, 50%);
   }
 }
