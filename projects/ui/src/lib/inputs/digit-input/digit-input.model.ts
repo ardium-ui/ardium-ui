@@ -27,8 +27,7 @@ export class DigitInputModel {
           }
           return newArr;
         });
-      },
-      { allowSignalWrites: true }
+      }
     );
   }
 

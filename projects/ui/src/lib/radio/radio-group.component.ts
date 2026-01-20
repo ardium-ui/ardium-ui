@@ -1,18 +1,18 @@
 import {
-    AfterContentInit,
-    ChangeDetectionStrategy,
-    Component,
-    HostBinding,
-    Input,
-    OnDestroy,
-    OutputRefSubscription,
-    ViewEncapsulation,
-    contentChildren,
-    effect,
-    forwardRef,
-    input,
-    model,
-    output,
+  AfterContentInit,
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  Input,
+  OnDestroy,
+  OutputRefSubscription,
+  ViewEncapsulation,
+  contentChildren,
+  effect,
+  forwardRef,
+  input,
+  model,
+  output,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TakeChance as Random } from 'take-chance';
@@ -61,15 +61,13 @@ export class ArdiumRadioGroupComponent extends _FormFieldComponentBase implement
       () => {
         this.name();
         this._updateRadioButtonNames();
-      },
-      { allowSignalWrites: true }
+      }
     );
     effect(
       () => {
         this.selected();
         this._checkSelectedRadioButton();
-      },
-      { allowSignalWrites: true }
+      }
     );
     effect(
       () => {
@@ -101,8 +99,7 @@ export class ArdiumRadioGroupComponent extends _FormFieldComponentBase implement
             })
           );
         }
-      },
-      { allowSignalWrites: true }
+      }
     );
   }
 
