@@ -8,8 +8,9 @@
     let-color="color"
   >
     <ard-star
+      [class.ard-star-not-in-value]="fillMode !== 'none'"
       [filled]="fillMode"
-      [color]="color"
+      [color]="fillMode !== 'none' ? color : 'none'"
     />
   </ng-template>
 
