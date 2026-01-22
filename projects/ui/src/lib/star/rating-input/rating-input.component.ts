@@ -11,12 +11,14 @@ import {
   model,
   output,
   signal,
+  untracked,
   viewChildren,
   ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
-import { _NgModelComponentBase } from '../../_internal/ngmodel-component';
+import { _FormFieldComponentBase } from '../../_internal/form-field-component';
+import { ArdFormFieldControl } from '../../form-field';
 import { ArdiumStarButtonComponent } from '../star-button/star-button.component';
 import { StarColor } from '../star.types';
 import { ARD_RATING_INPUT_DEFAULTS, ArdRatingInputDefaults } from './rating-input.defaults';
@@ -38,7 +40,7 @@ import { ArdRatingInputStarButtonTemplateContext } from './rating-input.types';
     },
   ],
 })
-export class ArdiumRatingInputComponent extends _NgModelComponentBase implements ControlValueAccessor {
+export class ArdiumRatingInputComponent extends _FormFieldComponentBase implements ControlValueAccessor, ArdFormFieldControl {
   readonly wrapperClasses = input<string>('');
 
   protected override readonly _DEFAULTS!: ArdRatingInputDefaults;
@@ -63,7 +65,7 @@ export class ArdiumRatingInputComponent extends _NgModelComponentBase implements
     });
     effect(() => {
       this.value(); // let the effect know when to fire
-      this._emitChange();
+      untracked(() => this._emitChange());
     });
   }
 

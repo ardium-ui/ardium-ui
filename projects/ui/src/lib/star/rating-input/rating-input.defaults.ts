@@ -1,14 +1,14 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { _ngModelComponentDefaults, _NgModelComponentDefaults } from '../../_internal/ngmodel-component';
+import { _FormFieldComponentDefaults, _formFieldComponentDefaults } from '../../_internal/form-field-component';
 import { StarColor } from '../star.types';
 
-export interface ArdRatingInputDefaults extends _NgModelComponentDefaults {
+export interface ArdRatingInputDefaults extends _FormFieldComponentDefaults {
   color: StarColor;
   max: number;
 }
 
 const _ratingInputDefaults: ArdRatingInputDefaults = {
-  ..._ngModelComponentDefaults,
+  ..._formFieldComponentDefaults,
   color: StarColor.Gold,
   max: 5,
 };
