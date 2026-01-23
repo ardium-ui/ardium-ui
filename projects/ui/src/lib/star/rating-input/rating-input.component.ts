@@ -105,7 +105,7 @@ export class ArdiumRatingInputComponent extends _FormFieldComponentBase implemen
       this._isFocusEventSuppressed = false;
       return;
     }
-    this.focusEvent.emit(event);
+    this.onFocus(event);
   }
   onStarButtonBlur(event: FocusEvent): void {
     this._currentFocusIndex = null;
@@ -113,8 +113,7 @@ export class ArdiumRatingInputComponent extends _FormFieldComponentBase implemen
       this._isBlurEventSuppressed = false;
       return;
     }
-    this.blurEvent.emit(event);
-    this._emitTouched();
+    this.onBlur(event);
   }
   focusStarButtonByIndex(index: number): void {
     if (!this.starButtonInstances()) return;

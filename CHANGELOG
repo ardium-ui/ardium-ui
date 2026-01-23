@@ -90,3 +90,4 @@ Other notable changes include:
 - Range Slider sets its initial value to a range from `-Infinity` to `+Infinity` instead of from `min` to `max`
 - Digit Input and Radio Group had `allowSignalWrites` set to true, which caused warnings to be displayed in the console
 - Rating Display only uses one color for all stars, even the unselected ones, while they should be uncolored
+- Rating Input doesn't fire ControlValueAccessor touched events
