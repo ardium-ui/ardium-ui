@@ -11,9 +11,8 @@ import {
   model,
   output,
   signal,
-  untracked,
   viewChildren,
-  ViewEncapsulation,
+  ViewEncapsulation
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
@@ -63,10 +62,6 @@ export class ArdiumRatingInputComponent extends _FormFieldComponentBase implemen
         this.highlightEvent.emit(hi);
       }
     });
-    effect(() => {
-      this.value(); // let the effect know when to fire
-      untracked(() => this._emitChange());
-    });
   }
 
   //! stars
@@ -83,6 +78,7 @@ export class ArdiumRatingInputComponent extends _FormFieldComponentBase implemen
   }
   onStarClick(index: number): void {
     this.value.set(index + 1);
+    this._emitChange();
     this._emitTouched();
   }
   onStarHighlight(index: number): void {
