@@ -60,7 +60,7 @@
   gap: var(--ard-select-gap, 0.625rem);
   padding: var(--ard-select-padding, 0 1em 0 0.375em);
   font-family: var(--ard-font-family);
-  font-size: var(--ard-select-font-size, 1rem);
+  font-size: var(--ard-select-font-size, var(--ard-form-field-font-size, 1rem));
   color: var(--ard-select-text-color, var(--ard-text, rgba(0, 0, 0, 100%)));
 
   @include CB.clearButton();
@@ -71,7 +71,7 @@
     height: 2em;
     display: flex;
     align-items: center;
-    font-size: var(--ard-select-font-size, 1rem);
+    font-size: var(--ard-select-font-size, var(--ard-form-field-font-size, 1rem));
     text-size-adjust: 100%;
     flex-grow: 1;
     overflow: hidden;
@@ -79,7 +79,7 @@
     .ard-placeholder {
       font: inherit;
       position: absolute;
-      color: var(--ard-select-placeholder-color, rgba(0, 0, 0, 75%));
+      color: var(--ard-select-placeholder-color, var(--ard-text3, rgba(0, 0, 0, 75%)));
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -190,8 +190,8 @@
 
   //! compact
   &.ard-compact {
-    font-size: var(--ard-select-font-size-compact, 0.875rem);
-    height: var(--ard-select-height-compact, var(--ard-form-field-height-compact, 1.6875rem));
+    font-size: var(--ard-select-font-size-compact, var(--ard-form-field-font-size-compact, 0.875rem));
+    min-height: var(--ard-select-height-compact, var(--ard-form-field-height-compact, 1.6875rem));
     padding: var(--ard-select-padding-compact, 0 0.625em 0 0.375em);
 
     .ard-select-controls {
@@ -279,7 +279,7 @@
 
   //! compact
   > .ard-compact {
-    font-size: var(--ard-select-dropdown-font-size-compact, 0.85rem);
+    font-size: var(--ard-select-dropdown-font-size-compact, var(--ard-form-field-font-size-compact, 0.875rem));
   }
 }
 

@@ -95,7 +95,8 @@
     border: var(--ard-file-input-browse-button-border, none);
     border-radius: var(--ard-file-input-browse-button-border-radius, 9999px);
     background: var(--ard-file-input-browse-button-background, none);
-    padding: var(--ard-file-input-browse-button-padding, 0);
+    padding: var(--ard-file-input-browse-butto-padding, 0);
+    color: var(--ard-file-input-browse-button-color, #{ARD.$text});
     position: relative;
     display: flex;
     justify-content: center;

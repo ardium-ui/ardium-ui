@@ -68,7 +68,7 @@ ard-button {
   }
   &.ard-variant-rounded,
   &.ard-variant-pill.ard-button-vertical {
-    border-radius: var(--ard-button-rounded-corner-radius, 0.375rem);
+    border-radius: var(--ard-button-rounded-corner-radius, var(--ard-rounded-corner-radius, 0.375rem));
   }
   &.ard-variant-pill:not(.ard-button-vertical) {
     border-radius: 9999px;
