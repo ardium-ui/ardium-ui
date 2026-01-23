@@ -16,6 +16,7 @@ export interface ItemStorageHost {
   readonly childrenFrom: Signal<string>;
   readonly itemsAlreadyGrouped: Signal<Nullable<boolean>>;
   readonly hideSelected: Signal<boolean>;
+  readonly isLoading: Signal<boolean>;
   readonly searchCaseSensitive: Signal<boolean>;
   readonly searchFn: Signal<SearchFn>;
   readonly compareWith: Signal<Nullable<CompareWithFn>>;
@@ -274,7 +275,7 @@ export class ItemStorage {
   private _wasValueWriteDeferred = false;
   handleWriteValue(ngModel: any): void {
     //defer writing the value if no options are yet loaded
-    if (!this._wasValueWriteDeferred && this._items().length === 0) {
+    if ((!this._wasValueWriteDeferred || this._ardParentComp.isLoading()) && this._items().length === 0) {
       this._valueToWriteAfterItemsLoad = ngModel;
       this._wasValueWriteDeferred = true;
       return;
