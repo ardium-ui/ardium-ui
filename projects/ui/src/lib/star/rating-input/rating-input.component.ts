@@ -83,6 +83,7 @@ export class ArdiumRatingInputComponent extends _FormFieldComponentBase implemen
   }
   onStarClick(index: number): void {
     this.value.set(index + 1);
+    this._emitTouched();
   }
   onStarHighlight(index: number): void {
     this._highlightedStarIndex.set(index);
@@ -113,6 +114,7 @@ export class ArdiumRatingInputComponent extends _FormFieldComponentBase implemen
       return;
     }
     this.blurEvent.emit(event);
+    this._emitTouched();
   }
   focusStarButtonByIndex(index: number): void {
     if (!this.starButtonInstances()) return;
