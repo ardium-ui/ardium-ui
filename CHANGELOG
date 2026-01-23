@@ -73,6 +73,7 @@ Other notable changes include:
 - Select causes a freeze when using `[formControl]` to set value from inside an effect
 - Select value overflows the field when too long
 - Select has the clear button even when it is read-only
+- Select is susceptible to race conditions if the value and the items both load asynchronously
 - Fixed several signal usages being passed in directly instead of by its value, causing it to always be treated as `true`
 - Modals & Dialogs can overflow the viewport when they have too much content
 - Radios' circles shrink and become egg-like when they don't fit
