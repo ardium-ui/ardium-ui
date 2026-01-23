@@ -2,18 +2,18 @@
 @use '../../variables' as ARD;
 
 :root {
-  --ard-date-input-height: var(--ard-form-field-height, 2.3125rem);
-  --ard-date-input-height-compact: var(--ard-form-field-height-compact, 1.6875rem);
+  --ard-date-input-height: ;
+  --ard-date-input-height-compact: ;
   --ard-date-input-gap: 0.625rem;
-  --ard-date-input-font-size: var(--ard-form-field-font-size, 1rem);
-  --ard-date-input-font-size-compact: var(--ard-form-field-font-size-compact, 0.875rem);
+  --ard-date-input-font-size: ;
+  --ard-date-input-font-size-compact: ;
   --ard-date-input-line-height: 1.25;
   --ard-date-input-line-height-compact: 1;
   --ard-date-input-font-weight: 400;
-  --ard-date-input-padding: var(--ard-form-field-padding, 0 0.375rem);
-  --ard-date-input-padding-compact: var(--ard-form-field-padding-compact, 0 0.375rem);
-  --ard-date-input-color: #{ARD.$text};
-  --ard-date-input-placeholder-color: #{ARD.$text};
+  --ard-date-input-padding: ;
+  --ard-date-input-padding-compact: ;
+  --ard-date-input-color: ;
+  --ard-date-input-placeholder-color: ;
   --ard-date-input-placeholder-opacity: 60%;
 
   --ard-date-input-padding: 0 0 0 0.375rem;

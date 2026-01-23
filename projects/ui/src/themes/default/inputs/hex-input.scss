@@ -4,24 +4,24 @@
 @use '../../variables' as ARD;
 
 :root {
-  --ard-hex-input-height: var(--ard-form-field-height, 2.3125rem);
-  --ard-hex-input-height-compact: var(--ard-form-field-height-compact, 1.6875rem);
+  --ard-hex-input-height: ;
+  --ard-hex-input-height-compact: ;
   --ard-hex-input-gap: 0.625rem;
-  --ard-hex-input-font-size: var(--ard-form-field-font-size, 1rem);
-  --ard-hex-input-font-size-compact: var(--ard-form-field-font-size-compact, 0.875rem);
+  --ard-hex-input-font-size: ;
+  --ard-hex-input-font-size-compact: ;
   --ard-hex-input-line-height: 1.25;
   --ard-hex-input-line-height-compact: 1;
   --ard-hex-input-font-weight: 400;
-  --ard-hex-input-padding: var(--ard-form-field-padding, 0 0.375rem);
-  --ard-hex-input-padding-compact: var(--ard-form-field-padding-compact, 0 0.375rem);
-  --ard-hex-input-color: #{ARD.$text};
-  --ard-hex-input-placeholder-color: #{ARD.$text};
+  --ard-hex-input-padding: ;
+  --ard-hex-input-padding-compact: ;
+  --ard-hex-input-color: ;
+  --ard-hex-input-placeholder-color: ;
   --ard-hex-input-placeholder-opacity: 60%;
 
   --ard-hex-input-min-width: 10rem;
   --ard-hex-input-max-width: 100%;
   --ard-hex-input-hash-margin: 0 0 -0.5rem 0;
-  --ard-hex-input-hash-color: #{ARD.$text};
+  --ard-hex-input-hash-color: ;
   --ard-hex-input-hash-opacity: 70%;
 }
 

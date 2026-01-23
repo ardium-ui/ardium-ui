@@ -4,22 +4,22 @@
 @use '../variables' as ARD;
 
 :root {
-  --ard-slider-font-size: var(--ard-form-field-font-size, 1rem);
-  --ard-slider-font-size-compact: var(--ard-form-field-font-size-compact, 0.875rem);
+  --ard-slider-font-size: ;
+  --ard-slider-font-size-compact: ;
   --ard-slider-width: 100%;
   --ard-slider-padding: 0 calc(var(--ard-slider-handle-size, 1.25em) / 2);
   --ard-slider-track-height: 0.25em;
-  --ard-slider-track-color: var(--ard-cmpcl--bg-colored);
+  --ard-slider-track-color: ;
   --ard-slider-track-opacity: 20%;
   --ard-slider-track-border-radius: 9999px;
   --ard-slider-active-track-height: calc(100% + 0.125em);
-  --ard-slider-active-color: var(--ard-cmpcl--bg-colored);
+  --ard-slider-active-color: ;
   --ard-slider-active-track-opacity: 100%;
   --ard-slider-value-tick-size: 0.125em;
   --ard-slider-value-tick-opacity: 30%;
   --ard-slider-track-hitbox-size: calc(var(--ard-slider-handle-size, 1.25em) / 2);
   --ard-slider-handle-size: 1.25em;
-  --ard-slider-handle-bg: var(--ard-cmpcl--bg-colored);
+  --ard-slider-handle-bg: ;
   --ard-slider-handle-border: none;
   --ard-slider-handle-border-radius: 9999px;
   --ard-slider-handle-hitbox-size: 0.375em;
@@ -29,8 +29,8 @@
   --ard-slider-handle-overlay-active-opacity: 25%;
   --ard-slider-label-font-size: 0.875rem;
   --ard-slider-label-padding-top: 0.2em;
-  --ard-slider-label-bg: #{ARD.$text3};
-  --ard-slider-label-color: #{ARD.$text2-alt};
+  --ard-slider-label-bg: ;
+  --ard-slider-label-color: ;
   --ard-slider-label-height: 2em;
   --ard-slider-label-border: none;
   --ard-slider-label-border-radius: 0.375em;

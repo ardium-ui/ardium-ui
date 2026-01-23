@@ -4,18 +4,18 @@
 @use '../../variables' as ARD;
 
 :root {
-  --ard-search-bar-height: var(--ard-form-field-height, 2.3125rem);
-  --ard-search-bar-height-compact: var(--ard-form-field-height-compact, 1.6875rem);
+  --ard-search-bar-height: ;
+  --ard-search-bar-height-compact: ;
   --ard-search-bar-gap: 0.625rem;
-  --ard-search-bar-font-size: var(--ard-form-field-font-size, 1rem);
-  --ard-search-bar-font-size-compact: var(--ard-form-field-font-size-compact, 0.875rem);
+  --ard-search-bar-font-size: ;
+  --ard-search-bar-font-size-compact: ;
   --ard-search-bar-line-height: 1.25;
   --ard-search-bar-line-height-compact: 1;
   --ard-search-bar-font-weight: 400;
-  --ard-search-bar-padding: var(--ard-form-field-padding, 0 0.375rem);
-  --ard-search-bar-padding-compact: var(--ard-form-field-padding-compact, 0 0.375rem);
-  --ard-search-bar-color: #{ARD.$text};
-  --ard-search-bar-placeholder-color: #{ARD.$text};
+  --ard-search-bar-padding: ;
+  --ard-search-bar-padding-compact: ;
+  --ard-search-bar-color: ;
+  --ard-search-bar-placeholder-color: ;
   --ard-search-bar-placeholder-opacity: 60%;
 
   --ard-search-bar-min-width: 10rem;
