@@ -3,25 +3,27 @@
 @use '../clear-button' as CB;
 @use '../../variables' as ARD;
 
+// the variables are commented out intentionally
+// read more in docs/dev/css-variables.md
 :root {
-  --ard-hex-input-height: ;
-  --ard-hex-input-height-compact: ;
+  // --ard-hex-input-height: ;
+  // --ard-hex-input-height-compact: ;
   --ard-hex-input-gap: 0.625rem;
-  --ard-hex-input-font-size: ;
-  --ard-hex-input-font-size-compact: ;
+  // --ard-hex-input-font-size: ;
+  // --ard-hex-input-font-size-compact: ;
   --ard-hex-input-line-height: 1.25;
   --ard-hex-input-line-height-compact: 1;
   --ard-hex-input-font-weight: 400;
-  --ard-hex-input-padding: ;
-  --ard-hex-input-padding-compact: ;
-  --ard-hex-input-color: ;
-  --ard-hex-input-placeholder-color: ;
+  // --ard-hex-input-padding: ;
+  // --ard-hex-input-padding-compact: ;
+  // --ard-hex-input-color: ;
+  // --ard-hex-input-placeholder-color: ;
   --ard-hex-input-placeholder-opacity: 60%;
 
   --ard-hex-input-min-width: 10rem;
   --ard-hex-input-max-width: 100%;
   --ard-hex-input-hash-margin: 0 0 -0.5rem 0;
-  --ard-hex-input-hash-color: ;
+  // --ard-hex-input-hash-color: ;
   --ard-hex-input-hash-opacity: 70%;
 }
 

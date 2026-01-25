@@ -3,6 +3,8 @@
 @use './coloring.scss' as CM;
 @use '../variables' as ARD;
 
+// the variables are commented out intentionally
+// read more in docs/dev/css-variables.md
 :root {
   --ard-calendar-grid-size: 2.25rem;
   --ard-calendar-grid-gap: 0.25rem;
@@ -11,19 +13,19 @@
   --ard-calendar-weekday-padding: 0 0 0.5rem 0;
   --ard-calendar-weekday-font-size: 0.875rem;
   --ard-calendar-weekday-font-weight: 500;
-  --ard-calendar-weekday-color: ;
+  // --ard-calendar-weekday-color: ;
   --ard-calendar-floating-month-transform: none;
   --ard-calendar-floating-month-padding: 0 0 0 1rem;
   --ard-calendar-floating-month-font-size: 0.875rem;
   --ard-calendar-floating-month-font-weight: 500;
-  --ard-calendar-floating-month-color: ;
+  // --ard-calendar-floating-month-color: ;
   --ard-calendar-entry-padding: 0;
   --ard-calendar-entry-font-size: 0.875rem;
   --ard-calendar-entry-font-weight: 400;
   --ard-calendar-entry-border-radius: 9999px;
   --ard-calendar-entry-range-overlay-border-width: 1px;
   --ard-calendar-entry-range-overlay-border-style: dashed;
-  --ard-calendar-entry-today-border-color: ;
+  // --ard-calendar-entry-today-border-color: ;
   --ard-calendar-entry-today-selected-border: 2px solid #{ARD.$bg};
   --ard-calendar-entry-highlighted-overlay-opacity: 20%;
   --ard-calendar-entry-selected-overlay-opacity: 100%;

@@ -4,19 +4,21 @@
 @use '../coloring' as CM;
 @use '../../variables' as ARD;
 
+// the variables are commented out intentionally
+// read more in docs/dev/css-variables.md
 :root {
-  --ard-file-input-height: ;
-  --ard-file-input-height-compact: ;
+  // --ard-file-input-height: ;
+  // --ard-file-input-height-compact: ;
   --ard-file-input-gap: 0.625rem;
-  --ard-file-input-font-size: ;
-  --ard-file-input-font-size-compact: ;
+  // --ard-file-input-font-size: ;
+  // --ard-file-input-font-size-compact: ;
   --ard-file-input-line-height: 1.25;
   --ard-file-input-line-height-compact: 1;
   --ard-file-input-font-weight: 400;
-  --ard-file-input-padding: ;
-  --ard-file-input-padding-compact: ;
-  --ard-file-input-color: ;
-  --ard-file-input-placeholder-color: ;
+  // --ard-file-input-padding: ;
+  // --ard-file-input-padding-compact: ;
+  // --ard-file-input-color: ;
+  // --ard-file-input-placeholder-color: ;
   --ard-file-input-placeholder-opacity: 60%;
 
   --ard-file-input-min-width: 10rem;
@@ -32,10 +34,10 @@
   --ard-file-input-browse-button-border-radius: 9999px;
   --ard-file-input-browse-button-background: none;
   --ard-file-input-browse-button-padding: 0;
-  --ard-file-input-browse-button-color: ;
-  --ard-file-input-browse-button-color-error: ;
+  // --ard-file-input-browse-button-color: ;
+  // --ard-file-input-browse-button-color-error: ;
   --ard-file-input-browse-button-overlay-offset: 0rem;
-  --ard-file-input-browse-button-overlay-color: ;
+  // --ard-file-input-browse-button-overlay-color: ;
   --ard-file-input-browse-button-overlay-hover-opacity: 4%;
   --ard-file-input-browse-button-overlay-focus-opacity: 0;
   --ard-file-input-browse-button-overlay-active-opacity: 12%;

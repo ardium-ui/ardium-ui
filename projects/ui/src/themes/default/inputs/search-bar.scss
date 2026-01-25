@@ -3,19 +3,21 @@
 @use '../clear-button' as CB;
 @use '../../variables' as ARD;
 
+// the variables are commented out intentionally
+// read more in docs/dev/css-variables.md
 :root {
-  --ard-search-bar-height: ;
-  --ard-search-bar-height-compact: ;
+  // --ard-search-bar-height: ;
+  // --ard-search-bar-height-compact: ;
   --ard-search-bar-gap: 0.625rem;
-  --ard-search-bar-font-size: ;
-  --ard-search-bar-font-size-compact: ;
+  // --ard-search-bar-font-size: ;
+  // --ard-search-bar-font-size-compact: ;
   --ard-search-bar-line-height: 1.25;
   --ard-search-bar-line-height-compact: 1;
   --ard-search-bar-font-weight: 400;
-  --ard-search-bar-padding: ;
-  --ard-search-bar-padding-compact: ;
-  --ard-search-bar-color: ;
-  --ard-search-bar-placeholder-color: ;
+  // --ard-search-bar-padding: ;
+  // --ard-search-bar-padding-compact: ;
+  // --ard-search-bar-color: ;
+  // --ard-search-bar-placeholder-color: ;
   --ard-search-bar-placeholder-opacity: 60%;
 
   --ard-search-bar-min-width: 10rem;

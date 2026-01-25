@@ -1,5 +1,7 @@
 @use './button-mixins' as shared;
 
+// the variables are commented out intentionally
+// read more in docs/dev/css-variables.md
 :root {
   --ard-icon-button-height: 2.1875em;
   --ard-icon-button-height-compact: 2.25em;
@@ -8,12 +10,12 @@
   --ard-icon-button-icon-font-size: 1.5em;
   --ard-icon-button-font-size-compact: 0.75rem;
   --ard-icon-button-font-weight: 600;
-  --ard-icon-button-overlay-hover-opacity: ;
-  --ard-icon-button-overlay-focus-opacity: ;
-  --ard-icon-button-overlay-active-opacity: ;
-  --ard-icon-button-overlay-focus-visible-opacity: ;
-  --ard-icon-button-overlay-disabled-opacity: ;
-  --ard-icon-button-disabled-opacity: ;
+  // --ard-icon-button-overlay-hover-opacity: ;
+  // --ard-icon-button-overlay-focus-opacity: ;
+  // --ard-icon-button-overlay-active-opacity: ;
+  // --ard-icon-button-overlay-focus-visible-opacity: ;
+  // --ard-icon-button-overlay-disabled-opacity: ;
+  // --ard-icon-button-disabled-opacity: ;
 }
 
 ard-icon-button {

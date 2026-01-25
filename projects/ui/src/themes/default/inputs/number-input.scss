@@ -2,19 +2,21 @@
 @use '../mixins' as defaultMixins;
 @use '../../variables' as ARD;
 
+// the variables are commented out intentionally
+// read more in docs/dev/css-variables.md
 :root {
-  --ard-number-input-height: ;
-  --ard-number-input-height-compact: ;
+  // --ard-number-input-height: ;
+  // --ard-number-input-height-compact: ;
   --ard-number-input-gap: 0.625rem;
-  --ard-number-input-font-size: ;
-  --ard-number-input-font-size-compact: ;
+  // --ard-number-input-font-size: ;
+  // --ard-number-input-font-size-compact: ;
   --ard-number-input-line-height: 1.25;
   --ard-number-input-line-height-compact: 1;
   --ard-number-input-font-weight: 400;
-  --ard-number-input-padding: ;
-  --ard-number-input-padding-compact: ;
-  --ard-number-input-color: ;
-  --ard-number-input-placeholder-color: ;
+  // --ard-number-input-padding: ;
+  // --ard-number-input-padding-compact: ;
+  // --ard-number-input-color: ;
+  // --ard-number-input-placeholder-color: ;
   --ard-number-input-placeholder-opacity: 60%;
 
   --ard-number-input-width: 9.5rem;
@@ -42,7 +44,6 @@ ard-number-input {
     var(--ard-number-input-placeholder-opacity, 60%)
   );
   @include defaultMixins.formAppearances();
-  min-height: var(--ard-form-field-height, var(--ard-number-input-height, 2.3125rem));
   gap: 0;
   width: 100%;
 

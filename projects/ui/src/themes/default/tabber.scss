@@ -1,6 +1,8 @@
 @use './coloring' as CM;
 @use './mixins' as M;
 
+// the variables are commented out intentionally
+// read more in docs/dev/css-variables.md
 :root {
   --ard-tabber-tab-height: 2.5em;
   --ard-tabber-tab-font-size: 0.875rem;
@@ -11,7 +13,7 @@
   --ard-tabber-tab-gap: 0;
   --ard-tabber-tab-content-gap: 0.375rem;
   --ard-tabber-separator-border: 1px solid var(--ard-detail-ultralight, rgba(0, 0, 0, 12%));
-  --ard-tabber-tab-overlay-color: ;
+  // --ard-tabber-tab-overlay-color: ;
   --ard-tabber-tab-hover-opacity: 4%;
   --ard-tabber-tab-active-opacity: 12%;
   --ard-tabber-tab-focus-visible-opacity: 18%;

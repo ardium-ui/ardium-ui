@@ -1,5 +1,7 @@
 @use './button-mixins' as shared;
 
+// the variables are commented out intentionally
+// read more in docs/dev/css-variables.md
 :root {
   --ard-button-height: 2.5em;
   --ard-button-height-compact: 2.25em;
@@ -17,7 +19,7 @@
   --ard-button-overlay-active-opacity: 0.18;
   --ard-button-overlay-focus-visible-opacity: 0.24;
   --ard-button-overlay-disabled-opacity: 0.2;
-  --ard-button-rounded-corner-radius: ;
+  // --ard-button-rounded-corner-radius: ;
   --ard-button-disabled-opacity: 0.6;
 }
 

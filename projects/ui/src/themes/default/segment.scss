@@ -2,11 +2,13 @@
 @use './coloring' as coloringMixins;
 @use '../variables' as ARD;
 
+// the variables are commented out intentionally
+// read more in docs/dev/css-variables.md
 :root {
   --ard-segment-margin: 0;
   --ard-segment-padding: 0.15rem;
-  --ard-segment-option-gap: ;
-  --ard-segment-font-family: ;
+  // --ard-segment-option-gap: ;
+  // --ard-segment-font-family: ;
   --ard-segment-font-size: 0.875rem;
   --ard-segment-font-size-compact: 0.75rem;
   --ard-segment-rounded-border-radius: 0.5rem;
@@ -21,7 +23,7 @@
   --ard-segment-option-active-bg-opacity: 12%;
   --ard-segment-option-active-keyboard-bg-opacity: 34%;
   --ard-segment-option-selected-bg-opacity: 16%;
-  --ard-segment-border-color: ;
+  // --ard-segment-border-color: ;
 }
 
 .ard-segment-container {
