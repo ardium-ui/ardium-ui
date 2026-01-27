@@ -923,9 +923,7 @@ export class ArdiumSelectComponent
   }
   private async _onEnterPress(event: KeyboardEvent) {
     event.preventDefault();
-    let shouldClose = true;
-
-    console.log('enter pressed', this.itemStorage.highlightedItems());
+    let shouldClose = !this.keepOpen();
 
     //select the currently highlighted option
     if (this.isOpen() && this.firstHighlightedItem()) {
@@ -944,11 +942,9 @@ export class ArdiumSelectComponent
       shouldClose = false;
     }
 
-    if (!this.keepOpen() && shouldClose) {
+    if (shouldClose) {
       this.itemStorage.clearAllHighlights();
       this.close();
-    } else {
-      this.open();
     }
   }
   private _onSpacePress(event: KeyboardEvent): void {
