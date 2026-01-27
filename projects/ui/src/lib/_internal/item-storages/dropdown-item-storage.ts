@@ -1,6 +1,7 @@
-import { Signal, computed, signal } from '@angular/core';
+import { computed, effect, Signal, signal } from '@angular/core';
 import { arraySignal } from '@ardium-ui/devkit';
 import { resolvePath } from 'resolve-object-path';
+import { firstValueFrom, isObservable, Observable } from 'rxjs';
 import { any, evaluate, isArray, isDefined, isObject, isPrimitive, isPromise } from 'simple-bool';
 import { AddCustomFn } from '../../select/select.types';
 import { ArdItemGroupMap, ArdOption, ArdOptionGroup, CompareWithFn, GroupByFn, SearchFn } from '../../types/item-storage.types';
@@ -29,11 +30,21 @@ export interface ItemStorageHost {
 export class ItemStorage {
   private readonly _items = arraySignal<ArdOption>([]);
 
-  readonly filteredItems = computed<ArdOption[]>(() => this.items().filter(item => item.filtered));
-  readonly selectedItems = computed<ArdOption[]>(() => this.items().filter(item => item.selected));
-  readonly highlightedItems = computed<ArdOption[]>(() => this.items().filter(item => item.highlighted));
+  readonly filteredItems = computed<ArdOption[]>(() => this.items().filter(item => item.filtered), {
+    equal: arrayEqualityFn,
+  });
+  readonly selectedItems = computed<ArdOption[]>(() => this.items().filter(item => item.selected), {
+    equal: arrayEqualityFn,
+  });
+  readonly highlightedItems = computed<ArdOption[]>(() => this.items().filter(item => item.highlighted), {
+    equal: arrayEqualityFn,
+  });
   private readonly _lastHighlightedItem = signal<Nullable<ArdOption>>(undefined);
   private readonly _recentlyHighlightedItem = signal<Nullable<ArdOption>>(undefined);
+
+  fndjf = effect(() => {
+    console.log(this.filteredItems());
+  });
 
   private readonly _groups = computed<ArdItemGroupMap>(() => {
     const groupMap: ArdItemGroupMap = this._createEmptyGroupMap();
@@ -87,6 +98,7 @@ export class ItemStorage {
 
   readonly isNoItemsToSelect = computed(() => this.items().length === this.selectedItems().length);
   readonly isNoItemsFound = computed(() => this.filteredItems().length === 0);
+  readonly isAnyItemExactMatch = computed(() => this.filteredItems().some(item => item.isExactMatch));
   readonly isAnyItemSelected = computed(() => this.selectedItems().length > 0);
   readonly isAnyItemHighlighted = computed(() => this.highlightedItems().length > 0);
   readonly itemsLeftUntilLimit = computed(() =>
@@ -141,7 +153,7 @@ export class ItemStorage {
       item = this._primitiveItemsMapFn(item);
     }
     //map the item to create data bindings
-    const ardOption = this._setItemsMapFn(item, (this.items().last()?.index ?? 0) + 1, isItemPrimitive);
+    const ardOption = this._setItemsMapFn(item, (this.items().last()?.index ?? -1) + 1, isItemPrimitive);
 
     //push the item into all items
     this._items.push(ardOption);
@@ -197,6 +209,7 @@ export class ItemStorage {
         label: rawItemData.value?.toString?.() ?? String(rawItemData.value),
         disabled: false,
         filtered: true,
+        isExactMatch: false,
         selected: false,
         highlighted: false,
         group: undefined,
@@ -241,6 +254,7 @@ export class ItemStorage {
       disabled: disabled,
       group: group,
       filtered: true,
+      isExactMatch: false,
       selected: false,
       highlighted: false,
       highlighted_recently: false,
@@ -322,11 +336,15 @@ export class ItemStorage {
     }
     return this.items().find(item => findBy(item));
   }
-  async addCustomOption(value: string, fn: AddCustomFn<any> | AddCustomFn<Promise<any>>): Promise<ArdOption | null> {
-    const fnResult = fn(value);
+  async addCustomOption(
+    value: string,
+    fn: AddCustomFn<any> | AddCustomFn<Promise<any>> | AddCustomFn<Observable<any>>
+  ): Promise<ArdOption | null> {
+    let optionValue = fn(value);
 
-    let optionValue = fnResult;
-    if (isPromise(optionValue)) {
+    if (isObservable(optionValue)) {
+      optionValue = await firstValueFrom(optionValue);
+    } else if (isPromise(optionValue)) {
       try {
         optionValue = await optionValue;
       } catch (error) {
@@ -482,7 +500,10 @@ export class ItemStorage {
     }
 
     const searchFn = this._ardParentComp.searchFn();
-    this._updateItems(item => ({ ...item, filtered: searchFn(filterTerm, item) }));
+    this._updateItems(item => {
+      const searchResult = searchFn(filterTerm, item);
+      return { ...item, filtered: searchResult[0], isExactMatch: searchResult[1] };
+    });
 
     if (!this.isNoItemsFound) this.highlightFirstItem();
     else this.clearAllHighlights();
@@ -495,4 +516,8 @@ export class ItemStorage {
     this._updateItems(item => ({ ...item, filtered: true }));
     return this.items();
   }
+}
+
+function arrayEqualityFn<T>(a: T[], b: T[]): boolean {
+  return a === b || (a.length === 0 && b.length === 0) || (a.length === b.length && a.every((v, i) => v === b[i]));
 }

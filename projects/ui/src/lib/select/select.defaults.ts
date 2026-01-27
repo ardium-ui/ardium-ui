@@ -2,7 +2,7 @@ import { InjectionToken, Provider } from '@angular/core';
 import { _FormFieldComponentDefaults, _formFieldComponentDefaults } from '../_internal/form-field-component';
 import { DropdownPanelAppearance, DropdownPanelVariant } from '../dropdown-panel';
 import { searchFunctions } from '../search-functions';
-import { ArdPanelPosition, GroupByFn, SearchFn } from '../types/item-storage.types';
+import { ArdPanelPosition, CompareWithFn, GroupByFn, SearchFn } from '../types/item-storage.types';
 import { Nullable } from '../types/utility.types';
 import { FormElementAppearance, FormElementVariant } from './../types/theming.types';
 import { AddCustomFn } from './select.types';
@@ -37,7 +37,7 @@ export interface ArdSelectDefaults extends _FormFieldComponentDefaults {
   maxSelectedItems: number;
   itemDisplayLimit: number;
   searchFn: SearchFn;
-  compareWith: Nullable<SearchFn>;
+  compareWith: Nullable<CompareWithFn>;
   appearance: FormElementAppearance;
   variant: FormElementVariant;
   compact: boolean;

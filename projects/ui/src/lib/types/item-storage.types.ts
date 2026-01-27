@@ -21,6 +21,7 @@ export interface ArdOptionSimple extends ArdSimplestStorageItem {
 
 export interface ArdOption extends ArdOptionSimple {
   readonly filtered: boolean;
+  readonly isExactMatch: boolean;
   readonly group: unknown;
   readonly highlighted_recently: boolean;
 }
@@ -41,5 +42,5 @@ export type ArdPanelPosition = (typeof ArdPanelPosition)[keyof typeof ArdPanelPo
 export type ArdItemGroupMap = Map<any, ArdOptionGroup>;
 
 export type GroupByFn = (item: any) => any;
-export type SearchFn = (searchTerm: string, item: ArdOption) => boolean;
+export type SearchFn = (searchTerm: string, item: ArdOption) => [boolean, boolean];
 export type CompareWithFn = (value: any, optionValue: any) => boolean;

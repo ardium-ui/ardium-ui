@@ -33,7 +33,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BooleanLike, NumberLike, coerceArrayProperty, coerceBooleanProperty, coerceNumberProperty } from '@ardium-ui/devkit';
-import { Subject, merge, startWith, takeUntil } from 'rxjs';
+import { Observable, Subject, merge, startWith, takeUntil } from 'rxjs';
 import { isAnyString, isArray, isFunction } from 'simple-bool';
 import { _FormFieldComponentBase } from '../_internal/form-field-component';
 import { ItemStorage, ItemStorageHost } from '../_internal/item-storages/dropdown-item-storage';
@@ -41,7 +41,15 @@ import { ArdiumDropdownPanelComponent } from '../dropdown-panel/dropdown-panel.c
 import { DropdownPanelAppearance, DropdownPanelVariant } from '../dropdown-panel/dropdown-panel.types';
 import { ARD_FORM_FIELD_CONTROL } from '../form-field/form-field-child.token';
 import { ArdiumOptionComponent } from '../option/option.component';
-import { ArdOption, ArdOptionGroup, ArdPanelPosition, GroupByFn, OptionContext, SearchFn } from '../types/item-storage.types';
+import {
+  ArdOption,
+  ArdOptionGroup,
+  ArdPanelPosition,
+  CompareWithFn,
+  GroupByFn,
+  OptionContext,
+  SearchFn,
+} from '../types/item-storage.types';
 import { FormElementAppearance } from '../types/theming.types';
 import { Nullable } from '../types/utility.types';
 import { FormElementVariant } from './../types/theming.types';
@@ -180,7 +188,7 @@ export class ArdiumSelectComponent
 
   //! function inputs
   readonly searchFn = input<SearchFn>(this._DEFAULTS.searchFn);
-  readonly compareWith = input<Nullable<SearchFn>>(this._DEFAULTS.compareWith);
+  readonly compareWith = input<Nullable<CompareWithFn>>(this._DEFAULTS.compareWith);
 
   //! appearance
   readonly appearance = input<FormElementAppearance>(this._DEFAULTS.appearance);
@@ -291,11 +299,11 @@ export class ArdiumSelectComponent
   readonly touched = signal<boolean>(false);
 
   //! custom options
-  private _defaultAddCustomFn: AddCustomFn<any> = (value: string) => value;
+  private readonly _defaultAddCustomFn: AddCustomFn<any> = (value: string) => value;
 
   readonly addCustom = input<
-    false | AddCustomFn<any> | AddCustomFn<Promise<any>>,
-    string | boolean | AddCustomFn<any> | AddCustomFn<Promise<any>>
+    false | AddCustomFn<any> | AddCustomFn<Promise<any>> | AddCustomFn<Observable<any>>,
+    string | boolean | AddCustomFn<any> | AddCustomFn<Promise<any>> | AddCustomFn<Observable<any>>
   >(this._DEFAULTS.addCustom === true ? this._defaultAddCustomFn : this._DEFAULTS.addCustom, {
     transform: v => {
       if (isFunction(v)) {
@@ -307,7 +315,7 @@ export class ArdiumSelectComponent
     },
   });
   readonly shouldShowAddCustom = computed<boolean>(
-    () => this.addCustom() !== false && this.searchTerm().length > 0 && this.itemStorage.isNoItemsFound()
+    () => this.addCustom() !== false && this.searchTerm().length > 0 && !this.itemStorage.isAnyItemExactMatch()
   );
 
   async addCustomOption(value: string) {
@@ -316,6 +324,8 @@ export class ArdiumSelectComponent
 
     const newOptionObj = await this.itemStorage.addCustomOption(value, ac);
     if (!newOptionObj) return;
+
+    console.log('new option obj', this.itemStorage.items());
 
     this.selectItem(newOptionObj);
   }
@@ -409,6 +419,7 @@ export class ArdiumSelectComponent
     itemData: item.itemData,
     group: item.group,
     disabled: item.disabled,
+    isExactMatch: item.isExactMatch,
     highlighted_recently: item.highlighted_recently,
   }));
   readonly valueContextGenerator = computed<(item: ArdOption) => ValueContext>(() => item => ({
