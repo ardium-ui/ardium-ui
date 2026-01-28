@@ -1,4 +1,4 @@
-import { computed, effect, Signal, signal } from '@angular/core';
+import { computed, Signal, signal } from '@angular/core';
 import { arraySignal } from '@ardium-ui/devkit';
 import { resolvePath } from 'resolve-object-path';
 import { firstValueFrom, isObservable, Observable } from 'rxjs';
@@ -41,10 +41,6 @@ export class ItemStorage {
   });
   private readonly _lastHighlightedItem = signal<Nullable<ArdOption>>(undefined);
   private readonly _recentlyHighlightedItem = signal<Nullable<ArdOption>>(undefined);
-
-  fndjf = effect(() => {
-    console.log(this.filteredItems());
-  });
 
   private readonly _groups = computed<ArdItemGroupMap>(() => {
     const groupMap: ArdItemGroupMap = this._createEmptyGroupMap();
