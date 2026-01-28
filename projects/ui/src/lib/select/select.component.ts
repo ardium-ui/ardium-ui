@@ -325,8 +325,6 @@ export class ArdiumSelectComponent
     const newOptionObj = await this.itemStorage.addCustomOption(value, ac);
     if (!newOptionObj) return;
 
-    console.log('new option obj', this.itemStorage.items());
-
     this.selectItem(newOptionObj);
   }
 

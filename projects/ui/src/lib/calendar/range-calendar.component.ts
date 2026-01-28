@@ -72,7 +72,6 @@ export class ArdiumRangeCalendarComponent extends _AbstractCalendar<DateRange> {
 
   override writeValue(v: any): void {
     if (isObject(v) && 'from' in v && 'to' in v && isDate(v['from']) && isDate(v['to'])) {
-      console.log('writing value');
       this.selectionStart.set(v['from']);
       this.selectionEnd.set(v['to']);
     } else if (!isDefined(v)) {

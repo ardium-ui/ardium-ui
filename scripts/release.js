@@ -19,17 +19,42 @@ const VERSION_ALIAS_MAP = {
 };
 
 (async () => {
+  // Check for console logs
   let startTime = new Date();
+  const rootDir = path.join(__dirname, '..');
+
+  try {
+    const srcPath = path.join(rootDir, 'projects', 'ui', 'src', 'lib');
+
+    // search all .ts files for console.log
+    const files = fs.readdirSync(srcPath, { recursive: true }).filter(file => file.endsWith('.ts'));
+    for (const file of files) {
+      const filePath = path.join(srcPath, file);
+      const content = fs.readFileSync(filePath, 'utf8');
+      if (content.includes('console.log')) {
+        console.error(
+          `${ansis.redBright.bold('✕')} Error: Found console.log statements in ${ansis.underline(filePath)}. Please remove them before releasing.`
+        );
+        return;
+      }
+    }
+    console.log(
+      `${ansis.greenBright.bold('✓')} No console.log statements found. Proceeding... (${new Date().valueOf() - startTime.valueOf()} ms)`
+    );
+  } catch (error) {
+    console.error(error);
+  }
+
   // Check if all changes are committed
+  startTime = new Date();
   try {
     execSync('git diff-index --quiet HEAD --');
     console.log(
       `${ansis.greenBright.bold('✓')} No uncommmitted changes. Proceeding... (${new Date().valueOf() - startTime.valueOf()} ms)`
     );
   } catch (error) {
-    console.error(error);
     console.error(`${ansis.redBright.bold('✕')} Error: You have uncommitted changes. Please commit or stash them first.`);
-    process.exit(1);
+    return;
   }
 
   let bumpType = process.argv[2];
@@ -53,8 +78,6 @@ const VERSION_ALIAS_MAP = {
     bumpType = anwsers.bumpType;
   }
   try {
-    const rootDir = path.join(__dirname, '..');
-
     const libraryPackagePath = path.join(rootDir, 'projects', 'ui', 'package.json');
 
     function readVersion() {
@@ -148,7 +171,9 @@ const VERSION_ALIAS_MAP = {
     // Cleanup
     execSync('rmdir /s /Q dist', { stdio: 'ignore' });
 
-    console.log(`${ansis.greenBright.bold('✓')} Cleaned up dist directory again (${new Date().valueOf() - startTime.valueOf()} ms)`);
+    console.log(
+      `${ansis.greenBright.bold('✓')} Cleaned up dist directory again (${new Date().valueOf() - startTime.valueOf()} ms)`
+    );
 
     console.log(`\n${ansis.greenBright.bold('✓')} Successfully released version ${ansis.blueBright.underline(finalVersion)}!`);
   } catch (error) {
