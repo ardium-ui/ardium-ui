@@ -24,9 +24,10 @@
 }
 
 ard-button {
-  display: block;
+  display: flex;
   width: max-content;
   height: max-content;
+  justify-content: stretch;
 }
 
 .ard-button {
@@ -52,6 +53,7 @@ ard-button {
   margin: 0;
   user-select: none;
   text-decoration: none;
+  flex-grow: 1;
 
   //! aligns
   &.ard-align-left {
