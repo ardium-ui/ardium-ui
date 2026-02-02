@@ -10,7 +10,7 @@
     'opsz' #{$opsz};
 }
 
-@mixin focus-overlay($size: 0) {
+@mixin focus-overlay($size: 0px) {
   position: absolute;
   top: calc(-1 * #{$size});
   bottom: calc(-1 * #{$size});
