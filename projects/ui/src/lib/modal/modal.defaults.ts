@@ -9,6 +9,8 @@ export interface ArdModalDefaults {
   noCloseButton: boolean;
   noBackdrop: boolean;
   disableBackdropClose: boolean;
+  panelClass: string;
+  backdropClass: string;
 }
 
 export const _modalDefaults: ArdModalDefaults = {
@@ -19,6 +21,8 @@ export const _modalDefaults: ArdModalDefaults = {
   noCloseButton: false,
   noBackdrop: false,
   disableBackdropClose: false,
+  panelClass: '',
+  backdropClass: '',
 };
 
 export const ARD_MODAL_DEFAULTS = new InjectionToken<ArdModalDefaults>('ard-modal-defaults', {

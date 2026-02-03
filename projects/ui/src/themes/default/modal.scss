@@ -1,5 +1,33 @@
 @use '../variables' as ARD;
 
+// the variables are commented out intentionally
+// read more in docs/dev/css-variables.md
+:root {
+  // --ard-modal-width: ;
+  // --ard-modal-height: ;
+  // --ard-modal-min-width: ;
+  // --ard-modal-min-height: ;
+  // --ard-modal-max-width: ;
+  // --ard-modal-max-height: ;
+  --ard-modal-viewport-spacing: 2rem;
+  --ard-modal-padding: 1.25rem;
+  --ard-modal-padding-top: 1rem;
+  --ard-modal-gap: 1.5rem;
+  // --ard-modal-bg: ;
+  --ard-modal-no-heading-gap: 0.25rem;
+  --ard-modal-close-button-offset: 0.5rem;
+  --ard-modal-heading-padding-right: 2rem;
+  --ard-modal-heading-font-size: 1.25rem;
+  --ard-modal-heading-font-weight: 500;
+  // --ard-modal-heading-color: ;
+  --ard-modal-rounded-border-radius: 8px;
+  --ard-modal-font-size: 1rem;
+  --ard-modal-font-size-compact: 0.875rem;
+  --ard-modal-padding-compact: 0.75rem 2rem 1rem 2rem;
+  --ard-modal-gap-compact: 1rem;
+  --ard-modal-close-button-offset-compact: 0.25rem;
+}
+
 .ard-modal {
   position: fixed;
   top: 0;
@@ -13,29 +41,34 @@
     background: ARD.$darken-overlay-strong;
   }
   .ard-modal-panel {
-    padding: 1.25rem;
-    padding-top: 1rem;
-    max-width: calc(100vw - 4rem);
-    max-height: calc(100vh - 4rem);
-    background: ARD.$bg;
+    padding: var(--ard-modal-padding, 1.25rem);
+    padding-top: var(--ard-modal-padding-top, 1rem);
+    width: var(--ard-modal-width);
+    height: var(--ard-modal-height);
+    min-width: var(--ard-modal-min-width);
+    min-height: var(--ard-modal-min-height);
+    max-width: var(--ard-modal-max-width, calc(100vw - var(--ard-modal-viewport-spacing, 2rem) * 2));
+    max-height: var(--ard-modal-max-height, calc(100vh - var(--ard-modal-viewport-spacing, 2rem) * 2));
+    background: var(--ard-modal-bg, #{ARD.$bg});
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1.5rem;
+    gap: var(--ard-modal-gap, 1.5rem);
+    font-size: 1rem;
 
     &.ard-modal-no-heading-text {
-      gap: 0.25rem;
+      gap: var(--ard-modal-no-heading-gap, 0.25rem);
 
       .ard-modal-close-button {
         position: absolute;
-        right: 0.5rem;
-        top: 0.5rem;
+        right: var(--ard-modal-close-button-offset, 0.5rem);
+        top: var(--ard-modal-close-button-offset, 0.5rem);
       }
     }
     &.ard-modal-has-close-button {
       .ard-modal-heading {
-        padding-right: 2rem;
+        padding-right: var(--ard-modal-heading-padding-right, 2rem);
       }
     }
   }
@@ -45,15 +78,15 @@
     justify-content: space-between;
 
     .ard-modal-heading-text {
-      font-size: 1.25rem;
-      color: ARD.$text;
-      font-weight: 500;
-      font-family: Roboto;
+      font-size: var(--ard-modal-heading-font-size, 1.25rem);
+      color: var(--ard-modal-heading-color, #{ARD.$text});
+      font-weight: var(--ard-modal-heading-font-weight, 500);
+      font-family: var(--ard-font-family);
     }
     .ard-modal-close-button {
       position: absolute;
-      right: 0.5rem;
-      top: 0.5rem;
+      right: var(--ard-modal-close-button-offset, 0.5rem);
+      top: var(--ard-modal-close-button-offset, 0.5rem);
     }
   }
   //! appearances
@@ -65,7 +98,7 @@
   //! variants
   &.ard-variant-rounded {
     .ard-modal-panel {
-      border-radius: 8px;
+      border-radius: var(--ard-modal-rounded-border-radius, 8px);
     }
   }
   &.ard-variant-sharp {
@@ -77,17 +110,17 @@
   //! compact
   &.ard-compact {
     .ard-modal-panel {
-      font-size: 90%;
-      padding: 0.75rem 2rem 1rem 2rem;
-      gap: 1rem;
+      font-size: var(--ard-modal-font-size-compact, 0.875rem);
+      padding: var(--ard-modal-padding-compact, 0.75rem 2rem 1rem 2rem);
+      gap: var(--ard-modal-gap-compact, 1rem);
 
       &.ard-modal-no-heading-text {
-        gap: 0.25rem;
+        gap: var(--ard-modal-no-heading-gap, 0.25rem);
 
         .ard-modal-close-button {
           position: absolute;
-          right: 0.25rem;
-          top: 0.25rem;
+          right: var(--ard-modal-close-button-offset-compact, 0.25rem);
+          top: var(--ard-modal-close-button-offset-compact, 0.25rem);
         }
       }
     }

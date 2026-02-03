@@ -1,13 +1,19 @@
 @use '../variables' as ARD;
 
+// the variables are commented out intentionally
+// read more in docs/dev/css-variables.md
+:root {
+  --ard-kbd-shortcut-font-size: 0.875em;
+  --ard-kbd-shortcut-transparent-font-size: 0.75em;
+}
+
 .ard-kbd-shortcut {
   font-family: var(--ard-font-family-mono);
-  color: ARD.$text2;
 
   > span {
-    font-size: 0.9em;
+    font-size: var(--ard-kbd-shortcut-font-size, 0.875em);
   }
   &.ard-appearance-transparent > span {
-    font-size: 0.75em;
+    font-size: var(--ard-kbd-shortcut-transparent-font-size, 0.75em);
   }
 }

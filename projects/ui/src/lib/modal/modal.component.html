@@ -2,7 +2,7 @@
   @if (noBackdrop()) {
     <div
       class="ard-modal"
-      [ngClass]="ngClasses()"
+      [ngClass]="[ngClasses(), backdropClass()]"
       (click)="onBackdropClick()"
     >
       <ng-template [ngTemplateOutlet]="_modalInsidePanel"></ng-template>
@@ -10,7 +10,7 @@
   } @else {
     <div
       class="ard-modal ard-modal-backdrop"
-      [ngClass]="ngClasses()"
+      [ngClass]="[ngClasses(), backdropClass()]"
       (click)="onBackdropClick()"
     >
       <ng-template [ngTemplateOutlet]="_modalInsidePanel"></ng-template>
@@ -21,6 +21,7 @@
 <ng-template #_modalInsidePanel>
   <div
     class="ard-modal-panel"
+    [ngClass]="panelClass()"
     cdkTrapFocus
     [class.ard-modal-no-heading-text]="!heading()"
     [class.ard-modal-has-close-button]="!noCloseButton()"

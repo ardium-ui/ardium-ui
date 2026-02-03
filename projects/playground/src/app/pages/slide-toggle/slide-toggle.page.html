@@ -30,18 +30,26 @@
 </div>
 <div class="flex master">
   <span class="title">Rainbow table</span>
-  @for (color of colors; track color) {
-  <div class="flex horiz">
-    <div class="grid">
-      @for (state of [false, true]; track state) { @for (disabled of [false, true]; track disabled) {
-      <ard-slide-toggle
-        [selected]="state"
-        [color]="color"
-        [disabled]="disabled"
-      ></ard-slide-toggle>
-      } }
+  <div class="flex">
+    @for (appearance of appearances; track appearance) {
+    <span class="title">{{ appearance }}</span>
+    <div class="flex">
+      @for (color of colors; track color) {
+      <div class="flex horiz">
+        <div class="grid">
+          @for (state of [false, true]; track state) { @for (disabled of [false, true]; track disabled) {
+          <ard-slide-toggle
+            [selected]="state"
+            [color]="color"
+            [disabled]="disabled"
+            [appearance]="appearance"
+          ></ard-slide-toggle>
+          } }
+        </div>
+        <span class="mono">{{ color }}</span>
+      </div>
+      }
     </div>
-    <span class="mono">{{ color }}</span>
+    }
   </div>
-  }
 </div>

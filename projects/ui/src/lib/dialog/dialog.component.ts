@@ -41,6 +41,9 @@ export class ArdiumDialogComponent {
 
   readonly noCloseButton = input<boolean, BooleanLike>(this._DEFAULTS.noCloseButton, { transform: v => coerceBooleanProperty(v) });
 
+  readonly panelClass = input<string>(this._DEFAULTS.panelClass);
+  readonly backdropClass = input<string>(this._DEFAULTS.backdropClass);
+
   //! options
   //all handled by modal component
   readonly noBackdrop = input<boolean, BooleanLike>(this._DEFAULTS.noBackdrop, { transform: v => coerceBooleanProperty(v) });

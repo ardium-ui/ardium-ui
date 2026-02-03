@@ -2,9 +2,28 @@
 @use './mixins' as GM;
 @use '../variables' as ARD;
 
+// the variables are commented out intentionally
+// read more in docs/dev/css-variables.md
+:root {
+  // --ard-radio-font-size: ;
+  --ard-radio-group-gap: 0.5rem 1rem;
+  --ard-radio-gap: 0.75rem;
+  --ard-radio-size: 1.25em;
+  --ard-radio-outer-border-width: 0.125em;
+  --ard-radio-border-radius: 9999px;
+  --ard-radio-inner-circle-inset: 25%;
+  --ard-radio-focus-overlay-size: 0.375em;
+  --ard-radio-hitbox-offset: -0.375em;
+  --ard-radio-hover-overlay-opacity: 7.5%;
+  --ard-radio-focus-overlay-opacity: 15%;
+  --ard-radio-active-overlay-opacity: 25%;
+  --ard-radio-transition-duration: 0.2s;
+  --ard-radio-disabled-opacity: 50%;
+}
+
 ard-radio-group {
   display: flex;
-  gap: 0.5rem 1rem;
+  gap: var(--ard-radio-group-gap, 0.5rem 1rem);
 }
 
 ard-radio {
@@ -17,17 +36,17 @@ ard-radio {
   @include CM.typeColors();
 
   outline: none;
-  font-size: 1em;
+  font-size: var(--ard-radio-font-size, var(--ard-form-field-font-size, 1rem));
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--ard-radio-gap, 0.75rem);
   padding: 0;
   width: 100%;
 
   > .ard-radio-circles {
     position: relative;
-    width: 1.25em;
-    min-width: 1.25em;
+    width: var(--ard-radio-size, 1.25em);
+    min-width: var(--ard-radio-size, 1.25em);
     aspect-ratio: 1;
 
     > .ard-radio-outer-circle {
@@ -36,42 +55,42 @@ ard-radio {
       right: 0;
       top: 0;
       bottom: 0;
-      border: 0.125em solid ARD.$detail;
-      border-radius: 9999px;
-      transition: border-color 0.2s ARD.$timing-fn;
+      border: var(--ard-radio-outer-border-width, 0.125em) solid ARD.$detail;
+      border-radius: var(--ard-radio-border-radius, 9999px);
+      transition: border-color var(--ard-radio-transition-duration, 0.2s) ARD.$timing-fn;
     }
     > .ard-radio-inner-circle {
       position: absolute;
-      left: 25%;
-      right: 25%;
-      top: 25%;
-      bottom: 25%;
+      left: var(--ard-radio-inner-circle-inset, 25%);
+      right: var(--ard-radio-inner-circle-inset, 25%);
+      top: var(--ard-radio-inner-circle-inset, 25%);
+      bottom: var(--ard-radio-inner-circle-inset, 25%);
       background: var(--ard-cmpcl--bg-colored);
-      border-radius: 9999px;
+      border-radius: var(--ard-radio-border-radius, 9999px);
       transform: scale(0);
-      transition: transform 0.2s ARD.$timing-fn;
+      transition: transform var(--ard-radio-transition-duration, 0.2s) ARD.$timing-fn;
     }
     > .ard-focus-overlay {
-      @include GM.focus-overlay(0.375em);
-      border-radius: 9999px;
+      @include GM.focus-overlay(var(--ard-radio-focus-overlay-size, 0.375em));
+      border-radius: var(--ard-radio-border-radius, 9999px);
       background-color: ARD.$overlay;
 
       transition:
-        opacity 0.2s ease,
-        background-color 0.2s ease;
+        opacity var(--ard-radio-transition-duration, 0.2s) ease,
+        background-color var(--ard-radio-transition-duration, 0.2s) ease;
     }
     > .ard-hitbox {
       position: absolute;
-      top: -0.375em;
-      bottom: -0.375em;
-      left: -0.375em;
-      right: -0.375em;
+      top: var(--ard-radio-hitbox-offset, -0.375em);
+      bottom: var(--ard-radio-hitbox-offset, -0.375em);
+      left: var(--ard-radio-hitbox-offset, -0.375em);
+      right: var(--ard-radio-hitbox-offset, -0.375em);
       cursor: pointer;
     }
 
     &:hover {
       > .ard-focus-overlay {
-        opacity: 7.5%;
+        opacity: var(--ard-radio-hover-overlay-opacity, 7.5%);
       }
     }
   }
@@ -92,14 +111,14 @@ ard-radio {
   &:focus {
     > .ard-radio-circles {
       > .ard-focus-overlay {
-        opacity: 15%;
+        opacity: var(--ard-radio-focus-overlay-opacity, 15%);
       }
     }
   }
   &:active {
     > .ard-radio-circles {
       > .ard-focus-overlay {
-        opacity: 25%;
+        opacity: var(--ard-radio-active-overlay-opacity, 25%);
       }
     }
   }
@@ -108,7 +127,7 @@ ard-radio {
 .ard-disabled {
   .ard-radio {
     pointer-events: none;
-    opacity: 50%;
+    opacity: var(--ard-radio-disabled-opacity, 50%);
     user-select: none;
   }
 }
