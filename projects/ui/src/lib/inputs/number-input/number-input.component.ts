@@ -4,6 +4,7 @@ import {
   Component,
   computed,
   contentChild,
+  effect,
   ElementRef,
   forwardRef,
   Inject,
@@ -11,7 +12,7 @@ import {
   input,
   output,
   viewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BooleanLike, coerceBooleanProperty, coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
@@ -25,7 +26,11 @@ import { FormElementAppearance, FormElementVariant } from '../../types/theming.t
 import { Nullable } from '../../types/utility.types';
 import { NumberInputModel, NumberInputModelHost } from '../input-utils';
 import { ARD_NUMBER_INPUT_DEFAULTS, ArdNumberInputDefaults } from './number-input.defaults';
-import { ArdNumberInputPlaceholderTemplateDirective } from './number-input.directives';
+import {
+  ArdNumberInputPlaceholderTemplateDirective,
+  ArdNumberInputPrefixTemplateDirective,
+  ArdNumberInputSuffixTemplateDirective,
+} from './number-input.directives';
 
 @Component({
   standalone: false,
@@ -54,11 +59,13 @@ export class ArdiumNumberInputComponent
   constructor(@Inject(ARD_NUMBER_INPUT_DEFAULTS) defaults: ArdNumberInputDefaults) {
     super(defaults);
 
-    // effect(() => {
-    //   const v = this.inputModel.numberValue();
-    //   this.valueChange.emit(v);
-    //   this._onChangeRegistered?.(v);
-    // });
+    effect(() => {
+      const allowFloat = this.allowFloat();
+      const stepSize = this.stepSize();
+      if (!allowFloat && stepSize % 1 !== 0) {
+        throw new Error(`ARD-FT0071c: <ard-number-input>'s [stepSize] must be an integer when [allowFloat] is false, got "${stepSize}".`);
+      }
+    });
   }
 
   //! input view
@@ -84,6 +91,10 @@ export class ArdiumNumberInputComponent
   readonly placeholderTemplate = contentChild(ArdNumberInputPlaceholderTemplateDirective);
 
   readonly shouldDisplayPlaceholder = computed<boolean>(() => !!this.placeholder() && !this.inputModel.stringValue());
+
+  //! prefix and suffix templates
+  readonly prefixTemplate = contentChild(ArdNumberInputPrefixTemplateDirective);
+  readonly suffixTemplate = contentChild(ArdNumberInputSuffixTemplateDirective);
 
   //! appearance
   readonly appearance = input<FormElementAppearance>(this._DEFAULTS.appearance);
@@ -149,6 +160,23 @@ export class ArdiumNumberInputComponent
   readonly min = input<number, NumberLike>(this._DEFAULTS.min, { transform: v => coerceNumberProperty(v, this._DEFAULTS.min) });
   readonly max = input<number, NumberLike>(this._DEFAULTS.max, { transform: v => coerceNumberProperty(v, this._DEFAULTS.max) });
 
+  readonly maxDecimalPlaces = input<number, NumberLike>(this._DEFAULTS.maxDecimalPlaces, {
+    transform: v => {
+      const newValue = coerceNumberProperty(v, this._DEFAULTS.maxDecimalPlaces);
+      if (newValue < 0) {
+        throw new Error(
+          `ARD-FT0072a: Cannot set <ard-number-input>'s [maxDecimalPlaces] to a negative value, got "${newValue}".`
+        );
+      }
+      if (newValue % 1 !== 0) {
+        throw new Error(
+          `ARD-FT0072b: Cannot set <ard-number-input>'s [maxDecimalPlaces] to a non-integer value, got "${newValue}".`
+        );
+      }
+      return newValue;
+    },
+  });
+
   readonly allowFloat = input<boolean, BooleanLike>(this._DEFAULTS.allowFloat, { transform: v => coerceBooleanProperty(v) });
 
   //! incerement/decrement buttons
@@ -161,9 +189,12 @@ export class ArdiumNumberInputComponent
   readonly stepSize = input<number, NumberLike>(this._DEFAULTS.stepSize, {
     transform: v => {
       const newValue = coerceNumberProperty(v, 1);
-      if (newValue === 0) throw new Error(`ARD-FT0071a: Cannot set <ard-number-input>'s [stepSize] to 0.`);
-      if (newValue < 0)
+      if (newValue === 0) {
+        throw new Error(`ARD-FT0071a: Cannot set <ard-number-input>'s [stepSize] to 0.`);
+      }
+      if (newValue < 0) {
         throw new Error(`ARD-FT0071b: Cannot set <ard-number-input>'s [stepSize] to a negative value, got "${newValue}".`);
+      }
       return newValue;
     },
   });

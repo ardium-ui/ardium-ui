@@ -272,7 +272,7 @@ export class ItemStorage {
   }
   private _isWriteValueValid(ngModel: any[]): boolean {
     return ngModel.every(item => {
-      if (!isDefined(this._ardParentComp.compareWith) && isObject(item) && this._ardParentComp.valueFrom()) {
+      if (!isDefined(this._ardParentComp.compareWith) && isObject(item)) {
         console.warn(
           `ARD-WA${this._ardParentComp._componentId}0: [valueFrom] can only point to a property of a primitive type. Define [compareWith] if using objects as a value is needed.`
         );

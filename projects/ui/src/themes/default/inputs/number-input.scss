@@ -19,12 +19,12 @@
   // --ard-number-input-placeholder-color: ;
   --ard-number-input-placeholder-opacity: 60%;
 
-  --ard-number-input-width: 9.5rem;
+  // --ard-number-input-width: ;
   --ard-number-input-rounded-border-radius: 8px;
 }
 
 ard-number-input {
-  width: var(--ard-number-input-width, 9.5rem);
+  width: var(--ard-number-input-width, unset);
 }
 
 .ard-number-input {

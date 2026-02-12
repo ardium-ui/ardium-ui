@@ -21,6 +21,8 @@ export class NumberInputPage {
 
   readonly maxSignal = signal<number>(1);
 
+  readonly valueDecPl = signal<number>(5);
+
   increaseMax() {
     setTimeout(() => {
       this.maxSignal.update(v => v + 1);

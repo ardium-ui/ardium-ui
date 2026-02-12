@@ -8,32 +8,37 @@
   (mouseup)="onMouseup()"
 >
   @if (!noButtons()) {
-  <ard-button
-    class="ard-quick-change-button decrement"
-    [variant]="buttonVariant()"
-    [appearance]="buttonAppearance()"
-    color="none"
-    [disabled]="!canDecrement()"
-    [tabIndex]="!canDecrement() ? -1 : tabIndex()"
-    pointerEventsWhenDisabled
-    (click)="canDecrement() && onQuickChangeButtonClick(-1, $event)"
-    (mouseup)="onQuickChangeButtonMouseup($event)"
-    (ardHold)="canDecrement() && onQuickChangeButtonClick(-1)"
-    ardHoldSpaceKey
-  >
-    -
-  </ard-button>
+    <ard-button
+      class="ard-quick-change-button decrement"
+      [variant]="buttonVariant()"
+      [appearance]="buttonAppearance()"
+      color="none"
+      [disabled]="!canDecrement()"
+      [tabIndex]="!canDecrement() ? -1 : tabIndex()"
+      pointerEventsWhenDisabled
+      (click)="canDecrement() && onQuickChangeButtonClick(-1, $event)"
+      (mouseup)="onQuickChangeButtonMouseup($event)"
+      (ardHold)="canDecrement() && onQuickChangeButtonClick(-1)"
+      ardHoldSpaceKey
+    >
+      -
+    </ard-button>
   }
   <div class="ard-input-container">
+    @if (prefixTemplate()) {
+      <div class="ard-number-input-prefix-container">
+        <ng-template [ngTemplateOutlet]="prefixTemplate()?.template ?? null"></ng-template>
+      </div>
+    }
     @if (shouldDisplayPlaceholder()) {
-    <ng-template
-      #defaultPlaceholderTemplate
-      let-plchldr
-    >
-      <div class="ard-placeholder">{{ placeholder() }}</div>
-    </ng-template>
+      <ng-template
+        #defaultPlaceholderTemplate
+        let-plchldr
+      >
+        <div class="ard-placeholder">{{ placeholder() }}</div>
+      </ng-template>
 
-    <ng-template [ngTemplateOutlet]="placeholderTemplate()?.template || defaultPlaceholderTemplate"></ng-template>
+      <ng-template [ngTemplateOutlet]="placeholderTemplate()?.template || defaultPlaceholderTemplate"></ng-template>
     }
 
     <input
@@ -53,22 +58,27 @@
       (mouseup)="$event.stopPropagation()"
       (copy)="onCopy($event)"
     />
+    @if (suffixTemplate()) {
+      <div class="ard-number-input-suffix-container">
+        <ng-template [ngTemplateOutlet]="suffixTemplate()?.template ?? null"></ng-template>
+      </div>
+    }
   </div>
   @if (!noButtons()) {
-  <ard-button
-    class="ard-quick-change-button increment"
-    [variant]="buttonVariant()"
-    [appearance]="buttonAppearance()"
-    color="none"
-    [disabled]="!canIncrement()"
-    [tabIndex]="!canIncrement() ? -1 : tabIndex()"
-    pointerEventsWhenDisabled
-    (click)="canIncrement() && onQuickChangeButtonClick(1, $event)"
-    (mouseup)="onQuickChangeButtonMouseup($event)"
-    (ardHold)="canIncrement() && onQuickChangeButtonClick(1)"
-    ardHoldSpaceKey
-  >
-    +
-  </ard-button>
+    <ard-button
+      class="ard-quick-change-button increment"
+      [variant]="buttonVariant()"
+      [appearance]="buttonAppearance()"
+      color="none"
+      [disabled]="!canIncrement()"
+      [tabIndex]="!canIncrement() ? -1 : tabIndex()"
+      pointerEventsWhenDisabled
+      (click)="canIncrement() && onQuickChangeButtonClick(1, $event)"
+      (mouseup)="onQuickChangeButtonMouseup($event)"
+      (ardHold)="canIncrement() && onQuickChangeButtonClick(1)"
+      ardHoldSpaceKey
+    >
+      +
+    </ard-button>
   }
 </div>

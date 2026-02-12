@@ -105,6 +105,7 @@ export class AutocompleteInputModel extends InputModel {
 export interface NumberInputModelHost {
   readonly max: Signal<number>;
   readonly min: Signal<number>;
+  readonly maxDecimalPlaces: Signal<number>;
   readonly allowFloat: Signal<boolean>;
   readonly inputEl: Signal<ElementRef<HTMLInputElement> | undefined>;
 }
@@ -151,6 +152,7 @@ export class NumberInputModel {
     if (v) {
       v = this._removeDecimalPlaces(v);
       v = this._applyNumberConstraint(v);
+      v = this._applyMaxDecimalPlaces(v);
       v = this._applyMinMaxConstraints(v);
     }
     if (v === '') v = null;
@@ -200,6 +202,25 @@ export class NumberInputModel {
     if (numericValue > this._ardHostCmp.max()) return this._ardHostCmp.max().toString();
     if (numericValue < this._ardHostCmp.min()) return this._ardHostCmp.min().toString();
     return v;
+  }
+
+  private _applyMaxDecimalPlaces(v: string | number): string {
+    if (!v && v !== 0) return '';
+
+    const maxDecimalPlaces = this._ardHostCmp.maxDecimalPlaces();
+    if (!isDefined(maxDecimalPlaces) || maxDecimalPlaces === Infinity) return String(v);
+    if (maxDecimalPlaces <= 0) return this._removeDecimalPlaces(v).toString();
+
+    const text = String(v);
+    const separatorIndex = text.indexOf('.');
+    if (separatorIndex === -1) return text;
+
+    const allowedEnd = separatorIndex + 1 + maxDecimalPlaces;
+    if (text.length <= allowedEnd) return text;
+
+    const capped = text.substring(0, allowedEnd);
+    if (this.caretPos > capped.length) this.caretPos = capped.length;
+    return capped;
   }
 }
 

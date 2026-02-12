@@ -127,9 +127,6 @@
     > * {
       max-width: 100%;
       box-sizing: border-box;
-      aspect-ratio: 7/4; //it has to be the same height as in the days view
-      //before it was 7/7 (1) because there are 7 entries in a single row
-      //now there are 4 entries, and thus 7/4
     }
   }
   //! common in both grids
@@ -167,8 +164,8 @@
         @include DM.focus-overlay();
         z-index: -1;
         opacity: 1;
-        left: -calc(var(--ard-calendar-grid-gap, 0.25rem) / 2);
-        right: -calc(var(--ard-calendar-grid-gap, 0.25rem) / 2);
+        left: calc(var(--ard-calendar-grid-gap, 0.25rem) / -2 - 1px);
+        right: calc(var(--ard-calendar-grid-gap, 0.25rem) / -2 - 1px);
         border: var(--ard-calendar-entry-range-overlay-border-width, 1px)
           var(--ard-calendar-entry-range-overlay-border-style, dashed) transparent;
         background: transparent;
