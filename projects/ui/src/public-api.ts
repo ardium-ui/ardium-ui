@@ -62,6 +62,7 @@ export * from './lib/text-list'; // 510
 //! component group 6 - layout components
 export * from './lib/card';
 export * from './lib/divider';
+export * from './lib/grid'; // 601
 export * from './lib/tabber'; // 600
 
 //! component group 7 - popups
@@ -81,5 +82,6 @@ export * from './lib/types/theming.types';
 export * from './lib/types/utility.types';
 
 //! miscellaneous
+export * from './lib/breakpoints';
 export { searchFunctions as ArdSearchFunction, searchInString } from './lib/search-functions';
 

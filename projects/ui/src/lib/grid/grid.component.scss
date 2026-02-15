@@ -1,0 +1,32 @@
+.ard-grid {
+  display: block;
+  box-sizing: border-box;
+  min-width: 0px;
+}
+.ard-grid__container {
+  display: flex;
+  flex-direction: var(--ard-_grid-direction, row);
+  flex-wrap: var(--ard-_grid-wrap, wrap);
+  row-gap: var(--ard-_grid-row-spacing, 0px);
+  column-gap: var(--ard-_grid-column-spacing, 0px);
+  justify-content: var(--ard-_grid-justify-content, flex-start);
+  align-items: var(--ard-_grid-align-items, flex-start);
+
+  > .ard-grid {
+    flex-grow: 0;
+    flex-basis: auto;
+    max-width: 100%;
+    width: calc(
+      100% * var(--ard-_grid-size) / var(--ard-_grid-columns) - (var(--ard-_grid-columns) - var(--ard-_grid-size)) *
+        (var(--ard-_grid-column-spacing) / var(--ard-_grid-columns))
+    );
+
+    &.ard-grid__item-grow {
+      flex-grow: 1;
+      width: auto;
+    }
+    &.ard-grid__item-auto {
+      width: auto;
+    }
+  }
+}

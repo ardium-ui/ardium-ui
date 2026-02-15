@@ -14,6 +14,7 @@ import { DividerPage } from './pages/divider/divider.page';
 import { FabPage } from './pages/fab/fab.page';
 import { FileDropAreaPage } from './pages/file-drop-area/file-drop-area.page';
 import { FormFieldPage } from './pages/form-field/form-field.page';
+import { GridPage } from './pages/grid/grid.page';
 import { HomePage } from './pages/home/home.page';
 import { IconButtonPage } from './pages/icon-button/icon-button.page';
 import { IconPage } from './pages/icon/icon.page';
@@ -67,6 +68,7 @@ const routes: Routes = [
   { path: 'modal', component: ModalPage },
   { path: 'dialog', component: DialogPage },
   { path: 'snackbar', component: SnackbarPage },
+  { path: 'grid', component: GridPage },
   { path: 'tabber', component: TabberPage },
   { path: 'form-field', component: FormFieldPage },
   {

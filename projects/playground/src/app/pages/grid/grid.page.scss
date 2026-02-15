@@ -1,0 +1,21 @@
+.master {
+  width: 100%;
+}
+.breakpoint {
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: 1rem;
+  font-size: 1.5rem;
+  min-width: 7ch;
+  box-sizing: content-box;
+  border: 1px solid black;
+  background-color: white;
+}
+
+ard-grid:not([container]) {
+  padding: 1rem;
+  font-weight: bold;
+  font-size: 1.25rem;
+  background-color: lightgray;
+}

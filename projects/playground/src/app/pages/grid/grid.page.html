@@ -1,0 +1,81 @@
+<div class="breakpoint">
+  <strong>{{ breakpointService.currentBreakpoint() }}</strong>
+</div>
+
+<div class="master">
+  <span class="title">Basic grid</span>
+  <ard-grid container>
+    <ard-grid size="4">4</ard-grid>
+    <ard-grid size="8">8</ard-grid>
+    <ard-grid size="3">3</ard-grid>
+    <ard-grid size="6">6</ard-grid>
+    <ard-grid size="3">3</ard-grid>
+  </ard-grid>
+</div>
+<div class="master">
+  <span class="title">Grid with auto and grow sizes</span>
+
+  <ard-grid container>
+    <ard-grid size="auto">auto</ard-grid>
+    <ard-grid size="4">4</ard-grid>
+    <ard-grid size="grow">grow</ard-grid>
+  </ard-grid>
+</div>
+<div class="master">
+  <span class="title">Grid with two grow items</span>
+
+  <ard-grid container>
+    <ard-grid size="grow">grow</ard-grid>
+    <ard-grid size="7">7</ard-grid>
+    <ard-grid size="grow">grow</ard-grid>
+  </ard-grid>
+</div>
+<div class="master">
+  <span class="title">Grid with responsive sizes</span>
+
+  <ard-grid container>
+    <ard-grid size="12 md:4">12 md:4</ard-grid>
+    <ard-grid size="12 md:8">12 md:8</ard-grid>
+    <ard-grid size="12 md:4">12 md:4</ard-grid>
+    <ard-grid size="12 md:8">12 md:8</ard-grid>
+  </ard-grid>
+</div>
+<div class="master">
+  <span class="title">Grid with custom spacings</span>
+
+  <ard-grid
+    container
+    columnSpacing="2 md:4 xl:3rem"
+    rowSpacing="1 md:2 xl:4"
+  >
+    <ard-grid size="6">6</ard-grid>
+    <ard-grid size="6">6</ard-grid>
+    <ard-grid size="6">6</ard-grid>
+    <ard-grid size="6">6</ard-grid>
+  </ard-grid>
+</div>
+<div class="master">
+  <span class="title">Grid with reverse depending on breakpoint</span>
+
+  <ard-grid
+    container
+    reverse="true md:false"
+    alignItems="center xl:flex-start"
+  >
+    <ard-grid
+      size="grow"
+      style="height: 8.5rem"
+      >Item 1</ard-grid
+    >
+    <ard-grid
+      size="grow"
+      style="height: 6rem"
+      >Item 2</ard-grid
+    >
+    <ard-grid
+      size="grow"
+      style="height: 3.5rem"
+      >Item 3</ard-grid
+    >
+  </ard-grid>
+</div>
