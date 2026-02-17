@@ -55,3 +55,18 @@ const gridWrapValuesSet = new Set(Object.values(ArdGridWrap));
 export function isArdGridWrap(value: any): value is ArdGridWrap {
   return gridWrapValuesSet.has(value);
 }
+
+//! direction
+export const ArdGridDirection = {
+  Row: 'row',
+  RowReverse: 'row-reverse',
+  Column: 'column',
+  ColumnReverse: 'column-reverse',
+} as const;
+export type ArdGridDirection = (typeof ArdGridDirection)[keyof typeof ArdGridDirection];
+
+const gridDirectionValuesSet = new Set(Object.values(ArdGridDirection));
+
+export function isArdGridDirection(value: any): value is ArdGridDirection {
+  return gridDirectionValuesSet.has(value);
+}

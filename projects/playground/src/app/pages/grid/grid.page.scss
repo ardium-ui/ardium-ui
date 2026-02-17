@@ -13,9 +13,14 @@
   background-color: white;
 }
 
-ard-grid:not([container]) {
+ard-grid:not([container]), ard-stack > * {
   padding: 1rem;
   font-weight: bold;
   font-size: 1.25rem;
   background-color: lightgray;
+}
+
+ard-stack > * {
+  width: 100%;
+  box-sizing: border-box;
 }
