@@ -21,6 +21,9 @@
     - For selecting ranges of two dates, with all features of normal calendar
   - Multipage Date Range Input
     - Specialized date range input that shows multiple calendar pages (multiple months) at once. It doesn't let the user select years and months directly, just the dates.
+  - Grid & Stack
+    - Grid is for positioning elements horizontally in a column-based layout
+    - Stack is a shortcut for positioning elements using flexbox
 - Button
   - Added button directive that can be used on a `<button>` or an `<a>` element to add all button functionality
   - Button component now uses the directive internally
@@ -29,16 +32,26 @@
 - Date Input & Calendar
   - Added `[UTC]` input - outputed values are in UTC format. Defaults for UTC input are supported as well
   - Added `[startView]` input - can be configured to set which calendar view is shown when opening the date input
+- Dialog & Modal
+  - A class can now be added to the modal overlay element
 - Form Field
   - Errors now support being aligned to the left and right side, not only to the left
   - Added `[defaultHintAlign]` input - configures which is the default side that hints and errors will align to
   - Added `ard-hint-error` component and directive - they behave like both the hint and the error, which means they appear even when no other errors are specified, but they still stay and change color to red when other errors are defined
+  - Added `ard-auto-error` component, which automatically generates an error message based on the `FormControl`'s state
   - Labels are now styled properly when the field has an error
   - Now also supports the Rating Input component as the control
+- Number Input
+  - Now supports `ard-prefix-tmp` and `ard-suffix-tmp` customization templates
+  - Added `[maxDecimalPlaces]` input for deciding how many decimal places may be passed in. All further digits are trimmed (rounded down)
 - Select
   - Added `[dropdownPanelWidth]`, `[dropdownPanelHeight]`, `[dropdownPanelMinWidth]`, `[dropdownPanelMinHeight]`, `[dropdownPanelMaxWidth]`, and `[dropdownPanelMaxHeight]` inputs
   - Added `[addCustomOptionText]` input - allows to change what the "Add custom option" text is without having to change the template
   - Allow to customize the dropdown arrow using a template directive
+  - Adding a custom option is now available at all times, unless an exact match is found
+  - Dropdown is no longer opened when pressing Enter
+- Slide Toggle
+  - Added CSS styles for `"contained"` appearance, as the typescript portion was working, but the styles were missing
 - Slider & Range Slider
   - An error is now thrown when trying to set `[min]` to a value greater than `[max]`
   - Added `[selectionBehavior]` input to Range Slider - allows to change how the handles can move in relation to each other
@@ -91,3 +104,4 @@ Other notable changes include:
 - Digit Input and Radio Group had `allowSignalWrites` set to true, which caused warnings to be displayed in the console
 - Rating Display only uses one color for all stars, even the unselected ones, while they should be uncolored
 - Rating Input doesn't fire ControlValueAccessor touched events
+- Rating Input fires ControlValueAccessor change events with a delay
