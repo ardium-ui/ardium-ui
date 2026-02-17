@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ArdiumAutoErrorComponent } from './auto-error/auto-error.component';
 import { ArdiumErrorComponent } from './error/error.component';
 import { ArdiumErrorDirective } from './error/error.directive';
 import { ArdiumFormFieldNativeInputAdapterDirective } from './form-field-native-inputs';
@@ -19,6 +20,7 @@ import { ArdiumLabelComponent } from './label/label.component';
     ArdiumHintComponent,
     ArdiumErrorComponent,
     ArdiumHintErrorComponent,
+    ArdiumAutoErrorComponent,
   ],
   imports: [CommonModule, ArdiumHintDirective, ArdiumErrorDirective],
   exports: [
@@ -29,6 +31,7 @@ import { ArdiumLabelComponent } from './label/label.component';
     ArdiumHintComponent,
     ArdiumErrorComponent,
     ArdiumHintErrorComponent,
+    ArdiumAutoErrorComponent,
   ],
 })
 export class ArdiumFormFieldModule {}

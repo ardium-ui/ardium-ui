@@ -6,6 +6,7 @@ export interface ArdFormFieldDefaults {
   reserveHintLine: boolean;
   labelRequiredText: string;
   labelOptionalText: string;
+  autoErrorOnlyFirstError: boolean;
 }
 
 const _formFieldDefaults: ArdFormFieldDefaults = {
@@ -13,6 +14,7 @@ const _formFieldDefaults: ArdFormFieldDefaults = {
   reserveHintLine: false,
   labelRequiredText: '*',
   labelOptionalText: '(optional)',
+  autoErrorOnlyFirstError: true,
 };
 
 export const ARD_FORM_FIELD_DEFAULTS = new InjectionToken<ArdFormFieldDefaults>('ard-form-field-defaults', {

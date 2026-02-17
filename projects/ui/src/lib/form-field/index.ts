@@ -1,3 +1,5 @@
+export * from './auto-error/auto-error.component';
+export * from './auto-error/auto-error.provider';
 export * from './error/error.component';
 export * from './error/error.directive';
 export * from './form-field-child.token';

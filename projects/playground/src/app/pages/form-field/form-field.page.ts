@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -7,7 +7,7 @@ import { FormControl, Validators } from '@angular/forms';
   templateUrl: './form-field.page.html',
   styleUrls: ['./form-field.page.scss'],
 })
-export class FormFieldPage implements OnInit {
+export class FormFieldPage implements OnInit, OnDestroy {
   readonly control = new FormControl('Example text 1');
   readonly control2 = new FormControl('', [Validators.required]);
   readonly control3 = new FormControl('Example text 3');
@@ -17,6 +17,12 @@ export class FormFieldPage implements OnInit {
   readonly controlSegment = new FormControl(['yes']);
   readonly controlNativeInput = new FormControl(['native'], [Validators.required]);
   readonly controlNativeTextarea = new FormControl(['textarea'], [Validators.required]);
+  readonly controlAutoError = new FormControl('', [
+    Validators.required,
+    Validators.minLength(5),
+    Validators.maxLength(10),
+    Validators.pattern(/^[a-z]+$/i),
+  ]);
 
   readonly options = ['Apple', 'Pear', 'Banana', 'Cherry'];
 
@@ -27,9 +33,12 @@ export class FormFieldPage implements OnInit {
     setTimeout(() => {
       this.control2.setErrors({ required: true });
     }, 3000);
-    setInterval(() => {
+    this._interval = setInterval(() => {
       this.showHint.update(v => !v);
     }, 3000);
     this.control3.disable();
+  }
+  ngOnDestroy(): void {
+    clearInterval(this._interval);
   }
 }

@@ -23,21 +23,23 @@
     <div class="ard-form-field__errors-left">
       @if (alignHintToLeftByDefault()) {
       <div class="ard-form-field__default-error">
+        <ng-template [ngTemplateOutlet]="defaultAutoErrors" />
         <ng-template [ngTemplateOutlet]="defaultErrors" />
         <ng-template [ngTemplateOutlet]="defaultHintErrors" />
       </div>
       }
-      <ng-content select="ard-error[left], [ard-error][left]" />
+      <ng-content select="ard-error[left], [ard-error][left], ard-auto-error[left]" />
       <ng-template [ngTemplateOutlet]="leftHintErrors" />
     </div>
     <div class="ard-form-field__errors-right">
       @if (!alignHintToLeftByDefault()) {
       <div class="ard-form-field__default-error">
+        <ng-template [ngTemplateOutlet]="defaultAutoErrors" />
         <ng-template [ngTemplateOutlet]="defaultErrors" />
         <ng-template [ngTemplateOutlet]="defaultHintErrors" />
       </div>
       }
-      <ng-content select="ard-error[right], [ard-error][right]" />
+      <ng-content select="ard-error[right], [ard-error][right], ard-auto-error[right]" />
       <ng-template [ngTemplateOutlet]="rightHintErrors" />
     </div>
     } @else {
@@ -71,6 +73,10 @@
 
 <ng-template #defaultErrors>
   <ng-content select="ard-error:not([left]):not([right]), [ard-error]:not([left]):not([right])" />
+</ng-template>
+
+<ng-template #defaultAutoErrors>
+  <ng-content select="ard-auto-error:not([left]):not([right])" />
 </ng-template>
 
 <ng-template #defaultHintErrors>

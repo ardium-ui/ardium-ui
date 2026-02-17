@@ -2,6 +2,7 @@ import { computed, contentChild, contentChildren, Directive, inject, input } fro
 import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { isFunction } from 'simple-bool';
 import { SimpleOneAxisAlignment } from '../types/alignment.types';
+import { ArdiumAutoErrorComponent } from './auto-error/auto-error.component';
 import { ArdiumErrorDirective } from './error/error.directive';
 import { ARD_FORM_FIELD_CONTROL, ArdFormFieldControl } from './form-field-child.token';
 import { ARD_FORM_FIELD_DEFAULTS } from './form-field.defaults';
@@ -15,7 +16,7 @@ export abstract class _FormFieldBase {
 
   readonly defaultHintAlign = input<SimpleOneAxisAlignment>(this._DEFAULTS.defaultHintAlign);
 
-  public readonly alignHintToLeftByDefault = computed(() => this.defaultHintAlign() === SimpleOneAxisAlignment.Left)
+  public readonly alignHintToLeftByDefault = computed(() => this.defaultHintAlign() === SimpleOneAxisAlignment.Left);
 
   readonly control = contentChild<ArdFormFieldControl>(ARD_FORM_FIELD_CONTROL);
 
@@ -44,12 +45,16 @@ export abstract class _FormFieldBase {
 
   readonly hints = contentChildren(ArdiumHintDirective);
   readonly errors = contentChildren(ArdiumErrorDirective);
+  readonly autoErrors = contentChildren(ArdiumAutoErrorComponent);
   readonly hintErrors = contentChildren(ArdiumHintErrorDirective);
 
   readonly hasAnyHint = computed<boolean>(() => this.hints().length > 0 || this.hintErrors().length > 0);
-  readonly hasAnyError = computed<boolean>(() => this.errors().length > 0);
-
-  readonly reserveHintLine = input<boolean, BooleanLike>(this._DEFAULTS.reserveHintLine, { transform: v => coerceBooleanProperty(v) });
+  readonly hasAnyError = computed<boolean>(
+    () => this.errors().length > 0 || (this.autoErrors().length > 0 && this.autoErrors().some(e => e.hasError()))
+  );
+  readonly reserveHintLine = input<boolean, BooleanLike>(this._DEFAULTS.reserveHintLine, {
+    transform: v => coerceBooleanProperty(v),
+  });
 
   ngOnInit(): void {
     if (!this.control()) {
