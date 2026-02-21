@@ -63,7 +63,9 @@ export class ArdiumNumberInputComponent
       const allowFloat = this.allowFloat();
       const stepSize = this.stepSize();
       if (!allowFloat && stepSize % 1 !== 0) {
-        throw new Error(`ARD-FT0071c: <ard-number-input>'s [stepSize] must be an integer when [allowFloat] is false, got "${stepSize}".`);
+        throw new Error(
+          `ARD-FT0071c: <ard-number-input>'s [stepSize] must be an integer when [allowFloat] is false, got "${stepSize}".`
+        );
       }
     });
   }
@@ -132,6 +134,9 @@ export class ArdiumNumberInputComponent
   //! control value accessor's write value implementation
   writeValue(v: any) {
     this.inputModel.writeValue(v);
+
+    if (this.isFocused()) return;
+    this.inputModel.updateFixedDecimalPlaces();
   }
 
   //! value two-way binding
@@ -175,6 +180,9 @@ export class ArdiumNumberInputComponent
       }
       return newValue;
     },
+  });
+  readonly fixedDecimalPlaces = input<boolean, BooleanLike>(this._DEFAULTS.fixedDecimalPlaces, {
+    transform: v => coerceBooleanProperty(v),
   });
 
   readonly allowFloat = input<boolean, BooleanLike>(this._DEFAULTS.allowFloat, { transform: v => coerceBooleanProperty(v) });
@@ -263,6 +271,8 @@ export class ArdiumNumberInputComponent
   }
   onBlurMaster(event: FocusEvent): void {
     this.onBlur(event);
+
+    this.inputModel.updateFixedDecimalPlaces();
   }
   //change
   onChange(event: Event): void {

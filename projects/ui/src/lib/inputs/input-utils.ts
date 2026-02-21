@@ -17,9 +17,7 @@ export class InputModel {
     if (!isAnyString(v) && !isNull(v)) {
       //warn when using non-string/non-null value
       console.warn(
-        new Error(
-          `ARD-WA0020: Trying to set <ard-input>'s value to "${v}" (of type ${typeof v}), expected string or null.`
-        )
+        new Error(`ARD-WA0020: Trying to set <ard-input>'s value to "${v}" (of type ${typeof v}), expected string or null.`)
       );
       //normalize the value
       v = v?.toString?.() ?? String(v);
@@ -106,6 +104,7 @@ export interface NumberInputModelHost {
   readonly max: Signal<number>;
   readonly min: Signal<number>;
   readonly maxDecimalPlaces: Signal<number>;
+  readonly fixedDecimalPlaces: Signal<boolean>;
   readonly allowFloat: Signal<boolean>;
   readonly inputEl: Signal<ElementRef<HTMLInputElement> | undefined>;
 }
@@ -123,7 +122,15 @@ export class NumberInputModel {
     this._value.set(stringV);
     this._updateInputEl();
   }
-  
+  updateFixedDecimalPlaces(): void {
+    if (!this._ardHostCmp.fixedDecimalPlaces()) return;
+    console.log(new Error('updateFixedDecimalPlaces'));
+
+    const maxDp = this._ardHostCmp.maxDecimalPlaces();
+    const newValue = this.numberValue()?.toFixed(maxDp) ?? null;
+    this.setValue(newValue);
+  }
+
   private _updateInputEl(): void {
     const stringV = this.stringValue();
     const el = this._ardHostCmp.inputEl()?.nativeElement;

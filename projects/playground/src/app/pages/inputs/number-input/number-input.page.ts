@@ -22,6 +22,7 @@ export class NumberInputPage {
   readonly maxSignal = signal<number>(1);
 
   readonly valueDecPl = signal<number>(5);
+  readonly valueFixedDecPl = signal<number>(5);
 
   increaseMax() {
     setTimeout(() => {
