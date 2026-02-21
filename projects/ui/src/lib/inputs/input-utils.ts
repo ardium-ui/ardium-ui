@@ -124,7 +124,6 @@ export class NumberInputModel {
   }
   updateFixedDecimalPlaces(): void {
     if (!this._ardHostCmp.fixedDecimalPlaces()) return;
-    console.log(new Error('updateFixedDecimalPlaces'));
 
     const maxDp = this._ardHostCmp.maxDecimalPlaces();
     const newValue = this.numberValue()?.toFixed(maxDp) ?? null;
