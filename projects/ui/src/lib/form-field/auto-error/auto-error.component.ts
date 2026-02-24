@@ -12,7 +12,6 @@ import { ARD_ERROR_MAP } from './auto-error.provider';
   templateUrl: './auto-error.component.html',
   hostDirectives: [{ directive: ArdiumErrorDirective }],
   host: {
-    '[class.ard-error]': 'true',
     '[class.ard-auto-error]': 'true',
     '[class.ard-auto-error-default]': '!left() && !right()',
     '[class.ard-auto-error-left]': 'left() && !right()',
