@@ -31,9 +31,11 @@ const VERSION_ALIAS_MAP = {
     for (const file of files) {
       const filePath = path.join(srcPath, file);
       const content = fs.readFileSync(filePath, 'utf8');
-      if (content.includes('console.log')) {
+      const lines = content.split('\n');
+      const lineIndex = lines.findIndex(line => line.includes('console.log'));
+      if (lineIndex !== -1) {
         console.error(
-          `${ansis.redBright.bold('✕')} Error: Found console.log statements in ${ansis.underline(filePath)}. Please remove them before releasing.`
+          `${ansis.redBright.bold('✕')} Error: Found console.log statements in ${ansis.underline(filePath)} (line ${lineIndex + 1}). Please remove them before releasing.`
         );
         return;
       }
