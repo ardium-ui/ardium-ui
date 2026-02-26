@@ -1,4 +1,4 @@
-:host {
+ard-form-field, ard-horizontal-form-field {
   display: block;
 }
 
@@ -29,4 +29,7 @@
       display: none;
     }
   }
+}
+.ard-auto-error__no-errors {
+  display: none;
 }

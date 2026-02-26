@@ -2,7 +2,6 @@ import { Component, computed, effect, inject, input, OnDestroy, signal } from '@
 import { AbstractControl } from '@angular/forms';
 import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { filter, map, Subscription } from 'rxjs';
-import { ArdiumErrorDirective } from '../error/error.directive';
 import { ARD_FORM_FIELD_DEFAULTS } from '../form-field.defaults';
 import { ARD_ERROR_MAP } from './auto-error.provider';
 
@@ -10,12 +9,13 @@ import { ARD_ERROR_MAP } from './auto-error.provider';
   standalone: false,
   selector: 'ard-auto-error',
   templateUrl: './auto-error.component.html',
-  hostDirectives: [{ directive: ArdiumErrorDirective }],
   host: {
     '[class.ard-auto-error]': 'true',
     '[class.ard-auto-error-default]': '!left() && !right()',
     '[class.ard-auto-error-left]': 'left() && !right()',
     '[class.ard-auto-error-right]': '!left() && right()',
+    '[class.ard-auto-error__no-errors]': 'errorMessages().length === 0',
+    '[class.ard-auto-error__has-errors]': 'errorMessages().length > 0',
   },
 })
 export class ArdiumAutoErrorComponent implements OnDestroy {
@@ -33,18 +33,17 @@ export class ArdiumAutoErrorComponent implements OnDestroy {
       const control = this.control();
       this._eventsSub = control.events
         .pipe(
-          filter(event => 'touched' in event || ('status' in event && (event.status === 'INVALID' || event.status === 'VALID'))),
+          filter(event => 'touched' in event || 'status' in event),
           map(() => {
             const errors = control.errors;
             if (!errors || !control.touched) {
               return [];
             }
-
-            const onlyFirstError = this.onlyFirstError();
             if (typeof errors === 'object' && Object.keys(errors).length === 0) {
               return [];
             }
-
+            
+            const onlyFirstError = this.onlyFirstError();
             const errorMessages: string[] = [];
             for (const errorType in this._errorMap) {
               if (errorType in errors) {
@@ -72,6 +71,10 @@ export class ArdiumAutoErrorComponent implements OnDestroy {
         .subscribe(errorMessages => {
           this.errorMessages.set(errorMessages);
         });
+
+      () => {
+        this._eventsSub.unsubscribe();
+      };
     });
 
     effect(() => {

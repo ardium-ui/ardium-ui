@@ -80,6 +80,7 @@ export * from './lib/types/colors.types';
 export * from './lib/types/item-storage.types';
 export * from './lib/types/theming.types';
 export * from './lib/types/utility.types';
+export * from './lib/utils/ng-control';
 
 //! miscellaneous
 export * from './lib/breakpoints';

@@ -1,9 +1,8 @@
-import { computed, Directive, inject, Injector, input, runInInjectionContext, Signal, signal } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
-import { NgControl, Validators } from '@angular/forms';
+import { computed, Directive, input } from '@angular/core';
+import { Validators } from '@angular/forms';
 import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
-import { map, Subscription } from 'rxjs';
 import { TakeChance as Random } from 'take-chance';
+import { trackFormControl } from '../utils/ng-control';
 import { ARD_FORM_FIELD_CONTROL, ArdFormFieldControl } from './form-field-child.token';
 
 @Directive({
@@ -26,47 +25,21 @@ export class ArdiumFormFieldNativeInputAdapterDirective implements ArdFormFieldC
     transform: v => coerceBooleanProperty(v),
     alias: 'required',
   });
-  get required() {
-    return this._required() ?? !!this._ngControl?.control?.hasValidator(Validators.required);
-  }
+  readonly required = computed<boolean>(
+    () =>
+      this._required() ??
+      !!(this.control.validators()?.includes(Validators.required) || this.control.validators()?.includes(Validators.requiredTrue))
+  );
 
   readonly isSuccess = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
   readonly disabled = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! form field related
-  protected readonly _injector = inject(Injector);
+  readonly control = trackFormControl(this, { attachValueAccessor: false });
 
-  readonly wasTouched = signal<boolean>(false);
-
-  private _statusChangesSub?: Subscription;
   ngOnInit(): void {
-    this._ngControl = this._injector.get(NgControl, null);
-
-    if (this._ngControl) {
-      // if (!this._ngControl.valueAccessor || (this && this instanceof (this._ngControl.valueAccessor as any).constructor)) {
-      //   this._ngControl.valueAccessor = this;
-      // }
-
-      this._hasErrorInControl.set(this._ngControl.status === 'INVALID');
-
-      this._statusChangesSub = this._ngControl.statusChanges
-        ?.pipe(map(v => v === 'INVALID'))
-        .subscribe(v => this._hasErrorInControl.set(v));
-
-      if (!this._ngControl.control) return;
-
-      runInInjectionContext(this._injector, () => {
-        // do not read the next line of code if you are easily frightened
-        // I'm not proud of this part, but it had to be done. God please forgive me
-        // I didn't find any other feasible way to detect when the control changes its touched state
-        // so it had to be hacked like this
-        toObservable((this._ngControl?.control as any | undefined)?.touchedReactive as Signal<boolean>)?.subscribe(v =>
-          this.wasTouched.set(v)
-        );
-      });
-    }
+    this.control.init();
   }
-  protected _ngControl: NgControl | null = null;
 
   readonly htmlId = input<string>(Random.id());
 
@@ -74,10 +47,9 @@ export class ArdiumFormFieldNativeInputAdapterDirective implements ArdFormFieldC
     transform: v => coerceBooleanProperty(v),
     alias: 'hasError',
   });
-  private readonly _hasErrorInControl = signal<boolean>(false);
-  readonly hasError = computed<boolean>(() => this._hasError() ?? (this.wasTouched() && this._hasErrorInControl()));
+  readonly hasError = computed<boolean>(() => this._hasError() ?? (this.control.touched() && this.control.invalid()));
 
   ngOnDestroy(): void {
-    this._statusChangesSub?.unsubscribe();
+    this.control.destroy();
   }
 }

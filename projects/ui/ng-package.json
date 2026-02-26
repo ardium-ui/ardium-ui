@@ -6,6 +6,7 @@
   },
   "allowedNonPeerDependencies": [
     "@types/color",
+    "@types/lodash",
     "@types/string-similarity",
     "tslib",
     "first-last",
@@ -13,6 +14,7 @@
     "resolve-object-path",
     "simple-bool",
     "take-chance",
+    "lodash",
     "color",
     "string-similarity",
     "@ardium-ui/devkit"
