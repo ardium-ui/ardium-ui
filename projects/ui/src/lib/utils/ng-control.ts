@@ -1,4 +1,4 @@
-import { computed, inject, Injector, signal } from '@angular/core';
+import { computed, inject, Injector, Signal, signal } from '@angular/core';
 import {
   AbstractControl,
   AsyncValidatorFn,
@@ -18,6 +18,26 @@ import { isFunction } from 'simple-bool';
 
 export interface FormControlTrackerOptions {
   attachValueAccessor?: boolean;
+}
+export interface TrackedFormControl<T> {
+  readonly instance: AbstractControl<T>;
+  readonly value: Signal<T>;
+  readonly errors: Signal<ValidationErrors | null>;
+  readonly touched: Signal<boolean>;
+  readonly untouched: Signal<boolean>;
+  readonly pristine: Signal<boolean>;
+  readonly dirty: Signal<boolean>;
+  readonly status: Signal<FormControlStatus>;
+  readonly valid: Signal<boolean>;
+  readonly invalid: Signal<boolean>;
+  readonly pending: Signal<boolean>;
+  readonly disabled: Signal<boolean>;
+  readonly enabled: Signal<boolean>;
+  readonly validators: Signal<ValidatorFn[] | null>;
+  readonly asyncValidators: Signal<AsyncValidatorFn[] | null>;
+
+  init(): void;
+  destroy(): void;
 }
 
 class FormControlTracker<T> {
@@ -171,7 +191,7 @@ class FormControlTracker<T> {
  * }
  * ```
  */
-export function trackFormControl<T = any>(thisObj: any, options: { attachValueAccessor?: boolean } = {}) {
+export function trackFormControl<T = any>(thisObj: any, options: { attachValueAccessor?: boolean } = {}): TrackedFormControl<T> {
   return new FormControlTracker<T>(thisObj, options);
 }
 
