@@ -1,4 +1,4 @@
-import { computed, Directive, effect, input, OnDestroy, OnInit } from '@angular/core';
+import { computed, Directive, input, OnDestroy, OnInit } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { TakeChance as Random } from 'take-chance';
@@ -96,10 +96,6 @@ export abstract class _NgModelComponentBase extends _FocusableComponentBase impl
     alias: 'hasError',
   });
   readonly hasError = computed<boolean>(() => this._hasError() ?? (this.control.touched() && this.control.invalid()));
-
-  fnjdf = effect(() => {
-    console.log(this.control.touched(), this.control.errors());
-  })
 
   ngOnDestroy(): void {
     this.control.destroy();
