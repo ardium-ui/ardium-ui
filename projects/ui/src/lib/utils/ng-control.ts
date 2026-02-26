@@ -150,7 +150,6 @@ export function trackFormControl<T = any>(thisObj: any, options: { attachValueAc
         // assign the validators at init time
         const validators = (instance as any)._rawValidators as ValidatorFn | ValidatorFn[] | null;
         this._validators.set(isFunction(validators) ? [validators] : validators);
-        console.log(validators);
         const asyncValidators = (instance as any)._rawAsyncValidators as AsyncValidatorFn | AsyncValidatorFn[] | null;
         this._asyncValidators.set(isFunction(asyncValidators) ? [asyncValidators] : asyncValidators);
       }
