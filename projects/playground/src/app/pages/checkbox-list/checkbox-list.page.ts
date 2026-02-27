@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy } from '@angular/core';
+import { Component, inject, OnDestroy, signal } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Logger } from '../../services/logger.service';
 
@@ -19,6 +19,8 @@ export class CheckboxListPage implements OnDestroy {
     { id: 5, name: 'Headphones', isInStock: false },
     { id: 6, name: 'Camera', isInStock: true },
   ]
+
+  readonly selectedProducts = signal<number[]>([]);
 
   readonly log = inject(Logger).log;
 

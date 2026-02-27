@@ -81,29 +81,37 @@ export class ArdiumDialogComponent {
   readonly noRejectButton = input<boolean, BooleanLike>(this._DEFAULTS.noRejectButton, { transform: v => coerceBooleanProperty(v) });
   readonly canConfirm = input<boolean, BooleanLike>(this._DEFAULTS.canConfirm, { transform: v => coerceBooleanProperty(v) });
 
+  private _isCloseEventTimeoutRunning = false;
   onConfirmClick() {
     if (!this.canConfirm() || this.allActionsDisabled()) return;
+
+    this._isCloseEventTimeoutRunning = true;
 
     if (this.buttonActionType() === ArdDialogActionType.AutoClose) {
       this.open.set(false);
     }
     setTimeout(() => {
+    this._isCloseEventTimeoutRunning = false;
       this.confirmEvent.emit();
       this.closeEvent.emit('confirm');
     }, 0);
   }
   onRejectClick() {
     if (this.allActionsDisabled()) return;
+    
+    this._isCloseEventTimeoutRunning = true;
 
     if (this.buttonActionType() === ArdDialogActionType.AutoClose) {
       this.open.set(false);
     }
     setTimeout(() => {
+    this._isCloseEventTimeoutRunning = false;
       this.rejectEvent.emit();
       this.closeEvent.emit('reject');
     }, 0);
   }
   onModalClose() {
+    if (this._isCloseEventTimeoutRunning) return;
     this.closeEvent.emit('close');
   }
 

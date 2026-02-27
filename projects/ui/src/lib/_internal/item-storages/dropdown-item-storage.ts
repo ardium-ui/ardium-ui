@@ -283,7 +283,7 @@ export class ItemStorage {
   }
   private _valueToWriteAfterItemsLoad: any = null;
   private _wasValueWriteDeferred = false;
-  handleWriteValue(ngModel: any): void {
+  async handleWriteValue(ngModel: any): Promise<void> {
     //defer writing the value if no options are yet loaded
     if ((!this._wasValueWriteDeferred || this._ardParentComp.isLoading()) && this._items().length === 0) {
       this._valueToWriteAfterItemsLoad = ngModel;
@@ -306,20 +306,31 @@ export class ItemStorage {
       return;
     }
 
-    const itemsToSelect = ngModelArray
-      .map(v => {
-        const item = this.findItemByValue(v);
-        if (item) {
-          return item;
-        }
-        console.warn(
-          `ARD-WA${this._ardParentComp._componentId}1: Couldn't find an item with value ${
-            v?.toString?.() || String(v)
-          } when trying to select it.`
-        );
-        return null;
-      })
-      .filter(Boolean) as ArdOption[];
+    const itemsToSelect = (
+      await Promise.all(
+        ngModelArray.map(async v => {
+          const item = this.findItemByValue(v);
+          if (item) {
+            return item;
+          }
+          return new Promise<ArdOption | null>(resolve => {
+            setTimeout(() => {
+              const item = this.findItemByValue(v);
+              if (item) {
+                resolve(item);
+                return;
+              }
+              console.warn(
+                `ARD-WA${this._ardParentComp._componentId}1: Couldn't find an item with value ${
+                  v?.toString?.() || String(v)
+                } when trying to select it.`
+              );
+              resolve(null);
+            }, 0);
+          });
+        })
+      )
+    ).filter(v => !!v);
 
     this.selectItem(...itemsToSelect);
   }
