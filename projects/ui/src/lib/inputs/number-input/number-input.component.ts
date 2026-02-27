@@ -68,6 +68,13 @@ export class ArdiumNumberInputComponent
         );
       }
     });
+
+    // refresh input display when decimalSeparator changes
+    effect(() => {
+      const sep = this.decimalSeparator();
+      // calling rewrite ensures element value includes new separator
+      this.inputModel.rewriteValueAfterHostUpdate();
+    });
   }
 
   //! input view
@@ -183,6 +190,17 @@ export class ArdiumNumberInputComponent
   });
   readonly fixedDecimalPlaces = input<boolean, BooleanLike>(this._DEFAULTS.fixedDecimalPlaces, {
     transform: v => coerceBooleanProperty(v),
+  });
+
+  readonly decimalSeparator = input<string, string>(this._DEFAULTS.decimalSeparator, {
+    transform: (v: any) => {
+      if (typeof v !== 'string' || v.length !== 1) {
+        throw new Error(
+          `ARD-FT0073: <ard-number-input>'s [decimalSeparator] must be a single character, got "${v}".`
+        );
+      }
+      return v;
+    },
   });
 
   readonly allowFloat = input<boolean, BooleanLike>(this._DEFAULTS.allowFloat, { transform: v => coerceBooleanProperty(v) });

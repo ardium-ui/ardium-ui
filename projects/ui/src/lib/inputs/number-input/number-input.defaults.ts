@@ -14,6 +14,7 @@ export interface ArdNumberInputDefaults extends _FormFieldComponentDefaults {
   max: number;
   maxDecimalPlaces: number;
   fixedDecimalPlaces: boolean;
+  decimalSeparator: string;
   allowFloat: boolean;
   noButtons: boolean;
   stepSize: number;
@@ -32,6 +33,7 @@ const _numberInputDefaults: ArdNumberInputDefaults = {
   max: Infinity,
   maxDecimalPlaces: Infinity,
   fixedDecimalPlaces: false,
+  decimalSeparator: '.',
   allowFloat: false,
   noButtons: false,
   stepSize: 1,

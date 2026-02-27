@@ -114,6 +114,20 @@
   <p>Value: {{ valueFixedDecPl() }}</p>
 </div>
 <div class="master flex">
+  <span class="title">Number input with max 2 decimal places (fixed amount, custom decimal separator)</span>
+  <ard-number-input
+    min="0"
+    max="10"
+    stepSize="0.05"
+    allowFloat
+    maxDecimalPlaces="2"
+    fixedDecimalPlaces
+    decimalSeparator=","
+    [(value)]="valueFixedDecPl"
+  ></ard-number-input>
+  <p>Value: {{ valueFixedDecPl() }}</p>
+</div>
+<div class="master flex">
   <span class="title">Number input with prefix and suffix</span>
   <ard-number-input
     min="0"

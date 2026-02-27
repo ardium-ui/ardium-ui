@@ -105,6 +105,7 @@ export interface NumberInputModelHost {
   readonly min: Signal<number>;
   readonly maxDecimalPlaces: Signal<number>;
   readonly fixedDecimalPlaces: Signal<boolean>;
+  readonly decimalSeparator: Signal<string>;
   readonly allowFloat: Signal<boolean>;
   readonly inputEl: Signal<ElementRef<HTMLInputElement> | undefined>;
 }
@@ -118,7 +119,12 @@ export class NumberInputModel {
   readonly numberValue = computed(() => (this._value() === null ? null : Number(this._value())));
 
   setValue(v: string | number | null): void {
-    const stringV = isNumber(v) ? String(v) : v;
+    let stringV = isNumber(v) ? String(v) : v;
+    // always store with dot as decimal separator for internal consistency
+    const sep = this._ardHostCmp.decimalSeparator();
+    if (stringV && sep && sep !== '.') {
+      stringV = stringV.split(sep).join('.');
+    }
     this._value.set(stringV);
     this._updateInputEl();
   }
@@ -127,11 +133,16 @@ export class NumberInputModel {
 
     const maxDp = this._ardHostCmp.maxDecimalPlaces();
     const newValue = this.numberValue()?.toFixed(maxDp) ?? null;
+    // internal storage remains using '.'; _updateInputEl handles display
     this.setValue(newValue);
   }
 
   private _updateInputEl(): void {
-    const stringV = this.stringValue();
+    let stringV = this.stringValue();
+    const sep = this._ardHostCmp.decimalSeparator();
+    if (sep && sep !== '.') {
+      stringV = stringV.split('.').join(sep);
+    }
     const el = this._ardHostCmp.inputEl()?.nativeElement;
     if (!el) return;
 
@@ -151,6 +162,11 @@ export class NumberInputModel {
       v = v?.toString?.() ?? String(v);
     }
     v = String(v);
+    // convert custom decimal separator to '.' for internal storage
+    const sep = this._ardHostCmp.decimalSeparator();
+    if (sep && sep !== '.') {
+      v = v.replaceAll(sep, '.');
+    }
     return this._writeValue(v);
   }
   protected _writeValue(v: string | number | null): boolean {
@@ -185,26 +201,45 @@ export class NumberInputModel {
     if (!v && v !== 0) return '';
     if (this._ardHostCmp.allowFloat()) return v;
 
-    let num = isNumber(v) ? v : Number(v);
-
-    if (!isNumber(v) && v.match(/[.,].+/)) {
-      num = Number(v);
+    // normalize separator when parsing
+    let str = String(v);
+    const sep = this._ardHostCmp.decimalSeparator();
+    if (sep && sep !== '.') {
+      str = str.replaceAll(sep, '.');
     }
+    const num = Number(str);
     if (!isNaN(num)) return Math.round(num);
     return v;
   }
   private _applyNumberConstraint(v: string | number): string {
     if (!v && v !== 0) return '';
 
+    const sep = this._ardHostCmp.decimalSeparator();
+
+    let input = String(v);
+    let prev = this.stringValue();
+    if (sep && sep !== '.') {
+      input = input.replaceAll(sep, '.');
+      prev = prev.replaceAll(sep, '.');
+    }
+
     const transformerFn = this._ardHostCmp.allowFloat() ? ArdTransformer.Float : ArdTransformer.Integer;
-    const { text, caretPos } = transformerFn(String(v), this.stringValue(), this.caretPos);
+    const { text, caretPos } = transformerFn(input, prev, this.caretPos);
     this.caretPos = caretPos;
+
+    // return normalized text (dot separator) – display logic handles conversion
     return text;
   }
   private _applyMinMaxConstraints(v: string): string {
     if (!v) return '';
 
-    const numericValue = Number(v);
+    // convert separator to dot for numeric comparison
+    const sep = this._ardHostCmp.decimalSeparator();
+    let numericString = v;
+    if (sep && sep !== '.') {
+      numericString = numericString.replaceAll(sep, '.');
+    }
+    const numericValue = Number(numericString);
     if (numericValue > this._ardHostCmp.max()) return this._ardHostCmp.max().toString();
     if (numericValue < this._ardHostCmp.min()) return this._ardHostCmp.min().toString();
     return v;
