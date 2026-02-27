@@ -20,6 +20,7 @@ export interface DialogButtonsContext {
     text: string;
     color: ComponentColor;
     appearance: ButtonAppearance;
+    pointerEventsWhenDisabled: boolean;
   };
   rejectButton: {
     enabled: boolean;

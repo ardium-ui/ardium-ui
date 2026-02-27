@@ -49,6 +49,7 @@
             [compact]="dialogCompact"
             (click)="onConfirm()"
             [disabled]="!canConfirm || allActionsDisabled"
+            [pointerEventsWhenDisabled]="confirmButton.pointerEventsWhenDisabled"
           >
             {{ confirmButton.text }}
           </ard-button>

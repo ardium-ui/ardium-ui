@@ -39,7 +39,9 @@ export class ArdiumDialogComponent {
   //all handled by modal component
   readonly heading = input<string>(this._DEFAULTS.heading);
 
-  readonly noCloseButton = input<boolean, BooleanLike>(this._DEFAULTS.noCloseButton, { transform: v => coerceBooleanProperty(v) });
+  readonly noCloseButton = input<boolean, BooleanLike>(this._DEFAULTS.noCloseButton, {
+    transform: v => coerceBooleanProperty(v),
+  });
 
   readonly panelClass = input<string>(this._DEFAULTS.panelClass);
   readonly backdropClass = input<string>(this._DEFAULTS.backdropClass);
@@ -74,11 +76,16 @@ export class ArdiumDialogComponent {
   readonly confirmButtonText = input<string>(this._DEFAULTS.confirmButtonText);
   readonly confirmButtonColor = input<ComponentColor>(this._DEFAULTS.confirmButtonColor);
   readonly confirmButtonAppearance = input<ButtonAppearance>(this._DEFAULTS.confirmButtonAppearance);
+  readonly confirmButtonPointerEventsWhenDisabled = input<boolean, BooleanLike>(false, {
+    transform: v => coerceBooleanProperty(v),
+  });
   readonly rejectButtonText = input<string>(this._DEFAULTS.rejectButtonText);
   readonly rejectButtonColor = input<ComponentColor>(this._DEFAULTS.rejectButtonColor);
   readonly rejectButtonAppearance = input<ButtonAppearance>(this._DEFAULTS.rejectButtonAppearance);
 
-  readonly noRejectButton = input<boolean, BooleanLike>(this._DEFAULTS.noRejectButton, { transform: v => coerceBooleanProperty(v) });
+  readonly noRejectButton = input<boolean, BooleanLike>(this._DEFAULTS.noRejectButton, {
+    transform: v => coerceBooleanProperty(v),
+  });
   readonly canConfirm = input<boolean, BooleanLike>(this._DEFAULTS.canConfirm, { transform: v => coerceBooleanProperty(v) });
 
   private _isCloseEventTimeoutRunning = false;
@@ -91,21 +98,21 @@ export class ArdiumDialogComponent {
       this.open.set(false);
     }
     setTimeout(() => {
-    this._isCloseEventTimeoutRunning = false;
+      this._isCloseEventTimeoutRunning = false;
       this.confirmEvent.emit();
       this.closeEvent.emit('confirm');
     }, 0);
   }
   onRejectClick() {
     if (this.allActionsDisabled()) return;
-    
+
     this._isCloseEventTimeoutRunning = true;
 
     if (this.buttonActionType() === ArdDialogActionType.AutoClose) {
       this.open.set(false);
     }
     setTimeout(() => {
-    this._isCloseEventTimeoutRunning = false;
+      this._isCloseEventTimeoutRunning = false;
       this.rejectEvent.emit();
       this.closeEvent.emit('reject');
     }, 0);
@@ -126,6 +133,7 @@ export class ArdiumDialogComponent {
         text: this.confirmButtonText(),
         color: this.confirmButtonColor(),
         appearance: this.confirmButtonAppearance(),
+        pointerEventsWhenDisabled: this.confirmButtonPointerEventsWhenDisabled(),
       },
       rejectButton: {
         enabled: !this.noRejectButton(),
