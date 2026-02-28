@@ -73,6 +73,8 @@ class FormControlTracker<T> {
   public readonly disabled = computed<boolean>(() => this.status() === 'DISABLED');
   public readonly enabled = computed(() => !this.disabled());
 
+  public readonly invalidTouched = computed(() => this.invalid() && this.touched());
+
   private readonly _validators = signal<ValidatorFn[] | null>(null);
   public readonly validators = this._validators.asReadonly();
 
