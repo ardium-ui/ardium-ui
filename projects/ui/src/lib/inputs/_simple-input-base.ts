@@ -20,6 +20,7 @@ export interface _SimpleInputComponentDefaults extends _FormFieldComponentDefaul
   clearButtonTitle: string;
   inputAttrs: Record<string, any>;
   maxLength: Nullable<number>;
+  autoTrim: boolean;
 }
 
 export const _simpleInputComponentDefaults: _SimpleInputComponentDefaults = {
@@ -33,6 +34,7 @@ export const _simpleInputComponentDefaults: _SimpleInputComponentDefaults = {
   clearButtonTitle: 'Clear',
   inputAttrs: {},
   maxLength: undefined,
+  autoTrim: false,
 };
 
 @Directive()
@@ -97,6 +99,8 @@ export abstract class _SimpleInputComponentBase extends _FormFieldComponentBase 
   //! no-value attribute setters/getters
   readonly clearable = input<boolean, BooleanLike>(this._DEFAULTS.clearable, { transform: v => coerceBooleanProperty(v) });
 
+  readonly autoTrim = input<boolean, BooleanLike>(this._DEFAULTS.autoTrim, { transform: v => coerceBooleanProperty(v) });
+
   //! control value accessor's write value implementation
   writeValue(v: any) {
     this.inputModel.writeValue(v);
@@ -138,6 +142,12 @@ export abstract class _SimpleInputComponentBase extends _FormFieldComponentBase 
   }
   onBlurMaster(event: FocusEvent): void {
     this.onBlur(event);
+
+    if (!this.autoTrim()) return;
+
+    this.inputModel.trim();
+    this._emitChange();
+    this._emitInput();
   }
   onChange(event: Event): void {
     event.stopPropagation();

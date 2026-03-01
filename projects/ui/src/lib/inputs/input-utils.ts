@@ -40,6 +40,10 @@ export class InputModel {
     this.value.set(null);
     this._updateInputElement();
   }
+  trim(): void {
+    this.value.update(v => v?.trim() ?? null);
+    this._updateInputElement();
+  }
 
   _updateInputElement() {
     const el = this._ardHostCmp.textInputEl()?.nativeElement;
