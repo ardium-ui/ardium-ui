@@ -10,6 +10,10 @@ export interface ArdCalendarDefaults extends _FormFieldComponentDefaults {
   activeMonth: number;
   firstWeekday: number;
   multipleYearPageChangeModifier: number;
+  multipleYearOffset: number;
+  multipleYearPageSize: number;
+  staticHeight: boolean;
+  hideFloatingMonth: boolean;
   autoFocus: boolean;
   multiCalendarLocation: ArdMultiCalendarLocation;
   min: Date | null;
@@ -37,6 +41,10 @@ const _calendarDefaults: ArdCalendarDefaults = {
   activeMonth: new Date().getMonth(),
   firstWeekday: 1,
   multipleYearPageChangeModifier: 5,
+  multipleYearOffset: 2,
+  multipleYearPageSize: 24,
+  staticHeight: false,
+  hideFloatingMonth: false,
   autoFocus: false,
   multiCalendarLocation: ArdMultiCalendarLocation.Only,
   min: null,

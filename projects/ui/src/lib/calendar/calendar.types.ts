@@ -1,3 +1,5 @@
+import { isDate, isNull, isNumber } from 'simple-bool';
+
 export const ArdCalendarView = {
   Days: 'days',
   Months: 'months',
@@ -11,15 +13,24 @@ export const ArdMultiCalendarLocation = {
   Inner: 'inner',
   Right: 'right',
 } as const;
-export type ArdMultiCalendarLocation = typeof ArdMultiCalendarLocation[keyof typeof ArdMultiCalendarLocation];
+export type ArdMultiCalendarLocation = (typeof ArdMultiCalendarLocation)[keyof typeof ArdMultiCalendarLocation];
 
 export class DateRange {
-  constructor(public from: Date, public to: Date | null) {}
+  constructor(
+    public from: Date,
+    public to: Date | null
+  ) {}
+}
+export function isDateRange(v: unknown): v is DateRange {
+  return !!v && typeof v === 'object' && 'from' in v && isDate(v.from) && 'to' in v && (isNull(v.to) || isDate(v.to));
 }
 
 export interface YearRange {
   from: number;
   to: number;
+}
+export function isYearRange(v: unknown): v is YearRange {
+  return !!v && typeof v === 'object' && 'from' in v && isNumber(v.from) && 'to' in v && isNumber(v.to);
 }
 
 export type ArdCalendarFilterFn = (date: Date) => boolean;

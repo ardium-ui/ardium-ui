@@ -3,4 +3,8 @@
     <span class="title">Most basic multipage date range input</span>
     <ard-multipage-date-range-input (valueChange)="log('valueChange', $event)" />
   </div>
+  <div class="master">
+    <span class="title">Multipage date range input with preselected value</span>
+    <ard-multipage-date-range-input [formControl]="formControl" />
+  </div>
 </div>

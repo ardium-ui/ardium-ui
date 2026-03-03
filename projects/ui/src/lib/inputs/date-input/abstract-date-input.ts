@@ -188,7 +188,9 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
 
   readonly filter = input<ArdCalendarFilterFn | null>(this._DEFAULTS.filter);
 
-  readonly hideFloatingMonth = input<boolean, BooleanLike>(this._DEFAULTS.hideFloatingMonth, { transform: v => coerceBooleanProperty(v) });
+  readonly hideFloatingMonth = input<boolean, BooleanLike>(this._DEFAULTS.hideFloatingMonth, {
+    transform: v => coerceBooleanProperty(v),
+  });
 
   //! lifecycle hooks
   ngOnChanges(changes: SimpleChanges): void {

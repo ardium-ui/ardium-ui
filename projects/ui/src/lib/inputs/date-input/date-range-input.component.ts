@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { isDate, isDefined, isNull, isObject } from 'simple-bool';
-import { DateRange } from '../../calendar';
+import { DateRange, isDateRange } from '../../calendar';
 import { ARD_FORM_FIELD_CONTROL } from '../../form-field/form-field-child.token';
 import { _AbstractDateInput } from './abstract-date-input';
 import { ARD_DATE_INPUT_DEFAULTS, ArdDateInputDefaults } from './date-input.defaults';
@@ -78,7 +78,7 @@ export class ArdiumDateRangeInputComponent extends _AbstractDateInput<DateRange>
     return isNull(this.value());
   });
   readonly shouldDisplayValue = computed(() => {
-    return this.value() instanceof DateRange;
+    return isDateRange(this.value());
   });
   readonly shouldDisplayDateInput = computed(() => false);
 

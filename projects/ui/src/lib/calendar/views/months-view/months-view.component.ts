@@ -11,7 +11,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { isNull } from 'simple-bool';
-import { getDateComponents } from '../../../_internal/utils/date.utils';
+import { getDateComponents, getUTCDate } from '../../../_internal/utils/date.utils';
 import { ArdMultiCalendarLocation, CalendarMonthContext, CalendarMonthsViewHeaderContext } from '../../calendar.types';
 import { isYearOutOfRange } from '../years-view/years-view.helpers';
 import { ComponentColor } from './../../../types/colors.types';
@@ -312,13 +312,13 @@ export class MonthsViewComponent implements AfterViewInit {
         this.multiCalendarLocation() === ArdMultiCalendarLocation.Right ||
         this.multiCalendarLocation() === ArdMultiCalendarLocation.Inner,
       year: this.activeYear(),
-      date: new Date(this.activeYear(), 0, 1),
+      date: getUTCDate(this.activeYear(), 0, 2), // second day of month to prevent timezone issues
       $implicit: this.activeYear(),
     })
   );
 
   readonly monthContext = computed(() => (month: number): CalendarMonthContext => {
-    const date = new Date(this.activeYear(), month, 2); // second day of month to prevent timezone issues
+    const date = getUTCDate(this.activeYear(), month, 2); // second day of month to prevent timezone issues
     return {
       month,
       date,

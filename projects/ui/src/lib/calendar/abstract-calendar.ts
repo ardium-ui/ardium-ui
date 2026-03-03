@@ -2,7 +2,6 @@ import {
   computed,
   contentChild,
   Directive,
-  effect,
   HostListener,
   input,
   linkedSignal,
@@ -47,18 +46,6 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
   protected override readonly _DEFAULTS!: ArdCalendarDefaults;
   constructor(defaults: ArdCalendarDefaults) {
     super(defaults);
-
-    effect(() => {
-      const value = this.selectionStart();
-      if (isDefined(value)) {
-        if (this._isHoursSetInDate(value)) {
-          console.warn(
-            `ARD-W${this.componentId}5: <ard-${this.componentName}> value contains time information (HH:MM:SS.ms). This will be ignored and only the date part will be used.`
-          );
-          this.selectionStart.set(createDate(value.getFullYear(), value.getMonth(), value.getDate(), this.UTC()));
-        }
-      }
-    });
   }
 
   readonly TODAY = computed<Date>(() =>
@@ -112,12 +99,42 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
       return value;
     },
   });
+  readonly multipleYearOffset = input<number, NumberLike>(this._DEFAULTS.multipleYearOffset, {
+    transform: v => {
+      const value = coerceNumberProperty(v, this._DEFAULTS.multipleYearOffset);
+      if (!Number.isInteger(value) || value < 0) {
+        console.error(
+          new Error(
+            `ARD-NF${this.componentId}3: [multipleYearOffset] must be a non-negative integer, got "${value}". Using default value instead.`
+          )
+        );
+        return this._DEFAULTS.multipleYearOffset;
+      }
+      return value;
+    },
+  });
+  readonly multipleYearPageSize = input<number, NumberLike>(this._DEFAULTS.multipleYearPageSize, {
+    transform: v => {
+      const value = coerceNumberProperty(v, this._DEFAULTS.multipleYearPageSize);
+      if (!Number.isInteger(value) || value < 1) {
+        console.error(
+          new Error(
+            `ARD-NF${this.componentId}5: [multipleYearPageSize] must be a positive integer, got "${value}". Using default value instead.`
+          )
+        );
+        return this._DEFAULTS.multipleYearPageSize;
+      }
+      return value;
+    },
+  });
 
   readonly multiCalendarLocation = input<ArdMultiCalendarLocation>(this._DEFAULTS.multiCalendarLocation);
 
   readonly autoFocus = input<boolean, BooleanLike>(this._DEFAULTS.autoFocus, { transform: v => coerceBooleanProperty(v) });
-  readonly staticHeight = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
-  readonly hideFloatingMonth = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
+  readonly staticHeight = input<boolean, BooleanLike>(this._DEFAULTS.staticHeight, { transform: v => coerceBooleanProperty(v) });
+  readonly hideFloatingMonth = input<boolean, BooleanLike>(this._DEFAULTS.hideFloatingMonth, {
+    transform: v => coerceBooleanProperty(v),
+  });
 
   onTriggerOpenDaysView(): void {
     this.activeView.set(ArdCalendarView.Days);
@@ -156,16 +173,6 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
 
   protected override _emitChange(): void {
     this._onChangeRegistered?.(this.value());
-  }
-
-  private _isHoursSetInDate(date: Date | null): boolean {
-    if (!isDefined(date)) return false;
-    if (this.UTC()) {
-      return (
-        date.getUTCHours() !== 0 || date.getUTCMinutes() !== 0 || date.getUTCSeconds() !== 0 || date.getUTCMilliseconds() !== 0
-      );
-    }
-    return date.getHours() !== 0 || date.getMinutes() !== 0 || date.getSeconds() !== 0 || date.getMilliseconds() !== 0;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -498,11 +505,14 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
   readonly highlightedYear = this.__highlightedYear.asReadonly();
 
   readonly currentYearRangeStart = linkedSignal<number>(() => {
-    const rangeStartForCurrentYear = this.TODAY().getFullYear() - (this.TODAY().getFullYear() % 4) - 8; // current year always in 3rd row
+    // align to a multiple of 4 and subtract offset
+    const rangeStartForCurrentYear =
+      this.TODAY().getFullYear() - (this.TODAY().getFullYear() % 4) - this.multipleYearOffset() * 4;
 
     const activeYear = this.activeYear();
 
-    const offset = roundToMultiple(activeYear - rangeStartForCurrentYear + 1, 24, 'up') - 24; // check how many 24-year pages need to be turned
+    const offset =
+      roundToMultiple(activeYear - rangeStartForCurrentYear + 1, this.multipleYearPageSize(), 'up') - this.multipleYearPageSize(); // check how many n-year pages need to be turned
 
     return rangeStartForCurrentYear + offset;
   });
@@ -527,16 +537,16 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
     const newYear = date.getFullYear();
     this.__highlightedYear.update(() => newYear);
 
-    if (newYear < this.currentYearRangeStart() || newYear >= this.currentYearRangeStart() + 24) {
+    if (newYear < this.currentYearRangeStart() || newYear >= this.currentYearRangeStart() + this.multipleYearPageSize()) {
       // round the offset away from zero: 0.1 -> 1, -0.1 -> -1
-      // this is to ensure the range start is always shifted by 24 years
-      const offset = roundFromZero((newYear - this.currentYearRangeStart()) / 24);
-      this.currentYearRangeStart.update(v => v + offset * 24);
+      // this is to ensure the range start is always shifted by n years
+      const offset = roundFromZero((newYear - this.currentYearRangeStart()) / this.multipleYearPageSize());
+      this.currentYearRangeStart.update(v => v + offset * this.multipleYearPageSize());
     }
   }
 
   changeYearsViewPage(offset: number): void {
-    const newYearRangeStart = this.currentYearRangeStart() + offset * 24;
+    const newYearRangeStart = this.currentYearRangeStart() + offset * this.multipleYearPageSize();
     this.currentYearRangeStart.set(newYearRangeStart);
   }
 
@@ -565,15 +575,15 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
     this.setHighlightedYear(this.currentYearRangeStart());
   }
   highlightLastYear(): void {
-    this.setHighlightedYear(this.currentYearRangeStart() + 23); // 24 years per page
+    this.setHighlightedYear(this.currentYearRangeStart() + this.multipleYearPageSize() - 1);
   }
   highlightSameYearNextPage(multiple: boolean): void {
     const year = this.highlightedYear() ?? this.currentYearRangeStart();
-    this.setHighlightedYear(year + (multiple ? 60 : 24));
+    this.setHighlightedYear(year + (multiple ? this.multipleYearPageChangeModifier() : 1) * this.multipleYearPageSize());
   }
   highlightSameYearPreviousPage(multiple: boolean): void {
     const year = this.highlightedYear() ?? this.currentYearRangeStart();
-    this.setHighlightedYear(year - (multiple ? 60 : 24));
+    this.setHighlightedYear(year - (multiple ? this.multipleYearPageChangeModifier() : 1) * this.multipleYearPageSize());
   }
 
   //! internals

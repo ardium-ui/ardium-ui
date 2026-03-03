@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ArdiumCalendarComponent } from './calendar.component';
 import {
@@ -38,6 +38,9 @@ import { _CalendarViewsModule } from './views/calendar-views.module';
     ArdCalendarYearTemplateDirective,
     ArdCalendarMonthTemplateDirective,
     ArdCalendarDayTemplateDirective,
+  ],
+  providers: [
+    { provide: DATE_PIPE_DEFAULT_OPTIONS, useValue: { timezone: '+0000' } },
   ],
 })
 export class ArdiumCalendarModule {}

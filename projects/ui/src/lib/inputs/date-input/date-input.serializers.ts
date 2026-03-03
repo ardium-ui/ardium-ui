@@ -1,4 +1,4 @@
-import { DateRange } from '../../calendar';
+import { DateRange, isDateRange } from '../../calendar';
 import { ArdDateInputDeserializeFn, ArdDateInputSerializeFn } from './date-input.types';
 
 export const DEFAULT_DATE_INPUT_SERIALIZE_FN: ArdDateInputSerializeFn<Date> = (value: Date | null) => {
@@ -11,7 +11,7 @@ export const DEFAULT_DATE_INPUT_SERIALIZE_FN: ArdDateInputSerializeFn<Date> = (v
 };
 
 export const DEFAULT_DATE_RANGE_INPUT_SERIALIZE_FN: ArdDateInputSerializeFn<DateRange> = (value: DateRange | null) => {
-  if (value instanceof DateRange) {
+  if (isDateRange(value)) {
     const from = `${value.from.getDate().toString().padStart(2, '0')}/${(value.from.getMonth() + 1)
       .toString()
       .padStart(2, '0')}/${value.from.getFullYear()}`;

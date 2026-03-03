@@ -11,7 +11,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { isNull } from 'simple-bool';
-import { getDateComponents } from '../../../_internal/utils/date.utils';
+import { getDateComponents, getUTCDate } from '../../../_internal/utils/date.utils';
 import { ArdMultiCalendarLocation, CalendarYearContext, CalendarYearsViewHeaderContext, DateRange, YearRange } from '../../calendar.types';
 import { getCalendarYearsArray, isYearOutOfRange } from './years-view.helpers';
 
@@ -58,7 +58,8 @@ export class YearsViewComponent implements AfterViewInit {
   readonly multiCalendarLocation = input.required<ArdMultiCalendarLocation>();
 
   readonly currentYearRangeStart = input.required<number>();
-  readonly yearsArray = computed(() => getCalendarYearsArray(this.currentYearRangeStart(), 24, this.min(), this.max()));
+  readonly multipleYearPageSize = input.required<number>();
+  readonly yearsArray = computed(() => getCalendarYearsArray(this.currentYearRangeStart(), this.multipleYearPageSize(), this.min(), this.max()));
 
   readonly currentAriaLabel = computed(() => {
     return this.highlightedYear()?.toString() ?? '';
@@ -286,8 +287,8 @@ export class YearsViewComponent implements AfterViewInit {
     const yearRangeStart = this.currentYearRangeStart();
     const yearRangeEnd = yearRangeStart + 23;
     const dateRange: DateRange = new DateRange(
-      new Date(yearRangeStart, 0, 2), // second day of month to prevent timezone issues
-      new Date(yearRangeEnd, 0, 2)
+      getUTCDate(yearRangeStart, 0, 2), // second day of month to prevent timezone issues
+      getUTCDate(yearRangeEnd, 0, 2)
     );
     const yearRange: YearRange = {
       from: yearRangeStart,
@@ -321,7 +322,7 @@ export class YearsViewComponent implements AfterViewInit {
   });
   readonly yearContext = computed<(year: number) => CalendarYearContext>(() => {
     return (year: number) => {
-      const date = new Date(year, 1, 2); // second day of month to prevent timezone issues
+      const date = getUTCDate(year, 1, 2); // second day of month to prevent timezone issues
       return {
         value: year,
         date,

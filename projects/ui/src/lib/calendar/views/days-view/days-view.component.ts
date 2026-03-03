@@ -10,7 +10,7 @@ import {
   TemplateRef,
   viewChild,
 } from '@angular/core';
-import { createDate, getDateComponents } from '../../../_internal/utils/date.utils';
+import { createDate, getDateComponents, getUTCDate } from '../../../_internal/utils/date.utils';
 import {
   ArdMultiCalendarLocation,
   CalendarDayContext,
@@ -360,13 +360,13 @@ export class DaysViewComponent implements AfterViewInit {
       this.multiCalendarLocation() === ArdMultiCalendarLocation.Inner,
     year: this.activeYear(),
     month: this.activeMonth(),
-    $implicit: new Date(this.activeYear(), this.activeMonth(), 2, 0, 0, 0, 0), // second day of month to prevent timezone issues
+    $implicit: getUTCDate(this.activeYear(), this.activeMonth(), 2), // second day of month to prevent timezone issues
   }));
 
   readonly weekdayContext = computed<(dayIndex: number) => CalendarWeekdayContext>(() => (dayIndex: number) => {
     // create a date object for the given day index (0 = Sunday, 1 = Monday, etc.)
     // add 4 because January 4, 1970 is a Sunday
-    const date = new Date(1970, 0, 4 + dayIndex);
+    const date = getUTCDate(1970, 0, 4 + dayIndex);
     return {
       dayIndex,
       date,
@@ -375,7 +375,7 @@ export class DaysViewComponent implements AfterViewInit {
   });
 
   readonly floatingMonthContext = computed<CalendarFloatingMonthContext>(() => {
-    const date = new Date(this.activeYear(), this.activeMonth(), 2, 0, 0, 0, 0); // second day of month to prevent timezone issues
+    const date = getUTCDate(this.activeYear(), this.activeMonth(), 2); // second day of month to prevent timezone issues
     return {
       month: this.activeMonth(),
       date,
@@ -384,7 +384,7 @@ export class DaysViewComponent implements AfterViewInit {
   });
 
   readonly dayContext = computed<(day: number) => CalendarDayContext>(() => (day: number) => {
-    const date = new Date(this.activeYear(), this.activeMonth(), day);
+    const date = getUTCDate(this.activeYear(), this.activeMonth(), day);
     return {
       value: day,
       date,

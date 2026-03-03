@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ArdiumClickOutsideModule } from '@ardium-ui/devkit';
 import { ArdiumButtonModule } from '../../buttons/button';
@@ -70,6 +70,9 @@ import {
     ArdDateRangeInputWeekdayTemplateDirective,
     ArdDateRangeInputYearsViewHeaderTemplateDirective,
     ArdDateRangeInputYearTemplateDirective,
+  ],
+  providers: [
+    { provide: DATE_PIPE_DEFAULT_OPTIONS, useValue: { timezone: '+0000' } },
   ],
 })
 export class ArdiumDateRangeInputModule {}
