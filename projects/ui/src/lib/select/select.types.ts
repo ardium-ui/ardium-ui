@@ -4,6 +4,8 @@ export type AddCustomFn<T> = (value: string) => T;
 
 export interface ValueContext extends OptionContext<ArdOption> {
   unselect: () => void;
+  itemsSelectedCount: number;
+  totalItemsCount: number;
 }
 
 export interface PlaceholderContext {

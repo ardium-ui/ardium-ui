@@ -425,6 +425,8 @@ export class ArdiumSelectComponent
     unselect: () => {
       this.unselectItem(item);
     },
+    itemsSelectedCount: this.itemStorage.selectedItems().length,
+    totalItemsCount: this.itemStorage.items().length,
   }));
   readonly groupContextGenerator = computed<(group: ArdOptionGroup) => GroupContext>(() => group => ({
     $implicit: group,

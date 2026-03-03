@@ -31,9 +31,9 @@
           class="ard-calendar__header-button"
           appearance="transparent"
           color="none"
+          variant="pill"
           [tabIndex]="tabIndex()"
           (click)="openDaysView()"
-          variant="pill"
         >
           {{ dateRange.from | date : yearsViewHeaderDateFormat() }}
           &mdash;
