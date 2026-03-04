@@ -1,8 +1,7 @@
 import { computed, Directive, input } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty, trackFormControl } from '@ardium-ui/devkit';
 import { TakeChance as Random } from 'take-chance';
-import { trackFormControl } from '../utils/ng-control';
 import { ARD_FORM_FIELD_CONTROL, ArdFormFieldControl } from './form-field-child.token';
 
 @Directive({

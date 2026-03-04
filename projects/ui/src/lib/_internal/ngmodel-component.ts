@@ -1,8 +1,7 @@
 import { computed, Directive, input, OnDestroy, OnInit } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { coerceBooleanProperty, trackFormControl } from '@ardium-ui/devkit';
 import { TakeChance as Random } from 'take-chance';
-import { trackFormControl } from '../utils/ng-control';
 import { _FocusableComponentBase, _focusableComponentDefaults, _FocusableComponentDefaults } from './focusable-component';
 
 export interface _NgModelComponentDefaults extends _FocusableComponentDefaults {}
