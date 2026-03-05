@@ -670,7 +670,9 @@ export class ArdiumSelectComponent
   onSearchInputBlur(): void {
     if (!this._searchBarFocused()) return;
 
-    this._onTouched();
+    if (!this.isOpen()) {
+      this._onTouched();
+    }
 
     this._searchBarFocused.set(false);
   }
