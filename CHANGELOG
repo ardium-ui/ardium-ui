@@ -5,12 +5,13 @@
 - `ArdiumInputComponent` (`<ard-input>`) is now renamed to `ArdiumAutocompleteInputComponent` (`<ard-autocomplete-input>`)
 - `ArdiumSimpleInputComponent` (`<ard-simple-input>`) is now renamed to `ArdiumInputComponent` (`<ard-input>`)
 - All boolean-coerced inputs now use `@ardium-ui/devkit`'s `BooleanLike` type instead of `any`
-- Select, Checkbox List, and Segment now do not use any signals in their template contexts. All context fields are now primitive.
+- Select, Checkbox List, and Segment now do not use any signals in their template contexts. All context fields are now primitive
 - Tabber and Tab now use a single function for providing their default values (`provideTabberDefaults`)
 - Slider and Range Slider label objects are now defined as `{ label: string, value: number }[]` (was: `{ label: string, for: number }[]`)
+- Calendar & Date Input now always use UTC dates in templates and template contexts
 - Range Slider now emits its value as `{ from: number, to: number }` (was: `{ low: number, high: number }`)
 - Button, FAB, and Icon Button now place their content directly inside the `<button>` element.
-  - Removed `.ard-focus-overlay`. It was used to add a colored overlay over the background, now `::before` is used for that purpose.
+  - Removed `.ard-focus-overlay`. It was used to add a colored overlay over the background, now `::before` is used for that purpose
   - Removed `.ard-button-content`. It was used to add flexbox to the content, now the button itself does that
   - Removed `[icon]` and `[iconAlign]` inputs from Button. Use `<ard-icon>` instead.
 
@@ -32,8 +33,10 @@
 - Date Input & Calendar
   - Added `[UTC]` input - outputed values are in UTC format. Defaults for UTC input are supported as well
   - Added `[startView]` input - can be configured to set which calendar view is shown when opening the date input
+  - Created `isDateRange` and `isYearRange` type guard functions
 - Dialog & Modal
   - A class can now be added to the modal overlay element
+  - Dialog confirm button now supports setting the `[pointerEventsWhenDisabled]` input
 - Form Field
   - Errors now support being aligned to the left and right side, not only to the left
   - Added `[defaultHintAlign]` input - configures which is the default side that hints and errors will align to
@@ -41,15 +44,20 @@
   - Added `ard-auto-error` component, which automatically generates an error message based on the `FormControl`'s state
   - Labels are now styled properly when the field has an error
   - Now also supports the Rating Input component as the control
+- Input
+  - Added `[autoTrim]` input - when set to true, the input value will be trimmed on blur
 - Number Input
   - Now supports `ard-prefix-tmp` and `ard-suffix-tmp` customization templates
   - Added `[maxDecimalPlaces]` input for deciding how many decimal places may be passed in. All further digits are trimmed (rounded down)
+  - Added `[fixedDecimalPlaces]` input - when set to true, there will be a fixed number of decimal places displayed (fixes the places on blur)
+  - Added `[decimalSeparator]` input the allows to customize the decimal separator. Any single character string can be used. Using the dot still works, but the dot is converted to the specified separator
 - Select
   - Added `[dropdownPanelWidth]`, `[dropdownPanelHeight]`, `[dropdownPanelMinWidth]`, `[dropdownPanelMinHeight]`, `[dropdownPanelMaxWidth]`, and `[dropdownPanelMaxHeight]` inputs
   - Added `[addCustomOptionText]` input - allows to change what the "Add custom option" text is without having to change the template
   - Allow to customize the dropdown arrow using a template directive
   - Adding a custom option is now available at all times, unless an exact match is found
   - Dropdown is no longer opened when pressing Enter
+  - Added `totalItemsCount` and `itemsSelectedCount` to the value template context
 - Slide Toggle
   - Added CSS styles for `"contained"` appearance, as the typescript portion was working, but the styles were missing
 - Slider & Range Slider
@@ -79,6 +87,8 @@ Other notable changes include:
 ### Bug Fixes
 
 - Calendar year template context variable shows the previous year due to timezone issues
+- Calendar heading buttons change when the button defaults are provided
+- Some Calendar did not support providing default values
 - Input, Autocomplete Input, and Hex Input didn't use the native HTML `maxlength` attribute
 - Form Field hints & errors don't to the next line when too long
 - Select dropdown panel goes off the screen when select is positioned very close to the right side of the screen
@@ -87,8 +97,11 @@ Other notable changes include:
 - Select value overflows the field when too long
 - Select has the clear button even when it is read-only
 - Select is susceptible to race conditions if the value and the items both load asynchronously
+- Select shows a warning that an option was not found if both the value and the options are changed at the same time
+- Select emits touched event too early when an option is being selected, causing a split-second flash of error state
 - Fixed several signal usages being passed in directly instead of by its value, causing it to always be treated as `true`
 - Modals & Dialogs can overflow the viewport when they have too much content
+- Dialog emits the close event twice
 - Radios' circles shrink and become egg-like when they don't fit
 - File Input & File Drop Area have a leftover console.log statement
 - Number Input doesn't take into account the default values provided using its provider function
@@ -105,3 +118,4 @@ Other notable changes include:
 - Rating Display only uses one color for all stars, even the unselected ones, while they should be uncolored
 - Rating Input doesn't fire ControlValueAccessor touched events
 - Rating Input fires ControlValueAccessor change events with a delay
+- Tabber's tabs accept the disabled attribute, but do not disable the actual tab buttons
