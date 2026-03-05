@@ -14,12 +14,13 @@
       role="tab"
       class="ard-tab-button"
       [id]="tabObj.tab.tabId()"
+      [class.ard-tab-disabled]="tabObj.tab.disabled()"
       [class.ard-tab-active]="tabObj.tab.tabId() === selectedTabId()"
       [class.ard-tab-focused]="tabObj.tab.tabId() === focusedTabId()"
       (click)="!tabObj.tab.selected() && selectTab(tabObj.tab)"
       (focus)="onTabFocus(tabObj.tab)"
       (blur)="onTabBlur(tabObj.tab)"
-      [tabindex]="tabIndex()"
+      [tabindex]="tabObj.tab.disabled() ? -1 : tabIndex()"
     >
       <div class="ard-focus-overlay"></div>
       <div class="ard-button-content">
