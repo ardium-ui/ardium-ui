@@ -149,6 +149,8 @@ export class ArdiumSelectComponent
   readonly inputAttrs = input<Record<string, any>>(this._DEFAULTS.inputAttrs);
   //! other inputs
   readonly isLoading = input<boolean, BooleanLike>(this._DEFAULTS.isLoading, { transform: v => coerceBooleanProperty(v) });
+  readonly _deferValueWrites = input<boolean | null>(this._DEFAULTS.deferValueWrites, { alias: 'deferValueWrites' });
+  readonly deferValueWrites = computed<boolean>(() => this._deferValueWrites() ?? this.isLoading());
 
   //! boolean settings
   readonly itemsAlreadyGrouped = input<boolean, BooleanLike>(this._DEFAULTS.itemsAlreadyGrouped, {

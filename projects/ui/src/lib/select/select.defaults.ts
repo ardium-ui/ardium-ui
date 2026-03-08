@@ -23,6 +23,7 @@ export interface ArdSelectDefaults extends _FormFieldComponentDefaults {
   loadingPlaceholderText: string;
   inputAttrs: Record<string, any>;
   isLoading: boolean;
+  deferValueWrites: boolean | null;
   itemsAlreadyGrouped: boolean;
   invertDisabled: boolean;
   noGroupActions: boolean;
@@ -73,6 +74,7 @@ const _selectDefaults: ArdSelectDefaults = {
   dropdownPosition: ArdPanelPosition.Auto,
   inputAttrs: {},
   isLoading: false,
+  deferValueWrites: null,
   itemsAlreadyGrouped: false,
   invertDisabled: false,
   noGroupActions: false,
