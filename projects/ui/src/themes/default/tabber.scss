@@ -17,8 +17,8 @@
   --ard-tabber-tab-hover-overlay-opacity: 4%;
   --ard-tabber-tab-active-overlay-opacity: 12%;
   --ard-tabber-tab-focus-visible-overlay-opacity: 18%;
-  --ard-tabber-tab-disabled-overlay-opacity: 12%;
-  --ard-tabber-tab-disabled-opacity: 12%;
+  --ard-tabber-tab-disabled-overlay-opacity: 0%;
+  --ard-tabber-tab-disabled-opacity: 50%;
 }
 
 ard-tabber {
@@ -114,6 +114,7 @@ ard-tabber {
 
       &.ard-tab-disabled {
         opacity: var(--ard-tabber-tab-disabled-opacity);
+        pointer-events: none;
 
         .ard-focus-overlay {
           opacity: var(--ard-tabber-tab-disabled-overlay-opacity, 18%);
