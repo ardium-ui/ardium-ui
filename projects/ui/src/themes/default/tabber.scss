@@ -119,6 +119,10 @@ ard-tabber {
         .ard-focus-overlay {
           opacity: var(--ard-tabber-tab-disabled-overlay-opacity, 18%);
         }
+        &.ard-tab-with-pointer-events-when-disabled {
+          pointer-events: all;
+          cursor: not-allowed;
+        }
       }
     }
   }

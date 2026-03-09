@@ -33,6 +33,12 @@ export class ArdiumTabComponent implements OnDestroy {
 
   readonly disabled = input<boolean, BooleanLike>(this._DEFAULTS.tabDisabled, { transform: v => coerceBooleanProperty(v) });
 
+  readonly pointerEventsWhenDisabled = input<boolean, BooleanLike>(this._DEFAULTS.tabPointerEventsWhenDisabled, {
+    transform: v => coerceBooleanProperty(v),
+  });
+
+  readonly tabTitle = input<string>('');
+
   readonly selected = signal<boolean>(false);
   @Input('selected')
   set _selected(v: any) {

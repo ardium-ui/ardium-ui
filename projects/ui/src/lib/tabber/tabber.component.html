@@ -8,35 +8,37 @@
     [style]="{ '--ard-_tabber-tabs': tabs().length }"
   >
     @for (tabObj of tabsWithTemplates(); track tabObj) {
-    <button
-      #focusableElement
-      type="button"
-      role="tab"
-      class="ard-tab-button"
-      [id]="tabObj.tab.tabId()"
-      [class.ard-tab-disabled]="tabObj.tab.disabled()"
-      [class.ard-tab-active]="tabObj.tab.tabId() === selectedTabId()"
-      [class.ard-tab-focused]="tabObj.tab.tabId() === focusedTabId()"
-      (click)="!tabObj.tab.selected() && selectTab(tabObj.tab)"
-      (focus)="onTabFocus(tabObj.tab)"
-      (blur)="onTabBlur(tabObj.tab)"
-      [tabindex]="tabObj.tab.disabled() ? -1 : tabIndex()"
-    >
-      <div class="ard-focus-overlay"></div>
-      <div class="ard-button-content">
-        <ng-template
-          #defaultLabelTemplate
-          let-label
-        >
-          {{ label }}
-        </ng-template>
+      <button
+        #focusableElement
+        type="button"
+        role="tab"
+        class="ard-tab-button"
+        [id]="tabObj.tab.tabId()"
+        [class.ard-tab-disabled]="tabObj.tab.disabled()"
+        [class.ard-tab-with-pointer-events-when-disabled]="tabObj.tab.pointerEventsWhenDisabled()"
+        [class.ard-tab-active]="tabObj.tab.tabId() === selectedTabId()"
+        [class.ard-tab-focused]="tabObj.tab.tabId() === focusedTabId()"
+        [title]="tabObj.tab.tabTitle()"
+        (click)="!tabObj.tab.selected() && selectTab(tabObj.tab)"
+        (focus)="onTabFocus(tabObj.tab)"
+        (blur)="onTabBlur(tabObj.tab)"
+        [tabindex]="tabObj.tab.disabled() ? -1 : tabIndex()"
+      >
+        <div class="ard-focus-overlay"></div>
+        <div class="ard-button-content">
+          <ng-template
+            #defaultLabelTemplate
+            let-label
+          >
+            {{ label }}
+          </ng-template>
 
-        <ng-template
-          [ngTemplateOutlet]="tabObj.template ?? labelTemplate()?.template ?? defaultLabelTemplate"
-          [ngTemplateOutletContext]="tabObj.templateContext"
-        />
-      </div>
-    </button>
+          <ng-template
+            [ngTemplateOutlet]="tabObj.template ?? labelTemplate()?.template ?? defaultLabelTemplate"
+            [ngTemplateOutletContext]="tabObj.templateContext"
+          />
+        </div>
+      </button>
     }
   </div>
   <div
