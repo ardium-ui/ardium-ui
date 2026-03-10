@@ -111,6 +111,11 @@ export class ArdiumMultipageDateRangeInputComponent extends _AbstractDateInput<D
     })
   );
 
+  override onGeneralClick(event: MouseEvent): void {
+    super.onGeneralClick(event);
+    this.toggle();
+  }
+
   onActivePageChange(newPage: { year: number; month: number }, index: number): void {
     const newDate = new Date(newPage.year, newPage.month, 1);
     newDate.setMonth(newDate.getMonth() - index);

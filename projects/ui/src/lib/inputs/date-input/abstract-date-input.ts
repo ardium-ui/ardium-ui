@@ -303,10 +303,6 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
     if (target.tagName !== 'INPUT') {
       event.preventDefault();
     }
-
-    if (this.isOpen()) {
-      this.close();
-    }
   }
   onOutsideClick(event: MouseEvent): void {
     if (!this.isOpen()) return;

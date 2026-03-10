@@ -55,6 +55,11 @@ export class ArdiumDateRangeInputComponent extends _AbstractDateInput<DateRange>
     super(defaults);
   }
 
+  override onGeneralClick(event: MouseEvent): void {
+    super.onGeneralClick(event);
+    this.toggle();
+  }
+
   readonly serializeFn = input<ArdDateInputSerializeFn<DateRange>>(this._DEFAULTS.rangeSerializeFn);
 
   override writeValue(v: any): void {

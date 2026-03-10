@@ -185,6 +185,10 @@ export class ArdiumDateInputComponent extends _AbstractDateInput<Date> implement
   override onGeneralClick(event: MouseEvent): void {
     super.onGeneralClick(event);
     this.dateInput().nativeElement.focus();
+    
+    if (this.isOpen()) {
+      this.close();
+    }
   }
 
   readonly calendarDaysViewHeaderTemplate = contentChild(ArdDateInputDaysViewHeaderTemplateDirective);
