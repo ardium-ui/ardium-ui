@@ -31,6 +31,7 @@ import {
   ArdNumberInputPrefixTemplateDirective,
   ArdNumberInputSuffixTemplateDirective,
 } from './number-input.directives';
+import { ArdNumberInputMinMaxBehavior } from './number-input.types';
 
 @Component({
   standalone: false,
@@ -172,7 +173,7 @@ export class ArdiumNumberInputComponent
   readonly min = input<number, NumberLike>(this._DEFAULTS.min, { transform: v => coerceNumberProperty(v, this._DEFAULTS.min) });
   readonly max = input<number, NumberLike>(this._DEFAULTS.max, { transform: v => coerceNumberProperty(v, this._DEFAULTS.max) });
 
-  readonly adjustMinMaxOnInput = input<boolean, BooleanLike>(this._DEFAULTS.adjustMinMaxOnInput, { transform: v => coerceBooleanProperty(v) });
+  readonly minMaxBehavior = input<ArdNumberInputMinMaxBehavior>(this._DEFAULTS.minMaxBehavior);
 
   readonly maxDecimalPlaces = input<number, NumberLike>(this._DEFAULTS.maxDecimalPlaces, {
     transform: v => {

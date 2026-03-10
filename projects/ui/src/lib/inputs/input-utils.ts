@@ -2,6 +2,7 @@ import { ElementRef, Signal, computed, signal } from '@angular/core';
 import { isAnyString, isDefined, isNull, isNumber } from 'simple-bool';
 import { Nullable } from '../types/utility.types';
 import { ArdTransformer, RegExpTransformer } from './input-transformers';
+import { ArdNumberInputMinMaxBehavior } from './number-input/number-input.types';
 
 export interface InputModelHost {
   readonly maxLength: Signal<Nullable<number>>;
@@ -107,11 +108,11 @@ export class AutocompleteInputModel extends InputModel {
 export interface NumberInputModelHost {
   readonly max: Signal<number>;
   readonly min: Signal<number>;
+  readonly minMaxBehavior: Signal<ArdNumberInputMinMaxBehavior>;
   readonly maxDecimalPlaces: Signal<number>;
   readonly fixedDecimalPlaces: Signal<boolean>;
   readonly decimalSeparator: Signal<string>;
   readonly allowFloat: Signal<boolean>;
-  readonly adjustMinMaxOnInput: Signal<boolean>;
   readonly inputEl: Signal<ElementRef<HTMLInputElement> | undefined>;
 }
 export class NumberInputModel {
@@ -137,7 +138,10 @@ export class NumberInputModel {
     let v = this._value();
     if (isNull(v)) return;
 
-    this._applyStandardConstraints(v, adjustMinMax ?? !this._ardHostCmp.adjustMinMaxOnInput());
+    this._applyStandardConstraints(
+      v,
+      adjustMinMax ?? this._ardHostCmp.minMaxBehavior() === ArdNumberInputMinMaxBehavior.AdjustOnBlur
+    );
     if (this._ardHostCmp.fixedDecimalPlaces()) {
       v = this._fixDecimalPlaces(v);
     }
@@ -183,7 +187,7 @@ export class NumberInputModel {
   protected _writeValue(v: string | null, applyConstraints: boolean): boolean {
     //constraints
     if (applyConstraints) {
-      v = this._applyStandardConstraints(v, this._ardHostCmp.adjustMinMaxOnInput());
+      v = this._applyStandardConstraints(v, this._ardHostCmp.minMaxBehavior() === ArdNumberInputMinMaxBehavior.AdjustOnInput);
     }
 
     if (v === '') v = null;
@@ -213,7 +217,7 @@ export class NumberInputModel {
     v = this._removeDecimalPlaces(v);
     v = this._applyNumberConstraint(v);
     v = this._applyMaxDecimalPlaces(v);
-    
+
     if (adjustMinMax) {
       v = this._applyMinMaxConstraints(v);
     }

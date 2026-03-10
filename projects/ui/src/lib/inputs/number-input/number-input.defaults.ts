@@ -2,6 +2,7 @@ import { InjectionToken, Provider } from '@angular/core';
 import { _FormFieldComponentDefaults, _formFieldComponentDefaults } from '../../_internal/form-field-component';
 import { OneAxisAlignment } from './../../types/alignment.types';
 import { FormElementAppearance, FormElementVariant } from './../../types/theming.types';
+import { ArdNumberInputMinMaxBehavior } from './number-input.types';
 
 export interface ArdNumberInputDefaults extends _FormFieldComponentDefaults {
   appearance: FormElementAppearance;
@@ -12,7 +13,7 @@ export interface ArdNumberInputDefaults extends _FormFieldComponentDefaults {
   inputAttrs: Record<string, any>;
   min: number;
   max: number;
-  adjustMinMaxOnInput: boolean;
+  minMaxBehavior: ArdNumberInputMinMaxBehavior;
   maxDecimalPlaces: number;
   fixedDecimalPlaces: boolean;
   decimalSeparator: string;
@@ -32,7 +33,7 @@ const _numberInputDefaults: ArdNumberInputDefaults = {
   inputAttrs: {},
   min: 0,
   max: Infinity,
-  adjustMinMaxOnInput: false,
+  minMaxBehavior: ArdNumberInputMinMaxBehavior.AdjustOnBlur,
   maxDecimalPlaces: Infinity,
   fixedDecimalPlaces: false,
   decimalSeparator: '.',
