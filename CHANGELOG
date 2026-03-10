@@ -15,7 +15,7 @@
   - Removed `.ard-button-content`. It was used to add flexbox to the content, now the button itself does that
   - Removed `[icon]` and `[iconAlign]` inputs from Button. Use `<ard-icon>` instead.
 
-### Additions
+### Additions & Changes
 
 - **New Components**
   - Date Range Input & Range Calendar
@@ -50,7 +50,8 @@
   - Now supports `ard-prefix-tmp` and `ard-suffix-tmp` customization templates
   - Added `[maxDecimalPlaces]` input for deciding how many decimal places may be passed in. All further digits are trimmed (rounded down)
   - Added `[fixedDecimalPlaces]` input - when set to true, there will be a fixed number of decimal places displayed (fixes the places on blur)
-  - Added `[decimalSeparator]` input the allows to customize the decimal separator. Any single character string can be used. Using the dot still works, but the dot is converted to the specified separator
+  - Added `[decimalSeparator]` input that allows to customize the decimal separator. Any single character string can be used. Using the dot still works, but the dot is converted to the specified separator
+  - Added `[minMaxBehavior]` input that allows to set when is the number input value adjusted to the min/max value (available options: `'adjust-on-blur'` (default), `'adjust-on-input'`, `'noop'`)
 - Select
   - Added `[dropdownPanelWidth]`, `[dropdownPanelHeight]`, `[dropdownPanelMinWidth]`, `[dropdownPanelMinHeight]`, `[dropdownPanelMaxWidth]`, and `[dropdownPanelMaxHeight]` inputs
   - Added `[addCustomOptionText]` input - allows to change what the "Add custom option" text is without having to change the template
@@ -109,6 +110,7 @@ Other notable changes include:
 - Number Input doesn't take into account the default values provided using its provider function
 - Number Input doesn't emit its value for Reactive Forms
 - Number Input has zero as its default value, while it should be null
+- Number Input removes leading zeros and trailing decimal separators on every keystroke (should remove only on blur)
 - Checkbox List items do not have the `ard-item-selected` class when selected
 - Checkbox List doesn't emit touched event when using the mouse to select values
 - Tabber doesn't set the intial tab correctly
