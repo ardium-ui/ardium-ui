@@ -12,11 +12,17 @@
   --ard-date-input-line-height: 1.25;
   --ard-date-input-line-height-compact: 1;
   --ard-date-input-font-weight: 400;
-  // --ard-date-input-padding-compact: ;
+  // --ard-date-input-padding-top: ;
+  // --ard-date-input-padding-right: ;
+  // --ard-date-input-padding-bottom: ;
+  // --ard-date-input-padding-left: ;
+  // --ard-date-input-padding-top-compact: ;
+  // --ard-date-input-padding-right-compact: ;
+  // --ard-date-input-padding-bottom-compact: ;
+  // --ard-date-input-padding-left-compact: ;
   // --ard-date-input-color: ;
   // --ard-date-input-placeholder-color: ;
   --ard-date-input-placeholder-opacity: 60%;
-  // --ard-date-input-padding: ;
 
   --ard-date-input-input-padding: 0 2.625rem 0 0.375rem;
   --ard-date-input-multipage-gap: 0;
@@ -34,8 +40,14 @@ ard-multipage-date-range-input .ard-multipage-date-range-input {
     var(--ard-date-input-line-height, 1.25),
     var(--ard-date-input-line-height-compact, 1),
     var(--ard-date-input-font-weight, 400),
-    var(--ard-date-input-padding, var(--ard-form-field-padding, 0 0.375rem)),
-    var(--ard-date-input-padding-compact, var(--ard-form-field-padding-compact, 0 0.375rem)),
+    var(--ard-date-input-padding-top, var(--ard-form-field-padding-top, 0)),
+    var(--ard-date-input-padding-right, var(--ard-form-field-padding-right, 0.375rem)),
+    var(--ard-date-input-padding-bottom, var(--ard-form-field-padding-bottom, 0)),
+    var(--ard-date-input-padding-left, var(--ard-form-field-padding-left, 0.375rem)),
+    var(--ard-date-input-padding-top-compact, var(--ard-form-field-padding-top-compact, 0)),
+    var(--ard-date-input-padding-right-compact, var(--ard-form-field-padding-right-compact, 0.375rem)),
+    var(--ard-date-input-padding-bottom-compact, var(--ard-form-field-padding-bottom-compact, 0)),
+    var(--ard-date-input-padding-left-compact, var(--ard-form-field-padding-left-compact, 0.375rem)),
     var(--ard-date-input-color, #{ARD.$text}),
     var(--ard-date-input-placeholder-color, #{ARD.$text}),
     var(--ard-date-input-placeholder-opacity, 60%)

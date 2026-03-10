@@ -1,15 +1,17 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Inject,
-  Input,
-  TemplateRef,
-  ViewEncapsulation,
   computed,
   contentChild,
+  Inject,
+  Input,
   input,
+  TemplateRef,
+  ViewEncapsulation,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
+import { delay, startWith, Subject } from 'rxjs';
 import { _FocusableComponentBase } from '../_internal/focusable-component';
 import { FormElementAppearance, FormElementVariant } from '../types/theming.types';
 import { Nullable } from '../types/utility.types';
@@ -54,6 +56,8 @@ export class ArdiumFormFieldFrameComponent extends _FocusableComponentBase {
    */
   readonly compact = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
+  private readonly _enableTransitions = toSignal(new Subject<boolean>().asObservable().pipe(startWith(true), delay(0)));
+
   readonly ngClasses = computed<string>(() =>
     [
       `ard-appearance-${this.appearance()}`,
@@ -62,6 +66,7 @@ export class ArdiumFormFieldFrameComponent extends _FocusableComponentBase {
       this.hasError() ? 'ard-has-error' : '',
       this.isSuccess() ? 'ard-is-success' : '',
       this.isFocused() && !this.readonly() ? 'ard-focused' : 'ard-unfocused',
+      this._enableTransitions() ? 'ard-enable-transitions' : '',
     ].join(' ')
   );
 

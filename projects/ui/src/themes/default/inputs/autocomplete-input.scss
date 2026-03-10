@@ -14,8 +14,14 @@
   --ard-autocomplete-input-line-height: 1.25;
   --ard-autocomplete-input-line-height-compact: 1;
   --ard-autocomplete-input-font-weight: 400;
-  // --ard-autocomplete-input-padding: ;
-  // --ard-autocomplete-input-padding-compact: ;
+  // --ard-autocomplete-input-padding-top: ;
+  // --ard-autocomplete-input-padding-right: ;
+  // --ard-autocomplete-input-padding-bottom: ;
+  // --ard-autocomplete-input-padding-left: ;
+  // --ard-autocomplete-input-padding-top-compact: ;
+  // --ard-autocomplete-input-padding-right-compact: ;
+  // --ard-autocomplete-input-padding-bottom-compact: ;
+  // --ard-autocomplete-input-padding-left-compact: ;
   // --ard-autocomplete-input-color: ;
   // --ard-autocomplete-input-placeholder-color: ;
   --ard-autocomplete-input-placeholder-opacity: 60%;
@@ -47,8 +53,14 @@
     var(--ard-autocomplete-input-line-height, 1.25),
     var(--ard-autocomplete-input-line-height-compact, 1),
     var(--ard-autocomplete-input-font-weight, 400),
-    var(--ard-autocomplete-input-padding, var(--ard-form-field-padding, 0 0.375rem)),
-    var(--ard-autocomplete-input-padding-compact, var(--ard-form-field-padding-compact, 0 0.375rem)),
+    var(--ard-autocomplete-input-padding-top, var(--ard-form-field-padding-top, 0)),
+    var(--ard-autocomplete-input-padding-right, var(--ard-form-field-padding-right, 0.375rem)),
+    var(--ard-autocomplete-input-padding-bottom, var(--ard-form-field-padding-bottom, 0)),
+    var(--ard-autocomplete-input-padding-left, var(--ard-form-field-padding-left, 0.375rem)),
+    var(--ard-autocomplete-input-padding-top-compact, var(--ard-form-field-padding-top-compact, 0)),
+    var(--ard-autocomplete-input-padding-right-compact, var(--ard-form-field-padding-right-compact, 0.375rem)),
+    var(--ard-autocomplete-input-padding-bottom-compact, var(--ard-form-field-padding-bottom-compact, 0)),
+    var(--ard-autocomplete-input-padding-left-compact, var(--ard-form-field-padding-left-compact, 0.375rem)),
     var(--ard-autocomplete-input-color, #{ARD.$text}),
     var(--ard-autocomplete-input-placeholder-color, #{ARD.$text}),
     var(--ard-autocomplete-input-placeholder-opacity, 60%)
@@ -59,6 +71,8 @@
   @include CB.clearButton();
 
   .ard-autocomplete {
+    display: flex;
+    align-items: center;
     opacity: var(--ard-autocomplete-input-autocomplete-opacity, 37.5%);
   }
 }

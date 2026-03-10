@@ -13,8 +13,14 @@
   --ard-number-input-line-height: 1.25;
   --ard-number-input-line-height-compact: 1;
   --ard-number-input-font-weight: 400;
-  // --ard-number-input-padding: ;
-  // --ard-number-input-padding-compact: ;
+  // --ard-number-input-padding-top: ;
+  // --ard-number-input-padding-right: ;
+  // --ard-number-input-padding-bottom: ;
+  // --ard-number-input-padding-left: ;
+  // --ard-number-input-padding-top-compact: ;
+  // --ard-number-input-padding-right-compact: ;
+  // --ard-number-input-padding-bottom-compact: ;
+  // --ard-number-input-padding-left-compact: ;
   // --ard-number-input-color: ;
   // --ard-number-input-placeholder-color: ;
   --ard-number-input-placeholder-opacity: 60%;
@@ -37,8 +43,14 @@ ard-number-input {
     var(--ard-number-input-line-height, 1.25),
     var(--ard-number-input-line-height-compact, 1),
     var(--ard-number-input-font-weight, 400),
-    var(--ard-number-input-padding, var(--ard-form-field-padding, 0 0.375rem)),
-    var(--ard-number-input-padding-compact, var(--ard-form-field-padding-compact, 0 0.375rem)),
+    var(--ard-number-input-padding-top, var(--ard-form-field-padding-top, 0)),
+    var(--ard-number-input-padding-right, var(--ard-form-field-padding-right, 0.375rem)),
+    var(--ard-number-input-padding-bottom, var(--ard-form-field-padding-bottom, 0)),
+    var(--ard-number-input-padding-left, var(--ard-form-field-padding-left, 0.375rem)),
+    var(--ard-number-input-padding-top-compact, var(--ard-form-field-padding-top-compact, 0)),
+    var(--ard-number-input-padding-right-compact, var(--ard-form-field-padding-right-compact, 0.375rem)),
+    var(--ard-number-input-padding-bottom-compact, var(--ard-form-field-padding-bottom-compact, 0)),
+    var(--ard-number-input-padding-left-compact, var(--ard-form-field-padding-left-compact, 0.375rem)),
     var(--ard-number-input-color, #{ARD.$text}),
     var(--ard-number-input-placeholder-color, #{ARD.$text}),
     var(--ard-number-input-placeholder-opacity, 60%)
@@ -50,7 +62,7 @@ ard-number-input {
   .ard-input-container {
     height: 100%;
     max-width: 100%;
-    padding: var(--ard-number-input-padding, var(--ard-form-field-padding, 0 0.375rem));
+    padding: var(--ard-number-input-padding, var(--ard-form-field-padding, 0 0.375rem)); // TODO
 
     & > input {
       width: 100%;

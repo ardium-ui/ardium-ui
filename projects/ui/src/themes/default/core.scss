@@ -46,8 +46,19 @@
   --ard-form-field-height-compact: 1.6875rem;
   --ard-form-field-font-size: 1rem;
   --ard-form-field-font-size-compact: 1rem;
-  --ard-form-field-padding: 0 0.375rem;
-  --ard-form-field-padding-compact: 0 0.375rem;
+  --ard-form-field-padding-top: 0;
+  --ard-form-field-padding-right: 0.375rem;
+  --ard-form-field-padding-bottom: 0;
+  --ard-form-field-padding-left: 0.375rem;
+  --ard-form-field-padding-top-compact: 0;
+  --ard-form-field-padding-right-compact: 0.375rem;
+  --ard-form-field-padding-bottom-compact: 0;
+  --ard-form-field-padding-left-compact: 0.375rem;
+  --ard-form-field-transitions-duration: 150ms;
+  --ard-form-field-hover-overlay-opacity: 3%;
+  --ard-form-field-focus-overlay-opacity: 6%;
+  --ard-form-field-disabled-opacity: 50%;
+  --ard-form-field-disabled-transparent-overlay-opacity: 4.5%;
 
   --ard-rounded-corner-radius: 0.375rem;
 

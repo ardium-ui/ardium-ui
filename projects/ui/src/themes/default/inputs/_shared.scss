@@ -12,8 +12,14 @@
   $line-height,
   $line-height-compact,
   $font-weight,
-  $padding,
-  $padding-compact,
+  $padding-top,
+  $padding-right,
+  $padding-bottom,
+  $padding-left,
+  $padding-top-compact,
+  $padding-right-compact,
+  $padding-bottom-compact,
+  $padding-left-compact,
   $color,
   $placeholder-color,
   $placeholder-opacity
@@ -30,7 +36,10 @@
   font-size: $font-size;
   line-height: $line-height;
   font-weight: $font-weight;
-  padding: $padding;
+  padding-left: $padding-left;
+  padding-right: $padding-right;
+  padding-top: $padding-top;
+  padding-bottom: $padding-bottom;
   color: $color;
 
   .ard-input-container {
@@ -38,7 +47,17 @@
     text-size-adjust: 100%;
     display: flex;
     align-items: center;
+    height: 100%;
 
+    > * {
+      position: absolute;
+      inset: 0;
+      padding-left: $padding-left;
+      padding-right: $padding-right;
+      padding-top: $padding-top;
+      padding-bottom: $padding-bottom;
+      max-width: 100%;
+    }
     .ard-placeholder {
       font: inherit;
       opacity: $placeholder-opacity;
@@ -46,8 +65,9 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 100%;
       pointer-events: none;
+      display: flex;
+      align-items: center;
     }
 
     input {
@@ -55,10 +75,8 @@
       background: transparent;
       outline: none;
       font: inherit;
-      padding: 0;
       color: inherit;
       display: block;
-      width: 100%;
     }
   }
   //! compact
@@ -66,6 +84,9 @@
     height: $height-compact;
     font-size: $font-size-compact;
     line-height: $line-height-compact;
-    padding: $padding-compact;
+    padding-left: $padding-left-compact;
+    padding-right: $padding-right-compact;
+    padding-top: $padding-top-compact;
+    padding-bottom: $padding-bottom-compact;
   }
 }
