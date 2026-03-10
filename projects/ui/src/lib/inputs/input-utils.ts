@@ -111,6 +111,7 @@ export interface NumberInputModelHost {
   readonly fixedDecimalPlaces: Signal<boolean>;
   readonly decimalSeparator: Signal<string>;
   readonly allowFloat: Signal<boolean>;
+  readonly adjustMinMaxOnInput: Signal<boolean>;
   readonly inputEl: Signal<ElementRef<HTMLInputElement> | undefined>;
 }
 export class NumberInputModel {
@@ -132,13 +133,24 @@ export class NumberInputModel {
     this._value.set(stringV);
     this._updateInputEl();
   }
-  updateFixedDecimalPlaces(): void {
-    if (!this._ardHostCmp.fixedDecimalPlaces()) return;
+  updateOnBlur(adjustMinMax?: boolean): void {
+    let v = this._value();
+    if (isNull(v)) return;
 
-    const maxDp = this._ardHostCmp.maxDecimalPlaces();
-    const newValue = this.numberValue()?.toFixed(maxDp) ?? null;
+    this._applyStandardConstraints(v, adjustMinMax ?? !this._ardHostCmp.adjustMinMaxOnInput());
+    if (this._ardHostCmp.fixedDecimalPlaces()) {
+      v = this._fixDecimalPlaces(v);
+    }
     // internal storage remains using '.'; _updateInputEl handles display
-    this.setValue(newValue);
+    // convert to number and back to string to remove any trailing decimal separator without digits and to remove leading zeros
+    this.setValue(Number(v));
+  }
+  private _fixDecimalPlaces(v: string): string {
+    const maxDp = this._ardHostCmp.maxDecimalPlaces();
+    if (!isDefined(maxDp) || maxDp === Infinity) return v;
+    const num = Number(v);
+    if (isNaN(num)) return v;
+    return num.toFixed(maxDp);
   }
 
   private _updateInputEl(): void {
@@ -156,7 +168,7 @@ export class NumberInputModel {
   }
 
   //! write value handlers
-  writeValue(v: any): boolean {
+  writeValue(v: any, applyConstraints: boolean): boolean {
     if (!isNumber(v) && !isAnyString(v) && !isNull(v)) {
       //warn when using non-string/non-null value
       console.warn(
@@ -165,22 +177,15 @@ export class NumberInputModel {
       //normalize the value
       v = v?.toString?.() ?? String(v);
     }
-    v = String(v);
-    // convert custom decimal separator to '.' for internal storage
-    const sep = this._ardHostCmp.decimalSeparator();
-    if (sep && sep !== '.') {
-      v = v.replaceAll(sep, '.');
-    }
-    return this._writeValue(v);
+    v = v === null ? null : String(v);
+    return this._writeValue(v, applyConstraints);
   }
-  protected _writeValue(v: string | number | null): boolean {
+  protected _writeValue(v: string | null, applyConstraints: boolean): boolean {
     //constraints
-    if (v) {
-      v = this._removeDecimalPlaces(v);
-      v = this._applyNumberConstraint(v);
-      v = this._applyMaxDecimalPlaces(v);
-      v = this._applyMinMaxConstraints(v);
+    if (applyConstraints) {
+      v = this._applyStandardConstraints(v, this._ardHostCmp.adjustMinMaxOnInput());
     }
+
     if (v === '') v = null;
     //update view
     const oldVal = this._value();
@@ -188,7 +193,7 @@ export class NumberInputModel {
     return oldVal !== v;
   }
   rewriteValueAfterHostUpdate(): void {
-    this._writeValue(this._value());
+    this._writeValue(this._value(), false);
   }
 
   //! input element methods
@@ -201,31 +206,37 @@ export class NumberInputModel {
   }
 
   //! constraints
+  private _applyStandardConstraints(v: string | number | null, adjustMinMax: boolean): string {
+    if (!v && v !== 0) return '';
+
+    v = this._standardizeSeparator(v);
+    v = this._removeDecimalPlaces(v);
+    v = this._applyNumberConstraint(v);
+    v = this._applyMaxDecimalPlaces(v);
+    
+    if (adjustMinMax) {
+      v = this._applyMinMaxConstraints(v);
+    }
+    return v;
+  }
+
+  private _standardizeSeparator(v: string | number | null): string {
+    if (!v && v !== 0) return '';
+    const sep = this._ardHostCmp.decimalSeparator();
+    if (!sep || sep === '.') return String(v);
+    return String(v).replaceAll(sep, '.');
+  }
   private _removeDecimalPlaces(v: string | number | null): string | number {
     if (!v && v !== 0) return '';
     if (this._ardHostCmp.allowFloat()) return v;
 
-    // normalize separator when parsing
-    let str = String(v);
-    const sep = this._ardHostCmp.decimalSeparator();
-    if (sep && sep !== '.') {
-      str = str.replaceAll(sep, '.');
-    }
-    const num = Number(str);
-    if (!isNaN(num)) return Math.round(num);
-    return v;
+    return String(v).split('.')[0];
   }
   private _applyNumberConstraint(v: string | number): string {
     if (!v && v !== 0) return '';
 
-    const sep = this._ardHostCmp.decimalSeparator();
-
-    let input = String(v);
-    let prev = this.stringValue();
-    if (sep && sep !== '.') {
-      input = input.replaceAll(sep, '.');
-      prev = prev.replaceAll(sep, '.');
-    }
+    const input = String(v);
+    const prev = this.stringValue();
 
     const transformerFn = this._ardHostCmp.allowFloat() ? ArdTransformer.Float : ArdTransformer.Integer;
     const { text, caretPos } = transformerFn(input, prev, this.caretPos);

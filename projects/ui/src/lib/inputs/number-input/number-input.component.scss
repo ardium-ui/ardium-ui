@@ -2,14 +2,7 @@
   display: flex;
   max-width: 100%;
 
-  .ard-input-container {
-    position: relative;
-  }
-
   .ard-placeholder {
-    position: absolute;
-    left: 0;
-    right: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

@@ -140,10 +140,10 @@ export class ArdiumNumberInputComponent
 
   //! control value accessor's write value implementation
   writeValue(v: any) {
-    this.inputModel.writeValue(v);
+    this.inputModel.writeValue(v, false);
 
     if (this.isFocused()) return;
-    this.inputModel.updateFixedDecimalPlaces();
+    this.inputModel.updateOnBlur(true);
   }
 
   //! value two-way binding
@@ -171,6 +171,8 @@ export class ArdiumNumberInputComponent
   //! min/max and number type
   readonly min = input<number, NumberLike>(this._DEFAULTS.min, { transform: v => coerceNumberProperty(v, this._DEFAULTS.min) });
   readonly max = input<number, NumberLike>(this._DEFAULTS.max, { transform: v => coerceNumberProperty(v, this._DEFAULTS.max) });
+
+  readonly adjustMinMaxOnInput = input<boolean, BooleanLike>(this._DEFAULTS.adjustMinMaxOnInput, { transform: v => coerceBooleanProperty(v) });
 
   readonly maxDecimalPlaces = input<number, NumberLike>(this._DEFAULTS.maxDecimalPlaces, {
     transform: v => {
@@ -274,7 +276,7 @@ export class ArdiumNumberInputComponent
 
   //! event handlers
   onInput(newVal: string): void {
-    const valueHasChanged = this.inputModel.writeValue(newVal);
+    const valueHasChanged = this.inputModel.writeValue(newVal, true);
     if (!valueHasChanged) return;
     this._emitInput();
   }
@@ -290,7 +292,7 @@ export class ArdiumNumberInputComponent
   onBlurMaster(event: FocusEvent): void {
     this.onBlur(event);
 
-    this.inputModel.updateFixedDecimalPlaces();
+    this.inputModel.updateOnBlur();
   }
   //change
   onChange(event: Event): void {

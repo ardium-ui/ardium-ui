@@ -55,8 +55,7 @@ const int: ArdTransformerFn = (currentText: string, previousText: string, caretP
 };
 const float: ArdTransformerFn = (currentText: string, previousText: string, caretPos: number) => {
   const regexes: ([RegExp] | [RegExp, string] | [RegExp, string, number])[] = [
-    [/[^0-9,.-]/],
-    [/,/, '.'],
+    [/[^0-9.-]/],
     [/(.+)-/, '$1'],
     [/\.(.*)\./, '$1.'],
     [/^(-?)\./, '$10.'],

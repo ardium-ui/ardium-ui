@@ -24,40 +24,42 @@
       -
     </ard-button>
   }
-  <div class="ard-input-container">
+  <div class="ard-number-input-wrapper">
     @if (prefixTemplate()) {
       <div class="ard-number-input-prefix-container">
         <ng-template [ngTemplateOutlet]="prefixTemplate()?.template ?? null"></ng-template>
       </div>
     }
-    @if (shouldDisplayPlaceholder()) {
-      <ng-template
-        #defaultPlaceholderTemplate
-        let-plchldr
-      >
-        <div class="ard-placeholder">{{ placeholder() }}</div>
-      </ng-template>
+    <div class="ard-input-container">
+      @if (shouldDisplayPlaceholder()) {
+        <ng-template
+          #defaultPlaceholderTemplate
+          let-plchldr
+        >
+          <div class="ard-placeholder">{{ placeholder() }}</div>
+        </ng-template>
 
-      <ng-template [ngTemplateOutlet]="placeholderTemplate()?.template || defaultPlaceholderTemplate"></ng-template>
-    }
+        <ng-template [ngTemplateOutlet]="placeholderTemplate()?.template || defaultPlaceholderTemplate"></ng-template>
+      }
 
-    <input
-      #textInput
-      #focusableElement
-      type="text"
-      inputmode="numeric"
-      [attr.id]="inputId()"
-      [attr.tabindex]="tabIndex()"
-      [readonly]="readonly()"
-      [disabled]="disabled()"
-      (input)="onInput(textInput.value)"
-      (focus)="onFocusMaster($event)"
-      (blur)="onBlurMaster($event)"
-      (change)="onChange($event)"
-      (mousedown)="$event.stopPropagation()"
-      (mouseup)="$event.stopPropagation()"
-      (copy)="onCopy($event)"
-    />
+      <input
+        #textInput
+        #focusableElement
+        type="text"
+        inputmode="numeric"
+        [attr.id]="inputId()"
+        [attr.tabindex]="tabIndex()"
+        [readonly]="readonly()"
+        [disabled]="disabled()"
+        (input)="onInput(textInput.value)"
+        (focus)="onFocusMaster($event)"
+        (blur)="onBlurMaster($event)"
+        (change)="onChange($event)"
+        (mousedown)="$event.stopPropagation()"
+        (mouseup)="$event.stopPropagation()"
+        (copy)="onCopy($event)"
+      />
+    </div>
     @if (suffixTemplate()) {
       <div class="ard-number-input-suffix-container">
         <ng-template [ngTemplateOutlet]="suffixTemplate()?.template ?? null"></ng-template>
