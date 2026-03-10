@@ -93,6 +93,8 @@ Other notable changes include:
 - Form Field hints & errors don't to the next line when too long
 - Select dropdown panel goes off the screen when select is positioned very close to the right side of the screen
 - Input, Autocomplete Input, Date Input, Hex Input, Password Input, and Select don't add the `readonly` attribute to their template
+- Input, Autocomplete Input, Date Input, Hex Input, Password Input, and Select don't put the caret at the beginning when clicking to the left of the text
+- Input, Autocomplete Input, Date Input, Hex Input, Password Input, and Select flash the border on initial page load
 - Select causes a freeze when using `[formControl]` to set value from inside an effect
 - Select value overflows the field when too long
 - Select has the clear button even when it is read-only
