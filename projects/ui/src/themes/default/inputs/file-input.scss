@@ -99,6 +99,8 @@
   .ard-file-input__value {
     overflow: hidden;
     text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
   }
   .ard-browse-button {
     cursor: pointer;

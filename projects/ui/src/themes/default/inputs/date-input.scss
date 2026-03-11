@@ -56,14 +56,16 @@ ard-multipage-date-range-input .ard-multipage-date-range-input {
   grid-template-columns: 1fr max-content;
 
   .ard-date-input__value-container {
-    position: unset;
+    position: relative;
   }
   .ard-date-input__placeholder {
     position: absolute;
+    padding: 0;
   }
   .ard-date-input__input-container {
     position: absolute;
     inset: 0;
+    padding: 0;
 
     &.ard-date-input__input-container-hidden {
       position: absolute;
@@ -77,6 +79,11 @@ ard-multipage-date-range-input .ard-multipage-date-range-input {
       height: 100%;
       padding: var(--ard-date-input-input-padding, 0 2.625rem 0 0.375rem);
     }
+  }
+  .ard-date-input__value {
+    display: flex;
+    align-items: center;
+    padding: 0;
   }
 }
 

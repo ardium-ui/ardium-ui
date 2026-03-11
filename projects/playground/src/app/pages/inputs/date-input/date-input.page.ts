@@ -14,7 +14,7 @@ export class DateInputPage {
   readonly logger = inject(Logger);
   log = this.logger.log;
 
-  readonly formControl = new FormControl<Date | null>(null);
+  readonly formControl = new FormControl<Date | null>(new Date('2024-01-01'));
 
   constructor() {
     this.formControl.valueChanges.pipe(takeUntilDestroyed()).subscribe(v => {

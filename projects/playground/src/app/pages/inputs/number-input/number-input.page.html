@@ -8,6 +8,9 @@
 </div>
 <div class="master flex">
   <span class="title">Number input with min, max, value, placeholder</span>
+  <p>
+    min="-10", max="10", value="5", placeholder="Foo"
+  </p>
   <ard-number-input
     min="-10"
     max="10"
@@ -132,6 +135,29 @@
   <ard-number-input
     min="0"
     max="10000"
+    alignText="left"
+  >
+    <ng-template ard-prefix-tmp>$</ng-template>
+    <ng-template ard-suffix-tmp>.00</ng-template>
+  </ard-number-input>
+</div>
+<div class="master flex">
+  <span class="title">Number input with prefix and suffix</span>
+  <ard-number-input
+    min="0"
+    max="10000"
+    alignText="middle"
+  >
+    <ng-template ard-prefix-tmp>$</ng-template>
+    <ng-template ard-suffix-tmp>.00</ng-template>
+  </ard-number-input>
+</div>
+<div class="master flex">
+  <span class="title">Number input with prefix and suffix</span>
+  <ard-number-input
+    min="0"
+    max="10000"
+    alignText="right"
   >
     <ng-template ard-prefix-tmp>$</ng-template>
     <ng-template ard-suffix-tmp>.00</ng-template>

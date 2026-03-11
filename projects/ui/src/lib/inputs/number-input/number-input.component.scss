@@ -12,21 +12,27 @@
 }
 
 .ard-text-align-left {
-  input,
-  .ard-placeholder {
+  input {
     text-align: left;
+  }
+  .ard-placeholder {
+    justify-content: flex-start;
   }
 }
 .ard-text-align-middle {
-  input,
-  .ard-placeholder {
+  input {
     text-align: center;
+  }
+  .ard-placeholder {
+    justify-content: center;
   }
 }
 .ard-text-align-right {
-  input,
-  .ard-placeholder {
+  input {
     text-align: right;
+  }
+  .ard-placeholder {
+    justify-content: flex-end;
   }
 }
 

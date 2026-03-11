@@ -48,15 +48,13 @@
     display: flex;
     align-items: center;
     height: 100%;
+    position: relative;
 
     > * {
       position: absolute;
       inset: 0;
-      padding-left: $padding-left;
-      padding-right: $padding-right;
-      padding-top: $padding-top;
-      padding-bottom: $padding-bottom;
       max-width: 100%;
+      padding: 0;
     }
     .ard-placeholder {
       font: inherit;

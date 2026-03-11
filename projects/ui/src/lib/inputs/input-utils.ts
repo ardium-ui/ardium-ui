@@ -138,7 +138,7 @@ export class NumberInputModel {
     let v = this._value();
     if (isNull(v)) return;
 
-    this._applyStandardConstraints(
+    v = this._applyStandardConstraints(
       v,
       adjustMinMax ?? this._ardHostCmp.minMaxBehavior() === ArdNumberInputMinMaxBehavior.AdjustOnBlur
     );

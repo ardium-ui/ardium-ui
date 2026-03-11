@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  HostListener,
   Inject,
   OnDestroy,
   OnInit,
@@ -94,6 +95,13 @@ export class ArdiumPasswordInputComponent extends _FormFieldComponentBase implem
     const timeout = this.autoHideTimeoutMs();
     if (timeout && newState) {
       this._hideTimeout = setTimeout(() => this.revealed.set(false), timeout);
+    }
+  }
+
+  @HostListener('document:mouseup')
+  onMouseUp(): void {
+    if (this.holdToReveal() && this.revealed()) {
+      this.revealed.set(false);
     }
   }
 

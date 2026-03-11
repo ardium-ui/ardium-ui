@@ -28,7 +28,6 @@
 
   --ard-hex-input-min-width: 10rem;
   --ard-hex-input-max-width: 100%;
-  --ard-hex-input-hash-margin: 0 0 -0.5rem 0;
   // --ard-hex-input-hash-color: ;
   --ard-hex-input-hash-opacity: 70%;
 }
@@ -67,10 +66,12 @@
   }
 
   .ard-hash-container {
-    margin: var(--ard-hex-input-hash-margin, 0 0 -0.5rem 0);
     color: var(--ard-hex-input-hash-color, #{ARD.$text});
     opacity: var(--ard-hex-input-hash-opacity, 70%);
     user-select: none;
     font-family: var(--ard-font-family-mono);
+    display: flex;
+    align-items: center;
+    height: 100%;
   }
 }
