@@ -30,6 +30,8 @@
   - Button component now uses the directive internally
 - Checkbox List
   - Allow to customize the checkboxes and labels using respective template directives
+- Checkbox, Selectable Chip, Slide Toggle, Star Button
+  - Added `[reverseSelected]` input - if set to true, the component will appear selected when the actual value is `false`. This is a purely visual change and does not affect the actual value.
 - Date Input & Calendar
   - Added `[UTC]` input - outputed values are in UTC format. Defaults for UTC input are supported as well
   - Added `[startView]` input - can be configured to set which calendar view is shown when opening the date input
@@ -37,6 +39,13 @@
 - Dialog & Modal
   - A class can now be added to the modal overlay element
   - Dialog confirm button now supports setting the `[pointerEventsWhenDisabled]` input
+- Divider
+  - Now supports adding content
+  - Now also available as a directive, alongside the component
+  - Added `[flexItem]` input which fixes the divider styling when used inside flexbox containers
+  - Added `[variant]` input which changes the shape of the divider (supported: `"full"` which spans the whole container, and `"middle"` which adds some margin on the sides)
+  - Added `[textAlign]` input which aligns the content to either the start, the center, or the end of the divider
+  - Divider border style can now be set via a CSS variable
 - Form Field
   - Errors now support being aligned to the left and right side, not only to the left
   - Added `[defaultHintAlign]` input - configures which is the default side that hints and errors will align to
