@@ -1,12 +1,3 @@
 ard-divider {
   display: block;
-
-  &:not(.ard-divider-vertical) {
-    width: 100%;
-    height: 0;
-  }
-
-  &.ard-divider-vertical {
-    width: 0;
-  }
 }

@@ -1,12 +1,12 @@
-import {
-  RoundedSelectionCell,
-  RoundedSelectionData,
-  RoundedSelectionLine,
-  RoundedSelectionState as RSS,
-  SelectionData,
-  SelectionLineData,
-} from './types';
 import { isDefined } from 'simple-bool';
+import {
+    RoundedSelectionCell,
+    RoundedSelectionData,
+    RoundedSelectionLine,
+    RoundedSelectionState as RSS,
+    SelectionData,
+    SelectionLineData,
+} from './types';
 
 export function createRoundedLines(selection: SelectionData): RoundedSelectionData {
   const roundedSelection: RoundedSelectionData = [];
@@ -194,7 +194,7 @@ function getStandardSelectionBody(
     });
   }
 
-  //* add middle
+  //* add center
   lineData.push({
     span: end - start - 1,
     filled: true,

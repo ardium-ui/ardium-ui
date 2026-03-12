@@ -1,21 +1,51 @@
 <div class="master">
   <span class="title">Basic divider</span>
-  <ul class="list">
+  <div class="container">
+    <div>Item 1</div>
+    <ard-divider />
+    <div>Item 2</div>
+    <ard-divider />
+    <div>Item 3</div>
+  </div>
+</div><div class="master">
+  <span class="title">Divider variants</span>
+  <div class="container">
+    <div>Full variant below</div>
+    <ard-divider variant="full" />
+    <div>Middle variant below</div>
+    <ard-divider variant="middle" />
+    <div>Item 3</div>
+  </div>
+</div>
+<div class="master">
+  <span class="title">Divider directive</span>
+  <ul class="container list">
     <li>List item 1</li>
-    <ard-divider></ard-divider>
+    <li ard-divider></li>
     <li>List item 2</li>
-    <ard-divider></ard-divider>
+    <li ard-divider></li>
     <li>List item 3</li>
   </ul>
 </div>
 <div class="master">
-  <span class="title">Vertical divider</span>
-  <div class="flex horiz vertical-list">
-    <div class="flex-item">List item 1</div>
-    <div class="divider"></div>
-    <ard-divider vertical></ard-divider>
-    <div class="flex-item">List item 2</div>
-    <ard-divider vertical></ard-divider>
-    <div class="flex-item">List item 3</div>
+  <span class="title">Vertical divider as flex item</span>
+  <div class="flex horiz container vertical-list">
+    <div class="flex-item">Item 1</div>
+    <ard-divider vertical flexItem></ard-divider>
+    <div class="flex-item">Item 2</div>
+    <ard-divider vertical flexItem></ard-divider>
+    <div class="flex-item">Item 3</div>
+  </div>
+</div>
+<div class="master">
+  <span class="title">Divider with content</span>
+  <div class="container">
+    <div>Item 1</div>
+    <ard-divider textAlign="center">Center</ard-divider>
+    <div>Item 2</div>
+    <ard-divider textAlign="start">Start</ard-divider>
+    <div>Item 3</div>
+    <ard-divider textAlign="end">End</ard-divider>
+    <div>Item 4</div>
   </div>
 </div>

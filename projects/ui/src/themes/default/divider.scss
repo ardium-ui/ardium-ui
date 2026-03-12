@@ -1,13 +1,113 @@
 @use '../variables' as ARD;
 
-ard-divider {
-  margin: 0;
+// the variables are commented out intentionally
+// read more in docs/dev/css-variables.md
+:root {
+  --ard-divider-margin-size: 0.5rem;
+  --ard-divider-color: red;
+  --ard-divider-width: 1px;
+  --ard-divider-middle-inset: 1rem;
+  --ard-divider-content-padding: 0.5rem;
+  --ard-divider-content-font-size: 0.875rem;
+  --ard-divider-align-inset: 10%;
+  --ard-divider-align-min-inset: 1rem;
+  --ard-divider-align-max-inset: unset;
+}
 
-  &:not(.ard-divider-vertical) {
-    border-top: 1px solid ARD.$detail-ultralight;
+.ard-divider {
+  border: none;
+  position: relative;
+  display: flex;
+  justify-content: stretch;
+  align-items: center;
+  box-sizing: border-box;
+
+  &::before,
+  &::after {
+    content: '';
+    background-color: var(--ard-divider-color, #{ARD.$detail-ultralight});
+    flex-grow: 1;
+    pointer-events: none;
   }
+  &.ard-divider__horizontal {
+    width: 100%;
+    min-height: var(--ard-divider-width, 1px);
+    margin: var(--ard-divider-margin-size, 0.5rem) 0;
 
-  &.ard-divider-vertical {
-    border-left: 1px solid ARD.$detail-ultralight;
+    &::before,
+    &::after {
+      height: var(--ard-divider-width, 1px);
+    }
+    &.ard-divider__flex-item {
+      align-self: stretch;
+      width: auto;
+    }
+  }
+  &.ard-divider__vertical {
+    height: 100%;
+    min-width: var(--ard-divider-width, 1px);
+    margin: 0 var(--ard-divider-margin-size, 0.5rem);
+    flex-direction: column;
+
+    &::before,
+    &::after {
+      width: var(--ard-divider-width, 1px);
+    }
+    &.ard-divider__flex-item {
+      align-self: stretch;
+      height: auto;
+    }
+  }
+  &:not(:empty):not(:has(.ard-divider-content)) {
+    &.ard-divider__horizontal {
+      &::before {
+        margin-right: var(--ard-divider-content-padding, 0.5rem);
+      }
+      &::after {
+        margin-left: var(--ard-divider-content-padding, 0.5rem);
+      }
+    }
+    &.ard-divider__vertical {
+      &::before {
+        margin-bottom: var(--ard-divider-content-padding, 0.5rem);
+      }
+      &::after {
+        margin-top: var(--ard-divider-content-padding, 0.5rem);
+      }
+    }
+  }
+  &.ard-divider__middle {
+    padding: 0 var(--ard-divider-middle-inset, 1rem);
+  }
+}
+ard-divider.ard-divider {
+  > .ard-divider-content {
+    font-size: var(--ard-divider-content-font-size, 0.875rem);
+  }
+  &.ard-divider__horizontal {
+    > .ard-divider-content:not(:empty) {
+      padding: 0 var(--ard-divider-content-padding, 0.5rem);
+    }
+  }
+  &.ard-divider__vertical {
+    > .ard-divider-content:not(:empty) {
+      padding: var(--ard-divider-content-padding, 0.5rem) 0;
+    }
+  }
+  &.ard-divider__text-align-start {
+    &::before {
+      width: var(--ard-divider-align-inset, 10%);
+      min-width: var(--ard-divider-align-min-inset, 1rem);
+      max-width: var(--ard-divider-align-max-inset, unset);
+      flex-grow: 0;
+    }
+  }
+  &.ard-divider__text-align-end {
+    &::after {
+      width: var(--ard-divider-align-inset, 10%);
+      min-width: var(--ard-divider-align-min-inset, 1rem);
+      max-width: var(--ard-divider-align-max-inset, unset);
+      flex-grow: 0;
+    }
   }
 }

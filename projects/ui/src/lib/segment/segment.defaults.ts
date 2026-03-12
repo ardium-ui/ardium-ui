@@ -21,7 +21,7 @@ const _segmentDefaults: ArdSegmentDefaults = {
   appearance: SegmentAppearance.Outlined,
   variant: SegmentVariant.RoundedConnected,
   color: ComponentColor.Primary,
-  align: OneAxisAlignment.Middle,
+  align: OneAxisAlignment.Center,
   iconBased: false,
   compact: false,
   autoFocus: false,

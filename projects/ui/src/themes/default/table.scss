@@ -398,7 +398,7 @@
   &.ard-header-align-center-center,
   &.ard-header-align-center-right {
     .ard-table__header-cell {
-      vertical-align: middle;
+      vertical-align: center;
     }
   }
   &.ard-header-align-bottom-left,
@@ -444,7 +444,7 @@
   &.ard-align-center-center,
   &.ard-align-center-right {
     .ard-table__body-cell {
-      vertical-align: middle;
+      vertical-align: center;
     }
   }
   &.ard-align-bottom-left,

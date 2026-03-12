@@ -29,7 +29,7 @@ const _numberInputDefaults: ArdNumberInputDefaults = {
   variant: FormElementVariant.Rounded,
   compact: false,
   placeholder: '',
-  alignText: OneAxisAlignment.Middle,
+  alignText: OneAxisAlignment.Center,
   inputAttrs: {},
   min: 0,
   max: Infinity,

@@ -1,15 +1,15 @@
 import {
-  AfterViewChecked,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  TemplateRef,
-  ViewEncapsulation,
-  computed,
-  inject,
-  input,
-  output,
-  viewChild,
+    AfterViewChecked,
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    TemplateRef,
+    ViewEncapsulation,
+    computed,
+    inject,
+    input,
+    output,
+    viewChild,
 } from '@angular/core';
 import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { Nullable } from '../types/utility.types';
@@ -99,7 +99,7 @@ export class ArdiumDropdownPanelComponent implements AfterViewChecked {
   }
 
   //! scroll to element methods
-  private _scrollToElement(el: HTMLElement, alignTo: ScrollAlignment = 'middle'): void {
+  private _scrollToElement(el: HTMLElement, alignTo: ScrollAlignment = 'center'): void {
     const scrollEl = this._scrollEl();
     if (!scrollEl) return;
 
@@ -113,7 +113,7 @@ export class ArdiumDropdownPanelComponent implements AfterViewChecked {
       case 'bottom':
         this._scrollTop += elementRect.bottom - parentContentRect.bottom;
         break;
-      case 'middle':
+      case 'center':
         this._scrollTop += (elementRect.top + elementRect.bottom) / 2 - parentContentRect.top - parentContentRect.height / 2;
         break;
     }

@@ -1,4 +1,4 @@
-export type ScrollAlignment = 'top' | 'bottom' | 'middle';
+export type ScrollAlignment = 'top' | 'bottom' | 'center';
 
 export const DropdownPanelAppearance = {
   Outlined: 'outlined',
