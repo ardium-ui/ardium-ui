@@ -16,12 +16,10 @@ export class ArdiumDividerDirective {
   protected readonly _DEFAULTS = inject(ARD_DIVIDER_DEFAULTS);
 
   readonly vertical = input<boolean, BooleanLike>(this._DEFAULTS.vertical, { transform: v => coerceBooleanProperty(v) });
+  readonly flexItem = input<boolean, BooleanLike>(this._DEFAULTS.flexItem, { transform: v => coerceBooleanProperty(v) });
 
-  readonly flexItem = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
-
-  readonly textAlign = input<OneAxisAlignmentOrientational>(OneAxisAlignmentOrientational.Center);
-
-  readonly variant = input<ArdDividerVariant>(ArdDividerVariant.Full);
+  readonly textAlign = input<OneAxisAlignmentOrientational>(this._DEFAULTS.textAlign);
+  readonly variant = input<ArdDividerVariant>(this._DEFAULTS.variant);
 
   readonly ngClasses = computed<string>(() =>
     [
