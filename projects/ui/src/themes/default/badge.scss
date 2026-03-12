@@ -1,5 +1,29 @@
 @use './coloring' as CM;
 
+// the variables are commented out intentionally
+// read more in docs/dev/css-variables.md
+:root {
+  --ard-badge-small-font-size: 0.55rem;
+  // --ard-badge-small-size: ;
+  --ard-badge-small-font-weight: 400;
+  --ard-badge-small-letter-spacing: 0.2px;
+  // --ard-badge-small-rounded-radius: ;
+
+  --ard-badge-medium-font-size: 0.667rem;
+  // --ard-badge-medium-size: ;
+  --ard-badge-medium-font-weight: 500;
+  --ard-badge-medium-letter-spacing: 0.2px;
+  // --ard-badge-medium-rounded-radius: ;
+
+  --ard-badge-large-font-size: 0.8125rem;
+  // --ard-badge-large-size: ;
+  --ard-badge-large-font-weight: 600;
+  --ard-badge-large-letter-spacing: 0.2px;
+  // --ard-badge-large-rounded-radius: ;
+
+  --ard-badge-overlap-offset: 0.3em;
+}
+
 .ard-badge-host {
   position: relative;
 }
@@ -19,7 +43,7 @@
     border-radius: 9999px;
   }
   &.ard-variant-rounded {
-    border-radius: calc(var(--ard-_badge-size) * 0.25);
+    border-radius: var(--ard-_badge-radius);
   }
   &.ard-variant-sharp {
     border-radius: 0;
@@ -31,32 +55,41 @@
   }
 
   //! sizes
-  font-size: var(--ard-_badge-size);
-  min-width: calc(var(--ard-_badge-size) * 1.375);
-  height: calc(var(--ard-_badge-size) * 1.375);
+  font-size: var(--ard-_badge-font-size);
+  min-width: var(--ard-_badge-size);
+  height: var(--ard-_badge-size);
 
   .ard-badge-content {
-    padding: 0 calc(var(--ard-_badge-size) * 0.5);
+    padding: 0 var(--ard-_badge-padding);
   }
 
   &.ard-badge-size-small {
-    --ard-_badge-size: 0.55rem;
-    font-weight: 400;
-    letter-spacing: 0.2px;
+    --ard-_badge-font-size: var(--ard-badge-small-font-size, 0.55rem);
+    --ard-_badge-size: var(--ard-badge-small-size, calc(var(--ard-badge-small-font-size) * 1.375));
+    --ard-_badge-padding: calc(var(--ard-badge-small-font-size) * 0.5);
+    --ard-_badge-radius: var(--ard-badge-small-rounded-radius, calc(var(--ard-badge-small-font-size) * 0.25));
+    font-weight: var(--ard-badge-small-font-weight, 400);
+    letter-spacing: var(--ard-badge-small-letter-spacing, 0.2px);
   }
   &.ard-badge-size-medium {
-    --ard-_badge-size: 0.667rem;
-    font-weight: 500;
-    letter-spacing: 0.2px;
+    --ard-_badge-font-size: var(--ard-badge-medium-font-size, 0.667rem);
+    --ard-_badge-size: var(--ard-badge-medium-size, calc(var(--ard-badge-medium-font-size) * 1.375));
+    --ard-_badge-padding: calc(var(--ard-badge-medium-font-size) * 0.5);
+    --ard-_badge-radius: var(--ard-badge-medium-rounded-radius, calc(var(--ard-badge-medium-font-size) * 0.25));
+    font-weight: var(--ard-badge-medium-font-weight, 500);
+    letter-spacing: var(--ard-badge-medium-letter-spacing, 0.2px);
   }
   &.ard-badge-size-large {
-    --ard-_badge-size: 0.8125rem;
-    font-weight: 600;
-    letter-spacing: 0.2px;
+    --ard-_badge-font-size: var(--ard-badge-large-font-size, 0.8125rem);
+    --ard-_badge-size: var(--ard-badge-large-size, calc(var(--ard-badge-large-font-size) * 1.375));
+    --ard-_badge-padding: calc(var(--ard-badge-large-font-size) * 0.5);
+    --ard-_badge-radius: var(--ard-badge-large-rounded-radius, calc(var(--ard-badge-large-font-size) * 0.25));
+    font-weight: var(--ard-badge-large-font-weight, 600);
+    letter-spacing: var(--ard-badge-large-letter-spacing, 0.2px);
   }
 
   //! overlap
-  --ard-_badge-overlap-offset-x: 0.3em;
+  --ard-_badge-overlap-offset-x: var(--ard-badge-overlap-offset, 0.3em);
 
   &.ard-badge-overlap {
     --ard-_badge-overlap-offset-x: 50%;

@@ -1,9 +1,20 @@
 @use './coloring' as coloringMixins;
 @use '../variables' as ARD;
 
+// the variables are commented out intentionally
+// read more in docs/dev/css-variables.md
+:root {
+  --ard-progress-circle-size: 3em;
+  // --ard-progress-circle-colorless-background-color: ;
+  --ard-progress-circle-colorless-background-opacity: 100%;
+  --ard-progress-circle-colored-background-opacity: 100%;
+  --ard-progress-circle-value-font-size: 0.875em;
+}
+
 .ard-progress-circle {
   @include coloringMixins.typeColors;
-  width: 3em;
+  width: var(--ard-progress-circle-size, 3em);
+  height: var(--ard-progress-circle-size, 3em);
 
   --ard-_progress-circle-fill-color: var(--ard-cmpcl--bg-colored);
 
@@ -15,19 +26,14 @@
   }
   &.ard-appearance-colorless {
     .ard-progress-circle-background {
-      background: ARD.$darken-overlay-medium;
+      background: var(--ard-progress-circle-colorless-background-color, #{ARD.$darken-overlay-medium});
+      opacity: var(--ard-progress-circle-colorless-background-opacity, 100%);
     }
   }
   &.ard-appearance-colored {
     .ard-progress-circle-background {
-      opacity: 16%;
+      opacity: var(--ard-progress-circle-colored-background-opacity, 100%);
       background: var(--ard-cmpcl--bg-colored);
-    }
-    //special case for no coloring
-    &.ard-color-none {
-      .ard-progress-circle-background {
-        opacity: 8%;
-      }
     }
   }
   //! ring variant
@@ -46,7 +52,7 @@
     top: 50%;
     transform: translate(-50%, -50%);
     font-weight: bold;
-    font-size: 0.9em;
+    font-size: var(--ard-progress-circle-value-font-size, 0.875em);
   }
   &.ard-progress-circle-variant-full {
     .ard-progress-circle-value {

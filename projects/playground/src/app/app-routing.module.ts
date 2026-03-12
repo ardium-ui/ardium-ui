@@ -32,7 +32,6 @@ import { SlidersPage } from './pages/sliders/sliders.page';
 import { SnackbarPage } from './pages/snackbar/snackbar.page';
 import { SpinnerPage } from './pages/spinner/spinner.page';
 import { StarsPage } from './pages/stars/stars.page';
-import { StateboxPage } from './pages/statebox/statebox.page';
 import { TabberPage } from './pages/tabber/tabber.page';
 import { TablePage } from './pages/table/table.page';
 
@@ -45,7 +44,6 @@ const routes: Routes = [
   { path: 'fab', component: FabPage },
   { path: 'checkbox', component: CheckboxPage },
   { path: 'checkbox-list', component: CheckboxListPage },
-  { path: 'statebox', component: StateboxPage },
   { path: 'slide-toggle', component: SlideTogglePage },
   { path: 'stars', component: StarsPage },
   { path: 'chips', component: ChipsPage },

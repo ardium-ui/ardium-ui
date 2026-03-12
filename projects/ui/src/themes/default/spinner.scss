@@ -1,16 +1,24 @@
 @use './coloring' as CM;
 
+// the variables are commented out intentionally
+// read more in docs/dev/css-variables.md
+:root {
+  --ard-spinner-size: 2rem;
+  --ard-spinner-margin: 0.25rem;
+  --ard-spinner-duration: 1.4s;
+}
+
 ard-spinner {
   display: inline-block;
-  width: 2rem;
+  width: var(--ard-spinner-size, 2rem);
   aspect-ratio: 1;
   position: relative;
-  margin: 0.25rem;
+  margin: var(--ard-spinner-margin, 0.25rem);
 }
 
 .ard-spinner {
   @include CM.typeColors();
-  --ard-_spinner-duration: 1.4s;
+  --ard-_spinner-duration: var(--ard-spinner-duration, 1.4s);
   position: absolute;
 
   scale: 2.3; //magic number

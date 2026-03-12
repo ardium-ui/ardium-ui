@@ -1,33 +1,51 @@
 @use './coloring' as C;
 @use '../variables' as ARD;
 
+// the variables are commented out intentionally
+// read more in docs/dev/css-variables.md
+:root {
+  --ard-snackbar-min-width: min(21rem, 90vw);
+  --ard-snackbar-max-width: min(42rem, 90vw);
+  --ard-snackbar-min-height: 3rem;
+  // --ard-snackbar-background-color: ;
+  // --ard-snackbar-content-color: ;
+  --ard-snackbar-gap: 0.625rem;
+  --ard-snackbar-margin: 0.625rem;
+  --ard-snackbar-padding: 0 0.5rem 0 1rem;
+  // --ard-snackbar-border-radius: ;
+  --ard-snackbar-content-gap: 0.625rem;
+  --ard-snackbar-animation-duration: 150ms;
+  --ard-snackbar-animation-bottom: -0.375rem;
+  --ard-snackbar-animation-scale: 60%;
+}
+
 .ard-snackbar {
   @include C.typeColors();
-  min-width: min(21rem, 90vw);
-  max-width: min(42rem, 90vw);
-  min-height: 3rem;
-  margin: 0.625rem;
+  min-width: var(--ard-snackbar-min-width, min(21rem, 90vw));
+  max-width: var(--ard-snackbar-max-width, min(42rem, 90vw));
+  min-height: var(--ard-snackbar-min-height, 3rem);
+  margin: var(--ard-snackbar-margin, 0.625rem);
   position: relative;
   display: flex;
   justify-content: stretch;
   align-items: center;
-  gap: 0.625rem;
-  border-radius: 6px;
+  gap: var(--ard-snackbar-gap, 0.625rem);
+  border-radius: var(--ard-snackbar-border-radius, var(--ard-rounded-corner-radius, 0.375rem));
   transform-origin: bottom center;
-  background-color: ARD.$bg-f-alt;
-  padding: 0 0.5rem 0 1rem;
+  background-color: var(--ard-snackbar-background-color, #{ARD.$bg-f-alt});
+  padding: var(--ard-snackbar-padding, 0 0.5rem 0 1rem);
 
   opacity: 100%;
   transform: scale(100%);
   bottom: 0;
-  animation: show 150ms ease-out forwards;
+  animation: show var(--ard-snackbar-animation-duration, 150ms) ease-out forwards;
 
   .ard-snackbar-content {
     display: flex;
-    gap: 0.625rem;
+    gap: var(--ard-snackbar-content-gap, 0.625rem);
     align-items: center;
     flex-grow: 1;
-    color: ARD.$text2-alt;
+    color: var(--ard-snackbar-content-color, #{ARD.$text2-alt});
 
     ard-icon {
       color: var(--ard-cmpcl--content-light);
@@ -35,14 +53,14 @@
   }
 
   &.ard-snackbar-closing {
-    animation: hide 150ms ease-out forwards;
+    animation: hide var(--ard-snackbar-animation-duration, 150ms) ease-out forwards;
   }
 }
 
 @mixin animation {
   opacity: 0%;
-  transform: scale(60%);
-  bottom: -0.375rem;
+  transform: scale(var(--ard-snackbar-animation-scale, 60%));
+  bottom: var(--ard-snackbar-animation-bottom, -0.375rem);
 }
 
 @keyframes show {

@@ -1,27 +1,42 @@
+
+// the variables are commented out intentionally
+// read more in docs/dev/css-variables.md
+:root {
+  --ard-table-pagination-height: 2.9375rem;
+  --ard-table-pagination-gap: 2rem;
+  --ard-table-pagination-padding: 0 0.5rem 0 1rem;
+  --ard-table-pagination-items-per-page-gap: 0.5rem;
+  --ard-table-pagination-current-page-gap: 1.25rem;
+  --ard-table-pagination-height-compact: 2.1875rem;
+  --ard-table-pagination-font-size-compact: 0.875rem;
+  --ard-table-pagination-select-padding-left: 0.875em;
+  --ard-table-pagination-disabled-text-opacity: 50%;
+}
+
 .ard-pagination {
-  height: 2.9375rem;
+  height: var(--ard-table-pagination-height, 2.9375rem);
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 2rem;
-  padding: 0 0.5rem 0 1rem;
+  gap: var(--ard-table-pagination-gap, 2rem);
+  padding: var(--ard-table-pagination-padding, 0 0.5rem 0 1rem);
   box-sizing: border-box;
 
   .ard-pagination__items-per-page {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--ard-table-pagination-items-per-page-gap, 0.5rem);
   }
   .ard-pagination__current-page {
     display: flex;
     align-items: center;
-    gap: 1.25rem;
+    gap: var(--ard-table-pagination-current-page-gap, 1.25rem);
   }
 
   //! compact
   &.ard-compact {
-    height: 2.1875rem;
-    font-size: 0.875rem;
+    height: var(--ard-table-pagination-height-compact, 2.1875rem);
+    font-size: var(--ard-table-pagination-font-size-compact, 0.875rem);
   }
 
   //! aligns
@@ -40,7 +55,7 @@
 
   //! style overrides
   .ard-select {
-    padding-left: 0.875em;
+    padding-left: var(--ard-table-pagination-select-padding-left, 0.875em);
   }
 }
 
@@ -50,7 +65,7 @@
     user-select: none;
 
     .ard-pagination__text {
-      opacity: 50%;
+      opacity: var(--ard-table-pagination-disabled-text-opacity, 50%);
     }
   }
 }

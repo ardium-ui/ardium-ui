@@ -1,9 +1,43 @@
 @use '../variables' as ARD;
 
+// the variables are commented out intentionally
+// read more in docs/dev/css-variables.md
+:root {
+  // --ard-card-bg: ;
+  // --ard-card-rounded-corner-radius: ;
+  // --ard-card-border-color: ;
+
+  --ard-card-content-padding-top: 0;
+  --ard-card-content-padding-right: 1em;
+  --ard-card-content-padding-bottom: 0;
+  --ard-card-content-padding-left: 1em;
+
+  --ard-card-header-padding-top: 0.5em;
+  --ard-card-header-padding-right: 1em;
+  --ard-card-header-padding-bottom: 0;
+  --ard-card-header-padding-left: 1em;
+  --ard-card-header-margin-bottom: 1em;
+
+  // --ard-card-title-color: ;
+  --ard-card-title-font-size: 1.375em;
+  --ard-card-title-letter-spacing: 0.0125em;
+  --ard-card-title-font-weight: 500;
+  --ard-card-title-margin-top: 0;
+  // --ard-card-subtitle-color: ;
+  --ard-card-subtitle-font-size: 1.375em;
+  --ard-card-subtitle-letter-spacing: 0.0125em;
+  --ard-card-subtitle-font-weight: 500;
+  --ard-card-subtitle-margin-top: 0;
+
+  --ard-card-avatar-size: 3em;
+
+  --ard-card-action-buttons-padding: 0.5em;
+}
+
 ard-card,
 .ard-card {
   position: relative;
-  background: ARD.$bg;
+  background: var(--ard-card-bg, #{ARD.$bg});
   box-sizing: border-box;
   width: 100%;
   height: max-content;
@@ -11,7 +45,7 @@ ard-card,
 
   //! appearances
   &.ard-appearance-outlined {
-    border: 1px solid ARD.$border-light;
+    border: 1px solid var(--ard-card-border-color, #{ARD.$border-light});
   }
   &.ard-appearance-raised {
     box-shadow: ARD.$card-shadow;
@@ -21,15 +55,18 @@ ard-card,
     border-radius: 0;
   }
   &.ard-variant-rounded {
-    border-radius: 8px;
+    border-radius: var(--ard-card-rounded-corner-radius, var(--ard-rounded-corner-radius, 0.375rem));
   }
 }
 //! header
 ard-card-header {
-  padding: 0.5em 1em 0 1em;
+  padding-top: var(--ard-card-header-padding-top, var(--ard-card-content-padding-top, 0.5em));
+  padding-right: var(--ard-card-header-padding-right, var(--ard-card-content-padding-right, 1em));
+  padding-bottom: var(--ard-card-header-padding-bottom, var(--ard-card-content-padding-bottom, 0));
+  padding-left: var(--ard-card-header-padding-left, var(--ard-card-content-padding-left, 1em));
   display: flex;
   align-items: center;
-  margin-bottom: 1em;
+  margin-bottom: var(--ard-card-header-margin-bottom, 1em);
   max-width: 100%;
 
   .ard-card-header-title-container {
@@ -39,37 +76,41 @@ ard-card-header {
   }
 
   &:first-child {
-    padding-top: 1em;
+    padding-top: var(--ard-card-content-padding-top, 0.5em);
   }
 }
 .ard-card-title,
 .ard-card-subtitle {
-  line-height: normal;
   display: block;
   margin: 0;
-  font-weight: 500;
 }
 .ard-card-title {
-  font-size: 1.375em;
-  letter-spacing: 0.0125em;
-  color: ARD.$text;
+  color: var(--ard-card-title-color, #{ARD.$text});
+  font-size: var(--ard-card-title-font-size, 1.375em);
+  letter-spacing: var(--ard-card-title-letter-spacing, 0.0125em);
+  font-weight: var(--ard-card-title-font-weight, 500);
+  margin-top: var(--ard-card-title-margin-top, 0);
 }
 .ard-card-subtitle {
-  font-size: 1em;
-  letter-spacing: 0.0078125em;
-  color: ARD.$text3;
-  margin-top: 0.125rem;
+  color: var(--ard-card-subtitle-color, #{ARD.$text3});
+  font-size: var(--ard-card-subtitle-font-size, 1.375em);
+  letter-spacing: var(--ard-card-subtitle-letter-spacing, 0.0125em);
+  font-weight: var(--ard-card-subtitle-font-weight, 500);
+  margin-top: var(--ard-card-subtitle-margin-top, 0);
 }
 .ard-card-avatar {
   display: block;
-  width: 3em;
-  height: 3em;
+  width: var(--ard-card-avatar-size, 3em);
+  height: var(--ard-card-avatar-size, 3em);
   border-radius: 9999px;
   flex-shrink: 0;
   object-fit: cover;
 
   ~ .ard-card-header-title-container {
-    padding: 0 1em;
+    padding-top: var(--ard-card-content-padding-top, 0);
+    padding-right: var(--ard-card-content-padding-right, 1em);
+    padding-bottom: var(--ard-card-content-padding-bottom, 0);
+    padding-left: var(--ard-card-content-padding-left, 0);
   }
 }
 //! image
@@ -93,20 +134,23 @@ ard-card-header {
 ard-card,
 .ard-card {
   .ard-appearance-outlined .ard-image {
-    border-bottom: 1px solid ARD.$border-light;
+    border-bottom: 1px solid var(--ard-card-border-color, #{ARD.$border-light});
   }
 }
 //! content
 .ard-card-content {
-  padding: 0 1em;
+  padding-top: var(--ard-card-content-padding-top, var(--ard-card-content-padding, 0));
+  padding-right: var(--ard-card-content-padding-right, var(--ard-card-content-padding, 1em));
+  padding-bottom: var(--ard-card-content-padding-bottom, var(--ard-card-content-padding, 0));
+  padding-left: var(--ard-card-content-padding-left, var(--ard-card-content-padding, 1em));
   display: block;
   max-width: 100%;
 
   &:first-child {
-    padding-top: 1em;
+    padding-top: var(--ard-card-content-padding-top, var(--ard-card-content-padding, 0));
   }
   &:last-child {
-    padding-bottom: 1em;
+    padding-bottom: var(--ard-card-content-padding-bottom, var(--ard-card-content-padding, 0));
   }
 
   > :last-child {
@@ -115,7 +159,7 @@ ard-card,
 }
 //! action buttons
 .ard-card-action-buttons {
-  padding: 0.5em;
+  padding: var(--ard-card-action-buttons-padding, 0.5em);
   display: flex;
   flex-direction: row;
   align-items: center;

@@ -1,26 +1,36 @@
 @use 'sass:math';
 @use '../variables' as ARD;
 
+// the variables are commented out intentionally
+// read more in docs/dev/css-variables.md
+:root {
+  --ard-color-display-gap: 0.3ch;
+  --ard-color-display-size: 1em * math.div(19, 16);
+  --ard-color-display-font-size: 1.15em;
+  --ard-color-display-rounded-corner-radius: 0.25em;
+  // --ard-color-display-border-color: ;
+}
+
 .ard-color-display-wrapper {
-  gap: 0.3ch;
+  gap: var(--ard-color-display-gap, 0.3ch);
   align-items: center;
 
   .ard-color-display {
-    width: 1em * math.div(19, 16);
-    height: 1em * math.div(19, 16);
+    width: var(--ard-color-dsiplay-size, #{1em * math.div(19, 16)});
+    height: var(--ard-color-dsiplay-size, #{1em * math.div(19, 16)});
     font-size: inherit;
     cursor: help;
-    border: math.div(1em, 16) solid transparent;
+    border: 1px solid transparent;
   }
 
   .ard-color-display-label {
     font-family: var(--ard-font-family-mono);
-    font-size: 1.15em;
+    font-size: var(--ard-color-display-font-size, 1.15em);
   }
 
   &.ard-appearance-rounded {
     .ard-color-display {
-      border-radius: 0.25em;
+      border-radius: var(--ard-color-display-rounded-corner-radius, 0.25em);
     }
   }
   &.ard-appearance-circle {
@@ -35,7 +45,7 @@
   }
   &.ard-with-border {
     .ard-color-display {
-      border-color: ARD.$text;
+      border-color: var(--ard-color-display-border-color, #{ARD.$text});
     }
   }
 }

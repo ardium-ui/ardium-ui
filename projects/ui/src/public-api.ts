@@ -30,7 +30,6 @@ export * from './lib/slide-toggle'; // 102
 export * from './lib/slider'; // 105 & 106
 export * from './lib/star/rating-input'; // 108
 export * from './lib/star/star-button'; // 107
-export * from './lib/statebox'; // 109
 
 //! component group 2 - pickers
 export * from './lib/calendar'; // 200 & 201

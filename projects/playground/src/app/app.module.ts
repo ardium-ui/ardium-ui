@@ -37,7 +37,6 @@ import { SlidersModule } from './pages/sliders/sliders.module';
 import { SnackbarModule } from './pages/snackbar/snackbar.module';
 import { SpinnerModule } from './pages/spinner/spinner.module';
 import { StarsModule } from './pages/stars/stars.module';
-import { StateboxModule } from './pages/statebox/statebox.module';
 import { TabberModule } from './pages/tabber/tabber.module';
 import { TableModule } from './pages/table/table.module';
 
@@ -55,7 +54,6 @@ import { TableModule } from './pages/table/table.module';
     CheckboxListModule,
     SlideToggleModule,
     StarsModule,
-    StateboxModule,
     ChipsModule,
     InputsModule,
     SegmentModule,
