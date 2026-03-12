@@ -1,9 +1,9 @@
 <button
   type="button"
   role="checkbox"
-  [ariaChecked]="selected()"
   class="ard-slide-toggle"
-  [class.ard-slide-toggle-selected]="selected()"
+  [class.ard-slide-toggle-selected]="selectedAccountingForReverse()"
+  [ariaChecked]="selectedAccountingForReverse()"
   [ngClass]="ngClasses()"
   [tabindex]="tabIndex()"
   (click)="toggleSelected()"

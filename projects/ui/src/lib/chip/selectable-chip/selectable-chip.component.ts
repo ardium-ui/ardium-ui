@@ -28,6 +28,9 @@ export class ArdiumSelectableChipComponent extends _BooleanComponentBase impleme
     super(defaults);
   }
 
+  protected readonly _componentId = '111';
+  protected readonly _componentName = 'selectable-chip';
+
   readonly chipTitle = input<string>(this._DEFAULTS.chipTitle);
   readonly hideSelectionIcon = input<boolean, BooleanLike>(this._DEFAULTS.hideSelectionIcon, {
     transform: v => coerceBooleanProperty(v),

@@ -27,6 +27,9 @@ export class ArdiumSlideToggleComponent extends _BooleanComponentBase {
     super(defaults);
   }
 
+  protected readonly _componentId = '101';
+  protected readonly _componentName = 'slide-toggle';
+
   readonly wrapperClass = input<Nullable<string>>(undefined);
 
   //! appearance

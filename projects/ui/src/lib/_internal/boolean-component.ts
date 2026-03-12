@@ -1,10 +1,12 @@
-import { Directive, HostBinding, Input, output, signal } from '@angular/core';
+import { computed, Directive, HostBinding, input, Input, output, signal } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _NgModelComponentBase, _ngModelComponentDefaults, _NgModelComponentDefaults } from './ngmodel-component';
 
-export interface _BooleanComponentDefaults extends _NgModelComponentDefaults {}
-export const _booleanComponentDefaults: _BooleanComponentDefaults = _ngModelComponentDefaults;
+export interface _BooleanComponentDefaults extends _NgModelComponentDefaults {
+  reverseSelected: boolean;
+}
+export const _booleanComponentDefaults: _BooleanComponentDefaults = { ..._ngModelComponentDefaults, reverseSelected: false };
 
 /**
  * Common code for components, which only operate on the "selected" state.
@@ -12,6 +14,9 @@ export const _booleanComponentDefaults: _BooleanComponentDefaults = _ngModelComp
 @Directive()
 export abstract class _BooleanComponentBase extends _NgModelComponentBase implements ControlValueAccessor {
   protected override readonly _DEFAULTS!: _BooleanComponentDefaults;
+
+  protected abstract readonly _componentId: string;
+  protected abstract readonly _componentName: string;
 
   //! control value accessor
   writeValue(v: any): void {
@@ -58,12 +63,22 @@ export abstract class _BooleanComponentBase extends _NgModelComponentBase implem
   @HostBinding('attr.selected')
   @HostBinding('class.ard-selected')
   get _selectedHostAttribute(): boolean {
-    return this.selected();
+    return this.selectedAccountingForReverse();
   }
   /**
    * The event emitter responsible for firing `selectedChange` events. Fired when the `selected` state is changed.
    */
   readonly selectedChange = output<boolean>();
+
+  /**
+   * The reverse of the `selected` state. Coercible into a boolean. Useful for cases where the "selected" state is semantically reversed, e.g. "disabled".
+   */
+  readonly reverseSelected = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
+
+  /**
+   * The "selected" state, accounting for the `reverseSelected` input.
+   */
+  readonly selectedAccountingForReverse = computed<boolean>(() => (this.reverseSelected() ? !this.selected() : this.selected()));
 
   /**
    * Toggles the selected state. Emits all appropriate events.

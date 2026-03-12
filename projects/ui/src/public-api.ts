@@ -22,11 +22,11 @@ export * from './lib/buttons/button';
 export * from './lib/buttons/fab';
 export * from './lib/buttons/general-button.types';
 export * from './lib/buttons/icon-button';
-export * from './lib/checkbox';
-export * from './lib/chip';
+export * from './lib/checkbox'; // 100
+export * from './lib/chip'; // 110 & 111
 export * from './lib/radio'; // 103
 export * from './lib/segment'; // 104
-export * from './lib/slide-toggle';
+export * from './lib/slide-toggle'; // 102
 export * from './lib/slider'; // 105 & 106
 export * from './lib/star/rating-input'; // 108
 export * from './lib/star/star-button'; // 107

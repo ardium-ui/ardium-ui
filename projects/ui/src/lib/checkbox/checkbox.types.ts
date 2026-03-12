@@ -8,5 +8,7 @@ export type CheckboxState = (typeof CheckboxState)[keyof typeof CheckboxState];
 export interface CheckboxTemplateContext {
   $implicit: boolean;
   selected: boolean;
+  internalSelected: boolean;
   state: CheckboxState;
+  internalState: CheckboxState;
 }

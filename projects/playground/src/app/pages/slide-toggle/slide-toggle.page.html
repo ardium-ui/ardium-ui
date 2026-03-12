@@ -12,6 +12,17 @@
     (selectedChange)="log('selectedChange', $event)"
   ></ard-slide-toggle>
 </div>
+<div class="master flex">
+  <span class="title">Slide toggle events (reverse)</span>
+  <ard-slide-toggle
+    reverseSelected
+    (focus)="log('focus', $event)"
+    (blur)="log('blur', $event)"
+    (select)="log('select', $event)"
+    (unselect)="log('unselect', $event)"
+    (selectedChange)="log('selectedChange', $event)"
+  ></ard-slide-toggle>
+</div>
 <div class="master">
   <div class="flex horiz large-gap">
     <span class="title">Font size</span>

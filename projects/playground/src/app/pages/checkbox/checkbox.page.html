@@ -12,6 +12,16 @@
   ></ard-checkbox>
 </div>
 <div class="master">
+  <span class="title">Checkbox events (reverse)</span>
+  <ard-checkbox
+    reverseSelected
+    (select)="log('select', $event)"
+    (unselect)="log('unselect', $event)"
+    (selectedChange)="log('selectedChange', $event)"
+    (stateChange)="log('stateChange', $event)"
+  ></ard-checkbox>
+</div>
+<div class="master">
   <div class="flex horiz large-gap">
     <span class="title">Font size</span>
     <input

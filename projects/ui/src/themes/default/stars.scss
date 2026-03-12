@@ -2,6 +2,23 @@
 @use './coloring' as coloringMixins;
 @use '../variables' as ARD;
 
+// the variables are commented out intentionally
+// read more in docs/dev/css-variables.md
+:root {
+  --ard-star-size: 1.5em;
+
+  --ard-star-button-hitbox-offset: -4px;
+  --ard-star-button-overlay-offset: -0.125em;
+  --ard-star-button-hover-overlay-opacity: 10%;
+  --ard-star-button-focus-overlay-opacity: 0;
+  --ard-star-button-focus-visible-overlay-opacity: 10%;
+  --ard-star-button-active-overlay-opacity: 20%;
+  --ard-star-button-disabled-opacity: 50%;
+
+  --ard-rating-input-not-in-value-opacity: 50%;
+  --ard-rating-input-disabled-opacity: 50%;
+}
+
 .ard-star,
 .ard-star-button,
 .ard-rating-display,
@@ -15,8 +32,8 @@
 }
 .ard-star {
   font-size: inherit;
-  width: 1.5em;
-  height: 1.5em;
+  width: var(--ard-star-size, 1.5em);
+  height: var(--ard-star-size, 1.5em);
   position: relative;
 }
 .ard-rating-display,
@@ -28,7 +45,7 @@
   cursor: pointer;
 
   .ard-star-not-in-value {
-    opacity: 50%;
+    opacity: var(--ard-rating-input-not-in-value-opacity, 50%);
   }
 }
 .ard-star-button {
@@ -46,40 +63,52 @@
 
   .ard-hitbox {
     position: absolute;
-    left: -4px;
-    right: -4px;
-    bottom: -4px;
-    top: -4px;
+    left: var(--ard-star-button-hitbox-offset, -4px);
+    right: var(--ard-star-button-hitbox-offset, -4px);
+    bottom: var(--ard-star-button-hitbox-offset, -4px);
+    top: var(--ard-star-button-hitbox-offset, -4px);
   }
 
   .ard-focus-overlay {
     @include defaultMixins.focus-overlay;
     position: absolute;
-    left: -0.125em;
-    right: -0.125em;
-    bottom: -0.125em;
-    top: -0.125em;
+    left: var(--ard-star-button-overlay-offset, -0.125em);
+    right: var(--ard-star-button-overlay-offset, -0.125em);
+    bottom: var(--ard-star-button-overlay-offset, -0.125em);
+    top: var(--ard-star-button-overlay-offset, -0.125em);
     border-radius: 999px;
     background: currentColor;
   }
   @include defaultMixins.focus-overlay-scale-addon();
-  &:hover,
+  &:hover {
+    .ard-focus-overlay {
+      opacity: var(--ard-star-button-hover-overlay-opacity, 10%);
+    }
+  }
   &:focus {
     .ard-focus-overlay {
-      opacity: 10%;
+      opacity: var(--ard-star-button-focus-overlay-opacity, 0%);
+    }
+  }
+  &:focus-visible {
+    .ard-focus-overlay {
+      opacity: var(--ard-star-button-focus-visible-overlay-opacity, 10%);
     }
   }
   &:active {
     .ard-focus-overlay {
-      opacity: 20%;
+      opacity: var(--ard-star-button-active-overlay-opacity, 20%);
     }
   }
 }
 //! disabled state for star-button
 .ard-disabled {
-  > .ard-star-button,
+  > .ard-star-button {
+    pointer-events: none;
+    opacity: var(--ard-star-button-disabled-opacity, 50%);
+  }
   > .ard-rating-input {
     pointer-events: none;
-    opacity: 50%;
+    opacity: var(--ard-rating-input-disabled-opacity, 50%);
   }
 }

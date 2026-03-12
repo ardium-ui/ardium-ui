@@ -1,13 +1,13 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    Inject,
-    ViewEncapsulation,
-    computed,
-    contentChild,
-    forwardRef,
-    input,
-    model,
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  ViewEncapsulation,
+  computed,
+  contentChild,
+  forwardRef,
+  input,
+  model,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
@@ -39,33 +39,45 @@ export class ArdiumCheckboxComponent extends _BooleanComponentBase implements Co
     super(defaults);
   }
 
+  protected readonly _componentId = '100';
+  protected readonly _componentName = 'checkbox';
+
   //! appearance
   readonly color = input<SimpleComponentColor>(this._DEFAULTS.color);
   readonly unselectedColor = input<SimpleComponentColor>(this._DEFAULTS.unselectedColor);
 
   readonly ngClasses = computed(() =>
-    [`ard-color-${this.color()}`, `ard-unselected-color-${this.unselectedColor()}`, `ard-checkbox-${this.state()}`].join(' ')
+    [`ard-color-${this.color()}`, `ard-unselected-color-${this.unselectedColor()}`, `ard-checkbox-${this.internalState()}`].join(
+      ' '
+    )
   );
 
   //override the "selected" setter, so it changes the state too.
   override set _selected(v: any) {
     const selected = coerceBooleanProperty(v);
     this.selected.set(selected);
-    this.state.set(selected ? CheckboxState.Selected : CheckboxState.Unselected);
+    this.internalState.set(selected ? CheckboxState.Selected : CheckboxState.Unselected);
   }
 
-  readonly state = model<CheckboxState>(CheckboxState.Unselected);
+  readonly internalState = model<CheckboxState>(CheckboxState.Unselected, { alias: 'state' });
+
+  readonly state = computed<CheckboxState>(() => {
+    if (!this.reverseSelected()) return this.internalState();
+    if (this.internalState() === CheckboxState.Unselected) return CheckboxState.Selected;
+    if (this.internalState() === CheckboxState.Selected) return CheckboxState.Unselected;
+    return this.internalState();
+  });
 
   readonly State = CheckboxState;
 
   //! click action
   toggleState() {
     let newState: CheckboxState = CheckboxState.Unselected;
-    if (this.state() === CheckboxState.Unselected) {
+    if (this.internalState() === CheckboxState.Unselected) {
       newState = CheckboxState.Selected;
     }
-    this.state.set(newState);
-    this.selected.set(this.state() === CheckboxState.Selected);
+    this.internalState.set(newState);
+    this.selected.set(this.internalState() === CheckboxState.Selected);
 
     this._emitChange();
   }
@@ -76,8 +88,10 @@ export class ArdiumCheckboxComponent extends _BooleanComponentBase implements Co
   readonly checkboxTemplate = contentChild(ArdCheckboxTemplateDirective);
 
   readonly checkboxTemplateContext = computed<CheckboxTemplateContext>(() => ({
-    $implicit: this.selected(),
-    selected: this.selected(),
+    $implicit: this.selectedAccountingForReverse(),
+    selected: this.selectedAccountingForReverse(),
+    internalSelected: this.selected(),
     state: this.state(),
+    internalState: this.internalState(),
   }));
 }

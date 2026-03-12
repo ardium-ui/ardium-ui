@@ -2,14 +2,28 @@
 @use './coloring' as coloringMixins;
 @use '../variables' as ARD;
 
+// the variables are commented out intentionally
+// read more in docs/dev/css-variables.md
+:root {
+  --ard-checkbox-size: 1.25em;
+  --ard-checkbox-icon-size: 1em;
+  --ard-checkbox-icon-size: 1.8em;
+  --ard-checkbox-hitbox-offset: -4px;
+  --ard-checkbox-overlay-offset: 0.4em;
+  --ard-checkbox-unselected-disabled-opacity: 40%;
+  --ard-checkbox-indeterminate-disabled-opacity: 50%;
+  --ard-checkbox-selected-disabled-opacity: 50%;
+  // --ard-checkbox-base-color: ;
+}
+
 .ard-checkbox {
   @include coloringMixins.typeColors();
   @include coloringMixins.typeColors('unsel-cmpcl');
   position: relative;
   cursor: pointer;
   user-select: none;
-  width: 1.25em;
-  height: 1.25em;
+  width: var(--ard-checkbox-size, 1.25em);
+  height: var(--ard-checkbox-size, 1.25em);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,76 +31,31 @@
   background: none;
   padding: 0;
   outline: none;
-  color: ARD.$text2;
+  color: var(--ard-checkbox-base-color, #{ARD.$text2});
+  font-size: var(--ard-checkbox-icon-size, 1em); // ard-icon component will inherit this font-size to determine its size
 
-  &.ard-color-currentColor {
+  &.ard-color-currentColor.ard-state-selected {
     color: currentColor;
   }
 
   .ard-hitbox {
     position: absolute;
-    left: -4px;
-    right: -4px;
-    bottom: -4px;
-    top: -4px;
+    left: var(--ard-checkbox-hitbox-offset, -4px);
+    right: var(--ard-checkbox-hitbox-offset, -4px);
+    bottom: var(--ard-checkbox-hitbox-offset, -4px);
+    top: var(--ard-checkbox-hitbox-offset, -4px);
   }
   .ard-focus-overlay {
-    @include defaultMixins.focus-overlay(0.4em);
-    border-radius: 999px;
+    @include defaultMixins.focus-overlay(var(--ard-checkbox-overlay-offset, 0.4em));
+    border-radius: 9999px;
     background: currentColor;
-  }
-  .ard-checkbox-icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    height: 1.8em; //the height of the icon
-    display: none;
-    opacity: 80%;
-    transition: opacity 0.2s ARD.$timing-fn;
-
-    &::after {
-      @include defaultMixins.icon(0, 600);
-    }
-  }
-  .ard-icon-for-selected::after {
-    @include defaultMixins.icon(1, 500);
-    content: 'check_box';
-  }
-  .ard-icon-for-indeterminate::after {
-    content: 'indeterminate_check_box';
-  }
-  .ard-icon-for-unselected::after {
-    content: 'check_box_outline_blank';
   }
 
   &.ard-checkbox-selected {
     color: var(--ard-unsel-cmpcl--bg-colored);
-
-    .ard-checkbox-icon {
-      opacity: 90%;
-    }
-  }
-  &.ard-checkbox-selected {
-    .ard-icon-for-selected {
-      display: block;
-    }
-  }
-  &.ard-checkbox-indeterminate {
-    .ard-icon-for-indeterminate {
-      display: block;
-    }
-  }
-  &.ard-checkbox-unselected {
-    .ard-icon-for-unselected {
-      display: block;
-    }
   }
   &:hover,
   &:focus {
-    .ard-checkbox-icon {
-      opacity: 100%;
-    }
     .ard-focus-overlay {
       opacity: 10%;
     }
@@ -100,10 +69,12 @@
 //! disabled state
 .ard-disabled .ard-checkbox {
   pointer-events: none;
-  opacity: 40%;
+  opacity: var(--ard-checkbox-unselected-disabled-opacity, 40%);
 
-  &.ard-checkbox-selected,
+  &.ard-checkbox-selected {
+    opacity: var(--ard-checkbox-selected-disabled-opacity, 50%);
+  }
   &.ard-checkbox-indeterminate {
-    opacity: 50%;
+    opacity: var(--ard-checkbox-indeterminate-disabled-opacity, 50%);
   }
 }

@@ -33,12 +33,15 @@ import { ArdStarButtonStarTemplateContext } from './star-button.types';
   ],
 })
 export class ArdiumStarButtonComponent extends _BooleanComponentBase implements ControlValueAccessor {
-  readonly wrapperClasses = input<string>('');
-
   protected override readonly _DEFAULTS!: ArdStarButtonDefaults;
   constructor(@Inject(ARD_STAR_BUTTON_DEFAULTS) defaults: ArdStarButtonDefaults) {
     super(defaults);
   }
+
+  protected readonly _componentId = '107';
+  protected readonly _componentName = 'start-button';
+
+  readonly wrapperClasses = input<string>('');
 
   readonly clickStrategy = input<ClickStrategy>(this._DEFAULTS.clickStrategy);
 
@@ -47,7 +50,10 @@ export class ArdiumStarButtonComponent extends _BooleanComponentBase implements 
 
   readonly ngClasses = computed<string>(() => [this.wrapperClasses(), `ard-color-${this.color}`].join(' '));
 
-  readonly starFillState = computed<StarFillMode>(() => (this.selected() ? StarFillMode.Filled : StarFillMode.None));
+  readonly starFillState = computed<StarFillMode>(() =>
+    this.selectedAccountingForReverse() ? StarFillMode.Filled : StarFillMode.None
+  );
+  readonly starFillInternal = computed<StarFillMode>(() => (this.selected() ? StarFillMode.Filled : StarFillMode.None));
 
   onClick(): void {
     if (this.clickStrategy() === ClickStrategy.Noop) return;
@@ -60,6 +66,7 @@ export class ArdiumStarButtonComponent extends _BooleanComponentBase implements 
   readonly starTemplateContext = computed<ArdStarButtonStarTemplateContext>(() => ({
     $implicit: this.starFillState(),
     fillMode: this.starFillState(),
+    fillModeInternal: this.starFillInternal(),
     color: this.color(),
   }));
 }
