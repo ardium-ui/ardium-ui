@@ -31,3 +31,13 @@ export class ArdiumDividerDirective {
     ].join(' ')
   );
 }
+
+
+@Directive({
+  standalone: true,
+  host: {
+    role: 'separator',
+    '[class]': 'ngClasses()',
+  },
+})
+export class ArdiumDividerDirectiveStandalone extends ArdiumDividerDirective {}

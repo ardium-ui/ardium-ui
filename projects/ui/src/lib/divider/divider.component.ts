@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
-import { _DividerDirective } from './_internal-directive';
+import { ArdiumDividerDirectiveStandalone } from './divider.directive';
 
 @Component({
   standalone: false,
@@ -8,6 +8,6 @@ import { _DividerDirective } from './_internal-directive';
   styleUrls: ['./divider.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  hostDirectives: [{ directive: _DividerDirective, inputs: ['vertical', 'flexItem', 'textAlign', 'variant'] }],
+  hostDirectives: [{ directive: ArdiumDividerDirectiveStandalone, inputs: ['vertical', 'flexItem', 'textAlign', 'variant'] }],
 })
 export class ArdiumDividerComponent {}
