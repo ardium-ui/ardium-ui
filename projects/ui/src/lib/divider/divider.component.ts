@@ -4,7 +4,7 @@ import { _DividerDirective } from './_internal-directive';
 @Component({
   standalone: false,
   selector: 'ard-divider',
-  templateUrl: './divider.component.html',
+  template: '<ng-content />',
   styleUrls: ['./divider.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
