@@ -14,6 +14,7 @@
   - Removed `.ard-focus-overlay`. It was used to add a colored overlay over the background, now `::before` is used for that purpose
   - Removed `.ard-button-content`. It was used to add flexbox to the content, now the button itself does that
   - Removed `[icon]` and `[iconAlign]` inputs from Button. Use `<ard-icon>` instead.
+- `ard-chip`, `ard-deletable-chip`, `ard-selectable-chip`'s `'filled'` variant is now named `'filled-strong'`. The `'filled'` variant still exists, but has new styling.
 - `OneAxisAlignment.Middle` (`'middle'`) is now renamed to `OneAxisAlignment.Center` (`'center'`) in all use cases. This change affects:
   - `ard-card-action-buttons` (`[align]`)
   - `ard-chip`, `ard-selectable-chip`, `ard-deletable-chip` (`[contentAlignment]`)
@@ -103,6 +104,7 @@ Other notable changes include:
 
 ### Bug Fixes
 
+- Added `display: block` to almost all components (some use `inline-block` or similar). Only a few components now remain as `inline` because they are usually used within text.
 - Calendar year template context variable shows the previous year due to timezone issues
 - Calendar heading buttons change when the button defaults are provided
 - Some Calendar did not support providing default values
