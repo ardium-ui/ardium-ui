@@ -9,6 +9,7 @@
     --ard-#{$prefix}--bg-colored-verylight: #{ARD.$bg-d};
     --ard-#{$prefix}--on-bg: #{ARD.$text};
     --ard-#{$prefix}--on-bg-colored: #{ARD.$text-alt};
+    --ard-#{$prefix}--on-bg-colored-light: #{ARD.$text};
     --ard-#{$prefix}--border: #{ARD.$text};
     --ard-#{$prefix}--border-light: #{ARD.$text2};
     --ard-#{$prefix}--content: #{ARD.$text};
@@ -26,6 +27,7 @@
     --ard-#{$prefix}--bg-colored-verylight: #{ARD.$main50};
     --ard-#{$prefix}--on-bg: #{ARD.$text-alt};
     --ard-#{$prefix}--on-bg-colored: #{ARD.$text-alt};
+    --ard-#{$prefix}--on-bg-colored-light: #{ARD.$text};
     --ard-#{$prefix}--border: #{ARD.$main300};
     --ard-#{$prefix}--border-light: #{ARD.$main100};
     --ard-#{$prefix}--content: #{ARD.$main700};
@@ -43,6 +45,7 @@
     --ard-#{$prefix}--bg-colored-verylight: #{ARD.$scnd50};
     --ard-#{$prefix}--on-bg: #{ARD.$text-alt};
     --ard-#{$prefix}--on-bg-colored: #{ARD.$text-alt};
+    --ard-#{$prefix}--on-bg-colored-light: #{ARD.$text};
     --ard-#{$prefix}--border: #{ARD.$scnd300};
     --ard-#{$prefix}--border-light: #{ARD.$scnd100};
     --ard-#{$prefix}--content: #{ARD.$scnd700};
@@ -60,6 +63,7 @@
     --ard-#{$prefix}--bg-colored-verylight: #{ARD.$warn50};
     --ard-#{$prefix}--on-bg: #{ARD.$text-alt};
     --ard-#{$prefix}--on-bg-colored: #{ARD.$text-alt};
+    --ard-#{$prefix}--on-bg-colored-light: #{ARD.$text};
     --ard-#{$prefix}--border: #{ARD.$warn300};
     --ard-#{$prefix}--border-light: #{ARD.$warn100};
     --ard-#{$prefix}--content: #{ARD.$warn700};
@@ -77,6 +81,7 @@
     --ard-#{$prefix}--bg-colored-verylight: #{ARD.$danger50};
     --ard-#{$prefix}--on-bg: #{ARD.$text-alt};
     --ard-#{$prefix}--on-bg-colored: #{ARD.$text-alt};
+    --ard-#{$prefix}--on-bg-colored-light: #{ARD.$text};
     --ard-#{$prefix}--border: #{ARD.$danger300};
     --ard-#{$prefix}--border-light: #{ARD.$danger100};
     --ard-#{$prefix}--content: #{ARD.$danger900};
@@ -94,6 +99,7 @@
     --ard-#{$prefix}--bg-colored-verylight: #{ARD.$success50};
     --ard-#{$prefix}--on-bg: #{ARD.$text-alt};
     --ard-#{$prefix}--on-bg-colored: #{ARD.$text-alt};
+    --ard-#{$prefix}--on-bg-colored-light: #{ARD.$text};
     --ard-#{$prefix}--border: #{ARD.$success300};
     --ard-#{$prefix}--border-light: #{ARD.$success100};
     --ard-#{$prefix}--content: #{ARD.$success900};
@@ -111,6 +117,7 @@
     --ard-#{$prefix}--bg-colored-verylight: #{ARD.$info50};
     --ard-#{$prefix}--on-bg: #{ARD.$text-alt};
     --ard-#{$prefix}--on-bg-colored: #{ARD.$text-alt};
+    --ard-#{$prefix}--on-bg-colored-light: #{ARD.$text};
     --ard-#{$prefix}--border: #{ARD.$info300};
     --ard-#{$prefix}--border-light: #{ARD.$info100};
     --ard-#{$prefix}--content: #{ARD.$info700};

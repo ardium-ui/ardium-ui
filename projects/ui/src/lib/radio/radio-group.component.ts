@@ -27,6 +27,7 @@ import { ArdiumRadioComponent } from './radio/radio.component';
   template: '<ng-content></ng-content>',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./radio-group.component.scss'],
   host: {
     '[attr.tabindex]': 'null',
     '[attr.aria-label]': 'null',

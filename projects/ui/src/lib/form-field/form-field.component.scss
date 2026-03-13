@@ -1,4 +1,12 @@
-ard-form-field, ard-horizontal-form-field {
+ard-form-field,
+ard-horizontal-form-field {
+  display: block;
+}
+ard-label,
+ard-hint,
+ard-error,
+ard-auto-error,
+ard-hint-error {
   display: block;
 }
 

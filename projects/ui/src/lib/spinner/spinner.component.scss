@@ -1,5 +1,9 @@
 $offset: 187;
 
+ard-spinner {
+  display: block;
+}
+
 .ard-spinner {
   animation: rotator var(--ard-_spinner-duration) linear infinite;
   pointer-events: none;

@@ -32,6 +32,7 @@ export const DecorationElementAppearance = {
   Outlined: 'outlined',
   OutlinedStrong: 'outlined-strong',
   Filled: 'filled',
+  FilledStrong: 'filled-strong',
 } as const;
 export type DecorationElementAppearance = (typeof DecorationElementAppearance)[keyof typeof DecorationElementAppearance];
 

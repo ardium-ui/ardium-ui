@@ -9,7 +9,11 @@ import { ArdSnackbarType } from './snackbar.types';
 @Component({
   selector: 'ard-simple-snackbar',
   templateUrl: './snackbar.component.html',
-  styles: ``,
+  styles: `
+    ard-simple-snackbar {
+      display: block;
+    }
+  `,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ArdiumButtonModule, AsyncPipe, ArdiumIconModule],

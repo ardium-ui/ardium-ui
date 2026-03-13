@@ -24,10 +24,16 @@
   --ard-chip-content-wrapper-padding: 0.5rem;
   --ard-chip-selectable-hover-overlay-opacity: 7.5%;
   --ard-chip-selectable-active-overlay-opacity: 20%;
+  // --ard-chip-filled-unselected-background: ;
+  // --ard-chip-filled-unselected-color: ;
+  // --ard-chip-outlined-strong-selectable-border-color: ;
+  // --ard-chip-outlined-strong-selectable-color: ;
   --ard-chip-outlined-hover-overlay-opacity: 4%;
   --ard-chip-outlined-active-overlay-opacity: 10%;
   --ard-chip-outlined-selected-overlay-opacity: 12%;
   --ard-chip-outlined-selected-hover-overlay-opacity: 17%;
+  --ard-chip-outlined-selected-focus-overlay-opacity: 0%;
+  --ard-chip-outlined-selected-focus-visible-overlay-opacity: 17%;
   --ard-chip-outlined-selected-active-overlay-opacity: 22%;
   --ard-chip-transition: 0.15s ease;
   --ard-chip-disabled-opacity: 60%;
@@ -91,14 +97,13 @@
     }
   }
   //! appearances
-  &.ard-appearance-filled {
-    background: var(--ard-cmpcl--bg-colored);
-    color: var(--ard-cmpcl--on-bg-colored);
-    border: none;
+  &.ard-appearance-filled,
+  &.ard-appearance-filled-strong {
+    border: 1px solid transparent;
 
     &.ard-chip-selectable {
-      background-color: ARD.$bg-f;
-      color: ARD.$text2;
+      background-color: var(--ard-chip-filled-unselected-background, #{ARD.$bg-f});
+      color: var(--ard-chip-filled-unselected-color, #{ARD.$text2});
       transition: color var(--ard-chip-transition, 0.15s ease), border-color var(--ard-chip-transition, 0.15s ease), background-color var(--ard-chip-transition, 0.15s ease);
 
       &.ard-chip-selected {
@@ -106,6 +111,14 @@
         background: var(--ard-cmpcl--bg-colored);
       }
     }
+  }
+  &.ard-appearance-filled {
+    background: var(--ard-cmpcl--bg-colored-light);
+    color: var(--ard-cmpcl--on-bg-colored-light);
+  }
+  &.ard-appearance-filled-strong {
+    background: var(--ard-cmpcl--bg-colored);
+    color: var(--ard-cmpcl--on-bg-colored);
   }
   &.ard-appearance-outlined,
   &.ard-appearance-outlined-strong {
@@ -141,10 +154,19 @@
         > .ard-focus-overlay {
           opacity: var(--ard-chip-outlined-selected-overlay-opacity, 12%);
         }
-        &:hover,
-        &:focus {
+        &:hover {
           > .ard-focus-overlay {
             opacity: var(--ard-chip-outlined-selected-hover-overlay-opacity, 17%);
+          }
+        }
+        &:focus {
+          > .ard-focus-overlay {
+            opacity: var(--ard-chip-outlined-selected-focus-overlay-opacity, 0%);
+          }
+        }
+        &:focus-visible {
+          > .ard-focus-overlay {
+            opacity: var(--ard-chip-outlined-selected-focus-visible-overlay-opacity, 17%);
           }
         }
         &:active {
@@ -161,8 +183,8 @@
       background: var(--ard-cmpcl--bg-colored);
     }
     &.ard-chip-selectable {
-      color: var(--ard-text2);
-      border: 1px solid var(--ard-detail-light);
+      color: var(--ard-chip-outlined-strong-selectable-color, var(--ard-text2));
+      border: 1px solid var(--ard-chip-outlined-strong-selectable-border-color, var(--ard-detail-light));
     }
   }
 
