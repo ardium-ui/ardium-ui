@@ -74,6 +74,7 @@
     valueFrom="name"
     labelFrom="name"
     groupLabelFrom="classification"
+    searchable
   />
 </div>
 <span class="title">Object options, property binding, groups, customized with templates</span>
@@ -226,6 +227,8 @@
     [items]="fruitsSmall"
     [formControl]="form.controls.fruit"
   />
+  <div>{{ form.controls.fruit.value }}</div>
+  <div>Touched: {{ form.controls.fruit.touched }}</div>
 </div>
 <div class="master flex">
   <span class="title">Select with editing mode changing</span>

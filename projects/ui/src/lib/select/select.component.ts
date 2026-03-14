@@ -346,9 +346,10 @@ export class ArdiumSelectComponent
     this._onChangeRegistered?.(value);
     this.valueChange.emit(value);
   }
-  private _onTouched(): void {
+  protected override _emitTouched(): void {
+    super._emitTouched();
+    if (this.isOpen()) return;
     this.touched.set(true);
-    this._onTouchedRegistered?.();
   }
 
   //! value input & output
@@ -669,11 +670,13 @@ export class ArdiumSelectComponent
   onSearchInputFocus(): void {
     this._searchBarFocused.set(true);
   }
-  onSearchInputBlur(): void {
-    if (!this._searchBarFocused()) return;
+  override onBlur(event: FocusEvent): void {
+    super.onBlur(event);
 
-    if (!this.isOpen()) {
-      this._onTouched();
+    if (this.isOpen()) {
+      this.focus();
+      this._shouldEmitTouched = false;
+      return;
     }
 
     this._searchBarFocused.set(false);
@@ -731,6 +734,7 @@ export class ArdiumSelectComponent
     this.clearEvent.emit();
     this.removeEvent.emit(cleared);
     this._emitChange();
+    this._emitTouched();
   }
   private _clearLastItem(): void {
     const clearedValue = this.itemStorage.clearLastSelected().value;
@@ -851,7 +855,7 @@ export class ArdiumSelectComponent
 
     this._destroyOverlay();
 
-    this._onTouched();
+    this._emitTouched();
     this.closeEvent.emit();
     this._cd.markForCheck();
   }
