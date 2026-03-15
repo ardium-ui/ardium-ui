@@ -78,7 +78,6 @@ export abstract class _NgModelComponentBase extends _FocusableComponentBase impl
   }
 
   protected _emitTouched(): void {
-    console.log('emitting touched');
     this._onTouchedRegistered?.();
   }
 
