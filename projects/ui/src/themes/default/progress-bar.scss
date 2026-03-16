@@ -1,26 +1,26 @@
 @use './coloring' as CM;
 @use '../variables' as ARD;
 
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  --ard-progress-bar-width: 100%;
-  --ard-progress-bar-height: 0.25rem;
-  --ard-progress-bar-margin: 0.5rem 0;
-  // --ard-progress-bar-foreground-color: ;
-  // --ard-progress-bar-background-color: ;
-  // --ard-progress-bar-buffer-color: ;
-  --ard-progress-bar-background-opacity: 30%;
-  --ard-progress-bar-buffer-opacity: 100%;
-  --ard-progress-bar-transition-duration: 0.1s;
-  --ard-progress-bar-indeterminate-animation-duration: 2.1s;
-  --ard-progress-bar-buffer-animation-distance: 0.5rem;
-  --ard-progress-bar-buffer-animation-duration: 0.4s;
-  --ard-progress-bar-currentColor-background-opacity: 22.5%;
-  --ard-progress-bar-currentColor-overlay-buffer-opacity: 30%;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    --ard-progress-bar-width: 100%;
+    --ard-progress-bar-height: 0.25rem;
+    --ard-progress-bar-margin: 0.5rem 0;
+    // --ard-progress-bar-foreground-color: ;
+    // --ard-progress-bar-background-color: ;
+    // --ard-progress-bar-buffer-color: ;
+    --ard-progress-bar-background-opacity: 30%;
+    --ard-progress-bar-buffer-opacity: 100%;
+    --ard-progress-bar-transition-duration: 0.1s;
+    --ard-progress-bar-indeterminate-animation-duration: 2.1s;
+    --ard-progress-bar-buffer-animation-distance: 0.5rem;
+    --ard-progress-bar-buffer-animation-duration: 0.4s;
+    --ard-progress-bar-currentColor-background-opacity: 22.5%;
+    --ard-progress-bar-currentColor-overlay-buffer-opacity: 30%;
+  }
+
   .ard-progress-bar {
     @include CM.typeColors();
     width: var(--ard-progress-bar-width, 100%);

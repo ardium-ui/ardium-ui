@@ -1,41 +1,41 @@
 @use './coloring' as CM;
 @use '../variables' as ARD;
 
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  // --ard-table-background: ;
-  // --ard-table-border-width: ;
-  // --ard-table-border-style: ;
-  // --ard-table-border-color: ;
-  --ard-table-cell-padding: 0 0.75rem;
-  --ard-table-header-gap: 0.75rem;
-  --ard-table-header-cell-height: 3.375rem;
-  --ard-table-header-cell-font-weight: 500;
-  --ard-table-header-cell-letter-spacing: 0.25px;
-  --ard-table-body-cell-height: 3rem;
-  // --ard-table-zebra-background: ;
-  --ard-table-disabled-row-opacity: 50%;
-  --ard-table-bold-row-font-weight: 600;
-  --ard-table-sticky-header-top: 0;
-  --ard-table-sticky-header-z-index: 2;
-  --ard-table-caption-height: 3.125rem;
-  // --ard-table-caption-color: ;
-  // --ard-table-caption-background: ;
-  // --ard-table-caption-border-color: ;
-  --ard-table-progress-bar-height: 0.1875rem;
-  --ard-table-progress-bar-z-index: 1;
-  --ard-table-sort-gap: 0.375rem;
-  --ard-table-sort-border-radius: 0.25rem;
-  --ard-table-sort-outline-offset: 0.25rem;
-  --ard-table-sort-outline-width: 2px;
-  --ard-table-sort-outline-color: black;
-  --ard-table-sort-icon-size: 1rem;
-  --ard-table-sort-icon-weight: 900;
-  --ard-table-border-radius: 0.5rem;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    // --ard-table-background: ;
+    // --ard-table-border-width: ;
+    // --ard-table-border-style: ;
+    // --ard-table-border-color: ;
+    --ard-table-cell-padding: 0 0.75rem;
+    --ard-table-header-gap: 0.75rem;
+    --ard-table-header-cell-height: 3.375rem;
+    --ard-table-header-cell-font-weight: 500;
+    --ard-table-header-cell-letter-spacing: 0.25px;
+    --ard-table-body-cell-height: 3rem;
+    // --ard-table-zebra-background: ;
+    --ard-table-disabled-row-opacity: 50%;
+    --ard-table-bold-row-font-weight: 600;
+    --ard-table-sticky-header-top: 0;
+    --ard-table-sticky-header-z-index: 2;
+    --ard-table-caption-height: 3.125rem;
+    // --ard-table-caption-color: ;
+    // --ard-table-caption-background: ;
+    // --ard-table-caption-border-color: ;
+    --ard-table-progress-bar-height: 0.1875rem;
+    --ard-table-progress-bar-z-index: 1;
+    --ard-table-sort-gap: 0.375rem;
+    --ard-table-sort-border-radius: 0.25rem;
+    --ard-table-sort-outline-offset: 0.25rem;
+    --ard-table-sort-outline-width: 2px;
+    --ard-table-sort-outline-color: black;
+    --ard-table-sort-icon-size: 1rem;
+    --ard-table-sort-icon-weight: 900;
+    --ard-table-border-radius: 0.5rem;
+  }
+
   .ard-table {
     @include CM.typeColors();
     border-collapse: collapse;

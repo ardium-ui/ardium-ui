@@ -1,14 +1,14 @@
 @use './coloring' as CM;
 
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  --ard-spinner-size: 2rem;
-  --ard-spinner-margin: 0.25rem;
-  --ard-spinner-duration: 1.4s;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    --ard-spinner-size: 2rem;
+    --ard-spinner-margin: 0.25rem;
+    --ard-spinner-duration: 1.4s;
+  }
+
   ard-spinner {
     display: inline-block;
     width: var(--ard-spinner-size, 2rem);

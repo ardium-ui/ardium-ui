@@ -2,28 +2,28 @@
 @use '../../variables' as ARD;
 @use '../mixins' as defaultMixins;
 
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  // --ard-digit-input-font-family: ;
-  --ard-digit-input-font-weight: 500;
-  // --ard-digit-input-color: ;
-  --ard-digit-input-gap: 0.375em;
-  --ard-digit-input-size: 2.0625em;
-  // --ard-digit-input-caret-color: ;
-  // --ard-digit-input-placeholder-color: ;
-  --ard-digit-input-placeholder-opacity: 60%;
-  --ard-digit-input-transition-duration: 150ms;
-  // --ard-digit-input-rectangle-height: ;
-  --ard-digit-input-rectangle-font-size: 1.25em;
-  --ard-digit-input-success-background-color: transparent;
-  // --ard-digit-input-success-border-color: ;
-  // --ard-digit-input-error-background-color: ;
-  // --ard-digit-input-error-border-color: ;
-  --ard-digit-input-disabled-opacity: 50%;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    // --ard-digit-input-font-family: ;
+    --ard-digit-input-font-weight: 500;
+    // --ard-digit-input-color: ;
+    --ard-digit-input-gap: 0.375em;
+    --ard-digit-input-size: 2.0625em;
+    // --ard-digit-input-caret-color: ;
+    // --ard-digit-input-placeholder-color: ;
+    --ard-digit-input-placeholder-opacity: 60%;
+    --ard-digit-input-transition-duration: 150ms;
+    // --ard-digit-input-rectangle-height: ;
+    --ard-digit-input-rectangle-font-size: 1.25em;
+    --ard-digit-input-success-background-color: transparent;
+    // --ard-digit-input-success-border-color: ;
+    // --ard-digit-input-error-background-color: ;
+    // --ard-digit-input-error-border-color: ;
+    --ard-digit-input-disabled-opacity: 50%;
+  }
+
   ard-digit-input {
     font-family: var(--ard-digit-input-font-family, var(--ard-font-family));
     font-weight: var(--ard-digit-input-font-weight, 500);

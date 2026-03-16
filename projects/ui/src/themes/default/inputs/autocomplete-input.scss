@@ -3,47 +3,47 @@
 @use '../clear-button' as CB;
 @use '../../variables' as ARD;
 
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  // --ard-autocomplete-input-height: ;
-  // --ard-autocomplete-input-height-compact: ;
-  --ard-autocomplete-input-gap: 0.625rem;
-  // --ard-autocomplete-input-font-size: ;
-  // --ard-autocomplete-input-font-size-compact: ;
-  --ard-autocomplete-input-line-height: 1.25;
-  --ard-autocomplete-input-line-height-compact: 1;
-  --ard-autocomplete-input-font-weight: 400;
-  // --ard-autocomplete-input-padding-top: ;
-  // --ard-autocomplete-input-padding-right: ;
-  // --ard-autocomplete-input-padding-bottom: ;
-  // --ard-autocomplete-input-padding-left: ;
-  // --ard-autocomplete-input-padding-top-compact: ;
-  // --ard-autocomplete-input-padding-right-compact: ;
-  // --ard-autocomplete-input-padding-bottom-compact: ;
-  // --ard-autocomplete-input-padding-left-compact: ;
-  // --ard-autocomplete-input-color: ;
-  // --ard-autocomplete-input-placeholder-color: ;
-  --ard-autocomplete-input-placeholder-opacity: 60%;
-
-  --ard-autocomplete-input-min-width: 10rem;
-  --ard-autocomplete-input-max-width: 100%;
-  --ard-autocomplete-input-autocomplete-opacity: 37.5%;
-  --ard-autocomplete-input-dropdown-padding: 0;
-  --ard-autocomplete-input-dropdown-max-height: 15rem;
-  --ard-autocomplete-input-dropdown-gap: 0;
-  --ard-autocomplete-input-option-padding: 0.375rem 0.625rem;
-  --ard-autocomplete-input-option-padding-compact: 0.25rem 0.5rem;
-  --ard-autocomplete-input-font-size: 1rem;
-  --ard-autocomplete-input-font-size-compact: 0.875rem;
-  // --ard-autocomplete-input-highlighted-background: ;
-  --ard-autocomplete-input-highlighted-font-weight: 400;
-  // --ard-autocomplete-input-selected-background: ;
-  --ard-autocomplete-input-selected-font-weight: 500;
-  --ard-autocomplete-input-disabled-opacity: 50%;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    // --ard-autocomplete-input-height: ;
+    // --ard-autocomplete-input-height-compact: ;
+    --ard-autocomplete-input-gap: 0.625rem;
+    // --ard-autocomplete-input-font-size: ;
+    // --ard-autocomplete-input-font-size-compact: ;
+    --ard-autocomplete-input-line-height: 1.25;
+    --ard-autocomplete-input-line-height-compact: 1;
+    --ard-autocomplete-input-font-weight: 400;
+    // --ard-autocomplete-input-padding-top: ;
+    // --ard-autocomplete-input-padding-right: ;
+    // --ard-autocomplete-input-padding-bottom: ;
+    // --ard-autocomplete-input-padding-left: ;
+    // --ard-autocomplete-input-padding-top-compact: ;
+    // --ard-autocomplete-input-padding-right-compact: ;
+    // --ard-autocomplete-input-padding-bottom-compact: ;
+    // --ard-autocomplete-input-padding-left-compact: ;
+    // --ard-autocomplete-input-color: ;
+    // --ard-autocomplete-input-placeholder-color: ;
+    --ard-autocomplete-input-placeholder-opacity: 60%;
+
+    --ard-autocomplete-input-min-width: 10rem;
+    --ard-autocomplete-input-max-width: 100%;
+    --ard-autocomplete-input-autocomplete-opacity: 37.5%;
+    --ard-autocomplete-input-dropdown-padding: 0;
+    --ard-autocomplete-input-dropdown-max-height: 15rem;
+    --ard-autocomplete-input-dropdown-gap: 0;
+    --ard-autocomplete-input-option-padding: 0.375rem 0.625rem;
+    --ard-autocomplete-input-option-padding-compact: 0.25rem 0.5rem;
+    --ard-autocomplete-input-font-size: 1rem;
+    --ard-autocomplete-input-font-size-compact: 0.875rem;
+    // --ard-autocomplete-input-highlighted-background: ;
+    --ard-autocomplete-input-highlighted-font-weight: 400;
+    // --ard-autocomplete-input-selected-background: ;
+    --ard-autocomplete-input-selected-font-weight: 500;
+    --ard-autocomplete-input-disabled-opacity: 50%;
+  }
+
   .ard-autocomplete-input {
     @include inputMixin.genericInput(
       var(--ard-autocomplete-input-height, var(--ard-form-field-height, 2.3125rem)),

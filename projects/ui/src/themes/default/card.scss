@@ -1,40 +1,40 @@
 @use '../variables' as ARD;
 
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  // --ard-card-bg: ;
-  // --ard-card-rounded-corner-radius: ;
-  // --ard-card-border-color: ;
-
-  --ard-card-content-padding-top: 0;
-  --ard-card-content-padding-right: 1em;
-  --ard-card-content-padding-bottom: 0;
-  --ard-card-content-padding-left: 1em;
-
-  --ard-card-header-padding-top: 0.5em;
-  --ard-card-header-padding-right: 1em;
-  --ard-card-header-padding-bottom: 0;
-  --ard-card-header-padding-left: 1em;
-  --ard-card-header-margin-bottom: 1em;
-
-  // --ard-card-title-color: ;
-  --ard-card-title-font-size: 1.375em;
-  --ard-card-title-letter-spacing: 0.0125em;
-  --ard-card-title-font-weight: 500;
-  --ard-card-title-margin-top: 0;
-  // --ard-card-subtitle-color: ;
-  --ard-card-subtitle-font-size: 1.375em;
-  --ard-card-subtitle-letter-spacing: 0.0125em;
-  --ard-card-subtitle-font-weight: 500;
-  --ard-card-subtitle-margin-top: 0;
-
-  --ard-card-avatar-size: 3em;
-
-  --ard-card-action-buttons-padding: 0.5em;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    // --ard-card-bg: ;
+    // --ard-card-rounded-corner-radius: ;
+    // --ard-card-border-color: ;
+
+    --ard-card-content-padding-top: 0;
+    --ard-card-content-padding-right: 1em;
+    --ard-card-content-padding-bottom: 0;
+    --ard-card-content-padding-left: 1em;
+
+    --ard-card-header-padding-top: 0.5em;
+    --ard-card-header-padding-right: 1em;
+    --ard-card-header-padding-bottom: 0;
+    --ard-card-header-padding-left: 1em;
+    --ard-card-header-margin-bottom: 1em;
+
+    // --ard-card-title-color: ;
+    --ard-card-title-font-size: 1.375em;
+    --ard-card-title-letter-spacing: 0.0125em;
+    --ard-card-title-font-weight: 500;
+    --ard-card-title-margin-top: 0;
+    // --ard-card-subtitle-color: ;
+    --ard-card-subtitle-font-size: 1.375em;
+    --ard-card-subtitle-letter-spacing: 0.0125em;
+    --ard-card-subtitle-font-weight: 500;
+    --ard-card-subtitle-margin-top: 0;
+
+    --ard-card-avatar-size: 3em;
+
+    --ard-card-action-buttons-padding: 0.5em;
+  }
+
   ard-card,
   .ard-card {
     position: relative;

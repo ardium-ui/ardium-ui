@@ -2,35 +2,35 @@
 @use './coloring' as coloringMixins;
 @use '../variables' as ARD;
 
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  --ard-slide-toggle-height: 1.25em;
-  --ard-slide-toggle-hitbox-offset: -4px;
-  --ard-slide-toggle-track-width: 2.25em;
-  --ard-slide-toggle-track-height: 0.75em;
-  --ard-slide-toggle-track-opacity: 20%;
-  --ard-slide-toggle-track-selected-opacity: 40%;
-  --ard-slide-toggle-track-selected-opacity-no-color: 35%;
-  --ard-slide-toggle-handle-size: 1.25em;
-  --ard-slide-toggle-handle-icon-size: 0.95em;
-  --ard-slide-toggle-border-radius: 9999px;
-  --ard-slide-toggle-transition-duration: 0.1s;
-  --ard-slide-toggle-box-shadow-transition: 0.28s;
-  --ard-slide-toggle-hover-overlay-opacity: 4%;
-  --ard-slide-toggle-active-overlay-opacity: 12%;
-  --ard-slide-toggle-contained-height: 1.5em;
-  --ard-slide-toggle-contained-handle-size: 1.125em;
-  --ard-slide-toggle-contained-handle-margin: 0.25em;
-  --ard-slide-toggle-contained-border: 1px solid ARD.$detail-ultralight;
-  --ard-slide-toggle-disabled-opacity: 60%;
-  --ard-slide-toggle-disabled-track-opacity: 20%;
-  --ard-slide-toggle-disabled-track-opacity-unselected: 12.5%;
-  --ard-slide-toggle-disabled-overlay-opacity: 20%;
-  --ard-slide-toggle-disabled-icon-opacity: 60%;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    --ard-slide-toggle-height: 1.25em;
+    --ard-slide-toggle-hitbox-offset: -4px;
+    --ard-slide-toggle-track-width: 2.25em;
+    --ard-slide-toggle-track-height: 0.75em;
+    --ard-slide-toggle-track-opacity: 20%;
+    --ard-slide-toggle-track-selected-opacity: 40%;
+    --ard-slide-toggle-track-selected-opacity-no-color: 35%;
+    --ard-slide-toggle-handle-size: 1.25em;
+    --ard-slide-toggle-handle-icon-size: 0.95em;
+    --ard-slide-toggle-border-radius: 9999px;
+    --ard-slide-toggle-transition-duration: 0.1s;
+    --ard-slide-toggle-box-shadow-transition: 0.28s;
+    --ard-slide-toggle-hover-overlay-opacity: 4%;
+    --ard-slide-toggle-active-overlay-opacity: 12%;
+    --ard-slide-toggle-contained-height: 1.5em;
+    --ard-slide-toggle-contained-handle-size: 1.125em;
+    --ard-slide-toggle-contained-handle-margin: 0.25em;
+    --ard-slide-toggle-contained-border: 1px solid ARD.$detail-ultralight;
+    --ard-slide-toggle-disabled-opacity: 60%;
+    --ard-slide-toggle-disabled-track-opacity: 20%;
+    --ard-slide-toggle-disabled-track-opacity-unselected: 12.5%;
+    --ard-slide-toggle-disabled-overlay-opacity: 20%;
+    --ard-slide-toggle-disabled-icon-opacity: 60%;
+  }
+
   .ard-slide-toggle {
     @include coloringMixins.typeColors();
 

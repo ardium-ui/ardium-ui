@@ -1,52 +1,52 @@
 @use './coloring' as CM;
 
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  --ard-file-drop-area-min-width: 15rem;
-  --ard-file-drop-area-min-height: 10rem;
-  --ard-file-drop-area-padding: 0.625rem;
-  --ard-file-drop-area-outline-border-width: 2px;
-  --ard-file-drop-area-outline-border-style: dashed;
-  --ard-file-drop-area-outline-padding: 0.375rem;
-  --ard-file-drop-area-content-gap-min: 0.2rem;
-  --ard-file-drop-area-content-gap-preferred: 10%;
-  --ard-file-drop-area-content-gap-max: 1rem;
-  --ard-file-drop-area-icon-font-size: 220%;
-  --ard-file-drop-area-drop-text-font-weight: 500;
-  --ard-file-drop-area-drop-text-font-size: 105%;
-  --ard-file-drop-area-or-text-font-weight: 400;
-  --ard-file-drop-area-or-text-font-size: 95%;
-  --ard-file-drop-area-dragover-text-font-weight: 500;
-  --ard-file-drop-area-dragover-text-font-size: 105%;
-  --ard-file-drop-area-dragover-amount-font-weight: 600;
-  --ard-file-drop-area-dragover-amount-font-size: 120%;
-  --ard-file-drop-area-uploaded-container-gap: 0.75rem;
-  --ard-file-drop-area-uploaded-message-font-weight: 500;
-  --ard-file-drop-area-uploaded-message-font-size: 105%;
-  --ard-file-drop-area-uploaded-amount-font-weight: 600;
-  --ard-file-drop-area-uploaded-amount-font-size: 100%;
-  --ard-file-drop-area-uploaded-files-gap: 0.45rem;
-  --ard-file-drop-area-file-gap: 0.75rem;
-  --ard-file-drop-area-file-icon-font-size: 220%;
-  --ard-file-drop-area-file-info-gap: 0.5ch;
-  --ard-file-drop-area-filename-gap: 0;
-  --ard-file-drop-area-filename-name-line-height: 1;
-  --ard-file-drop-area-filename-name-height: 1em;
-  --ard-file-drop-area-filesize-font-weight: 500;
-  --ard-file-drop-area-filesize-font-size: 83%;
-  --ard-file-drop-area-filesize-opacity: 60%;
-  --ard-file-drop-area-variant-rounded-corner-radius: 0.875rem;
-  --ard-file-drop-area-outline-corner-radius: 0.25rem;
-  --ard-file-drop-area-font-size-compact: 85%;
-  --ard-file-drop-area-min-width-compact: 12rem;
-  --ard-file-drop-area-min-height-compact: 8rem;
-  --ard-file-drop-area-content-gap-min-compact: 0.1667rem;
-  --ard-file-drop-area-content-gap-preferred-compact: 10%;
-  --ard-file-drop-area-content-gap-max-compact: 0.75rem;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    --ard-file-drop-area-min-width: 15rem;
+    --ard-file-drop-area-min-height: 10rem;
+    --ard-file-drop-area-padding: 0.625rem;
+    --ard-file-drop-area-outline-border-width: 2px;
+    --ard-file-drop-area-outline-border-style: dashed;
+    --ard-file-drop-area-outline-padding: 0.375rem;
+    --ard-file-drop-area-content-gap-min: 0.2rem;
+    --ard-file-drop-area-content-gap-preferred: 10%;
+    --ard-file-drop-area-content-gap-max: 1rem;
+    --ard-file-drop-area-icon-font-size: 220%;
+    --ard-file-drop-area-drop-text-font-weight: 500;
+    --ard-file-drop-area-drop-text-font-size: 105%;
+    --ard-file-drop-area-or-text-font-weight: 400;
+    --ard-file-drop-area-or-text-font-size: 95%;
+    --ard-file-drop-area-dragover-text-font-weight: 500;
+    --ard-file-drop-area-dragover-text-font-size: 105%;
+    --ard-file-drop-area-dragover-amount-font-weight: 600;
+    --ard-file-drop-area-dragover-amount-font-size: 120%;
+    --ard-file-drop-area-uploaded-container-gap: 0.75rem;
+    --ard-file-drop-area-uploaded-message-font-weight: 500;
+    --ard-file-drop-area-uploaded-message-font-size: 105%;
+    --ard-file-drop-area-uploaded-amount-font-weight: 600;
+    --ard-file-drop-area-uploaded-amount-font-size: 100%;
+    --ard-file-drop-area-uploaded-files-gap: 0.45rem;
+    --ard-file-drop-area-file-gap: 0.75rem;
+    --ard-file-drop-area-file-icon-font-size: 220%;
+    --ard-file-drop-area-file-info-gap: 0.5ch;
+    --ard-file-drop-area-filename-gap: 0;
+    --ard-file-drop-area-filename-name-line-height: 1;
+    --ard-file-drop-area-filename-name-height: 1em;
+    --ard-file-drop-area-filesize-font-weight: 500;
+    --ard-file-drop-area-filesize-font-size: 83%;
+    --ard-file-drop-area-filesize-opacity: 60%;
+    --ard-file-drop-area-variant-rounded-corner-radius: 0.875rem;
+    --ard-file-drop-area-outline-corner-radius: 0.25rem;
+    --ard-file-drop-area-font-size-compact: 85%;
+    --ard-file-drop-area-min-width-compact: 12rem;
+    --ard-file-drop-area-min-height-compact: 8rem;
+    --ard-file-drop-area-content-gap-min-compact: 0.1667rem;
+    --ard-file-drop-area-content-gap-preferred-compact: 10%;
+    --ard-file-drop-area-content-gap-max-compact: 0.75rem;
+  }
+
   ard-file-drop-area {
     display: block;
     width: 100%;

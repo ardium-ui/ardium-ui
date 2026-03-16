@@ -2,21 +2,21 @@
 @use './coloring' as coloringMixins;
 @use '../variables' as ARD;
 
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  --ard-checkbox-size: 1.25em;
-  --ard-checkbox-icon-size: 1em;
-  --ard-checkbox-icon-size: 1.8em;
-  --ard-checkbox-hitbox-offset: -4px;
-  --ard-checkbox-overlay-offset: 0.4em;
-  --ard-checkbox-unselected-disabled-opacity: 40%;
-  --ard-checkbox-indeterminate-disabled-opacity: 50%;
-  --ard-checkbox-selected-disabled-opacity: 50%;
-  // --ard-checkbox-base-color: ;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    --ard-checkbox-size: 1.25em;
+    --ard-checkbox-icon-size: 1em;
+    --ard-checkbox-icon-size: 1.8em;
+    --ard-checkbox-hitbox-offset: -4px;
+    --ard-checkbox-overlay-offset: 0.4em;
+    --ard-checkbox-unselected-disabled-opacity: 40%;
+    --ard-checkbox-indeterminate-disabled-opacity: 50%;
+    --ard-checkbox-selected-disabled-opacity: 50%;
+    // --ard-checkbox-base-color: ;
+  }
+
   .ard-checkbox {
     @include coloringMixins.typeColors();
     @include coloringMixins.typeColors('unsel-cmpcl');

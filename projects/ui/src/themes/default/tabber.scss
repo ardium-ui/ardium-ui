@@ -1,27 +1,27 @@
 @use './coloring' as CM;
 @use './mixins' as M;
 
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  --ard-tabber-tab-height: 2.5em;
-  --ard-tabber-tab-font-size: 0.875rem;
-  --ard-tabber-tab-font-weight: 500;
-  --ard-tabber-tab-border: none;
-  --ard-tabber-tab-background: none;
-  --ard-tabber-tab-padding: 0 1.5rem;
-  --ard-tabber-tab-gap: 0;
-  --ard-tabber-tab-content-gap: 0.375rem;
-  --ard-tabber-separator-border: 1px solid var(--ard-detail-ultralight, rgba(0, 0, 0, 12%));
-  // --ard-tabber-tab-overlay-color: ;
-  --ard-tabber-tab-hover-overlay-opacity: 4%;
-  --ard-tabber-tab-active-overlay-opacity: 12%;
-  --ard-tabber-tab-focus-visible-overlay-opacity: 18%;
-  --ard-tabber-tab-disabled-overlay-opacity: 0%;
-  --ard-tabber-tab-disabled-opacity: 50%;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    --ard-tabber-tab-height: 2.5em;
+    --ard-tabber-tab-font-size: 0.875rem;
+    --ard-tabber-tab-font-weight: 500;
+    --ard-tabber-tab-border: none;
+    --ard-tabber-tab-background: none;
+    --ard-tabber-tab-padding: 0 1.5rem;
+    --ard-tabber-tab-gap: 0;
+    --ard-tabber-tab-content-gap: 0.375rem;
+    --ard-tabber-separator-border: 1px solid var(--ard-detail-ultralight, rgba(0, 0, 0, 12%));
+    // --ard-tabber-tab-overlay-color: ;
+    --ard-tabber-tab-hover-overlay-opacity: 4%;
+    --ard-tabber-tab-active-overlay-opacity: 12%;
+    --ard-tabber-tab-focus-visible-overlay-opacity: 18%;
+    --ard-tabber-tab-disabled-overlay-opacity: 0%;
+    --ard-tabber-tab-disabled-opacity: 50%;
+  }
+
   ard-tabber {
     max-width: 100%;
   }

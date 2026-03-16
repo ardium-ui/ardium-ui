@@ -2,26 +2,26 @@
 @use './mixins' as GM;
 @use '../variables' as ARD;
 
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  // --ard-radio-font-size: ;
-  --ard-radio-group-gap: 0.5rem 1rem;
-  --ard-radio-gap: 0.75rem;
-  --ard-radio-size: 1.25em;
-  --ard-radio-outer-border-width: 0.125em;
-  --ard-radio-border-radius: 9999px;
-  --ard-radio-inner-circle-inset: 25%;
-  --ard-radio-focus-overlay-size: 0.375em;
-  --ard-radio-hitbox-offset: -0.375em;
-  --ard-radio-hover-overlay-opacity: 7.5%;
-  --ard-radio-focus-overlay-opacity: 15%;
-  --ard-radio-active-overlay-opacity: 25%;
-  --ard-radio-transition-duration: 0.2s;
-  --ard-radio-disabled-opacity: 50%;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    // --ard-radio-font-size: ;
+    --ard-radio-group-gap: 0.5rem 1rem;
+    --ard-radio-gap: 0.75rem;
+    --ard-radio-size: 1.25em;
+    --ard-radio-outer-border-width: 0.125em;
+    --ard-radio-border-radius: 9999px;
+    --ard-radio-inner-circle-inset: 25%;
+    --ard-radio-focus-overlay-size: 0.375em;
+    --ard-radio-hitbox-offset: -0.375em;
+    --ard-radio-hover-overlay-opacity: 7.5%;
+    --ard-radio-focus-overlay-opacity: 15%;
+    --ard-radio-active-overlay-opacity: 25%;
+    --ard-radio-transition-duration: 0.2s;
+    --ard-radio-disabled-opacity: 50%;
+  }
+
   ard-radio-group {
     display: flex;
     gap: var(--ard-radio-group-gap, 0.5rem 1rem);

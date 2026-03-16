@@ -1,17 +1,17 @@
 @use 'sass:math';
 @use '../variables' as ARD;
 
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  --ard-color-display-gap: 0.3ch;
-  --ard-color-display-size: 1em * math.div(19, 16);
-  --ard-color-display-font-size: 1.15em;
-  --ard-color-display-rounded-corner-radius: 0.25em;
-  // --ard-color-display-border-color: ;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    --ard-color-display-gap: 0.3ch;
+    --ard-color-display-size: 1em * math.div(19, 16);
+    --ard-color-display-font-size: 1.15em;
+    --ard-color-display-rounded-corner-radius: 0.25em;
+    // --ard-color-display-border-color: ;
+  }
+
   .ard-color-display-wrapper {
     gap: var(--ard-color-display-gap, 0.3ch);
     align-items: center;

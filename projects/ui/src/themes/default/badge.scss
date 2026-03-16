@@ -1,30 +1,30 @@
 @use './coloring' as CM;
 
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  --ard-badge-small-font-size: 0.55rem;
-  // --ard-badge-small-size: ;
-  --ard-badge-small-font-weight: 400;
-  --ard-badge-small-letter-spacing: 0.2px;
-  // --ard-badge-small-rounded-radius: ;
-
-  --ard-badge-medium-font-size: 0.667rem;
-  // --ard-badge-medium-size: ;
-  --ard-badge-medium-font-weight: 500;
-  --ard-badge-medium-letter-spacing: 0.2px;
-  // --ard-badge-medium-rounded-radius: ;
-
-  --ard-badge-large-font-size: 0.8125rem;
-  // --ard-badge-large-size: ;
-  --ard-badge-large-font-weight: 600;
-  --ard-badge-large-letter-spacing: 0.2px;
-  // --ard-badge-large-rounded-radius: ;
-
-  --ard-badge-overlap-offset: 0.3em;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    --ard-badge-small-font-size: 0.55rem;
+    // --ard-badge-small-size: ;
+    --ard-badge-small-font-weight: 400;
+    --ard-badge-small-letter-spacing: 0.2px;
+    // --ard-badge-small-rounded-radius: ;
+
+    --ard-badge-medium-font-size: 0.667rem;
+    // --ard-badge-medium-size: ;
+    --ard-badge-medium-font-weight: 500;
+    --ard-badge-medium-letter-spacing: 0.2px;
+    // --ard-badge-medium-rounded-radius: ;
+
+    --ard-badge-large-font-size: 0.8125rem;
+    // --ard-badge-large-size: ;
+    --ard-badge-large-font-weight: 600;
+    --ard-badge-large-letter-spacing: 0.2px;
+    // --ard-badge-large-rounded-radius: ;
+
+    --ard-badge-overlap-offset: 0.3em;
+  }
+
   .ard-badge-host {
     position: relative;
   }

@@ -2,24 +2,24 @@
 @use './coloring' as coloringMixins;
 @use '../variables' as ARD;
 
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  --ard-star-size: 1.5em;
-
-  --ard-star-button-hitbox-offset: -4px;
-  --ard-star-button-overlay-offset: -0.125em;
-  --ard-star-button-hover-overlay-opacity: 10%;
-  --ard-star-button-focus-overlay-opacity: 0;
-  --ard-star-button-focus-visible-overlay-opacity: 10%;
-  --ard-star-button-active-overlay-opacity: 20%;
-  --ard-star-button-disabled-opacity: 50%;
-
-  --ard-rating-input-not-in-value-opacity: 50%;
-  --ard-rating-input-disabled-opacity: 50%;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    --ard-star-size: 1.5em;
+
+    --ard-star-button-hitbox-offset: -4px;
+    --ard-star-button-overlay-offset: -0.125em;
+    --ard-star-button-hover-overlay-opacity: 10%;
+    --ard-star-button-focus-overlay-opacity: 0;
+    --ard-star-button-focus-visible-overlay-opacity: 10%;
+    --ard-star-button-active-overlay-opacity: 20%;
+    --ard-star-button-disabled-opacity: 50%;
+
+    --ard-rating-input-not-in-value-opacity: 50%;
+    --ard-rating-input-disabled-opacity: 50%;
+  }
+
   .ard-star,
   .ard-star-button,
   .ard-rating-display,

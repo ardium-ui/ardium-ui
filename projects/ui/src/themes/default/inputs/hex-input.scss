@@ -3,36 +3,36 @@
 @use '../clear-button' as CB;
 @use '../../variables' as ARD;
 
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  // --ard-hex-input-height: ;
-  // --ard-hex-input-height-compact: ;
-  --ard-hex-input-gap: 0.625rem;
-  // --ard-hex-input-font-size: ;
-  // --ard-hex-input-font-size-compact: ;
-  --ard-hex-input-line-height: 1.25;
-  --ard-hex-input-line-height-compact: 1;
-  --ard-hex-input-font-weight: 400;
-  // --ard-hex-input-padding-top: ;
-  // --ard-hex-input-padding-right: ;
-  // --ard-hex-input-padding-bottom: ;
-  // --ard-hex-input-padding-left: ;
-  // --ard-hex-input-padding-top-compact: ;
-  // --ard-hex-input-padding-right-compact: ;
-  // --ard-hex-input-padding-bottom-compact: ;
-  // --ard-hex-input-padding-left-compact: ;
-  // --ard-hex-input-color: ;
-  // --ard-hex-input-placeholder-color: ;
-  --ard-hex-input-placeholder-opacity: 60%;
-
-  --ard-hex-input-min-width: 10rem;
-  --ard-hex-input-max-width: 100%;
-  // --ard-hex-input-hash-color: ;
-  --ard-hex-input-hash-opacity: 70%;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    // --ard-hex-input-height: ;
+    // --ard-hex-input-height-compact: ;
+    --ard-hex-input-gap: 0.625rem;
+    // --ard-hex-input-font-size: ;
+    // --ard-hex-input-font-size-compact: ;
+    --ard-hex-input-line-height: 1.25;
+    --ard-hex-input-line-height-compact: 1;
+    --ard-hex-input-font-weight: 400;
+    // --ard-hex-input-padding-top: ;
+    // --ard-hex-input-padding-right: ;
+    // --ard-hex-input-padding-bottom: ;
+    // --ard-hex-input-padding-left: ;
+    // --ard-hex-input-padding-top-compact: ;
+    // --ard-hex-input-padding-right-compact: ;
+    // --ard-hex-input-padding-bottom-compact: ;
+    // --ard-hex-input-padding-left-compact: ;
+    // --ard-hex-input-color: ;
+    // --ard-hex-input-placeholder-color: ;
+    --ard-hex-input-placeholder-opacity: 60%;
+
+    --ard-hex-input-min-width: 10rem;
+    --ard-hex-input-max-width: 100%;
+    // --ard-hex-input-hash-color: ;
+    --ard-hex-input-hash-opacity: 70%;
+  }
+
   .ard-hex-input {
     @include inputMixin.genericInput(
       var(--ard-hex-input-height, var(--ard-form-field-height, 2.3125rem)),

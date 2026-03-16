@@ -1,17 +1,17 @@
 @use './coloring' as coloringMixins;
 @use '../variables' as ARD;
 
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  --ard-progress-circle-size: 3em;
-  // --ard-progress-circle-colorless-background-color: ;
-  --ard-progress-circle-colorless-background-opacity: 100%;
-  --ard-progress-circle-colored-background-opacity: 100%;
-  --ard-progress-circle-value-font-size: 0.875em;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    --ard-progress-circle-size: 3em;
+    // --ard-progress-circle-colorless-background-color: ;
+    --ard-progress-circle-colorless-background-opacity: 100%;
+    --ard-progress-circle-colored-background-opacity: 100%;
+    --ard-progress-circle-value-font-size: 0.875em;
+  }
+
   .ard-progress-circle {
     @include coloringMixins.typeColors;
     width: var(--ard-progress-circle-size, 3em);

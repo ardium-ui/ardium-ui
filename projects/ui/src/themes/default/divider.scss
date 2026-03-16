@@ -1,21 +1,21 @@
 @use '../variables' as ARD;
 
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  --ard-divider-margin-size: 0.5rem;
-  // --ard-divider-color: ;
-  --ard-divider-width: 1px;
-  --ard-divider-middle-inset: 1rem;
-  --ard-divider-content-padding: 0.5rem;
-  --ard-divider-content-font-size: 0.875rem;
-  --ard-divider-align-inset: 10%;
-  --ard-divider-align-min-inset: 1rem;
-  --ard-divider-align-max-inset: unset;
-  --ard-divider-style: solid;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    --ard-divider-margin-size: 0.5rem;
+    // --ard-divider-color: ;
+    --ard-divider-width: 1px;
+    --ard-divider-middle-inset: 1rem;
+    --ard-divider-content-padding: 0.5rem;
+    --ard-divider-content-font-size: 0.875rem;
+    --ard-divider-align-inset: 10%;
+    --ard-divider-align-min-inset: 1rem;
+    --ard-divider-align-max-inset: unset;
+    --ard-divider-style: solid;
+  }
+
   .ard-divider {
     border: none;
     position: relative;

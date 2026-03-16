@@ -1,33 +1,33 @@
 @use '../variables' as ARD;
 
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  --ard-form-field-label-padding: 0.25rem 0 0.125rem 0.125rem;
-  --ard-form-field-label-font-size: 0.9375rem;
-  --ard-form-field-label-font-weight: 500;
-  --ard-form-field-label-required-font-weight: 500;
-  --ard-form-field-label-required-font-size: 112.5%;
-  --ard-form-field-label-required-color: orangered;
-  --ard-form-field-label-optional-font-weight: 400;
-  --ard-form-field-label-optional-font-size: 0.8125rem;
-  // --ard-form-field-label-optional-color: ;
-  --ard-form-field-label-optional-font-style: italic;
-  // --ard-form-field-error-color: ;
-  // --ard-form-field-success-color: ;
-  --ard-form-field-hint-padding: 0.125rem 0 0.25rem 0.125rem;
-  --ard-form-field-hint-font-size: 0.8125rem;
-  --ard-form-field-hint-line-height: 1.2;
-  --ard-form-field-hint-right-padding-left: 0.5rem;
-  --ard-form-field-hint-error-line-height: 1.2;
-  --ard-form-field-hint-error-gap: 0.375em;
-  --ard-form-field-label-disabled-opacity: 40%;
-  --ard-form-field-hint-disabled-opacity: 50%;
-  --ard-form-field-error-animation-duration: 0.25s;
-  --ard-horizontal-form-field-gap: 0.5rem;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    --ard-form-field-label-padding: 0.25rem 0 0.125rem 0.125rem;
+    --ard-form-field-label-font-size: 0.9375rem;
+    --ard-form-field-label-font-weight: 500;
+    --ard-form-field-label-required-font-weight: 500;
+    --ard-form-field-label-required-font-size: 112.5%;
+    --ard-form-field-label-required-color: orangered;
+    --ard-form-field-label-optional-font-weight: 400;
+    --ard-form-field-label-optional-font-size: 0.8125rem;
+    // --ard-form-field-label-optional-color: ;
+    --ard-form-field-label-optional-font-style: italic;
+    // --ard-form-field-error-color: ;
+    // --ard-form-field-success-color: ;
+    --ard-form-field-hint-padding: 0.125rem 0 0.25rem 0.125rem;
+    --ard-form-field-hint-font-size: 0.8125rem;
+    --ard-form-field-hint-line-height: 1.2;
+    --ard-form-field-hint-right-padding-left: 0.5rem;
+    --ard-form-field-hint-error-line-height: 1.2;
+    --ard-form-field-hint-error-gap: 0.375em;
+    --ard-form-field-label-disabled-opacity: 40%;
+    --ard-form-field-hint-disabled-opacity: 50%;
+    --ard-form-field-error-animation-duration: 0.25s;
+    --ard-horizontal-form-field-gap: 0.5rem;
+  }
+
   ard-form-field,
   ard-horizontal-form-field {
     display: block;

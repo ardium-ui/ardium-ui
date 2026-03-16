@@ -1,11 +1,11 @@
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  --ard-dialog-content-actions-gap: 1rem;
-  --ard-dialog-buttons-gap: 1rem;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    --ard-dialog-content-actions-gap: 1rem;
+    --ard-dialog-buttons-gap: 1rem;
+  }
+
   .ard-dialog-container {
     display: flex;
     flex-direction: column;

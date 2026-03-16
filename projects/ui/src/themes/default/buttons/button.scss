@@ -1,29 +1,29 @@
 @use './button-mixins' as shared;
 
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  --ard-button-height: 2.5em;
-  --ard-button-height-compact: 2.25em;
-  --ard-button-margin: 0.125rem;
-  --ard-button-padding: 0 1.2em;
-  --ard-button-padding-compact: 0 0.9em;
-  --ard-button-padding-vertical: 0.3em 1em;
-  --ard-button-padding-vertical-compact: 0.2em 0.8em;
-  --ard-button-gap: 0.375rem;
-  --ard-button-font-size: 0.875rem;
-  --ard-button-font-size-compact: 0.75rem;
-  --ard-button-font-weight: 500;
-  --ard-button-overlay-hover-opacity: 0.04;
-  --ard-button-overlay-focus-opacity: 0.12;
-  --ard-button-overlay-active-opacity: 0.18;
-  --ard-button-overlay-focus-visible-opacity: 0.24;
-  --ard-button-overlay-disabled-opacity: 0.2;
-  // --ard-button-rounded-corner-radius: ;
-  --ard-button-disabled-opacity: 0.6;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    --ard-button-height: 2.5em;
+    --ard-button-height-compact: 2.25em;
+    --ard-button-margin: 0.125rem;
+    --ard-button-padding: 0 1.2em;
+    --ard-button-padding-compact: 0 0.9em;
+    --ard-button-padding-vertical: 0.3em 1em;
+    --ard-button-padding-vertical-compact: 0.2em 0.8em;
+    --ard-button-gap: 0.375rem;
+    --ard-button-font-size: 0.875rem;
+    --ard-button-font-size-compact: 0.75rem;
+    --ard-button-font-weight: 500;
+    --ard-button-overlay-hover-opacity: 0.04;
+    --ard-button-overlay-focus-opacity: 0.12;
+    --ard-button-overlay-active-opacity: 0.18;
+    --ard-button-overlay-focus-visible-opacity: 0.24;
+    --ard-button-overlay-disabled-opacity: 0.2;
+    // --ard-button-rounded-corner-radius: ;
+    --ard-button-disabled-opacity: 0.6;
+  }
+
   ard-button {
     display: flex;
     width: max-content;

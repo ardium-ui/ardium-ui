@@ -3,34 +3,34 @@
 @use '../clear-button' as CB;
 @use '../../variables' as ARD;
 
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  // --ard-input-height: ;
-  // --ard-input-height-compact: ;
-  --ard-input-gap: 0.625rem;
-  // --ard-input-font-size: ;
-  // --ard-input-font-size-compact: ;
-  --ard-input-line-height: 1.25;
-  --ard-input-line-height-compact: 1;
-  --ard-input-font-weight: 400;
-  // --ard-input-padding-left: ;
-  // --ard-input-padding-right: ;
-  // --ard-input-padding-top: ;
-  // --ard-input-padding-bottom: ;
-  // --ard-input-padding-left-compact: ;
-  // --ard-input-padding-right-compact: ;
-  // --ard-input-padding-top-compact: ;
-  // --ard-input-padding-bottom-compact: ;
-  // --ard-input-color: ;
-  // --ard-input-placeholder-color: ;
-  --ard-input-placeholder-opacity: 60%;
-
-  --ard-input-min-width: 10rem;
-  --ard-input-max-width: 100%;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    // --ard-input-height: ;
+    // --ard-input-height-compact: ;
+    --ard-input-gap: 0.625rem;
+    // --ard-input-font-size: ;
+    // --ard-input-font-size-compact: ;
+    --ard-input-line-height: 1.25;
+    --ard-input-line-height-compact: 1;
+    --ard-input-font-weight: 400;
+    // --ard-input-padding-left: ;
+    // --ard-input-padding-right: ;
+    // --ard-input-padding-top: ;
+    // --ard-input-padding-bottom: ;
+    // --ard-input-padding-left-compact: ;
+    // --ard-input-padding-right-compact: ;
+    // --ard-input-padding-top-compact: ;
+    // --ard-input-padding-bottom-compact: ;
+    // --ard-input-color: ;
+    // --ard-input-placeholder-color: ;
+    --ard-input-placeholder-opacity: 60%;
+
+    --ard-input-min-width: 10rem;
+    --ard-input-max-width: 100%;
+  }
+
   .ard-input {
     @include inputMixin.genericInput(
       var(--ard-input-height, var(--ard-form-field-height, 2.3125rem)),

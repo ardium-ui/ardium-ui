@@ -1,34 +1,34 @@
 @use './shared' as S;
 @use '../../variables' as ARD;
 
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  // --ard-date-input-height: ;
-  // --ard-date-input-height-compact: ;
-  --ard-date-input-gap: 0.625rem;
-  // --ard-date-input-font-size: ;
-  // --ard-date-input-font-size-compact: ;
-  --ard-date-input-line-height: 1.25;
-  --ard-date-input-line-height-compact: 1;
-  --ard-date-input-font-weight: 400;
-  // --ard-date-input-padding-top: ;
-  // --ard-date-input-padding-right: ;
-  // --ard-date-input-padding-bottom: ;
-  // --ard-date-input-padding-left: ;
-  // --ard-date-input-padding-top-compact: ;
-  // --ard-date-input-padding-right-compact: ;
-  // --ard-date-input-padding-bottom-compact: ;
-  // --ard-date-input-padding-left-compact: ;
-  // --ard-date-input-color: ;
-  // --ard-date-input-placeholder-color: ;
-  --ard-date-input-placeholder-opacity: 60%;
-
-  --ard-date-input-input-padding: 0 2.625rem 0 0.375rem;
-  --ard-date-input-multipage-gap: 0;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    // --ard-date-input-height: ;
+    // --ard-date-input-height-compact: ;
+    --ard-date-input-gap: 0.625rem;
+    // --ard-date-input-font-size: ;
+    // --ard-date-input-font-size-compact: ;
+    --ard-date-input-line-height: 1.25;
+    --ard-date-input-line-height-compact: 1;
+    --ard-date-input-font-weight: 400;
+    // --ard-date-input-padding-top: ;
+    // --ard-date-input-padding-right: ;
+    // --ard-date-input-padding-bottom: ;
+    // --ard-date-input-padding-left: ;
+    // --ard-date-input-padding-top-compact: ;
+    // --ard-date-input-padding-right-compact: ;
+    // --ard-date-input-padding-bottom-compact: ;
+    // --ard-date-input-padding-left-compact: ;
+    // --ard-date-input-color: ;
+    // --ard-date-input-placeholder-color: ;
+    --ard-date-input-placeholder-opacity: 60%;
+
+    --ard-date-input-input-padding: 0 2.625rem 0 0.375rem;
+    --ard-date-input-multipage-gap: 0;
+  }
+
   ard-date-input .ard-date-input,
   ard-date-range-input .ard-date-range-input,
   ard-multipage-date-range-input .ard-multipage-date-range-input {

@@ -1,23 +1,23 @@
 @use './mixins' as CM;
 @use '../variables' as ARD;
 
-:root {
-  --ard-checkbox-list-padding: 0.375rem 0;
-  --ard-checkbox-list-item-hover-opacity: 5%;
-  --ard-checkbox-list-item-active-opacity: 15%;
-  --ard-checkbox-list-item-height: 3rem;
-  --ard-checkbox-list-item-height-compact: 2rem;
-  --ard-checkbox-list-checkbox-min-width: 1.25rem;
-  --ard-checkbox-list-checkbox-padding: 0.625rem;
-  --ard-checkbox-list-item-padding: 0 0.5rem 0 0;
-  --ard-checkbox-list-gap: 0;
-  --ard-checkbox-list-gap-compact: 0;
-  --ard-checkbox-list-item-gap: 0.5rem;
-  --ard-checkbox-list-item-gap-compact: 0.325rem;
-  --ard-checkbox-list-disabled-opacity: 50%;
-}
-
 @layer ard-theme {
+  :root {
+    --ard-checkbox-list-padding: 0.375rem 0;
+    --ard-checkbox-list-item-hover-opacity: 5%;
+    --ard-checkbox-list-item-active-opacity: 15%;
+    --ard-checkbox-list-item-height: 3rem;
+    --ard-checkbox-list-item-height-compact: 2rem;
+    --ard-checkbox-list-checkbox-min-width: 1.25rem;
+    --ard-checkbox-list-checkbox-padding: 0.625rem;
+    --ard-checkbox-list-item-padding: 0 0.5rem 0 0;
+    --ard-checkbox-list-gap: 0;
+    --ard-checkbox-list-gap-compact: 0;
+    --ard-checkbox-list-item-gap: 0.5rem;
+    --ard-checkbox-list-item-gap-compact: 0.325rem;
+    --ard-checkbox-list-disabled-opacity: 50%;
+  }
+
   .ard-checkbox-list {
     display: flex;
     flex-direction: column;

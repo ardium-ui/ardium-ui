@@ -1,22 +1,22 @@
 @use '../variables' as ARD;
 
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  // --ard-kbd-font-size: ;
-  --ard-kbd-border-radius: 0.1875em;
-  --ard-kbd-margin: 0 0.125em;
-  --ard-kbd-padding: 0.125em 0.375em;
-  --ard-kbd-border-width: 1px;
-  --ard-kbd-border-style: solid;
-  --ard-kbd-border-color: ;
-  --ard-kbd-box-shadow-settings: inset 0 -1px 0;
-  // --ard-kbd-box-shadow-color: ;
-  // --ard-kbd-bg: ;
-  // --ard-kbd-filled-bg: ;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    // --ard-kbd-font-size: ;
+    --ard-kbd-border-radius: 0.1875em;
+    --ard-kbd-margin: 0 0.125em;
+    --ard-kbd-padding: 0.125em 0.375em;
+    --ard-kbd-border-width: 1px;
+    --ard-kbd-border-style: solid;
+    --ard-kbd-border-color: ;
+    --ard-kbd-box-shadow-settings: inset 0 -1px 0;
+    // --ard-kbd-box-shadow-color: ;
+    // --ard-kbd-bg: ;
+    // --ard-kbd-filled-bg: ;
+  }
+
   .ard-kbd {
     border-radius: var(--ard-kbd-border-radius, 0.1875em);
     font-family: var(--ard-font-family-mono);

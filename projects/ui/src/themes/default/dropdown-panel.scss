@@ -1,19 +1,19 @@
 @use '../variables' as ARD;
 
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  // --ard-dropdown-panel-bg: ;
-  --ard-dropdown-panel-margin: 0.375rem 0;
-  --ard-dropdown-panel-margin-compact: 0.25rem 0;
-  --ard-dropdown-panel-z-index: 5;
-  --ard-dropdown-panel-rounded-corner-radius: 0.5rem;
-  --ard-dropdown-panel-rounded-corner-radius-compact: 0.375rem;
-  // --ard-dropdown-panel-border-color: ;
-  // --ard-dropdown-panel-shadow: ;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    // --ard-dropdown-panel-bg: ;
+    --ard-dropdown-panel-margin: 0.375rem 0;
+    --ard-dropdown-panel-margin-compact: 0.25rem 0;
+    --ard-dropdown-panel-z-index: 5;
+    --ard-dropdown-panel-rounded-corner-radius: 0.5rem;
+    --ard-dropdown-panel-rounded-corner-radius-compact: 0.375rem;
+    // --ard-dropdown-panel-border-color: ;
+    // --ard-dropdown-panel-shadow: ;
+  }
+
   ard-dropdown-panel {
     width: 100%;
   }

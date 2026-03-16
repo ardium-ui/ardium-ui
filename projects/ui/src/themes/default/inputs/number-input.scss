@@ -2,34 +2,34 @@
 @use '../mixins' as defaultMixins;
 @use '../../variables' as ARD;
 
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  // --ard-number-input-height: ;
-  // --ard-number-input-height-compact: ;
-  --ard-number-input-gap: 0.625rem;
-  // --ard-number-input-font-size: ;
-  // --ard-number-input-font-size-compact: ;
-  --ard-number-input-line-height: 1.25;
-  --ard-number-input-line-height-compact: 1;
-  --ard-number-input-font-weight: 400;
-  // --ard-number-input-padding-top: ;
-  // --ard-number-input-padding-right: ;
-  // --ard-number-input-padding-bottom: ;
-  // --ard-number-input-padding-left: ;
-  // --ard-number-input-padding-top-compact: ;
-  // --ard-number-input-padding-right-compact: ;
-  // --ard-number-input-padding-bottom-compact: ;
-  // --ard-number-input-padding-left-compact: ;
-  // --ard-number-input-color: ;
-  // --ard-number-input-placeholder-color: ;
-  --ard-number-input-placeholder-opacity: 60%;
-  --ard-number-input-disabled-opacity: 50%;
-  // --ard-number-input-width: ;
-  --ard-number-input-rounded-border-radius: 8px;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    // --ard-number-input-height: ;
+    // --ard-number-input-height-compact: ;
+    --ard-number-input-gap: 0.625rem;
+    // --ard-number-input-font-size: ;
+    // --ard-number-input-font-size-compact: ;
+    --ard-number-input-line-height: 1.25;
+    --ard-number-input-line-height-compact: 1;
+    --ard-number-input-font-weight: 400;
+    // --ard-number-input-padding-top: ;
+    // --ard-number-input-padding-right: ;
+    // --ard-number-input-padding-bottom: ;
+    // --ard-number-input-padding-left: ;
+    // --ard-number-input-padding-top-compact: ;
+    // --ard-number-input-padding-right-compact: ;
+    // --ard-number-input-padding-bottom-compact: ;
+    // --ard-number-input-padding-left-compact: ;
+    // --ard-number-input-color: ;
+    // --ard-number-input-placeholder-color: ;
+    --ard-number-input-placeholder-opacity: 60%;
+    --ard-number-input-disabled-opacity: 50%;
+    // --ard-number-input-width: ;
+    --ard-number-input-rounded-border-radius: 8px;
+  }
+
   ard-number-input {
     width: var(--ard-number-input-width, unset);
   }

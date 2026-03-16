@@ -2,57 +2,57 @@
 @use './mixins' as defaultMixins;
 @use '../variables' as ARD;
 
-// the variables are commented out intentionally
-// read more in docs/dev/css-variables.md
-:root {
-  // --ard-select-height: ;
-  // --ard-select-height-compact: ;
-  --ard-select-gap: 0.625rem;
-  --ard-select-gap-compact: 0.5rem;
-  --ard-select-controls-gap: 0.625rem;
-  --ard-select-controls-gap-compact: 0.5rem;
-  --ard-select-padding: 0 1em 0 0.375em;
-  --ard-select-padding-compact: 0 0.625em 0 0.375em;
-
-  // --ard-select-font-size: ;
-  // --ard-select-font-size-compact: ;
-  // --ard-select-text-color: ;
-  // --ard-select-placeholder-color: ;
-  --ard-select-search-min-width: 10ch;
-  // --ard-select-dropdown-arrow-color: ;
-  --ard-select-dropdown-arrow-active-transform: rotate(180deg);
-  --ard-select-dropdown-arrow-transition: 0.2s ease-in-out;
-
-  --ard-select-multiselect-padding: 0.25em 0;
-  --ard-select-multiselect-chip-gap: 0.375rem;
-
-  --ard-select-dropdown-width: max-content;
-  --ard-select-dropdown-max-width: max(25em, 100%);
-  --ard-select-dropdown-min-width: 100%;
-  --ard-select-dropdown-max-height: 15em;
-  // --ard-select-dropdown-font-size: ;
-  // --ard-select-dropdown-font-size-compact: ;
-  --ard-select-dropdown-padding: 0.375em 0.625em;
-  --ard-select-dropdown-gap: 0;
-
-  --ard-select-dropdown-optgroup-label-font-size: 0.875em;
-  --ard-select-dropdown-optgroup-label-font-weight: 600;
-  --ard-select-dropdown-optgroup-label-letter-spacing: 0.25px;
-  --ard-select-dropdown-optgroup-label-padding: 0.375em 0.625em 0.0625em 0.625em;
-
-  --ard-select-dropdown-option-padding: 0.375em 0.625em;
-  // --ard-select-dropdown-option-text-color: ;
-  // --ard-select-dropdown-option-highlighted-bg: ;
-  --ard-select-dropdown-option-selected-font-weight: 500;
-  // --ard-select-dropdown-option-selected-bg: ;
-  // --ard-select-dropdown-option-selected-highlighted-bg: ;
-  --ard-select-dropdown-option-disabled-opacity: 50%;
-
-  --ard-select-dropdown-add-custom-gap: 0.375rem;
-  --ard-select-dropdown-add-custom-label-font-size: 85%;
-}
-
 @layer ard-theme {
+  // the variables are commented out intentionally
+  // read more in docs/dev/css-variables.md
+  :root {
+    // --ard-select-height: ;
+    // --ard-select-height-compact: ;
+    --ard-select-gap: 0.625rem;
+    --ard-select-gap-compact: 0.5rem;
+    --ard-select-controls-gap: 0.625rem;
+    --ard-select-controls-gap-compact: 0.5rem;
+    --ard-select-padding: 0 1em 0 0.375em;
+    --ard-select-padding-compact: 0 0.625em 0 0.375em;
+
+    // --ard-select-font-size: ;
+    // --ard-select-font-size-compact: ;
+    // --ard-select-text-color: ;
+    // --ard-select-placeholder-color: ;
+    --ard-select-search-min-width: 10ch;
+    // --ard-select-dropdown-arrow-color: ;
+    --ard-select-dropdown-arrow-active-transform: rotate(180deg);
+    --ard-select-dropdown-arrow-transition: 0.2s ease-in-out;
+
+    --ard-select-multiselect-padding: 0.25em 0;
+    --ard-select-multiselect-chip-gap: 0.375rem;
+
+    --ard-select-dropdown-width: max-content;
+    --ard-select-dropdown-max-width: max(25em, 100%);
+    --ard-select-dropdown-min-width: 100%;
+    --ard-select-dropdown-max-height: 15em;
+    // --ard-select-dropdown-font-size: ;
+    // --ard-select-dropdown-font-size-compact: ;
+    --ard-select-dropdown-padding: 0.375em 0.625em;
+    --ard-select-dropdown-gap: 0;
+
+    --ard-select-dropdown-optgroup-label-font-size: 0.875em;
+    --ard-select-dropdown-optgroup-label-font-weight: 600;
+    --ard-select-dropdown-optgroup-label-letter-spacing: 0.25px;
+    --ard-select-dropdown-optgroup-label-padding: 0.375em 0.625em 0.0625em 0.625em;
+
+    --ard-select-dropdown-option-padding: 0.375em 0.625em;
+    // --ard-select-dropdown-option-text-color: ;
+    // --ard-select-dropdown-option-highlighted-bg: ;
+    --ard-select-dropdown-option-selected-font-weight: 500;
+    // --ard-select-dropdown-option-selected-bg: ;
+    // --ard-select-dropdown-option-selected-highlighted-bg: ;
+    --ard-select-dropdown-option-disabled-opacity: 50%;
+
+    --ard-select-dropdown-add-custom-gap: 0.375rem;
+    --ard-select-dropdown-add-custom-label-font-size: 85%;
+  }
+
   .ard-select {
     box-sizing: border-box;
     width: 100%;
