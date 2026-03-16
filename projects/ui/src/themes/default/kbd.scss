@@ -16,23 +16,25 @@
   // --ard-kbd-filled-bg: ;
 }
 
-.ard-kbd {
-  border-radius: var(--ard-kbd-border-radius, 0.1875em);
-  font-family: var(--ard-font-family-mono);
-  font-size: var(--ard-kbd-font-size, 0.875em);
-  margin: var(--ard-kbd-margin, 0 0.125em);
-  color: ARD.$text2;
+@layer ard-theme {
+  .ard-kbd {
+    border-radius: var(--ard-kbd-border-radius, 0.1875em);
+    font-family: var(--ard-font-family-mono);
+    font-size: var(--ard-kbd-font-size, 0.875em);
+    margin: var(--ard-kbd-margin, 0 0.125em);
+    color: ARD.$text2;
 
-  //! appearance
-  &.ard-appearance-outlined,
-  &.ard-appearance-filled {
-    border: var(--ard-kbd-border-width, 1px) var(--ard-kbd-border-style, solid)
-      var(--ard-kbd-border-color, #{ARD.$detail-ultralight});
-    box-shadow: var(--ard-kbd-box-shadow-settings, inset 0 -1px 0) var(--ard-kbd-box-shadow-color, #{ARD.$detail-light});
-    padding: var(--ard-kbd-padding, 0.125em 0.375em);
-    background-color: var(--ard-kbd-bg, #{ARD.$bg});
-  }
-  &.ard-appearance-filled {
-    background: var(--ard-kbd-filled-bg, #{ARD.$bg-d});
+    //! appearance
+    &.ard-appearance-outlined,
+    &.ard-appearance-filled {
+      border: var(--ard-kbd-border-width, 1px) var(--ard-kbd-border-style, solid)
+        var(--ard-kbd-border-color, #{ARD.$detail-ultralight});
+      box-shadow: var(--ard-kbd-box-shadow-settings, inset 0 -1px 0) var(--ard-kbd-box-shadow-color, #{ARD.$detail-light});
+      padding: var(--ard-kbd-padding, 0.125em 0.375em);
+      background-color: var(--ard-kbd-bg, #{ARD.$bg});
+    }
+    &.ard-appearance-filled {
+      background: var(--ard-kbd-filled-bg, #{ARD.$bg-d});
+    }
   }
 }

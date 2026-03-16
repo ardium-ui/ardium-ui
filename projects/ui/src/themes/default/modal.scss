@@ -28,99 +28,101 @@
   --ard-modal-close-button-offset-compact: 0.25rem;
 }
 
-.ard-modal {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: grid;
-  place-items: center;
+@layer ard-theme {
+  .ard-modal {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: grid;
+    place-items: center;
 
-  &.ard-modal-backdrop {
-    background: ARD.$darken-overlay-strong;
-  }
-  .ard-modal-panel {
-    padding: var(--ard-modal-padding, 1.25rem);
-    padding-top: var(--ard-modal-padding-top, 1rem);
-    width: var(--ard-modal-width);
-    height: var(--ard-modal-height);
-    min-width: var(--ard-modal-min-width);
-    min-height: var(--ard-modal-min-height);
-    max-width: var(--ard-modal-max-width, calc(100vw - var(--ard-modal-viewport-spacing, 2rem) * 2));
-    max-height: var(--ard-modal-max-height, calc(100vh - var(--ard-modal-viewport-spacing, 2rem) * 2));
-    background: var(--ard-modal-bg, #{ARD.$bg});
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--ard-modal-gap, 1.5rem);
-    font-size: 1rem;
-
-    &.ard-modal-no-heading-text {
-      gap: var(--ard-modal-no-heading-gap, 0.25rem);
-
-      .ard-modal-close-button {
-        position: absolute;
-        right: var(--ard-modal-close-button-offset, 0.5rem);
-        top: var(--ard-modal-close-button-offset, 0.5rem);
-      }
+    &.ard-modal-backdrop {
+      background: ARD.$darken-overlay-strong;
     }
-    &.ard-modal-has-close-button {
-      .ard-modal-heading {
-        padding-right: var(--ard-modal-heading-padding-right, 2rem);
-      }
-    }
-  }
-  .ard-modal-heading {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-
-    .ard-modal-heading-text {
-      font-size: var(--ard-modal-heading-font-size, 1.25rem);
-      color: var(--ard-modal-heading-color, #{ARD.$text});
-      font-weight: var(--ard-modal-heading-font-weight, 500);
-      font-family: var(--ard-font-family);
-    }
-    .ard-modal-close-button {
-      position: absolute;
-      right: var(--ard-modal-close-button-offset, 0.5rem);
-      top: var(--ard-modal-close-button-offset, 0.5rem);
-    }
-  }
-  //! appearances
-  &.ard-appearance-raised {
     .ard-modal-panel {
-      box-shadow: ARD.$simple-shadow2;
-    }
-  }
-  //! variants
-  &.ard-variant-rounded {
-    .ard-modal-panel {
-      border-radius: var(--ard-modal-rounded-border-radius, 8px);
-    }
-  }
-  &.ard-variant-sharp {
-    .ard-modal-panel {
-      border-radius: 0;
-    }
-  }
-
-  //! compact
-  &.ard-compact {
-    .ard-modal-panel {
-      font-size: var(--ard-modal-font-size-compact, 0.875rem);
-      padding: var(--ard-modal-padding-compact, 0.75rem 2rem 1rem 2rem);
-      gap: var(--ard-modal-gap-compact, 1rem);
+      padding: var(--ard-modal-padding, 1.25rem);
+      padding-top: var(--ard-modal-padding-top, 1rem);
+      width: var(--ard-modal-width);
+      height: var(--ard-modal-height);
+      min-width: var(--ard-modal-min-width);
+      min-height: var(--ard-modal-min-height);
+      max-width: var(--ard-modal-max-width, calc(100vw - var(--ard-modal-viewport-spacing, 2rem) * 2));
+      max-height: var(--ard-modal-max-height, calc(100vh - var(--ard-modal-viewport-spacing, 2rem) * 2));
+      background: var(--ard-modal-bg, #{ARD.$bg});
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--ard-modal-gap, 1.5rem);
+      font-size: 1rem;
 
       &.ard-modal-no-heading-text {
         gap: var(--ard-modal-no-heading-gap, 0.25rem);
 
         .ard-modal-close-button {
           position: absolute;
-          right: var(--ard-modal-close-button-offset-compact, 0.25rem);
-          top: var(--ard-modal-close-button-offset-compact, 0.25rem);
+          right: var(--ard-modal-close-button-offset, 0.5rem);
+          top: var(--ard-modal-close-button-offset, 0.5rem);
+        }
+      }
+      &.ard-modal-has-close-button {
+        .ard-modal-heading {
+          padding-right: var(--ard-modal-heading-padding-right, 2rem);
+        }
+      }
+    }
+    .ard-modal-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+
+      .ard-modal-heading-text {
+        font-size: var(--ard-modal-heading-font-size, 1.25rem);
+        color: var(--ard-modal-heading-color, #{ARD.$text});
+        font-weight: var(--ard-modal-heading-font-weight, 500);
+        font-family: var(--ard-font-family);
+      }
+      .ard-modal-close-button {
+        position: absolute;
+        right: var(--ard-modal-close-button-offset, 0.5rem);
+        top: var(--ard-modal-close-button-offset, 0.5rem);
+      }
+    }
+    //! appearances
+    &.ard-appearance-raised {
+      .ard-modal-panel {
+        box-shadow: ARD.$simple-shadow2;
+      }
+    }
+    //! variants
+    &.ard-variant-rounded {
+      .ard-modal-panel {
+        border-radius: var(--ard-modal-rounded-border-radius, 8px);
+      }
+    }
+    &.ard-variant-sharp {
+      .ard-modal-panel {
+        border-radius: 0;
+      }
+    }
+
+    //! compact
+    &.ard-compact {
+      .ard-modal-panel {
+        font-size: var(--ard-modal-font-size-compact, 0.875rem);
+        padding: var(--ard-modal-padding-compact, 0.75rem 2rem 1rem 2rem);
+        gap: var(--ard-modal-gap-compact, 1rem);
+
+        &.ard-modal-no-heading-text {
+          gap: var(--ard-modal-no-heading-gap, 0.25rem);
+
+          .ard-modal-close-button {
+            position: absolute;
+            right: var(--ard-modal-close-button-offset-compact, 0.25rem);
+            top: var(--ard-modal-close-button-offset-compact, 0.25rem);
+          }
         }
       }
     }

@@ -1,11 +1,12 @@
-.ard-color-display-wrapper {
-  display: flex;
-
-  .ard-color-content-wrapper {
-    display: none;
+@layer ard-cmp {
+  ard-color-display {
+    display: inline-block;
   }
-}
+  .ard-color-display-wrapper {
+    display: flex;
 
-ard-color-display {
-  display: inline-block;
+    .ard-color-content-wrapper {
+      display: none;
+    }
+  }
 }

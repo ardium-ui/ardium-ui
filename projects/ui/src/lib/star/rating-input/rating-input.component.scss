@@ -1,12 +1,14 @@
-ard-rating-input {
-  display: block;
-}
-.ard-rating-input {
-  width: max-content;
-}
-.ard-rating-input__radio {
-  appearance: none;
-  opacity: 0;
-  position: absolute;
-  pointer-events: none;
+@layer ard-cmp {
+  ard-rating-input {
+    display: block;
+  }
+  .ard-rating-input {
+    width: max-content;
+  }
+  .ard-rating-input__radio {
+    appearance: none;
+    opacity: 0;
+    position: absolute;
+    pointer-events: none;
+  }
 }

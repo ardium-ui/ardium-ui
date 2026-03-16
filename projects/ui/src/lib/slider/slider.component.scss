@@ -1,69 +1,71 @@
-body.ard-prevent-touch-actions {
-  touch-action: none;
-
-  * {
+@layer ard-cmp {
+  body.ard-prevent-touch-actions {
     touch-action: none;
-  }
-}
-ard-slider {
-  display: block;
-}
-.ard-slider-container-master {
-  display: flex;
-  flex-direction: column;
 
-  //labels
-  &.ard-labels-top {
-    flex-direction: column-reverse;
-  }
-
-  //tooltip
-  .ard-slider-tooltip-wrapper {
-    position: absolute;
-    transform: translateX(-50%);
-    pointer-events: none;
-  }
-
-  &.ard-tooltip-top {
-    .ard-slider-tooltip-wrapper {
-      bottom: 100%;
+    * {
+      touch-action: none;
     }
   }
-  &.ard-tooltip-bottom {
+  ard-slider {
+    display: block;
+  }
+  .ard-slider-container-master {
+    display: flex;
+    flex-direction: column;
+
+    //labels
+    &.ard-labels-top {
+      flex-direction: column-reverse;
+    }
+
+    //tooltip
     .ard-slider-tooltip-wrapper {
-      top: 100%;
+      position: absolute;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    &.ard-tooltip-top {
+      .ard-slider-tooltip-wrapper {
+        bottom: 100%;
+      }
+    }
+    &.ard-tooltip-bottom {
+      .ard-slider-tooltip-wrapper {
+        top: 100%;
+      }
+    }
+    //other
+    .ard-slider-handle {
+      position: absolute;
+      left: 0;
+      transform: translateX(-50%);
+    }
+    .ard-slider-tooltip {
+      position: relative;
+    }
+    .ard-slider-track,
+    .ard-value-tick-container {
+      position: relative;
+    }
+    .ard-value-tick {
+      position: absolute;
+    }
+    .ard-slider-label-container {
+      position: relative;
+      width: 100%;
+      height: 1em;
+    }
+    .ard-slider-label {
+      position: absolute;
+      line-height: 1em;
     }
   }
-  //other
-  .ard-slider-handle {
-    position: absolute;
-    left: 0;
-    transform: translateX(-50%);
-  }
-  .ard-slider-tooltip {
-    position: relative;
-  }
-  .ard-slider-track,
-  .ard-value-tick-container {
-    position: relative;
-  }
-  .ard-value-tick {
-    position: absolute;
-  }
-  .ard-slider-label-container {
-    position: relative;
-    width: 100%;
-    height: 1em;
-  }
-  .ard-slider-label {
-    position: absolute;
-    line-height: 1em;
-  }
-}
-.ard-disabled {
-  .ard-slider-container-master,
-  .ard-range-slider-container-master {
-    pointer-events: none;
-    opacity: 60%;
+  .ard-disabled {
+    .ard-slider-container-master,
+    .ard-range-slider-container-master {
+      pointer-events: none;
+      opacity: 60%;
+    }
   }
 }

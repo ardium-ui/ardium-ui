@@ -28,73 +28,75 @@
   --ard-date-input-multipage-gap: 0;
 }
 
-ard-date-input .ard-date-input,
-ard-date-range-input .ard-date-range-input,
-ard-multipage-date-range-input .ard-multipage-date-range-input {
-  @include S.genericInput(
-    var(--ard-date-input-height, var(--ard-form-field-height, 2.3125rem)),
-    var(--ard-date-input-height-compact, var(--ard-form-field-height-compact, 1.6875rem)),
-    var(--ard-date-input-gap, 0.625rem),
-    var(--ard-date-input-font-size, var(--ard-form-field-font-size, 1rem)),
-    var(--ard-date-input-font-size-compact, var(--ard-form-field-font-size-compact, 0.875rem)),
-    var(--ard-date-input-line-height, 1.25),
-    var(--ard-date-input-line-height-compact, 1),
-    var(--ard-date-input-font-weight, 400),
-    var(--ard-date-input-padding-top, var(--ard-form-field-padding-top, 0)),
-    var(--ard-date-input-padding-right, var(--ard-form-field-padding-right, 0.375rem)),
-    var(--ard-date-input-padding-bottom, var(--ard-form-field-padding-bottom, 0)),
-    var(--ard-date-input-padding-left, var(--ard-form-field-padding-left, 0.375rem)),
-    var(--ard-date-input-padding-top-compact, var(--ard-form-field-padding-top-compact, 0)),
-    var(--ard-date-input-padding-right-compact, var(--ard-form-field-padding-right-compact, 0.375rem)),
-    var(--ard-date-input-padding-bottom-compact, var(--ard-form-field-padding-bottom-compact, 0)),
-    var(--ard-date-input-padding-left-compact, var(--ard-form-field-padding-left-compact, 0.375rem)),
-    var(--ard-date-input-color, #{ARD.$text}),
-    var(--ard-date-input-placeholder-color, #{ARD.$text}),
-    var(--ard-date-input-placeholder-opacity, 60%)
-  );
-  display: grid;
-  grid-template-columns: 1fr max-content;
+@layer ard-theme {
+  ard-date-input .ard-date-input,
+  ard-date-range-input .ard-date-range-input,
+  ard-multipage-date-range-input .ard-multipage-date-range-input {
+    @include S.genericInput(
+      var(--ard-date-input-height, var(--ard-form-field-height, 2.3125rem)),
+      var(--ard-date-input-height-compact, var(--ard-form-field-height-compact, 1.6875rem)),
+      var(--ard-date-input-gap, 0.625rem),
+      var(--ard-date-input-font-size, var(--ard-form-field-font-size, 1rem)),
+      var(--ard-date-input-font-size-compact, var(--ard-form-field-font-size-compact, 0.875rem)),
+      var(--ard-date-input-line-height, 1.25),
+      var(--ard-date-input-line-height-compact, 1),
+      var(--ard-date-input-font-weight, 400),
+      var(--ard-date-input-padding-top, var(--ard-form-field-padding-top, 0)),
+      var(--ard-date-input-padding-right, var(--ard-form-field-padding-right, 0.375rem)),
+      var(--ard-date-input-padding-bottom, var(--ard-form-field-padding-bottom, 0)),
+      var(--ard-date-input-padding-left, var(--ard-form-field-padding-left, 0.375rem)),
+      var(--ard-date-input-padding-top-compact, var(--ard-form-field-padding-top-compact, 0)),
+      var(--ard-date-input-padding-right-compact, var(--ard-form-field-padding-right-compact, 0.375rem)),
+      var(--ard-date-input-padding-bottom-compact, var(--ard-form-field-padding-bottom-compact, 0)),
+      var(--ard-date-input-padding-left-compact, var(--ard-form-field-padding-left-compact, 0.375rem)),
+      var(--ard-date-input-color, #{ARD.$text}),
+      var(--ard-date-input-placeholder-color, #{ARD.$text}),
+      var(--ard-date-input-placeholder-opacity, 60%)
+    );
+    display: grid;
+    grid-template-columns: 1fr max-content;
 
-  .ard-date-input__value-container {
-    position: relative;
-  }
-  .ard-date-input__placeholder {
-    position: absolute;
-    padding: 0;
-  }
-  .ard-date-input__input-container {
-    position: absolute;
-    inset: 0;
-    padding: 0;
-
-    &.ard-date-input__input-container-hidden {
+    .ard-date-input__value-container {
+      position: relative;
+    }
+    .ard-date-input__placeholder {
       position: absolute;
-      opacity: 0;
-      appearance: none;
+      padding: 0;
     }
+    .ard-date-input__input-container {
+      position: absolute;
+      inset: 0;
+      padding: 0;
 
-    input {
-      box-sizing: border-box;
-      width: 100%;
-      height: 100%;
-      padding: var(--ard-date-input-input-padding, 0 2.625rem 0 0.375rem);
+      &.ard-date-input__input-container-hidden {
+        position: absolute;
+        opacity: 0;
+        appearance: none;
+      }
+
+      input {
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        padding: var(--ard-date-input-input-padding, 0 2.625rem 0 0.375rem);
+      }
+    }
+    .ard-date-input__value {
+      display: flex;
+      align-items: center;
+      padding: 0;
     }
   }
-  .ard-date-input__value {
+
+  ard-days-view {
+    .ard-calendar__header-button {
+      font-size: var(--ard-button-font-size, 0.875rem);
+      font-weight: var(--ard-button-font-weight, 500);
+    }
+  }
+  .ard-date-input__multipage-wrapper {
     display: flex;
-    align-items: center;
-    padding: 0;
+    flex-direction: row;
+    gap: var(--ard-date-input-multipage-gap, 0);
   }
-}
-
-ard-days-view {
-  .ard-calendar__header-button {
-    font-size: var(--ard-button-font-size, 0.875rem);
-    font-weight: var(--ard-button-font-weight, 500);
-  }
-}
-.ard-date-input__multipage-wrapper {
-  display: flex;
-  flex-direction: row;
-  gap: var(--ard-date-input-multipage-gap, 0);
 }

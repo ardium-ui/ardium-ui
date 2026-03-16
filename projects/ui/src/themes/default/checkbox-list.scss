@@ -17,93 +17,95 @@
   --ard-checkbox-list-disabled-opacity: 50%;
 }
 
-.ard-checkbox-list {
-  display: flex;
-  flex-direction: column;
-  padding: var(--ard-checkbox-list-padding, 0.375rem 0);
-  gap: var(--ard-checkbox-list-gap, 0);
-
-  .ard-checkbox-list__item {
+@layer ard-theme {
+  .ard-checkbox-list {
     display: flex;
-    align-items: center;
-    justify-content: stretch;
-    gap: var(--ard-checkbox-list-item-gap, 0.5rem);
-    padding: var(--ard-checkbox-list-item-padding, 0 0.5rem 0 0);
-    position: relative;
-    cursor: pointer;
-    height: max-content;
-    min-height: var(--ard-checkbox-list-item-height, 3rem);
+    flex-direction: column;
+    padding: var(--ard-checkbox-list-padding, 0.375rem 0);
+    gap: var(--ard-checkbox-list-gap, 0);
 
-    > label {
-      pointer-events: none;
-      user-select: none;
-      flex-grow: 1;
-      padding: 0;
-      min-height: var(--ard-checkbox-list-item-height, 3rem);
+    .ard-checkbox-list__item {
       display: flex;
       align-items: center;
-    }
-    > .ard-focus-overlay {
-      @include CM.focus-overlay();
-      background: ARD.$overlay;
-    }
-    &.ard-item-highlighted {
-      > .ard-focus-overlay {
-        opacity: var(--ard-checkbox-list-item-hover-opacity, 5%);
-      }
-    }
-    &:active {
-      > .ard-focus-overlay {
-        opacity: var(--ard-checkbox-list-item-active-opacity, 15%);
-      }
-    }
-    ard-checkbox {
-      padding: var(--ard-checkbox-list-checkbox-padding, 0.625rem);
-      min-width: var(--ard-checkbox-list-checkbox-min-width, 1.25rem);
+      justify-content: stretch;
+      gap: var(--ard-checkbox-list-item-gap, 0.5rem);
+      padding: var(--ard-checkbox-list-item-padding, 0 0.5rem 0 0);
+      position: relative;
+      cursor: pointer;
+      height: max-content;
+      min-height: var(--ard-checkbox-list-item-height, 3rem);
 
-      .ard-checkbox {
-        .ard-focus-overlay {
-          display: none;
+      > label {
+        pointer-events: none;
+        user-select: none;
+        flex-grow: 1;
+        padding: 0;
+        min-height: var(--ard-checkbox-list-item-height, 3rem);
+        display: flex;
+        align-items: center;
+      }
+      > .ard-focus-overlay {
+        @include CM.focus-overlay();
+        background: ARD.$overlay;
+      }
+      &.ard-item-highlighted {
+        > .ard-focus-overlay {
+          opacity: var(--ard-checkbox-list-item-hover-opacity, 5%);
+        }
+      }
+      &:active {
+        > .ard-focus-overlay {
+          opacity: var(--ard-checkbox-list-item-active-opacity, 15%);
+        }
+      }
+      ard-checkbox {
+        padding: var(--ard-checkbox-list-checkbox-padding, 0.625rem);
+        min-width: var(--ard-checkbox-list-checkbox-min-width, 1.25rem);
+
+        .ard-checkbox {
+          .ard-focus-overlay {
+            display: none;
+          }
+        }
+      }
+      &.ard-item-disabled {
+        pointer-events: none;
+
+        > label {
+          opacity: var(--ard-checkbox-list-disabled-opacity, 50%);
         }
       }
     }
-    &.ard-item-disabled {
-      pointer-events: none;
+    &.ard-compact {
+      gap: var(--ard-checkbox-list-gap-compact, 0);
 
-      > label {
-        opacity: var(--ard-checkbox-list-disabled-opacity, 50%);
+      .ard-checkbox-list__item {
+        gap: var(--ard-checkbox-list-item-gap-compact, 0.325rem);
+        height: var(--ard-checkbox-list-item-height-compact, 2rem);
       }
     }
-  }
-  &.ard-compact {
-    gap: var(--ard-checkbox-list-gap-compact, 0);
-
-    .ard-checkbox-list__item {
-      gap: var(--ard-checkbox-list-item-gap-compact, 0.325rem);
-      height: var(--ard-checkbox-list-item-height-compact, 2rem);
-    }
-  }
-  //! ALIGN TYPES
-  &.ard-align-left-clumped,
-  &.ard-align-right-split {
-    .ard-checkbox-list__item {
-      label {
-        justify-content: flex-start;
+    //! ALIGN TYPES
+    &.ard-align-left-clumped,
+    &.ard-align-right-split {
+      .ard-checkbox-list__item {
+        label {
+          justify-content: flex-start;
+        }
       }
     }
-  }
-  &.ard-align-left-split,
-  &.ard-align-right-clumped {
-    .ard-checkbox-list__item {
-      label {
-        justify-content: flex-end;
+    &.ard-align-left-split,
+    &.ard-align-right-clumped {
+      .ard-checkbox-list__item {
+        label {
+          justify-content: flex-end;
+        }
       }
     }
-  }
-  &.ard-align-right-split,
-  &.ard-align-right-clumped {
-    .ard-checkbox-list__item {
-      flex-direction: row-reverse;
+    &.ard-align-right-split,
+    &.ard-align-right-clumped {
+      .ard-checkbox-list__item {
+        flex-direction: row-reverse;
+      }
     }
   }
 }

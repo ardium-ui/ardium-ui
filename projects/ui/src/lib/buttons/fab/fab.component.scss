@@ -1,17 +1,19 @@
-ard-fab {
-  display: block;
-}
-.ard-fab {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  overflow: hidden;
-  position: relative;
-  border-radius: 9999px;
-  max-height: 100%;
+@layer ard-cmp {
+  ard-fab {
+    display: block;
+  }
+  .ard-fab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    border-radius: 9999px;
+    max-height: 100%;
 
-  &:not(.ard-fab-extended) {
-    aspect-ratio: 1;
+    &:not(.ard-fab-extended) {
+      aspect-ratio: 1;
+    }
   }
 }

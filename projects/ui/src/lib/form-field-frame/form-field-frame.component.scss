@@ -1,17 +1,19 @@
-ard-form-field-frame {
-  display: block;
-}
-.ard-form-field-frame {
-  position: relative;
-}
+@layer ard-cmp {
+  ard-form-field-frame {
+    display: block;
+  }
+  .ard-form-field-frame {
+    position: relative;
+  }
 
-.ard-form-field-overlay {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: 1;
+  .ard-form-field-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 1;
+  }
 }

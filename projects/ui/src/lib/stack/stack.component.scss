@@ -1,11 +1,13 @@
-.ard-stack {
-  box-sizing: border-box;
-  min-width: 0px;
-  display: flex;
-  flex-direction: var(--ard-_stack-direction, row);
-  flex-wrap: var(--ard-_stack-wrap, wrap);
-  row-gap: var(--ard-_stack-row-spacing, 0px);
-  column-gap: var(--ard-_stack-column-spacing, 0px);
-  justify-content: var(--ard-_stack-justify-content, flex-start);
-  align-items: var(--ard-_stack-align-items, flex-start);
+@layer ard-cmp {
+  .ard-stack {
+    box-sizing: border-box;
+    min-width: 0px;
+    display: flex;
+    flex-direction: var(--ard-_stack-direction, row);
+    flex-wrap: var(--ard-_stack-wrap, wrap);
+    row-gap: var(--ard-_stack-row-spacing, 0px);
+    column-gap: var(--ard-_stack-column-spacing, 0px);
+    justify-content: var(--ard-_stack-justify-content, flex-start);
+    align-items: var(--ard-_stack-align-items, flex-start);
+  }
 }

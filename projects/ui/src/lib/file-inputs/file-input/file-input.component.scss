@@ -1,9 +1,11 @@
-ard-file-input {
-  display: block;
-}
-.ard-file-input__input {
-  position: absolute;
-  appearance: none;
-  opacity: 0;
-  pointer-events: none;
+@layer ard-cmp {
+  ard-file-input {
+    display: block;
+  }
+  .ard-file-input__input {
+    position: absolute;
+    appearance: none;
+    opacity: 0;
+    pointer-events: none;
+  }
 }

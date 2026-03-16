@@ -26,339 +26,344 @@
   // --ard-segment-border-color: ;
 }
 
-.ard-segment-container {
-  @include coloringMixins.typeColors();
-  padding: var(--ard-segment-padding, 0.15rem);
-  font-family: var(--ard-segment-font-family, var(--ard-font-family));
-  margin: var(--ard-segment-margin, 0);
-  border: 1px solid transparent;
-  width: max-content;
-  height: max-content;
-  gap: var(--ard-segment-option-gap, var(--ard-segment-padding, 0.15rem));
-  overflow: hidden; // hide click indicator overflowing rounded corners on touchscreens
-
-  @include defaultMixins.formAppearances();
-  @include defaultMixins.formVariants();
-
-  //! button focus inficator
-  .ard-focus-overlay {
-    @include defaultMixins.focus-overlay;
-    background-color: var(--ard-cmpcl--content);
-  }
-
-  //! row & option styling
-  .ard-segment-row {
+@layer ard-theme {
+  .ard-segment-container {
+    @include coloringMixins.typeColors();
+    padding: var(--ard-segment-padding, 0.15rem);
+    font-family: var(--ard-segment-font-family, var(--ard-font-family));
+    margin: var(--ard-segment-margin, 0);
+    border: 1px solid transparent;
+    width: max-content;
+    height: max-content;
     gap: var(--ard-segment-option-gap, var(--ard-segment-padding, 0.15rem));
-    height: calc(var(--ard-segment-row-height, 2.42em) + 1px);
-    font-size: var(--ard-segment-font-size, 0.875rem);
+    overflow: hidden; // hide click indicator overflowing rounded corners on touchscreens
 
-    .ard-segment-option {
-      margin: 0;
-      padding: var(--ard-segment-option-padding, 0 1em);
-      height: 100%;
-      font-size: 1em;
-      min-width: var(--ard-segment-row-height, 2.42em);
-      border: 1px solid transparent;
-      background: transparent;
-      position: relative;
-      cursor: pointer;
-      transition: color 0.1s ARD.$timing-fn, opacity 0.1s ARD.$timing-fn, border-color 0.1s ARD.$timing-fn,
-        background-color 0.1s ARD.$timing-fn;
-      outline: none;
-      display: flex;
-      align-items: center;
+    @include defaultMixins.formAppearances();
+    @include defaultMixins.formVariants();
 
-      &.ard-option-selected {
+    //! button focus inficator
+    .ard-focus-overlay {
+      @include defaultMixins.focus-overlay;
+      background-color: var(--ard-cmpcl--content);
+    }
+
+    //! row & option styling
+    .ard-segment-row {
+      gap: var(--ard-segment-option-gap, var(--ard-segment-padding, 0.15rem));
+      height: calc(var(--ard-segment-row-height, 2.42em) + 1px);
+      font-size: var(--ard-segment-font-size, 0.875rem);
+
+      .ard-segment-option {
+        margin: 0;
+        padding: var(--ard-segment-option-padding, 0 1em);
+        height: 100%;
+        font-size: 1em;
+        min-width: var(--ard-segment-row-height, 2.42em);
+        border: 1px solid transparent;
+        background: transparent;
         position: relative;
-        z-index: 2;
-      }
+        cursor: pointer;
+        transition:
+          color 0.1s ARD.$timing-fn,
+          opacity 0.1s ARD.$timing-fn,
+          border-color 0.1s ARD.$timing-fn,
+          background-color 0.1s ARD.$timing-fn;
+        outline: none;
+        display: flex;
+        align-items: center;
 
-      &.ard-option-disabled {
-        opacity: var(--ard-segment-option-disabled-opacity, 50%);
-        pointer-events: none;
-      }
+        &.ard-option-selected {
+          position: relative;
+          z-index: 2;
+        }
 
-      .ard-button-content {
-        position: relative;
-        z-index: 1;
-        width: max-content;
+        &.ard-option-disabled {
+          opacity: var(--ard-segment-option-disabled-opacity, 50%);
+          pointer-events: none;
+        }
 
-        .ard-option-label {
-          display: flex;
-          align-items: center;
+        .ard-button-content {
+          position: relative;
+          z-index: 1;
+          width: max-content;
+
+          .ard-option-label {
+            display: flex;
+            align-items: center;
+          }
         }
       }
     }
-  }
-  //! highlighted/selected styling
-  .ard-segment-option {
-    &.ard-option-highlighted {
-      .ard-focus-overlay {
-        opacity: var(--ard-segment-option-highlighted-bg-opacity, 4%);
-      }
-    }
-    &:active {
-      .ard-focus-overlay {
-        opacity: var(--ard-segment-option-active-bg-opacity, 12%);
-      }
-    }
-    &.ard-option-selected {
-      .ard-focus-overlay {
-        opacity: var(--ard-segment-option-selected-bg-opacity, 16%);
-      }
-    }
-  }
-  &.ard-using-keyboard {
+    //! highlighted/selected styling
     .ard-segment-option {
       &.ard-option-highlighted {
         .ard-focus-overlay {
-          opacity: var(--ard-segment-option-highlighted-keyboard-bg-opacity, 28%);
+          opacity: var(--ard-segment-option-highlighted-bg-opacity, 4%);
         }
       }
       &:active {
         .ard-focus-overlay {
-          opacity: var(--ard-segment-option-active-keyboard-bg-opacity, 34%);
+          opacity: var(--ard-segment-option-active-bg-opacity, 12%);
         }
       }
-    }
-  }
-
-  //! appearances
-  &.ard-appearance-transparent {
-    background: transparent;
-
-    .ard-segment-row {
-      .ard-segment-option {
-        .ard-focus-overlay {
-          background-color: var(--ard-cmpcl--content);
-        }
-
-        &.ard-option-selected {
-          color: var(--ard-cmpcl--content);
-        }
-      }
-    }
-  }
-  &.ard-appearance-outlined,
-  &.ard-appearance-outlined-strong {
-    background: ARD.$bg;
-    padding: 0;
-
-    .ard-segment-option {
-      border: 1px solid var(--ard-segment-border-color, ARD.$border-light);
-
       &.ard-option-selected {
-        border-color: var(--ard-cmpcl--content);
-        color: var(--ard-cmpcl--content);
-      }
-    }
-    &.ard-variant-rounded-connected,
-    &.ard-variant-sharp-connected,
-    &.ard-variant-pill-connected {
-      gap: 0;
-
-      .ard-segment-row {
-        gap: 0;
-
-        &:not(:first-child) {
-          margin-top: -1px;
-        }
-
-        .ard-segment-option:not(:first-child) {
-          margin-left: -1px;
-        }
-      }
-    }
-    &.ard-variant-rounded-connected,
-    &.ard-variant-pill-connected.ard-singlerow {
-      .ard-segment-row {
-        .ard-segment-option {
-          border-radius: 0 !important;
-        }
-        &:first-child {
-          .ard-segment-option {
-            &:first-child {
-              border-top-left-radius: var(--ard-_variant-border-radius) !important;
-            }
-            &:last-child {
-              border-top-right-radius: var(--ard-_variant-border-radius) !important;
-            }
-            &:first-child:last-child {
-              border-top-right-radius: var(--ard-_variant-border-radius) !important;
-              border-top-left-radius: var(--ard-_variant-border-radius) !important;
-            }
-          }
-        }
-        &:last-child {
-          .ard-segment-option {
-            &:first-child {
-              border-bottom-left-radius: var(--ard-_variant-border-radius) !important;
-            }
-            &:last-child {
-              border-bottom-right-radius: var(--ard-_variant-border-radius) !important;
-            }
-            &:first-child:last-child {
-              border-bottom-right-radius: var(--ard-_variant-border-radius) !important;
-              border-bottom-left-radius: var(--ard-_variant-border-radius) !important;
-            }
-          }
-        }
-        &:first-child:last-child {
-          .ard-segment-option {
-            &:first-child {
-              border-top-left-radius: var(--ard-_variant-border-radius) !important;
-              border-bottom-left-radius: var(--ard-_variant-border-radius) !important;
-            }
-            &:last-child {
-              border-top-right-radius: var(--ard-_variant-border-radius) !important;
-              border-bottom-right-radius: var(--ard-_variant-border-radius) !important;
-            }
-            &:first-child:last-child {
-              border-radius: var(--ard-_variant-border-radius) !important;
-            }
-          }
-        }
-      }
-    }
-    &.ard-variant-pill-connected.ard-singlerow {
-      .ard-segment-row .ard-segment-option {
-        &:first-child {
-          padding-left: 1.25em;
-        }
-        &:last-child {
-          padding-right: 1.25em;
-        }
-      }
-    }
-  }
-  &.ard-appearance-outlined-strong {
-    .ard-segment-option.ard-option-selected {
-      background-color: var(--ard-cmpcl--bg);
-      color: var(--ard-cmpcl--on-bg);
-    }
-  }
-  &.ard-appearance-filled {
-    position: relative;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      border-radius: inherit;
-      background: var(--ard-cmpcl--bg);
-      opacity: 15%;
-    }
-  }
-  &.ard-appearance-filled-strong {
-    background: var(--ard-cmpcl--bg);
-    border-radius: var(--ard-_variant-border-radius);
-
-    .ard-segment-row {
-      .ard-segment-option {
-        color: var(--ard-cmpcl--on-bg);
-
         .ard-focus-overlay {
-          background-color: var(--ard-cmpcl--on-bg);
+          opacity: var(--ard-segment-option-selected-bg-opacity, 16%);
         }
+      }
+    }
+    &.ard-using-keyboard {
+      .ard-segment-option {
         &.ard-option-highlighted {
           .ard-focus-overlay {
-            opacity: var(--ard-segment-option-highlighted-filled-bg-opacity, 16%);
+            opacity: var(--ard-segment-option-highlighted-keyboard-bg-opacity, 28%);
           }
         }
+        &:active {
+          .ard-focus-overlay {
+            opacity: var(--ard-segment-option-active-keyboard-bg-opacity, 34%);
+          }
+        }
+      }
+    }
+
+    //! appearances
+    &.ard-appearance-transparent {
+      background: transparent;
+
+      .ard-segment-row {
+        .ard-segment-option {
+          .ard-focus-overlay {
+            background-color: var(--ard-cmpcl--content);
+          }
+
+          &.ard-option-selected {
+            color: var(--ard-cmpcl--content);
+          }
+        }
+      }
+    }
+    &.ard-appearance-outlined,
+    &.ard-appearance-outlined-strong {
+      background: ARD.$bg;
+      padding: 0;
+
+      .ard-segment-option {
+        border: 1px solid var(--ard-segment-border-color, ARD.$border-light);
+
         &.ard-option-selected {
+          border-color: var(--ard-cmpcl--content);
           color: var(--ard-cmpcl--content);
-          background: var(--ard-cmpcl--on-bg);
+        }
+      }
+      &.ard-variant-rounded-connected,
+      &.ard-variant-sharp-connected,
+      &.ard-variant-pill-connected {
+        gap: 0;
+
+        .ard-segment-row {
+          gap: 0;
+
+          &:not(:first-child) {
+            margin-top: -1px;
+          }
+
+          .ard-segment-option:not(:first-child) {
+            margin-left: -1px;
+          }
+        }
+      }
+      &.ard-variant-rounded-connected,
+      &.ard-variant-pill-connected.ard-singlerow {
+        .ard-segment-row {
+          .ard-segment-option {
+            border-radius: 0 !important;
+          }
+          &:first-child {
+            .ard-segment-option {
+              &:first-child {
+                border-top-left-radius: var(--ard-_variant-border-radius) !important;
+              }
+              &:last-child {
+                border-top-right-radius: var(--ard-_variant-border-radius) !important;
+              }
+              &:first-child:last-child {
+                border-top-right-radius: var(--ard-_variant-border-radius) !important;
+                border-top-left-radius: var(--ard-_variant-border-radius) !important;
+              }
+            }
+          }
+          &:last-child {
+            .ard-segment-option {
+              &:first-child {
+                border-bottom-left-radius: var(--ard-_variant-border-radius) !important;
+              }
+              &:last-child {
+                border-bottom-right-radius: var(--ard-_variant-border-radius) !important;
+              }
+              &:first-child:last-child {
+                border-bottom-right-radius: var(--ard-_variant-border-radius) !important;
+                border-bottom-left-radius: var(--ard-_variant-border-radius) !important;
+              }
+            }
+          }
+          &:first-child:last-child {
+            .ard-segment-option {
+              &:first-child {
+                border-top-left-radius: var(--ard-_variant-border-radius) !important;
+                border-bottom-left-radius: var(--ard-_variant-border-radius) !important;
+              }
+              &:last-child {
+                border-top-right-radius: var(--ard-_variant-border-radius) !important;
+                border-bottom-right-radius: var(--ard-_variant-border-radius) !important;
+              }
+              &:first-child:last-child {
+                border-radius: var(--ard-_variant-border-radius) !important;
+              }
+            }
+          }
+        }
+      }
+      &.ard-variant-pill-connected.ard-singlerow {
+        .ard-segment-row .ard-segment-option {
+          &:first-child {
+            padding-left: 1.25em;
+          }
+          &:last-child {
+            padding-right: 1.25em;
+          }
+        }
+      }
+    }
+    &.ard-appearance-outlined-strong {
+      .ard-segment-option.ard-option-selected {
+        background-color: var(--ard-cmpcl--bg);
+        color: var(--ard-cmpcl--on-bg);
+      }
+    }
+    &.ard-appearance-filled {
+      position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-radius: inherit;
+        background: var(--ard-cmpcl--bg);
+        opacity: 15%;
+      }
+    }
+    &.ard-appearance-filled-strong {
+      background: var(--ard-cmpcl--bg);
+      border-radius: var(--ard-_variant-border-radius);
+
+      .ard-segment-row {
+        .ard-segment-option {
+          color: var(--ard-cmpcl--on-bg);
 
           .ard-focus-overlay {
-            opacity: 0;
+            background-color: var(--ard-cmpcl--on-bg);
+          }
+          &.ard-option-highlighted {
+            .ard-focus-overlay {
+              opacity: var(--ard-segment-option-highlighted-filled-bg-opacity, 16%);
+            }
+          }
+          &.ard-option-selected {
+            color: var(--ard-cmpcl--content);
+            background: var(--ard-cmpcl--on-bg);
+
+            .ard-focus-overlay {
+              opacity: 0;
+            }
           }
         }
       }
     }
-  }
 
-  //! variants
-  &.ard-variant-rounded,
-  &.ard-variant-rounded-connected,
-  &.ard-variant-pill {
-    --ard-_variant-border-radius: var(--ard-segment-rounded-border-radius, 0.5rem);
-    border-radius: var(--ard-_variant-border-radius);
+    //! variants
+    &.ard-variant-rounded,
+    &.ard-variant-rounded-connected,
+    &.ard-variant-pill {
+      --ard-_variant-border-radius: var(--ard-segment-rounded-border-radius, 0.5rem);
+      border-radius: var(--ard-_variant-border-radius);
 
-    .ard-segment-row {
-      .ard-segment-option {
-        border-radius: max(
-          1px,
-          calc(var(--ard-_variant-border-radius) - var(--ard-segment-option-gap, var(--ard-segment-padding, 0.15rem)))
-        );
+      .ard-segment-row {
+        .ard-segment-option {
+          border-radius: max(
+            1px,
+            calc(var(--ard-_variant-border-radius) - var(--ard-segment-option-gap, var(--ard-segment-padding, 0.15rem)))
+          );
+        }
       }
     }
-  }
-  &.ard-variant-pill {
-    // TODO fix pill styling
-    border-radius: calc(var(--ard-segment-rounded-border-radius, 0.5rem) * 2);
+    &.ard-variant-pill {
+      // TODO fix pill styling
+      border-radius: calc(var(--ard-segment-rounded-border-radius, 0.5rem) * 2);
 
-    .ard-segment-row {
-      .ard-segment-option {
-        border-radius: var(--ard-_variant-border-radius);
+      .ard-segment-row {
+        .ard-segment-option {
+          border-radius: var(--ard-_variant-border-radius);
+        }
       }
     }
-  }
-  &.ard-variant-sharp,
-  &.ard-variant-sharp-connected {
-    border-radius: var(--ard-_variant-border-radius);
+    &.ard-variant-sharp,
+    &.ard-variant-sharp-connected {
+      border-radius: var(--ard-_variant-border-radius);
 
-    .ard-segment-row {
-      .ard-segment-option {
-        border-radius: calc(var(--ard-_variant-border-radius));
+      .ard-segment-row {
+        .ard-segment-option {
+          border-radius: calc(var(--ard-_variant-border-radius));
+        }
       }
     }
-  }
-  &.ard-variant-pill-connected.ard-singlerow {
-    --ard-_variant-border-radius: 9999px;
-  }
+    &.ard-variant-pill-connected.ard-singlerow {
+      --ard-_variant-border-radius: 9999px;
+    }
 
-  //! compact
-  &.ard-compact {
-    .ard-segment-row {
-      height: calc(var(--ard-segment-row-height-compact, 1.85em) + 1px);
-      font-size: var(--ard-segment-font-size-compact, 0.75rem);
+    //! compact
+    &.ard-compact {
+      .ard-segment-row {
+        height: calc(var(--ard-segment-row-height-compact, 1.85em) + 1px);
+        font-size: var(--ard-segment-font-size-compact, 0.75rem);
 
-      .ard-segment-option {
-        padding: var(--ard-segment-option-padding-compact, 1.85em);
-        min-width: 1.85em;
+        .ard-segment-option {
+          padding: var(--ard-segment-option-padding-compact, 1.85em);
+          min-width: 1.85em;
+        }
       }
     }
-  }
 
-  &.ard-icon-based {
-    .ard-segment-row .ard-segment-option {
-      padding: 0;
-      min-width: unset;
-      aspect-ratio: 1;
-      justify-content: center;
-    }
-  }
-
-  //! disabled styling
-  &.ard-disabled {
-    pointer-events: none;
-    opacity: var(--ard-segment-option-disabled-opacity, 50%);
-
-    .ard-focus-overlay {
-      opacity: 10%;
-    }
-
-    //edge case for no coloring
-    &.ard-color-none {
-      .ard-button-icon,
-      .ard-button-content {
-        opacity: calc(var(--ard-segment-option-disabled-opacity, 50%) * 1.2);
+    &.ard-icon-based {
+      .ard-segment-row .ard-segment-option {
+        padding: 0;
+        min-width: unset;
+        aspect-ratio: 1;
+        justify-content: center;
       }
+    }
+
+    //! disabled styling
+    &.ard-disabled {
+      pointer-events: none;
+      opacity: var(--ard-segment-option-disabled-opacity, 50%);
+
       .ard-focus-overlay {
-        background: var(--ard-cmpcl--overlay);
+        opacity: 10%;
+      }
+
+      //edge case for no coloring
+      &.ard-color-none {
+        .ard-button-icon,
+        .ard-button-content {
+          opacity: calc(var(--ard-segment-option-disabled-opacity, 50%) * 1.2);
+        }
+        .ard-focus-overlay {
+          background: var(--ard-cmpcl--overlay);
+        }
       }
     }
   }

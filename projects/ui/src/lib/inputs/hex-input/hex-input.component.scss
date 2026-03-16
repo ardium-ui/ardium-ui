@@ -1,10 +1,12 @@
-ard-hex-input {
-  display: block;
-}
-.ard-placeholder {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-  pointer-events: none;
+@layer ard-cmp {
+  ard-hex-input {
+    display: block;
+  }
+  .ard-placeholder {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    pointer-events: none;
+  }
 }

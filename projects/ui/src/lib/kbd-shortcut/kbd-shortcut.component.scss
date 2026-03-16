@@ -1,6 +1,8 @@
-.ard-kbd-shortcut {
-  display: inline-block;
-}
-.ard-kbd-shortcut-content-wrapper {
-  display: none;
+@layer ard-cmp {
+  .ard-kbd-shortcut {
+    display: inline-block;
+  }
+  .ard-kbd-shortcut-content-wrapper {
+    display: none;
+  }
 }

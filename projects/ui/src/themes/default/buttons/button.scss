@@ -23,82 +23,84 @@
   --ard-button-disabled-opacity: 0.6;
 }
 
-ard-button {
-  display: flex;
-  width: max-content;
-  height: max-content;
-  justify-content: stretch;
-}
-
-.ard-button {
-  @include shared.button(
-    var(--ard-button-margin, 0.125rem),
-    var(--ard-button-padding, 0 1.2em),
-    var(--ard-button-font-size, 0.875rem),
-    var(--ard-button-font-weight, 500),
-    var(--ard-button-overlay-hover-opacity, 0.04),
-    var(--ard-button-overlay-focus-opacity, 0.12),
-    var(--ard-button-overlay-active-opacity, 0.18),
-    var(--ard-button-overlay-focus-visible-opacity, 0.24)
-  );
-  background: transparent;
-  gap: var(--ard-button-gap, 0.375rem);
-  font-size: var(--ard-button-font-size, 0.875rem);
-  height: var(--ard-button-height, 2.5em);
-  padding: var(--ard-button-padding, 0 1.2em);
-  width: max-content;
-  min-width: max-content;
-  letter-spacing: 0.5px;
-  justify-content: center;
-  margin: 0;
-  user-select: none;
-  text-decoration: none;
-  flex-grow: 1;
-
-  //! aligns
-  &.ard-align-left {
-    flex-direction: row;
-  }
-  &.ard-align-right {
-    flex-direction: row-reverse;
-  }
-
-  //! button variants
-  &.ard-button-vertical {
+@layer ard-theme {
+  ard-button {
+    display: flex;
+    width: max-content;
     height: max-content;
-    padding: var(--ard-button-padding-vertical, 0.3em 1em);
-    gap: 2px;
-    flex-direction: column;
-  }
-  &.ard-variant-rounded,
-  &.ard-variant-pill.ard-button-vertical {
-    border-radius: var(--ard-button-rounded-corner-radius, var(--ard-rounded-corner-radius, 0.375rem));
-  }
-  &.ard-variant-pill:not(.ard-button-vertical) {
-    border-radius: 9999px;
-  }
-  &.ard-variant-sharp {
-    border-radius: 0;
+    justify-content: stretch;
   }
 
-  //! compact
-  &.ard-compact {
-    font-size: var(--ard-button-font-size-compact, 0.75rem);
-    height: var(--ard-button-height-compact, 2.25em);
-    padding: var(--ard-button-padding-compact, 0 0.9em);
+  .ard-button {
+    @include shared.button(
+      var(--ard-button-margin, 0.125rem),
+      var(--ard-button-padding, 0 1.2em),
+      var(--ard-button-font-size, 0.875rem),
+      var(--ard-button-font-weight, 500),
+      var(--ard-button-overlay-hover-opacity, 0.04),
+      var(--ard-button-overlay-focus-opacity, 0.12),
+      var(--ard-button-overlay-active-opacity, 0.18),
+      var(--ard-button-overlay-focus-visible-opacity, 0.24)
+    );
+    background: transparent;
+    gap: var(--ard-button-gap, 0.375rem);
+    font-size: var(--ard-button-font-size, 0.875rem);
+    height: var(--ard-button-height, 2.5em);
+    padding: var(--ard-button-padding, 0 1.2em);
+    width: max-content;
+    min-width: max-content;
+    letter-spacing: 0.5px;
+    justify-content: center;
+    margin: 0;
+    user-select: none;
+    text-decoration: none;
+    flex-grow: 1;
 
+    //! aligns
+    &.ard-align-left {
+      flex-direction: row;
+    }
+    &.ard-align-right {
+      flex-direction: row-reverse;
+    }
+
+    //! button variants
     &.ard-button-vertical {
       height: max-content;
-      padding: var(--ard-button-padding-vertical-compact, 0.2em 0.8em);
-      gap: 0;
+      padding: var(--ard-button-padding-vertical, 0.3em 1em);
+      gap: 2px;
+      flex-direction: column;
     }
-  }
-  //! disabled
-  &.ard-disabled {
-    @include shared.button-disabled(var(--ard-button-disabled-opacity, 0.6), var(--ard-button-overlay-disabled-opacity, 0.2));
+    &.ard-variant-rounded,
+    &.ard-variant-pill.ard-button-vertical {
+      border-radius: var(--ard-button-rounded-corner-radius, var(--ard-rounded-corner-radius, 0.375rem));
+    }
+    &.ard-variant-pill:not(.ard-button-vertical) {
+      border-radius: 9999px;
+    }
+    &.ard-variant-sharp {
+      border-radius: 0;
+    }
 
-    &.ard-button-with-pointer-events-when-disabled {
-      pointer-events: all;
+    //! compact
+    &.ard-compact {
+      font-size: var(--ard-button-font-size-compact, 0.75rem);
+      height: var(--ard-button-height-compact, 2.25em);
+      padding: var(--ard-button-padding-compact, 0 0.9em);
+
+      &.ard-button-vertical {
+        height: max-content;
+        padding: var(--ard-button-padding-vertical-compact, 0.2em 0.8em);
+        gap: 0;
+      }
+    }
+    //! disabled
+    &.ard-disabled {
+      @include shared.button-disabled(var(--ard-button-disabled-opacity, 0.6), var(--ard-button-overlay-disabled-opacity, 0.2));
+
+      &.ard-button-with-pointer-events-when-disabled {
+        pointer-events: all;
+      }
     }
   }
 }

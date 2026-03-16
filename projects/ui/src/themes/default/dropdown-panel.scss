@@ -13,46 +13,48 @@
   // --ard-dropdown-panel-shadow: ;
 }
 
-ard-dropdown-panel {
-  width: 100%;
-}
-.ard-dropdown-panel-container {
-  position: relative;
-  background: var(--ard-dropdown-panel-bg, #{ARD.$bg});
-  margin: var(--ard-dropdown-panel-margin, 0.375rem 0);
-  z-index: var(--ard-dropdown-panel-z-index, 5);
-  width: 100%;
-  overflow: hidden;
-  box-sizing: border-box;
-
-  //! variants
-  &.ard-variant-rounded {
-    border-radius: var(--ard-dropdown-panel-rounded-corner-radius, 0.5rem);
+@layer ard-theme {
+  ard-dropdown-panel {
+    width: 100%;
   }
-  &.ard-variant-sharp {
-    border-radius: 0;
-  }
+  .ard-dropdown-panel-container {
+    position: relative;
+    background: var(--ard-dropdown-panel-bg, #{ARD.$bg});
+    margin: var(--ard-dropdown-panel-margin, 0.375rem 0);
+    z-index: var(--ard-dropdown-panel-z-index, 5);
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
 
-  //! appearances
-  &.ard-appearance-outlined {
-    border: 1px solid var(--ard-dropdown-panel-border-color, #{ARD.$border});
-  }
-  &.ard-appearance-raised {
-    box-shadow: var(--ard-dropdown-panel-shadow, #{ARD.$box-shadow});
-  }
-
-  //! connected
-  &.ard-connected {
-    margin: 0;
-    border-top: none;
-  }
-
-  //! compact
-  &.ard-compact {
-    margin: var(--ard-dropdown-panel-margin-compact, 0.25rem 0);
-
+    //! variants
     &.ard-variant-rounded {
-      border-radius: var(--ard-dropdown-panel-rounded-corner-radius-compact, 0.375rem);
+      border-radius: var(--ard-dropdown-panel-rounded-corner-radius, 0.5rem);
+    }
+    &.ard-variant-sharp {
+      border-radius: 0;
+    }
+
+    //! appearances
+    &.ard-appearance-outlined {
+      border: 1px solid var(--ard-dropdown-panel-border-color, #{ARD.$border});
+    }
+    &.ard-appearance-raised {
+      box-shadow: var(--ard-dropdown-panel-shadow, #{ARD.$box-shadow});
+    }
+
+    //! connected
+    &.ard-connected {
+      margin: 0;
+      border-top: none;
+    }
+
+    //! compact
+    &.ard-compact {
+      margin: var(--ard-dropdown-panel-margin-compact, 0.25rem 0);
+
+      &.ard-variant-rounded {
+        border-radius: var(--ard-dropdown-panel-rounded-corner-radius-compact, 0.375rem);
+      }
     }
   }
 }

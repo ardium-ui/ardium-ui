@@ -16,65 +16,67 @@
   // --ard-checkbox-base-color: ;
 }
 
-.ard-checkbox {
-  @include coloringMixins.typeColors();
-  @include coloringMixins.typeColors('unsel-cmpcl');
-  position: relative;
-  cursor: pointer;
-  user-select: none;
-  width: var(--ard-checkbox-size, 1.25em);
-  height: var(--ard-checkbox-size, 1.25em);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  background: none;
-  padding: 0;
-  outline: none;
-  color: var(--ard-checkbox-base-color, #{ARD.$text2});
-  font-size: var(--ard-checkbox-icon-size, 1em); // ard-icon component will inherit this font-size to determine its size
+@layer ard-theme {
+  .ard-checkbox {
+    @include coloringMixins.typeColors();
+    @include coloringMixins.typeColors('unsel-cmpcl');
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    width: var(--ard-checkbox-size, 1.25em);
+    height: var(--ard-checkbox-size, 1.25em);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background: none;
+    padding: 0;
+    outline: none;
+    color: var(--ard-checkbox-base-color, #{ARD.$text2});
+    font-size: var(--ard-checkbox-icon-size, 1em); // ard-icon component will inherit this font-size to determine its size
 
-  &.ard-color-currentColor.ard-state-selected {
-    color: currentColor;
-  }
+    &.ard-color-currentColor.ard-state-selected {
+      color: currentColor;
+    }
 
-  .ard-hitbox {
-    position: absolute;
-    left: var(--ard-checkbox-hitbox-offset, -4px);
-    right: var(--ard-checkbox-hitbox-offset, -4px);
-    bottom: var(--ard-checkbox-hitbox-offset, -4px);
-    top: var(--ard-checkbox-hitbox-offset, -4px);
-  }
-  .ard-focus-overlay {
-    @include defaultMixins.focus-overlay(var(--ard-checkbox-overlay-offset, 0.4em));
-    border-radius: 9999px;
-    background: currentColor;
-  }
-
-  &.ard-checkbox-selected {
-    color: var(--ard-unsel-cmpcl--bg-colored);
-  }
-  &:hover,
-  &:focus {
+    .ard-hitbox {
+      position: absolute;
+      left: var(--ard-checkbox-hitbox-offset, -4px);
+      right: var(--ard-checkbox-hitbox-offset, -4px);
+      bottom: var(--ard-checkbox-hitbox-offset, -4px);
+      top: var(--ard-checkbox-hitbox-offset, -4px);
+    }
     .ard-focus-overlay {
-      opacity: 10%;
+      @include defaultMixins.focus-overlay(var(--ard-checkbox-overlay-offset, 0.4em));
+      border-radius: 9999px;
+      background: currentColor;
+    }
+
+    &.ard-checkbox-selected {
+      color: var(--ard-unsel-cmpcl--bg-colored);
+    }
+    &:hover,
+    &:focus {
+      .ard-focus-overlay {
+        opacity: 10%;
+      }
+    }
+    &:active {
+      .ard-focus-overlay {
+        opacity: 20%;
+      }
     }
   }
-  &:active {
-    .ard-focus-overlay {
-      opacity: 20%;
-    }
-  }
-}
-//! disabled state
-.ard-disabled .ard-checkbox {
-  pointer-events: none;
-  opacity: var(--ard-checkbox-unselected-disabled-opacity, 40%);
+  //! disabled state
+  .ard-disabled .ard-checkbox {
+    pointer-events: none;
+    opacity: var(--ard-checkbox-unselected-disabled-opacity, 40%);
 
-  &.ard-checkbox-selected {
-    opacity: var(--ard-checkbox-selected-disabled-opacity, 50%);
-  }
-  &.ard-checkbox-indeterminate {
-    opacity: var(--ard-checkbox-indeterminate-disabled-opacity, 50%);
+    &.ard-checkbox-selected {
+      opacity: var(--ard-checkbox-selected-disabled-opacity, 50%);
+    }
+    &.ard-checkbox-indeterminate {
+      opacity: var(--ard-checkbox-indeterminate-disabled-opacity, 50%);
+    }
   }
 }

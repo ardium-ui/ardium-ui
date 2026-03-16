@@ -21,107 +21,109 @@
   --ard-tabber-tab-disabled-opacity: 50%;
 }
 
-ard-tabber {
-  max-width: 100%;
-}
-
-.ard-tabber {
-  @include CM.typeColors();
-  height: max-content;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  font-family: var(--ard-font-family);
-
-  .ard-tabber-tabs {
+@layer ard-theme {
+  ard-tabber {
     max-width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--ard-tabber-tab-gap, 0);
-    border-bottom: var(--ard-tabber-separator-border, 1px solid var(--ard-detail-ultralight, rgba(0, 0, 0, 12%)));
+  }
 
-    &.ard-tab-align-left {
-      justify-content: left;
-    }
-    &.ard-tab-align-center {
-      justify-content: center;
-    }
-    &.ard-tab-align-right {
-      justify-content: right;
-    }
-    &.ard-stretch-tabs {
-      justify-content: stretch;
+  .ard-tabber {
+    @include CM.typeColors();
+    height: max-content;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    font-family: var(--ard-font-family);
+
+    .ard-tabber-tabs {
+      max-width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--ard-tabber-tab-gap, 0);
+      border-bottom: var(--ard-tabber-separator-border, 1px solid var(--ard-detail-ultralight, rgba(0, 0, 0, 12%)));
+
+      &.ard-tab-align-left {
+        justify-content: left;
+      }
+      &.ard-tab-align-center {
+        justify-content: center;
+      }
+      &.ard-tab-align-right {
+        justify-content: right;
+      }
+      &.ard-stretch-tabs {
+        justify-content: stretch;
+
+        .ard-tab-button {
+          flex-grow: 1;
+        }
+      }
 
       .ard-tab-button {
-        flex-grow: 1;
-      }
-    }
-
-    .ard-tab-button {
-      height: var(--ard-tabber-tab-height, 2.5em);
-      font-size: var(--ard-tabber-tab-font-size, 0.875rem);
-      font-weight: var(--ard-tabber-tab-font-weight, 500);
-      position: relative;
-      border: var(--ard-tabber-tab-border, none);
-      background: var(--ard-tabber-tab-background, none);
-      padding: var(--ard-tabber-tab-padding, 0 1.5rem);
-      cursor: pointer;
-      outline: none;
-      font-family: inherit;
-
-      .ard-focus-overlay {
-        @include M.focus-overlay();
-        background: var(--ard-tabber-tab-overlay-color, var(--ard-bg-alt, black));
-      }
-      .ard-button-content {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        gap: var(--ard-tabber-tab-content-gap, 0.375rem);
-      }
-
-      &:hover,
-      &:focus {
-        .ard-focus-overlay {
-          opacity: var(--ard-tabber-tab-hover-overlay-opacity, 4%);
-        }
-      }
-      &.ard-active,
-      &:active {
-        .ard-focus-overlay {
-          opacity: var(--ard-tabber-tab-active-overlay-opacity, 12%);
-        }
-      }
-      &:focus-visible {
-        .ard-focus-overlay {
-          opacity: var(--ard-tabber-tab-focus-visible-overlay-opacity, 18%);
-        }
-      }
-
-      &.ard-tab-active {
-        &::after {
-          content: '';
-          position: absolute;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          height: 2px;
-          background: var(--ard-cmpcl--bg-colored);
-        }
-      }
-
-      &.ard-tab-disabled {
-        opacity: var(--ard-tabber-tab-disabled-opacity);
-        pointer-events: none;
+        height: var(--ard-tabber-tab-height, 2.5em);
+        font-size: var(--ard-tabber-tab-font-size, 0.875rem);
+        font-weight: var(--ard-tabber-tab-font-weight, 500);
+        position: relative;
+        border: var(--ard-tabber-tab-border, none);
+        background: var(--ard-tabber-tab-background, none);
+        padding: var(--ard-tabber-tab-padding, 0 1.5rem);
+        cursor: pointer;
+        outline: none;
+        font-family: inherit;
 
         .ard-focus-overlay {
-          opacity: var(--ard-tabber-tab-disabled-overlay-opacity, 18%);
+          @include M.focus-overlay();
+          background: var(--ard-tabber-tab-overlay-color, var(--ard-bg-alt, black));
         }
-        &.ard-tab-with-pointer-events-when-disabled {
-          pointer-events: all;
-          cursor: not-allowed;
+        .ard-button-content {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+          gap: var(--ard-tabber-tab-content-gap, 0.375rem);
+        }
+
+        &:hover,
+        &:focus {
+          .ard-focus-overlay {
+            opacity: var(--ard-tabber-tab-hover-overlay-opacity, 4%);
+          }
+        }
+        &.ard-active,
+        &:active {
+          .ard-focus-overlay {
+            opacity: var(--ard-tabber-tab-active-overlay-opacity, 12%);
+          }
+        }
+        &:focus-visible {
+          .ard-focus-overlay {
+            opacity: var(--ard-tabber-tab-focus-visible-overlay-opacity, 18%);
+          }
+        }
+
+        &.ard-tab-active {
+          &::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 2px;
+            background: var(--ard-cmpcl--bg-colored);
+          }
+        }
+
+        &.ard-tab-disabled {
+          opacity: var(--ard-tabber-tab-disabled-opacity);
+          pointer-events: none;
+
+          .ard-focus-overlay {
+            opacity: var(--ard-tabber-tab-disabled-overlay-opacity, 18%);
+          }
+          &.ard-tab-with-pointer-events-when-disabled {
+            pointer-events: all;
+            cursor: not-allowed;
+          }
         }
       }
     }

@@ -8,22 +8,24 @@
   --ard-spinner-duration: 1.4s;
 }
 
-ard-spinner {
-  display: inline-block;
-  width: var(--ard-spinner-size, 2rem);
-  aspect-ratio: 1;
-  position: relative;
-  margin: var(--ard-spinner-margin, 0.25rem);
-}
+@layer ard-theme {
+  ard-spinner {
+    display: inline-block;
+    width: var(--ard-spinner-size, 2rem);
+    aspect-ratio: 1;
+    position: relative;
+    margin: var(--ard-spinner-margin, 0.25rem);
+  }
 
-.ard-spinner {
-  @include CM.typeColors();
-  --ard-_spinner-duration: var(--ard-spinner-duration, 1.4s);
-  position: absolute;
+  .ard-spinner {
+    @include CM.typeColors();
+    --ard-_spinner-duration: var(--ard-spinner-duration, 1.4s);
+    position: absolute;
 
-  scale: 2.3; //magic number
+    scale: 2.3; //magic number
 
-  > circle {
-    stroke: var(--ard-cmpcl--content);
+    > circle {
+      stroke: var(--ard-cmpcl--content);
+    }
   }
 }

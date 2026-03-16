@@ -17,74 +17,76 @@
   --ard-fab-disabled-opacity: 0.6;
 }
 
-ard-fab {
-  margin: var(--ard-fab-margin, 0.5rem);
-  display: block;
-  width: max-content;
-  height: max-content;
-}
-
-.ard-fab {
-  @include shared.button(
-    0,
-    0,
-    unset,
-    var(--ard-fab-font-weight, 900),
-    var(--ard-fab-overlay-hover-opacity, var(--ard-button-overlay-hover-opacity, 0.04)),
-    var(--ard-fab-overlay-focus-opacity, var(--ard-button-overlay-focus-opacity, 0.12)),
-    var(--ard-fab-overlay-active-opacity, var(--ard-button-overlay-active-opacity, 0.18)),
-    var(--ard-fab-overlay-focus-visible-opacity, var(--ard-button-overlay-focus-visible-opacity, 0.24))
-  );
-  height: var(--ard-_fab-size);
-  width: var(--ard-_fab-size);
-  max-height: var(--ard-_fab-size);
-  max-width: var(--ard-_fab-size);
-  min-height: var(--ard-_fab-size);
-  min-width: var(--ard-_fab-size);
-  user-select: none;
-  border-radius: 9999px;
-  justify-content: center;
-  margin: 0;
-  font-weight: 500;
-  overflow: hidden;
-  transition: max-width 0.5s ease;
-
-  &.ard-fab-size-standard {
-    --ard-_fab-size: var(--ard-fab-size-standard, 3.5rem);
-    font-size: var(--ard-fab-size-standard-font-size, 1.75rem);
-  }
-  &.ard-fab-size-small {
-    --ard-_fab-size: var(--ard-fab-size-small, 2.5rem);
-    font-size: var(--ard-fab-size-small-font-size, 1.375rem);
-  }
-  &.ard-fab-extended {
-    min-width: var(--ard-_fab-size);
+@layer ard-theme {
+  ard-fab {
+    margin: var(--ard-fab-margin, 0.5rem);
+    display: block;
     width: max-content;
-    font-weight: unset;
-    gap: var(--ard-fab-extended-gap, 1em);
-    max-width: 10em;
+    height: max-content;
   }
 
-  ard-icon {
-    font-size: 1em;
-  }
-  &.ard-appearance-transparent {
-    @include CM.focus-overlay-scale-addon();
-  }
-}
-
-ard-fab.ard-disabled {
-  > .ard-fab {
-    @include shared.button-disabled(
-      var(--ard-fab-overlay-disabled-opacity, var(--ard-button-overlay-disabled-opacity, 0.2)),
-      var(--ard-fab-disabled-opacity, var(--ard-button-disabled-opacity, 0.6))
+  .ard-fab {
+    @include shared.button(
+      0,
+      0,
+      unset,
+      var(--ard-fab-font-weight, 900),
+      var(--ard-fab-overlay-hover-opacity, var(--ard-button-overlay-hover-opacity, 0.04)),
+      var(--ard-fab-overlay-focus-opacity, var(--ard-button-overlay-focus-opacity, 0.12)),
+      var(--ard-fab-overlay-active-opacity, var(--ard-button-overlay-active-opacity, 0.18)),
+      var(--ard-fab-overlay-focus-visible-opacity, var(--ard-button-overlay-focus-visible-opacity, 0.24))
     );
-  }
-  &.ard-button-with-pointer-events-when-disabled {
-    pointer-events: all;
+    height: var(--ard-_fab-size);
+    width: var(--ard-_fab-size);
+    max-height: var(--ard-_fab-size);
+    max-width: var(--ard-_fab-size);
+    min-height: var(--ard-_fab-size);
+    min-width: var(--ard-_fab-size);
+    user-select: none;
+    border-radius: 9999px;
+    justify-content: center;
+    margin: 0;
+    font-weight: 500;
+    overflow: hidden;
+    transition: max-width 0.5s ease;
 
-    > .ard-button {
+    &.ard-fab-size-standard {
+      --ard-_fab-size: var(--ard-fab-size-standard, 3.5rem);
+      font-size: var(--ard-fab-size-standard-font-size, 1.75rem);
+    }
+    &.ard-fab-size-small {
+      --ard-_fab-size: var(--ard-fab-size-small, 2.5rem);
+      font-size: var(--ard-fab-size-small-font-size, 1.375rem);
+    }
+    &.ard-fab-extended {
+      min-width: var(--ard-_fab-size);
+      width: max-content;
+      font-weight: unset;
+      gap: var(--ard-fab-extended-gap, 1em);
+      max-width: 10em;
+    }
+
+    ard-icon {
+      font-size: 1em;
+    }
+    &.ard-appearance-transparent {
+      @include CM.focus-overlay-scale-addon();
+    }
+  }
+
+  ard-fab.ard-disabled {
+    > .ard-fab {
+      @include shared.button-disabled(
+        var(--ard-fab-overlay-disabled-opacity, var(--ard-button-overlay-disabled-opacity, 0.2)),
+        var(--ard-fab-disabled-opacity, var(--ard-button-disabled-opacity, 0.6))
+      );
+    }
+    &.ard-button-with-pointer-events-when-disabled {
       pointer-events: all;
+
+      > .ard-button {
+        pointer-events: all;
+      }
     }
   }
 }

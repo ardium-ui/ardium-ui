@@ -1,7 +1,9 @@
-ard-star-button {
-  display: block;
-}
-.ard-star-button {
-  border: none;
-  background: transparent;
+@layer ard-cmp {
+  ard-star-button {
+    display: block;
+  }
+  .ard-star-button {
+    border: none;
+    background: transparent;
+  }
 }

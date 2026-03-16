@@ -1,4 +1,6 @@
-ard-calendar,
-ard-range-calendar {
-  display: block;
+@layer ard-cmp {
+  ard-calendar,
+  ard-range-calendar {
+    display: block;
+  }
 }

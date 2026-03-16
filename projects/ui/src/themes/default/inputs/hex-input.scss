@@ -32,46 +32,48 @@
   --ard-hex-input-hash-opacity: 70%;
 }
 
-.ard-hex-input {
-  @include inputMixin.genericInput(
-    var(--ard-hex-input-height, var(--ard-form-field-height, 2.3125rem)),
-    var(--ard-hex-input-height-compact, var(--ard-form-field-height-compact, 1.6875rem)),
-    var(--ard-hex-input-gap, 0.625rem),
-    var(--ard-hex-input-font-size, var(--ard-form-field-font-size, 1rem)),
-    var(--ard-hex-input-font-size-compact, var(--ard-form-field-font-size-compact, 0.875rem)),
-    var(--ard-hex-input-line-height, 1.25),
-    var(--ard-hex-input-line-height-compact, 1),
-    var(--ard-hex-input-font-weight, 400),
-    var(--ard-hex-input-padding-top, var(--ard-form-field-padding-top, 0)),
-    var(--ard-hex-input-padding-right, var(--ard-form-field-padding-right, 0.375rem)),
-    var(--ard-hex-input-padding-bottom, var(--ard-form-field-padding-bottom, 0)),
-    var(--ard-hex-input-padding-left, var(--ard-form-field-padding-left, 0.375rem)),
-    var(--ard-hex-input-padding-top-compact, var(--ard-form-field-padding-top-compact, 0)),
-    var(--ard-hex-input-padding-right-compact, var(--ard-form-field-padding-right-compact, 0.375rem)),
-    var(--ard-hex-input-padding-bottom-compact, var(--ard-form-field-padding-bottom-compact, 0)),
-    var(--ard-hex-input-padding-left-compact, var(--ard-form-field-padding-left-compact, 0.375rem)),
-    var(--ard-hex-input-color, #{ARD.$text}),
-    var(--ard-hex-input-placeholder-color, #{ARD.$text}),
-    var(--ard-hex-input-placeholder-opacity, 60%)
-  );
-  min-width: var(--ard-hex-input-min-width, 10rem);
-  max-width: var(--ard-hex-input-max-width, 100%);
+@layer ard-theme {
+  .ard-hex-input {
+    @include inputMixin.genericInput(
+      var(--ard-hex-input-height, var(--ard-form-field-height, 2.3125rem)),
+      var(--ard-hex-input-height-compact, var(--ard-form-field-height-compact, 1.6875rem)),
+      var(--ard-hex-input-gap, 0.625rem),
+      var(--ard-hex-input-font-size, var(--ard-form-field-font-size, 1rem)),
+      var(--ard-hex-input-font-size-compact, var(--ard-form-field-font-size-compact, 0.875rem)),
+      var(--ard-hex-input-line-height, 1.25),
+      var(--ard-hex-input-line-height-compact, 1),
+      var(--ard-hex-input-font-weight, 400),
+      var(--ard-hex-input-padding-top, var(--ard-form-field-padding-top, 0)),
+      var(--ard-hex-input-padding-right, var(--ard-form-field-padding-right, 0.375rem)),
+      var(--ard-hex-input-padding-bottom, var(--ard-form-field-padding-bottom, 0)),
+      var(--ard-hex-input-padding-left, var(--ard-form-field-padding-left, 0.375rem)),
+      var(--ard-hex-input-padding-top-compact, var(--ard-form-field-padding-top-compact, 0)),
+      var(--ard-hex-input-padding-right-compact, var(--ard-form-field-padding-right-compact, 0.375rem)),
+      var(--ard-hex-input-padding-bottom-compact, var(--ard-form-field-padding-bottom-compact, 0)),
+      var(--ard-hex-input-padding-left-compact, var(--ard-form-field-padding-left-compact, 0.375rem)),
+      var(--ard-hex-input-color, #{ARD.$text}),
+      var(--ard-hex-input-placeholder-color, #{ARD.$text}),
+      var(--ard-hex-input-placeholder-opacity, 60%)
+    );
+    min-width: var(--ard-hex-input-min-width, 10rem);
+    max-width: var(--ard-hex-input-max-width, 100%);
 
-  @include CB.clearButton();
+    @include CB.clearButton();
 
-  .ard-input-container {
-    input {
-      font-family: var(--ard-font-family-mono);
+    .ard-input-container {
+      input {
+        font-family: var(--ard-font-family-mono);
+      }
     }
-  }
 
-  .ard-hash-container {
-    color: var(--ard-hex-input-hash-color, #{ARD.$text});
-    opacity: var(--ard-hex-input-hash-opacity, 70%);
-    user-select: none;
-    font-family: var(--ard-font-family-mono);
-    display: flex;
-    align-items: center;
-    height: 100%;
+    .ard-hash-container {
+      color: var(--ard-hex-input-hash-color, #{ARD.$text});
+      opacity: var(--ard-hex-input-hash-opacity, 70%);
+      user-select: none;
+      font-family: var(--ard-font-family-mono);
+      display: flex;
+      align-items: center;
+      height: 100%;
+    }
   }
 }

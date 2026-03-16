@@ -1,32 +1,34 @@
-ard-autocomplete-input {
-  display: block;
-}
-.ard-placeholder {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-  pointer-events: none;
-}
+@layer ard-cmp {
+  ard-autocomplete-input {
+    display: block;
+  }
+  .ard-placeholder {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    pointer-events: none;
+  }
 
-.ard-text-align-left {
-  input,
-  .ard-placeholder {
-    text-align: left;
+  .ard-text-align-left {
+    input,
+    .ard-placeholder {
+      text-align: left;
+    }
   }
-}
-.ard-text-align-center {
-  input,
-  .ard-placeholder {
-    text-align: center;
+  .ard-text-align-center {
+    input,
+    .ard-placeholder {
+      text-align: center;
+    }
   }
-}
-.ard-text-align-right {
-  input,
-  .ard-placeholder {
-    text-align: right;
+  .ard-text-align-right {
+    input,
+    .ard-placeholder {
+      text-align: right;
+    }
   }
-}
-.ard-autocomplete {
-  position: absolute;
+  .ard-autocomplete {
+    position: absolute;
+  }
 }

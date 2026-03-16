@@ -1,4 +1,3 @@
-
 // the variables are commented out intentionally
 // read more in docs/dev/css-variables.md
 :root {
@@ -13,59 +12,61 @@
   --ard-table-pagination-disabled-text-opacity: 50%;
 }
 
-.ard-pagination {
-  height: var(--ard-table-pagination-height, 2.9375rem);
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: var(--ard-table-pagination-gap, 2rem);
-  padding: var(--ard-table-pagination-padding, 0 0.5rem 0 1rem);
-  box-sizing: border-box;
-
-  .ard-pagination__items-per-page {
-    display: flex;
-    align-items: center;
-    gap: var(--ard-table-pagination-items-per-page-gap, 0.5rem);
-  }
-  .ard-pagination__current-page {
-    display: flex;
-    align-items: center;
-    gap: var(--ard-table-pagination-current-page-gap, 1.25rem);
-  }
-
-  //! compact
-  &.ard-compact {
-    height: var(--ard-table-pagination-height-compact, 2.1875rem);
-    font-size: var(--ard-table-pagination-font-size-compact, 0.875rem);
-  }
-
-  //! aligns
-  &.ard-align-left {
-    justify-content: flex-start;
-  }
-  &.ard-align-center {
-    justify-content: center;
-  }
-  &.ard-align-right {
-    justify-content: flex-end;
-  }
-  &.ard-align-split {
-    justify-content: space-between;
-  }
-
-  //! style overrides
-  .ard-select {
-    padding-left: var(--ard-table-pagination-select-padding-left, 0.875em);
-  }
-}
-
-.ard-disabled {
+@layer ard-theme {
   .ard-pagination {
-    pointer-events: none;
-    user-select: none;
+    height: var(--ard-table-pagination-height, 2.9375rem);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--ard-table-pagination-gap, 2rem);
+    padding: var(--ard-table-pagination-padding, 0 0.5rem 0 1rem);
+    box-sizing: border-box;
 
-    .ard-pagination__text {
-      opacity: var(--ard-table-pagination-disabled-text-opacity, 50%);
+    .ard-pagination__items-per-page {
+      display: flex;
+      align-items: center;
+      gap: var(--ard-table-pagination-items-per-page-gap, 0.5rem);
+    }
+    .ard-pagination__current-page {
+      display: flex;
+      align-items: center;
+      gap: var(--ard-table-pagination-current-page-gap, 1.25rem);
+    }
+
+    //! compact
+    &.ard-compact {
+      height: var(--ard-table-pagination-height-compact, 2.1875rem);
+      font-size: var(--ard-table-pagination-font-size-compact, 0.875rem);
+    }
+
+    //! aligns
+    &.ard-align-left {
+      justify-content: flex-start;
+    }
+    &.ard-align-center {
+      justify-content: center;
+    }
+    &.ard-align-right {
+      justify-content: flex-end;
+    }
+    &.ard-align-split {
+      justify-content: space-between;
+    }
+
+    //! style overrides
+    .ard-select {
+      padding-left: var(--ard-table-pagination-select-padding-left, 0.875em);
+    }
+  }
+
+  .ard-disabled {
+    .ard-pagination {
+      pointer-events: none;
+      user-select: none;
+
+      .ard-pagination__text {
+        opacity: var(--ard-table-pagination-disabled-text-opacity, 50%);
+      }
     }
   }
 }

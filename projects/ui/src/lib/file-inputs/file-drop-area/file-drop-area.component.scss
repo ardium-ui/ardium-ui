@@ -1,9 +1,11 @@
-ard-file-drop-area {
-  display: block;
-}
-.ard-file-drop-area-input-element {
-  position: absolute;
-  appearance: none;
-  opacity: 0;
-  pointer-events: none;
+@layer ard-cmp {
+  ard-file-drop-area {
+    display: block;
+  }
+  .ard-file-drop-area-input-element {
+    position: absolute;
+    appearance: none;
+    opacity: 0;
+    pointer-events: none;
+  }
 }

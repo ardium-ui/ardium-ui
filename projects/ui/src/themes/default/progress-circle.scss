@@ -11,52 +11,54 @@
   --ard-progress-circle-value-font-size: 0.875em;
 }
 
-.ard-progress-circle {
-  @include coloringMixins.typeColors;
-  width: var(--ard-progress-circle-size, 3em);
-  height: var(--ard-progress-circle-size, 3em);
+@layer ard-theme {
+  .ard-progress-circle {
+    @include coloringMixins.typeColors;
+    width: var(--ard-progress-circle-size, 3em);
+    height: var(--ard-progress-circle-size, 3em);
 
-  --ard-_progress-circle-fill-color: var(--ard-cmpcl--bg-colored);
+    --ard-_progress-circle-fill-color: var(--ard-cmpcl--bg-colored);
 
-  //! appearances
-  &.ard-appearance-transparent {
-    .ard-progress-circle-background {
-      background: transparent;
+    //! appearances
+    &.ard-appearance-transparent {
+      .ard-progress-circle-background {
+        background: transparent;
+      }
     }
-  }
-  &.ard-appearance-colorless {
-    .ard-progress-circle-background {
-      background: var(--ard-progress-circle-colorless-background-color, #{ARD.$darken-overlay-medium});
-      opacity: var(--ard-progress-circle-colorless-background-opacity, 100%);
+    &.ard-appearance-colorless {
+      .ard-progress-circle-background {
+        background: var(--ard-progress-circle-colorless-background-color, #{ARD.$darken-overlay-medium});
+        opacity: var(--ard-progress-circle-colorless-background-opacity, 100%);
+      }
     }
-  }
-  &.ard-appearance-colored {
-    .ard-progress-circle-background {
-      opacity: var(--ard-progress-circle-colored-background-opacity, 100%);
-      background: var(--ard-cmpcl--bg-colored);
+    &.ard-appearance-colored {
+      .ard-progress-circle-background {
+        opacity: var(--ard-progress-circle-colored-background-opacity, 100%);
+        background: var(--ard-cmpcl--bg-colored);
+      }
     }
-  }
-  //! ring variant
-  &.ard-progress-circle-variant-ring {
-    .ard-progress-circle-background,
-    .ard-progress-circle-overlay {
-      //magic number
-      //don't know why this value specifically looks good
-      mask: radial-gradient(transparent 59%, #000 59%);
+    //! ring variant
+    &.ard-progress-circle-variant-ring {
+      .ard-progress-circle-background,
+      .ard-progress-circle-overlay {
+        //magic number
+        //don't know why this value specifically looks good
+        mask: radial-gradient(transparent 59%, #000 59%);
+      }
     }
-  }
-  //! value
-  .ard-progress-circle-value {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    font-weight: bold;
-    font-size: var(--ard-progress-circle-value-font-size, 0.875em);
-  }
-  &.ard-progress-circle-variant-full {
+    //! value
     .ard-progress-circle-value {
-      display: none;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-weight: bold;
+      font-size: var(--ard-progress-circle-value-font-size, 0.875em);
+    }
+    &.ard-progress-circle-variant-full {
+      .ard-progress-circle-value {
+        display: none;
+      }
     }
   }
 }

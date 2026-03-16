@@ -1,3 +1,5 @@
-ard-rating-display {
-  display: block;
+@layer ard-cmp {
+  ard-rating-display {
+    display: block;
+  }
 }

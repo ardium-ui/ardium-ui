@@ -1,10 +1,12 @@
-ard-dropdown-panel {
-  display: block;
-}
-.ard-dropdown-panel {
-  display: none;
-
-  &.ard-open {
+@layer ard-cmp {
+  ard-dropdown-panel {
     display: block;
+  }
+  .ard-dropdown-panel {
+    display: none;
+
+    &.ard-open {
+      display: block;
+    }
   }
 }

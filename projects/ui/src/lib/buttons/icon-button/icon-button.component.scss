@@ -1,18 +1,20 @@
-ard-icon-button {
-  display: block;
-}
-.ard-icon-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  overflow: hidden;
-  position: relative;
-
-  .ard-button-content {
-    max-height: 100%;
+@layer ard-cmp {
+  ard-icon-button {
+    display: block;
+  }
+  .ard-icon-button {
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+
+    .ard-button-content {
+      max-height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }

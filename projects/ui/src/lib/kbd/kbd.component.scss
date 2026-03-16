@@ -1,6 +1,8 @@
-.ard-kbd-content-wrapper {
-  display: none;
-}
-.ard-kbd {
-  display: inline-block;
+@layer ard-cmp {
+  .ard-kbd-content-wrapper {
+    display: none;
+  }
+  .ard-kbd {
+    display: inline-block;
+  }
 }

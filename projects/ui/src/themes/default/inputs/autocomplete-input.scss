@@ -43,73 +43,75 @@
   --ard-autocomplete-input-disabled-opacity: 50%;
 }
 
-.ard-autocomplete-input {
-  @include inputMixin.genericInput(
-    var(--ard-autocomplete-input-height, var(--ard-form-field-height, 2.3125rem)),
-    var(--ard-autocomplete-input-height-compact, var(--ard-form-field-height-compact, 1.6875rem)),
-    var(--ard-autocomplete-input-gap, 0.625rem),
-    var(--ard-autocomplete-input-font-size, var(--ard-form-field-font-size, 1rem)),
-    var(--ard-autocomplete-input-font-size-compact, var(--ard-form-field-font-size-compact, 0.875rem)),
-    var(--ard-autocomplete-input-line-height, 1.25),
-    var(--ard-autocomplete-input-line-height-compact, 1),
-    var(--ard-autocomplete-input-font-weight, 400),
-    var(--ard-autocomplete-input-padding-top, var(--ard-form-field-padding-top, 0)),
-    var(--ard-autocomplete-input-padding-right, var(--ard-form-field-padding-right, 0.375rem)),
-    var(--ard-autocomplete-input-padding-bottom, var(--ard-form-field-padding-bottom, 0)),
-    var(--ard-autocomplete-input-padding-left, var(--ard-form-field-padding-left, 0.375rem)),
-    var(--ard-autocomplete-input-padding-top-compact, var(--ard-form-field-padding-top-compact, 0)),
-    var(--ard-autocomplete-input-padding-right-compact, var(--ard-form-field-padding-right-compact, 0.375rem)),
-    var(--ard-autocomplete-input-padding-bottom-compact, var(--ard-form-field-padding-bottom-compact, 0)),
-    var(--ard-autocomplete-input-padding-left-compact, var(--ard-form-field-padding-left-compact, 0.375rem)),
-    var(--ard-autocomplete-input-color, #{ARD.$text}),
-    var(--ard-autocomplete-input-placeholder-color, #{ARD.$text}),
-    var(--ard-autocomplete-input-placeholder-opacity, 60%)
-  );
-  min-width: var(--ard-autocomplete-input-min-width, 10rem);
-  max-width: var(--ard-autocomplete-input-max-width, 100%);
+@layer ard-theme {
+  .ard-autocomplete-input {
+    @include inputMixin.genericInput(
+      var(--ard-autocomplete-input-height, var(--ard-form-field-height, 2.3125rem)),
+      var(--ard-autocomplete-input-height-compact, var(--ard-form-field-height-compact, 1.6875rem)),
+      var(--ard-autocomplete-input-gap, 0.625rem),
+      var(--ard-autocomplete-input-font-size, var(--ard-form-field-font-size, 1rem)),
+      var(--ard-autocomplete-input-font-size-compact, var(--ard-form-field-font-size-compact, 0.875rem)),
+      var(--ard-autocomplete-input-line-height, 1.25),
+      var(--ard-autocomplete-input-line-height-compact, 1),
+      var(--ard-autocomplete-input-font-weight, 400),
+      var(--ard-autocomplete-input-padding-top, var(--ard-form-field-padding-top, 0)),
+      var(--ard-autocomplete-input-padding-right, var(--ard-form-field-padding-right, 0.375rem)),
+      var(--ard-autocomplete-input-padding-bottom, var(--ard-form-field-padding-bottom, 0)),
+      var(--ard-autocomplete-input-padding-left, var(--ard-form-field-padding-left, 0.375rem)),
+      var(--ard-autocomplete-input-padding-top-compact, var(--ard-form-field-padding-top-compact, 0)),
+      var(--ard-autocomplete-input-padding-right-compact, var(--ard-form-field-padding-right-compact, 0.375rem)),
+      var(--ard-autocomplete-input-padding-bottom-compact, var(--ard-form-field-padding-bottom-compact, 0)),
+      var(--ard-autocomplete-input-padding-left-compact, var(--ard-form-field-padding-left-compact, 0.375rem)),
+      var(--ard-autocomplete-input-color, #{ARD.$text}),
+      var(--ard-autocomplete-input-placeholder-color, #{ARD.$text}),
+      var(--ard-autocomplete-input-placeholder-opacity, 60%)
+    );
+    min-width: var(--ard-autocomplete-input-min-width, 10rem);
+    max-width: var(--ard-autocomplete-input-max-width, 100%);
 
-  @include CB.clearButton();
+    @include CB.clearButton();
 
-  .ard-autocomplete {
+    .ard-autocomplete {
+      display: flex;
+      align-items: center;
+      opacity: var(--ard-autocomplete-input-autocomplete-opacity, 37.5%);
+    }
+  }
+  //! suggestions
+  .ard-input-suggestions-panel {
+    padding: var(--ard-autocomplete-input-dropdown-padding, 0);
     display: flex;
-    align-items: center;
-    opacity: var(--ard-autocomplete-input-autocomplete-opacity, 37.5%);
-  }
-}
-//! suggestions
-.ard-input-suggestions-panel {
-  padding: var(--ard-autocomplete-input-dropdown-padding, 0);
-  display: flex;
-  flex-direction: column;
-  gap: var(--ard-autocomplete-input-dropdown-gap, 0);
-  max-height: var(--ard-autocomplete-input-dropdown-max-height, 15rem);
-  overflow-y: auto;
+    flex-direction: column;
+    gap: var(--ard-autocomplete-input-dropdown-gap, 0);
+    max-height: var(--ard-autocomplete-input-dropdown-max-height, 15rem);
+    overflow-y: auto;
 
-  .ard-option {
-    padding: var(--ard-autocomplete-input-option-padding, 0.375rem 0.625rem);
-    font-size: var(--ard-autocomplete-input-font-size, 1rem);
-    color: var(--ard-autocomplete-input-color, #{ARD.$text2});
-    cursor: pointer;
-
-    &.ard-option-highlighted {
-      background: var(--ard-autocomplete-input-highlighted-background, #{ARD.$darken-overlay-light});
-      font-weight: var(--ard-autocomplete-input-highlighted-font-weight, 400);
-    }
-
-    &.ard-option-selected {
-      background: var(--ard-autocomplete-input-selected-background, #{ARD.$darken-overlay-medium});
-      font-weight: var(--ard-autocomplete-input-selected-font-weight, 500);
-    }
-
-    &.ard-option-disabled {
-      pointer-events: none;
-      opacity: var(--ard-autocomplete-input-disabled-opacity, 50%);
-    }
-  }
-  .ard-compact {
     .ard-option {
-      padding: var(--ard-autocomplete-input-option-padding-compact, 0.25rem 0.5rem);
-      font-size: var(--ard-autocomplete-input-font-size-compact, 0.875rem);
+      padding: var(--ard-autocomplete-input-option-padding, 0.375rem 0.625rem);
+      font-size: var(--ard-autocomplete-input-font-size, 1rem);
+      color: var(--ard-autocomplete-input-color, #{ARD.$text2});
+      cursor: pointer;
+
+      &.ard-option-highlighted {
+        background: var(--ard-autocomplete-input-highlighted-background, #{ARD.$darken-overlay-light});
+        font-weight: var(--ard-autocomplete-input-highlighted-font-weight, 400);
+      }
+
+      &.ard-option-selected {
+        background: var(--ard-autocomplete-input-selected-background, #{ARD.$darken-overlay-medium});
+        font-weight: var(--ard-autocomplete-input-selected-font-weight, 500);
+      }
+
+      &.ard-option-disabled {
+        pointer-events: none;
+        opacity: var(--ard-autocomplete-input-disabled-opacity, 50%);
+      }
+    }
+    .ard-compact {
+      .ard-option {
+        padding: var(--ard-autocomplete-input-option-padding-compact, 0.25rem 0.5rem);
+        font-size: var(--ard-autocomplete-input-font-size-compact, 0.875rem);
+      }
     }
   }
 }

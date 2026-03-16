@@ -1,27 +1,27 @@
 $offset: 187;
 
-ard-spinner {
-  display: block;
-}
-
-.ard-spinner {
-  animation: rotator var(--ard-_spinner-duration) linear infinite;
-  pointer-events: none;
+@layer ard-cmp {
+  ard-spinner {
+    display: block;
+  }
+  .ard-spinner {
+    animation: rotator var(--ard-_spinner-duration) linear infinite;
+    pointer-events: none;
+  }
+  .ard-spinner-circle {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    animation: dash var(--ard-_spinner-duration) ease-in-out infinite 0s;
+    stroke-linecap: round;
+    fill: none;
+    stroke-width: 3;
+  }
 }
 
 @keyframes rotator {
   100% {
     transform: rotate(360deg);
   }
-}
-
-.ard-spinner-circle {
-  stroke-dasharray: 1, 200;
-  stroke-dashoffset: 0;
-  animation: dash var(--ard-_spinner-duration) ease-in-out infinite 0s;
-  stroke-linecap: round;
-  fill: none;
-  stroke-width: 3;
 }
 
 @keyframes dash {

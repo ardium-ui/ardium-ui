@@ -21,113 +21,115 @@
   --ard-radio-disabled-opacity: 50%;
 }
 
-ard-radio-group {
-  display: flex;
-  gap: var(--ard-radio-group-gap, 0.5rem 1rem);
-}
-
-ard-radio {
-  display: inline-block;
-  width: max-content;
-  max-width: 100%;
-}
-
-.ard-radio {
-  @include CM.typeColors();
-
-  outline: none;
-  font-size: var(--ard-radio-font-size, var(--ard-form-field-font-size, 1rem));
-  display: flex;
-  align-items: center;
-  gap: var(--ard-radio-gap, 0.75rem);
-  padding: 0;
-  width: 100%;
-
-  > .ard-radio-circles {
-    position: relative;
-    width: var(--ard-radio-size, 1.25em);
-    min-width: var(--ard-radio-size, 1.25em);
-    aspect-ratio: 1;
-
-    > .ard-radio-outer-circle {
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      border: var(--ard-radio-outer-border-width, 0.125em) solid ARD.$detail;
-      border-radius: var(--ard-radio-border-radius, 9999px);
-      transition: border-color var(--ard-radio-transition-duration, 0.2s) ARD.$timing-fn;
-    }
-    > .ard-radio-inner-circle {
-      position: absolute;
-      left: var(--ard-radio-inner-circle-inset, 25%);
-      right: var(--ard-radio-inner-circle-inset, 25%);
-      top: var(--ard-radio-inner-circle-inset, 25%);
-      bottom: var(--ard-radio-inner-circle-inset, 25%);
-      background: var(--ard-cmpcl--bg-colored);
-      border-radius: var(--ard-radio-border-radius, 9999px);
-      transform: scale(0);
-      transition: transform var(--ard-radio-transition-duration, 0.2s) ARD.$timing-fn;
-    }
-    > .ard-focus-overlay {
-      @include GM.focus-overlay(var(--ard-radio-focus-overlay-size, 0.375em));
-      border-radius: var(--ard-radio-border-radius, 9999px);
-      background-color: ARD.$overlay;
-
-      transition:
-        opacity var(--ard-radio-transition-duration, 0.2s) ease,
-        background-color var(--ard-radio-transition-duration, 0.2s) ease;
-    }
-    > .ard-hitbox {
-      position: absolute;
-      top: var(--ard-radio-hitbox-offset, -0.375em);
-      bottom: var(--ard-radio-hitbox-offset, -0.375em);
-      left: var(--ard-radio-hitbox-offset, -0.375em);
-      right: var(--ard-radio-hitbox-offset, -0.375em);
-      cursor: pointer;
-    }
-
-    &:hover {
-      > .ard-focus-overlay {
-        opacity: var(--ard-radio-hover-overlay-opacity, 7.5%);
-      }
-    }
+@layer ard-theme {
+  ard-radio-group {
+    display: flex;
+    gap: var(--ard-radio-group-gap, 0.5rem 1rem);
   }
 
-  &.ard-radio-selected {
+  ard-radio {
+    display: inline-block;
+    width: max-content;
+    max-width: 100%;
+  }
+
+  .ard-radio {
+    @include CM.typeColors();
+
+    outline: none;
+    font-size: var(--ard-radio-font-size, var(--ard-form-field-font-size, 1rem));
+    display: flex;
+    align-items: center;
+    gap: var(--ard-radio-gap, 0.75rem);
+    padding: 0;
+    width: 100%;
+
     > .ard-radio-circles {
+      position: relative;
+      width: var(--ard-radio-size, 1.25em);
+      min-width: var(--ard-radio-size, 1.25em);
+      aspect-ratio: 1;
+
       > .ard-radio-outer-circle {
-        border-color: var(--ard-cmpcl--bg-colored);
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        border: var(--ard-radio-outer-border-width, 0.125em) solid ARD.$detail;
+        border-radius: var(--ard-radio-border-radius, 9999px);
+        transition: border-color var(--ard-radio-transition-duration, 0.2s) ARD.$timing-fn;
       }
       > .ard-radio-inner-circle {
-        transform: scale(1);
+        position: absolute;
+        left: var(--ard-radio-inner-circle-inset, 25%);
+        right: var(--ard-radio-inner-circle-inset, 25%);
+        top: var(--ard-radio-inner-circle-inset, 25%);
+        bottom: var(--ard-radio-inner-circle-inset, 25%);
+        background: var(--ard-cmpcl--bg-colored);
+        border-radius: var(--ard-radio-border-radius, 9999px);
+        transform: scale(0);
+        transition: transform var(--ard-radio-transition-duration, 0.2s) ARD.$timing-fn;
       }
       > .ard-focus-overlay {
-        background-color: var(--ard-cmpcl--bg-colored);
-      }
-    }
-  }
-  &:focus {
-    > .ard-radio-circles {
-      > .ard-focus-overlay {
-        opacity: var(--ard-radio-focus-overlay-opacity, 15%);
-      }
-    }
-  }
-  &:active {
-    > .ard-radio-circles {
-      > .ard-focus-overlay {
-        opacity: var(--ard-radio-active-overlay-opacity, 25%);
-      }
-    }
-  }
-}
+        @include GM.focus-overlay(var(--ard-radio-focus-overlay-size, 0.375em));
+        border-radius: var(--ard-radio-border-radius, 9999px);
+        background-color: ARD.$overlay;
 
-.ard-disabled {
-  .ard-radio {
-    pointer-events: none;
-    opacity: var(--ard-radio-disabled-opacity, 50%);
-    user-select: none;
+        transition:
+          opacity var(--ard-radio-transition-duration, 0.2s) ease,
+          background-color var(--ard-radio-transition-duration, 0.2s) ease;
+      }
+      > .ard-hitbox {
+        position: absolute;
+        top: var(--ard-radio-hitbox-offset, -0.375em);
+        bottom: var(--ard-radio-hitbox-offset, -0.375em);
+        left: var(--ard-radio-hitbox-offset, -0.375em);
+        right: var(--ard-radio-hitbox-offset, -0.375em);
+        cursor: pointer;
+      }
+
+      &:hover {
+        > .ard-focus-overlay {
+          opacity: var(--ard-radio-hover-overlay-opacity, 7.5%);
+        }
+      }
+    }
+
+    &.ard-radio-selected {
+      > .ard-radio-circles {
+        > .ard-radio-outer-circle {
+          border-color: var(--ard-cmpcl--bg-colored);
+        }
+        > .ard-radio-inner-circle {
+          transform: scale(1);
+        }
+        > .ard-focus-overlay {
+          background-color: var(--ard-cmpcl--bg-colored);
+        }
+      }
+    }
+    &:focus {
+      > .ard-radio-circles {
+        > .ard-focus-overlay {
+          opacity: var(--ard-radio-focus-overlay-opacity, 15%);
+        }
+      }
+    }
+    &:active {
+      > .ard-radio-circles {
+        > .ard-focus-overlay {
+          opacity: var(--ard-radio-active-overlay-opacity, 25%);
+        }
+      }
+    }
+  }
+
+  .ard-disabled {
+    .ard-radio {
+      pointer-events: none;
+      opacity: var(--ard-radio-disabled-opacity, 50%);
+      user-select: none;
+    }
   }
 }

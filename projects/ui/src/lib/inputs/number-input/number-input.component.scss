@@ -1,45 +1,47 @@
-ard-number-input {
-  display: block;
-}
-.ard-number-input {
-  display: flex;
-  max-width: 100%;
-
-  .ard-placeholder {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+@layer ard-cmp {
+  ard-number-input {
+    display: block;
+  }
+  .ard-number-input {
+    display: flex;
     max-width: 100%;
-    pointer-events: none;
-  }
-}
 
-.ard-text-align-left {
-  input {
-    text-align: left;
+    .ard-placeholder {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+      pointer-events: none;
+    }
   }
-  .ard-placeholder {
-    justify-content: flex-start;
-  }
-}
-.ard-text-align-center {
-  input {
-    text-align: center;
-  }
-  .ard-placeholder {
-    justify-content: center;
-  }
-}
-.ard-text-align-right {
-  input {
-    text-align: right;
-  }
-  .ard-placeholder {
-    justify-content: flex-end;
-  }
-}
 
-.ard-quick-change-button {
-  user-select: none;
-  height: 100%;
+  .ard-text-align-left {
+    input {
+      text-align: left;
+    }
+    .ard-placeholder {
+      justify-content: flex-start;
+    }
+  }
+  .ard-text-align-center {
+    input {
+      text-align: center;
+    }
+    .ard-placeholder {
+      justify-content: center;
+    }
+  }
+  .ard-text-align-right {
+    input {
+      text-align: right;
+    }
+    .ard-placeholder {
+      justify-content: flex-end;
+    }
+  }
+
+  .ard-quick-change-button {
+    user-select: none;
+    height: 100%;
+  }
 }

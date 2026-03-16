@@ -1,8 +1,10 @@
-ard-table {
-  display: block;
-}
-.ard-table__cell-container,
-.ard-table__header-template-container {
-  width: 100%;
-  height: 100%;
+@layer ard-cmp {
+  ard-table {
+    display: block;
+  }
+  .ard-table__cell-container,
+  .ard-table__header-template-container {
+    width: 100%;
+    height: 100%;
+  }
 }

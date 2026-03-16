@@ -27,133 +27,135 @@
   --ard-horizontal-form-field-gap: 0.5rem;
 }
 
-ard-form-field,
-ard-horizontal-form-field {
-  display: block;
-  width: 100%;
-}
-
-.ard-form-field,
-.ard-horizontal-form-field {
-  display: flex;
-  flex-direction: column;
-
-  .ard-label {
-    padding: var(--ard-form-field-label-padding, 0.25rem 0 0.125rem 0.125rem);
-    font-size: var(--ard-form-field-label-font-size, 0.9375rem);
-    font-weight: var(--ard-form-field-label-font-weight, 500);
-
-    .ard-label__required {
-      .ard-label__required-optional-text {
-        font-weight: var(--ard-form-field-label-required-font-weight, 500);
-        font-size: var(--ard-form-field-label-required-font-size, 112.5%);
-        color: var(--ard-form-field-label-required-color, orangered);
-        line-height: 1;
-      }
-    }
-    .ard-label__optional {
-      .ard-label__required-optional-text {
-        font-weight: var(--ard-form-field-label-optional-font-weight, 400);
-        font-size: var(--ard-form-field-label-optional-font-size, 0.8125rem);
-        color: var(--ard-form-field-label-optional-color, #{ARD.$text2});
-        font-style: var(--ard-form-field-label-optional-font-style, italic);
-      }
-    }
-  }
-  .ard-form-field__hints {
-    padding: var(--ard-form-field-hint-padding, 0.125rem 0 0.25rem 0.125rem);
-    font-size: var(--ard-form-field-hint-font-size, 0.8125rem);
-    line-height: var(--ard-form-field-hint-line-height, 1.1);
-
-    &.ard-form-field__reserve-hint-line {
-      box-sizing: content-box;
-      min-height: calc(var(--ard-form-field-hint-line-height, 1.1) * 1em);
-    }
-  }
-  .ard-form-field__hints-right,
-  .ard-form-field__errors-right {
-    > * {
-      padding-left: var(--ard-form-field-hint-right-padding-left, 0.5rem);
-    }
-  }
-  .ard-hint,
-  .ard-error {
-    font-size: 1em;
-    line-height: var(--ard-form-field-hint-error-line-height, 1.2);
-    display: inline-grid;
-    min-height: calc(var(--ard-form-field-hint-error-line-height, 1.2) * 1em);
-  }
-  .ard-hint {
-    color: var(--ard-form-field-hint-color, #{ARD.$text2});
-  }
-  .ard-error:not(.ard-hint-error),
-  .ard-form-field__errors .ard-hint-error {
-    color: var(--ard-form-field-error-color, #{ARD.$danger700});
-    overflow: hidden;
-  }
-  .ard-error:not(.ard-hint-error) {
-    animation: errorAppear var(--ard-form-field-error-animation-duration, 0.25s) ARD.$timing-fn forwards;
-  }
-  .ard-form-field__default-hint,
-  .ard-form-field__default-error {
-    gap: var(--ard-form-field-hint-error-gap, 0.375em);
+@layer ard-theme {
+  ard-form-field,
+  ard-horizontal-form-field {
+    display: block;
+    width: 100%;
   }
 
-  &.ard-form-field__with-error {
-    .ard-label,
-    ard-label {
-      color: var(--ard-form-field-error-color, #{ARD.$danger700});
-    }
-  }
-  &.ard-form-field__is-success {
-    .ard-label,
-    ard-label {
-      color: var(--ard-form-field-success-color, #{ARD.$success700});
-    }
-  }
-  &.ard-form-field__control-disabled {
+  .ard-form-field,
+  .ard-horizontal-form-field {
+    display: flex;
+    flex-direction: column;
+
     .ard-label {
-      opacity: var(--ard-form-field-label-disabled-opacity, 40%);
+      padding: var(--ard-form-field-label-padding, 0.25rem 0 0.125rem 0.125rem);
+      font-size: var(--ard-form-field-label-font-size, 0.9375rem);
+      font-weight: var(--ard-form-field-label-font-weight, 500);
+
+      .ard-label__required {
+        .ard-label__required-optional-text {
+          font-weight: var(--ard-form-field-label-required-font-weight, 500);
+          font-size: var(--ard-form-field-label-required-font-size, 112.5%);
+          color: var(--ard-form-field-label-required-color, orangered);
+          line-height: 1;
+        }
+      }
+      .ard-label__optional {
+        .ard-label__required-optional-text {
+          font-weight: var(--ard-form-field-label-optional-font-weight, 400);
+          font-size: var(--ard-form-field-label-optional-font-size, 0.8125rem);
+          color: var(--ard-form-field-label-optional-color, #{ARD.$text2});
+          font-style: var(--ard-form-field-label-optional-font-style, italic);
+        }
+      }
     }
     .ard-form-field__hints {
-      opacity: var(--ard-form-field-hint-disabled-opacity, 50%);
+      padding: var(--ard-form-field-hint-padding, 0.125rem 0 0.25rem 0.125rem);
+      font-size: var(--ard-form-field-hint-font-size, 0.8125rem);
+      line-height: var(--ard-form-field-hint-line-height, 1.1);
+
+      &.ard-form-field__reserve-hint-line {
+        box-sizing: content-box;
+        min-height: calc(var(--ard-form-field-hint-line-height, 1.1) * 1em);
+      }
+    }
+    .ard-form-field__hints-right,
+    .ard-form-field__errors-right {
+      > * {
+        padding-left: var(--ard-form-field-hint-right-padding-left, 0.5rem);
+      }
+    }
+    .ard-hint,
+    .ard-error {
+      font-size: 1em;
+      line-height: var(--ard-form-field-hint-error-line-height, 1.2);
+      display: inline-grid;
+      min-height: calc(var(--ard-form-field-hint-error-line-height, 1.2) * 1em);
+    }
+    .ard-hint {
+      color: var(--ard-form-field-hint-color, #{ARD.$text2});
+    }
+    .ard-error:not(.ard-hint-error),
+    .ard-form-field__errors .ard-hint-error {
+      color: var(--ard-form-field-error-color, #{ARD.$danger700});
+      overflow: hidden;
+    }
+    .ard-error:not(.ard-hint-error) {
+      animation: errorAppear var(--ard-form-field-error-animation-duration, 0.25s) ARD.$timing-fn forwards;
+    }
+    .ard-form-field__default-hint,
+    .ard-form-field__default-error {
+      gap: var(--ard-form-field-hint-error-gap, 0.375em);
+    }
+
+    &.ard-form-field__with-error {
+      .ard-label,
+      ard-label {
+        color: var(--ard-form-field-error-color, #{ARD.$danger700});
+      }
+    }
+    &.ard-form-field__is-success {
+      .ard-label,
+      ard-label {
+        color: var(--ard-form-field-success-color, #{ARD.$success700});
+      }
+    }
+    &.ard-form-field__control-disabled {
+      .ard-label {
+        opacity: var(--ard-form-field-label-disabled-opacity, 40%);
+      }
+      .ard-form-field__hints {
+        opacity: var(--ard-form-field-hint-disabled-opacity, 50%);
+      }
     }
   }
-}
-.ard-horizontal-form-field {
-  align-items: flex-start;
-  justify-content: stretch;
-  flex-direction: row;
-  gap: var(--ard-horizontal-form-field-gap, 0.5rem);
+  .ard-horizontal-form-field {
+    align-items: flex-start;
+    justify-content: stretch;
+    flex-direction: row;
+    gap: var(--ard-horizontal-form-field-gap, 0.5rem);
 
-  .ard-form-field__label-container {
-    width: var(--ard-horizontal-form-field-label-width, 12rem);
-    min-width: var(--ard-horizontal-form-field-label-width, 12rem);
-    height: ARD.$form-field-height;
-    display: flex;
-    align-items: center;
-    justify-content: var(--ard-horizontal-form-field-label-align, flex-start);
-  }
-  .ard-form-field__non-label {
-    flex-grow: 1;
-  }
-
-  &:has(.ard-form-field__input .ard-compact) {
     .ard-form-field__label-container {
-      height: ARD.$form-field-compact-height;
+      width: var(--ard-horizontal-form-field-label-width, 12rem);
+      min-width: var(--ard-horizontal-form-field-label-width, 12rem);
+      height: ARD.$form-field-height;
+      display: flex;
+      align-items: center;
+      justify-content: var(--ard-horizontal-form-field-label-align, flex-start);
+    }
+    .ard-form-field__non-label {
+      flex-grow: 1;
+    }
+
+    &:has(.ard-form-field__input .ard-compact) {
+      .ard-form-field__label-container {
+        height: ARD.$form-field-compact-height;
+      }
     }
   }
-}
 
-ard-label {
-  display: flex;
-}
-
-@keyframes errorAppear {
-  from {
-    grid-template-rows: 0fr;
+  ard-label {
+    display: flex;
   }
-  to {
-    grid-template-rows: 1fr;
+
+  @keyframes errorAppear {
+    from {
+      grid-template-rows: 0fr;
+    }
+    to {
+      grid-template-rows: 1fr;
+    }
   }
 }

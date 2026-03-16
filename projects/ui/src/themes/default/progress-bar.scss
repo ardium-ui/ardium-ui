@@ -1,127 +1,151 @@
 @use './coloring' as CM;
 @use '../variables' as ARD;
 
-.ard-progress-bar {
-  @include CM.typeColors();
-  width: 100%;
-  margin: 0.5rem 0;
-  overflow: hidden;
+// the variables are commented out intentionally
+// read more in docs/dev/css-variables.md
+:root {
+  --ard-progress-bar-width: 100%;
+  --ard-progress-bar-height: 0.25rem;
+  --ard-progress-bar-margin: 0.5rem 0;
+  // --ard-progress-bar-foreground-color: ;
+  // --ard-progress-bar-background-color: ;
+  // --ard-progress-bar-buffer-color: ;
+  --ard-progress-bar-background-opacity: 30%;
+  --ard-progress-bar-buffer-opacity: 100%;
+  --ard-progress-bar-transition-duration: 0.1s;
+  --ard-progress-bar-indeterminate-animation-duration: 2.1s;
+  --ard-progress-bar-buffer-animation-distance: 0.5rem;
+  --ard-progress-bar-buffer-animation-duration: 0.4s;
+  --ard-progress-bar-currentColor-background-opacity: 22.5%;
+  --ard-progress-bar-currentColor-overlay-buffer-opacity: 30%;
+}
 
-  .ard-progress-bar__background,
-  .ard-progress-bar__overlay {
-    position: absolute;
-    background-color: var(--ard-cmpcl--bg-colored);
-    top: 0;
-    bottom: 0;
-    left: 0;
-  }
-  .ard-progress-bar__background {
-    background-color: var(--ard-cmpcl--bg-colored-light);
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    opacity: 30%;
-  }
-  .ard-progress-bar__overlay {
-    width: var(--ard-_progress-bar-main, 0);
-  }
+@layer ard-theme {
+  .ard-progress-bar {
+    @include CM.typeColors();
+    width: var(--ard-progress-bar-width, 100%);
+    margin: var(--ard-progress-bar-margin, 0.5rem 0);
+    overflow: hidden;
 
-  //! variants
-  &.ard-variant-sharp {
-    border-radius: 0;
-  }
-  &.ard-variant-pill {
-    border-radius: 9999px;
-  }
-
-  //! sizes
-  &.ard-progress-bar__size-default {
-    height: 0.25rem;
-  }
-  &.ard-progress-bar__size-auto:not(.ard-progress-bar__mode-buffer) {
-    height: 100%;
-  }
-
-  //! modes
-  &.ard-progress-bar__mode-determinate,
-  &.ard-progress-bar__mode-buffer {
+    .ard-progress-bar__background,
     .ard-progress-bar__overlay {
-      transition: width 0.1s ARD.$timing-fn;
-    }
-  }
-  &.ard-progress-bar__mode-indeterminate,
-  &.ard-progress-bar__mode-query {
-    .ard-progress-bar__overlay {
-      position: unset;
-
-      &::before,
-      &::after {
-        content: '';
-        position: absolute;
-        background-color: inherit;
-        top: 0;
-        left: 0;
-        bottom: 0;
-      }
-      &::before {
-        animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
-      }
-      &::after {
-        animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
-        animation-delay: 1.15s;
-      }
-    }
-  }
-  &.ard-progress-bar__mode-query {
-    transform: rotate(180deg);
-  }
-  &.ard-progress-bar__mode-buffer {
-    .ard-progress-bar__background {
-      background: none !important;
-      left: var(--ard-_progress-bar-buffer, 100%);
-      overflow: hidden;
-
-      &::after {
-        content: '';
-        position: absolute;
-        right: -0.5rem;
-        top: 0;
-        bottom: 0;
-        width: 9999px;
-        animation: buffer 0.4s linear infinite;
-        border-bottom: 0.25rem dotted var(--ard-cmpcl--bg-colored);
-      }
-    }
-    .ard-progress-bar__overlay-buffer {
-      background: var(--ard-cmpcl--bg-colored-light);
       position: absolute;
-      left: 0;
-      width: var(--ard-_progress-bar-buffer, 0);
+      background-color: var(--ard-progress-bar-foreground-color, var(--ard-cmpcl--bg-colored));
       top: 0;
       bottom: 0;
-      transition: width 0.1s ARD.$timing-fn;
+      left: 0;
     }
-  }
-
-  //! hiding the value
-  &.ard-progress-bar__size-default,
-  &.ard-progress-bar__hide-value,
-  &.ard-progress-bar__mode-buffer {
-    > .ard-progress-bar__value {
-      display: none;
-    }
-  }
-
-  //! currentColor special case
-  &.ard-color-currentColor {
     .ard-progress-bar__background {
-      opacity: 22.5%;
-      background: var(--ard-cmpcl--bg-colored);
+      background-color: var(--ard-progress-bar-background-color, var(--ard-cmpcl--bg-colored-light));
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      opacity: var(--ard-progress-bar-background-opacity, 30%);
     }
-    .ard-progress-bar__overlay-buffer {
-      opacity: 30%;
-      background: var(--ard-cmpcl--bg-colored);
+    .ard-progress-bar__overlay {
+      width: var(--ard-_progress-bar-main, 0);
+    }
+
+    //! variants
+    &.ard-variant-sharp {
+      border-radius: 0;
+    }
+    &.ard-variant-pill {
+      border-radius: 9999px;
+    }
+
+    //! sizes
+    &.ard-progress-bar__size-default {
+      height: var(--ard-progress-bar-height, 0.25rem);
+    }
+    &.ard-progress-bar__size-auto:not(.ard-progress-bar__mode-buffer) {
+      height: 100%;
+    }
+
+    //! modes
+    &.ard-progress-bar__mode-determinate,
+    &.ard-progress-bar__mode-buffer {
+      .ard-progress-bar__overlay {
+        transition: width var(--ard-progress-bar-transition-duration, 0.1s) ARD.$timing-fn;
+      }
+    }
+    &.ard-progress-bar__mode-indeterminate,
+    &.ard-progress-bar__mode-query {
+      .ard-progress-bar__overlay {
+        position: unset;
+
+        &::before,
+        &::after {
+          content: '';
+          position: absolute;
+          background-color: inherit;
+          top: 0;
+          left: 0;
+          bottom: 0;
+        }
+        &::before {
+          animation: indeterminate var(--ard-progress-bar-indeterminate-animation-duration, 2.1s)
+            cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+        }
+        &::after {
+          animation: indeterminate-short var(--ard-progress-bar-indeterminate-animation-duration, 2.1s)
+            cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+          animation-delay: calc(var(--ard-progress-bar-indeterminate-animation-duration, 2.1s) * 0.55);
+        }
+      }
+    }
+    &.ard-progress-bar__mode-query {
+      transform: rotate(180deg);
+    }
+    &.ard-progress-bar__mode-buffer {
+      .ard-progress-bar__background {
+        background: none !important;
+        left: var(--ard-_progress-bar-buffer, 100%);
+        overflow: hidden;
+
+        &::after {
+          content: '';
+          position: absolute;
+          right: calc(var(--ard-progress-bar-buffer-animation-distance, 0.5rem) * -1);
+          top: 0;
+          bottom: 0;
+          width: 9999px;
+          animation: buffer var(--ard-progress-bar-buffer-animation-duration, 0.4s) linear infinite;
+          border-bottom: var(--ard-progress-bar-height, 0.25rem) dotted var(--ard-cmpcl--bg-colored);
+        }
+      }
+      .ard-progress-bar__overlay-buffer {
+        background: var(--ard-progress-bar-buffer-color, var(--ard-cmpcl--bg-colored-light));
+        opacity: var(--ard-progress-bar-buffer-opacity, 100%);
+        position: absolute;
+        left: 0;
+        width: var(--ard-_progress-bar-buffer, 0);
+        top: 0;
+        bottom: 0;
+        transition: width var(--ard-progress-bar-transition-duration, 0.1s) ARD.$timing-fn;
+      }
+    }
+
+    //! hiding the value
+    &.ard-progress-bar__size-default,
+    &.ard-progress-bar__hide-value,
+    &.ard-progress-bar__mode-buffer {
+      > .ard-progress-bar__value {
+        display: none;
+      }
+    }
+
+    //! currentColor special case
+    &.ard-color-currentColor {
+      .ard-progress-bar__background {
+        opacity: var(--ard-progress-bar-currentColor-background-opacity, 22.5%);
+        background: var(--ard-cmpcl--bg-colored);
+      }
+      .ard-progress-bar__overlay-buffer {
+        opacity: var(--ard-progress-bar-currentColor-overlay-buffer-opacity, 30%);
+        background: var(--ard-cmpcl--bg-colored);
+      }
     }
   }
 }

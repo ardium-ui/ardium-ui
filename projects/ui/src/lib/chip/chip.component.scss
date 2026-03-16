@@ -1,24 +1,26 @@
-ard-chip,
-ard-deletable-chip,
-ard-selectable-chip {
-  display: block;
-}
-.ard-chip-wrapper {
-  display: flex;
-  width: max-content;
-}
-.ard-chip-left {
-  flex-direction: row;
-}
-.ard-chip-right {
-  flex-direction: row-reverse;
-}
-
-.ard-chip-selectable {
-  .ard-chip-selection-icon {
-    display: none;
-  }
-  &.ard-chip-selected .ard-chip-selection-icon {
+@layer ard-cmp {
+  ard-chip,
+  ard-deletable-chip,
+  ard-selectable-chip {
     display: block;
+  }
+  .ard-chip-wrapper {
+    display: flex;
+    width: max-content;
+  }
+  .ard-chip-left {
+    flex-direction: row;
+  }
+  .ard-chip-right {
+    flex-direction: row-reverse;
+  }
+
+  .ard-chip-selectable {
+    .ard-chip-selection-icon {
+      display: none;
+    }
+    &.ard-chip-selected .ard-chip-selection-icon {
+      display: block;
+    }
   }
 }

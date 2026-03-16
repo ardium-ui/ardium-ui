@@ -52,134 +52,136 @@
   --ard-file-input-file-ext-font-weight: 500;
 }
 
-.ard-file-input-form-field-frame {
-  .ard-form-field-overlay {
-    display: none;
+@layer ard-theme {
+  .ard-file-input-form-field-frame {
+    .ard-form-field-overlay {
+      display: none;
+    }
   }
-}
-.ard-file-input {
-  @include inputMixin.genericInput(
-    var(--ard-file-input-height, var(--ard-form-field-height, 2.3125rem)),
-    var(--ard-file-input-height-compact, var(--ard-form-field-height-compact, 1.6875rem)),
-    var(--ard-file-input-gap, 0.625rem),
-    var(--ard-file-input-font-size, var(--ard-form-field-font-size, 1rem)),
-    var(--ard-file-input-font-size-compact, var(--ard-form-field-font-size-compact, 0.875rem)),
-    var(--ard-file-input-line-height, 1.25),
-    var(--ard-file-input-line-height-compact, 1),
-    var(--ard-file-input-font-weight, 400),
-    var(--ard-file-input-padding-top, var(--ard-form-field-padding-top, 0)),
-    var(--ard-file-input-padding-right, var(--ard-form-field-padding-right, 0.375rem)),
-    var(--ard-file-input-padding-bottom, var(--ard-form-field-padding-bottom, 0)),
-    var(--ard-file-input-padding-left, var(--ard-form-field-padding-left, 0.375rem)),
-    var(--ard-file-input-padding-top-compact, var(--ard-form-field-padding-top-compact, 0)),
-    var(--ard-file-input-padding-right-compact, var(--ard-form-field-padding-right-compact, 0.375rem)),
-    var(--ard-file-input-padding-bottom-compact, var(--ard-form-field-padding-bottom-compact, 0)),
-    var(--ard-file-input-padding-left-compact, var(--ard-form-field-padding-left-compact, 0.375rem)),
-    var(--ard-file-input-color, #{ARD.$text}),
-    var(--ard-file-input-placeholder-color, #{ARD.$text}),
-    var(--ard-file-input-placeholder-opacity, 60%)
-  );
-  @include CM.typeColors();
-  min-width: var(--ard-file-input-min-width, 10rem);
-  max-width: var(--ard-file-input-max-width, 100%);
-  gap: var(--ard-file-input-gap, 0.375rem);
-  cursor: default;
-  border-radius: var(--ard-variant-border-radius);
+  .ard-file-input {
+    @include inputMixin.genericInput(
+      var(--ard-file-input-height, var(--ard-form-field-height, 2.3125rem)),
+      var(--ard-file-input-height-compact, var(--ard-form-field-height-compact, 1.6875rem)),
+      var(--ard-file-input-gap, 0.625rem),
+      var(--ard-file-input-font-size, var(--ard-form-field-font-size, 1rem)),
+      var(--ard-file-input-font-size-compact, var(--ard-form-field-font-size-compact, 0.875rem)),
+      var(--ard-file-input-line-height, 1.25),
+      var(--ard-file-input-line-height-compact, 1),
+      var(--ard-file-input-font-weight, 400),
+      var(--ard-file-input-padding-top, var(--ard-form-field-padding-top, 0)),
+      var(--ard-file-input-padding-right, var(--ard-form-field-padding-right, 0.375rem)),
+      var(--ard-file-input-padding-bottom, var(--ard-form-field-padding-bottom, 0)),
+      var(--ard-file-input-padding-left, var(--ard-form-field-padding-left, 0.375rem)),
+      var(--ard-file-input-padding-top-compact, var(--ard-form-field-padding-top-compact, 0)),
+      var(--ard-file-input-padding-right-compact, var(--ard-form-field-padding-right-compact, 0.375rem)),
+      var(--ard-file-input-padding-bottom-compact, var(--ard-form-field-padding-bottom-compact, 0)),
+      var(--ard-file-input-padding-left-compact, var(--ard-form-field-padding-left-compact, 0.375rem)),
+      var(--ard-file-input-color, #{ARD.$text}),
+      var(--ard-file-input-placeholder-color, #{ARD.$text}),
+      var(--ard-file-input-placeholder-opacity, 60%)
+    );
+    @include CM.typeColors();
+    min-width: var(--ard-file-input-min-width, 10rem);
+    max-width: var(--ard-file-input-max-width, 100%);
+    gap: var(--ard-file-input-gap, 0.375rem);
+    cursor: default;
+    border-radius: var(--ard-variant-border-radius);
 
-  *:not(button):not(ard-clear-button) {
-    pointer-events: none;
-    user-select: none;
-  }
+    *:not(button):not(ard-clear-button) {
+      pointer-events: none;
+      user-select: none;
+    }
 
-  &.ard-state-dragover {
-    outline: var(--ard-file-input-dragover-outline-width, 2px) var(--ard-file-input-dragover-outline-style, solid)
-      var(--ard-cmpcl--content-light);
-  }
+    &.ard-state-dragover {
+      outline: var(--ard-file-input-dragover-outline-width, 2px) var(--ard-file-input-dragover-outline-style, solid)
+        var(--ard-cmpcl--content-light);
+    }
 
-  .ard-file-input__value {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: flex;
-    align-items: center;
-  }
-  .ard-browse-button {
-    cursor: pointer;
-    height: var(--ard-file-input-browse-button-height, calc(100% - 0.25rem));
-    width: var(--ard-file-input-browse-button-width, unset);
-    margin: var(--ard-file-input-browse-button-margin, 0.125rem);
-    aspect-ratio: var(--ard-file-input-browse-button-aspect-ratio, 1);
-    border: var(--ard-file-input-browse-button-border, none);
-    border-radius: var(--ard-file-input-browse-button-border-radius, 9999px);
-    background: var(--ard-file-input-browse-button-background, none);
-    padding: var(--ard-file-input-browse-button-padding, 0);
-    color: var(--ard-file-input-browse-button-color, #{ARD.$text});
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    outline: none;
-
-    .ard-focus-overlay {
-      @include defaultMixins.focus-overlay(var(--ard-file-input-browse-button-overlay-offset, 0.25rem));
-      background: var(--ard-file-input-browse-button-overlay-color, #{ARD.$overlay});
+    .ard-file-input__value {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: flex;
+      align-items: center;
+    }
+    .ard-browse-button {
+      cursor: pointer;
+      height: var(--ard-file-input-browse-button-height, calc(100% - 0.25rem));
+      width: var(--ard-file-input-browse-button-width, unset);
+      margin: var(--ard-file-input-browse-button-margin, 0.125rem);
+      aspect-ratio: var(--ard-file-input-browse-button-aspect-ratio, 1);
+      border: var(--ard-file-input-browse-button-border, none);
       border-radius: var(--ard-file-input-browse-button-border-radius, 9999px);
-    }
-    &:hover {
+      background: var(--ard-file-input-browse-button-background, none);
+      padding: var(--ard-file-input-browse-button-padding, 0);
+      color: var(--ard-file-input-browse-button-color, #{ARD.$text});
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      outline: none;
+
       .ard-focus-overlay {
-        opacity: var(--ard-file-input-browse-button-overlay-hover-opacity, 4%);
+        @include defaultMixins.focus-overlay(var(--ard-file-input-browse-button-overlay-offset, 0.25rem));
+        background: var(--ard-file-input-browse-button-overlay-color, #{ARD.$overlay});
+        border-radius: var(--ard-file-input-browse-button-border-radius, 9999px);
+      }
+      &:hover {
+        .ard-focus-overlay {
+          opacity: var(--ard-file-input-browse-button-overlay-hover-opacity, 4%);
+        }
+      }
+      &:focus {
+        .ard-focus-overlay {
+          opacity: var(--ard-file-input-browse-button-overlay-focus-opacity, 8%);
+        }
+      }
+      &:active {
+        .ard-focus-overlay {
+          opacity: var(--ard-file-input-browse-button-overlay-active-opacity, 12%);
+        }
+      }
+      &:focus-visible {
+        .ard-focus-overlay {
+          opacity: var(--ard-file-input-browse-button-overlay-focus-visible-opacity, 16%);
+        }
       }
     }
-    &:focus {
-      .ard-focus-overlay {
-        opacity: var(--ard-file-input-browse-button-overlay-focus-opacity, 8%);
-      }
+
+    @include CB.clearButton();
+
+    .ard-input-container {
+      white-space: nowrap;
     }
-    &:active {
-      .ard-focus-overlay {
-        opacity: var(--ard-file-input-browse-button-overlay-active-opacity, 12%);
-      }
+    .ard-input-container,
+    .ard-file-input__value,
+    .ard-file-input__uploaded,
+    .ard-file-input__full-file-name,
+    .ard-file-input__file-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
     }
-    &:focus-visible {
-      .ard-focus-overlay {
-        opacity: var(--ard-file-input-browse-button-overlay-focus-visible-opacity, 16%);
+    .ard-file-input__full-file-name {
+      display: grid;
+      grid-template-columns: 1fr max-content;
+
+      .ard-file-input__file-name {
+        font-weight: var(--ard-file-input-file-name-font-weight, 500);
+      }
+      .ard-file-input__file-ext {
+        font-weight: var(--ard-file-input-file-ext-font-weight, 500);
       }
     }
   }
-
-  @include CB.clearButton();
-
-  .ard-input-container {
-    white-space: nowrap;
-  }
-  .ard-input-container,
-  .ard-file-input__value,
-  .ard-file-input__uploaded,
-  .ard-file-input__full-file-name,
-  .ard-file-input__file-name {
-    overflow: hidden;
-    text-overflow: ellipsis;
+  ard-file-input .ard-form-field-content-container {
     max-width: 100%;
   }
-  .ard-file-input__full-file-name {
-    display: grid;
-    grid-template-columns: 1fr max-content;
-
-    .ard-file-input__file-name {
-      font-weight: var(--ard-file-input-file-name-font-weight, 500);
-    }
-    .ard-file-input__file-ext {
-      font-weight: var(--ard-file-input-file-ext-font-weight, 500);
-    }
-  }
-}
-ard-file-input .ard-form-field-content-container {
-  max-width: 100%;
-}
-ard-file-input .ard-form-field-frame {
-  &.ard-has-error .ard-file-input {
-    .ard-file-input__value,
-    .ard-browse-button {
-      color: var(--ard-file-input-browse-button-color-error, #{ARD.$danger700});
+  ard-file-input .ard-form-field-frame {
+    &.ard-has-error .ard-file-input {
+      .ard-file-input__value,
+      .ard-browse-button {
+        color: var(--ard-file-input-browse-button-color-error, #{ARD.$danger700});
+      }
     }
   }
 }

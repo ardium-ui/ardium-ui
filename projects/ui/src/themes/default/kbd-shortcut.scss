@@ -7,13 +7,15 @@
   --ard-kbd-shortcut-transparent-font-size: 0.75em;
 }
 
-.ard-kbd-shortcut {
-  font-family: var(--ard-font-family-mono);
+@layer ard-theme {
+  .ard-kbd-shortcut {
+    font-family: var(--ard-font-family-mono);
 
-  > span {
-    font-size: var(--ard-kbd-shortcut-font-size, 0.875em);
-  }
-  &.ard-appearance-transparent > span {
-    font-size: var(--ard-kbd-shortcut-transparent-font-size, 0.75em);
+    > span {
+      font-size: var(--ard-kbd-shortcut-font-size, 0.875em);
+    }
+    &.ard-appearance-transparent > span {
+      font-size: var(--ard-kbd-shortcut-transparent-font-size, 0.75em);
+    }
   }
 }

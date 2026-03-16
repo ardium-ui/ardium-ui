@@ -1,6 +1,8 @@
-ard-checkbox {
-  display: block;
-}
-.ard-checkbox {
-  font-size: inherit;
+@layer ard-cmp {
+  ard-checkbox {
+    display: block;
+  }
+  .ard-checkbox {
+    font-size: inherit;
+  }
 }

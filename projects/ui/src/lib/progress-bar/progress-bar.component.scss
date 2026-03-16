@@ -1,13 +1,15 @@
-ard-progress-bar {
-  display: block;
-}
+@layer ard-cmp {
+  ard-progress-bar {
+    display: block;
+  }
 
-.ard-progress-bar {
-  position: relative;
+  .ard-progress-bar {
+    position: relative;
 
-  .ard-progress-bar-background,
-  .ard-progress-bar-overlay,
-  .ard-progress-bar-overlay-secondary {
-    position: absolute;
+    .ard-progress-bar-background,
+    .ard-progress-bar-overlay,
+    .ard-progress-bar-overlay-secondary {
+      position: absolute;
+    }
   }
 }
