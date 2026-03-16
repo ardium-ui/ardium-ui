@@ -128,7 +128,7 @@ export class ArdiumTabberComponent implements AfterContentInit, OnChanges {
   }
 
   selectTab(tab: ArdiumTabComponent): void {
-    if (tab.tabId() === this.selectedTabId()) {
+    if (tab.tabId() === this.selectedTabId() || tab.disabled()) {
       return;
     }
     this._unselectCurrentTab(tab);
