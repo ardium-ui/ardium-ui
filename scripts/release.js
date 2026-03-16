@@ -19,6 +19,7 @@ const VERSION_ALIAS_MAP = {
 };
 
 (async () => {
+  const overallStartTime = new Date();
   // Check for console logs
   let startTime = new Date();
   const rootDir = path.join(__dirname, '..');
@@ -177,7 +178,7 @@ const VERSION_ALIAS_MAP = {
       `${ansis.greenBright.bold('✓')} Cleaned up dist directory again (${new Date().valueOf() - startTime.valueOf()} ms)`
     );
 
-    console.log(`\n${ansis.greenBright.bold('✓')} Successfully released version ${ansis.blueBright.underline(finalVersion)}!`);
+    console.log(`\n${ansis.greenBright.bold('✓')} Successfully released version ${ansis.blueBright.underline(finalVersion)}! (total duration: ${new Date().valueOf() - overallStartTime.valueOf()} ms)`);
   } catch (error) {
     console.error('Error executing release steps:', error);
     process.exit(1);
