@@ -93,7 +93,9 @@
 
 ### Styling Changes
 
-**All components now support CSS customization using CSS variables.**
+**All components now support CSS customization using CSS variables.** All variables can be freely modified.
+
+**All components now use CSS layers.** Component-level styles use the `ard-cmp` layer, while theme-level files use the `ard-theme` layer.
 
 All components now use the `--ard-font-family` css variable to define their font family.
 
