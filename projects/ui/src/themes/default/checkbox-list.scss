@@ -1,7 +1,7 @@
 @use './mixins' as CM;
 @use '../variables' as ARD;
 
-@layer ard-theme {
+@layer ard-ui {
   :root {
     --ard-checkbox-list-padding: 0.375rem 0;
     --ard-checkbox-list-item-hover-opacity: 5%;

@@ -1,6 +1,6 @@
 @use './button-mixins' as shared;
 
-@layer ard-theme {
+@layer ard-ui {
   // the variables are commented out intentionally
   // read more in docs/dev/css-variables.md
   :root {
@@ -48,7 +48,7 @@
     justify-content: center;
     padding: 0;
     overflow: hidden;
-    color: var(--ard-cmpcl--bg-colored);
+    color: var(--ard-uicl--bg-colored);
 
     > ard-icon {
       font-weight: 500;
@@ -61,7 +61,7 @@
     }
     //! light coloring
     &.ard-light-coloring {
-      color: var(--ard-cmpcl--bg-colored-light);
+      color: var(--ard-uicl--bg-colored-light);
     }
   }
 

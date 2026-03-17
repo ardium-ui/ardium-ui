@@ -1,7 +1,7 @@
 @use './coloring' as C;
 @use '../variables' as ARD;
 
-@layer ard-theme {
+@layer ard-ui {
   // the variables are commented out intentionally
   // read more in docs/dev/css-variables.md
   :root {
@@ -49,7 +49,7 @@
       color: var(--ard-snackbar-content-color, #{ARD.$text2-alt});
 
       ard-icon {
-        color: var(--ard-cmpcl--content-light);
+        color: var(--ard-uicl--content-light);
       }
     }
 

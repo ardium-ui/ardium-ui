@@ -13,20 +13,20 @@
     }
     &:first-child {
       .ard-option-disabled:nth-of-type(2) {
-        border-top-color: var(--ard-cmpcl--button-border);
+        border-top-color: var(--ard-uicl--button-border);
       }
     }
     &:nth-child(2) {
       .ard-option-disabled:first-child {
-        border-left-color: var(--ard-cmpcl--button-border);
+        border-left-color: var(--ard-uicl--button-border);
       }
       .ard-option-disabled:last-child {
-        border-right-color: var(--ard-cmpcl--button-border);
+        border-right-color: var(--ard-uicl--button-border);
       }
     }
     &:last-child {
       .ard-option-disabled:nth-of-type(2) {
-        border-bottom-color: var(--ard-cmpcl--button-border);
+        border-bottom-color: var(--ard-uicl--button-border);
       }
     }
   }

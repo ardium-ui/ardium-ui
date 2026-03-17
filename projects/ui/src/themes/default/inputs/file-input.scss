@@ -4,7 +4,7 @@
 @use '../coloring' as CM;
 @use '../../variables' as ARD;
 
-@layer ard-theme {
+@layer ard-ui {
   // the variables are commented out intentionally
   // read more in docs/dev/css-variables.md
   :root {
@@ -94,7 +94,7 @@
 
     &.ard-state-dragover {
       outline: var(--ard-file-input-dragover-outline-width, 2px) var(--ard-file-input-dragover-outline-style, solid)
-        var(--ard-cmpcl--content-light);
+        var(--ard-uicl--content-light);
     }
 
     .ard-file-input__value {

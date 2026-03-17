@@ -2,7 +2,7 @@
 @use './coloring' as coloringMixins;
 @use '../variables' as ARD;
 
-@layer ard-theme {
+@layer ard-ui {
   // the variables are commented out intentionally
   // read more in docs/dev/css-variables.md
   :root {
@@ -89,7 +89,7 @@
 
       .ard-focus-overlay {
         @include defaultMixins.focus-overlay;
-        background: var(--ard-cmpcl--overlay-colored);
+        background: var(--ard-uicl--overlay-colored);
       }
 
       .ard-slide-toggle-icon {
@@ -133,17 +133,17 @@
     //! selected state
     &.ard-slide-toggle-selected {
       .ard-slide-toggle-track-overlay {
-        background: var(--ard-cmpcl--content);
+        background: var(--ard-uicl--content);
         opacity: var(--ard-slide-toggle-track-selected-opacity, 40%);
       }
 
       .ard-slide-toggle-handle {
         left: 100%;
         transform: translateX(-100%);
-        background: var(--ard-cmpcl--bg);
+        background: var(--ard-uicl--bg);
 
         .ard-slide-toggle-icon {
-          color: var(--ard-cmpcl--on-bg);
+          color: var(--ard-uicl--on-bg);
 
           &.ard-icon-for-selected {
             display: block;
@@ -170,7 +170,7 @@
         box-sizing: border-box;
 
         .ard-slide-toggle-track-overlay {
-          background: var(--ard-cmpcl--content);
+          background: var(--ard-uicl--content);
           opacity: 0;
         }
       }
@@ -189,7 +189,7 @@
 
       &.ard-slide-toggle-selected {
         .ard-slide-toggle-track {
-          border-color: var(--ard-cmpcl--content);
+          border-color: var(--ard-uicl--content);
         }
 
         .ard-slide-toggle-track-overlay {

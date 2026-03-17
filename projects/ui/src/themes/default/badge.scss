@@ -1,6 +1,6 @@
 @use './coloring' as CM;
 
-@layer ard-theme {
+@layer ard-ui {
   // the variables are commented out intentionally
   // read more in docs/dev/css-variables.md
   :root {
@@ -36,8 +36,8 @@
     pointer-events: none;
 
     //! colors
-    background: var(--ard-cmpcl--bg-colored);
-    color: var(--ard-cmpcl--on-bg-colored);
+    background: var(--ard-uicl--bg-colored);
+    color: var(--ard-uicl--on-bg-colored);
 
     //! variants
     &.ard-variant-pill {

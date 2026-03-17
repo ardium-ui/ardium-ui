@@ -2,7 +2,7 @@
 @use './mixins' as GM;
 @use '../variables' as ARD;
 
-@layer ard-theme {
+@layer ard-ui {
   // the variables are commented out intentionally
   // read more in docs/dev/css-variables.md
   :root {
@@ -66,7 +66,7 @@
         right: var(--ard-radio-inner-circle-inset, 25%);
         top: var(--ard-radio-inner-circle-inset, 25%);
         bottom: var(--ard-radio-inner-circle-inset, 25%);
-        background: var(--ard-cmpcl--bg-colored);
+        background: var(--ard-uicl--bg-colored);
         border-radius: var(--ard-radio-border-radius, 9999px);
         transform: scale(0);
         transition: transform var(--ard-radio-transition-duration, 0.2s) ARD.$timing-fn;
@@ -99,13 +99,13 @@
     &.ard-radio-selected {
       > .ard-radio-circles {
         > .ard-radio-outer-circle {
-          border-color: var(--ard-cmpcl--bg-colored);
+          border-color: var(--ard-uicl--bg-colored);
         }
         > .ard-radio-inner-circle {
           transform: scale(1);
         }
         > .ard-focus-overlay {
-          background-color: var(--ard-cmpcl--bg-colored);
+          background-color: var(--ard-uicl--bg-colored);
         }
       }
     }

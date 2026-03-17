@@ -29,7 +29,7 @@
   &::before {
     content: '';
     @include defaultMixins.focus-overlay;
-    background-color: var(--ard-cmpcl--overlay);
+    background-color: var(--ard-uicl--overlay);
   }
   &:hover {
     &::before {
@@ -56,11 +56,11 @@
   &.ard-appearance-transparent,
   &.ard-appearance-raised {
     background: transparent;
-    color: var(--ard-cmpcl--content);
+    color: var(--ard-uicl--content);
     border: none;
 
     &::before {
-      background: var(--ard-cmpcl--overlay-colored);
+      background: var(--ard-uicl--overlay-colored);
     }
   }
   &.ard-appearance-raised,
@@ -79,16 +79,16 @@
   }
   &.ard-appearance-outlined {
     background: ARD.$bg;
-    color: var(--ard-cmpcl--content);
+    color: var(--ard-uicl--content);
     border: 1px solid ARD.$border-light;
 
     &::before {
-      background: var(--ard-cmpcl--overlay-colored);
+      background: var(--ard-uicl--overlay-colored);
     }
   }
   &.ard-appearance-outlined-strong {
     background: ARD.$bg;
-    color: var(--ard-cmpcl--content);
+    color: var(--ard-uicl--content);
     border: 1px solid ARD.$border-light;
 
     &::before {
@@ -98,18 +98,18 @@
     transition: background-color 0.2s ease, color 0.2s ease;
     &:hover,
     &:focus-visible {
-      background: var(--ard-cmpcl--bg-colored);
-      color: var(--ard-cmpcl--on-bg-colored);
+      background: var(--ard-uicl--bg-colored);
+      color: var(--ard-uicl--on-bg-colored);
     }
   }
   &.ard-appearance-flat,
   &.ard-appearance-raised-strong {
-    background: var(--ard-cmpcl--bg-colored);
-    color: var(--ard-cmpcl--on-bg-colored);
-    border: 1px solid var(--ard-cmpcl--bg-colored);
+    background: var(--ard-uicl--bg-colored);
+    color: var(--ard-uicl--on-bg-colored);
+    border: 1px solid var(--ard-uicl--bg-colored);
 
     &::before {
-      background: var(--ard-cmpcl--on-bg);
+      background: var(--ard-uicl--on-bg);
     }
     &:focus-visible {
       outline: solid black;
@@ -117,10 +117,10 @@
   }
   //! light coloring
   &.ard-appearance-transparent.ard-light-coloring {
-    color: var(--ard-cmpcl--content-light);
+    color: var(--ard-uicl--content-light);
 
     &::before {
-      background: var(--ard-cmpcl--overlay-colored-light);
+      background: var(--ard-uicl--overlay-colored-light);
     }
   }
 }
@@ -143,7 +143,7 @@
       opacity: $opacity;
     }
     &::before {
-      background: var(--ard-cmpcl--overlay);
+      background: var(--ard-uicl--overlay);
     }
   }
 }

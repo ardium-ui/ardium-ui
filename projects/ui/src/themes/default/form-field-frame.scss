@@ -1,7 +1,7 @@
 @use './mixins' as defaultMixins;
 @use '../variables' as ARD;
 
-@layer ard-theme {
+@layer ard-ui {
   .ard-form-field-frame {
     box-sizing: border-box;
     min-height: ARD.$form-field-height;

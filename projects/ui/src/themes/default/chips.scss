@@ -3,7 +3,7 @@
 @use './clear-button' as clearButton;
 @use '../variables' as ARD;
 
-@layer ard-theme {
+@layer ard-ui {
   // the variables are commented out intentionally
   // read more in docs/dev/css-variables.md
   :root {
@@ -111,24 +111,24 @@
           background-color var(--ard-chip-transition, 0.15s ease);
 
         &.ard-chip-selected {
-          color: var(--ard-cmpcl--on-bg-colored);
-          background: var(--ard-cmpcl--bg-colored);
+          color: var(--ard-uicl--on-bg-colored);
+          background: var(--ard-uicl--bg-colored);
         }
       }
     }
     &.ard-appearance-filled {
-      background: var(--ard-cmpcl--bg-colored-light);
-      color: var(--ard-cmpcl--on-bg-colored-light);
+      background: var(--ard-uicl--bg-colored-light);
+      color: var(--ard-uicl--on-bg-colored-light);
     }
     &.ard-appearance-filled-strong {
-      background: var(--ard-cmpcl--bg-colored);
-      color: var(--ard-cmpcl--on-bg-colored);
+      background: var(--ard-uicl--bg-colored);
+      color: var(--ard-uicl--on-bg-colored);
     }
     &.ard-appearance-outlined,
     &.ard-appearance-outlined-strong {
       background: transparent;
-      color: var(--ard-cmpcl--content);
-      border: 1px solid var(--ard-cmpcl--bg-colored);
+      color: var(--ard-uicl--content);
+      border: 1px solid var(--ard-uicl--bg-colored);
       border-radius: var(--ard-variant-border-radius);
       font-weight: 600;
 
@@ -139,7 +139,7 @@
 
         > .ard-focus-overlay {
           opacity: 0;
-          background: var(--ard-cmpcl--bg-colored);
+          background: var(--ard-uicl--bg-colored);
         }
         &:hover,
         &:focus {
@@ -154,8 +154,8 @@
         }
 
         &.ard-chip-selected {
-          color: var(--ard-cmpcl--content);
-          border-color: var(--ard-cmpcl--content);
+          color: var(--ard-uicl--content);
+          border-color: var(--ard-uicl--content);
 
           > .ard-focus-overlay {
             opacity: var(--ard-chip-outlined-selected-overlay-opacity, 12%);
@@ -186,7 +186,7 @@
     &.ard-appearance-outlined-strong {
       > .ard-focus-overlay {
         opacity: var(--ard-chip-outlined-selected-overlay-opacity, 12%);
-        background: var(--ard-cmpcl--bg-colored);
+        background: var(--ard-uicl--bg-colored);
       }
       &.ard-chip-selectable {
         color: var(--ard-chip-outlined-strong-selectable-color, var(--ard-text2));

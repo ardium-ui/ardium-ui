@@ -1,7 +1,7 @@
 @use './coloring' as CM;
 @use '../variables' as ARD;
 
-@layer ard-theme {
+@layer ard-ui {
   // the variables are commented out intentionally
   // read more in docs/dev/css-variables.md
   :root {
@@ -197,14 +197,14 @@
     }
 
     //! color
-    --ard-_table-header-border: var(--ard-cmpcl--border);
-    --ard-_table-header-border-light: var(--ard-cmpcl--border-light);
+    --ard-_table-header-border: var(--ard-uicl--border);
+    --ard-_table-header-border-light: var(--ard-uicl--border-light);
     --ard-_table-border: var(--ard-table-border-color-strong, #{ARD.$border});
-    --ard-_table-header-background: var(--ard-cmpcl--bg);
-    --ard-_table-header-background-light: var(--ard-cmpcl--bg-header);
-    --ard-_table-header-color: var(--ard-cmpcl--content);
-    --ard-_table-header-color-on-bg: var(--ard-cmpcl--on-bg);
-    --ard-_table-overlay: var(--ard-cmpcl--overlay-rgb);
+    --ard-_table-header-background: var(--ard-uicl--bg);
+    --ard-_table-header-background-light: var(--ard-uicl--bg-header);
+    --ard-_table-header-color: var(--ard-uicl--content);
+    --ard-_table-header-color-on-bg: var(--ard-uicl--on-bg);
+    --ard-_table-overlay: var(--ard-uicl--overlay-rgb);
     --ard-_table-overlay-colorless: var(--ard-overlay-rgb);
 
     //! appearances

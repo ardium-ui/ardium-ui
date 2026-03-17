@@ -1,6 +1,6 @@
 @use './coloring' as CM;
 
-@layer ard-theme {
+@layer ard-ui {
   // the variables are commented out intentionally
   // read more in docs/dev/css-variables.md
   :root {
@@ -25,7 +25,7 @@
     scale: 2.3; //magic number
 
     > circle {
-      stroke: var(--ard-cmpcl--content);
+      stroke: var(--ard-uicl--content);
     }
   }
 }
