@@ -158,7 +158,7 @@
         .ard-focus-overlay {
           @include DM.focus-overlay();
           z-index: -1;
-          background: var(--ard-uicl--overlay);
+          background: var(--ard-cmpcl--overlay);
           transition:
             border-color 0.1s ease,
             opacity 0.1s ease;
@@ -187,18 +187,18 @@
       &.ard-calendar__entry-highlighted-in-range {
         .ard-range-overlay {
           opacity: 1;
-          border-top-color: var(--ard-uicl--bg-colored);
-          border-bottom-color: var(--ard-uicl--bg-colored);
+          border-top-color: var(--ard-cmpcl--bg-colored);
+          border-bottom-color: var(--ard-cmpcl--bg-colored);
         }
         &.ard-calendar__entry-selected-start {
           .ard-range-overlay {
-            border-left-color: var(--ard-uicl--bg-colored);
+            border-left-color: var(--ard-cmpcl--bg-colored);
           }
         }
         &.ard-calendar__entry-selected-end,
         &.ard-calendar__entry-highlighted {
           .ard-range-overlay {
-            border-right-color: var(--ard-uicl--bg-colored);
+            border-right-color: var(--ard-cmpcl--bg-colored);
           }
         }
       }
@@ -225,16 +225,16 @@
       &.ard-calendar__entry-selected-in-range {
         .ard-range-overlay {
           opacity: var(--ard-calendar-entry-selected-range-overlay-opacity, 12%);
-          background-color: var(--ard-uicl--bg-colored);
+          background-color: var(--ard-cmpcl--bg-colored);
         }
       }
       &.ard-calendar__entry-selected {
         .ard-calendar__entry-button {
-          color: var(--ard-uicl--on-bg-colored);
+          color: var(--ard-cmpcl--on-bg-colored);
         }
         .ard-focus-overlay {
           opacity: var(--ard-calendar-entry-selected-overlay-opacity, 100%);
-          background: var(--ard-uicl--bg-colored);
+          background: var(--ard-cmpcl--bg-colored);
         }
 
         &.ard-calendar-today {
@@ -251,7 +251,7 @@
           cursor: default;
         }
         .ard-focus-overlay {
-          background: var(--ard-uicl--overlay);
+          background: var(--ard-cmpcl--overlay);
         }
         &.ard-calendar__entry-highlighted {
           .ard-focus-overlay {

@@ -44,7 +44,7 @@
     //! button focus inficator
     .ard-focus-overlay {
       @include defaultMixins.focus-overlay;
-      background-color: var(--ard-uicl--content);
+      background-color: var(--ard-cmpcl--content);
     }
 
     //! row & option styling
@@ -134,11 +134,11 @@
       .ard-segment-row {
         .ard-segment-option {
           .ard-focus-overlay {
-            background-color: var(--ard-uicl--content);
+            background-color: var(--ard-cmpcl--content);
           }
 
           &.ard-option-selected {
-            color: var(--ard-uicl--content);
+            color: var(--ard-cmpcl--content);
           }
         }
       }
@@ -152,8 +152,8 @@
         border: 1px solid var(--ard-segment-border-color, ARD.$border-light);
 
         &.ard-option-selected {
-          border-color: var(--ard-uicl--content);
-          color: var(--ard-uicl--content);
+          border-color: var(--ard-cmpcl--content);
+          color: var(--ard-cmpcl--content);
         }
       }
       &.ard-variant-rounded-connected,
@@ -237,8 +237,8 @@
     }
     &.ard-appearance-outlined-strong {
       .ard-segment-option.ard-option-selected {
-        background-color: var(--ard-uicl--bg);
-        color: var(--ard-uicl--on-bg);
+        background-color: var(--ard-cmpcl--bg);
+        color: var(--ard-cmpcl--on-bg);
       }
     }
     &.ard-appearance-filled {
@@ -252,20 +252,20 @@
         left: 0;
         right: 0;
         border-radius: inherit;
-        background: var(--ard-uicl--bg);
+        background: var(--ard-cmpcl--bg);
         opacity: 15%;
       }
     }
     &.ard-appearance-filled-strong {
-      background: var(--ard-uicl--bg);
+      background: var(--ard-cmpcl--bg);
       border-radius: var(--ard-_variant-border-radius);
 
       .ard-segment-row {
         .ard-segment-option {
-          color: var(--ard-uicl--on-bg);
+          color: var(--ard-cmpcl--on-bg);
 
           .ard-focus-overlay {
-            background-color: var(--ard-uicl--on-bg);
+            background-color: var(--ard-cmpcl--on-bg);
           }
           &.ard-option-highlighted {
             .ard-focus-overlay {
@@ -273,8 +273,8 @@
             }
           }
           &.ard-option-selected {
-            color: var(--ard-uicl--content);
-            background: var(--ard-uicl--on-bg);
+            color: var(--ard-cmpcl--content);
+            background: var(--ard-cmpcl--on-bg);
 
             .ard-focus-overlay {
               opacity: 0;
@@ -362,7 +362,7 @@
           opacity: calc(var(--ard-segment-option-disabled-opacity, 50%) * 1.2);
         }
         .ard-focus-overlay {
-          background: var(--ard-uicl--overlay);
+          background: var(--ard-cmpcl--overlay);
         }
       }
     }

@@ -17,7 +17,7 @@
     width: var(--ard-progress-circle-size, 3em);
     height: var(--ard-progress-circle-size, 3em);
 
-    --ard-_progress-circle-fill-color: var(--ard-uicl--bg-colored);
+    --ard-_progress-circle-fill-color: var(--ard-cmpcl--bg-colored);
 
     //! appearances
     &.ard-appearance-transparent {
@@ -34,7 +34,7 @@
     &.ard-appearance-colored {
       .ard-progress-circle-background {
         opacity: var(--ard-progress-circle-colored-background-opacity, 100%);
-        background: var(--ard-uicl--bg-colored);
+        background: var(--ard-cmpcl--bg-colored);
       }
     }
     //! ring variant

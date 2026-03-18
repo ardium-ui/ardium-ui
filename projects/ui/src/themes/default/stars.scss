@@ -25,7 +25,7 @@
   .ard-rating-display,
   .ard-rating-input {
     @include coloringMixins.typeColors();
-    color: var(--ard-uicl--bg-colored);
+    color: var(--ard-cmpcl--bg-colored);
 
     &.ard-color-gold {
       color: ARD.$gold;

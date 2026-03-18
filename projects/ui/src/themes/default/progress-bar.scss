@@ -30,13 +30,13 @@
     .ard-progress-bar__background,
     .ard-progress-bar__overlay {
       position: absolute;
-      background-color: var(--ard-progress-bar-foreground-color, var(--ard-uicl--bg-colored));
+      background-color: var(--ard-progress-bar-foreground-color, var(--ard-cmpcl--bg-colored));
       top: 0;
       bottom: 0;
       left: 0;
     }
     .ard-progress-bar__background {
-      background-color: var(--ard-progress-bar-background-color, var(--ard-uicl--bg-colored-light));
+      background-color: var(--ard-progress-bar-background-color, var(--ard-cmpcl--bg-colored-light));
       top: 0;
       bottom: 0;
       left: 0;
@@ -112,11 +112,11 @@
           bottom: 0;
           width: 9999px;
           animation: buffer var(--ard-progress-bar-buffer-animation-duration, 0.4s) linear infinite;
-          border-bottom: var(--ard-progress-bar-height, 0.25rem) dotted var(--ard-uicl--bg-colored);
+          border-bottom: var(--ard-progress-bar-height, 0.25rem) dotted var(--ard-cmpcl--bg-colored);
         }
       }
       .ard-progress-bar__overlay-buffer {
-        background: var(--ard-progress-bar-buffer-color, var(--ard-uicl--bg-colored-light));
+        background: var(--ard-progress-bar-buffer-color, var(--ard-cmpcl--bg-colored-light));
         opacity: var(--ard-progress-bar-buffer-opacity, 100%);
         position: absolute;
         left: 0;
@@ -140,11 +140,11 @@
     &.ard-color-currentColor {
       .ard-progress-bar__background {
         opacity: var(--ard-progress-bar-currentColor-background-opacity, 22.5%);
-        background: var(--ard-uicl--bg-colored);
+        background: var(--ard-cmpcl--bg-colored);
       }
       .ard-progress-bar__overlay-buffer {
         opacity: var(--ard-progress-bar-currentColor-overlay-buffer-opacity, 30%);
-        background: var(--ard-uicl--bg-colored);
+        background: var(--ard-cmpcl--bg-colored);
       }
     }
   }
