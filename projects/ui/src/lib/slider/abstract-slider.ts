@@ -328,6 +328,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     this._value.set(this._percentValueToValue(percent, handleId));
 
     this._emitChange();
+    this._emitTouched();
   }
   protected _writeValueFromEvent(event: MouseEvent | TouchEvent, handleId?: number | null): void {
     const percent = this._getPercentValueFromEvent(event);
