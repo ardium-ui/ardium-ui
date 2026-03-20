@@ -22,6 +22,14 @@
   ></ard-checkbox>
 </div>
 <div class="master">
+  <span class="title">Checkbox with form control</span>
+  <ard-checkbox
+    [formControl]="control"
+  />
+  <p>Form control value: {{ control.value }}</p>
+  <p>Form control touched: {{ control.touched }}</p>
+</div>
+<div class="master">
   <div class="flex horiz large-gap">
     <span class="title">Font size</span>
     <input

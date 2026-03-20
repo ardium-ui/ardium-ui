@@ -80,6 +80,7 @@ export class ArdiumCheckboxComponent extends _BooleanComponentBase implements Co
     this.selected.set(this.internalState() === CheckboxState.Selected);
 
     this._emitChange();
+    this._emitTouched();
   }
 
   //! templates
