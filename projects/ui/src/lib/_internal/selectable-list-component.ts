@@ -201,6 +201,7 @@ export abstract class _SelectableListComponentBase
     if (selected.length > 0) {
       this.addEvent.emit(selected);
       this._emitChange();
+      this._emitTouched();
     }
   }
   unselectItem(...items: ArdOptionSimple[]): void {
@@ -209,6 +210,7 @@ export abstract class _SelectableListComponentBase
     if (unselected.length > 0) this.removeEvent.emit(unselected);
 
     this._emitChange();
+    this._emitTouched();
   }
 
   //! highligh-related

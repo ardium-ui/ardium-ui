@@ -86,6 +86,7 @@ export abstract class _BooleanComponentBase extends _NgModelComponentBase implem
   toggleSelected() {
     this.selected.update(v => !v);
     this._emitChange();
+    this._emitTouched();
   }
 
   /**
@@ -94,6 +95,7 @@ export abstract class _BooleanComponentBase extends _NgModelComponentBase implem
   select() {
     this.selected.set(true);
     this._emitChange();
+    this._emitTouched();
   }
   /**
    * Sets the state to "unselected". Emits all appropriate events only if the state changes.
@@ -101,5 +103,6 @@ export abstract class _BooleanComponentBase extends _NgModelComponentBase implem
   unselect() {
     this.selected.set(false);
     this._emitChange();
+    this._emitTouched();
   }
 }

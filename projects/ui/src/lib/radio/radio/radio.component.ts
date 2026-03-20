@@ -1,16 +1,16 @@
 import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    HostBinding,
-    Inject,
-    Input,
-    ViewEncapsulation,
-    computed,
-    inject,
-    input,
-    output,
-    signal,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  HostBinding,
+  Inject,
+  Input,
+  ViewEncapsulation,
+  computed,
+  inject,
+  input,
+  output,
+  signal,
 } from '@angular/core';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
 import { TakeChance as Random } from 'take-chance';
@@ -40,26 +40,33 @@ export class ArdiumRadioComponent extends _FocusableComponentBase {
    * Emits all select-state-related events.
    */
   protected _emitChange() {
-    if (this.selected()) this.selectEvent.emit(null);
-    else this.unselectEvent.emit(null);
+    if (this.selected()) this.selectEvent.emit();
+    else this.unselectEvent.emit();
 
     this.selectedChange.emit(this.selected());
     this.changeEvent.emit(this.selected());
+  }
+  protected _emitTouched() {
+    this.touchedEvent.emit();
   }
 
   //! events
   /**
    * The event emitter responsible for firing `select` events. Fired when the `selected` state is set to true.
    */
-  readonly selectEvent = output<null>({ alias: 'select' });
+  readonly selectEvent = output<void>({ alias: 'select' });
   /**
    * The event emitter responsible for firing `unselect` events. Fired when the `selected` state is set to false.
    */
-  readonly unselectEvent = output<null>({ alias: 'unselect' });
+  readonly unselectEvent = output<void>({ alias: 'unselect' });
   /**
    * The event emitter responsible for firing `change` events. Fired when the `selected` state is changed.
    */
   readonly changeEvent = output<boolean>({ alias: 'change' });
+  /**
+   * The event emitter responsible for firing `touched` events. Fired when the component is marked as touched (e.g., on blur).
+   */
+  readonly touchedEvent = output<void>({ alias: 'touched' });
 
   //! [(selected)] two-way binding
   // can be set using a no-value argument
@@ -87,6 +94,7 @@ export class ArdiumRadioComponent extends _FocusableComponentBase {
   toggleSelected() {
     this.selected.update(v => !v);
     this._emitChange();
+    this._emitTouched();
   }
 
   /**
@@ -95,6 +103,7 @@ export class ArdiumRadioComponent extends _FocusableComponentBase {
   select() {
     this.selected.set(true);
     this._emitChange();
+    this._emitTouched();
   }
   /**
    * Sets the state to "unselected". Emits all appropriate events only if the state changes.
@@ -102,6 +111,7 @@ export class ArdiumRadioComponent extends _FocusableComponentBase {
   unselect() {
     this.selected.set(false);
     this._emitChange();
+    this._emitTouched();
   }
 
   readonly value = input<any>();

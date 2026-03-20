@@ -58,50 +58,49 @@ export class ArdiumRadioGroupComponent extends _FormFieldComponentBase implement
   constructor() {
     super(_formFieldComponentDefaults); // no need for injecting a token with default values
 
-    effect(
-      () => {
-        this.name();
+    effect(() => {
+      this.name();
+      this._updateRadioButtonNames();
+    });
+    effect(() => {
+      this.selected();
+      this._checkSelectedRadioButton();
+    });
+    effect(() => {
+      const radios = this._radios();
+      if (!radios) return;
+
+      setTimeout(() => {
         this._updateRadioButtonNames();
-      }
-    );
-    effect(
-      () => {
-        this.selected();
-        this._checkSelectedRadioButton();
-      }
-    );
-    effect(
-      () => {
-        const radios = this._radios();
-        if (!radios) return;
+      }, 0);
 
-        setTimeout(() => {
-          this._updateRadioButtonNames();
-        }, 0);
+      this._destroyChildSubscriptions();
 
-        this._destroyChildSubscriptions();
-
-        //sub to child component events
-        for (const radio of radios) {
-          this._childEventSubs.push(
-            radio.blurEvent.subscribe(v => {
-              this._handleBlurEvents(v);
-            })
-          );
-          this._childEventSubs.push(
-            radio.focusEvent.subscribe(v => {
-              this._handleFocusEvents(v);
-            })
-          );
-          this._childEventSubs.push(
-            radio.selectedChange.subscribe((v: boolean) => {
-              if (!v) return;
-              this._handleChangeEvents(radio);
-            })
-          );
-        }
+      //sub to child component events
+      for (const radio of radios) {
+        this._childEventSubs.push(
+          radio.blurEvent.subscribe(v => {
+            this._handleBlurEvents(v);
+          })
+        );
+        this._childEventSubs.push(
+          radio.focusEvent.subscribe(v => {
+            this._handleFocusEvents(v);
+          })
+        );
+        this._childEventSubs.push(
+          radio.selectedChange.subscribe((v: boolean) => {
+            if (!v) return;
+            this._handleChangeEvents(radio);
+          })
+        );
+        this._childEventSubs.push(
+          radio.touchedEvent.subscribe(() => {
+            this._emitTouched();
+          })
+        );
       }
-    );
+    });
   }
 
   //! value
@@ -224,6 +223,11 @@ export class ArdiumRadioGroupComponent extends _FormFieldComponentBase implement
         radio.selectedChange.subscribe((v: boolean) => {
           if (!v) return;
           this._handleChangeEvents(radio);
+        })
+      );
+      this._childEventSubs.push(
+        radio.touchedEvent.subscribe(() => {
+          this._emitTouched();
         })
       );
     }
