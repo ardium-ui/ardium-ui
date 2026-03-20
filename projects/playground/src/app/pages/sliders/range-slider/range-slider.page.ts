@@ -1,4 +1,5 @@
 import { Component, signal } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { SliderRange, SliderTooltipFormatFn } from 'projects/ui/src/public-api';
 import { Logger } from '../../../services/logger.service';
 
@@ -19,4 +20,7 @@ export class RangeSliderPage {
   readonly valuePush = signal<SliderRange>({ from: 20, to: 50 });
   readonly valueBlock2 = signal<SliderRange>({ from: 20, to: 50 });
   readonly valuePush2 = signal<SliderRange>({ from: 20, to: 50 });
+  
+
+  readonly control = new FormControl<SliderRange>({ from: 20, to: 50 });
 }

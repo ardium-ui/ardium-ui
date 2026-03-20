@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { SliderTooltipFormatFn } from 'projects/ui/src/public-api';
 import { Logger } from '../../../services/logger.service';
 
@@ -13,4 +14,6 @@ export class SliderPage {
   log = this._logger.log;
 
   readonly tooltipFormatFn: SliderTooltipFormatFn = (v: number): string => String(v / 1000) + 'k';
+
+  readonly control = new FormControl(50);
 }

@@ -28,6 +28,12 @@
   ></ard-range-slider>
 </div>
 <div class="master flex">
+  <span class="title">Slider with form control</span>
+  <ard-range-slider [formControl]="control" emitTouchedOnEveryChange></ard-range-slider>
+  <p>Value: {{ control.value?.from }} – {{ control.value?.to }}</p>
+  <p>Touched: {{ control.touched }}</p>
+</div>
+<div class="master flex">
   <span class="title">Slider with custom tooltip format function</span>
   <ard-range-slider
     max="1e5"

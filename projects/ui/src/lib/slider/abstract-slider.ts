@@ -243,6 +243,9 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     let newPercent = this._handlePositions()[handleId - 1] + stepSize * offset;
     newPercent = this._clampPercentValue(newPercent);
     this._setValueFromPercent(newPercent);
+    if (this.emitTouchedOnEveryChange()) {
+      this._emitTouched();
+    }
   }
   protected _decrement(event: KeyboardEvent, forceShift: boolean = false): void {
     this._offset(-1, forceShift || event.shiftKey);
@@ -318,6 +321,9 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   @HostListener('document:touchend')
   onPointerUp(): void {
     if (!this._shouldCheckForMovement) return;
+    if (this.emitTouchedOnEveryChange()) {
+      this._emitTouched();
+    }
     this._grabbedHandleId.set(null);
     this._shouldCheckForMovement = false;
     if (this._bodyHasClass) {
@@ -340,9 +346,6 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     this._value.set(this._percentValueToValue(percent, handleId));
 
     this._emitChange();
-    if (this.emitTouchedOnEveryChange()) {
-      this._emitTouched();
-    }
   }
   protected _writeValueFromEvent(event: MouseEvent | TouchEvent, handleId?: number | null): void {
     const percent = this._getPercentValueFromEvent(event);

@@ -35,6 +35,12 @@
   ></ard-slider>
 </div>
 <div class="master flex">
+  <span class="title">Slider with form control</span>
+  <ard-slider [formControl]="control"></ard-slider>
+  <p>Value: {{ control.value }}</p>
+  <p>Touched: {{ control.touched }}</p>
+</div>
+<div class="master flex">
   <span class="title">Slider with custom tooltip format function</span>
   <ard-slider
     max="1e5"
