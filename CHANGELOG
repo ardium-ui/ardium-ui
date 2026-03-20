@@ -132,7 +132,7 @@ Other notable changes include:
 - Number Input has zero as its default value, while it should be null
 - Number Input removes leading zeros and trailing decimal separators on every keystroke (should remove only on blur)
 - Checkbox List items do not have the `ard-item-selected` class when selected
-- Checkbox List doesn't emit touched event when using the mouse to select values
+- Checkbox, Checkbox List, Radio, Segment, Selectable Chip, and Slide Toggle components don't emit touched event when using the mouse to select values
 - Tabber doesn't set the intial tab correctly
 - Slider and Range Slider do not fix their value automatically when min, max, or step are changed
 - Slider and Range Slider do not have the `grab` cursor when hovering over the handle, and the `grabbing` cursor when moving the handle
