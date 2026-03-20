@@ -50,6 +50,7 @@ export interface _AsbtractSliderDefaults extends _NgModelComponentDefaults {
   tooltipBehavior: SliderTooltipBehavior;
   selectionBehavior: ArdRangeSelectionBehavior;
   minimumDistance: number;
+  emitTouchedOnEveryChange: boolean;
 }
 
 export const _asbtractSliderDefaults: _AsbtractSliderDefaults = {
@@ -69,6 +70,7 @@ export const _asbtractSliderDefaults: _AsbtractSliderDefaults = {
   tooltipBehavior: SliderTooltipBehavior.Auto,
   selectionBehavior: ArdRangeSelectionBehavior.Allow,
   minimumDistance: 0,
+  emitTouchedOnEveryChange: false,
 };
 
 @Directive()
@@ -242,6 +244,12 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     newPercent = this._clampPercentValue(newPercent);
     this._setValueFromPercent(newPercent);
   }
+  protected _decrement(event: KeyboardEvent, forceShift: boolean = false): void {
+    this._offset(-1, forceShift || event.shiftKey);
+  }
+  protected _increment(event: KeyboardEvent, forceShift: boolean = false): void {
+    this._offset(+1, forceShift || event.shiftKey);
+  }
 
   //! helper methods
   protected _clampValue(v: number): number {
@@ -278,6 +286,10 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   protected readonly _grabbedHandleId = signal<null | number>(null);
   protected _shouldCheckForMovement = false;
   protected _bodyHasClass = false;
+
+  readonly emitTouchedOnEveryChange = input<boolean, BooleanLike>(this._DEFAULTS.emitTouchedOnEveryChange, {
+    transform: v => coerceBooleanProperty(v),
+  });
 
   readonly isSliderHandleGrabbed = computed(() => !!this._grabbedHandleId());
 
@@ -328,7 +340,9 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     this._value.set(this._percentValueToValue(percent, handleId));
 
     this._emitChange();
-    this._emitTouched();
+    if (this.emitTouchedOnEveryChange()) {
+      this._emitTouched();
+    }
   }
   protected _writeValueFromEvent(event: MouseEvent | TouchEvent, handleId?: number | null): void {
     const percent = this._getPercentValueFromEvent(event);
@@ -391,11 +405,5 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
         return;
       }
     }
-  }
-  protected _decrement(event: KeyboardEvent, forceShift: boolean = false): void {
-    this._offset(-1, forceShift || event.shiftKey);
-  }
-  protected _increment(event: KeyboardEvent, forceShift: boolean = false): void {
-    this._offset(+1, forceShift || event.shiftKey);
   }
 }
