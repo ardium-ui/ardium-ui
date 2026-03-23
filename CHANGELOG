@@ -8,6 +8,7 @@
 - Select, Checkbox List, and Segment now do not use any signals in their template contexts. All context fields are now primitive
 - Tabber and Tab now use a single function for providing their default values (`provideTabberDefaults`)
 - Slider and Range Slider label objects are now defined as `{ label: string, value: number }[]` (was: `{ label: string, for: number }[]`)
+- All components that previously used `[inputId]` input to set the id attribute now use `[htmlId]`. Both inputs existed before, but only the `[inputId]` actually set the attribute, which is considered a bug. Now only `[htmlId]` remains. Only a few input-like components are affected.
 - Calendar & Date Input now always use UTC dates in templates and template contexts
 - Range Slider now emits its value as `{ from: number, to: number }` (was: `{ low: number, high: number }`)
 - Button, FAB, and Icon Button now place their content directly inside the `<button>` element.
@@ -144,3 +145,4 @@ Other notable changes include:
 - Rating Input doesn't fire ControlValueAccessor touched events
 - Rating Input fires ControlValueAccessor change events with a delay
 - Tabber's tabs accept the disabled attribute, but do not disable the actual tab buttons
+- Some input components use `[inputId]` instead of `[htmlId]` to set the input's id attribute
