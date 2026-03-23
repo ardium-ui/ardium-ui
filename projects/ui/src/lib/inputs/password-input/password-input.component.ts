@@ -64,7 +64,6 @@ export class ArdiumPasswordInputComponent extends _FormFieldComponentBase implem
   }
 
   readonly placeholder = input<string>(this._DEFAULTS.placeholder);
-  readonly inputId = input<Nullable<string>>();
 
   //! prefix & suffix
   readonly prefixTemplate = contentChild(ArdPasswordInputPrefixTemplateDirective);

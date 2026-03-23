@@ -47,7 +47,8 @@
         #focusableElement
         type="text"
         inputmode="numeric"
-        [attr.id]="inputId()"
+        [attr.id]="htmlId()"
+        [attr.name]="htmlName()"
         [attr.tabindex]="tabIndex()"
         [readonly]="readonly()"
         [disabled]="disabled()"

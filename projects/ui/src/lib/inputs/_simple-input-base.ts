@@ -57,7 +57,6 @@ export abstract class _SimpleInputComponentBase extends _FormFieldComponentBase 
   }
 
   readonly placeholder = input<string>(this._DEFAULTS.placeholder);
-  readonly inputId = input<Nullable<string>>(undefined);
   readonly clearButtonTitle = input<string>(this._DEFAULTS.clearButtonTitle);
 
   //! prefix & suffix

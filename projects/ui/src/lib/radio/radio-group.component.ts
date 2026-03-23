@@ -7,15 +7,15 @@ import {
   OnDestroy,
   OutputRefSubscription,
   ViewEncapsulation,
+  computed,
   contentChildren,
   effect,
   forwardRef,
-  input,
   model,
   output,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { TakeChance as Random } from 'take-chance';
+import TakeChance from 'take-chance';
 import { _FormFieldComponentBase, _formFieldComponentDefaults } from '../_internal/form-field-component';
 import { ARD_FORM_FIELD_CONTROL } from '../form-field/form-field-child.token';
 import { Nullable } from '../types/utility.types';
@@ -162,7 +162,7 @@ export class ArdiumRadioGroupComponent extends _FormFieldComponentBase implement
 
   //! name
   /** Name of the radio button group. All radio buttons inside this group will use this name. */
-  readonly name = input<string>(Random.id());
+  readonly name = computed<string>(() => this.htmlName() ?? TakeChance.id());
 
   private _updateRadioButtonNames(): void {
     if (this._radios()) {

@@ -2,8 +2,10 @@
   class="ard-checkbox"
   role="checkbox"
   type="button"
-  [id]="htmlId()"
-  [ariaChecked]="selectedAccountingForReverse()"
+  [attr.id]="htmlId()"
+  [attr.name]="htmlName()"
+  [attr.aria-checked]="selectedAccountingForReverse()"
+  [attr.aria-disabled]="disabled()"
   [tabindex]="tabIndex()"
   [ngClass]="ngClasses()"
   (click)="toggleState()"
@@ -23,8 +25,8 @@
         state === State.Selected
           ? 'check_box'
           : state === State.Unselected
-          ? 'check_box_outline_blank'
-          : 'indeterminate_check_box'
+            ? 'check_box_outline_blank'
+            : 'indeterminate_check_box'
       "
       [filled]="state !== State.Indeterminate"
     />

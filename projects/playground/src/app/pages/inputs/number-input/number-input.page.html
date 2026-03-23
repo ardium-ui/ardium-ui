@@ -8,9 +8,7 @@
 </div>
 <div class="master flex">
   <span class="title">Number input with min, max, value, placeholder</span>
-  <p>
-    min="-10", max="10", value="5", placeholder="Foo"
-  </p>
+  <p>min="-10", max="10", value="5", placeholder="Foo"</p>
   <ard-number-input
     min="-10"
     max="10"
@@ -199,4 +197,14 @@
     </div>
   </div>
   }
+</div>
+
+<div class="cover-image orange">
+  <ard-number-input
+    appearance="outlined"
+    [value]="123.45"
+    allowFloat
+    maxDecimalPlaces="2"
+    fixedDecimalPlaces
+  />
 </div>

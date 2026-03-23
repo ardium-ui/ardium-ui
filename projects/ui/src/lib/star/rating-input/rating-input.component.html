@@ -38,7 +38,8 @@
       type="radio"
       class="ard-rating-input__radio"
       value="index"
-      [id]="htmlId() + index"
+      [attr.name]="htmlName()"
+      [attr.id]="htmlId() + index"
       tabindex="-1"
     />
   }

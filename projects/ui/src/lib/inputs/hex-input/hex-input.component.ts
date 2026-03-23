@@ -70,8 +70,6 @@ export class ArdiumHexInputComponent
     }
   }
 
-  readonly inputId = input<Nullable<string>>();
-
   //! prefix & suffix
   readonly prefixTemplate = contentChild(ArdHexInputPrefixTemplateDirective);
   readonly suffixTemplate = contentChild(ArdHexInputSuffixTemplateDirective);

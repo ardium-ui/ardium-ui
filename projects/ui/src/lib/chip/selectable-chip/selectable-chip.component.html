@@ -1,7 +1,12 @@
 <button
   type="button"
   class="ard-chip-wrapper ard-chip-selectable"
+  role="checkbox"
+  [attr.aria-checked]="selectedAccountingForReverse()"
   [class.ard-chip-selected]="selectedAccountingForReverse()"
+  [attr.id]="htmlId()"
+  [attr.name]="htmlName()"
+  [attr.aria-disabled]="disabled()"
   [ngClass]="ngClasses()"
   [title]="chipTitle()"
   [tabindex]="tabIndex()"

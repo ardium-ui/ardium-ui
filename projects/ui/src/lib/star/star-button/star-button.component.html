@@ -2,6 +2,11 @@
   #focusableElement
   type="button"
   class="ard-star-button"
+  role="checkbox"
+  [attr.aria-checked]="selectedAccountingForReverse()"
+  [attr.aria-disabled]="disabled()"
+  [attr.id]="htmlId()"
+  [attr.name]="htmlName()"
   [ngClass]="ngClasses()"
   (click)="onClick()"
   (focus)="onFocus($event)"

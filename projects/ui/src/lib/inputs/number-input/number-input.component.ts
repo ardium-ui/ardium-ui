@@ -93,8 +93,6 @@ export class ArdiumNumberInputComponent
     }
   }
 
-  readonly inputId = input<Nullable<string>>();
-
   //! placeholder
   readonly placeholder = input<Nullable<string>>(this._DEFAULTS.placeholder);
 

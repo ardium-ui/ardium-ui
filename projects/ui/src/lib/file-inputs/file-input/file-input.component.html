@@ -73,9 +73,9 @@
   #fileInput
   class="ard-file-input__input"
   type="file"
-  [name]="name()"
   [multiple]="multiple()"
   [attr.id]="htmlId()"
+  [attr.name]="htmlName()"
   [accept]="acceptString()"
   (change)="onFileInputChange()"
 />

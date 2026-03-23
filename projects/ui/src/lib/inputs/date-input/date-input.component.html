@@ -53,6 +53,8 @@
           #focusableElement
           type="text"
           class="ard-date-input__input"
+          [attr.id]="htmlId()"
+          [attr.name]="htmlName()"
           [attr.tabindex]="tabIndex()"
           [value]="dateInputValue()"
           [attr.aria-controls]="isOpen() ? htmlId() : null"
@@ -66,20 +68,20 @@
     </div>
 
     @if (!calendarHidden()) {
-    <ard-icon-button
-      color="none"
-      [disabled]="calendarDisabled()"
-      (click)="onCalendarButtonClick($event)"
-    >
-      <ng-template
-        #defaultCalendarIconTemplate
-        let-date
+      <ard-icon-button
+        color="none"
+        [disabled]="calendarDisabled()"
+        (click)="onCalendarButtonClick($event)"
       >
-        <ard-icon filled>today</ard-icon>
-      </ng-template>
+        <ng-template
+          #defaultCalendarIconTemplate
+          let-date
+        >
+          <ard-icon filled>today</ard-icon>
+        </ng-template>
 
-      <ng-template [ngTemplateOutlet]="calendarIconTemplate()?.template || defaultCalendarIconTemplate" />
-    </ard-icon-button>
+        <ng-template [ngTemplateOutlet]="calendarIconTemplate()?.template || defaultCalendarIconTemplate" />
+      </ard-icon-button>
     }
   </div>
 </ard-form-field-frame>
@@ -138,36 +140,36 @@
       />
     </ard-calendar>
     @if (useAcceptButtonToSelect()) {
-    <div class="ard-date-input__accept-buttons-container">
-      <ng-template
-        #defaultAcceptButtonsTemplate
-        let-accept="accept"
-        let-cancel="cancel"
-        let-disabled="disabled"
-      >
-        <ard-button
-          appearance="outlined"
-          color="none"
-          [disabled]="disabled"
-          (click)="cancel()"
+      <div class="ard-date-input__accept-buttons-container">
+        <ng-template
+          #defaultAcceptButtonsTemplate
+          let-accept="accept"
+          let-cancel="cancel"
+          let-disabled="disabled"
         >
-          {{ cancelButtonText() }}
-        </ard-button>
-        <ard-button
-          appearance="raised"
-          [color]="color()"
-          [disabled]="disabled"
-          (click)="accept()"
-        >
-          {{ acceptButtonText() }}
-        </ard-button>
-      </ng-template>
+          <ard-button
+            appearance="outlined"
+            color="none"
+            [disabled]="disabled"
+            (click)="cancel()"
+          >
+            {{ cancelButtonText() }}
+          </ard-button>
+          <ard-button
+            appearance="raised"
+            [color]="color()"
+            [disabled]="disabled"
+            (click)="accept()"
+          >
+            {{ acceptButtonText() }}
+          </ard-button>
+        </ng-template>
 
-      <ng-template
-        [ngTemplateOutlet]="acceptButtonsTemplate()?.template || defaultAcceptButtonsTemplate"
-        [ngTemplateOutletContext]="acceptButtonsContext()"
-      />
-    </div>
+        <ng-template
+          [ngTemplateOutlet]="acceptButtonsTemplate()?.template || defaultAcceptButtonsTemplate"
+          [ngTemplateOutletContext]="acceptButtonsContext()"
+        />
+      </div>
     }
   </ard-dropdown-panel>
 </ng-template>

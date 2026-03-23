@@ -2,6 +2,7 @@ import { computed, Directive, input, OnDestroy, OnInit } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { coerceBooleanProperty, trackFormControl } from '@ardium-ui/devkit';
 import { TakeChance as Random } from 'take-chance';
+import { Nullable } from '../types/utility.types';
 import { _FocusableComponentBase, _focusableComponentDefaults, _FocusableComponentDefaults } from './focusable-component';
 
 export interface _NgModelComponentDefaults extends _FocusableComponentDefaults {}
@@ -89,6 +90,7 @@ export abstract class _NgModelComponentBase extends _FocusableComponentBase impl
   }
 
   readonly htmlId = input<string>(Random.id());
+  readonly htmlName = input<Nullable<string>>(undefined);
 
   readonly _hasError = input<boolean | undefined, any>(undefined, {
     transform: v => coerceBooleanProperty(v),
