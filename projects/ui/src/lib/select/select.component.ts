@@ -618,7 +618,7 @@ export class ArdiumSelectComponent
     }
     // re-apply filter when search term changes
     if (changes['searchTerm'] && (changes['searchable'] ? changes['searchable'].currentValue : this.searchable())) {
-      this.filter(changes['searchTerm'].currentValue);
+      this.filter(changes['searchTerm'].currentValue, false);
     }
   }
   private _onItemsLoad() {
@@ -667,10 +667,12 @@ export class ArdiumSelectComponent
   });
 
   //! search input event handlers
-  filter(filterTerm: string): void {
+  filter(filterTerm: string, shouldAutoOpen: boolean): void {
     this.searchTerm.set(filterTerm);
     this.itemStorage.filter(filterTerm);
-    this.open();
+    if (shouldAutoOpen) {
+      this.open();
+    }
   }
   onSearchInputFocus(): void {
     this._searchBarFocused.set(true);
@@ -876,7 +878,7 @@ export class ArdiumSelectComponent
   }
   private _setSearch(searchTerm: string): void {
     this.searchTerm.set(searchTerm);
-    this.filter(searchTerm);
+    this.filter(searchTerm, true);
   }
   private _setSearchInputAttributes() {
     const input = this.searchInput()!.nativeElement;

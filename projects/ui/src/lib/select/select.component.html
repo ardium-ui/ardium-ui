@@ -96,7 +96,7 @@
           [value]="searchTerm()"
           aria-autocomplete="list"
           [attr.aria-controls]="isOpen() ? htmlId() : null"
-          (input)="filter(searchInput.value)"
+          (input)="filter(searchInput.value, true)"
           (change)="$event.stopPropagation()"
           (focus)="onFocus($event)"
           (focus)="onSearchInputFocus()"
