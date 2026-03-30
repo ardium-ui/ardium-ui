@@ -65,6 +65,7 @@
   - Now also supports the Rating Input component as the control
 - Input
   - Added `[autoTrim]` input - when set to true, the input value will be trimmed on blur
+  - Added `[type]` input to set the `type` attribute on the input element
 - Number Input
   - Now supports `ard-prefix-tmp` and `ard-suffix-tmp` customization templates
   - Added `[maxDecimalPlaces]` input for deciding how many decimal places may be passed in. All further digits are trimmed (rounded down)
