@@ -122,7 +122,7 @@ export class ArdiumSelectComponent
   private readonly _destroy$ = new Subject<void>();
 
   //! publics
-  readonly searchTerm = signal<string>('');
+  readonly searchTerm = model<string>('');
   isItemsInputUsed = false;
 
   //! binding-related inputs
@@ -189,7 +189,13 @@ export class ArdiumSelectComponent
   });
 
   //! function inputs
-  readonly searchFn = input<SearchFn>(this._DEFAULTS.searchFn);
+  /**
+   * The function used to search for matching items based on the search term.
+   *
+   * When set to `null`, the search functionality will be disabled (all items will be shown),
+   * but the `searchEvent` will still be emitted with the search term whenever it changes.
+   */
+  readonly searchFn = input<SearchFn | null>(this._DEFAULTS.searchFn);
   readonly compareWith = input<Nullable<CompareWithFn>>(this._DEFAULTS.compareWith);
 
   //! appearance
@@ -379,10 +385,6 @@ export class ArdiumSelectComponent
     end: number;
   }>({ alias: 'scroll' });
   readonly scrollToEndEvent = output({ alias: 'scrollToEnd' });
-  readonly searchEvent = output<{
-    search: string;
-    matching: any[];
-  }>({ alias: 'search' });
 
   readonly isOpen = model<boolean>(false);
 
@@ -614,6 +616,10 @@ export class ArdiumSelectComponent
         this._onItemsLoad();
       }
     }
+    // re-apply filter when search term changes
+    if (changes['searchTerm'] && (changes['searchable'] ? changes['searchable'].currentValue : this.searchable())) {
+      this.filter(changes['searchTerm'].currentValue);
+    }
   }
   private _onItemsLoad() {
     if (!this._searchBarFocused) return;
@@ -661,10 +667,9 @@ export class ArdiumSelectComponent
   });
 
   //! search input event handlers
-  filter(filterTerm: string, suppressSearchEvent = false): void {
+  filter(filterTerm: string): void {
     this.searchTerm.set(filterTerm);
-    const matching = this.itemStorage.filter(filterTerm);
-    if (!suppressSearchEvent) this.searchEvent.emit({ search: filterTerm, matching });
+    this.itemStorage.filter(filterTerm);
     this.open();
   }
   onSearchInputFocus(): void {
@@ -703,7 +708,7 @@ export class ArdiumSelectComponent
       this.addEvent.emit(selected);
 
       this.focus();
-      if (!this.keepSearchAfterSelect()) this._clearSearch(true);
+      if (!this.keepSearchAfterSelect()) this._clearSearch();
 
       if (!this.keepOpen() || this.itemStorage.isNoItemsToSelect()) {
         this.close();
@@ -866,12 +871,12 @@ export class ArdiumSelectComponent
     }
   }
   //! search
-  private _clearSearch(suppressSearchEvent = false): void {
-    this._setSearch('', suppressSearchEvent);
+  private _clearSearch(): void {
+    this._setSearch('');
   }
-  private _setSearch(searchTerm: string, suppressSearchEvent = false): void {
+  private _setSearch(searchTerm: string): void {
     this.searchTerm.set(searchTerm);
-    this.filter(searchTerm, suppressSearchEvent);
+    this.filter(searchTerm);
   }
   private _setSearchInputAttributes() {
     const input = this.searchInput()!.nativeElement;

@@ -6,6 +6,7 @@
 - `ArdiumSimpleInputComponent` (`<ard-simple-input>`) is now renamed to `ArdiumInputComponent` (`<ard-input>`)
 - All boolean-coerced inputs now use `@ardium-ui/devkit`'s `BooleanLike` type instead of `any`
 - Select, Checkbox List, and Segment now do not use any signals in their template contexts. All context fields are now primitive
+- Removed `(search)` output from select component. Use `(searchTerm)` two-way binding instead.
 - Tabber and Tab now use a single function for providing their default values (`provideTabberDefaults`)
 - Slider and Range Slider label objects are now defined as `{ label: string, value: number }[]` (was: `{ label: string, for: number }[]`)
 - All components that previously used `[inputId]` input to set the id attribute now use `[htmlId]`. Both inputs existed before, but only the `[inputId]` actually set the attribute, which is considered a bug. Now only `[htmlId]` remains. Only a few input-like components are affected.
@@ -77,6 +78,8 @@
   - Adding a custom option is now available at all times, unless an exact match is found
   - Dropdown is no longer opened when pressing Enter
   - Added `totalItemsCount` and `itemsSelectedCount` to the value template context
+  - Removed `(search)` output
+  - Added `(searchTerm)` two-way binding as a replacement for the `(search)` output
 - Slide Toggle
   - Added CSS styles for `"contained"` appearance, as the typescript portion was working, but the styles were missing
 - Slider & Range Slider

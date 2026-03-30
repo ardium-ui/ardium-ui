@@ -19,7 +19,7 @@ export interface ItemStorageHost {
   readonly hideSelected: Signal<boolean>;
   readonly deferValueWrites: Signal<boolean>;
   readonly searchCaseSensitive: Signal<boolean>;
-  readonly searchFn: Signal<SearchFn>;
+  readonly searchFn: Signal<SearchFn | null>;
   readonly compareWith: Signal<Nullable<CompareWithFn>>;
   readonly multiselectable: Signal<boolean>;
   readonly maxSelectedItems: Signal<Nullable<number>>;
@@ -496,15 +496,19 @@ export class ItemStorage {
     }
     return this.highlightSingleItem(itemToHighlight);
   }
-  filter(filterTerm: string): any[] {
+  filter(filterTerm: string): void {
     if (!filterTerm) {
-      return this._itemsToValue(this.resetFiltered());
+      this.resetFiltered();
+      return;
     }
     if (!this._ardParentComp.searchCaseSensitive()) {
       filterTerm = filterTerm.toLocaleLowerCase();
     }
 
     const searchFn = this._ardParentComp.searchFn();
+    if (!searchFn) {
+      return;
+    }
     this._updateItems(item => {
       const searchResult = searchFn(filterTerm, item);
       return { ...item, filtered: searchResult[0], isExactMatch: searchResult[1] };
@@ -512,8 +516,6 @@ export class ItemStorage {
 
     if (!this.isNoItemsFound) this.highlightFirstItem();
     else this.clearAllHighlights();
-
-    return this._itemsToValue(this.filteredItems());
   }
   resetFiltered(): ArdOption[] {
     if (this.filteredItems().length === this.items().length) return this.items();
