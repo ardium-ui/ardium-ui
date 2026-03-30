@@ -8,6 +8,7 @@ import {
 import { SimpleOneAxisAlignment } from './../types/alignment.types';
 import { FormElementAppearance, FormElementVariant } from './../types/theming.types';
 import { Nullable } from './../types/utility.types';
+import { ArdInputType } from './input-types';
 import { InputModel } from './input-utils';
 
 export interface _SimpleInputComponentDefaults extends _FormFieldComponentDefaults {
@@ -21,6 +22,7 @@ export interface _SimpleInputComponentDefaults extends _FormFieldComponentDefaul
   inputAttrs: Record<string, any>;
   maxLength: Nullable<number>;
   autoTrim: boolean;
+  type: ArdInputType;
 }
 
 export const _simpleInputComponentDefaults: _SimpleInputComponentDefaults = {
@@ -35,6 +37,7 @@ export const _simpleInputComponentDefaults: _SimpleInputComponentDefaults = {
   inputAttrs: {},
   maxLength: undefined,
   autoTrim: false,
+  type: 'text',
 };
 
 @Directive()
@@ -86,6 +89,8 @@ export abstract class _SimpleInputComponentBase extends _FormFieldComponentBase 
   );
 
   //! other inputs
+  readonly type = input<ArdInputType>(this._DEFAULTS.type);
+
   readonly inputAttrs = input<Record<string, any>>(this._DEFAULTS.inputAttrs);
 
   //! number attribute setters/getters
@@ -186,11 +191,11 @@ export abstract class _SimpleInputComponentBase extends _FormFieldComponentBase 
   protected _setInputAttributes() {
     const input = this.textInputEl()!.nativeElement;
     const attributes: Record<string, string> = {
-      type: 'text',
       autocorrect: 'off',
       autocapitalize: 'off',
       autocomplete: 'off',
       tabindex: String(this.tabIndex()),
+      type: this.type(),
       ...this.inputAttrs(),
     };
 
