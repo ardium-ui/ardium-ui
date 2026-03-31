@@ -96,6 +96,8 @@
 - Tabber
   - Allow to change the label template for individual tabs by passing in a `TemplateRef` into the `[label]` input, or for all tabs by using a custom template directive
   - Added `[(selectedTabId)]` two-way binding
+- Snackbar
+  - Added `onAction` observable to the `ArdSnackbarRef`. It emits if the action button is pressed and immediately completes. If the snackbar is closed in any other way, the observable completes without emitting any value.
 
 ### Styling Changes
 
@@ -150,3 +152,4 @@ Other notable changes include:
 - Rating Input fires ControlValueAccessor change events with a delay
 - Tabber's tabs accept the disabled attribute, but do not disable the actual tab buttons
 - Some input components use `[inputId]` instead of `[htmlId]` to set the input's id attribute
+- Snackbar's `onClose` and `onCloseStart` always emit `false` and `true` respectively, regardless if the action button was pressed
