@@ -1,9 +1,9 @@
+import { OverlayRef } from '@angular/cdk/overlay';
 import { ComponentType } from '@angular/cdk/portal';
 import { InjectionToken } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { ArdSnackbarData, ArdSnackbarOptions, ArdSnackbarType } from './snackbar.types';
-import { OverlayRef } from '@angular/cdk/overlay';
 import { ComponentColor } from '../types/colors.types';
+import { ArdSnackbarData, ArdSnackbarOptions, ArdSnackbarType } from './snackbar.types';
 
 export const ARD_SNACKBAR_DATA = new InjectionToken<ArdSnackbarData>('ArdSnackbarData');
 export const ARD_SNACKBAR_COLOR = new InjectionToken<ComponentColor>('ArdSnackbarColor');
@@ -30,8 +30,8 @@ export class _ArdSnackbarRefInternal<T> {
     this._onOpen.next();
     this._onOpen.complete();
   }
-  markAsStartingToClose() {
-    this._onCloseStart.next(true);
+  markAsStartingToClose(withAction = false) {
+    this._onCloseStart.next(withAction);
     this._onCloseStart.complete();
   }
 }
@@ -43,8 +43,10 @@ export class ArdSnackbarRef<T = unknown> {
   ) {}
 
   private readonly _onClose = new Subject<boolean>();
+  private readonly _onAction = new Subject<void>();
   public readonly onOpen = this._onOpen.asObservable();
   public readonly onClose = this._onClose.asObservable();
+  public readonly onAction = this._onAction.asObservable();
   public readonly onCloseStart = this._onCloseStart.asObservable();
 
   public instance!: T;
@@ -52,7 +54,10 @@ export class ArdSnackbarRef<T = unknown> {
   close(withAction = false): void {
     if (this.isClosed) return;
     this.dismiss(withAction);
-    this.markAsClosed();
+    if (withAction) {
+      this._onAction.next();
+    }
+    this._onAction.complete();
   }
 
   markAsClosed(withAction = false): void {

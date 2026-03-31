@@ -15,6 +15,8 @@ import { _ArdSimpleSnackbarComponent } from './snackbar.component';
 import { ARD_SNACKBAR_ANIMATION_LENGTH, ARD_SNACKBAR_DEFAULTS } from './snackbar.token';
 import { ArdSnackbarOptions, ArdSnackbarOriginRelation, ArdSnackbarQueueHandling, ArdSnackbarType } from './snackbar.types';
 
+const TIMEOUT_LIMIT = 2_147_483_647; //maximum duration for setTimeout in browsers
+
 @Injectable({
   providedIn: 'root',
 })
@@ -40,9 +42,9 @@ export class ArdiumSnackbarService implements OnDestroy {
       mergedOptions.data.action = action;
     }
 
-    const internalRef = new _ArdSnackbarRefInternal(_ArdSimpleSnackbarComponent, mergedOptions, (withAction?: boolean) =>
-      this.dismissCurrent(withAction)
-    );
+    const internalRef = new _ArdSnackbarRefInternal(_ArdSimpleSnackbarComponent, mergedOptions, (withAction?: boolean) => {
+      this.dismissCurrent(withAction);
+    });
 
     this._handleQueue(mergedOptions.queueHandling!, internalRef);
     return internalRef.publicRef;
@@ -119,8 +121,8 @@ export class ArdiumSnackbarService implements OnDestroy {
     this._openedSnackbar = sb;
 
     const duration =
-      sb.options.duration === Infinity || sb.options.duration <= 0
-        ? 2_147_483_647 //maximum duration for setTimeout
+      sb.options.duration === Infinity || sb.options.duration <= 0 || sb.options.duration > TIMEOUT_LIMIT
+        ? TIMEOUT_LIMIT
         : sb.options.duration;
 
     sb.timeout = setTimeout(() => {
@@ -199,9 +201,9 @@ export class ArdiumSnackbarService implements OnDestroy {
     sb.markAsStartingToClose();
 
     setTimeout(() => {
-      sb.overlay?.dispose();
       this._openedSnackbar = undefined;
       sb.publicRef.markAsClosed(withAction);
+      sb.overlay?.dispose();
       clearTimeout(sb.timeout);
 
       this._openNext();

@@ -1,11 +1,11 @@
 import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import {
-    ArdiumSnackbarService,
-    ArdSnackbarAlignment,
-    ArdSnackbarOriginRelation,
-    ArdSnackbarQueueHandling,
-    ArdSnackbarRef,
-    ArdSnackbarType,
+  ArdiumSnackbarService,
+  ArdSnackbarAlignment,
+  ArdSnackbarOriginRelation,
+  ArdSnackbarQueueHandling,
+  ArdSnackbarRef,
+  ArdSnackbarType,
 } from 'projects/ui/src/public-api';
 
 @Component({
@@ -21,7 +21,10 @@ export class SnackbarPage {
     this._snackbarService.open('Hello world!');
   }
   openSnackbar2() {
-    this._snackbarService.open('Hello world!', 'Dismiss');
+    const ref = this._snackbarService.open('Hello world!', 'Dismiss');
+    ref.onClose.subscribe((withAction) => {
+      console.log('Snackbar closed', withAction);
+    });
   }
   openSnackbar3(type: ArdSnackbarType) {
     this._snackbarService.open('Hello world!', 'Dismiss', {
