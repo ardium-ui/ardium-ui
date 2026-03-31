@@ -35,6 +35,11 @@ export class _ArdSnackbarRefInternal<T> {
     this._onCloseStart.complete();
   }
 }
+
+/**
+ * Reference to an opened snackbar.
+ * Provides methods for closing the snackbar programmatically, and observables for subscribing to open, close, and action events.
+ */
 export class ArdSnackbarRef<T = unknown> {
   constructor(
     private readonly dismiss: (withAction?: boolean) => void,
@@ -44,13 +49,33 @@ export class ArdSnackbarRef<T = unknown> {
 
   private readonly _onClose = new Subject<boolean>();
   private readonly _onAction = new Subject<void>();
+
+  /**
+   * Observable that emits when the snackbar is opened. Completes after emitting the first value.
+   */
   public readonly onOpen = this._onOpen.asObservable();
+  /**
+   * Observable that emits when the snackbar is closed and all animations have finished. Emits a boolean value indicating whether the snackbar was closed as a result of the user clicking the action button (true) or not (false). Completes after emitting the first value.
+   */
   public readonly onClose = this._onClose.asObservable();
+  /**
+   * Observable that emits when the snackbar action is triggered, before the snackbar starts closing. Completes when the snackbar is closed, regardless of whether any value was emitted.
+   */
   public readonly onAction = this._onAction.asObservable();
+  /**
+   * Observable that emits when the snackbar starts the closing process. Emits a boolean value indicating whether the closing was triggered by the user clicking the action button (true) or not (false). Completes after emitting the first value.
+   */
   public readonly onCloseStart = this._onCloseStart.asObservable();
 
-  public instance!: T;
+  /**
+   * The instance of the component rendered inside the snackbar.
+   */
+  public readonly instance!: T;
 
+  /**
+   * Closes the snackbar, optionally indicating that the action was triggered.
+   * @param withAction A boolean value indicating whether the snackbar is being closed as a result of the user clicking the action button (true) or not (false).
+   */
   close(withAction = false): void {
     if (this.isClosed) return;
     this.dismiss(withAction);
@@ -60,6 +85,11 @@ export class ArdSnackbarRef<T = unknown> {
     this._onAction.complete();
   }
 
+  /**
+   * Marks the snackbar as closed after the closing animation has finished.
+   * @param withAction
+   * @returns
+   */
   markAsClosed(withAction = false): void {
     if (this.isClosed) return;
     this._onClose.next(withAction);
@@ -68,6 +98,9 @@ export class ArdSnackbarRef<T = unknown> {
   }
 
   private _isClosed = false;
+  /**
+   * Indicates whether the snackbar has been closed and the closing animation has finished.
+   */
   public get isClosed(): boolean {
     return this._isClosed;
   }
