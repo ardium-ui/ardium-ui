@@ -8,7 +8,7 @@
   :root {
     // --ard-number-input-height: ;
     // --ard-number-input-height-compact: ;
-    --ard-number-input-gap: 0.625rem;
+    --ard-number-input-gap: 0.375rem;
     // --ard-number-input-font-size: ;
     // --ard-number-input-font-size-compact: ;
     --ard-number-input-line-height: 1.25;
@@ -38,7 +38,7 @@
     @include inputMixin.genericInput(
       var(--ard-number-input-height, var(--ard-form-field-height, 2.3125rem)),
       var(--ard-number-input-height-compact, var(--ard-form-field-height-compact, 1.6875rem)),
-      var(--ard-number-input-gap, 0.625rem),
+      0,
       var(--ard-number-input-font-size, var(--ard-form-field-font-size, 1rem)),
       var(--ard-number-input-font-size-compact, var(--ard-form-field-font-size-compact, 0.875rem)),
       var(--ard-number-input-line-height, 1.25),
@@ -66,6 +66,7 @@
       display: flex;
       align-items: center;
       height: 100%;
+      gap: var(--ard-number-input-gap, 0.375rem);
     }
     .ard-input-container {
       position: relative;
@@ -83,11 +84,13 @@
       display: flex;
       align-items: center;
     }
-    .ard-number-input-prefix-container {
-      padding-left: var(--ard-number-input-padding-left, 0.375rem);
-    }
-    .ard-number-input-suffix-container {
-      padding-right: var(--ard-number-input-padding-right, 0.375rem);
+    &.ard-quick-change-true {
+      .ard-number-input-prefix-container {
+        padding-left: var(--ard-number-input-gap, 0.375rem);
+      }
+      .ard-number-input-suffix-container {
+        padding-right: var(--ard-number-input-gap, 0.375rem);
+      }
     }
 
     //! buttons
