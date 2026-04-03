@@ -92,13 +92,9 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
   protected _emitChange(): void {
     this._onChangeRegistered?.(this.value());
   }
-  protected _onTouched(): void {
-    this._onTouchedRegistered?.();
-  }
 
   //! output events
-  readonly isOpen = signal<boolean>(false);
-  readonly isOpenChange = output<boolean>();
+  readonly isOpen = model<boolean>(false);
 
   readonly openEvent = output<void>({ alias: 'open' });
   readonly closeEvent = output<void>({ alias: 'close' });
@@ -336,7 +332,6 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
     }
 
     this.isOpen.set(true);
-    this.isOpenChange.emit(true);
 
     this._createOverlay();
     this.openEvent.emit();
@@ -345,10 +340,8 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
     if (!this.isOpen()) return;
 
     this.isOpen.set(false);
-    this.isOpenChange.emit(false);
 
     this._destroyOverlay();
-    this._onTouched();
     this.closeEvent.emit();
   }
 

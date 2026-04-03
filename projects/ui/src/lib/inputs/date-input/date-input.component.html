@@ -72,6 +72,8 @@
         color="none"
         [disabled]="calendarDisabled()"
         (click)="onCalendarButtonClick($event)"
+        (focus)="onFocus($event)"
+        (blur)="onBlur($event)"
       >
         <ng-template
           #defaultCalendarIconTemplate
@@ -126,6 +128,8 @@
       (valueChange)="onCalendarSelectedChange($event)"
       (yearSelect)="yearSelect.emit($event)"
       (monthSelect)="monthSelect.emit($event)"
+      (focus)="onFocus($event)"
+      (blur)="onBlur($event)"
     >
       <ng-template
         _ard-tmp-repository

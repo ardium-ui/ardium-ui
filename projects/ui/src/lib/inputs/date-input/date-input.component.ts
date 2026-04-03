@@ -111,8 +111,6 @@ export class ArdiumDateInputComponent extends _AbstractDateInput<Date> implement
 
     if (!this.isDateInputFocused()) return;
 
-    this._onTouched();
-
     this.isDateInputFocused.set(false);
   }
   onDateInputEnter(event: KeyboardEvent): void {

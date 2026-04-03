@@ -9,6 +9,8 @@
     <span class="title">Date input events</span>
     <ard-date-input
       (valueChange)="log('valueChange', $event)"
+      (focus)="log('focus', $event)"
+      (blur)="log('blur', $event)"
       (activeMonthChange)="log('activeMonthChange', $event)"
       (activeYearChange)="log('activeYearChange', $event)"
       (activeViewChange)="log('activeViewChange', $event)"
@@ -20,6 +22,10 @@
 <div class="flex horiz main-container">
   <div class="master">
     <span class="title">Date input with reactive forms</span>
+    <p>
+      Touched: {{ formControl.touched }} <br />
+      Value: {{ formControl.value?.toISOString() }} <br />
+    </p>
     <ard-date-input [formControl]="formControl" />
   </div>
 </div>
