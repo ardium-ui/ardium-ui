@@ -61,8 +61,9 @@ export abstract class _NgModelComponentBase extends _FocusableComponentBase impl
 
   //! event handlers
   override onFocus(event: FocusEvent): void {
-    super.onFocus(event);
     this._shouldEmitTouched = false;
+    console.log(new Error('focused'));
+    super.onFocus(event);
   }
 
   protected _shouldEmitTouched = false;
@@ -70,6 +71,7 @@ export abstract class _NgModelComponentBase extends _FocusableComponentBase impl
     this._shouldEmitTouched = true;
     super.onBlur(event);
 
+    console.log(new Error('blurred'));
     setTimeout(() => {
       // if the component is immediately focused back (i.e. when changing focus between elements within the component)
       // the touched event will not be fired

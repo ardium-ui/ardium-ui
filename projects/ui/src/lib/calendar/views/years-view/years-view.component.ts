@@ -12,7 +12,13 @@ import {
 } from '@angular/core';
 import { isNull } from 'simple-bool';
 import { getDateComponents, getUTCDate } from '../../../_internal/utils/date.utils';
-import { ArdMultiCalendarLocation, CalendarYearContext, CalendarYearsViewHeaderContext, DateRange, YearRange } from '../../calendar.types';
+import {
+  ArdMultiCalendarLocation,
+  CalendarYearContext,
+  CalendarYearsViewHeaderContext,
+  DateRange,
+  YearRange,
+} from '../../calendar.types';
 import { getCalendarYearsArray, isYearOutOfRange } from './years-view.helpers';
 
 const TODAY = new Date();
@@ -59,7 +65,9 @@ export class YearsViewComponent implements AfterViewInit {
 
   readonly currentYearRangeStart = input.required<number>();
   readonly multipleYearPageSize = input.required<number>();
-  readonly yearsArray = computed(() => getCalendarYearsArray(this.currentYearRangeStart(), this.multipleYearPageSize(), this.min(), this.max()));
+  readonly yearsArray = computed(() =>
+    getCalendarYearsArray(this.currentYearRangeStart(), this.multipleYearPageSize(), this.min(), this.max())
+  );
 
   readonly currentAriaLabel = computed(() => {
     return this.highlightedYear()?.toString() ?? '';
@@ -306,6 +314,12 @@ export class YearsViewComponent implements AfterViewInit {
       },
       openDaysView: () => {
         this.triggerOpenDaysView.emit();
+      },
+      onFocus: (event: FocusEvent) => {
+        this.focusEvent.emit(event);
+      },
+      onBlur: (event: FocusEvent) => {
+        this.blurEvent.emit(event);
       },
       canGoToNextPage: !this.isYearOutOfRange(yearRangeEnd + 1),
       canGoToPreviousPage: !this.isYearOutOfRange(yearRangeStart - 1),

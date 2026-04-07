@@ -12,6 +12,7 @@ import {
   Signal,
   signal,
   SimpleChanges,
+  viewChild,
 } from '@angular/core';
 import { BooleanLike, coerceBooleanProperty, coerceDateProperty, coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
 import { roundFromZero, roundToMultiple } from 'more-rounding';
@@ -32,8 +33,11 @@ import {
 } from './calendar.directives';
 import { _CalendarTemplateRepositoryDirective } from './calendar.internal-directives';
 import { ArdCalendarFilterFn, ArdCalendarView, ArdMultiCalendarLocation } from './calendar.types';
+import { DaysViewComponent } from './views/days-view/days-view.component';
 import { isDayOutOfRange } from './views/days-view/days-view.helpers';
+import { MonthsViewComponent } from './views/months-view/months-view.component';
 import { isMonthOutOfRange } from './views/months-view/months-view.helpers';
+import { YearsViewComponent } from './views/years-view/years-view.component';
 import { isYearOutOfRange } from './views/years-view/years-view.helpers';
 
 @Directive({})
@@ -136,14 +140,27 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
     transform: v => coerceBooleanProperty(v),
   });
 
-  onTriggerOpenDaysView(): void {
+  readonly daysViewComponent = viewChild.required(DaysViewComponent);
+  readonly monthsViewComponent = viewChild.required(MonthsViewComponent);
+  readonly yearsViewComponent = viewChild.required(YearsViewComponent);
+
+  openDaysView(): void {
     this.activeView.set(ArdCalendarView.Days);
+    setTimeout(() => {
+      this.daysViewComponent().focus();
+    }, 0);
   }
-  onTriggerOpenMonthsView(): void {
+  openMonthsView(): void {
     this.activeView.set(ArdCalendarView.Months);
+    setTimeout(() => {
+      this.monthsViewComponent().focus();
+    }, 0);
   }
-  onTriggerOpenYearsView(): void {
+  openYearsView(): void {
     this.activeView.set(ArdCalendarView.Years);
+    setTimeout(() => {
+      this.yearsViewComponent().focus();
+    }, 0);
   }
 
   //! value
@@ -386,7 +403,7 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
     const wasSuccessful = this.changeMonth(newMonth);
     if (!wasSuccessful) return;
 
-    this.activeView.set(ArdCalendarView.Days);
+    this.openDaysView();
     this.monthSelect.emit(newMonth);
   }
   selectCurrentlyHighlightedMonth(): void {
@@ -491,7 +508,7 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
     const wasSuccessful = this.changeYear(year);
     if (!wasSuccessful) return;
 
-    this.activeView.set(ArdCalendarView.Months);
+    this.openMonthsView();
     this.yearSelect.emit(year);
   }
   selectCurrentlyHighlightedYear(): void {

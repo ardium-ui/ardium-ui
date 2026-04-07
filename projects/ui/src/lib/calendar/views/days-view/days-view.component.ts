@@ -350,6 +350,12 @@ export class DaysViewComponent implements AfterViewInit {
     openMonthsView: () => {
       this.triggerOpenMonthsView.emit();
     },
+    onFocus: (event: FocusEvent) => {
+      this.focusEvent.emit(event);
+    },
+    onBlur: (event: FocusEvent) => {
+      this.blurEvent.emit(event);
+    },
     canGoToNextPage: !this.isMonthOutOfRange(this.activeMonth() + 1),
     canGoToPreviousPage: !this.isMonthOutOfRange(this.activeMonth() - 1),
     hideNextPageButton:

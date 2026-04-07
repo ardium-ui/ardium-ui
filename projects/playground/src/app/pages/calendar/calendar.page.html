@@ -42,6 +42,16 @@
     ></ard-calendar>
   </div>
   <div class="master">
+    <span class="title">Calendar with form control</span>
+    <ard-calendar
+      [formControl]="dateControl"
+      staticHeight
+    ></ard-calendar>
+    <p>
+      Touched: {{ dateControl.touched }}
+    </p>
+  </div>
+  <div class="master">
     <span class="title">Calendar events (UTC)</span>
     <ard-calendar
       [(ngModel)]="eventsCalendarDateUTC"

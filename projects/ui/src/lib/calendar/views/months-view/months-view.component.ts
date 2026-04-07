@@ -303,6 +303,12 @@ export class MonthsViewComponent implements AfterViewInit {
       openDaysView: () => {
         this.triggerOpenDaysView.emit();
       },
+      onFocus: (event: FocusEvent) => {
+        this.focusEvent.emit(event);
+      },
+      onBlur: (event: FocusEvent) => {
+        this.blurEvent.emit(event);
+      },
       canGoToNextPage: !this.isYearOutOfRange(this.activeYear() + 1),
       canGoToPreviousPage: !this.isYearOutOfRange(this.activeYear() - 1),
       hideNextPageButton:

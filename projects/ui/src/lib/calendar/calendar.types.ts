@@ -41,6 +41,8 @@ export interface CalendarYearsViewHeaderContext {
   prevPage: () => void;
   openMonthsView: () => void;
   openDaysView: () => void;
+  onFocus: (event: FocusEvent) => void;
+  onBlur: (event: FocusEvent) => void;
   canGoToNextPage: boolean;
   canGoToPreviousPage: boolean;
   hideNextPageButton: boolean;
@@ -55,6 +57,8 @@ export interface CalendarMonthsViewHeaderContext {
   prevPage: () => void;
   openDaysView: () => void;
   openYearsView: () => void;
+  onFocus: (event: FocusEvent) => void;
+  onBlur: (event: FocusEvent) => void;
   canGoToNextPage: boolean;
   canGoToPreviousPage: boolean;
   hideNextPageButton: boolean;
@@ -71,6 +75,8 @@ export interface CalendarDaysViewHeaderContext {
   prevYear: () => void;
   openYearsView: () => void;
   openMonthsView: () => void;
+  onFocus: (event: FocusEvent) => void;
+  onBlur: (event: FocusEvent) => void;
   canGoToNextPage: boolean;
   canGoToPreviousPage: boolean;
   hideNextPageButton: boolean;

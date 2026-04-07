@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Logger } from '../../services/logger.service';
 
 @Component({
@@ -12,6 +13,8 @@ export class CalendarPage {
 
   eventsCalendarDate: Date | null = null;
   eventsCalendarDateUTC: Date | null = null;
+
+  readonly dateControl = new FormControl<Date | null>(null);
 
   constructor(private LoggerService: Logger) {}
   log = this.LoggerService.log;
