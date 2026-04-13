@@ -139,7 +139,6 @@ export class ArdiumPasswordInputComponent extends _FormFieldComponentBase implem
 
   //! control value accessor's write value implementation
   writeValue(v: any) {
-    console.log('writeValue called with', v);
     if (!isAnyString(v) && isDefined(v)) {
       //warn when using non-string/non-null value
       console.warn(
