@@ -106,7 +106,7 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
 
   //! lifecycle hooks
   ngAfterContentInit(): void {
-    if (this.autoFocus()) {
+    if (this.autoFocus() && !this.disabled() && !this.readonly()) {
       this.focus();
     }
   }
@@ -138,6 +138,7 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
 
   //! focus handler override
   override onFocus(event: FocusEvent): void {
+    if (this.disabled() || this.readonly()) return;
     super.onFocus(event);
 
     if (this.itemStorage.isAnyItemHighlighted()) return;
@@ -146,6 +147,7 @@ export class ArdiumSegmentComponent extends _SelectableListComponentBase impleme
   }
 
   override onBlur(event: FocusEvent): void {
+    if (this.disabled() || this.readonly()) return;
     super.onBlur(event);
 
     this.itemStorage.unhighlightAll();

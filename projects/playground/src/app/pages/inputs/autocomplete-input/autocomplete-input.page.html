@@ -4,6 +4,12 @@
   <ard-autocomplete-input [disabled]="disabled"></ard-autocomplete-input>
   }
 </div>
+<span class="title">Readonly input</span>
+<div class="grid master">
+  @for (readonly of [false, true]; track readonly) {
+  <ard-autocomplete-input value="Foo" [readonly]="readonly"></ard-autocomplete-input>
+  }
+</div>
 <span class="title">Input appearances, max length, text align, ngModel</span>
 <div class="grid master">
   @for (appearance of appearances; track appearance) { @for (disabled of [false, true]; track disabled) {

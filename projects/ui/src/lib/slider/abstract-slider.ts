@@ -307,6 +307,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   abstract onTrackHitboxPointerDown(event: MouseEvent | TouchEvent): void; //* abstact
 
   onPointerDownOnHandle(event: MouseEvent | TouchEvent, handleId = 1): void {
+    if (this.disabled() || this.readonly()) return;
     this._grabbedHandleId.set(handleId);
     this._shouldCheckForMovement = true;
     if (!this._bodyHasClass) {
@@ -320,6 +321,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   @HostListener('document:pointerup')
   @HostListener('document:touchend')
   onPointerUp(): void {
+    if (this.disabled() || this.readonly()) return;
     if (!this._shouldCheckForMovement) return;
     if (this.emitTouchedOnEveryChange()) {
       this._emitTouched();
@@ -348,6 +350,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
     this._emitChange();
   }
   protected _writeValueFromEvent(event: MouseEvent | TouchEvent, handleId?: number | null): void {
+    if (this.disabled() || this.readonly()) return;
     const percent = this._getPercentValueFromEvent(event);
     this._setValueFromPercent(percent, handleId);
   }
@@ -378,6 +381,7 @@ export abstract class _AbstractSlider<T> extends _NgModelComponentBase {
   //! key press handlers
   @HostListener('keydown', ['$event'])
   onKeyPress(event: KeyboardEvent): void {
+    if (this.disabled() || this.readonly()) return;
     switch (event.code) {
       case 'ArrowLeft':
       case 'ArrowDown': {

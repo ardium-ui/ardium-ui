@@ -62,4 +62,9 @@ export class ArdiumDeletableChipComponent extends _FocusableComponentBase {
 
   //! events
   readonly deleteEvent = output<MouseEvent>({ alias: 'delete' });
+
+  emitDelete(event: MouseEvent) {
+    if (this.disabled() || this.readonly()) return;
+    this.deleteEvent.emit(event);
+  }
 }

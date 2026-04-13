@@ -118,25 +118,30 @@ export class ArdiumCheckboxListComponent extends _NgModelComponentBase implement
   }
 
   onItemHighlight(v: ArdOptionSimple): void {
+    if (this.disabled() || this.readonly()) return;
     this._itemStorage.highlightSingleItem(v);
   }
   onItemFocus(v: ArdOptionSimple): void {
+    if (this.disabled() || this.readonly()) return;
     this._itemStorage.highlightSingleItem(v);
   }
   onItemBlur(): void {
     this._itemStorage.unhighlightAll();
   }
   selectItem(v: ArdOptionSimple): void {
+    if (this.disabled() || this.readonly()) return;
     this._itemStorage.selectItem(v);
     this._emitChange();
     this._emitTouched();
   }
   unselectItem(v: ArdOptionSimple): void {
+    if (this.disabled() || this.readonly()) return;
     this._itemStorage.unselectItem(v);
     this._emitChange();
     this._emitTouched();
   }
   toggleItem(v: ArdOptionSimple): void {
+    if (this.disabled() || this.readonly()) return;
     if (v.selected) {
       this.unselectItem(v);
       return;

@@ -1,11 +1,11 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    Inject,
-    ViewEncapsulation,
-    computed,
-    contentChild,
-    input
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  ViewEncapsulation,
+  computed,
+  contentChild,
+  input
 } from '@angular/core';
 import { ComponentColor } from '../../types/colors.types';
 import { FormElementVariant } from '../../types/theming.types';
@@ -13,9 +13,9 @@ import { _FileInputComponentBase } from '../file-input-base';
 import { FileInputBrowseContext, FileInputFileAmountContext, FileInputFilesContext } from '../file-input-types';
 import { ARD_FILE_DROP_AREA_DEFAULTS, ArdFileDropAreaDefaults } from './file-drop-area.defaults';
 import {
-    ArdiumFileDropAreaDragoverContentTemplateDirective,
-    ArdiumFileDropAreaIdleContentTemplateDirective,
-    ArdiumFileDropAreaUploadedContentTemplateDirective,
+  ArdiumFileDropAreaDragoverContentTemplateDirective,
+  ArdiumFileDropAreaIdleContentTemplateDirective,
+  ArdiumFileDropAreaUploadedContentTemplateDirective,
 } from './file-drop-area.directives';
 
 @Component({
@@ -45,9 +45,11 @@ export class ArdiumFileDropAreaComponent extends _FileInputComponentBase {
   //! triggering file dialog
   protected _wasMousedownOnElement: true | null = null;
   onMousedown(): void {
+    if (this.disabled() || this.readonly()) return;
     this._wasMousedownOnElement = true;
   }
   onMouseup(): void {
+    if (this.disabled() || this.readonly()) return;
     if (!this._wasMousedownOnElement) return;
     this._wasMousedownOnElement = null;
 

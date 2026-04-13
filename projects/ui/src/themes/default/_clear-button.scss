@@ -70,4 +70,9 @@
       }
     }
   }
+  .ard-disabled, .ard-readonly {
+    .ard-clear-btn-wrapper {
+      pointer-events: none;
+    }
+  }
 }

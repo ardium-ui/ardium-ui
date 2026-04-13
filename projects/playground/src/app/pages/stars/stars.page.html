@@ -36,6 +36,13 @@
   </div>
   }
 </div>
+<span class="title">readonly star-button</span>
+<div class="master flex horiz">
+  <ard-star-button />
+  <ard-star-button selected />
+  <ard-star-button readonly />
+  <ard-star-button readonly selected />
+</div>
 <span class="title">rating-display</span>
 <div class="master rating-display">
   @for (color of colors; track color) {
@@ -84,6 +91,13 @@
     <span class="mono black">{{ color }}</span>
   </div>
   }
+</div>
+<span class="title">readonly rating-input</span>
+<div class="master flex horiz">
+  <ard-rating-input />
+  <ard-rating-input [value]="3" />
+  <ard-rating-input readonly />
+  <ard-rating-input readonly [value]="3" />
 </div>
 
 <h2>Examples</h2>

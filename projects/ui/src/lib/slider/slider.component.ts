@@ -90,12 +90,14 @@ export class ArdiumSliderComponent extends _AbstractSlider<number> {
 
   //! event handlers
   onTrackHitboxPointerDown(event: MouseEvent | TouchEvent): void {
+    if (this.disabled() || this.readonly()) return;
     this._writeValueFromEvent(event);
     this.onPointerDownOnHandle(event);
   }
   @HostListener('document:mousemove', ['$event'])
   @HostListener('document:touchmove', ['$event'])
   onPointerMove(event: MouseEvent | TouchEvent): void {
+    if (this.disabled() || this.readonly()) return;
     if (!this._shouldCheckForMovement) return;
     this._writeValueFromEvent(event);
   }

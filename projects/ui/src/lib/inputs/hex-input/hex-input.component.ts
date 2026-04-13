@@ -109,6 +109,8 @@ export class ArdiumHexInputComponent
   );
 
   onClearButtonClick(event: MouseEvent): void {
+    if (this.disabled() || this.readonly()) return;
+
     event.stopPropagation();
     this.inputModel.clear();
     this._emitChange();
@@ -151,6 +153,8 @@ export class ArdiumHexInputComponent
 
   //! event handlers
   onInput(newVal: string, event: Event): void {
+    if (this.disabled() || this.readonly()) return;
+    
     event.stopPropagation();
     const valueHasChanged = this.inputModel.writeValue(newVal);
     if (!valueHasChanged) return;
@@ -174,11 +178,15 @@ export class ArdiumHexInputComponent
 
   override onBlur(event: FocusEvent): void {
     super.onBlur(event);
+    
+    if (this.disabled() || this.readonly()) return;
+
     this._emitChange();
   }
 
   //smart focus
   onMouseup(): void {
+    if (this.disabled() || this.readonly()) return;
     const selection = window.getSelection();
     if (selection && selection.type === 'Range') return;
 

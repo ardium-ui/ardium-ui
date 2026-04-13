@@ -2,4 +2,15 @@
   ard-slide-toggle {
     display: block;
   }
+  .ard-slide-toggle {
+    font-size: inherit;
+  }
+  ard-slide-toggle.ard-readonly,
+  ard-slide-toggle.ard-disabled {
+    cursor: not-allowed;
+
+    .ard-focus-overlay {
+      display: none;
+    }
+  }
 }

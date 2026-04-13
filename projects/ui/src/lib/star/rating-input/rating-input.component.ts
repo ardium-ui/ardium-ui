@@ -12,7 +12,7 @@ import {
   output,
   signal,
   viewChildren,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
@@ -77,11 +77,13 @@ export class ArdiumRatingInputComponent extends _FormFieldComponentBase implemen
     this.value.set(v);
   }
   onStarClick(index: number): void {
+    if (this.disabled() || this.readonly()) return;
     this.value.set(index + 1);
     this._emitChange();
     this._emitTouched();
   }
   onStarHighlight(index: number): void {
+    if (this.disabled() || this.readonly()) return;
     this._highlightedStarIndex.set(index);
   }
   setDisplayToValue() {
@@ -96,6 +98,7 @@ export class ArdiumRatingInputComponent extends _FormFieldComponentBase implemen
   private _isBlurEventSuppressed = false;
   private _currentFocusIndex: number | null = null;
   onStarButtonFocus(event: FocusEvent, index: number) {
+    if (this.disabled() || this.readonly()) return;
     this._currentFocusIndex = index;
     if (this._isFocusEventSuppressed) {
       this._isFocusEventSuppressed = false;
@@ -104,6 +107,7 @@ export class ArdiumRatingInputComponent extends _FormFieldComponentBase implemen
     this.onFocus(event);
   }
   onStarButtonBlur(event: FocusEvent): void {
+    if (this.disabled() || this.readonly()) return;
     this._currentFocusIndex = null;
     if (this._isBlurEventSuppressed) {
       this._isBlurEventSuppressed = false;
@@ -140,9 +144,10 @@ export class ArdiumRatingInputComponent extends _FormFieldComponentBase implemen
   //! key press handlers
   @HostListener('keydown', ['$event'])
   onKeyPress(event: KeyboardEvent): void {
+    if (this.disabled() || this.readonly()) return;
     switch (event.code) {
       case 'Tab': {
-        this._onTabPress();
+        this._onTabPress(event.shiftKey);
         return;
       }
       case 'ArrowRight': {
@@ -181,10 +186,14 @@ export class ArdiumRatingInputComponent extends _FormFieldComponentBase implemen
   private _onEndPress(event: KeyboardEvent): void {
     event.preventDefault();
     this._suppressFocusEvents();
-    this._onTabPress();
-  }
-  private _onTabPress(): void {
     this.focusStarButtonByIndex(this.max() - 1);
+  }
+  private _onTabPress(withShift: boolean): void {
+    if (withShift) {
+      this.focusStarButtonByIndex(0);
+    } else {
+      this.focusStarButtonByIndex(this.max() - 1);
+    }
   }
 
   //! template

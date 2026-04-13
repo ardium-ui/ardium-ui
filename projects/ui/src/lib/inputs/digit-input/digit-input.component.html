@@ -15,10 +15,10 @@
           #focusableElement
           class="ard-digit-input__input"
           type="text"
-          [readonly]="data.readonly"
+          [readonly]="readonly() || data.readonly"
           [placeholder]="data.placeholder"
           [attr.tabindex]="tabIndex()"
-          [class.ard-digit-input__input-readonly]="data.readonly"
+          [class.ard-digit-input__input-readonly]="readonly() || data.readonly"
           [class.ard-digit-input__input-empty]="isInputEmpty(data.index!)"
           (paste)="onPaste($event, data.index!)"
           (input)="onInput($event, data.index!)"

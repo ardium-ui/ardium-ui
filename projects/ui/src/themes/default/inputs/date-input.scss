@@ -24,6 +24,7 @@
     // --ard-date-input-color: ;
     // --ard-date-input-placeholder-color: ;
     --ard-date-input-placeholder-opacity: 60%;
+    // --ard-date-input-readonly-cursor: ;
 
     --ard-date-input-multipage-gap: 0;
   }
@@ -50,7 +51,8 @@
       var(--ard-date-input-padding-left-compact, var(--ard-form-field-padding-left-compact, 0.375rem)),
       var(--ard-date-input-color, #{ARD.$text}),
       var(--ard-date-input-placeholder-color, #{ARD.$text}),
-      var(--ard-date-input-placeholder-opacity, 60%)
+      var(--ard-date-input-placeholder-opacity, 60%),
+      var(--ard-date-input-readonly-cursor, var(--ard-readonly-cursor, default))
     );
     display: grid;
     grid-template-columns: 1fr max-content;

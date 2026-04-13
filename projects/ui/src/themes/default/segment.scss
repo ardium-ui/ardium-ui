@@ -25,6 +25,7 @@
     --ard-segment-option-active-keyboard-bg-opacity: 34%;
     --ard-segment-option-selected-bg-opacity: 16%;
     // --ard-segment-border-color: ;
+    // --ard-segment-readonly-cursor: ;
   }
 
   .ard-segment-container {
@@ -101,14 +102,16 @@
           opacity: var(--ard-segment-option-highlighted-bg-opacity, 4%);
         }
       }
-      &:active {
-        .ard-focus-overlay {
-          opacity: var(--ard-segment-option-active-bg-opacity, 12%);
-        }
-      }
       &.ard-option-selected {
         .ard-focus-overlay {
           opacity: var(--ard-segment-option-selected-bg-opacity, 16%);
+        }
+      }
+      ard-segment:not(.ard-disabled):not(.ard-readonly) & {
+        &:active {
+          .ard-focus-overlay {
+            opacity: var(--ard-segment-option-active-bg-opacity, 12%);
+          }
         }
       }
     }
@@ -119,9 +122,11 @@
             opacity: var(--ard-segment-option-highlighted-keyboard-bg-opacity, 28%);
           }
         }
-        &:active {
-          .ard-focus-overlay {
-            opacity: var(--ard-segment-option-active-keyboard-bg-opacity, 34%);
+        ard-segment:not(.ard-disabled):not(.ard-readonly) & {
+          &:active {
+            .ard-focus-overlay {
+              opacity: var(--ard-segment-option-active-keyboard-bg-opacity, 34%);
+            }
           }
         }
       }
@@ -345,26 +350,34 @@
         justify-content: center;
       }
     }
+  }
 
-    //! disabled styling
-    &.ard-disabled {
-      pointer-events: none;
-      opacity: var(--ard-segment-option-disabled-opacity, 50%);
+  //! disabled styling
+  .ard-disabled > .ard-segment-container {
+    pointer-events: none;
+    opacity: var(--ard-segment-option-disabled-opacity, 50%);
 
+    .ard-focus-overlay {
+      opacity: 10%;
+    }
+
+    //edge case for no coloring
+    &.ard-color-none {
+      .ard-button-icon,
+      .ard-button-content {
+        opacity: calc(var(--ard-segment-option-disabled-opacity, 50%) * 1.2);
+      }
       .ard-focus-overlay {
-        opacity: 10%;
+        background: var(--ard-cmpcl--overlay);
       }
+    }
+  }
+  //! readonly styling
+  .ard-readonly > .ard-segment-container {
+    cursor: var(--ard-segment-readonly-cursor, var(--ard-readonly-cursor, default));
 
-      //edge case for no coloring
-      &.ard-color-none {
-        .ard-button-icon,
-        .ard-button-content {
-          opacity: calc(var(--ard-segment-option-disabled-opacity, 50%) * 1.2);
-        }
-        .ard-focus-overlay {
-          background: var(--ard-cmpcl--overlay);
-        }
-      }
+    .ard-segment-row .ard-segment-option {
+      cursor: inherit;
     }
   }
 }

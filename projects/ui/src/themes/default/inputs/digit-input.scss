@@ -22,6 +22,7 @@
     // --ard-digit-input-error-background-color: ;
     // --ard-digit-input-error-border-color: ;
     --ard-digit-input-disabled-opacity: 50%;
+    // --ard-digit-input-readonly-cursor: ;
   }
 
   ard-digit-input {
@@ -123,6 +124,15 @@
     > .ard-digit-input {
       opacity: var(--ard-digit-input-disabled-opacity, 50%);
       pointer-events: none;
+    }
+  }
+  .ard-readonly {
+    > .ard-digit-input {
+      cursor: var(--ard-digit-input-readonly-cursor, var(--ard-readonly-cursor, default));
+
+      .ard-digit-input__input {
+        outline: none;
+      }
     }
   }
 }

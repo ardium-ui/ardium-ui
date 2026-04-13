@@ -14,7 +14,7 @@
       [appearance]="buttonAppearance()"
       color="none"
       [disabled]="!canDecrement()"
-      [tabIndex]="!canDecrement() ? -1 : tabIndex()"
+      [tabIndex]="!canDecrement() || readonly() ? -1 : tabIndex()"
       pointerEventsWhenDisabled
       (click)="canDecrement() && onQuickChangeButtonClick(-1, $event)"
       (mouseup)="onQuickChangeButtonMouseup($event)"
@@ -74,7 +74,7 @@
       [appearance]="buttonAppearance()"
       color="none"
       [disabled]="!canIncrement()"
-      [tabIndex]="!canIncrement() ? -1 : tabIndex()"
+      [tabIndex]="!canIncrement() || readonly() ? -1 : tabIndex()"
       pointerEventsWhenDisabled
       (click)="canIncrement() && onQuickChangeButtonClick(1, $event)"
       (mouseup)="onQuickChangeButtonMouseup($event)"

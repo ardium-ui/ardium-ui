@@ -6,19 +6,19 @@ import { ArdiumFormFieldFrameModule } from '../../form-field-frame/form-field-fr
 import { ArdiumIconModule } from '../../icon/icon.module';
 import { ArdiumFileInputComponent } from './file-input.component';
 import {
-  ArdFileInputPlaceholderTemplateDirective,
-  ArdFileInputPrefixTemplateDirective,
-  ArdFileInputSuffixTemplateDirective,
-  ArdiumFileInputDragoverContentTemplateDirective,
-  ArdiumFileInputFolderIconTemplateDirective,
-  ArdiumFileInputIdleContentTemplateDirective,
-  ArdiumFileInputUploadedContentTemplateDirective,
+    ArdFileInputPlaceholderTemplateDirective,
+    ArdFileInputPrefixTemplateDirective,
+    ArdFileInputSuffixTemplateDirective,
+    ArdiumFileInputDragoverContentTemplateDirective,
+    ArdiumFileInputIdleContentTemplateDirective,
+    ArdiumFileInputUploadedContentTemplateDirective,
+    ArdiumFileInputUploadIconTemplateDirective,
 } from './file-input.directives';
 
 @NgModule({
   declarations: [
     ArdiumFileInputComponent,
-    ArdiumFileInputFolderIconTemplateDirective,
+    ArdiumFileInputUploadIconTemplateDirective,
     ArdiumFileInputUploadedContentTemplateDirective,
     ArdiumFileInputDragoverContentTemplateDirective,
     ArdiumFileInputIdleContentTemplateDirective,
@@ -29,7 +29,7 @@ import {
   imports: [CommonModule, ArdiumFormFieldFrameModule, _ClearButtonModule, ArdiumIconModule, ArdiumFilePipesModule],
   exports: [
     ArdiumFileInputComponent,
-    ArdiumFileInputFolderIconTemplateDirective,
+    ArdiumFileInputUploadIconTemplateDirective,
     ArdiumFileInputUploadedContentTemplateDirective,
     ArdiumFileInputDragoverContentTemplateDirective,
     ArdiumFileInputIdleContentTemplateDirective,

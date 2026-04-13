@@ -1,10 +1,10 @@
 import { Component, viewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
-    ArdiumDigitInputComponent,
-    DigitInputConfig,
-    DigitInputPrimitiveOption,
-    TransformType,
+  ArdiumDigitInputComponent,
+  DigitInputConfig,
+  DigitInputPrimitiveOption,
+  TransformType,
 } from 'projects/ui/src/public-api';
 import { Logger } from '../../../services/logger.service';
 
@@ -35,6 +35,7 @@ export class DigitInputPage {
   readonly control = new FormControl();
   readonly group = new FormGroup({
     zipCode: new FormControl('00-102'),
+    zipCodeDisabled: new FormControl({ value: '00-102', disabled: true }),
   });
 
   readonly simpleConfig = 'letter,number,number,number';

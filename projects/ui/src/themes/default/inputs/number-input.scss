@@ -28,6 +28,7 @@
     --ard-number-input-disabled-opacity: 50%;
     // --ard-number-input-width: ;
     --ard-number-input-rounded-border-radius: 8px;
+    // --ard-number-input-readonly-cursor: ;
   }
 
   ard-number-input {
@@ -54,7 +55,8 @@
       var(--ard-number-input-padding-left-compact, var(--ard-form-field-padding-left-compact, 0.375rem)),
       var(--ard-number-input-color, #{ARD.$text}),
       var(--ard-number-input-placeholder-color, #{ARD.$text}),
-      var(--ard-number-input-placeholder-opacity, 60%)
+      var(--ard-number-input-placeholder-opacity, 60%),
+      var(--ard-number-input-readonly-cursor, var(--ard-readonly-cursor, default))
     );
     @include defaultMixins.formAppearances();
     gap: 0;
@@ -191,16 +193,24 @@
     }
   }
 
+  .ard-disabled,
+  .ard-readonly {
+    > .ard-number-input {
+      .ard-button .ard-focus-overlay {
+        opacity: 0;
+      }
+    }
+  }
   .ard-disabled {
     > .ard-number-input {
       pointer-events: none;
       opacity: var(--ard-number-input-disabled-opacity, 50%);
-
-      .ard-button .ard-focus-overlay {
-        opacity: 0;
-      }
-
       background: ARD.$bg-f;
+    }
+  }
+  .ard-readonly {
+    > .ard-number-input {
+      cursor: var(--ard-number-input-readonly-cursor, var(--ard-readonly-cursor, default));
     }
   }
 }

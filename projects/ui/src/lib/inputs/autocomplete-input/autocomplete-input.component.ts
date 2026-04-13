@@ -215,12 +215,14 @@ export class ArdiumAutocompleteInputComponent
     this._isMouseBeingUsed = true;
   }
   onSuggestionMouseEnter(item: ArdSimplestStorageItem, event: MouseEvent): void {
+    if (this.disabled() || this.readonly()) return;
     if (!this._isMouseBeingUsed) return;
     this.suggestionStorage.highlightItem(item);
 
     event.stopPropagation();
   }
   onSuggestionMouseLeave(item: ArdSimplestStorageItem, event: MouseEvent): void {
+    if (this.disabled() || this.readonly()) return;
     if (!this._isMouseBeingUsed) return;
     this.suggestionStorage.unhighlightItem(item);
 
@@ -229,6 +231,8 @@ export class ArdiumAutocompleteInputComponent
 
   //! suggestion selection
   selectSuggestion(item: ArdSimplestStorageItem, event: MouseEvent): void {
+    if (this.disabled() || this.readonly()) return;
+
     event.stopPropagation();
 
     this._selectSuggestion(item);
@@ -268,6 +272,8 @@ export class ArdiumAutocompleteInputComponent
 
   //! focus override
   override onFocus(event: FocusEvent): void {
+    if (this.disabled() || this.readonly()) return;
+
     this._suggestionDropdowOpen.set(true);
     if (!this.suggestionStorage.highlightedItem()) this.suggestionStorage.highlightFirstItem();
 
@@ -277,6 +283,8 @@ export class ArdiumAutocompleteInputComponent
   //! key press handlers
   @HostListener('keydown', ['$event'])
   onKeyPress(event: KeyboardEvent): void {
+    if (this.disabled() || this.readonly()) return;
+    
     switch (event.code) {
       case 'Enter': {
         this._onTabOrEnterPress(event);

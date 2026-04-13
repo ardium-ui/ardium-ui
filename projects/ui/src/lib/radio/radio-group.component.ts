@@ -63,6 +63,10 @@ export class ArdiumRadioGroupComponent extends _FormFieldComponentBase implement
       this._updateRadioButtonNames();
     });
     effect(() => {
+      this.readonly();
+      this._updateReadonlyRadioButtons();
+    });
+    effect(() => {
       this.selected();
       this._checkSelectedRadioButton();
     });
@@ -168,6 +172,16 @@ export class ArdiumRadioGroupComponent extends _FormFieldComponentBase implement
     if (this._radios()) {
       this._radios().forEach(radio => {
         radio.name.set(this.name());
+        radio.markForCheck();
+      });
+    }
+  }
+
+  private _updateReadonlyRadioButtons(): void {
+    console.log('updating readonly state of radios', this.readonly());
+    if (this._radios()) {
+      this._radios().forEach(radio => {
+        radio.readonly.set(this.readonly());
         radio.markForCheck();
       });
     }

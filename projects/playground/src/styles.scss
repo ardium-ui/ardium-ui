@@ -50,14 +50,11 @@
 
 @layer app;
 
-* {
-  font-family: 'Roboto', sans-serif;
-}
-
 body {
   background: var(--ard-bg-darker);
   height: 100vh;
   height: 100dvh;
+  font-family: 'Roboto', sans-serif;
 }
 
 .master {

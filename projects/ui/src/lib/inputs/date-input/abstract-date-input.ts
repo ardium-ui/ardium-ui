@@ -211,6 +211,7 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
   private _valueToAccept: T | null = null;
 
   onCalendarSelectedChange(value: T | null): void {
+    if (this.disabled() || this.readonly()) return;
     if (!value) return;
     if (this.useAcceptButtonToSelect()) {
       this._valueToAccept = value;
@@ -230,10 +231,12 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
   protected abstract _isFullValue(value: T | null): boolean;
 
   onAcceptButtonClick(): void {
+    if (this.disabled() || this.readonly()) return;
     this._acceptSelectedDate(this._valueToAccept);
     this._valueToAccept = null;
   }
   onCancelButtonClick(): void {
+    if (this.disabled() || this.readonly()) return;
     this._cancelCalendarSelection();
   }
 
@@ -295,12 +298,14 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
 
   //! dropdown state handlers
   onGeneralClick(event: MouseEvent): void {
+    if (this.disabled() || this.readonly()) return;
     const target = event.target as HTMLElement;
     if (target.tagName !== 'INPUT') {
       event.preventDefault();
     }
   }
   onOutsideClick(event: MouseEvent): void {
+    if (this.disabled() || this.readonly()) return;
     if (!this.isOpen()) return;
     const target = event.target as HTMLElement;
     if (this.elementRef.nativeElement.contains(target)) return;
@@ -308,6 +313,7 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
     this.close();
   }
   onCalendarButtonClick(event: MouseEvent): void {
+    if (this.disabled() || this.readonly()) return;
     if (this.calendarDisabled()) return;
     if (this.calendarHidden()) return;
     event.preventDefault();
@@ -324,7 +330,7 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
     this.open();
   }
   open(): void {
-    if (this.disabled() || this.isOpen()) return;
+    if (this.disabled() || this.readonly() || this.isOpen()) return;
 
     const startView = this.startView();
     if (startView) {
@@ -337,7 +343,7 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
     this.openEvent.emit();
   }
   close(): void {
-    if (!this.isOpen()) return;
+    if (this.disabled() || this.readonly() || !this.isOpen()) return;
 
     this.isOpen.set(false);
 

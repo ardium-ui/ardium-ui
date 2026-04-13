@@ -15,6 +15,7 @@
     --ard-checkbox-indeterminate-disabled-opacity: 50%;
     --ard-checkbox-selected-disabled-opacity: 50%;
     // --ard-checkbox-base-color: ;
+    // --ard-checkbox-readonly-cursor: ;
   }
 
   .ard-checkbox {
@@ -68,7 +69,7 @@
     }
   }
   //! disabled state
-  .ard-disabled .ard-checkbox {
+  .ard-disabled > .ard-checkbox {
     pointer-events: none;
     opacity: var(--ard-checkbox-unselected-disabled-opacity, 40%);
 
@@ -77,6 +78,14 @@
     }
     &.ard-checkbox-indeterminate {
       opacity: var(--ard-checkbox-indeterminate-disabled-opacity, 50%);
+    }
+  }
+  //! readonly state
+  .ard-readonly > .ard-checkbox {
+    cursor: var(--ard-checkbox-readonly-cursor, var(--ard-readonly-cursor, default));
+
+    .ard-focus-overlay {
+      display: none;
     }
   }
 }

@@ -20,6 +20,7 @@
     --ard-radio-active-overlay-opacity: 25%;
     --ard-radio-transition-duration: 0.2s;
     --ard-radio-disabled-opacity: 50%;
+    // --ard-radio-readonly-cursor: ;
   }
 
   ard-radio-group {
@@ -130,6 +131,24 @@
       pointer-events: none;
       opacity: var(--ard-radio-disabled-opacity, 50%);
       user-select: none;
+    }
+  }
+  .ard-readonly {
+    .ard-radio {
+      cursor: var(--ard-radio-readonly-cursor, var(--ard-readonly-cursor, default));
+
+      > .ard-radio-circles {
+        pointer-events: none;
+
+        .ard-focus-overlay {
+          display: none;
+        }
+      }
+      &:focus-visible {
+        > .ard-radio-circles > .ard-focus-overlay {
+          display: block;
+        }
+      }
     }
   }
 }

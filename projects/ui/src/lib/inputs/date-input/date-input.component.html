@@ -40,34 +40,36 @@
           [ngTemplateOutletContext]="valueContext()"
         />
       </div>
-      <div
-        class="ard-date-input__input-container"
-        role="combobox"
-        aria-haspopup="listbox"
-        [attr.aria-expanded]="isOpen()"
-        [attr.aria-owns]="isOpen() ? htmlId() : null"
-        [class.ard-date-input__input-container-hidden]="!shouldDisplayDateInput()"
-      >
-        <input
-          #dateInput
-          #focusableElement
-          type="text"
-          class="ard-date-input__input"
-          [attr.id]="htmlId()"
-          [attr.name]="htmlName()"
-          [attr.tabindex]="tabIndex()"
-          [value]="dateInputValue()"
-          [attr.aria-controls]="isOpen() ? htmlId() : null"
-          (input)="onDateInputInput($event)"
-          (change)="$event.stopPropagation()"
-          (focus)="onDateInputFocus($event)"
-          (blur)="onDateInputBlur($event)"
-          (keydown)="onDateInputEnter($event)"
-        />
-      </div>
+      @if (!readonly()) {
+        <div
+          class="ard-date-input__input-container"
+          role="combobox"
+          aria-haspopup="listbox"
+          [attr.aria-expanded]="isOpen()"
+          [attr.aria-owns]="isOpen() ? htmlId() : null"
+          [class.ard-date-input__input-container-hidden]="!shouldDisplayDateInput()"
+        >
+          <input
+            #dateInput
+            #focusableElement
+            type="text"
+            class="ard-date-input__input"
+            [attr.id]="htmlId()"
+            [attr.name]="htmlName()"
+            [attr.tabindex]="tabIndex()"
+            [value]="dateInputValue()"
+            [attr.aria-controls]="isOpen() ? htmlId() : null"
+            (input)="onDateInputInput($event)"
+            (change)="$event.stopPropagation()"
+            (focus)="onDateInputFocus($event)"
+            (blur)="onDateInputBlur($event)"
+            (keydown)="onDateInputEnter($event)"
+          />
+        </div>
+      }
     </div>
 
-    @if (!calendarHidden()) {
+    @if (!calendarHidden() && !readonly()) {
       <ard-icon-button
         color="none"
         [disabled]="calendarDisabled()"

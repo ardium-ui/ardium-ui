@@ -41,7 +41,7 @@
       </div>
     </div>
 
-    @if (!calendarHidden()) {
+    @if (!calendarHidden() && !readonly()) {
     <ard-icon-button
       color="none"
       [disabled]="calendarDisabled()"

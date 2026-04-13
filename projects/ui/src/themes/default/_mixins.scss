@@ -23,8 +23,9 @@
   transition: opacity 0.2s ease;
 }
 @mixin focus-overlay-scale-addon() {
+  --_ard-focus-overlay-scale: 0.2;
   > .ard-focus-overlay {
-    transform: scale(0.2);
+    transform: scale(var(--_ard-focus-overlay-scale));
 
     transition:
       opacity 0.2s ease,
@@ -32,9 +33,10 @@
   }
 
   &:hover,
-  &:focus {
+  &:focus,
+  &:focus-visible {
     > .ard-focus-overlay {
-      transform: scale(1);
+      --_ard-focus-overlay-scale: 1;
     }
   }
 }

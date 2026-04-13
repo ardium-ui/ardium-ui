@@ -20,6 +20,13 @@ export class DateRangeInputPage {
       new Date(new Date().getFullYear(), new Date().getMonth(), 28)
     )
   );
+  readonly formControlDisabled = new FormControl<DateRange | null>({
+    value: new DateRange(
+      new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+      new Date(new Date().getFullYear(), new Date().getMonth(), 28)
+    ),
+    disabled: true,
+  });
 
   constructor() {
     this.formControl.valueChanges.pipe(takeUntilDestroyed()).subscribe(v => {

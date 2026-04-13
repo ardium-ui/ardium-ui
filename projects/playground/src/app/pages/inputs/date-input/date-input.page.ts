@@ -1,5 +1,4 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl } from '@angular/forms';
 import { ArdiumDateInputComponent } from 'projects/ui/src/public-api';
 import { Logger } from '../../../services/logger.service';
@@ -15,18 +14,6 @@ export class DateInputPage {
   log = this.logger.log;
 
   readonly formControl = new FormControl<Date | null>(new Date('2024-01-01'));
-
-  constructor() {
-    this.formControl.valueChanges.pipe(takeUntilDestroyed()).subscribe(v => {
-      console.log('formControl changes', v);
-      if (this.formControl.value === null) return;
-
-      setTimeout(() => {
-        console.log('%csetting to null', 'color:red');
-        this.formControl.setValue(null);
-      }, 3000);
-    });
-  }
 
   readonly selectedYear = signal<number | null>(null);
   readonly selectedMonth = signal<number | null>(null);

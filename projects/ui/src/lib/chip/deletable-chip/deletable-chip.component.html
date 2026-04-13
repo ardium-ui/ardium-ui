@@ -4,6 +4,8 @@
 >
   <div class="ard-focus-overlay"></div>
   <ard-clear-button
+    [readonly]="readonly()"
+    [disabled]="disabled()"
     [title]="deleteButtonTitle()"
     (click)="deleteEvent.emit($event)"
     [tabIndex]="tabIndex()"

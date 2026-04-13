@@ -23,8 +23,8 @@ import {
   ArdFileInputPrefixTemplateDirective,
   ArdFileInputSuffixTemplateDirective,
   ArdiumFileInputDragoverContentTemplateDirective,
-  ArdiumFileInputFolderIconTemplateDirective,
   ArdiumFileInputIdleContentTemplateDirective,
+  ArdiumFileInputUploadIconTemplateDirective,
   ArdiumFileInputUploadedContentTemplateDirective
 } from './file-input.directives';
 
@@ -84,9 +84,11 @@ export class ArdiumFileInputComponent extends _FileInputComponentBase {
   readonly clearButtonTitle = input<string>(this._DEFAULTS.clearButtonTitle);
 
   get shouldShowClearButton(): boolean {
-    return this.clearable() && !this.disabled() && Boolean(this.value);
+    return this.clearable() && !this.disabled() && !this.readonly() && Boolean(this.value);
   }
   onClearButtonClick(event: MouseEvent): void {
+    if (this.disabled() || this.readonly()) return;
+
     event.stopPropagation();
     this.clear();
     this.focus();
@@ -94,6 +96,7 @@ export class ArdiumFileInputComponent extends _FileInputComponentBase {
 
   //! clear function
   clear(): void {
+    if (this.disabled() || this.readonly()) return;
     if (!this.clearable()) return;
 
     this.writeValue(null);
@@ -113,7 +116,7 @@ export class ArdiumFileInputComponent extends _FileInputComponentBase {
   readonly idleTemplate = contentChild(ArdiumFileInputIdleContentTemplateDirective);
   readonly dragoverTemplate = contentChild(ArdiumFileInputDragoverContentTemplateDirective);
   readonly uploadedTemplate = contentChild(ArdiumFileInputUploadedContentTemplateDirective);
-  readonly folderIconTemplate = contentChild(ArdiumFileInputFolderIconTemplateDirective);
+  readonly uploadIconTemplate = contentChild(ArdiumFileInputUploadIconTemplateDirective);
 
   getIdleContext(): FileInputBrowseContext {
     return {

@@ -117,12 +117,15 @@ export class ArdiumMultipageDateRangeInputComponent extends _AbstractDateInput<D
   }
 
   onActivePageChange(newPage: { year: number; month: number }, index: number): void {
+    if (this.disabled() || this.readonly()) return;
+
     const newDate = new Date(newPage.year, newPage.month, 1);
     newDate.setMonth(newDate.getMonth() - index);
     this.activeYear.set(newDate.getFullYear());
     this.activeMonth.set(newDate.getMonth());
   }
   onHighlightDate(date: Date | null) {
+    if (this.disabled() || this.readonly()) return;
     this.highlightedDate.set(date);
   }
 

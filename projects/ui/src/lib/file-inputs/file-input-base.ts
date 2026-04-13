@@ -61,12 +61,12 @@ export abstract class _FileInputComponentBase extends _FormFieldComponentBase im
   readonly multiple = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
   readonly maxFiles = input<Nullable<number>, any>(null, { transform: v => coerceNumberProperty(v, null) });
 
-  readonly maxFilesWithMultiple = computed<number>(() => (this.multiple() ? this.maxFiles() ?? Infinity : 1));
+  readonly maxFilesWithMultiple = computed<number>(() => (this.multiple() ? (this.maxFiles() ?? Infinity) : 1));
 
   readonly blockAfterUpload = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
   get shouldBeBlocked(): boolean {
-    return this.blockAfterUpload() && isDefined(this.value);
+    return this.disabled() || this.readonly() || (this.blockAfterUpload() && isDefined(this.value));
   }
 
   readonly maxFileSizeBytes = input<Nullable<number>, any>(null, { transform: v => coerceNumberProperty(v, null) });
@@ -176,6 +176,7 @@ export abstract class _FileInputComponentBase extends _FormFieldComponentBase im
   }
 
   openBrowseDialog(): void {
+    if (this.disabled() || this.readonly()) return;
     // use FileSystemAPI if supported & needed
     if (
       this._fileSystemService.isFileSystemAPISupported('showOpenFilePicker') &&
@@ -349,6 +350,7 @@ export abstract class _FileInputComponentBase extends _FormFieldComponentBase im
   private _isFilePickerOpen = false;
 
   override onFocus(event: FocusEvent): void {
+    if (this.disabled() || this.readonly()) return;
     if (this._isFilePickerOpen) {
       setTimeout(() => {
         this._emitTouched();
@@ -359,6 +361,7 @@ export abstract class _FileInputComponentBase extends _FormFieldComponentBase im
     super.onFocus(event);
   }
   override onBlur(event: FocusEvent): void {
+    if (this.disabled() || this.readonly()) return;
     super.onBlur(event);
 
     this._shouldEmitTouched = !this._isFilePickerOpen;

@@ -101,11 +101,16 @@ export class ArdiumDateInputComponent extends _AbstractDateInput<Date> implement
 
   onDateInputFocus(event: FocusEvent): void {
     this.onFocus(event);
+    
+    if (this.disabled() || this.readonly()) return;
+    
     this.isDateInputFocused.set(true);
     this._wasDateInputChanged.set(false);
   }
   onDateInputBlur(event: FocusEvent): void {
     this.onBlur(event);
+    
+    if (this.disabled() || this.readonly()) return;
 
     this._processDateInputText(this.dateInputValue());
 
@@ -114,6 +119,7 @@ export class ArdiumDateInputComponent extends _AbstractDateInput<Date> implement
     this.isDateInputFocused.set(false);
   }
   onDateInputEnter(event: KeyboardEvent): void {
+    if (this.disabled() || this.readonly()) return;
     if (event.key !== 'Enter') return;
     event.preventDefault();
     this.close();
@@ -181,6 +187,8 @@ export class ArdiumDateInputComponent extends _AbstractDateInput<Date> implement
   }
 
   override onGeneralClick(event: MouseEvent): void {
+    if (this.disabled() || this.readonly()) return;
+
     super.onGeneralClick(event);
     this.dateInput().nativeElement.focus();
     

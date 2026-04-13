@@ -1,5 +1,5 @@
-import { Directive, HostBinding, Input, input, signal } from '@angular/core';
-import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
+import { Directive, HostBinding, Input, signal } from '@angular/core';
+import { coerceBooleanProperty } from '@ardium-ui/devkit';
 
 export interface _DisablableComponentDefaults {
   readonly: boolean;
@@ -17,7 +17,11 @@ export abstract class _DisablableComponentBase {
   /**
    * Whether the component is read-only. Defines the `readonly` host attribute and `ard-readonly` host class. Coercible into a boolean.
    */
-  readonly readonly = input<boolean, BooleanLike>(this._DEFAULTS.readonly, { transform: v => coerceBooleanProperty(v) });
+  readonly readonly = signal<boolean>(this._DEFAULTS.readonly);
+  @Input('readonly')
+  set _readonly(v: any) {
+    this.readonly.set(coerceBooleanProperty(v));
+  }
 
   /**
    * Whether the component is disabled. Defines the `disabled` host attribute and `ard-disabled` host class. Coercible into a boolean.

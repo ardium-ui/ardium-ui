@@ -131,6 +131,8 @@ export abstract class _SimpleInputComponentBase extends _FormFieldComponentBase 
 
   //! event handlers
   onInput(newVal: string): void {
+    if (this.disabled() || this.readonly()) return;
+
     const valueHasChanged = this.inputModel.writeValue(newVal);
     if (!valueHasChanged) return;
     this._emitInput();
@@ -142,9 +144,13 @@ export abstract class _SimpleInputComponentBase extends _FormFieldComponentBase 
   }
   //focus, blur, change
   onFocusMaster(event: FocusEvent): void {
+    if (this.disabled() || this.readonly()) return;
+
     this.onFocus(event);
   }
   onBlurMaster(event: FocusEvent): void {
+    if (this.disabled() || this.readonly()) return;
+
     this.onBlur(event);
 
     if (!this.autoTrim()) return;
@@ -162,9 +168,11 @@ export abstract class _SimpleInputComponentBase extends _FormFieldComponentBase 
   }
   // clear button
   readonly shouldShowClearButton = computed<boolean>(
-    () => this.clearable() && !this.disabled() && Boolean(this.inputModel.value())
+    () => this.clearable() && !this.disabled() && !this.readonly() && Boolean(this.inputModel.value())
   );
   onClearButtonClick(event: MouseEvent): void {
+    if (this.disabled() || this.readonly()) return;
+
     event.stopPropagation();
     this.inputModel.clear();
     this._emitChange();

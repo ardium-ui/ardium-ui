@@ -4,5 +4,19 @@
   }
   .ard-checkbox {
     font-size: inherit;
+
+    > ard-icon {
+      font-size: 1.5em;
+    }
+  }
+  ard-checkbox.ard-readonly,
+  ard-checkbox.ard-disabled {
+    .ard-checkbox {
+      cursor: default;
+
+      .ard-focus-overlay {
+        display: none;
+      }
+    }
   }
 }

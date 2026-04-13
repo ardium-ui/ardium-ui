@@ -16,6 +16,7 @@
     <ard-checkbox
       [selected]="item.selected"
       [disabled]="item.disabled"
+      [readonly]="readonly()"
       [color]="color()"
       [htmlId]="htmlId() + item.index"
       [tabIndex]="tabIndex()"

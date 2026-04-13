@@ -39,6 +39,7 @@
     --ard-chip-transition: 0.15s ease;
     --ard-chip-disabled-opacity: 60%;
     --ard-chip-disabled-selected-opacity: 40%;
+    // --ard-chip-readonly-cursor: ;
   }
 
   //! general css
@@ -77,15 +78,17 @@
       display: flex;
       align-items: center;
 
-      &:hover,
-      &:focus {
-        > .ard-focus-overlay {
-          opacity: var(--ard-chip-selectable-hover-overlay-opacity, 7.5%);
+      :not(.ard-disabled):not(.ard-readonly) > & {
+        &:hover,
+        &:focus {
+          > .ard-focus-overlay {
+            opacity: var(--ard-chip-selectable-hover-overlay-opacity, 7.5%);
+          }
         }
-      }
-      &:active {
-        > .ard-focus-overlay {
-          opacity: var(--ard-chip-selectable-active-overlay-opacity, 20%);
+        &:active {
+          > .ard-focus-overlay {
+            opacity: var(--ard-chip-selectable-active-overlay-opacity, 20%);
+          }
         }
       }
 
@@ -141,15 +144,17 @@
           opacity: 0;
           background: var(--ard-cmpcl--bg-colored);
         }
-        &:hover,
-        &:focus {
-          > .ard-focus-overlay {
-            opacity: var(--ard-chip-outlined-hover-overlay-opacity, 4%);
+        :not(.ard-disabled):not(.ard-readonly) > & {
+          &:hover,
+          &:focus {
+            > .ard-focus-overlay {
+              opacity: var(--ard-chip-outlined-hover-overlay-opacity, 4%);
+            }
           }
-        }
-        &:active {
-          > .ard-focus-overlay {
-            opacity: var(--ard-chip-outlined-active-overlay-opacity, 10%);
+          &:active {
+            > .ard-focus-overlay {
+              opacity: var(--ard-chip-outlined-active-overlay-opacity, 10%);
+            }
           }
         }
 
@@ -160,24 +165,26 @@
           > .ard-focus-overlay {
             opacity: var(--ard-chip-outlined-selected-overlay-opacity, 12%);
           }
-          &:hover {
-            > .ard-focus-overlay {
-              opacity: var(--ard-chip-outlined-selected-hover-overlay-opacity, 17%);
+          :not(.ard-disabled):not(.ard-readonly) > & {
+            &:hover {
+              > .ard-focus-overlay {
+                opacity: var(--ard-chip-outlined-selected-hover-overlay-opacity, 17%);
+              }
             }
-          }
-          &:focus {
-            > .ard-focus-overlay {
-              opacity: var(--ard-chip-outlined-selected-focus-overlay-opacity, 0%);
+            &:focus {
+              > .ard-focus-overlay {
+                opacity: var(--ard-chip-outlined-selected-focus-overlay-opacity, 0%);
+              }
             }
-          }
-          &:focus-visible {
-            > .ard-focus-overlay {
-              opacity: var(--ard-chip-outlined-selected-focus-visible-overlay-opacity, 17%);
+            &:focus-visible {
+              > .ard-focus-overlay {
+                opacity: var(--ard-chip-outlined-selected-focus-visible-overlay-opacity, 17%);
+              }
             }
-          }
-          &:active {
-            > .ard-focus-overlay {
-              opacity: var(--ard-chip-outlined-selected-active-overlay-opacity, 22%);
+            &:active {
+              > .ard-focus-overlay {
+                opacity: var(--ard-chip-outlined-selected-active-overlay-opacity, 22%);
+              }
             }
           }
         }
@@ -247,14 +254,16 @@
     }
   }
   //! disabled state
-  .ard-disabled {
-    .ard-chip-wrapper {
-      pointer-events: none;
-      opacity: var(--ard-chip-disabled-opacity, 60%);
+  .ard-disabled > .ard-chip-wrapper {
+    pointer-events: none;
+    opacity: var(--ard-chip-disabled-opacity, 60%);
 
-      &.ard-chip-selected {
-        opacity: var(--ard-chip-disabled-selected-opacity, 40%);
-      }
+    &.ard-chip-selected {
+      opacity: var(--ard-chip-disabled-selected-opacity, 40%);
     }
+  }
+  //! readonly state
+  .ard-readonly > .ard-chip-wrapper {
+    cursor: var(--ard-chip-readonly-cursor, var(--ard-readonly-cursor, default));
   }
 }

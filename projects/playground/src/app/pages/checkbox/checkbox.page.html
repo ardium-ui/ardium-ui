@@ -23,11 +23,13 @@
 </div>
 <div class="master">
   <span class="title">Checkbox with form control</span>
-  <ard-checkbox
-    [formControl]="control"
-  />
+  <ard-checkbox [formControl]="control" />
   <p>Form control value: {{ control.value }}</p>
   <p>Form control touched: {{ control.touched }}</p>
+</div>
+<div class="master">
+  <span class="title">Readonly checkbox</span>
+  <ard-checkbox selected readonly></ard-checkbox>
 </div>
 <div class="master">
   <div class="flex horiz large-gap">
@@ -44,7 +46,10 @@
 <div class="master">
   <span class="title">Checkbox with template</span>
   <ard-checkbox>
-    <ng-template ard-checkbox-tmp let-selected>
+    <ng-template
+      ard-checkbox-tmp
+      let-selected
+    >
       {{ selected ? '☑' : '☐' }}
     </ng-template>
   </ard-checkbox>

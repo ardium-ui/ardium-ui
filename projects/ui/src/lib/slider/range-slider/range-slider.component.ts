@@ -118,6 +118,7 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
 
   //! methods for programmatic manipulation
   reset(): void {
+    if (this.disabled() || this.readonly()) return;
     this._value.set({ from: -this.min(), to: this.max() });
   }
 
@@ -131,12 +132,14 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
 
   //! event handlers
   onTrackHitboxPointerDown(event: MouseEvent | TouchEvent): void {
+    if (this.disabled() || this.readonly()) return;
     this._writeValueFromEvent(event);
     this.onPointerDownOnHandle(event);
   }
   @HostListener('document:mousemove', ['$event'])
   @HostListener('document:touchmove', ['$event'])
   onPointerMove(event: MouseEvent | TouchEvent): void {
+    if (this.disabled() || this.readonly()) return;
     if (!this._shouldCheckForMovement) return;
     if (!this._bodyHasClass) {
       this._bodyHasClass = true;
@@ -193,6 +196,7 @@ export class ArdiumRangeSliderComponent extends _AbstractSlider<SliderRange> imp
   //! handle focus monitors
   readonly currentHandle = signal<1 | 2 | null>(null);
   onHandleFocus(event: FocusEvent, handleId: 1 | 2) {
+    if (this.disabled() || this.readonly()) return;
     this.onFocus(event);
 
     this.currentHandle.set(handleId);

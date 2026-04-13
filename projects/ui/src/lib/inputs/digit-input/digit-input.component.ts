@@ -209,6 +209,8 @@ export class ArdiumDigitInputComponent
 
   //! event handlers
   onPaste(event: ClipboardEvent, index: number): void {
+    if (this.disabled() || this.readonly()) return;
+
     const value = event.clipboardData?.getData('text');
     event.stopPropagation();
     event.preventDefault();
@@ -217,6 +219,8 @@ export class ArdiumDigitInputComponent
     this._handleMultiDigitChange(value, index);
   }
   onInput(event: Event, index: number): void {
+    if (this.disabled() || this.readonly()) return;
+
     const value = (event.target as HTMLInputElement).value;
     if (this.isAutofilled()) {
       if (!this._wasAutofillValueRead()) {
@@ -276,12 +280,16 @@ export class ArdiumDigitInputComponent
   }
   //focus, blur, change
   onFocusMaster(event: FocusEvent, index: number): void {
+    if (this.disabled() || this.readonly()) return;
+
     this.focusIndexEvent.emit(index);
     (event.target as HTMLInputElement).setSelectionRange(0, 1);
 
     this.onFocus(event);
   }
   onBlurMaster(event: FocusEvent, index: number): void {
+    if (this.disabled() || this.readonly()) return;
+
     this.blurIndexEvent.emit(index);
     this.onBlur(event);
   }
@@ -294,6 +302,8 @@ export class ArdiumDigitInputComponent
     }
   }
   onKeydown(event: KeyboardEvent, index: number): void {
+    if (this.disabled() || this.readonly()) return;
+    
     switch (event.key) {
       case 'ArrowLeft':
         this.focusByIndex(index - 1, true, -1);

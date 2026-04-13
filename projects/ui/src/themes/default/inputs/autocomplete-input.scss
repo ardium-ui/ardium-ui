@@ -42,6 +42,7 @@
     // --ard-autocomplete-input-selected-background: ;
     --ard-autocomplete-input-selected-font-weight: 500;
     --ard-autocomplete-input-disabled-opacity: 50%;
+    // --ard-autocomplete-input-readonly-cursor: ;
   }
 
   .ard-autocomplete-input {
@@ -64,7 +65,8 @@
       var(--ard-autocomplete-input-padding-left-compact, var(--ard-form-field-padding-left-compact, 0.375rem)),
       var(--ard-autocomplete-input-color, #{ARD.$text}),
       var(--ard-autocomplete-input-placeholder-color, #{ARD.$text}),
-      var(--ard-autocomplete-input-placeholder-opacity, 60%)
+      var(--ard-autocomplete-input-placeholder-opacity, 60%),
+      var(--ard-autocomplete-input-readonly-cursor, var(--ard-readonly-cursor, default))
     );
     min-width: var(--ard-autocomplete-input-min-width, 10rem);
     max-width: var(--ard-autocomplete-input-max-width, 100%);

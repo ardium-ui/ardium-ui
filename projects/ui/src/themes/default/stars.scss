@@ -12,12 +12,15 @@
     --ard-star-button-overlay-offset: -0.125em;
     --ard-star-button-hover-overlay-opacity: 10%;
     --ard-star-button-focus-overlay-opacity: 0;
-    --ard-star-button-focus-visible-overlay-opacity: 10%;
+    --ard-star-button-focus-visible-overlay-opacity: 30%;
     --ard-star-button-active-overlay-opacity: 20%;
     --ard-star-button-disabled-opacity: 50%;
 
     --ard-rating-input-not-in-value-opacity: 50%;
     --ard-rating-input-disabled-opacity: 50%;
+
+    // --ard-star-button-readonly-cursor: ;
+    // --ard-rating-input-readonly-cursor: ;
   }
 
   .ard-star,
@@ -81,6 +84,7 @@
       background: currentColor;
     }
     @include defaultMixins.focus-overlay-scale-addon();
+
     &:hover {
       .ard-focus-overlay {
         opacity: var(--ard-star-button-hover-overlay-opacity, 10%);
@@ -93,7 +97,7 @@
     }
     &:focus-visible {
       .ard-focus-overlay {
-        opacity: var(--ard-star-button-focus-visible-overlay-opacity, 10%);
+        opacity: var(--ard-star-button-focus-visible-overlay-opacity, 30%);
       }
     }
     &:active {
@@ -111,6 +115,19 @@
     > .ard-rating-input {
       pointer-events: none;
       opacity: var(--ard-rating-input-disabled-opacity, 50%);
+    }
+  }
+  //! readonly state for star-button and rating-input
+  .ard-readonly {
+    > .ard-star-button {
+      cursor: var(--ard-star-button-readonly-cursor, var(--ard-readonly-cursor, default));
+
+      .ard-focus-overlay {
+        display: none;
+      }
+    }
+    > .ard-rating-input {
+      cursor: var(--ard-rating-input-readonly-cursor, var(--ard-readonly-cursor, default));
     }
   }
 }

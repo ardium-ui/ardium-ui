@@ -139,6 +139,7 @@ export abstract class _SelectableListComponentBase
   //! focus & blur handlers
   private readonly lastBlurTimestamp = signal<Nullable<number>>(undefined);
   override onFocus(event: FocusEvent): void {
+    if (this.disabled() || this.readonly()) return;
     super.onFocus(event);
 
     const lbt = this.lastBlurTimestamp();
@@ -148,6 +149,7 @@ export abstract class _SelectableListComponentBase
     this._onTouched();
   }
   override onBlur(event: FocusEvent): void {
+    if (this.disabled() || this.readonly()) return;
     super.onBlur(event);
 
     if (!this.touched()) this.lastBlurTimestamp.set(Date.now());
@@ -185,6 +187,7 @@ export abstract class _SelectableListComponentBase
 
   //! item selection handlers
   toggleItem(item: ArdOptionSimple): void {
+    if (this.disabled() || this.readonly()) return;
     if (item.selected) {
       if (this.singleselectable()) return;
 
@@ -194,6 +197,7 @@ export abstract class _SelectableListComponentBase
     this.selectItem(item);
   }
   selectItem(...items: ArdOptionSimple[]): void {
+    if (this.disabled() || this.readonly()) return;
     const [selected, unselected] = this.itemStorage.selectItem(...items);
 
     if (unselected.length > 0) this.removeEvent.emit(unselected);
@@ -204,6 +208,7 @@ export abstract class _SelectableListComponentBase
     }
   }
   unselectItem(...items: ArdOptionSimple[]): void {
+    if (this.disabled() || this.readonly()) return;
     const unselected = this.itemStorage.unselectItem(...items);
 
     if (unselected.length > 0) this.removeEvent.emit(unselected);
@@ -219,11 +224,13 @@ export abstract class _SelectableListComponentBase
     this.isMouseBeingUsed.set(true);
   }
   onItemMouseEnter(option: ArdOptionSimple, event: MouseEvent): void {
+    if (this.disabled() || this.readonly()) return;
     if (!this.isMouseBeingUsed) return;
     this.itemStorage.highlightSingleItem(option);
     event.stopPropagation();
   }
   onItemMouseLeave(option: ArdOptionSimple, event: MouseEvent): void {
+    if (this.disabled() || this.readonly()) return;
     if (!this.isMouseBeingUsed) return;
     this.itemStorage.unhighlightItem(option);
     event.stopPropagation();
@@ -231,6 +238,7 @@ export abstract class _SelectableListComponentBase
 
   //! click handlers
   onItemClick(option: ArdOptionSimple, event: MouseEvent): void {
+    if (this.disabled() || this.readonly()) return;
     event.stopPropagation();
     this.toggleItem(option);
   }
@@ -238,6 +246,12 @@ export abstract class _SelectableListComponentBase
   //! key press handlers
   @HostListener('keydown', ['$event'])
   onKeyPress(event: KeyboardEvent): void {
+    if (this.disabled() || this.readonly()) {
+      if (event.code === 'Space') {
+        event.preventDefault();
+      }
+      return;
+    }
     switch (event.code) {
       case 'Space':
       case 'Enter': {

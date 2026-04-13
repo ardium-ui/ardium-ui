@@ -139,6 +139,7 @@ export class ArdiumPasswordInputComponent extends _FormFieldComponentBase implem
 
   //! control value accessor's write value implementation
   writeValue(v: any) {
+    console.log('writeValue called with', v);
     if (!isAnyString(v) && isDefined(v)) {
       //warn when using non-string/non-null value
       console.warn(
@@ -150,15 +151,15 @@ export class ArdiumPasswordInputComponent extends _FormFieldComponentBase implem
       v = v?.toString?.() ?? String(v);
       return;
     }
-    this._writeValue(v);
+    this._writeValue(v ?? null);
   }
-  protected _writeValue(v: string | null | undefined): boolean {
+  protected _writeValue(v: string | null): boolean {
     const oldVal = this.value();
     this.value.set(v);
     return oldVal !== v;
   }
   //! value two-way binding
-  readonly value = model<Nullable<string>>();
+  readonly value = model<string | null>(null);
 
   //! event handlers
   onInput(newVal: string): void {

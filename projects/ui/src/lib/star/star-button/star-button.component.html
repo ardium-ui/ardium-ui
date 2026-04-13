@@ -5,13 +5,14 @@
   role="checkbox"
   [attr.aria-checked]="selectedAccountingForReverse()"
   [attr.aria-disabled]="disabled()"
+  [attr.aria-readonly]="readonly()"
   [attr.id]="htmlId()"
   [attr.name]="htmlName()"
   [ngClass]="ngClasses()"
   (click)="onClick()"
   (focus)="onFocus($event)"
   (blur)="onBlur($event)"
-  [tabindex]="tabIndex()"
+  [tabindex]="readonly() ? -1 : tabIndex()"
 >
   <div class="ard-hitbox"></div>
   <div class="ard-focus-overlay"></div>

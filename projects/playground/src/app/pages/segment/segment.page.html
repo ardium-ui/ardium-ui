@@ -38,6 +38,20 @@
   />
 </div>
 <div class="master">
+  <span class="title">Readonly segment events, singleselectable</span>
+  <ard-segment
+    [items]="options"
+    [value]="options[1]"
+    readonly
+    (valueChange)="log('valueChange', $event)"
+    (add)="log('add', $event)"
+    (remove)="log('remove', $event)"
+    (focus)="log('focus', $event)"
+    (blur)="log('blur', $event)"
+    (change)="log('change', $event)"
+  />
+</div>
+<div class="master">
   <span class="title">Segment events, multiselectable, uniform widths</span>
   <ard-segment
     [items]="options"

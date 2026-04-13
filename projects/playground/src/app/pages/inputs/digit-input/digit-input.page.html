@@ -3,6 +3,10 @@
   <ard-digit-input config="4" />
 </div>
 <div class="master">
+  <span class="title">Readonly digit input</span>
+  <ard-digit-input config="4" readonly />
+</div>
+<div class="master">
   <span class="title">Digit input events</span>
   <ard-digit-input
     config="4"
@@ -50,6 +54,33 @@
     #digit
     [config]="configWithStatics"
     [formControl]="group.controls.zipCode"
+    htmlId="zipCode"
+    outputAsString
+    [inputAttrs]="{ autocomplete: 'postal-code' }"
+    (valueChange)="log('valueChange', $event)"
+  />
+</div>
+<div class="master">
+  <span class="title">Readonly digit input with static items</span>
+  <label [attr.for]="'postalCode'">Zip code</label>
+  <ard-digit-input
+    #digit
+    [config]="configWithStatics"
+    [formControl]="group.controls.zipCode"
+    htmlId="zipCode"
+    outputAsString
+    [inputAttrs]="{ autocomplete: 'postal-code' }"
+    (valueChange)="log('valueChange', $event)"
+    readonly
+  />
+</div>
+<div class="master">
+  <span class="title">Disabled digit input with static items</span>
+  <label [attr.for]="'postalCode'">Zip code</label>
+  <ard-digit-input
+    #digit
+    [config]="configWithStatics"
+    [formControl]="group.controls.zipCodeDisabled"
     htmlId="zipCode"
     outputAsString
     [inputAttrs]="{ autocomplete: 'postal-code' }"

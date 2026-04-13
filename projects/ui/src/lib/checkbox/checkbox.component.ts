@@ -72,6 +72,7 @@ export class ArdiumCheckboxComponent extends _BooleanComponentBase implements Co
 
   //! click action
   toggleState() {
+    if (this.disabled() || this.readonly()) return;
     let newState: CheckboxState = CheckboxState.Unselected;
     if (this.internalState() === CheckboxState.Unselected) {
       newState = CheckboxState.Selected;

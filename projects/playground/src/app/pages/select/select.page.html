@@ -10,10 +10,12 @@
   />
 </div>
 <div class="master flex">
-  <span class="title">Primitive options, readonly</span>
+  <span class="title">Primitive options, readonly, clearable</span>
   <ard-select
     [items]="fruits"
     [readonly]="isReadOnly()"
+    [value]="fruits[3]"
+    clearable
   />
   <button (click)="isReadOnly.set(true)">Read only: enable</button>
   <button (click)="isReadOnly.set(false)">Read only: disable</button>

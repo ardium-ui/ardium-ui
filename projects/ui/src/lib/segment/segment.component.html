@@ -24,7 +24,7 @@
       tabindex="-1"
       [class.ard-option-disabled]="option.disabled || (isItemLimitReached() && !option.selected)"
       [class.ard-option-selected]="option.selected"
-      [class.ard-option-highlighted]="option.highlighted"
+      [class.ard-option-highlighted]="!readonly() && option.highlighted"
       [ariaSelected]="option.selected"
       (mouseenter)="onItemMouseEnter(option, $event)"
       (mouseleave)="onItemMouseLeave(option, $event)"

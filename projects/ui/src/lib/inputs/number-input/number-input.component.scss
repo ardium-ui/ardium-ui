@@ -44,4 +44,10 @@
     user-select: none;
     height: 100%;
   }
+
+  .ard-readonly > .ard-number-input {
+    .ard-quick-change-button {
+      pointer-events: none;
+    }
+  }
 }

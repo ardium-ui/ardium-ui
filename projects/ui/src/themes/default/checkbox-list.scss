@@ -16,6 +16,7 @@
     --ard-checkbox-list-item-gap: 0.5rem;
     --ard-checkbox-list-item-gap-compact: 0.325rem;
     --ard-checkbox-list-disabled-opacity: 50%;
+    // --ard-checkbox-list-readonly-cursor: ;
   }
 
   .ard-checkbox-list {
@@ -107,5 +108,18 @@
         flex-direction: row-reverse;
       }
     }
+  }
+  .ard-disabled, .ard-readonly {
+    .ard-checkbox-list {
+      .ard-focus-overlay {
+        display: none;
+      }
+    }
+  }
+  .ard-disabled > .ard-checkbox-list {
+    pointer-events: none;
+  }
+  .ard-readonly > .ard-checkbox-list {
+    cursor: var(--ard-checkbox-list-readonly-cursor, var(--ard-readonly-cursor, default));
   }
 }

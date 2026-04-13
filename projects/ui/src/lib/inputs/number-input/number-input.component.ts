@@ -227,6 +227,8 @@ export class ArdiumNumberInputComponent
   });
 
   onQuickChangeButtonClick(direction: 1 | -1, event?: MouseEvent): void {
+    if (this.disabled() || this.readonly()) return;
+
     let num = this.inputModel.numberValue();
     const hasAnyValue = isDefined(num);
     if (!num) num = 0;
@@ -255,6 +257,8 @@ export class ArdiumNumberInputComponent
 
   private _isQuickChangeButtonFocused = false;
   onQuickChangeButtonMouseup(event: MouseEvent): void {
+    if (this.disabled() || this.readonly()) return;
+
     // prevent the event from reaching the parent element
     if (this.keepFocusOnQuickChangeButton()) {
       this._isQuickChangeButtonFocused = true;
@@ -275,6 +279,8 @@ export class ArdiumNumberInputComponent
 
   //! event handlers
   onInput(newVal: string): void {
+    if (this.disabled() || this.readonly()) return;
+    
     const valueHasChanged = this.inputModel.writeValue(newVal, true);
     if (!valueHasChanged) return;
     this._emitInput();
@@ -286,9 +292,11 @@ export class ArdiumNumberInputComponent
 
   //focus, blur, change
   onFocusMaster(event: FocusEvent): void {
+    if (this.disabled() || this.readonly()) return;
     this.onFocus(event);
   }
   onBlurMaster(event: FocusEvent): void {
+    if (this.disabled() || this.readonly()) return;
     this.onBlur(event);
 
     this.inputModel.updateOnBlur();
@@ -307,6 +315,7 @@ export class ArdiumNumberInputComponent
 
   //smart focus
   onMouseup(): void {
+    if (this.disabled() || this.readonly()) return;
     const selection = window.getSelection();
     if (selection && selection.type === 'Range') return;
 

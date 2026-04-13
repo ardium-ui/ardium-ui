@@ -92,6 +92,7 @@ export class ArdiumRadioComponent extends _FocusableComponentBase {
    * Toggles the selected state. Emits all appropriate events.
    */
   toggleSelected() {
+    if (this.disabled() || this.readonly()) return;
     this.selected.update(v => !v);
     this._emitChange();
     this._emitTouched();
@@ -101,6 +102,7 @@ export class ArdiumRadioComponent extends _FocusableComponentBase {
    * Sets the state to "selected". Emits all appropriate events only if the state changes.
    */
   select() {
+    if (this.disabled() || this.readonly()) return;
     this.selected.set(true);
     this._emitChange();
     this._emitTouched();
@@ -109,6 +111,7 @@ export class ArdiumRadioComponent extends _FocusableComponentBase {
    * Sets the state to "unselected". Emits all appropriate events only if the state changes.
    */
   unselect() {
+    if (this.disabled() || this.readonly()) return;
     this.selected.set(false);
     this._emitChange();
     this._emitTouched();
@@ -125,9 +128,11 @@ export class ArdiumRadioComponent extends _FocusableComponentBase {
 
   //! event handlers
   onMousedown(): void {
+    if (this.disabled() || this.readonly()) return;
     this.focus();
   }
   onMouseup(): void {
+    if (this.disabled() || this.readonly()) return;
     this.focus();
     this.selected.set(true);
     this._emitChange();

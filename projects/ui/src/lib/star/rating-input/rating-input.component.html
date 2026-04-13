@@ -19,6 +19,8 @@
       #starButton
       [class.ard-star-not-in-value]="index > valueIndex && index > highlightedIndex"
       [color]="index <= valueIndex || index <= highlightedIndex ? color : 'none'"
+      [readonly]="readonly()"
+      [disabled]="disabled()"
       clickStrategy="noop"
       [selected]="highlightedIndex === -1 ? index <= valueIndex : index <= highlightedIndex"
       (click)="onClick()"

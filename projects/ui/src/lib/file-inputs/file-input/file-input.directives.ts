@@ -39,8 +39,8 @@ export class ArdiumFileInputUploadedContentTemplateDirective {
 
 @Directive({
   standalone: false,
-  selector: 'ard-file-input > ng-template[ard-folder-icon-tmp]',
+  selector: 'ard-file-input > ng-template[ard-upload-icon-tmp]',
 })
-export class ArdiumFileInputFolderIconTemplateDirective {
+export class ArdiumFileInputUploadIconTemplateDirective {
   constructor(public template: TemplateRef<undefined>) {}
 }

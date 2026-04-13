@@ -19,6 +19,16 @@
   ></ard-slider>
 </div>
 <div class="master flex">
+  <span class="title">Readonly slider with set value</span>
+  <ard-slider
+    min="-100"
+    max="100"
+    step="50"
+    [value]="70"
+    readonly
+  ></ard-slider>
+</div>
+<div class="master flex">
   <span class="title">Slider with value ticks and label</span>
   <ard-slider
     step="10"
