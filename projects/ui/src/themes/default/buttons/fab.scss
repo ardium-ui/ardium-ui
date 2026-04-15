@@ -80,8 +80,8 @@
   ard-fab.ard-disabled {
     > .ard-fab {
       @include shared.button-disabled(
-        var(--ard-fab-overlay-disabled-opacity, var(--ard-button-overlay-disabled-opacity, 0.2)),
-        var(--ard-fab-disabled-opacity, var(--ard-button-disabled-opacity, 0.6))
+        var(--ard-fab-disabled-opacity, var(--ard-button-disabled-opacity, 0.6)),
+        var(--ard-fab-overlay-disabled-opacity, var(--ard-button-overlay-disabled-opacity, 0.2))
       );
     }
     &.ard-fab-with-pointer-events-when-disabled {

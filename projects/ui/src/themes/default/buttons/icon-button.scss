@@ -69,8 +69,8 @@
   ard-icon-button.ard-disabled {
     > .ard-icon-button {
       @include shared.button-disabled(
-        var(--ard-icon-button-overlay-disabled-opacity, var(--ard-button-overlay-disabled-opacity, 0.2)),
-        var(--ard-icon-button-disabled-opacity, var(--ard-button-disabled-opacity, 0.6))
+        var(--ard-icon-button-disabled-opacity, var(--ard-button-disabled-opacity, 0.6)),
+        var(--ard-icon-button-overlay-disabled-opacity, var(--ard-button-overlay-disabled-opacity, 0.2))
       );
 
       .ard-focus-overlay {
