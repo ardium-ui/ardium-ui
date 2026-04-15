@@ -4,8 +4,8 @@
   // the variables are commented out intentionally
   // read more in docs/dev/css-variables.md
   :root {
-    --ard-icon-button-height: 2.1875em;
-    --ard-icon-button-height-compact: 2.25em;
+    --ard-icon-button-size: 2.1875em;
+    --ard-icon-button-size-compact: 2.25em;
     --ard-icon-button-margin: 0;
     --ard-icon-button-font-size: 1rem;
     --ard-icon-button-icon-font-size: 1.5em;
@@ -17,6 +17,7 @@
     // --ard-icon-button-overlay-focus-visible-opacity: ;
     // --ard-icon-button-overlay-disabled-opacity: ;
     // --ard-icon-button-disabled-opacity: ;
+    // --ard-icon-button-disabled-cursor: ;
   }
 
   ard-icon-button {
@@ -41,7 +42,7 @@
       var(--ard-icon-button-overlay-focus-visible-opacity, var(--ard-button-overlay-focus-visible-opacity, 0.24))
     );
     background: transparent;
-    height: var(--ard-icon-button-height, 2.1875em);
+    height: var(--ard-icon-button-size, 2.1875em);
     aspect-ratio: 1;
     border-radius: 9999px;
     align-items: center;
@@ -56,7 +57,7 @@
     }
     //! compact
     &.ard-compact {
-      height: var(--ard-icon-button-height-compact, 2.25em);
+      height: var(--ard-icon-button-size-compact, 2.25em);
       font-size: var(--ard-icon-button-font-size-compact, 0.75rem);
     }
     //! light coloring
@@ -76,11 +77,12 @@
         opacity: 0;
       }
     }
-    &.ard-button-with-pointer-events-when-disabled {
+    &.ard-icon-button-with-pointer-events-when-disabled {
       pointer-events: all;
 
-      > .ard-button {
+      > .ard-icon-button {
         pointer-events: all;
+        cursor: var(--ard-icon-button-disabled-cursor, var(--ard-button-disabled-cursor, not-allowed));
       }
     }
   }

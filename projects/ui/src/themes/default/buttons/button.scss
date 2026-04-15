@@ -22,6 +22,7 @@
     --ard-button-overlay-disabled-opacity: 0.2;
     // --ard-button-rounded-corner-radius: ;
     --ard-button-disabled-opacity: 0.6;
+    --ard-button-disabled-cursor: not-allowed;
   }
 
   ard-button {
@@ -100,6 +101,7 @@
 
       &.ard-button-with-pointer-events-when-disabled {
         pointer-events: all;
+        cursor: var(--ard-button-disabled-cursor, not-allowed);
       }
     }
   }

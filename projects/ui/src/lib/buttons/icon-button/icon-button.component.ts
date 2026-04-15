@@ -46,6 +46,7 @@ export class ArdiumIconButtonComponent extends _FocusableComponentBase {
       `ard-color-${this.disabled() ? ComponentColor.None : this.color()}`,
       this.lightColoring() ? `ard-light-coloring` : '',
       this.compact() ? 'ard-compact' : '',
+      this.pointerEventsWhenDisabled() ? 'ard-icon-button-with-pointer-events-when-disabled' : '',
     ].join(' ')
   );
 }
