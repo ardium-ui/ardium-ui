@@ -1,4 +1,5 @@
 import { isDefined } from 'simple-bool';
+import { getUTCDate } from '../../../_internal/utils/date.utils';
 import { CalendarArrayItem } from '../../calendar.internal-types';
 
 export type CalendarArray = (CalendarArrayItem | null)[][];
@@ -57,7 +58,7 @@ export function getCalendarDayData(
         continue;
       }
       // add the day number
-      const valueDate = new Date(year, monthIndex, currentDay);
+      const valueDate = getUTCDate(year, monthIndex, currentDay);
       currentWeek.push({
         value: currentDay,
         valueDate,

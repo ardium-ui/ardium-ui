@@ -28,6 +28,9 @@ export class DateRangeInputPage {
     disabled: true,
   });
 
+  readonly MIN = new Date(`${new Date().getFullYear()}-${(new Date().getMonth() + 1).toString().padStart(2, '0')}-04T00:00:00Z`);
+  readonly MAX = new Date(`${new Date().getFullYear()}-${(new Date().getMonth() + 1).toString().padStart(2, '0')}-11T00:00:00Z`);
+
   constructor() {
     this.formControl.valueChanges.pipe(takeUntilDestroyed()).subscribe(v => {
       console.log('formControl changes', v);
