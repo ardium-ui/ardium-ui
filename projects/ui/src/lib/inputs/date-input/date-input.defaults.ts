@@ -1,6 +1,6 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { _FormFieldComponentDefaults, _formFieldComponentDefaults } from '../../_internal/form-field-component';
-import { ArdCalendarFilterFn, ArdCalendarView, DateRange } from '../../calendar/calendar.types';
+import { ArdCalendarFilterFn, ArdCalendarView, PartialDateRange } from '../../calendar/calendar.types';
 import { DropdownPanelAppearance, DropdownPanelVariant } from '../../dropdown-panel';
 import { ComponentColor } from '../../types/colors.types';
 import { FormElementAppearance, FormElementVariant } from '../../types/theming.types';
@@ -16,7 +16,7 @@ export interface ArdDateInputDefaults extends _FormFieldComponentDefaults {
   inputAttrs: Record<string, any>;
   placeholder: string;
   serializeFn: ArdDateInputSerializeFn<Date>;
-  rangeSerializeFn: ArdDateInputSerializeFn<DateRange>;
+  rangeSerializeFn: ArdDateInputSerializeFn<PartialDateRange>;
   deserializeFn: ArdDateInputDeserializeFn<Date>;
   appearance: FormElementAppearance;
   variant: FormElementVariant;

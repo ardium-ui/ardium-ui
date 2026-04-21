@@ -6,11 +6,12 @@ import {
   forwardRef,
   Inject,
   input,
+  output,
   ViewEncapsulation,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { isDate, isDefined, isNull, isObject } from 'simple-bool';
-import { DateRange, isDateRange } from '../../calendar';
+import { DateRange, isDateRange, PartialDateRange } from '../../calendar';
 import { ARD_FORM_FIELD_CONTROL } from '../../form-field/form-field-child.token';
 import { _AbstractDateInput } from './abstract-date-input';
 import { ARD_DATE_INPUT_DEFAULTS, ArdDateInputDefaults } from './date-input.defaults';
@@ -45,7 +46,7 @@ import {
     },
   ],
 })
-export class ArdiumDateRangeInputComponent extends _AbstractDateInput<DateRange> {
+export class ArdiumDateRangeInputComponent extends _AbstractDateInput<DateRange, PartialDateRange> {
   readonly componentId = '009';
   readonly componentName = 'date-range-input';
   readonly isRangeSelector = true;
@@ -60,7 +61,9 @@ export class ArdiumDateRangeInputComponent extends _AbstractDateInput<DateRange>
     this.toggle();
   }
 
-  readonly serializeFn = input<ArdDateInputSerializeFn<DateRange>>(this._DEFAULTS.rangeSerializeFn);
+  readonly partialValueChange = output<PartialDateRange>();
+
+  readonly serializeFn = input<ArdDateInputSerializeFn<PartialDateRange>>(this._DEFAULTS.rangeSerializeFn);
 
   override writeValue(v: any): void {
     if (isObject(v) && 'from' in v && 'to' in v && isDate(v['from']) && isDate(v['to'])) {
@@ -75,8 +78,15 @@ export class ArdiumDateRangeInputComponent extends _AbstractDateInput<DateRange>
       );
     }
   }
-  protected _isFullValue(value: DateRange | null): boolean {
+  protected _isFullValue(value: PartialDateRange | null): value is DateRange {
     return !!value?.from && !!value?.to;
+  }
+  protected getValueForEmit(): DateRange | null {
+    const value = this.value();
+    if (this._isFullValue(value)) {
+      return new DateRange(value.from, value.to);
+    }
+    return null;
   }
 
   readonly shouldDisplayPlaceholder = computed(() => {

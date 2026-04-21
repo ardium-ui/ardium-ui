@@ -41,7 +41,7 @@ import { YearsViewComponent } from './views/years-view/years-view.component';
 import { isYearOutOfRange } from './views/years-view/years-view.helpers';
 
 @Directive({})
-export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase implements OnChanges {
+export abstract class _AbstractCalendar<T, PT = T> extends _FormFieldComponentBase implements OnChanges {
   abstract readonly componentId: string;
   abstract readonly componentName: string;
 
@@ -169,7 +169,7 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
 
   abstract readonly endDate: Signal<Date | null>;
 
-  abstract readonly value: ModelSignal<T | null>;
+  abstract readonly value: ModelSignal<PT | null>;
 
   readonly yearSelect = output<number>();
   readonly monthSelect = output<number>();
@@ -189,8 +189,10 @@ export abstract class _AbstractCalendar<T> extends _FormFieldComponentBase imple
   abstract override writeValue(v: any): void;
 
   protected override _emitChange(): void {
-    this._onChangeRegistered?.(this.value());
+    this._onChangeRegistered?.(this.getValueForEmit());
   }
+
+  protected abstract getValueForEmit(): T | null;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['UTC']) {

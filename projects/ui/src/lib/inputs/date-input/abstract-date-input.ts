@@ -49,7 +49,7 @@ import {
 import { ArdDateInputAcceptButtonsContext, ArdDateInputSerializeFn, ArdDateInputValueContext } from './date-input.types';
 
 @Directive()
-export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase implements OnDestroy, ControlValueAccessor {
+export abstract class _AbstractDateInput<T, PT = T> extends _FormFieldComponentBase implements OnDestroy, ControlValueAccessor {
   abstract readonly componentId: string;
   abstract readonly componentName: string;
 
@@ -61,7 +61,7 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
 
     // emit value whenever it changes
     effect(() => {
-      this.value();
+      if (!this._isFullValue(this.value())) return;
       this._emitChange();
     });
   }
@@ -81,17 +81,19 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
   });
 
   //! serialization
-  abstract readonly serializeFn: InputSignal<ArdDateInputSerializeFn<T>>;
+  abstract readonly serializeFn: InputSignal<ArdDateInputSerializeFn<PT>>;
 
   //! control value accessor
-  readonly value = model<T | null>(null);
+  readonly value = model<PT | null>(null);
 
   abstract override writeValue(value: T | null): void;
 
   //! change & touch event emitters
   protected _emitChange(): void {
-    this._onChangeRegistered?.(this.value());
+    this._onChangeRegistered?.(this.getValueForEmit());
   }
+
+  protected abstract getValueForEmit(): T | null;
 
   //! output events
   readonly isOpen = model<boolean>(false);
@@ -208,18 +210,18 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
   //! calendar controls
   readonly useAcceptButtonToSelect = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
-  private _valueToAccept: T | null = null;
+  private _valueToAccept: PT | null = null;
 
-  onCalendarSelectedChange(value: T | null): void {
+  onCalendarSelectedChange(value: PT | null): void {
     if (this.disabled() || this.readonly()) return;
     if (!value) return;
     if (this.useAcceptButtonToSelect()) {
       this._valueToAccept = value;
       return;
     }
-    this._acceptSelectedDate(value!);
+    this._acceptSelectedDate(value);
   }
-  private _acceptSelectedDate(date: T | null): void {
+  private _acceptSelectedDate(date: PT | null): void {
     this.value.set(date);
     if (this._isFullValue(date)) {
       this.close();
@@ -228,7 +230,7 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
   private _cancelCalendarSelection(): void {
     this.close();
   }
-  protected abstract _isFullValue(value: T | null): boolean;
+  protected abstract _isFullValue(value: PT | T | null): value is T;
 
   onAcceptButtonClick(): void {
     if (this.disabled() || this.readonly()) return;
@@ -384,7 +386,7 @@ export abstract class _AbstractDateInput<T> extends _FormFieldComponentBase impl
   readonly cancelButtonText = input<string>(this._DEFAULTS.cancelButtonText);
 
   //! context providers
-  readonly valueContext = computed<ArdDateInputValueContext<T>>(() => ({
+  readonly valueContext = computed<ArdDateInputValueContext<PT>>(() => ({
     $implicit: this.serializeFn()(this.value()),
     rawValue: this.value(),
   }));

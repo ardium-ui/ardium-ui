@@ -1,4 +1,4 @@
-import { isDate, isNull, isNumber } from 'simple-bool';
+import { isDate, isNumber } from 'simple-bool';
 
 export const ArdCalendarView = {
   Days: 'days',
@@ -18,11 +18,20 @@ export type ArdMultiCalendarLocation = (typeof ArdMultiCalendarLocation)[keyof t
 export class DateRange {
   constructor(
     public from: Date,
+    public to: Date
+  ) {}
+}
+export class PartialDateRange {
+  constructor(
+    public from: Date,
     public to: Date | null
   ) {}
 }
 export function isDateRange(v: unknown): v is DateRange {
-  return !!v && typeof v === 'object' && 'from' in v && isDate(v.from) && 'to' in v && (isNull(v.to) || isDate(v.to));
+  return !!v && typeof v === 'object' && 'from' in v && isDate(v.from) && 'to' in v && isDate(v.to);
+}
+export function isAnyDateRange(v: unknown): v is PartialDateRange {
+  return !!v && typeof v === 'object' && 'from' in v && isDate(v.from) && 'to' in v && (isDate(v.to) || v.to === null);
 }
 
 export interface YearRange {

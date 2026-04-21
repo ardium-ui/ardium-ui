@@ -79,8 +79,11 @@ export class ArdiumDateInputComponent extends _AbstractDateInput<Date> implement
       console.error(new Error(`ARD-NF0083: <ard-date-input> writeValue expected a Date or null, got "${v}".`));
     }
   }
-  protected _isFullValue(): boolean {
+  protected _isFullValue(_: Date | null): _ is Date {
     return true;
+  }
+  protected getValueForEmit(): Date | null {
+    return this.value();
   }
 
   //! date input event handlers
@@ -101,15 +104,15 @@ export class ArdiumDateInputComponent extends _AbstractDateInput<Date> implement
 
   onDateInputFocus(event: FocusEvent): void {
     this.onFocus(event);
-    
+
     if (this.disabled() || this.readonly()) return;
-    
+
     this.isDateInputFocused.set(true);
     this._wasDateInputChanged.set(false);
   }
   onDateInputBlur(event: FocusEvent): void {
     this.onBlur(event);
-    
+
     if (this.disabled() || this.readonly()) return;
 
     this._processDateInputText(this.dateInputValue());
@@ -192,7 +195,7 @@ export class ArdiumDateInputComponent extends _AbstractDateInput<Date> implement
 
     super.onGeneralClick(event);
     this.dateInput()?.nativeElement.focus();
-    
+
     if (this.isOpen()) {
       this.close();
     }

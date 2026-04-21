@@ -12,7 +12,7 @@ import {
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
 import { isDate, isDefined, isNull, isObject } from 'simple-bool';
-import { ArdMultiCalendarLocation, DateRange, isDateRange } from '../../calendar';
+import { ArdMultiCalendarLocation, DateRange, isDateRange, PartialDateRange } from '../../calendar';
 import { ARD_FORM_FIELD_CONTROL } from '../../form-field/form-field-child.token';
 import { _AbstractDateInput } from './abstract-date-input';
 import { ARD_DATE_INPUT_DEFAULTS, ArdDateInputDefaults } from './date-input.defaults';
@@ -49,7 +49,7 @@ type CalendarDataItem = { location: ArdMultiCalendarLocation; activeDate: Date; 
     },
   ],
 })
-export class ArdiumMultipageDateRangeInputComponent extends _AbstractDateInput<DateRange> {
+export class ArdiumMultipageDateRangeInputComponent extends _AbstractDateInput<DateRange, PartialDateRange> {
   readonly componentId = '012';
   readonly componentName = 'multipage-date-range-input';
   readonly isRangeSelector = true;
@@ -59,7 +59,7 @@ export class ArdiumMultipageDateRangeInputComponent extends _AbstractDateInput<D
     super(defaults);
   }
 
-  readonly serializeFn = input<ArdDateInputSerializeFn<DateRange>>(this._DEFAULTS.rangeSerializeFn);
+  readonly serializeFn = input<ArdDateInputSerializeFn<PartialDateRange>>(this._DEFAULTS.rangeSerializeFn);
 
   readonly highlightedDate = signal<Date | null>(null);
 
@@ -103,8 +103,8 @@ export class ArdiumMultipageDateRangeInputComponent extends _AbstractDateInput<D
           i === 0
             ? ArdMultiCalendarLocation.Left
             : i === arr.length - 1
-            ? ArdMultiCalendarLocation.Right
-            : ArdMultiCalendarLocation.Inner,
+              ? ArdMultiCalendarLocation.Right
+              : ArdMultiCalendarLocation.Inner,
         activeDate,
         highlightedDay,
       };
@@ -142,15 +142,22 @@ export class ArdiumMultipageDateRangeInputComponent extends _AbstractDateInput<D
       );
     }
   }
-  protected _isFullValue(value: DateRange | null): boolean {
+  protected _isFullValue(value: PartialDateRange | null): value is DateRange {
     return !!value?.from && !!value?.to;
+  }
+  protected getValueForEmit(): DateRange | null {
+    const value = this.value();
+    if (this._isFullValue(value)) {
+      return new DateRange(value.from, value.to);
+    }
+    return null;
   }
 
   readonly shouldDisplayPlaceholder = computed(() => {
     return isNull(this.value());
   });
   readonly shouldDisplayValue = computed(() => {
-      return isDateRange(this.value());
+    return isDateRange(this.value());
   });
   readonly shouldDisplayDateInput = computed(() => false);
 
