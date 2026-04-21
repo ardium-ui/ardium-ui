@@ -187,7 +187,7 @@ export class SimpleItemStorage {
         this.selectItem(item);
         return;
       }
-      console.error(
+      console.warn(
         `ARD-WA${this._ardParentComp._componentId}3: Couldn't find an item with value ${value?.toString?.() || String(value)}.`
       );
     };
