@@ -881,7 +881,8 @@ export class ArdiumSelectComponent
     this.filter(searchTerm, true);
   }
   private _setSearchInputAttributes() {
-    const input = this.searchInput()!.nativeElement;
+    const input = this.searchInput()?.nativeElement;
+    if (!input) return;
     const attributes: Record<string, string> = {
       type: 'text',
       autocorrect: 'off',
