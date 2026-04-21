@@ -3,9 +3,6 @@
     display: block;
 
     &.ard-disabled, &.ard-readonly {
-      .ard-checkbox-list__item {
-        cursor: default;
-      }
       .ard-focus-overlay {
         display: none;
       }
