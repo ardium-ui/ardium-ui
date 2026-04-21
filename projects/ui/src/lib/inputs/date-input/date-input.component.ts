@@ -84,7 +84,7 @@ export class ArdiumDateInputComponent extends _AbstractDateInput<Date> implement
   }
 
   //! date input event handlers
-  readonly dateInput = viewChild.required<ElementRef<HTMLInputElement>>('dateInput');
+  readonly dateInput = viewChild<ElementRef<HTMLInputElement>>('dateInput');
 
   readonly inputAttrs = input<Record<string, any>>(this._DEFAULTS.inputAttrs);
 
@@ -147,7 +147,8 @@ export class ArdiumDateInputComponent extends _AbstractDateInput<Date> implement
     this.value.set(date);
   }
   private _setDateInputAttributes() {
-    const input = this.dateInput()!.nativeElement;
+    const input = this.dateInput()?.nativeElement;
+    if (!input) return;
     const attributes: Record<string, string> = {
       type: 'text',
       autocorrect: 'off',
@@ -190,7 +191,7 @@ export class ArdiumDateInputComponent extends _AbstractDateInput<Date> implement
     if (this.disabled() || this.readonly()) return;
 
     super.onGeneralClick(event);
-    this.dateInput().nativeElement.focus();
+    this.dateInput()?.nativeElement.focus();
     
     if (this.isOpen()) {
       this.close();
