@@ -89,7 +89,11 @@
     padding-bottom: $padding-bottom-compact;
   }
   //! readonly
-  .ard-readonly > & {
+  .ard-readonly & {
     cursor: $readonly-cursor;
+
+    * {
+      cursor: inherit;
+    }
   }
 }

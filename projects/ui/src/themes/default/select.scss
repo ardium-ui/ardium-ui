@@ -48,6 +48,7 @@
     // --ard-select-dropdown-option-selected-bg: ;
     // --ard-select-dropdown-option-selected-highlighted-bg: ;
     --ard-select-dropdown-option-disabled-opacity: 50%;
+    // --ard-select-readonly-cursor: ;
 
     --ard-select-dropdown-add-custom-gap: 0.375rem;
     --ard-select-dropdown-add-custom-label-font-size: 85%;
@@ -202,6 +203,15 @@
       }
       .ard-dropdown-arrow-wrapper .ard-dropdown-arrow {
         border-width: calc(ARD.$dropdown-button-size / 2.4);
+      }
+    }
+
+    //! readonly
+    .ard-readonly & {
+      cursor: var(--ard-select-readonly-cursor, var(--ard-readonly-cursor, default));
+
+      * {
+        cursor: inherit;
       }
     }
   }

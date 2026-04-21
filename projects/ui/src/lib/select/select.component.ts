@@ -916,6 +916,10 @@ export class ArdiumSelectComponent
         this._onArrowUpPress(event);
         return;
       }
+      case 'Escape': {
+        this._onEscapePress(event);
+        return;
+      }
       case 'Home': {
         this._onHomePress(event);
         return;
@@ -994,6 +998,13 @@ export class ArdiumSelectComponent
     }
 
     this.dropdownPanel()?.scrollToRecentlyHighlighted('top');
+  }
+  private _onEscapePress(event: KeyboardEvent): void {
+    if (!this.isOpen()) return;
+    event.preventDefault();
+
+    this.itemStorage.clearAllHighlights();
+    this.close();
   }
   private _onHomePress(event: KeyboardEvent): void {
     if (
