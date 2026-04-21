@@ -1,7 +1,7 @@
 import { Component, computed, effect, inject, input, OnDestroy, signal } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, TouchedChangeEvent } from '@angular/forms';
 import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
-import { filter, map, Subscription } from 'rxjs';
+import { filter, map, startWith, Subscription } from 'rxjs';
 import { ARD_FORM_FIELD_DEFAULTS } from '../form-field.defaults';
 import { ARD_ERROR_MAP } from './auto-error.provider';
 
@@ -33,6 +33,7 @@ export class ArdiumAutoErrorComponent implements OnDestroy {
       const control = this.control();
       this._eventsSub = control.events
         .pipe(
+          startWith(new TouchedChangeEvent(true, control)),
           filter(event => 'touched' in event || 'status' in event),
           map(() => {
             const errors = control.errors;
@@ -42,7 +43,7 @@ export class ArdiumAutoErrorComponent implements OnDestroy {
             if (typeof errors === 'object' && Object.keys(errors).length === 0) {
               return [];
             }
-            
+
             const onlyFirstError = this.onlyFirstError();
             const errorMessages: string[] = [];
             for (const errorType in this._errorMap) {
