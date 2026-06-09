@@ -45,14 +45,14 @@
       var(--ard-number-input-line-height, 1.25),
       var(--ard-number-input-line-height-compact, 1),
       var(--ard-number-input-font-weight, 400),
-      var(--ard-number-input-padding-top, var(--ard-form-field-padding-top, 0)),
-      var(--ard-number-input-padding-right, var(--ard-form-field-padding-right, 0.375rem)),
-      var(--ard-number-input-padding-bottom, var(--ard-form-field-padding-bottom, 0)),
-      var(--ard-number-input-padding-left, var(--ard-form-field-padding-left, 0.375rem)),
-      var(--ard-number-input-padding-top-compact, var(--ard-form-field-padding-top-compact, 0)),
-      var(--ard-number-input-padding-right-compact, var(--ard-form-field-padding-right-compact, 0.375rem)),
-      var(--ard-number-input-padding-bottom-compact, var(--ard-form-field-padding-bottom-compact, 0)),
-      var(--ard-number-input-padding-left-compact, var(--ard-form-field-padding-left-compact, 0.375rem)),
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
       var(--ard-number-input-color, #{ARD.$text}),
       var(--ard-number-input-placeholder-color, #{ARD.$text}),
       var(--ard-number-input-placeholder-opacity, 60%),
@@ -86,13 +86,11 @@
       display: flex;
       align-items: center;
     }
-    &.ard-quick-change-true {
-      .ard-number-input-prefix-container {
-        padding-left: var(--ard-number-input-gap, 0.375rem);
-      }
-      .ard-number-input-suffix-container {
-        padding-right: var(--ard-number-input-gap, 0.375rem);
-      }
+    .ard-number-input-prefix-container {
+      padding-left: var(--ard-number-input-gap, 0.375rem);
+    }
+    .ard-number-input-suffix-container {
+      padding-right: var(--ard-number-input-gap, 0.375rem);
     }
 
     //! buttons

@@ -40,6 +40,7 @@ export class ArdiumRangeCalendarComponent extends _AbstractCalendar<DateRange, P
   readonly componentName = 'calendar';
   readonly isRangeSelector = true;
 
+
   constructor(@Inject(ARD_CALENDAR_DEFAULTS) defaults: ArdCalendarDefaults) {
     super(defaults);
 

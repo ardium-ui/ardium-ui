@@ -1,6 +1,6 @@
 import { computed, Directive, input } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { BooleanLike, coerceBooleanProperty, trackFormControl } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty, trackBoundControl } from '@ardium-ui/devkit';
 import { TakeChance as Random } from 'take-chance';
 import { ARD_FORM_FIELD_CONTROL, ArdFormFieldControl } from './form-field-child.token';
 
@@ -34,7 +34,7 @@ export class ArdiumFormFieldNativeInputAdapterDirective implements ArdFormFieldC
   readonly disabled = input<boolean, BooleanLike>(false, { transform: v => coerceBooleanProperty(v) });
 
   //! form field related
-  readonly control = trackFormControl(this, { attachValueAccessor: false });
+  readonly control = trackBoundControl(this, { attachValueAccessor: false });
 
   ngOnInit(): void {
     this.control.init();

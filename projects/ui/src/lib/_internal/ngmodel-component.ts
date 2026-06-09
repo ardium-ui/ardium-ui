@@ -1,6 +1,6 @@
 import { computed, Directive, input, OnDestroy, OnInit } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { coerceBooleanProperty, trackFormControl } from '@ardium-ui/devkit';
+import { coerceBooleanProperty, trackBoundControl } from '@ardium-ui/devkit';
 import { TakeChance as Random } from 'take-chance';
 import { Nullable } from '../types/utility.types';
 import { _FocusableComponentBase, _focusableComponentDefaults, _FocusableComponentDefaults } from './focusable-component';
@@ -83,7 +83,7 @@ export abstract class _NgModelComponentBase extends _FocusableComponentBase impl
   }
 
   //! form field related
-  readonly control = trackFormControl(this);
+  readonly control = trackBoundControl(this);
 
   ngOnInit(): void {
     this.control.init();

@@ -14,7 +14,14 @@ import {
   SimpleChanges,
   viewChild,
 } from '@angular/core';
-import { BooleanLike, coerceBooleanProperty, coerceDateProperty, coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
+import {
+  BooleanLike,
+  coerceBooleanProperty,
+  coerceDateProperty,
+  coerceNumberProperty,
+  getUTCDate,
+  NumberLike,
+} from '@ardium-ui/devkit';
 import { roundFromZero, roundToMultiple } from 'more-rounding';
 import { isDefined, isNull } from 'simple-bool';
 import { _FormFieldComponentBase } from '../_internal/form-field-component';
@@ -175,10 +182,10 @@ export abstract class _AbstractCalendar<T, PT = T> extends _FormFieldComponentBa
   readonly monthSelect = output<number>();
 
   readonly min = input<Date | null, any>(this._DEFAULTS.min, {
-    transform: v => (v === null ? null : coerceDateProperty(v, this._DEFAULTS.min)),
+    transform: v => (v === null ? null : coerceDateProperty(v, this._DEFAULTS.min, true)),
   });
   readonly max = input<Date | null, any>(this._DEFAULTS.max, {
-    transform: v => (v === null ? null : coerceDateProperty(v, this._DEFAULTS.max)),
+    transform: v => (v === null ? null : coerceDateProperty(v, this._DEFAULTS.max, true)),
   });
 
   readonly UTC = input<boolean, BooleanLike>(this._DEFAULTS.UTC, { transform: v => coerceBooleanProperty(v) });
@@ -221,7 +228,7 @@ export abstract class _AbstractCalendar<T, PT = T> extends _FormFieldComponentBa
 
   //! selecting days
   isDayOutOfRange(day: number, month: number = this.activeMonth(), year: number = this.activeYear()): number {
-    const dayDate = new Date(year, month, day);
+    const dayDate = getUTCDate(year, month, day);
     return isDayOutOfRange(dayDate, this.min(), this.max());
   }
   readonly isDayFilteredOut = computed(() => {
