@@ -7,12 +7,20 @@ import {
   effect,
   inject,
   input,
+  OnChanges,
   signal,
+  SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
 import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { ArdiumBreakpointService } from '../breakpoints/breakpoint.service';
-import { parseBooleanOrBreakpointConfig, parseCSSUnitOrBreakpointConfig, parseEnumOrBreakpointConfig, parseNumberOrBreakpointConfig, parseSizeOrBreakpointConfig } from '../breakpoints/breakpoint.utils';
+import {
+  parseBooleanOrBreakpointConfig,
+  parseCSSUnitOrBreakpointConfig,
+  parseEnumOrBreakpointConfig,
+  parseNumberOrBreakpointConfig,
+  parseSizeOrBreakpointConfig,
+} from '../breakpoints/breakpoint.utils';
 import { ArdBreakpointsConfig } from '../breakpoints/breakpoints';
 import { ARD_GRID_DEFAULTS } from './grid.defaults';
 import {
@@ -22,7 +30,7 @@ import {
   ArdGridWrap,
   isArdGridAlign,
   isArdGridJustify,
-  isArdGridWrap
+  isArdGridWrap,
 } from './grid.types';
 
 @Component({
@@ -41,7 +49,7 @@ import {
     '[class.ard-grid__item-auto]': '!container() && currentSize() === "auto"',
   },
 })
-export class ArdiumGridComponent implements AfterContentInit {
+export class ArdiumGridComponent implements AfterContentInit, OnChanges {
   protected readonly _DEFAULTS = inject(ARD_GRID_DEFAULTS);
 
   private readonly _breakpointService = inject(ArdiumBreakpointService);
@@ -127,14 +135,34 @@ export class ArdiumGridComponent implements AfterContentInit {
   readonly inheritedRowSpacing = signal<ArdBreakpointsConfig<number | string> | null>(null);
   readonly inheritedWrap = signal<ArdBreakpointsConfig<ArdGridWrap> | null>(null);
 
+  readonly wasColumnsChanged = signal<boolean>(false);
+  readonly wasReverseChanged = signal<boolean>(false);
+  readonly wasJustifyContentChanged = signal<boolean>(false);
+  readonly wasAlignItemsChanged = signal<boolean>(false);
+  readonly wasColumnSpacingChanged = signal<boolean>(false);
+  readonly wasRowSpacingChanged = signal<boolean>(false);
+  readonly wasWrapChanged = signal<boolean>(false);
+
   //! inherited or own properties
-  readonly columnsOrInherited = computed(() => this.inheritedColumns() ?? this.columns());
-  readonly reverseOrInherited = computed(() => this.inheritedReverse() ?? this.reverse());
-  readonly justifyContentOrInherited = computed(() => this.inheritedJustifyContent() ?? this.justifyContent());
-  readonly alignItemsOrInherited = computed(() => this.inheritedAlignItems() ?? this.alignItems());
-  readonly columnSpacingOrInherited = computed(() => this.inheritedColumnSpacing() ?? this.columnSpacing());
-  readonly rowSpacingOrInherited = computed(() => this.inheritedRowSpacing() ?? this.rowSpacing());
-  readonly wrapOrInherited = computed(() => this.inheritedWrap() ?? this.wrap());
+  readonly columnsOrInherited = computed(() =>
+    this.wasColumnsChanged() ? this.columns() : (this.inheritedColumns() ?? this.columns())
+  );
+  readonly reverseOrInherited = computed(() =>
+    this.wasReverseChanged() ? this.reverse() : (this.inheritedReverse() ?? this.reverse())
+  );
+  readonly justifyContentOrInherited = computed(() =>
+    this.wasJustifyContentChanged() ? this.justifyContent() : (this.inheritedJustifyContent() ?? this.justifyContent())
+  );
+  readonly alignItemsOrInherited = computed(() =>
+    this.wasAlignItemsChanged() ? this.alignItems() : (this.inheritedAlignItems() ?? this.alignItems())
+  );
+  readonly columnSpacingOrInherited = computed(() =>
+    this.wasColumnSpacingChanged() ? this.columnSpacing() : (this.inheritedColumnSpacing() ?? this.columnSpacing())
+  );
+  readonly rowSpacingOrInherited = computed(() =>
+    this.wasRowSpacingChanged() ? this.rowSpacing() : (this.inheritedRowSpacing() ?? this.rowSpacing())
+  );
+  readonly wrapOrInherited = computed(() => (this.wasWrapChanged() ? this.wrap() : (this.inheritedWrap() ?? this.wrap())));
 
   //! computed properties
   readonly finalColumnSpacing = computed(() => this.columnSpacingOrInherited() ?? this.spacing());
@@ -154,7 +182,8 @@ export class ArdiumGridComponent implements AfterContentInit {
 
   readonly currentStyle = computed(() =>
     [
-      this.container() ? `--ard-_grid-columns: ${this.currentColumns()}` : `--ard-_grid-size: ${this.currentSize()}`,
+      this.currentSize() ? `--ard-_grid-size: ${this.currentSize()}` : '',
+      this.container() ? `--ard-_grid-columns: ${this.currentColumns()}` : '',
       this.container() ? `--ard-_grid-direction: ${this.currentReverse() ? 'row-reverse' : 'row'}` : '',
       this.container() ? `--ard-_grid-justify-content: ${this.currentJustifyContent()}` : '',
       this.container() ? `--ard-_grid-align-items: ${this.currentAlignItems()}` : '',
@@ -169,20 +198,53 @@ export class ArdiumGridComponent implements AfterContentInit {
   //! inheriting styles for items
   readonly children = contentChildren(ArdiumGridComponent);
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['columns']) {
+      this.wasColumnsChanged.set(true);
+    }
+    if (changes['reverse']) {
+      this.wasReverseChanged.set(true);
+    }
+    if (changes['justifyContent']) {
+      this.wasJustifyContentChanged.set(true);
+    }
+    if (changes['alignItems']) {
+      this.wasAlignItemsChanged.set(true);
+    }
+    if (changes['columnSpacing']) {
+      this.wasColumnSpacingChanged.set(true);
+    }
+    if (changes['rowSpacing']) {
+      this.wasRowSpacingChanged.set(true);
+    }
+    if (changes['wrap']) {
+      this.wasWrapChanged.set(true);
+    }
+  }
+
   private _updateChildrenStyles() {
+    const containerChildren = this.children().filter(child => child !== this && child.container());
+
+    const columns = this.columnsOrInherited();
+    const reverse = this.reverseOrInherited();
+    const justifyContent = this.justifyContentOrInherited();
+    const alignItems = this.alignItemsOrInherited();
+    const columnSpacing = this.finalColumnSpacing();
+    const rowSpacing = this.finalRowSpacing();
+    const wrap = this.wrapOrInherited();
+
     if (!this._wasContentInitialized) {
       return;
     }
-    const containerChildren = this.children().filter(child => child !== this && child.container());
 
     for (const child of containerChildren) {
-      child.inheritedColumns.set(this.columns());
-      child.inheritedReverse.set(this.reverse());
-      child.inheritedJustifyContent.set(this.justifyContent());
-      child.inheritedAlignItems.set(this.alignItems());
-      child.inheritedColumnSpacing.set(this.columnSpacing());
-      child.inheritedRowSpacing.set(this.rowSpacing());
-      child.inheritedWrap.set(this.wrap());
+      child.inheritedColumns.set(columns);
+      child.inheritedReverse.set(reverse);
+      child.inheritedJustifyContent.set(justifyContent);
+      child.inheritedAlignItems.set(alignItems);
+      child.inheritedColumnSpacing.set(columnSpacing);
+      child.inheritedRowSpacing.set(rowSpacing);
+      child.inheritedWrap.set(wrap);
     }
   }
 }

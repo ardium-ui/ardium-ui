@@ -55,6 +55,22 @@
   </ard-grid>
 </div>
 <div class="master">
+  <span class="title">Nested grid with custom spacings</span>
+
+  <ard-grid
+    container
+    columnSpacing="2 md:4 xl:3rem"
+    rowSpacing="1 md:2 xl:4"
+  >
+    <ard-grid size="3">3</ard-grid>
+    <ard-grid size="3">3</ard-grid>
+    <ard-grid size="6" container>
+      <ard-grid size="6">6-6</ard-grid>
+      <ard-grid size="6">6-6</ard-grid>
+    </ard-grid>
+  </ard-grid>
+</div>
+<div class="master">
   <span class="title">Grid with reverse depending on breakpoint</span>
 
   <ard-grid
