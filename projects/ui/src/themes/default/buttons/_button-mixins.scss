@@ -24,6 +24,7 @@
   position: relative;
   cursor: pointer;
   outline: none;
+  box-sizing: border-box;
 
   //! button focus inficator
   &::before {

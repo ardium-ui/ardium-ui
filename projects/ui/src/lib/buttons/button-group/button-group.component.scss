@@ -1,0 +1,96 @@
+@layer ard-ui {
+  ard-button-group {
+    display: flex;
+    z-index: 0;
+    max-width: max-content;
+
+    .ard-button {
+      &:hover,
+      &:focus,
+      &:focus-visible,
+      &:active {
+        z-index: 1;
+      }
+    }
+
+    &:not(.ard-button-group__vertical) {
+      &:not(:has(> ard-button-group)) {
+        > ard-button {
+          &:not(:last-child) {
+            .ard-button {
+              border-top-right-radius: 0;
+              border-bottom-right-radius: 0;
+            }
+          }
+          &:not(:first-child) {
+            .ard-button {
+              border-top-left-radius: 0;
+              border-bottom-left-radius: 0;
+              margin-left: -1px;
+            }
+          }
+        }
+        > .ard-button {
+          &:not(:last-child) {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+          }
+          &:not(:first-child) {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            margin-left: -1px;
+          }
+        }
+        .ard-divider {
+          + ard-button .ard-button,
+          + .ard-button {
+            margin-left: 0;
+          }
+        }
+      }
+    }
+
+    &.ard-button-group__vertical {
+      flex-direction: column;
+
+      &:not(:has(> ard-button-group)) {
+        > ard-button {
+          &:not(:last-child) {
+            .ard-button {
+              border-bottom-right-radius: 0;
+              border-bottom-left-radius: 0;
+            }
+          }
+          &:not(:first-child) {
+            .ard-button {
+              border-top-left-radius: 0;
+              border-top-right-radius: 0;
+              margin-top: -1px;
+            }
+          }
+        }
+        > .ard-button {
+          &:not(:last-child) {
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+          }
+          &:not(:first-child) {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            margin-top: -1px;
+          }
+        }
+        > .ard-divider {
+          + ard-button .ard-button,
+          + .ard-button {
+            margin-top: 0;
+          }
+        }
+      }
+      > .ard-button,
+      > ard-button {
+        width: 100%;
+      }
+    }
+  }
+}

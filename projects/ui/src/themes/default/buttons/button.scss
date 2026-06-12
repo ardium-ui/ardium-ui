@@ -16,7 +16,7 @@
     --ard-button-font-size-compact: 0.75rem;
     --ard-button-font-weight: 500;
     --ard-button-overlay-hover-opacity: 0.04;
-    --ard-button-overlay-focus-opacity: 0.12;
+    --ard-button-overlay-focus-opacity: 0;
     --ard-button-overlay-active-opacity: 0.18;
     --ard-button-overlay-focus-visible-opacity: 0.24;
     --ard-button-overlay-disabled-opacity: 0.2;
@@ -81,6 +81,11 @@
     }
     &.ard-variant-sharp {
       border-radius: 0;
+    }
+    &.ard-button-square {
+      width: var(--ard-button-height, 2.5em);
+      padding: 0;
+      aspect-ratio: 1 / 1;
     }
 
     //! compact

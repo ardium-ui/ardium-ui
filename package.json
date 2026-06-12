@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port=4240 --project=playground",
-    "build": "ng build",
+    "build": "ng build --project=ui",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "ngg-um": "ng g m --project=ui",

@@ -5,12 +5,14 @@ import { ButtonVariant } from '../general-button.types';
 export interface ArdButtonDefaults extends _ButtonBaseDefaults {
   variant: ButtonVariant;
   vertical: boolean;
+  square: boolean;
 }
 
 const _buttonDefaults: ArdButtonDefaults = {
   ..._buttonBaseDefaults,
   variant: ButtonVariant.Rounded,
   vertical: false,
+  square: false,
 };
 
 export const ARD_BUTTON_DEFAULTS = new InjectionToken<ArdButtonDefaults>('ard-button-defaults', {

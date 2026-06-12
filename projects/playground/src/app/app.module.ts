@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { BadgeModule } from './pages/badge/badge.module';
+import { ButtonGroupModule } from './pages/button-group/button-group.module';
 import { ButtonModule } from './pages/button/button.module';
 import { RangeCalendarModule } from './pages/calendar-range/range-calendar.module';
 import { CalendarModule } from './pages/calendar/calendar.module';
@@ -71,6 +72,7 @@ import { TableModule } from './pages/table/table.module';
     RadioModule,
     FileDropAreaModule,
     FileInputModule,
+    ButtonGroupModule,
     TableModule,
     BadgeModule,
     ProgressBarModule,

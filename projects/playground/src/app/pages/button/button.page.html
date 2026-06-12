@@ -1,3 +1,7 @@
+<div class="master flex">
+  <span class="title">Basic button</span>
+  <ard-button>Button</ard-button>
+</div>
 <div class="master flex playground">
   <div
     class="flex horiz"
@@ -90,6 +94,20 @@
     </ard-button>
   </div>
 </div>
+<div class="master">
+  <div class="title">Button with pointer events when disabled</div>
+  <ard-button
+    disabled
+    pointerEventsWhenDisabled
+    >Disabled</ard-button
+  >
+</div>
+<div class="master">
+  <div class="title">Square button</div>
+  <ard-button square>
+    <ard-icon>home</ard-icon>
+  </ard-button>
+</div>
 <div
   class="master flex"
   (click)="log('click div', $event)"
@@ -166,11 +184,3 @@
   }
 </div>
 }
-<div class="master">
-  <div class="title">Button with pointer events when disabled</div>
-  <ard-button
-    disabled
-    pointerEventsWhenDisabled
-    >Disabled</ard-button
-  >
-</div>

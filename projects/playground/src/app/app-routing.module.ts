@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BadgePage } from './pages/badge/badge.page';
+import { ButtonGroupPage } from './pages/button-group/button-group.page';
 import { ButtonPage } from './pages/button/button.page';
 import { RangeCalendarPage } from './pages/calendar-range/range-calendar.page';
 import { CalendarPage } from './pages/calendar/calendar.page';
@@ -41,6 +42,7 @@ const routes: Routes = [
   { path: 'select', component: SelectPage },
   { path: 'icon-button', component: IconButtonPage },
   { path: 'button', component: ButtonPage },
+  { path: 'button-group', component: ButtonGroupPage },
   { path: 'fab', component: FabPage },
   { path: 'checkbox', component: CheckboxPage },
   { path: 'checkbox-list', component: CheckboxListPage },

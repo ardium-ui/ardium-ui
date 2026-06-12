@@ -4,6 +4,7 @@
 
 @use 'projects/ui/src/themes/default/core.scss';
 @use 'projects/ui/src/themes/default/buttons/button.scss';
+@use 'projects/ui/src/themes/default/buttons/button-group.scss';
 @use 'projects/ui/src/themes/default/buttons/fab.scss';
 @use 'projects/ui/src/themes/default/buttons/icon-button.scss';
 @use 'projects/ui/src/themes/default/form-field-frame.scss';
@@ -59,6 +60,7 @@ body {
 
 .master {
   width: max-content;
+  max-width: 100%;
   --grid-cols: 7;
   padding: 8px 0;
   border-bottom: 1px solid #000;

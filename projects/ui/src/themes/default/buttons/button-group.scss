@@ -1,0 +1,19 @@
+@layer ard-ui {
+  :root {
+    --ard-button-group-gap: 0.5rem;
+  }
+
+  ard-button-group {
+    display: flex;
+    align-items: center;
+
+    &:has(> ard-button-group) {
+      gap: var(--ard-button-group-gap, 0.5rem);
+      flex-wrap: wrap;
+      width: 100%;
+    }
+    > .ard-divider.ard-divider {
+      margin: 0;
+    }
+  }
+}

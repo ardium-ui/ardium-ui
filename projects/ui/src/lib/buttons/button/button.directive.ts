@@ -1,4 +1,4 @@
-import { computed, Directive, effect, ElementRef, inject, Inject, input, Renderer2 } from '@angular/core';
+import { computed, Directive, effect, ElementRef, inject, Inject, input, Renderer2, signal, SimpleChanges } from '@angular/core';
 import { BooleanLike, coerceBooleanProperty } from '@ardium-ui/devkit';
 import { _ButtonBase } from '../_button-base';
 import { ButtonVariant } from '../general-button.types';
@@ -44,6 +44,7 @@ export class ArdiumButtonDirective extends _ButtonBase {
   readonly variant = input<ButtonVariant>(this._DEFAULTS.variant);
 
   readonly vertical = input<boolean, BooleanLike>(this._DEFAULTS.vertical, { transform: v => coerceBooleanProperty(v) });
+  readonly square = input<boolean, BooleanLike>(this._DEFAULTS.square, { transform: v => coerceBooleanProperty(v) });
 
   readonly ngClasses = computed(() =>
     [
@@ -56,7 +57,23 @@ export class ArdiumButtonDirective extends _ButtonBase {
       this.disabled() ? 'ard-disabled' : '',
       this.compact() ? 'ard-compact' : '',
       this.vertical() ? 'ard-button-vertical' : '',
+      this.square() ? 'ard-button-square' : '',
       this.pointerEventsWhenDisabled() ? 'ard-button-with-pointer-events-when-disabled' : '',
     ].join(' ')
   );
+
+  //! inheriting from button groups
+  readonly inheritedCompact = signal<boolean | null>(null);
+
+  readonly wasCompactChanged = signal<boolean>(false);
+
+  readonly compactOrInherited = computed(() =>
+    this.wasCompactChanged() ? this.compact() : (this.inheritedCompact() ?? this.compact())
+  );
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['compact']) {
+      this.wasCompactChanged.set(true);
+    }
+  }
 }

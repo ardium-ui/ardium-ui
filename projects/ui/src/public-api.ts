@@ -19,6 +19,7 @@ export * from './lib/inputs/number-input'; // 007
 
 //! component group 1 - small forms-related components
 export * from './lib/buttons/button';
+export * from './lib/buttons/button-group';
 export * from './lib/buttons/fab';
 export * from './lib/buttons/general-button.types';
 export * from './lib/buttons/icon-button';
