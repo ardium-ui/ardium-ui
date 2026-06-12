@@ -88,8 +88,10 @@
         }
       }
       > .ard-button,
-      > ard-button {
+      > ard-button,
+      > ard-button > .ard-button {
         width: 100%;
+        aspect-ratio: unset;
       }
     }
   }
