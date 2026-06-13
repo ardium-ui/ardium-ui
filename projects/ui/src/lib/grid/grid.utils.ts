@@ -7,17 +7,47 @@ import { ArdBreakpointsConfig } from './../breakpoints/breakpoints';
  *
  * - `number`: same value is applied to all breakpoints.
  * - `string`: either a single number or a space-separated breakpoint list
- *   like `"base:1 sm:2 md:3 lg:4 xl:5"`.
+ *   like `"xs:1 sm:2 md:3 lg:4 xl:5"`.
  * - `ArdBreakpointsConfig`: missing breakpoints are filled based on smaller ones.
  */
-export function transformResponsiveValue<T, R extends T = T>(
+export function transformResponsiveValue<T>(
   v: T | string | ArdBreakpointsConfig<T>,
   breakpoints: string[],
-  parseValue: (val: string) => R | undefined
+  componentId: string,
+  parseValue: (val: string) => T | undefined
+): Required<ArdBreakpointsConfig<T>>;
+
+/**
+ * Normalizes various responsive value representations into a full {@link ArdBreakpointsConfig}.
+ *
+ * - `number`: same value is applied to all breakpoints.
+ * - `string`: either a single number or a space-separated breakpoint list
+ *   like `"xs:1 sm:2 md:3 lg:4 xl:5"`.
+ * - `ArdBreakpointsConfig`: missing breakpoints are filled based on smaller ones.
+ */
+export function transformResponsiveValue<T, R extends T>(
+  v: T | string | ArdBreakpointsConfig<T>,
+  breakpoints: string[],
+  componentId: string,
+  parseValue: (val: string) => R | undefined,
+  parseToR: (val: T) => R
+): Required<ArdBreakpointsConfig<R>>;
+
+export function transformResponsiveValue<T, R extends T>(
+  v: T | string | ArdBreakpointsConfig<T>,
+  breakpoints: string[],
+  componentId: string,
+  parseValue: (val: string) => R | undefined,
+  parseToR?: (val: T) => R
 ): Required<ArdBreakpointsConfig<R>> {
   // if it's an object, fill in missing breakpoints
   if (isObject(v)) {
-    return fillInMissingBreakpoints<R>(v as ArdBreakpointsConfig<R>, breakpoints);
+    const vAsR = {} as Partial<ArdBreakpointsConfig<R>>;
+    for (const [bp, val] of Object.entries(v)) {
+      vAsR[bp] = parseToR?.(val!) ?? (val as unknown as R);
+    }
+
+    return fillInMissingBreakpoints<R>(vAsR, breakpoints, componentId);
   }
   // parse string like "xs:1 sm:2 md:3 lg:4 xl:5"
   const items = coerceArrayProperty(v, ' ')
@@ -32,11 +62,11 @@ export function transformResponsiveValue<T, R extends T = T>(
     })
     .filter(item => {
       if (!breakpoints.includes(item.breakpoint)) {
-        console.warn(`ARD-WA6010: Unknown breakpoint "${item.breakpoint}:${item.value}". This entry will be ignored.`);
+        console.warn(`ARD-WA${componentId}0: Unknown breakpoint "${item.breakpoint}:${item.value}". This entry will be ignored.`);
         return false;
       }
       if (item.value === undefined || item.value === null || item.value === '' || (isNumber(item.value) && isNaN(item.value))) {
-        console.warn(`ARD-WA6011: Invalid value for breakpoint "${item.breakpoint}". This entry will be ignored.`);
+        console.warn(`ARD-WA${componentId}1: Invalid value for breakpoint "${item.breakpoint}". This entry will be ignored.`);
         return false;
       }
       return true;
@@ -45,7 +75,7 @@ export function transformResponsiveValue<T, R extends T = T>(
       (acc, curr) => {
         if (acc[curr.breakpoint]) {
           console.warn(
-            `ARD-WA6012: Duplicate value for breakpoint "${curr.breakpoint}". The value "${curr.rawValue}" will overwrite the previous value "${acc[curr.breakpoint]}".`
+            `ARD-WA${componentId}2: Duplicate value for breakpoint "${curr.breakpoint}". The value "${curr.rawValue}" will overwrite the previous value "${acc[curr.breakpoint]}".`
           );
         }
         acc[curr.breakpoint] = curr.value;
@@ -53,12 +83,13 @@ export function transformResponsiveValue<T, R extends T = T>(
       },
       {} as Record<string, R | undefined>
     );
-  return fillInMissingBreakpoints(items, breakpoints);
+  return fillInMissingBreakpoints(items, breakpoints, componentId);
 }
 
 export function fillInMissingBreakpoints<T>(
   config: Partial<ArdBreakpointsConfig<T>>,
-  breakpoints: string[]
+  breakpoints: string[],
+  componentId: string
 ): Required<ArdBreakpointsConfig<T>> {
   const filledConfig: Record<string, T> = {};
   let lastValue: T | undefined = undefined;
@@ -72,7 +103,7 @@ export function fillInMissingBreakpoints<T>(
       filledConfig[bp] = lastValue;
       continue;
     }
-    throw new Error(`ARD-FT6013: Missing value for breakpoint "${bp}" and no smaller breakpoint to inherit from.`);
+    throw new Error(`ARD-FT${componentId}3: Missing value for breakpoint "${bp}" and no smaller breakpoint to inherit from.`);
   }
   return filledConfig as Required<ArdBreakpointsConfig<T>>;
 }

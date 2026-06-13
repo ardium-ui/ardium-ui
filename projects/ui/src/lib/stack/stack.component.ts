@@ -27,6 +27,8 @@ import { ARD_STACK_DEFAULTS } from './stack.defaults';
   },
 })
 export class ArdiumStackComponent {
+  private readonly _componentId = '602';
+
   protected readonly _DEFAULTS = inject(ARD_STACK_DEFAULTS);
 
   private readonly _breakpointService = inject(ArdiumBreakpointService);
@@ -35,48 +37,48 @@ export class ArdiumStackComponent {
   readonly direction = input<
     Required<ArdBreakpointsConfig<ArdGridDirection>>,
     ArdGridDirection | string | ArdBreakpointsConfig<ArdGridDirection>
-  >(parseEnumOrBreakpointConfig(this._DEFAULTS.direction, this._breakpointService.breakpoints, isArdGridDirection), {
-    transform: value => parseEnumOrBreakpointConfig(value, this._breakpointService.breakpoints, isArdGridDirection),
+  >(parseEnumOrBreakpointConfig(this._DEFAULTS.direction, this._breakpointService.breakpoints, this._componentId, isArdGridDirection), {
+    transform: value => parseEnumOrBreakpointConfig(value, this._breakpointService.breakpoints, this._componentId, isArdGridDirection),
   });
 
   readonly justifyContent = input<
     Required<ArdBreakpointsConfig<ArdGridJustify>>,
     ArdGridJustify | string | ArdBreakpointsConfig<ArdGridJustify>
-  >(parseEnumOrBreakpointConfig(this._DEFAULTS.justifyContent, this._breakpointService.breakpoints, isArdGridJustify), {
-    transform: value => parseEnumOrBreakpointConfig(value, this._breakpointService.breakpoints, isArdGridJustify),
+  >(parseEnumOrBreakpointConfig(this._DEFAULTS.justifyContent, this._breakpointService.breakpoints, this._componentId, isArdGridJustify), {
+    transform: value => parseEnumOrBreakpointConfig(value, this._breakpointService.breakpoints, this._componentId, isArdGridJustify),
   });
 
   readonly alignItems = input<
     Required<ArdBreakpointsConfig<ArdGridAlign>>,
     ArdGridAlign | string | ArdBreakpointsConfig<ArdGridAlign>
-  >(parseEnumOrBreakpointConfig(this._DEFAULTS.alignItems, this._breakpointService.breakpoints, isArdGridAlign), {
-    transform: value => parseEnumOrBreakpointConfig(value, this._breakpointService.breakpoints, isArdGridAlign),
+  >(parseEnumOrBreakpointConfig(this._DEFAULTS.alignItems, this._breakpointService.breakpoints, this._componentId, isArdGridAlign), {
+    transform: value => parseEnumOrBreakpointConfig(value, this._breakpointService.breakpoints, this._componentId, isArdGridAlign),
   });
 
   readonly spacing = input<
     Required<ArdBreakpointsConfig<number | string>>,
     number | string | ArdBreakpointsConfig<number | string>
-  >(parseCSSUnitOrBreakpointConfig(this._DEFAULTS.spacing, this._breakpointService.breakpoints)!, {
-    transform: value => parseCSSUnitOrBreakpointConfig(value, this._breakpointService.breakpoints)!,
+  >(parseCSSUnitOrBreakpointConfig(this._DEFAULTS.spacing, this._breakpointService.breakpoints, this._componentId)!, {
+    transform: value => parseCSSUnitOrBreakpointConfig(value, this._breakpointService.breakpoints, this._componentId)!,
   });
 
   readonly columnSpacing = input<
     ArdBreakpointsConfig<number | string> | null,
     null | number | string | ArdBreakpointsConfig<number | string>
-  >(parseCSSUnitOrBreakpointConfig(this._DEFAULTS.columnSpacing, this._breakpointService.breakpoints), {
-    transform: value => parseCSSUnitOrBreakpointConfig(value, this._breakpointService.breakpoints),
+  >(parseCSSUnitOrBreakpointConfig(this._DEFAULTS.columnSpacing, this._breakpointService.breakpoints, this._componentId), {
+    transform: value => parseCSSUnitOrBreakpointConfig(value, this._breakpointService.breakpoints, this._componentId),
   });
 
   readonly rowSpacing = input<
     ArdBreakpointsConfig<number | string> | null,
     null | number | string | ArdBreakpointsConfig<number | string>
-  >(parseCSSUnitOrBreakpointConfig(this._DEFAULTS.rowSpacing, this._breakpointService.breakpoints), {
-    transform: value => parseCSSUnitOrBreakpointConfig(value, this._breakpointService.breakpoints),
+  >(parseCSSUnitOrBreakpointConfig(this._DEFAULTS.rowSpacing, this._breakpointService.breakpoints, this._componentId), {
+    transform: value => parseCSSUnitOrBreakpointConfig(value, this._breakpointService.breakpoints, this._componentId),
   });
 
   readonly wrap = input<Required<ArdBreakpointsConfig<ArdGridWrap>>, ArdGridWrap | string | ArdBreakpointsConfig<ArdGridWrap>>(
-    parseEnumOrBreakpointConfig(this._DEFAULTS.wrap, this._breakpointService.breakpoints, isArdGridWrap),
-    { transform: value => parseEnumOrBreakpointConfig(value, this._breakpointService.breakpoints, isArdGridWrap) }
+    parseEnumOrBreakpointConfig(this._DEFAULTS.wrap, this._breakpointService.breakpoints, this._componentId, isArdGridWrap),
+    { transform: value => parseEnumOrBreakpointConfig(value, this._breakpointService.breakpoints, this._componentId, isArdGridWrap) }
   );
 
   //! computed properties

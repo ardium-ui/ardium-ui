@@ -7,7 +7,7 @@ import { ArdBreakpointsConfig } from './../breakpoints/breakpoints';
  *
  * - `number`: same value is applied to all breakpoints.
  * - `string`: either a single number or a space-separated breakpoint list
- *   like `"base:1 sm:2 md:3 lg:4 xl:5"`.
+ *   like `"xs:1 sm:2 md:3 lg:4 xl:5"`.
  * - `ArdBreakpointsConfig`: missing breakpoints are filled based on smaller ones.
  */
 export function transformResponsiveValue<T, R extends T = T>(

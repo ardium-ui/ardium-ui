@@ -64,7 +64,10 @@
   >
     <ard-grid size="3">3</ard-grid>
     <ard-grid size="3">3</ard-grid>
-    <ard-grid size="6" container>
+    <ard-grid
+      size="6"
+      container
+    >
       <ard-grid size="6">6-6</ard-grid>
       <ard-grid size="6">6-6</ard-grid>
     </ard-grid>
@@ -104,4 +107,44 @@
     <div>Item 2</div>
     <div>Item 3</div>
   </ard-stack>
+</div> 
+<div class="master">
+  <span class="title">Nested grid with changed columns</span>
+
+  <ard-grid
+    container
+    columns="24"
+    spacing="2"
+  >
+    <ard-grid size="8">size=8/24</ard-grid>
+    <ard-grid
+      size="8"
+      container
+    >
+      <ard-grid size="12">nested 12/24</ard-grid>
+      <ard-grid size="12">nested 12/24</ard-grid>
+    </ard-grid>
+    <ard-grid
+      size="8"
+      container
+      columns="12"
+    >
+      <ard-grid size="6">nested 6/12</ard-grid>
+      <ard-grid size="6">nested 6/12</ard-grid>
+    </ard-grid>
+  </ard-grid>
+</div>
+<div class="master">
+  <span class="title">Responsive columns, spacing, and item sizes</span>
+
+  <ard-grid
+    container
+    rowSpacing="1"
+    [columnSpacing]="{ xs: 1, sm: 2, md: 3 }"
+  >
+    <ard-grid size="6">1</ard-grid>
+    <ard-grid size="6">2</ard-grid>
+    <ard-grid size="6">3</ard-grid>
+    <ard-grid size="6">4</ard-grid>
+  </ard-grid>
 </div>

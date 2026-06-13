@@ -18,8 +18,8 @@
       flex-basis: auto;
       max-width: 100%;
       width: calc(
-        100% * var(--ard-_grid-size) / var(--ard-_grid-columns) - (var(--ard-_grid-columns) - var(--ard-_grid-size)) *
-          (var(--ard-_grid-column-spacing) / var(--ard-_grid-columns))
+        100% * var(--ard-_grid-size) / var(--ard-_grid-parent-columns) - (var(--ard-_grid-parent-columns) - var(--ard-_grid-size)) *
+          (var(--ard-_grid-parent-column-spacing) / var(--ard-_grid-parent-columns))
       );
 
       &.ard-grid__item-grow {

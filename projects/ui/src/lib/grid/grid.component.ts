@@ -50,6 +50,8 @@ import {
   },
 })
 export class ArdiumGridComponent implements AfterContentInit, OnChanges {
+  private readonly _componentId = '601';
+
   protected readonly _DEFAULTS = inject(ARD_GRID_DEFAULTS);
 
   private readonly _breakpointService = inject(ArdiumBreakpointService);
@@ -71,59 +73,59 @@ export class ArdiumGridComponent implements AfterContentInit, OnChanges {
 
   //! configurations
   readonly columns = input<Required<ArdBreakpointsConfig<number>>, number | string | ArdBreakpointsConfig<number>>(
-    parseNumberOrBreakpointConfig(this._DEFAULTS.columns, this._breakpointService.breakpoints),
-    { transform: value => parseNumberOrBreakpointConfig(value, this._breakpointService.breakpoints) }
+    parseNumberOrBreakpointConfig(this._DEFAULTS.columns, this._breakpointService.breakpoints, this._componentId),
+    { transform: value => parseNumberOrBreakpointConfig(value, this._breakpointService.breakpoints, this._componentId) }
   );
   readonly size = input<
     Required<ArdBreakpointsConfig<number | ArdGridSize>>,
     number | ArdGridSize | string | ArdBreakpointsConfig<number>
-  >(parseSizeOrBreakpointConfig(this._DEFAULTS.size, this._breakpointService.breakpoints), {
-    transform: value => parseSizeOrBreakpointConfig(value, this._breakpointService.breakpoints),
+  >(parseSizeOrBreakpointConfig(this._DEFAULTS.size, this._breakpointService.breakpoints, this._componentId), {
+    transform: value => parseSizeOrBreakpointConfig(value, this._breakpointService.breakpoints, this._componentId),
   });
 
   readonly reverse = input<Required<ArdBreakpointsConfig<boolean>>, boolean | string | ArdBreakpointsConfig<boolean>>(
-    parseBooleanOrBreakpointConfig(this._DEFAULTS.reverse, this._breakpointService.breakpoints),
-    { transform: value => parseBooleanOrBreakpointConfig(value, this._breakpointService.breakpoints) }
+    parseBooleanOrBreakpointConfig(this._DEFAULTS.reverse, this._breakpointService.breakpoints, this._componentId),
+    { transform: value => parseBooleanOrBreakpointConfig(value, this._breakpointService.breakpoints, this._componentId) }
   );
 
   readonly justifyContent = input<
     Required<ArdBreakpointsConfig<ArdGridJustify>>,
     ArdGridJustify | string | ArdBreakpointsConfig<ArdGridJustify>
-  >(parseEnumOrBreakpointConfig(this._DEFAULTS.justifyContent, this._breakpointService.breakpoints, isArdGridJustify), {
-    transform: value => parseEnumOrBreakpointConfig(value, this._breakpointService.breakpoints, isArdGridJustify),
+  >(parseEnumOrBreakpointConfig(this._DEFAULTS.justifyContent, this._breakpointService.breakpoints, this._componentId, isArdGridJustify), {
+    transform: value => parseEnumOrBreakpointConfig(value, this._breakpointService.breakpoints, this._componentId, isArdGridJustify),
   });
 
   readonly alignItems = input<
     Required<ArdBreakpointsConfig<ArdGridAlign>>,
     ArdGridAlign | string | ArdBreakpointsConfig<ArdGridAlign>
-  >(parseEnumOrBreakpointConfig(this._DEFAULTS.alignItems, this._breakpointService.breakpoints, isArdGridAlign), {
-    transform: value => parseEnumOrBreakpointConfig(value, this._breakpointService.breakpoints, isArdGridAlign),
+  >(parseEnumOrBreakpointConfig(this._DEFAULTS.alignItems, this._breakpointService.breakpoints, this._componentId, isArdGridAlign), {
+    transform: value => parseEnumOrBreakpointConfig(value, this._breakpointService.breakpoints, this._componentId, isArdGridAlign),
   });
 
   readonly spacing = input<
     Required<ArdBreakpointsConfig<number | string>>,
     number | string | ArdBreakpointsConfig<number | string>
-  >(parseCSSUnitOrBreakpointConfig(this._DEFAULTS.spacing, this._breakpointService.breakpoints)!, {
-    transform: value => parseCSSUnitOrBreakpointConfig(value, this._breakpointService.breakpoints)!,
+  >(parseCSSUnitOrBreakpointConfig(this._DEFAULTS.spacing, this._breakpointService.breakpoints, this._componentId)!, {
+    transform: value => parseCSSUnitOrBreakpointConfig(value, this._breakpointService.breakpoints, this._componentId)!,
   });
 
   readonly columnSpacing = input<
     ArdBreakpointsConfig<number | string> | null,
     null | number | string | ArdBreakpointsConfig<number | string>
-  >(parseCSSUnitOrBreakpointConfig(this._DEFAULTS.columnSpacing, this._breakpointService.breakpoints), {
-    transform: value => parseCSSUnitOrBreakpointConfig(value, this._breakpointService.breakpoints),
+  >(parseCSSUnitOrBreakpointConfig(this._DEFAULTS.columnSpacing, this._breakpointService.breakpoints, this._componentId), {
+    transform: value => parseCSSUnitOrBreakpointConfig(value, this._breakpointService.breakpoints, this._componentId),
   });
 
   readonly rowSpacing = input<
     ArdBreakpointsConfig<number | string> | null,
     null | number | string | ArdBreakpointsConfig<number | string>
-  >(parseCSSUnitOrBreakpointConfig(this._DEFAULTS.rowSpacing, this._breakpointService.breakpoints), {
-    transform: value => parseCSSUnitOrBreakpointConfig(value, this._breakpointService.breakpoints),
+  >(parseCSSUnitOrBreakpointConfig(this._DEFAULTS.rowSpacing, this._breakpointService.breakpoints, this._componentId), {
+    transform: value => parseCSSUnitOrBreakpointConfig(value, this._breakpointService.breakpoints, this._componentId),
   });
 
   readonly wrap = input<Required<ArdBreakpointsConfig<ArdGridWrap>>, ArdGridWrap | string | ArdBreakpointsConfig<ArdGridWrap>>(
-    parseEnumOrBreakpointConfig(this._DEFAULTS.wrap, this._breakpointService.breakpoints, isArdGridWrap),
-    { transform: value => parseEnumOrBreakpointConfig(value, this._breakpointService.breakpoints, isArdGridWrap) }
+    parseEnumOrBreakpointConfig(this._DEFAULTS.wrap, this._breakpointService.breakpoints, this._componentId, isArdGridWrap),
+    { transform: value => parseEnumOrBreakpointConfig(value, this._breakpointService.breakpoints, this._componentId, isArdGridWrap) }
   );
 
   //! inherited properties
@@ -180,9 +182,24 @@ export class ArdiumGridComponent implements AfterContentInit, OnChanges {
   readonly currentRowSpacing = computed(() => this.finalRowSpacing()[this._breakpointService.currentBreakpoint() ?? 'xs']);
   readonly currentWrap = computed(() => this.wrapOrInherited()[this._breakpointService.currentBreakpoint() ?? 'xs']);
 
+  readonly currentInheritedColumns = computed(
+    () => this.inheritedColumns()?.[this._breakpointService.currentBreakpoint() ?? 'xs']
+  );
+  readonly currentInheritedColumnSpacing = computed(
+    () => this.inheritedColumnSpacing()?.[this._breakpointService.currentBreakpoint() ?? 'xs']
+  );
+  readonly currentInheritedRowSpacing = computed(
+    () => this.inheritedRowSpacing()?.[this._breakpointService.currentBreakpoint() ?? 'xs']
+  );
+
   readonly currentStyle = computed(() =>
     [
       this.currentSize() ? `--ard-_grid-size: ${this.currentSize()}` : '',
+
+      this.currentInheritedColumns() ? `--ard-_grid-parent-columns: ${this.currentInheritedColumns()}` : '',
+      this.currentInheritedColumnSpacing() ? `--ard-_grid-parent-column-spacing: ${this.currentInheritedColumnSpacing()}` : '',
+      this.currentInheritedRowSpacing() ? `--ard-_grid-parent-row-spacing: ${this.currentInheritedRowSpacing()}` : '',
+
       this.container() ? `--ard-_grid-columns: ${this.currentColumns()}` : '',
       this.container() ? `--ard-_grid-direction: ${this.currentReverse() ? 'row-reverse' : 'row'}` : '',
       this.container() ? `--ard-_grid-justify-content: ${this.currentJustifyContent()}` : '',
@@ -223,7 +240,7 @@ export class ArdiumGridComponent implements AfterContentInit, OnChanges {
   }
 
   private _updateChildrenStyles() {
-    const containerChildren = this.children().filter(child => child !== this && child.container());
+    const children = this.children();
 
     const columns = this.columnsOrInherited();
     const reverse = this.reverseOrInherited();
@@ -237,7 +254,7 @@ export class ArdiumGridComponent implements AfterContentInit, OnChanges {
       return;
     }
 
-    for (const child of containerChildren) {
+    for (const child of children) {
       child.inheritedColumns.set(columns);
       child.inheritedReverse.set(reverse);
       child.inheritedJustifyContent.set(justifyContent);
