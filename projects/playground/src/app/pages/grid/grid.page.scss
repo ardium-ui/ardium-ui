@@ -24,3 +24,23 @@ ard-stack > * {
   width: 100%;
   box-sizing: border-box;
 }
+
+.cover-image {
+  background-color: #FEFBED;
+  padding: 10rem;
+  display: flex;
+
+  > ard-grid {
+    width: 20rem;
+
+    > ard-grid {
+      background-color: #F0E4C0;
+      padding: 2.25rem 0;
+
+      &:nth-child(2),
+      &:nth-child(3) {
+        background-color: #ebcca6;
+      }
+    }
+  }
+}

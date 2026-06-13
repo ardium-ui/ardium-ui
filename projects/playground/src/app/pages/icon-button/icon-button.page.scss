@@ -51,4 +51,11 @@ app-icon-button {
       background: var(--ard-bg-filled-alt);
     }
   }
+
+  .cover-image {
+    background-color: #F3FDF3;
+    padding: 10rem;
+    display: flex;
+    gap: 2rem;
+  }
 }
