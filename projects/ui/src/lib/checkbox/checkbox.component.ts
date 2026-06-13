@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { coerceBooleanProperty } from '@ardium-ui/devkit';
+import { contextToInputs } from '../_internal/utils/context-to-inputs';
 import { SimpleComponentColor } from '../types/colors.types';
 import { _BooleanComponentBase } from './../_internal/boolean-component';
 import { ARD_CHECKBOX_DEFAULTS, ArdCheckboxDefaults } from './checkbox.defaults';
@@ -85,6 +86,8 @@ export class ArdiumCheckboxComponent extends _BooleanComponentBase implements Co
   }
 
   //! templates
+  readonly checkboxIconComponent = this._DEFAULTS.CheckboxIconComponent;
+
   readonly templateRepository = contentChild(_CheckboxTemplateRepositoryDirective);
 
   readonly checkboxTemplate = contentChild(ArdCheckboxTemplateDirective);
@@ -96,4 +99,5 @@ export class ArdiumCheckboxComponent extends _BooleanComponentBase implements Co
     state: this.state(),
     internalState: this.internalState(),
   }));
+  readonly checkboxIconInputs = contextToInputs(this.checkboxTemplateContext, this.checkboxIconComponent);
 }

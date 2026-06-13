@@ -1,3 +1,4 @@
+
 export const ClickStrategy = {
   Noop: 'noop',
   Default: 'default',

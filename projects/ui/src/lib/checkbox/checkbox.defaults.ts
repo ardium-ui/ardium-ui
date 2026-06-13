@@ -1,16 +1,19 @@
-import { InjectionToken, Provider } from '@angular/core';
+import { InjectionToken, Provider, Type } from '@angular/core';
 import { _booleanComponentDefaults, _BooleanComponentDefaults } from '../_internal/boolean-component';
 import { SimpleComponentColor } from './../types/colors.types';
+import { ArdCheckboxIcon } from './checkbox.types';
 
 export interface ArdCheckboxDefaults extends _BooleanComponentDefaults {
   color: SimpleComponentColor;
   unselectedColor: SimpleComponentColor;
+  CheckboxIconComponent?: Type<ArdCheckboxIcon>;
 }
 
 const _checkboxDefaults: ArdCheckboxDefaults = {
   ..._booleanComponentDefaults,
   color: SimpleComponentColor.Primary,
   unselectedColor: SimpleComponentColor.None,
+  CheckboxIconComponent: undefined,
 };
 
 export const ARD_CHECKBOX_DEFAULTS = new InjectionToken<ArdCheckboxDefaults>('ard-checkbox-defaults', {
