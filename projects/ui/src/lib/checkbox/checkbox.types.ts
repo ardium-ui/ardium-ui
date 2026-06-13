@@ -1,4 +1,4 @@
-import { InputSignal } from '@angular/core';
+import { TemplateComponent } from '../types/utility.types';
 
 export const CheckboxState = {
   Unselected: 'unselected',
@@ -15,9 +15,4 @@ export interface CheckboxTemplateContext {
   internalState: CheckboxState;
 }
 
-export interface ArdCheckboxIcon {
-  selected?: InputSignal<boolean>;
-  internalSelected?: InputSignal<boolean>;
-  state?: InputSignal<CheckboxState>;
-  internalState?: InputSignal<CheckboxState>;
-}
+export interface ArdCheckboxIcon extends TemplateComponent<CheckboxTemplateContext> {}

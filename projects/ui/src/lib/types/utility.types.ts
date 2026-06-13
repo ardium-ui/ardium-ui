@@ -1,3 +1,4 @@
+import { InputSignal } from "@angular/core";
 
 export const ClickStrategy = {
   Noop: 'noop',
@@ -13,3 +14,7 @@ export type ClickStrategy = (typeof ClickStrategy)[keyof typeof ClickStrategy];
 export type NonEmptyArray<T> = [T, ...T[]];
 
 export type Nullable<T> = T | undefined | null;
+
+export type TemplateComponent<T> = {
+  [key in keyof T]?: InputSignal<T[key]>;
+}
