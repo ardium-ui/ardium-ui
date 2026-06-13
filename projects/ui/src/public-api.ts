@@ -63,6 +63,7 @@ export * from './lib/text-list'; // 510
 export * from './lib/card';
 export * from './lib/divider';
 export * from './lib/grid'; // 601
+export * from './lib/stack'; // 602
 export * from './lib/tabber'; // 600
 
 //! component group 7 - popups
