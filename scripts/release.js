@@ -12,6 +12,7 @@ const VERSION_ALIAS_MAP = {
   prep: 'prepatch',
   premi: 'preminor',
   prema: 'premajor',
+  fix: 'patch',
   p: 'patch',
   mi: 'minor',
   ma: 'major',
