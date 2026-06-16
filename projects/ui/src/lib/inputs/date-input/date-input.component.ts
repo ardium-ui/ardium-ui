@@ -136,18 +136,33 @@ export class ArdiumDateInputComponent extends _AbstractDateInput<Date> implement
       const min = this.min();
       const max = this.max();
 
+      // min and max are always in UTC when they are set, so we need to convert the date to UTC for comparison
+      date = getUTCDate(date.getFullYear(), date.getMonth(), date.getDate());
+
       if (min && date < min) {
-        date = new Date(min);
+        date = min;
       } else if (max && date > max) {
-        date = new Date(max);
+        date = max;
       }
+      // convert the date back to local time if the UTC mode is off
+      if (!this._UTCAfterInit()) {
+        date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+      }
+
+      if (date.toISOString() !== this.value()?.toISOString()) {
+        this.value.set(date);
+      }
+      return;
     }
 
+    // deserialized date should always be in local time, so we need to convert it to UTC if the UTC mode is on
     if (date && this._UTCAfterInit()) {
       date = getUTCDate(date.getFullYear(), date.getMonth(), date.getDate());
     }
 
-    this.value.set(date);
+    if (date?.toISOString() !== this.value()?.toISOString()) {
+      this.value.set(date);
+    }
   }
   private _setDateInputAttributes() {
     const input = this.dateInput()?.nativeElement;

@@ -13,8 +13,10 @@ export class DateInputPage {
   readonly logger = inject(Logger);
   log = this.logger.log;
 
-  readonly MIN = new Date(`${new Date().getFullYear()}-${(new Date().getMonth() + 1).toString().padStart(2, '0')}-01T00:00:00`);
-  readonly MAX = new Date(`${new Date().getFullYear()}-${(new Date().getMonth() + 1).toString().padStart(2, '0')}-11T00:00:00`);
+  readonly MIN = new Date(`${new Date().getFullYear()}-${(new Date().getMonth() + 1).toString().padStart(2, '0')}-02T00:00:00`);
+  readonly MAX = new Date(`${new Date().getFullYear()}-${(new Date().getMonth() + 1).toString().padStart(2, '0')}-26T00:00:00`);
+  readonly MIN2 = new Date(`${new Date().getFullYear()}-${(new Date().getMonth() + 1).toString().padStart(2, '0')}-02T00:00:00Z`);
+  readonly MAX2 = new Date(`${new Date().getFullYear()}-${(new Date().getMonth() + 1).toString().padStart(2, '0')}-26T00:00:00Z`);
 
   readonly formControl = new FormControl<Date | null>(new Date('2024-01-01'));
 

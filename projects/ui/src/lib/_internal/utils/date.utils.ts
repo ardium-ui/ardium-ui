@@ -28,7 +28,6 @@ export function getUTCDate(
   return new Date(Date.UTC(year!, monthIndex, day, hour, minute, second, millisecond));
 }
 
-
 export function createDate(year: number, month: number, date: number, UTC: boolean) {
   if (UTC) {
     return getUTCDate(year, month, date);
@@ -39,8 +38,14 @@ export function createDate(year: number, month: number, date: number, UTC: boole
 
 export function getDateComponents(date: null, UTC: boolean): { year: null; month: null; date: null };
 export function getDateComponents(date: Date, UTC: boolean): { year: number; month: number; date: number };
-export function getDateComponents(date: Date | null, UTC: boolean): { year: number | null; month: number | null; date: number | null };
-export function getDateComponents(date: Date | null, UTC: boolean): { year: number | null; month: number | null; date: number | null } {
+export function getDateComponents(
+  date: Date | null,
+  UTC: boolean
+): { year: number | null; month: number | null; date: number | null };
+export function getDateComponents(
+  date: Date | null,
+  UTC: boolean
+): { year: number | null; month: number | null; date: number | null } {
   if (!date) {
     return { year: null, month: null, date: null };
   }
@@ -49,4 +54,18 @@ export function getDateComponents(date: Date | null, UTC: boolean): { year: numb
     month: UTC ? date.getUTCMonth() : date.getMonth(),
     date: UTC ? date.getUTCDate() : date.getDate(),
   };
+}
+
+export function startOfDay(date: Date, UTC: boolean = false): Date {
+  if (UTC) {
+    return getUTCDate(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+  }
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
+export function endOfDay(date: Date, UTC: boolean = false): Date {
+  if (UTC) {
+    return getUTCDate(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 23, 59, 59, 999);
+  }
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999);
 }

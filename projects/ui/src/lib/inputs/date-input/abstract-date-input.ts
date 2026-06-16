@@ -20,7 +20,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { BooleanLike, coerceBooleanProperty, coerceDateProperty, coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
+import { BooleanLike, coerceBooleanProperty, coerceDateOnlyProperty, coerceNumberProperty, NumberLike } from '@ardium-ui/devkit';
 import { _FormFieldComponentBase } from '../../_internal/form-field-component';
 import {
   ArdCalendarDaysViewHeaderTemplateDirective,
@@ -178,8 +178,12 @@ export abstract class _AbstractDateInput<T, PT = T> extends _FormFieldComponentB
     },
   });
 
-  readonly min = input<Date | null, any>(this._DEFAULTS.min, { transform: v => coerceDateProperty(v, this._DEFAULTS.min) });
-  readonly max = input<Date | null, any>(this._DEFAULTS.max, { transform: v => coerceDateProperty(v, this._DEFAULTS.max) });
+  readonly min = input<Date | null, any>(this._DEFAULTS.min, {
+    transform: v => (v === null ? null : coerceDateOnlyProperty(v, this._DEFAULTS.min, true)),
+  });
+  readonly max = input<Date | null, any>(this._DEFAULTS.max, {
+    transform: v => (v === null ? null : coerceDateOnlyProperty(v, this._DEFAULTS.max, true)),
+  });
 
   readonly UTC = input<boolean, BooleanLike>(this._DEFAULTS.UTC, { transform: v => coerceBooleanProperty(v) });
   readonly _UTCAfterInit = signal<boolean>(this._DEFAULTS.UTC);

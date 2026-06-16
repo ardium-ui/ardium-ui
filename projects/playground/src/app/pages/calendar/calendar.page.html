@@ -1,34 +1,34 @@
 <div class="flex horiz page-grid">
   <div class="master">
     <span class="title">Most basic calendar</span>
-    <ard-calendar></ard-calendar>
+    <ard-calendar/>
   </div>
   <div class="master">
     <span class="title">Calendar color</span>
-    <ard-calendar color="danger"></ard-calendar>
+    <ard-calendar color="danger"/>
   </div>
   <div class="master">
     <span class="title">Calendar active date</span>
     <ard-calendar
       [activeYear]="1975"
       [activeMonth]="5"
-    ></ard-calendar>
+    />
   </div>
   <div class="master">
     <span class="title">Calendar with preselected value</span>
-    <ard-calendar [value]="selectedDate"></ard-calendar>
+    <ard-calendar [value]="selectedDate"/>
   </div>
   <div class="master">
     <span class="title">Read-only calendar</span>
-    <ard-calendar readonly></ard-calendar>
+    <ard-calendar readonly/>
   </div>
   <div class="master">
     <span class="title">Disabled calendar</span>
-    <ard-calendar disabled></ard-calendar>
+    <ard-calendar disabled/>
   </div>
   <div class="master">
     <span class="title">Static height calendar</span>
-    <ard-calendar staticHeight></ard-calendar>
+    <ard-calendar staticHeight/>
   </div>
   <div class="master">
     <span class="title">Calendar events</span>
@@ -39,14 +39,14 @@
       (activeViewChange)="log('activeViewChange', $event)"
       (activeMonthChange)="log('activeMonthChange', $event)"
       (activeYearChange)="log('activeYearChange', $event)"
-    ></ard-calendar>
+    />
   </div>
   <div class="master">
     <span class="title">Calendar with form control</span>
     <ard-calendar
       [formControl]="dateControl"
       staticHeight
-    ></ard-calendar>
+    />
     <p>
       Touched: {{ dateControl.touched }}
     </p>
@@ -61,26 +61,43 @@
       (activeMonthChange)="log('activeMonthChange', $event)"
       (activeYearChange)="log('activeYearChange', $event)"
       UTC
-    ></ard-calendar>
+    />
   </div>
   <div class="master">
     <span class="title">Calendar with min/max dates</span>
     <ard-calendar
       [min]="minDate"
       [max]="maxDate"
-    ></ard-calendar>
+    />
+    <code>{{ minDate.toISOString() }} - {{ maxDate.toISOString() }}</code>
+  </div>
+  <div class="master">
+    <span class="title">Calendar with min/max dates</span>
+    <ard-calendar
+      [min]="minDate2"
+      [max]="maxDate2"
+    />
+    <code>{{ minDate2.toISOString() }} - {{ maxDate2.toISOString() }}</code>
+  </div>
+  <div class="master">
+    <span class="title">Calendar with min/max dates</span>
+    <ard-calendar
+      [min]="minDate3"
+      [max]="maxDate3"
+    />
+    <code>{{ minDate3.toISOString() }} - {{ maxDate3.toISOString() }}</code>
   </div>
   <div class="master">
     <span class="title">Calendar filter function</span>
-    <ard-calendar [filter]="filterFn"></ard-calendar>
+    <ard-calendar [filter]="filterFn"/>
   </div>
   <div class="master"></div>
   <div class="master" style="grid-column: 1 / span 3">
     <span class="title">Multiple calendars strung together</span>
     <div class="flex horiz">
-      <ard-calendar multiCalendarLocation="left"></ard-calendar>
-      <ard-calendar multiCalendarLocation="inner"></ard-calendar>
-      <ard-calendar multiCalendarLocation="right"></ard-calendar>
+      <ard-calendar multiCalendarLocation="left"/>
+      <ard-calendar multiCalendarLocation="inner"/>
+      <ard-calendar multiCalendarLocation="right"/>
     </div>
   </div>
 </div>

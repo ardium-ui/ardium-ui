@@ -12,12 +12,12 @@ import {
   Signal,
   signal,
   SimpleChanges,
-  viewChild,
+  viewChild
 } from '@angular/core';
 import {
   BooleanLike,
   coerceBooleanProperty,
-  coerceDateProperty,
+  coerceDateOnlyProperty,
   coerceNumberProperty,
   getUTCDate,
   NumberLike,
@@ -182,10 +182,10 @@ export abstract class _AbstractCalendar<T, PT = T> extends _FormFieldComponentBa
   readonly monthSelect = output<number>();
 
   readonly min = input<Date | null, any>(this._DEFAULTS.min, {
-    transform: v => (v === null ? null : coerceDateProperty(v, this._DEFAULTS.min, true)),
+    transform: v => (v === null ? null : coerceDateOnlyProperty(v, this._DEFAULTS.min, true)),
   });
   readonly max = input<Date | null, any>(this._DEFAULTS.max, {
-    transform: v => (v === null ? null : coerceDateProperty(v, this._DEFAULTS.max, true)),
+    transform: v => (v === null ? null : coerceDateOnlyProperty(v, this._DEFAULTS.max, true)),
   });
 
   readonly UTC = input<boolean, BooleanLike>(this._DEFAULTS.UTC, { transform: v => coerceBooleanProperty(v) });
