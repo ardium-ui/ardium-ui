@@ -15,6 +15,7 @@
     --ard-button-font-size: 0.875rem;
     --ard-button-font-size-compact: 0.75rem;
     --ard-button-font-weight: 500;
+    --ard-button-aspect-ratio: auto;
     --ard-button-overlay-hover-opacity: 0.04;
     --ard-button-overlay-focus-opacity: 0;
     --ard-button-overlay-active-opacity: 0.18;
@@ -56,6 +57,7 @@
     user-select: none;
     text-decoration: none;
     flex-grow: 1;
+    aspect-ratio: var(--ard-button-aspect-ratio, auto);
 
     //! aligns
     &.ard-align-left {
