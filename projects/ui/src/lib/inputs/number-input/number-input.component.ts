@@ -11,6 +11,7 @@ import {
   Input,
   input,
   output,
+  untracked,
   viewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -72,9 +73,9 @@ export class ArdiumNumberInputComponent
 
     // refresh input display when decimalSeparator changes
     effect(() => {
-      const sep = this.decimalSeparator();
+      this.decimalSeparator();
       // calling rewrite ensures element value includes new separator
-      this.inputModel.rewriteValueAfterHostUpdate();
+      untracked(() =>this.inputModel.rewriteValueAfterHostUpdate());
     });
   }
 

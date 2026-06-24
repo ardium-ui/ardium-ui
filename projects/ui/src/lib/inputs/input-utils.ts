@@ -126,10 +126,15 @@ export class NumberInputModel {
 
   setValue(v: string | number | null): void {
     let stringV = isNumber(v) ? String(v) : v;
-    // always store with dot as decimal separator for internal consistency
-    const sep = this._ardHostCmp.decimalSeparator();
-    if (stringV && sep && sep !== '.') {
-      stringV = stringV.split(sep).join('.');
+
+    if (stringV) {
+      const sep = this._ardHostCmp.decimalSeparator();
+      if (sep) {
+        // always store with dot as decimal separator for internal consistency
+        if (sep !== '.') {
+          stringV = stringV.split(sep).join('.');
+        }
+      }
     }
     this._value.set(stringV);
     this._updateInputEl();
@@ -142,12 +147,24 @@ export class NumberInputModel {
       v,
       adjustMinMax ?? this._ardHostCmp.minMaxBehavior() === ArdNumberInputMinMaxBehavior.AdjustOnBlur
     );
+    // remove trailing zeros after decimal point
+    if (v.includes('.')) {
+      v = v.replace(/(\.\d*?)0+$/, '$1');
+    }
+    // remove decimal point if no digits after it
+    if (v.endsWith('.')) {
+      v = v.slice(0, -1);
+    }
+    // remove leading zeros (but keep "0" if the value is zero)
+    if (!v.match(/^0(\.\d+)?$/)) {
+      v = v.replace(/^0+/, '');
+    }
+    // apply fixed decimal places if configured
     if (this._ardHostCmp.fixedDecimalPlaces()) {
       v = this._fixDecimalPlaces(v);
     }
-    // internal storage remains using '.'; _updateInputEl handles display
-    // convert to number and back to string to remove any trailing decimal separator without digits and to remove leading zeros
-    this.setValue(Number(v));
+
+    this.setValue(v);
   }
   private _fixDecimalPlaces(v: string): string {
     const maxDp = this._ardHostCmp.maxDecimalPlaces();
@@ -181,6 +198,9 @@ export class NumberInputModel {
       //normalize the value
       v = v?.toString?.() ?? String(v);
     }
+    // check if value is already the same as current value
+    if (v === null ? v === this._value() : Number(v) === this.numberValue()) return false;
+
     v = v === null ? null : String(v);
     return this._writeValue(v, applyConstraints);
   }
